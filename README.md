@@ -37,4 +37,4 @@ Aeona also has **multiple** miscellaneous commands, such as:
 
 ### So that's about it for Aeona. This bot is still in its early stages after verification, so you can be sure to expect loads of new changes and updates very soon!
 
-# Credits to https://github.com/WLegit/Pogy for base bot code
+Credits to https://github.com/WLegit/Pogy for base bot code
