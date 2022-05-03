@@ -5,7 +5,7 @@ const Statcord = require("statcord.js");
 const moment = require("moment");
 const discord = require("discord.js");
 const config = require("../../config.json.js");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed,WebhookClient } = require("discord.js");
 const logger = require("../../utils/logger");
 const mongoose = require("mongoose");
 const Guild = require("../../database/schemas/Guild");
@@ -43,6 +43,7 @@ module.exports = class extends Event {
   }
 
   async run(message) {
+    let client=message.client;
     try {
       if (!message.guild) return;
 

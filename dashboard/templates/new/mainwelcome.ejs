@@ -18,7 +18,7 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 
 
@@ -88,14 +88,14 @@
         <br><code>{guild}</code> - The server's name
         <br><code>{user_tag}</code> - The person's User Tag
         <br><code>{memberCount}</code> - The total number of members<br><a href="/variables" style="font-size: 12px; color: red"><br>check more here</a></p>
-<hr style="height:1px;border-width:0;color:#222222;background-color:#222222">
+<hr style="height:1px;border-width:0;color:#55465bb5;background-color:#55465bb5">
     <h3 style="font-family: 'Cairo', sans-serif" >Welcome Channel</h3>
 
 <select class="select" name="welcomeChannel">
                                                 <% if(bot.channels.cache.has(welcome.welcomeChannel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(welcome.welcomeChannel).name %></option>
                                                     <% guild.channels.cache.filter((ch) => ch.id !== welcome.welcomeChannel).forEach((ch) => { %>
-                                                    <% if (ch.type === "text") { %>
+                                                    <% if (ch.type === "GUILD_TEXT") { %>
                                                   <option><b style="color: grey">#</b>   <%= ch.name %></option>
                                                         <% } else { %>
 
@@ -108,7 +108,7 @@
                                                 
 
                                                     <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id).forEach((ch) => { %>
-                                                        <% if (ch.type === "text") { %>
+                                                        <% if (ch.type === "GUILD_TEXT") { %>
                                                         <option><b style="color: grey">#</b>   <%= ch.name %></option>
                                                         <% } else { %>
 
@@ -134,14 +134,14 @@
         <br><code>{guild}</code> - The server's name
         <br><code>{user_tag}</code> - The person's User Tag
         <br><code>{memberCount}</code> - The total number of members<br><a href="/variables"  style="font-size: 12px; color: red"><br>check more here</a></p>
-<hr style="height:1px;border-width:0;color:#222222;background-color:#222222">
+<hr style="height:1px;border-width:0;color:#55465bb5;background-color:#55465bb5">
     <h3 style="font-family: 'Cairo', sans-serif" >Leave Channel</h3>
         <div class="select-wrapper">
 <select class="select" name="leaveChannel">
                                                 <% if(bot.channels.cache.has(leave.leaveChannel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(leave.leaveChannel).name %></option>
                                                     <% guild.channels.cache.filter((ch) => ch.id !== leave.leaveChannel).forEach((ch) => { %>
-                                                    <% if (ch.type === "text") { %>
+                                                    <% if (ch.type === "GUILD_TEXT") { %>
                                                   <option><b style="color: grey">#</b>   <%= ch.name %></option>
                                                         <% } else { %>
 
@@ -154,7 +154,7 @@
                                                 
 
                                                     <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id).forEach((ch) => { %>
-                                                        <% if (ch.type === "text") { %>
+                                                        <% if (ch.type === "GUILD_TEXT") { %>
                                                         <option><b style="color: grey">#</b>   <%= ch.name %></option>
                                                         <% } else { %>
 
@@ -179,7 +179,7 @@
 <div id="textareaID">
 
 <textarea  style="max-width: 400px; min-width: 400px;
-max-height:200px; background-color: #2f2f2f; color: white;  "  name="welcomeMessage" id="myInput" value="<%= welcome.welcomeMessage %>" placeholder="Welcome Message" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="text"><%= (welcome.welcomeMessage || `Welcome {user} to {guild}! Hope you enjoy your stay!`) %></textarea>
+max-height:200px; background-color: #55465bb51; color: white;  "  name="welcomeMessage" id="myInput" value="<%= welcome.welcomeMessage %>" placeholder="Welcome Message" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="GUILD_TEXT"><%= (welcome.welcomeMessage || `Welcome {user} to {guild}! Hope you enjoy your stay!`) %></textarea>
 <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
 <br>
 <br>
@@ -208,7 +208,7 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  name="welcomeMess
                                         <% } %>
                                    <button type='button' class="btn btn-danger" onclick="document.getElementById('myInput').value = ''">Clear</button>
                                     </div>
-<div id="text" style="display:none">
+<div id="GUILD_TEXT" style="display:none">
 <br>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -241,45 +241,45 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  name="welcomeMess
           <div class="row form-group">
           <div class="col-md-3">
 
-          <input  name="author_icon" value="<%= welcome.embed.author.icon %>" style="background-color: #2f2f2f; color: white" type="text" placeholder="Icon" class="form-control" maxlength="200" id="author_icon"></div>
+          <input  name="author_icon" value="<%= welcome.embed.author.icon %>" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Icon" class="form-control" maxlength="200" id="author_icon"></div>
 
           <div class="col-md-6">
           
-          <input  name="author_name"  value="<%= welcome.embed.author.name %>" style="background-color: #2f2f2f; color: white" type="text" placeholder="Name" class="form-control" maxlength="256" id="author_name"></div>
+          <input  name="author_name"  value="<%= welcome.embed.author.name %>" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Name" class="form-control" maxlength="256" id="author_name"></div>
 
 
           <div class="col-md-3">
 
-          <input name="author_url" value="<%= welcome.embed.author.url %>"  style="background-color: #2f2f2f; color: white" type="text" placeholder="url" class="form-control" maxlength="256" id="author_url"></div>
+          <input name="author_url" value="<%= welcome.embed.author.url %>"  style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="url" class="form-control" maxlength="256" id="author_url"></div>
           </div>
 
           <div class="row form-group">
           <div class="col-md-9">
-          <input value="<%= welcome.embed.title %>"  name="embedTitle" style="background-color: #2f2f2f; color: white" type="text" placeholder="Title" class="form-control" maxlength="200" id="title">
+          <input value="<%= welcome.embed.title %>"  name="embedTitle" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Title" class="form-control" maxlength="200" id="title">
          <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
           </div><div class="col-md-3">
 
-          <input value="<%= welcome.embed.titleURL %>"  name="embedTitleURL"  style="background-color: #2f2f2f; color: white"  type="text" placeholder="Url" class="form-control" maxlength="200" id="url"></div>
+          <input value="<%= welcome.embed.titleURL %>"  name="embedTitleURL"  style="background-color: #55465bb51; color: white"  type="GUILD_TEXT" placeholder="Url" class="form-control" maxlength="200" id="url"></div>
           </div>   
 
-          <div class="row"><div class="col-md-12"><textarea name="embedDescription"  value="<%= welcome.embed.description %>" placeholder="Description" style="background-color: #2f2f2f; color: white" rows="3" wrap="soft" class="col-12 form-control" maxlength="2048" type="text" id="description"><%= welcome.embed.description %></textarea><small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small></div></div>
+          <div class="row"><div class="col-md-12"><textarea name="embedDescription"  value="<%= welcome.embed.description %>" placeholder="Description" style="background-color: #55465bb51; color: white" rows="3" wrap="soft" class="col-12 form-control" maxlength="2048" type="GUILD_TEXT" id="description"><%= welcome.embed.description %></textarea><small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small></div></div>
 
 
    <div class="row">
           <div class="col-md-6">
-          <input value="<%= welcome.embed.thumbnail %>"  name="embedThumbnail"  id="icon" style="background-color: #2f2f2f; color: white"  class="form-control" maxlength="200"  type="text" placeholder="thumbnail url"/>
+          <input value="<%= welcome.embed.thumbnail %>"  name="embedThumbnail"  id="icon" style="background-color: #55465bb51; color: white"  class="form-control" maxlength="200"  type="GUILD_TEXT" placeholder="thumbnail url"/>
 
 
           </div>
           
           <div class="col-md-3">
           
-<input id="footerIcon"  value="<%= welcome.embed.footerIcon %>"  name="embedFooterIcon" style="background-color: #2f2f2f; color: white" class="form-control" maxlength="1048" type="text" placeholder="icon"/>
+<input id="footerIcon"  value="<%= welcome.embed.footerIcon %>"  name="embedFooterIcon" style="background-color: #55465bb51; color: white" class="form-control" maxlength="1048" type="GUILD_TEXT" placeholder="icon"/>
           </div>
 
           <div class="col-md-3">
           
-<input id="footer"  value="<%= welcome.embed.footer %>"  name="embedFooter" style="background-color: #2f2f2f; color: white" class="form-control" maxlength="1048" type="text" placeholder="footer text"/>
+<input id="footer"  value="<%= welcome.embed.footer %>"  name="embedFooter" style="background-color: #55465bb51; color: white" class="form-control" maxlength="1048" type="GUILD_TEXT" placeholder="footer text"/>
           </div>
 
           </div>  
@@ -287,12 +287,12 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  name="welcomeMess
          
 <div class="row form-group">
           <div class="col-md-9">
- <input value="<%= welcome.embed.image%>"  name="embedImage" style="background-color: #2f2f2f; color: white" type="text" placeholder="Image Url" class="form-control">
+ <input value="<%= welcome.embed.image%>"  name="embedImage" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Image Url" class="form-control">
 
  </div>
 
           <div class="col-md-3">
-           <input class="form-control" value="<%= welcome.embed.color %>"  name="embedColor"  style="background-color: #2f2f2f; color: white" id="color" type="color"/>
+           <input class="form-control" value="<%= welcome.embed.color %>"  name="embedColor"  style="background-color: #55465bb51; color: white" id="color" type="color"/>
 </div>
 </div>
  <p>Welcome Timestamp</p> 
@@ -364,8 +364,8 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  name="welcomeMess
 <br>
 <div id="textareaID2">
 
-<textarea  name="leaveMessage" id="myInput2" value="<%= leave.leaveMessage %>" placeholder="Leave Message" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="text" style="max-width: 400px; min-width: 400px;
-max-height:200px; background-color: #2f2f2f; color: white;  "  ><%= (leave.leaveMessage)%></textarea>
+<textarea  name="leaveMessage" id="myInput2" value="<%= leave.leaveMessage %>" placeholder="Leave Message" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="GUILD_TEXT" style="max-width: 400px; min-width: 400px;
+max-height:200px; background-color: #55465bb51; color: white;  "  ><%= (leave.leaveMessage)%></textarea>
 <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
 <br>
 <br>
@@ -412,45 +412,45 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  ><%= (leave.leave
           <div class="row form-group">
           <div class="col-md-3">
 
-          <input  name="leave_author_icon" value="<%= leave.embed.author.icon %>" style="background-color: #2f2f2f; color: white" type="text" placeholder="Icon" class="form-control" maxlength="200" id="author_icon1"></div>
+          <input  name="leave_author_icon" value="<%= leave.embed.author.icon %>" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Icon" class="form-control" maxlength="200" id="author_icon1"></div>
 
           <div class="col-md-6">
           
-          <input  name="leave_author_name"  value="<%= leave.embed.author.name %>" style="background-color: #2f2f2f; color: white" type="text" placeholder="Name" class="form-control" maxlength="256" id="author_name1"></div>
+          <input  name="leave_author_name"  value="<%= leave.embed.author.name %>" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Name" class="form-control" maxlength="256" id="author_name1"></div>
 
 
           <div class="col-md-3">
 
-          <input name="leave_author_url" value="<%= leave.embed.author.url %>"  style="background-color: #2f2f2f; color: white" type="text" placeholder="url" class="form-control" maxlength="256" id="author_url1"></div>
+          <input name="leave_author_url" value="<%= leave.embed.author.url %>"  style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="url" class="form-control" maxlength="256" id="author_url1"></div>
           </div>
 
           <div class="row form-group">
           <div class="col-md-9">
-          <input value="<%= leave.embed.title %>"  name="leave_embedTitle" style="background-color: #2f2f2f; color: white" type="text" placeholder="Title" class="form-control" maxlength="200" id="title1">
+          <input value="<%= leave.embed.title %>"  name="leave_embedTitle" style="background-color: #55465bb51; color: white" type="GUILD_TEXT" placeholder="Title" class="form-control" maxlength="200" id="title1">
          <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
           </div><div class="col-md-3">
 
-          <input value="<%= leave.embed.titleURL %>"  name="leave_embedTitleURL"  style="background-color: #2f2f2f; color: white"  type="text" placeholder="Url" class="form-control" maxlength="200" id="url1"></div>
+          <input value="<%= leave.embed.titleURL %>"  name="leave_embedTitleURL"  style="background-color: #55465bb51; color: white"  type="GUILD_TEXT" placeholder="Url" class="form-control" maxlength="200" id="url1"></div>
           </div>   
 
-          <div class="row"><div class="col-md-12"><textarea name="leave_embedDescription"  value="<%= leave.embed.description %>" placeholder="Description" style="background-color: #2f2f2f; color: white" rows="3" wrap="soft" class="col-12 form-control" maxlength="2048" type="text" id="description1"><%= leave.embed.description %></textarea><small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small></div></div>
+          <div class="row"><div class="col-md-12"><textarea name="leave_embedDescription"  value="<%= leave.embed.description %>" placeholder="Description" style="background-color: #55465bb51; color: white" rows="3" wrap="soft" class="col-12 form-control" maxlength="2048" type="GUILD_TEXT" id="description1"><%= leave.embed.description %></textarea><small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small></div></div>
 
 
    <div class="row">
           <div class="col-md-6">
-          <input value="<%= leave.embed.thumbnail %>"  name="leave_embedThumbnail"  id="icon1" style="background-color: #2f2f2f; color: white"  class="form-control" maxlength="200"  type="text" placeholder="thumbnail url"/>
+          <input value="<%= leave.embed.thumbnail %>"  name="leave_embedThumbnail"  id="icon1" style="background-color: #55465bb51; color: white"  class="form-control" maxlength="200"  type="GUILD_TEXT" placeholder="thumbnail url"/>
 
 
           </div>
           
           <div class="col-md-3">
           
-<input id="footerIcon1"  value="<%= leave.embed.footerIcon %>"  name="leave_embedFooterIcon" style="background-color: #2f2f2f; color: white" class="form-control" maxlength="1048" type="text" placeholder="icon"/>
+<input id="footerIcon1"  value="<%= leave.embed.footerIcon %>"  name="leave_embedFooterIcon" style="background-color: #55465bb51; color: white" class="form-control" maxlength="1048" type="GUILD_TEXT" placeholder="icon"/>
           </div>
 
           <div class="col-md-3">
           
-<input id="footer1"  value="<%= leave.embed.footer %>"  name="leave_embedFooter" style="background-color: #2f2f2f; color: white" class="form-control" maxlength="1048" type="text" placeholder="footer text"/>
+<input id="footer1"  value="<%= leave.embed.footer %>"  name="leave_embedFooter" style="background-color: #55465bb51; color: white" class="form-control" maxlength="1048" type="GUILD_TEXT" placeholder="footer text"/>
           </div>
 
           </div>  
@@ -462,7 +462,7 @@ max-height:200px; background-color: #2f2f2f; color: white;  "  ><%= (leave.leave
 <input name="leave_timestamp" class="input-switch" type="checkbox" id="switch5"/><label class="label-switch"for="switch5" >Toggle</label>
 <% } %>
           <br>
- <input class="form-control" value="<%= leave.embed.color %>"  name="leave_embedColor"  style="background-color: #2f2f2f; color: white" id="color1" type="color"/>
+ <input class="form-control" value="<%= leave.embed.color %>"  name="leave_embedColor"  style="background-color: #55465bb51; color: white" id="color1" type="color"/>
 
         
         </div>
@@ -551,7 +551,7 @@ body {
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
     
   color: white;
   border-radius: 6px;
@@ -566,12 +566,12 @@ body {
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb5;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -579,8 +579,8 @@ body {
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background:  url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb5;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -598,10 +598,10 @@ body {
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb5;
   border-left-color: transparent;
 }
 
@@ -637,15 +637,15 @@ body {
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb5
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb5;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;
@@ -756,7 +756,7 @@ body {
 }
 .hr {
     display: block;
-    background-color: #2f2f2f;
+    background-color: #55465bb51;
     unicode-bidi: isolate;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -782,7 +782,7 @@ body {
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -806,7 +806,7 @@ body {
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -892,7 +892,7 @@ transform: translateY(1px);
 .welcomediv-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid #222222;
+    border-bottom: 1px solid #55465bb5;
 
 }
 .welcome:after {
@@ -939,7 +939,7 @@ transform: translateY(1px);
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -953,7 +953,7 @@ transform: translateY(1px);
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1000,7 +1000,7 @@ transform: translateY(1px);
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }
@@ -1725,7 +1725,7 @@ $(document).ready(function () {
 <script>
 function myFunction() {
   var checkBox = document.getElementById("switch");
-  var text = document.getElementById("text");
+  var text = document.getElementById("GUILD_TEXT");
   if (checkBox.checked == true){
     text.style.display = "block";
     textareaID.style.display = "none";

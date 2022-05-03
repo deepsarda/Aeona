@@ -20,7 +20,7 @@
 
 <div class="servers">
 <% user.guilds.forEach(guild => {
- const permsOnGuild = new perms(guild.permissions);
+ const permsOnGuild = new perms(guild.permissions.toString());
  if(!permsOnGuild.has("MANAGE_GUILD")) {
  return
  }
@@ -45,7 +45,7 @@
 
   <% }); %>
   <% user.guilds.forEach(guild => {
- const permsOnGuild = new perms(guild.permissions);
+ const permsOnGuild = new perms(guild.permissions.toString());
  if(!permsOnGuild.has("MANAGE_GUILD")) {
  return
  }

@@ -18,9 +18,9 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
-<% if(guild.channels.cache.filter(m => m.type === 'category').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_CATEGORY').size > 0) { %>
 
 <link rel="stylesheet" href="https://cdn.lineicons.com/2.0/LineIcons.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -89,16 +89,16 @@
   <br>
     <p style="color: white">Log Channel</p>
 
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px;" class="select" name="channel">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px;" class="select" name="channel">
 <% if(alt.altModlog && bot.channels.cache.has(alt.altModlog)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(alt.altModlog).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== alt.altModlog).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== alt.altModlog).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>   
@@ -107,11 +107,11 @@
 <br>
 <p>Account age ( 1 - 100 ) [d / days]</p>
 
-<input class="select" style="background-color: #2f2f2f; color: white;  border: 2px solid grey; border-radius: 5px " type="number" name="age" value="<%= alt.altDays %>" min="1" max="100">
+<input class="select" style="background-color: #55465bb51; color: white;  border: 2px solid grey; border-radius: 5px " type="number" name="age" value="<%= alt.altDays %>" min="1" max="100">
    <br>
 <br>
 <p>Action</p>
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px;" class="select" name="action">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px;" class="select" name="action">
 <% if(alt.altAction == "kick"){ %>
 
 <option selected="selected">Kick</option>
@@ -134,7 +134,7 @@
 <br>
 <p>Whitelist certain User IDs (seperate with a comma)</p>
 <textarea  style="max-width: 400px; min-width: 400px;
-max-height:200px; background-color: #2f2f2f; color: white;  "  name="id" placeholder="ID1, ID2, ID3" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="text"><%= alt.allowedAlts.join(", ") %></textarea>
+max-height:200px; background-color: #55465bb51; color: white;  "  name="id" placeholder="ID1, ID2, ID3" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="GUILD_TEXT"><%= alt.allowedAlts.join(", ") %></textarea>
 
 
 
@@ -220,7 +220,7 @@ filter: blur(6px);
 }
 .hr {
     display: block;
-    background-color: #2f2f2f;
+    background-color: #55465bb51;
     unicode-bidi: isolate;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -247,7 +247,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -275,7 +275,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -295,7 +295,7 @@ height: 30px
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -431,7 +431,7 @@ transform: translateY(1px);
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
     
   color: white;
   border-radius: 6px;
@@ -446,12 +446,12 @@ transform: translateY(1px);
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb5;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -459,8 +459,8 @@ transform: translateY(1px);
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background: url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb5;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -478,10 +478,10 @@ transform: translateY(1px);
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb5;
   border-left-color: transparent;
 }
 
@@ -516,15 +516,15 @@ transform: translateY(1px);
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb5
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb5;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;
@@ -637,7 +637,7 @@ transform: translateY(1px);
 .altdetector-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid #222222;
+    border-bottom: 1px solid #55465bb5;
 
 }
 .welcome:after {
@@ -680,7 +680,7 @@ transform: translateY(1px);
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -694,7 +694,7 @@ transform: translateY(1px);
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -741,7 +741,7 @@ transform: translateY(1px);
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }
@@ -1405,7 +1405,7 @@ function myFunction() {
   // Get the checkbox
   var checkBox = document.getElementById("switch3");
   // Get the output text
-  var text = document.getElementById("text");
+  var text = document.getElementById("GUILD_TEXT");
 
   // If the checkbox is checked, display the output text
   if (checkBox.checked == true){
@@ -2108,7 +2108,7 @@ $(function () {
       var $tip = this.tip()
         , title = this.getTitle()
 
-      $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+      $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'GUILD_TEXT '](title)
       $tip.removeClass('fade in top bottom left right')
     }
 

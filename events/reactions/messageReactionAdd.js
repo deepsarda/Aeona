@@ -33,11 +33,6 @@ module.exports = class extends Event {
 
     const member = message.guild.members.cache.get(user.id);
 
-    const guildDB = await GuildDB.findOne({
-      guildId: message.guild.id,
-    });
-
-    let prefix = guildDB.prefix;
     await Db.findOne(
       {
         guildid: message.guild.id,
@@ -542,7 +537,7 @@ module.exports = class extends Event {
                       embeds: [
                         new MessageEmbed()
                           .setDescription(
-                            `Please use \`${prefix}close\` to close the ticket.`
+                            `Please use \`aeona close\` to close the ticket.`
                           )
                           .setColor(message.client.color.red)
                           .setFooter({ text: "https://Aeona.xyz/" }),

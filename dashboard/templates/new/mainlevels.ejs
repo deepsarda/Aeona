@@ -18,7 +18,7 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 <link rel="stylesheet" href="https://cdn.lineicons.com/2.0/LineIcons.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -151,7 +151,7 @@ button:focus { outline: none; }
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -165,7 +165,7 @@ button:focus { outline: none; }
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -212,7 +212,7 @@ button:focus { outline: none; }
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }

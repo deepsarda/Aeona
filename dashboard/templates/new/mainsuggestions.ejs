@@ -18,7 +18,7 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 
 <link rel="stylesheet" href="https://cdn.lineicons.com/2.0/LineIcons.css">
@@ -92,13 +92,13 @@
 <select class="select" name="suggestionChannel">
                            <% if(settings.suggestion.suggestionChannelID && bot.channels.cache.has(settings.suggestion.suggestionChannelID)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(settings.suggestion.suggestionChannelID).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== settings.suggestion.suggestionChannelID).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== settings.suggestion.suggestionChannelID).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>                    
@@ -125,13 +125,13 @@
 <select class="select" name="logChannel">
                            <% if(settings.suggestion.suggestionlogChannelID && bot.channels.cache.has(settings.suggestion.suggestionlogChannelID)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(settings.suggestion.suggestionlogChannelID).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== settings.suggestion.suggestionlogChannelID).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== settings.suggestion.suggestionlogChannelID).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>                    
@@ -161,7 +161,7 @@
 
     </div>
     
-<p style="background-color: #2f2f2f; color: #2f2f2f ">HELLOO :) you found a secret message, poggers</p>
+<p style="background-color: #55465bb51; color: #55465bb51 ">HELLOO :) you found a secret message, poggers</p>
 <% if(settings.isPremium == "false"){ %>
 <div class="premium"><h1>This is a Premium Feature</h1>
 <button class="save-button" type="button" onclick="window.location.href='/premium'">Unlock Now!</button>
@@ -172,13 +172,13 @@
 <p><input type="color" name="color" value="<%= settings.suggestion.suggestioncolor %>">&nbsp; Embed Color</p>
 <br>
 <p><bold>Embed Description</bold></p>
-<textarea  name="description" id="myInput" placeholder="Your Description" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="text" style="max-width: 400px; min-width: 400px;
-max-height:200px; background-color: #2f2f2f; color: white;" ><%= settings.suggestion.description || `{suggestion}`%></textarea>
+<textarea  name="description" id="myInput" placeholder="Your Description" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="GUILD_TEXT" style="max-width: 400px; min-width: 400px;
+max-height:200px; background-color: #55465bb51; color: white;" ><%= settings.suggestion.description || `{suggestion}`%></textarea>
 <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
 <br>
 <br>
 <p><bold>Embed Footer</bold></p>
-<input name="footer" class="form-control" value="<%= settings.suggestion.footer ||`Requested by {user_tag}`%>"style="background-color: #2f2f2f; width: 400px; color: white" type="text"/>
+<input name="footer" class="form-control" value="<%= settings.suggestion.footer ||`Requested by {user_tag}`%>"style="background-color: #55465bb51; width: 400px; color: white" type="GUILD_TEXT"/>
 <br>
 <p>Embed Timestamp</p>
 <% if(settings.suggestion.timestamp == "true") {%>
@@ -275,13 +275,13 @@ max-height:200px; background-color: #2f2f2f; color: white;" ><%= settings.sugges
 <p><input type="color" name="color" value="<%= settings.suggestion.suggestioncolor %>">&nbsp; Embed Color</p>
 <br>
 <p><bold>Embed Description</bold></p>
-<textarea  name="description" id="myInput" placeholder="Your Description" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="text" style="max-width: 400px; min-width: 400px;
-max-height:200px; background-color: #2f2f2f; color: white;" ><%= settings.suggestion.description || `{suggestion}`%></textarea>
+<textarea  name="description" id="myInput" placeholder="Your Description" rows="3" wrap="soft" class="col-12 form-control" maxlength="1024" type="GUILD_TEXT" style="max-width: 400px; min-width: 400px;
+max-height:200px; background-color: #55465bb51; color: white;" ><%= settings.suggestion.description || `{suggestion}`%></textarea>
 <small id="textareaHide"class="form-text text-muted" style="color: white">0 characters remaining</small>
 <br>
 <br>
 <p><bold>Embed Footer</bold></p>
-<input name="footer" class="form-control" value="<%= settings.suggestion.footer ||`Requested by {user_tag}`%>" style="background-color: #2f2f2f; width: 400px; color: white" type="text"/>
+<input name="footer" class="form-control" value="<%= settings.suggestion.footer ||`Requested by {user_tag}`%>" style="background-color: #55465bb51; width: 400px; color: white" type="GUILD_TEXT"/>
 <br>
 <p>Embed Timestamp</p>
 <% if(settings.suggestion.timestamp == "true") {%>
@@ -427,7 +427,7 @@ filter: blur(6px);
 }
 .hr {
     display: block;
-    background-color: #2f2f2f;
+    background-color: #55465bb51;
     unicode-bidi: isolate;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -454,7 +454,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -479,7 +479,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -499,7 +499,7 @@ height: 30px
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -624,7 +624,7 @@ transform: translateY(1px);
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
     
   color: white;
   border-radius: 6px;
@@ -639,12 +639,12 @@ transform: translateY(1px);
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb5;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -652,8 +652,8 @@ transform: translateY(1px);
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background:  url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb5;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -671,10 +671,10 @@ transform: translateY(1px);
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb5;
   border-left-color: transparent;
 }
 
@@ -708,15 +708,15 @@ transform: translateY(1px);
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb5
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;
@@ -838,7 +838,7 @@ transform: translateY(1px);
 .suggestions-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid #222222;
+    border-bottom: 1px solid #55465bb5;
 
 }
 .welcome:after {
@@ -885,7 +885,7 @@ transform: translateY(1px);
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -899,7 +899,7 @@ transform: translateY(1px);
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -946,7 +946,7 @@ transform: translateY(1px);
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }

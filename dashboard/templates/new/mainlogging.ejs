@@ -22,7 +22,7 @@
 <% if(guild.roles.cache.filter(m => !m.managed && m.name !== "@everyone").size) { %>
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 
 <% if (guild.icon) {
@@ -112,8 +112,8 @@
 <p>- TIP: keep the embed color to #000000 for the default logging colors.
 <div class="logging-box">
 <div class="col-md-4" style=
-"background-color:#2f2f2f;
- box-shadow: 2px 2px 2px #2f2f2f; 
+"background-color:#55465bb511f;
+ box-shadow: 2px 2px 2px #55465bb511f; 
  border-radius: 5px;
  margin-right: 17px;
  width: 33%;
@@ -224,13 +224,13 @@
 <select id="select1" name="moderation_channel">
  <% if(log.moderation.channel && bot.channels.cache.has(log.moderation.channel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(log.moderation.channel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== log.moderation.channel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== log.moderation.channel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>  
@@ -240,13 +240,13 @@
 <select id="select130" name="ignore_channel">
  <% if(log.moderation.ignore_channel && bot.channels.cache.has(log.moderation.ignore_channel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(log.moderation.ignore_channel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== log.moderation.ignore_channel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== log.moderation.ignore_channel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>  
@@ -288,7 +288,7 @@
     <div class="col-md-4" style="text-align: center">
     <label for="logging-color-1" class="form-label">Color</label>
     <div>
-    <input style="background-color: #fff; color: #2f2f2f; border: #222222;     display: inline-flex;
+    <input style="background-color: #fff; color: #55465bb511f; border: #55465bb51;     display: inline-flex;
     margin: 4px;
     margin-right: 6px; margin-right: 17px;" name="color" value="<%= log.moderation.color %>" type="color"id="logging-color-1">
     
@@ -319,7 +319,7 @@
 
 
 <div class="logging-box">
-<div class="col-md-4" style="background-color:#2f2f2f; box-shadow: 2px 2px 2px #2f2f2f; border-radius: 5px; width: 33%; margin-right: 17px;">
+<div class="col-md-4" style="background-color:#55465bb511f; box-shadow: 2px 2px 2px #55465bb511f; border-radius: 5px; width: 33%; margin-right: 17px;">
 <h3 class="logging-box-title">Server Events</h3>
 
 <p style="padding-left: 40px;">Log actions ran by changes by the guild.</p>
@@ -454,13 +454,13 @@
 <select id="select123" name="channel1">
  <% if(log.server_events.channel && bot.channels.cache.has(log.server_events.channel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(log.server_events.channel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== log.server_events.channel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== log.server_events.channel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>  
@@ -486,7 +486,7 @@
 
     <label for="logging-color-1" class="form-label">Color</label>
     <div>
-    <input style="background-color: #fff; color: #2f2f2f; border: #222222;     display: inline-flex;
+    <input style="background-color: #fff; color: #55465bb511f; border: #55465bb51;     display: inline-flex;
     margin: 4px;
     margin-right: 6px;" name="color1" type="color" value="<%= log.server_events.color %>" id="logging-color-2">
     </div>
@@ -514,7 +514,7 @@
 </div>
 
 <div class="logging-box">
-<div class="col-md-4" style="background-color:#2f2f2f; box-shadow: 2px 2px 2px #2f2f2f; border-radius: 5px; width: 31%;">
+<div class="col-md-4" style="background-color:#55465bb511f; box-shadow: 2px 2px 2px #55465bb511f; border-radius: 5px; width: 31%;">
 <h3 class="logging-box-title">Member Events</h3>
 <p style="padding-left: 40px;">Log member actions</p>
 <ul style="padding-left: 40px; color: white">
@@ -542,13 +542,13 @@
 <select id="select_member_events" name="channel_member_events">
  <% if(log.member_events.channel && bot.channels.cache.has(log.member_events.channel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(log.member_events.channel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== log.member_events.channel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== log.member_events.channel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>  
@@ -570,7 +570,7 @@
     <div class="col-md-4" style="text-align: center">
     <label for="logging-color-1" class="form-label">Color</label>
      <div>
-    <input style="background-color: #fff; color: #2f2f2f; border: #222222;     display: inline-flex;
+    <input style="background-color: #fff; color: #55465bb511f; border: #55465bb51;     display: inline-flex;
     margin: 4px;
     margin-right: 6px;" type="color" name="member_events_color" value="<%= log.member_events.color %>" id="logging-color-1">
      </div>
@@ -602,9 +602,9 @@
 
 
 
-<p style="color: #222222">Hello</p>
+<p style="color: #55465bb51">Hello</p>
 <div class="logging-box">
-<div class="col-md-4" style="background-color:#2f2f2f; box-shadow: 2px 2px 2px #2f2f2f; border-radius: 5px; width: 31%;">
+<div class="col-md-4" style="background-color:#55465bb511f; box-shadow: 2px 2px 2px #55465bb511f; border-radius: 5px; width: 31%;">
 <h3 class="logging-box-title">Message Events</h3>
 <ul style="padding-left: 40px; color: white">
 
@@ -660,13 +660,13 @@
 <select id="select4" name="message_events_channel">
  <% if(log.message_events.channel && bot.channels.cache.has(log.message_events.channel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(log.message_events.channel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== log.message_events.channel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== log.message_events.channel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>  
@@ -688,7 +688,7 @@
     <div class="col-md-4" style="text-align: center">
     <label for="logging-color-1" class="form-label">Color</label>
      <div>
-    <input style="background-color: #fff; color: #2f2f2f; border: #222222;     display: inline-flex;
+    <input style="background-color: #fff; color: #55465bb511f; border: #55465bb51;     display: inline-flex;
     margin: 4px;
     margin-right: 6px;" type="color" name="message_events_color" value="<%= log.message_events.color %>" id="logging-color-1">
      </div>
@@ -816,7 +816,7 @@ border-bottom: 1px solid #555
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb511f;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -830,7 +830,7 @@ border-bottom: 1px solid #555
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb511f;
   width: 100%;
   display: flex;
   align-items: center;
@@ -877,7 +877,7 @@ border-bottom: 1px solid #555
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb511f;
   border: 0;
   cursor: pointer;
 }
@@ -1548,7 +1548,7 @@ animation
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb51;
     
   color: white;
   border-radius: 6px;
@@ -1563,12 +1563,12 @@ animation
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb51;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb51;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -1576,8 +1576,8 @@ animation
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background:  url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb51;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -1595,10 +1595,10 @@ animation
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb51;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb51;
   border-left-color: transparent;
 }
 
@@ -1635,15 +1635,15 @@ animation
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb51;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb51
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb511f;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;

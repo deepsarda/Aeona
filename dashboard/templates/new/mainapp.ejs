@@ -21,7 +21,7 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 
 <% if (guild.icon) {
@@ -114,8 +114,8 @@
 
 <div class="rr-box">
 <div class="col-md-4" style=
-"background-color:#2f2f2f;
- box-shadow: 2px 2px 2px #2f2f2f; 
+"background-color:#55465bb51;
+ box-shadow: 2px 2px 2px #55465bb51; 
  border-radius: 5px;
  margin-right: 17px;
  width: 45%;
@@ -133,13 +133,13 @@
  <select class="select" name="log">
              <% if(app.appLogs && bot.channels.cache.has(app.appLogs)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(app.appLogs).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== app.appLogs).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== app.appLogs).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>Disabled</option>
                                                 <% } else { %>
                                                     <option selected="selected">Disabled</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>
@@ -225,7 +225,7 @@
  
 
 <div class="rr-box">
-<div class="col-md-4" style="background-color:#2f2f2f; box-shadow: 2px 2px 2px #2f2f2f; border-radius: 5px;  width: 45%; margin-right: 17px;">
+<div class="col-md-4" style="background-color:#55465bb51; box-shadow: 2px 2px 2px #55465bb51; border-radius: 5px;  width: 45%; margin-right: 17px;">
 <h3 class="rr-box-title">Available Questions</h3>
  <p style="padding-left: 40px;">Displays all available questions.<br><br><i class="fa fa-chevron-circle-right" style="font-size:16px"></i>To add a question use <%= settings.prefix %>addquestion [question]<br><i class="fa fa-chevron-circle-right" style="font-size:16px"></i>To remove a question use <%= settings.prefix %>remquestion [number]</p>
   <div style="padding-top: 30px">
@@ -342,7 +342,7 @@ border-bottom: 1px solid #555
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -356,7 +356,7 @@ border-bottom: 1px solid #555
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -403,7 +403,7 @@ border-bottom: 1px solid #555
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }
@@ -1074,7 +1074,7 @@ animation
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
     
   color: white;
   border-radius: 6px;
@@ -1089,12 +1089,12 @@ animation
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb5;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -1102,8 +1102,8 @@ animation
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background:  url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb5;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -1121,10 +1121,10 @@ animation
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb5;
   border-left-color: transparent;
 }
 
@@ -1161,15 +1161,15 @@ animation
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb5
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;

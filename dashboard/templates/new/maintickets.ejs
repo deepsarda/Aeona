@@ -18,9 +18,9 @@
 
 <% if(guild.roles.cache.filter(m => !m.managed && m.name !== "@everyone").size) { %>
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
-<% if(guild.channels.cache.filter(m => m.type === 'category').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_CATEGORY').size > 0) { %>
 
 <link rel="stylesheet" href="https://cdn.lineicons.com/2.0/LineIcons.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -89,30 +89,30 @@
 <br>
 <p>Welcome Message <a href="/variables" style="color: red">(Check Variables Here)</a></p>
 <textarea style="max-width: 380px; min-width: 380px; height:150px; 
-max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id="textarea5"  rows="3" name="ticketWelcomeMessage" class="form-control" required><%= ticket.ticketWelcomeMessage || `Hey {user} Welcome to your ticket!\n\nThank you for creating a ticket, the support team will be with you shortly\n\nIn the mean time, please explain your issue below `%></textarea>
+max-height:200px; min-height:60px; background-color: #55465bb51; color: white;" id="textarea5"  rows="3" name="ticketWelcomeMessage" class="form-control" required><%= ticket.ticketWelcomeMessage || `Hey {user} Welcome to your ticket!\n\nThank you for creating a ticket, the support team will be with you shortly\n\nIn the mean time, please explain your issue below `%></textarea>
  <span style="color: white" id='remaining5'></span>
 
 <br>
 <p>
-<input style="background-color: #2f2f2f; color: white;" type="color" name="ticketWelcomeColor" value="<%= ticket.ticketWelcomeColor %>">  Embed Color</p>
+<input style="background-color: #55465bb51; color: white;" type="color" name="ticketWelcomeColor" value="<%= ticket.ticketWelcomeColor %>">  Embed Color</p>
 <p>Ticket Logs</p>
-<input style="background-color: #2f2f2f; color: white;" type="color" name="ticketLogColor" value="<%= ticket.ticketLogColor %>">
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px;" class="select" name="ticketChannel">
+<input style="background-color: #55465bb51; color: white;" type="color" name="ticketLogColor" value="<%= ticket.ticketLogColor %>">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px;" class="select" name="ticketChannel">
 <% if(ticket.ticketModlogID && bot.channels.cache.has(ticket.ticketModlogID)){ %>
 <option selected="selected">#<%= bot.channels.cache.get(ticket.ticketModlogID).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.id !== ticket.ticketModlogID && ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.id !== ticket.ticketModlogID && ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                     <% } else { %>
                                 
-                                                    <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id && ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id && ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>
                                             </select> 
 <br>
  <p>Support Role</p>
- <select style="background-color: #2f2f2f; color: white; border-radius: 5px;" class="select" name="ticketRole">
+ <select style="background-color: #55465bb51; color: white; border-radius: 5px;" class="select" name="ticketRole">
  <% if(ticket.supportRoleID && guild.roles.cache.has(ticket.supportRoleID)){ %>
 <option selected="selected">@<%= guild.roles.cache.get(ticket.supportRoleID).name %></option>
                                                     <% guild.roles.cache.filter((r) => r.id !== ticket.supportRoleID && r.name !== "@everyone" && !r.managed).forEach((r) => { %>
@@ -126,14 +126,14 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
                                             </select>
                                             <br>
 <p>Ticket Category</p>
-<select class="select" style="background-color: #2f2f2f; color: white; border-radius: 5px;" name="ticketCategory">
+<select class="select" style="background-color: #55465bb51; color: white; border-radius: 5px;" name="ticketCategory">
 <% if(ticket.categoryID && bot.channels.cache.has(ticket.categoryID)){ %>
  <option selected="selected"><%= bot.channels.cache.get(ticket.categoryID).name %></option>
                                                     <% guild.channels.cache.filter((ch) => ch.id !== ticket.categoryID && ch.type === "category").forEach((ch) => { %>
                                                         <option><%= ch.name %></option>
                                                     <% }); } else { %>
-                                                    <option selected="selected"><%= guild.channels.cache.filter((ch) => ch.type === "category").first().name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id && ch.type === "category").forEach((ch) => { %>
+                                                    <option selected="selected"><%= guild.channels.cache.filter((ch) => ch.type === "GUILD_CATEGORY").first().name %></option>
+                                                    <% guild.channels.cache.filter((ch) => ch.id !== guild.channels.cache.first().id && ch.type === "GUILD_CATEGORY").forEach((ch) => { %>
                                                         <option><%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>
@@ -141,10 +141,10 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
                                             <br>
 <p>Ticket Limit (1 - 5)</p>
 
-<input style="background-color: #2f2f2f; color: white;  border: 2px solid grey; border-radius: 5px " type="number" name="ticketLimit" value="<%= ticket.maxTicket %>" min="1" max="5">
+<input style="background-color: #55465bb51; color: white;  border: 2px solid grey; border-radius: 5px " type="number" name="ticketLimit" value="<%= ticket.maxTicket %>" min="1" max="5">
 <br>
 
-<div class="checkbox" style="background-color: #222222; border-radius: 5px; border: 5px">
+<div class="checkbox" style="background-color: #55465bb5; border-radius: 5px; border: 5px">
 <br>
 
 <p > <% if(ticket.ticketPing == "true") { %>
@@ -200,18 +200,18 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
 <% if(ticket.ticketType == "reaction" && ticket.ticketCustom == "false") { %>   
 <h2 class="tickets-header" style="font-family: 'Cairo', sans-serif">Reaction Panel</h2>
 <br>
-<p><input type="color" style="background-color: #2f2f2f; color: white; border-radius: 5px;"  name="reactionPanelColor" value="<%= ticket.ticketEmbedColor %>">&nbsp; Embed Color</p>
+<p><input type="color" style="background-color: #55465bb51; color: white; border-radius: 5px;"  name="reactionPanelColor" value="<%= ticket.ticketEmbedColor %>">&nbsp; Embed Color</p>
 <p><bold>Reaction Title</bold></p>
 <div class="user-box">
-      <input type="text" style="width: 400px; min-width: 400px; max-width: 400px;background-color: #2f2f2f; color: white; border-radius: 5px;"  class="form-control" name="reactionTitle" value="<%= ticket.ticketTitle || `Server Tickets` %>" placeholder="Reaction Title">
+      <input type="GUILD_TEXT" style="width: 400px; min-width: 400px; max-width: 400px;background-color: #55465bb51; color: white; border-radius: 5px;"  class="form-control" name="reactionTitle" value="<%= ticket.ticketTitle || `Server Tickets` %>" placeholder="Reaction Title">
 </div>
 <br>
 <p><bold>Reaction description</bold>(Max 1024)</p>
-<textarea style="background-color: #2f2f2f; color: white; border-radius: 5px; width: 400px; min-width: 400px; max-width: 400px; height: 70px; min-height: 70px; max-height: 150px"; id="textarea6"  rows="3" name="reactionDescription" class="form-control" required><%= ticket.ticketDescription || `Please react to open a ticket!`%></textarea>
+<textarea style="background-color: #55465bb51; color: white; border-radius: 5px; width: 400px; min-width: 400px; max-width: 400px; height: 70px; min-height: 70px; max-height: 150px"; id="textarea6"  rows="3" name="reactionDescription" class="form-control" required><%= ticket.ticketDescription || `Please react to open a ticket!`%></textarea>
  <span style="color: white" id='remaining6'></span>
 <br>
 
-        <div class="checkbox" style="width: 400px; min-width: 400px; max-width: 400px; background-color: #222222; border-radius: 5px; border: 5px"> 
+        <div class="checkbox" style="width: 400px; min-width: 400px; max-width: 400px; background-color: #55465bb5; border-radius: 5px; border: 5px"> 
         <br>                                   
         <p><% if(ticket.ticketTimestamp == "true") { %>
        <input name="ticketTimestamp" class="input-switch" type="checkbox" id="switch4" checked></input><label class="label-switch"for="switch4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -232,7 +232,7 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
 
 <div id="reactionEmbedFooterID" style="display:none">
 <div class="user-box">
-      <input style="min-width: 180px;  max-width: 300px; background-color: #2f2f2f; color: white; border-radius: 5px;" type="text" class="form-control" name="reactionmbedFooter" value="<%= ticket.ticketFooter %>" placeholder="Embed Footer">
+      <input style="min-width: 180px;  max-width: 300px; background-color: #55465bb51; color: white; border-radius: 5px;" type="GUILD_TEXT" class="form-control" name="reactionmbedFooter" value="<%= ticket.ticketFooter %>" placeholder="Embed Footer">
 </div>
 
 </div>
@@ -240,23 +240,23 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
 </div>
 <br>
 <p>Reaction Channel</p>
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px; " class="select" name="ticketChannelReact">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px; " class="select" name="ticketChannelReact">
              <% if(ticket.ticketReactChannel && bot.channels.cache.has(ticket.ticketReactChannel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(ticket.ticketReactChannel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== ticket.ticketReactChannel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== ticket.ticketReactChannel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                   
                                                 <% } else { %>
                                           
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>
                                             </select>
 
 <p><bold>Ticket Reaction</bold> &nbsp;<% if(settings.isPremium == "false"){ %><a href="https://Aeona.xyz/premium"><i style="font-size:14px; color: yellow" class="fa">&#xf006;</i></a><% } %><p> 
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px; "  name="ticketReaction" class="select">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px; "  name="ticketReaction" class="select">
 <% if(settings.isPremium == "false"){ %>
 
 <% if(ticket.ticketReaction == "🎫"){ %>
@@ -580,16 +580,16 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
 <p>This Feature allows users to open a ticket by <br>reacting to a message of your choice. </p>
 <br>
 <p>Ticket Channel</p>
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px; "   class="select" name="ticketChannelReact">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px; "   class="select" name="ticketChannelReact">
              <% if(ticket.ticketReactChannel && bot.channels.cache.has(ticket.ticketReactChannel)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(ticket.ticketReactChannel).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== ticket.ticketReactChannel).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== ticket.ticketReactChannel).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                       
                                                 <% } else { %>
                                           
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>
@@ -599,12 +599,12 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
 <br>
 <p>Message ID</p>
 <div class="user-box">
-      <input style="min-width: 180px;  max-width: 300px; background-color: #2f2f2f; color: white; border-radius: 5px; " class="form-control" type="text" name="messageID" value="<%= ticket.messageID[ticket.messageID.length - 1] %>" placeholder="message ID">
+      <input style="min-width: 180px;  max-width: 300px; background-color: #55465bb51; color: white; border-radius: 5px; " class="form-control" type="GUILD_TEXT" name="messageID" value="<%= ticket.messageID[ticket.messageID.length - 1] %>" placeholder="message ID">
 </div>
 
 <p><bold>Ticket Reaction</bold> &nbsp;<% if(settings.isPremium == "false"){ %><i style="font-size:14px; color: yellow" class="fa">&#xf006;</i><% } %></p> 
 
-<select style="background-color: #2f2f2f; color: white; border-radius: 5px; "  name="ticketReaction" class="select">
+<select style="background-color: #55465bb51; color: white; border-radius: 5px; "  name="ticketReaction" class="select">
 <% if(settings.isPremium == "false"){ %>
 
 <% if(ticket.ticketReaction == "🎫"){ %>
@@ -962,7 +962,7 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
   
   <div class="cd-popup" role="alert">
 	<div class="cd-popup-container">
-		<p style="color: 2f2f2f">Are you sure you would like to reset server ticketing?</p>
+		<p style="color: 55465bb51">Are you sure you would like to reset server ticketing?</p>
 		<ul class="cd-buttons">
 			<li><button type="submit" name="resetTicket" class="disable2">yes</button></li>
 			<li><button class="save2" type="button" id="close">No</button></li>
@@ -1025,7 +1025,7 @@ body {
 }
 .hr {
     display: block;
-    background-color: #2f2f2f;
+    background-color: #55465bb51;
     unicode-bidi: isolate;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -1056,7 +1056,7 @@ body {
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -1082,7 +1082,7 @@ body {
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -1352,7 +1352,7 @@ color: #fff;
 .tickets-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid #222222;
+    border-bottom: 1px solid #55465bb5;
 
 }
 .welcome:after {
@@ -1399,7 +1399,7 @@ color: #fff;
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -1413,7 +1413,7 @@ color: #fff;
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1460,7 +1460,7 @@ color: #fff;
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }

@@ -121,7 +121,6 @@ module.exports = async (client) => {
   const renderTemplate = (res, req, template, data = {}) => {
     var hostname = req.headers.host;
     var pathname = url.parse(req.url).pathname;
-
     const baseData = {
       https: "https://",
       domain: domain,
@@ -618,9 +617,9 @@ module.exports = async (client) => {
   });
   // Dashboard endpoint.
   app.get("/dashboard", checkAuth, (req, res) => {
-    const server = client.guilds.cache.get("758566519440408597");
+    const server = client.guilds.cache.get("942062344840822824");
     let user = server.members.cache.has(req.user.id);
-
+    
     renderTemplate(res, req, "dashboard.ejs", {
       perms: Discord.Permissions,
       userExists: user,
@@ -730,6 +729,7 @@ module.exports = async (client) => {
 
   app.get("/dashboard/:guildID", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
+    await guild.channels.fetch();
     if (!guild) return res.redirect("/dashboard");
     const member = await guild.members.fetch(req.user.id);
     if (!member) return res.redirect("/dashboard");
@@ -803,6 +803,8 @@ module.exports = async (client) => {
 
   app.post("/dashboard/:guildID", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
+    await guild.channels.fetch();
+
     if (!guild) return res.redirect("/dashboard");
     const member = await guild.members.fetch(req.user.id);
     if (!member) return res.redirect("/dashboard");
@@ -1949,10 +1951,11 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-
+    let members=[];
+    guild.members.cache.forEach(member=>members.push(member));
     renderTemplate(res, req, "./new/mainmembers.ejs", {
       guild: guild,
-      members: guild.members.cache.array(),
+      members: members,
     });
   });
 
@@ -1975,15 +1978,16 @@ module.exports = async (client) => {
           .includes(req.query.filter.toLowerCase());
       });
     }
-
-    const memberArray = members.cache.array().slice(start, start + limit);
+    let members1=[];
+    guild.members.cache.forEach(member=>members1.push(member));
+    const memberArray = members1.slice(start, start + limit);
 
     const returnObject = [];
     for (let i = 0; i < memberArray.length; i++) {
       const m = memberArray[i];
       returnObject.push({
         id: m.id,
-        status: m.user.presence.status,
+        status: "",
         bot: m.user.bot,
         username: m.user.username,
         displayName: m.displayName,

@@ -8,6 +8,7 @@
   "main": "shard.js",
   "scripts": {
     "start": "node shard.js",
+    "shard": "node shard.js",
     "dev": "nodemon shard.js",
     "lavalink": "java -jar Lavalink.jar"
   },

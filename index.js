@@ -19,7 +19,7 @@ jointocreate(client);
 Aeona.react = new Map();
 Aeona.fetchforguild = new Map();
 
-if (config.dashboard === "true") {
+if (config.dashboard ) {
   const Dashboard = require("./dashboard/dashboard");
   Dashboard(client);
 }

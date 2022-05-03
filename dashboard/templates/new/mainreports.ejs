@@ -18,7 +18,7 @@
 
 
 
-<% if(guild.channels.cache.filter(m => m.type === 'text').size > 0) { %>
+<% if(guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').size > 0) { %>
 
 
 <link rel="stylesheet" href="https://cdn.lineicons.com/2.0/LineIcons.css">
@@ -92,13 +92,13 @@
 <select class="select" name="reportChannel">
                            <% if(settings.report.reportChannelID && bot.channels.cache.has(settings.report.reportChannelID)){ %>
                                                     <option selected="selected">#<%= bot.channels.cache.get(settings.report.reportChannelID).name %></option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text" && ch.id !== settings.report.reportChannelID).forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT" && ch.id !== settings.report.reportChannelID).forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                         <option>None</option>
                                                 <% } else { %>
                                                     <option selected="selected">None</option>
-                                                    <% guild.channels.cache.filter((ch) => ch.type === "text").forEach((ch) => { %>
+                                                    <% guild.channels.cache.filter((ch) => ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                                         <option>#<%= ch.name %></option>
                                                     <% }); %>
                                                 <% } %>                    
@@ -144,7 +144,7 @@
 <% } else { %>
 <input name="upvote" class="input-switch" type="checkbox" id="switch3" onclick="myFunction()" ></input><label class="label-switch"for="switch3">Toggle</label>
 <% } %>
-<div id="text" style="display:none">
+<div id="GUILD_TEXT" style="display:none">
 <p>Pick your reaction</p>
 <% if(settings.report.reaction == "1") {%>
 <div class="form-check">
@@ -280,7 +280,7 @@ button:focus { outline: none; }
 }
 
 .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
     
   color: white;
   border-radius: 6px;
@@ -295,12 +295,12 @@ button:focus { outline: none; }
   -webkit-backface-visibility: hidden;
 }
 .dk_toggle:hover, .dk_toggle:focus, .dk_toggle .dk_focus .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
   color: white;
   outline: none;
 }
 .dk_toggle:active {
-  background-color: #222222;
+  background-color: #55465bb5;
   outline: none;
 }
 .dk_toggle:active .select-icon {
@@ -308,8 +308,8 @@ button:focus { outline: none; }
 }
 
 .select-icon {
-  background: #222222 url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
-  border-left: 2px solid #222222;
+  background: url("https://i.imgur.com/kXsFVER.png") no-repeat right center;
+  border-left: 2px solid #55465bb5;
   border-radius: 0 6px 6px 0;
   height: 100%;
   position: absolute;
@@ -327,10 +327,10 @@ button:focus { outline: none; }
   z-index: 10;
 }
 .dk_open .dk_toggle {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 .dk_open .dk_toggle .select-icon {
-  background-color: #222222;
+  background-color: #55465bb5;
   border-left-color: transparent;
 }
 
@@ -364,15 +364,15 @@ button:focus { outline: none; }
   text-decoration: none;
 }
 .dk_options a:hover {
-  background-color: #222222;
+  background-color: #55465bb5;
 }
 
 .dk_option_current a {
-  background-color: #222222
+  background-color: #55465bb5
 }
 
 .dk_options_inner {
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: 5px;
   margin: 0;
   max-height: 244px;
@@ -513,7 +513,7 @@ filter: blur(6px);
 }
 .hr {
     display: block;
-    background-color: #2f2f2f;
+    background-color: #55465bb51;
     unicode-bidi: isolate;
     margin-block-start: 0.5em;
     margin-block-end: 0.5em;
@@ -540,7 +540,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -568,7 +568,7 @@ filter: blur(6px);
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -588,7 +588,7 @@ height: 30px
   min-width: 0;
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border-radius: .35rem;
   
 
@@ -711,7 +711,7 @@ transform: translateY(1px);
 .reports-header {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
-    border-bottom: 1px solid #222222;
+    border-bottom: 1px solid #55465bb5;
 
 }
 .welcome:after {
@@ -758,7 +758,7 @@ transform: translateY(1px);
 }
 .sidebar ul li a.active,
 .sidebar ul li a:hover {
-  background: #2f2f2f;
+  background: #55465bb51;
 }
 .sidebar ul li span {
   margin-left: 16px;
@@ -772,7 +772,7 @@ transform: translateY(1px);
 }
 .header {
   height: 50px;
-  background: #2f2f2f;
+  background: #55465bb51;
   width: 100%;
   display: flex;
   align-items: center;
@@ -819,7 +819,7 @@ transform: translateY(1px);
   width: 23px;
   height: 23px;
   margin-right: 15px;
-  background-color: #2f2f2f;
+  background-color: #55465bb51;
   border: 0;
   cursor: pointer;
 }
@@ -1483,7 +1483,7 @@ function myFunction() {
   // Get the checkbox
   var checkBox = document.getElementById("switch3");
   // Get the output text
-  var text = document.getElementById("text");
+  var text = document.getElementById("GUILD_TEXT");
 
   // If the checkbox is checked, display the output text
   if (checkBox.checked == true){

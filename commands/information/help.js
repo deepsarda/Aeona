@@ -43,7 +43,7 @@ module.exports = class extends Command {
       owner: `${emojis.owner}`,
     };
 
-    const green = ":purple_circle:";
+    const green = "<:PurpleDot:971039873148522546>";
     const red = ":red_square:";
 
     const settings = await Guild.findOne({
