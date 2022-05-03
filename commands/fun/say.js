@@ -29,7 +29,7 @@ module.exports = class extends Command {
     } else channel = message.channel;
 
     // Check type and viewable
-    if (channel.type != "text" || !channel.viewable)
+    if (channel.type != "GUILD_TEXT" || !channel.viewable)
       return message.channel.send(`${language.notaccessible}`);
 
     if (!args[0]) return message.channel.send(`${language.whatdoIsay}`);

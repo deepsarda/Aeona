@@ -7,7 +7,6 @@ const discord = require("discord.js");
 const config = require("../../config.json.js");
 const { MessageEmbed } = require("discord.js");
 const logger = require("../../utils/logger");
-const nsfwplease = require("../../assets/json/nfsw.json");
 const mongoose = require("mongoose");
 const Guild = require("../../database/schemas/Guild");
 const User = require("../../database/schemas/User");
@@ -91,11 +90,11 @@ module.exports = class extends Event {
           .addField(`Prefix`, proofita, true)
           .addField(`Usage`, proofitaa, true)
           .setDescription(
-            `\nIf you like Aeona, Consider [voting](https://top.gg/bot/767705905235099658), or [inviting](https://discord.com/oauth2/authorize?client_id=767705905235099658&scope=bot&permissions=470150262) it to your server! Thank you for using Aeona, we hope you enjoy it, as we always look forward to improve the bot`
+            `\nIf you like Aeona, Consider [voting](https://top.gg/bot/931226824753700934), or [inviting](https://discord.com/oauth2/authorize?client_id=931226824753700934&scope=bot&permissions=470150262) it to your server! Thank you for using Aeona, we hope you enjoy it, as we always look forward to improve the bot`
           )
-          .setFooter("Thank you for using Aeona!!")
+          .setFooter({ text: "Thank you for using Aeona!!" })
           .setColor("#FF2C98");
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
 
       if (config.datadogApiKey) {
@@ -111,10 +110,10 @@ module.exports = class extends Event {
       let prefix;
       let prefixes = [
         mainPrefix,
-        mainPrefix=="+"?">":null,
+        mainPrefix == "+" ? ">" : null,
         "aeona",
-        "<@${client.user.id}>",
-        "<@!${client.user.id}>",
+        `<@${client.user.id}>`,
+        `<@!${client.user.id}>`,
       ];
       for (let i = 0; i < prefixes.length; i++) {
         if (message.content.toLowerCase().startsWith(prefixes[i]))
@@ -239,11 +238,13 @@ module.exports = class extends Event {
         message.member.setNickname(nickname).catch(() => {});
         await afk.deleteOne({ userID: message.author.id });
         return message.channel
-          .send(
-            new discord.MessageEmbed()
-              .setColor("GREEN")
-              .setDescription(`${language.afk7} ${afklis.reason}`)
-          )
+          .send({
+            embeds: [
+              new discord.MessageEmbed()
+                .setColor("GREEN")
+                .setDescription(`${language.afk7} ${afklis.reason}`),
+            ],
+          })
           .then((m) => {
             setTimeout(() => {
               m.delete().catch(() => {});
@@ -317,7 +318,7 @@ module.exports = class extends Event {
           embed.setColor(message.guild.me.displayHexColor);
         } else embed.setColor(`${customCommandEmbed.color}`);
 
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
       }
 
       if (
@@ -468,7 +469,7 @@ module.exports = class extends Event {
               .setTimestamp()
               .setFooter("https://Aeona.xyz")
               .setColor(message.guild.me.displayHexColor);
-            return message.channel.send(embed).catch(() => {});
+            return message.channel.send({ embeds: [embed] }).catch(() => {});
           }
         }
 
@@ -494,7 +495,7 @@ module.exports = class extends Event {
               .setTimestamp()
               .setFooter("https://Aeona.xyz")
               .setColor(message.guild.me.displayHexColor);
-            return message.channel.send(embed).catch(() => {});
+            return message.channel.send({ embeds: [embed] }).catch(() => {});
           }
         }
         if (disabledCommands.includes(command.name || command)) return;
@@ -510,11 +511,7 @@ module.exports = class extends Event {
 
         if (command.disabled)
           return message.channel.send(
-            `The owner has disabled the following command for now. Try again Later!\n\nFor Updates: https://discord.gg/duBwdCvCwW`
-          );
-        if (command.nsfwOnly && !message.channel.nsfw && message.guild)
-          return message.channel.send(
-            `${nsfwplease[Math.round(Math.random() * (nsfwplease.length - 1))]}`
+            `The owner has disabled the following command for now. Try again Later!\n\nFor Updates: https://discord.gg/w6YDhvXNcE`
           );
 
         Statcord.ShardingClient.postCommand(

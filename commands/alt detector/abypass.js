@@ -47,33 +47,39 @@ module.exports = class extends Command {
               await newGuild.save().catch((err) => {
                 console.log(err);
               });
-              return message.channel.send(
-                new discord.MessageEmbed()
-                  .setColor(client.color.green)
-                  .setDescription(
-                    language.abypassSuccess.replace("{userID}", args[0])
-                  )
-              );
+              return message.channel.send({
+                embeds: [
+                  new discord.MessageEmbed()
+                    .setColor(client.color.green)
+                    .setDescription(
+                      language.abypassSuccess.replace("{userID}", args[0])
+                    ),
+                ],
+              });
             }
 
             let oldAllowedAlts = db.allowedAlts; //[]
             if (guildDB.isPremium === "false") {
               if (oldAllowedAlts.length === 10)
-                return message.channel.send(
-                  new discord.MessageEmbed()
-                    .setColor(client.color.red)
-                    .setDescription(language.abypassNotPremium10)
-                );
+                return message.channel.send({
+                  embeds: [
+                    new discord.MessageEmbed()
+                      .setColor(client.color.red)
+                      .setDescription(language.abypassNotPremium10),
+                  ],
+                });
             }
             if (guildDB.isPremium === "true") {
               if (oldAllowedAlts.length === 50)
-                return message.channel.send(
-                  new discord.MessageEmbed()
-                    .setColor(client.color.red)
-                    .setDescription(
-                      language.abypassNotPremium10.replace("10", "50")
-                    )
-                );
+                return message.channel.send({
+                  embeds: [
+                    new discord.MessageEmbed()
+                      .setColor(client.color.red)
+                      .setDescription(
+                        language.abypassNotPremium10.replace("10", "50")
+                      ),
+                  ],
+                });
             }
             oldAllowedAlts.push(u.id);
 
@@ -81,22 +87,26 @@ module.exports = class extends Command {
               allowedAlts: oldAllowedAlts,
             });
 
-            message.channel.send(
-              new discord.MessageEmbed()
-                .setColor(client.color.green)
-                .setDescription(
-                  language.abypassSuccess.replace("{userID}", args[0])
-                )
-            );
+            message.channel.send({
+              embeds: [
+                new discord.MessageEmbed()
+                  .setColor(client.color.green)
+                  .setDescription(
+                    language.abypassSuccess.replace("{userID}", args[0])
+                  ),
+              ],
+            });
           }
         );
       })
       .catch((err) => {
-        message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(client.color.red)
-            .setDescription(language.abypassNotValidUser)
-        );
+        message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(client.color.red)
+              .setDescription(language.abypassNotValidUser),
+          ],
+        });
       });
   }
 };

@@ -46,6 +46,6 @@ module.exports = class extends Command {
       .setColor("GREEN")
       .setTitle(`${language.simpmachine}`)
       .setDescription(`${targett} ${language.simpIs} **${amount}%** simp`);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

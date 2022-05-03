@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
@@ -63,34 +62,46 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!member)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.softbanNoUser}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.softbanNoUser}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (member === message.member)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.softbanSelfUser}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.softbanSelfUser}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
 
     if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.softbanEqualRole}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.softbanEqualRole}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
 
     if (!member.bannable)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} | ${language.softbanNotBannable}`
-          )
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.softbanNotBannable}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
 
     let reason = args.slice(1).join(" ");
     if (!reason) reason = language.softbanNoReason;
@@ -119,7 +130,7 @@ module.exports = class extends Command {
       .setColor(client.color.green);
 
     message.channel
-      .send(embed)
+      .send({ embeds: [embed] })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -172,7 +183,7 @@ module.exports = class extends Command {
                   .addField("User", member, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${member.id}`)
+                  .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
 

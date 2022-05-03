@@ -30,7 +30,7 @@ module.exports = class extends Command {
       .setDescription(`\`${language.flippingCoin}\``)
       .setColor(message.guild.me.displayHexColor);
 
-    const msg = await message.channel.send(embed);
+    const msg = await message.channel.send({ embeds: [embed] });
 
     const embe2 = new MessageEmbed()
       .setDescription(

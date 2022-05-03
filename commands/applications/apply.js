@@ -60,9 +60,9 @@ module.exports = class extends Command {
       .send(
         new discord.MessageEmbed()
           .setColor(message.client.color.green)
-          .setFooter("Powered by aeona.xyz")
+          .setFooter({ text: "Powered by Aeona.xyz" })
           .setDescription(
-            `${message.client.emoji.success} | ${language.applaydone} **${message.guild.name}** [by clicking here](https://aeona.xyz/apply/${message.guild.id})`
+            `${message.client.emoji.success} | ${language.applaydone} **${message.guild.name}** [by clicking here](https://Aeona.xyz/apply/${message.guild.id})`
           )
       )
       .then(message.channel.send(`Form sent by DMs - ${message.author}`))

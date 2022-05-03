@@ -1,11 +1,8 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
-const config = require("../../config.json.js");
-const webhookClient = new Discord.WebhookClient(
-  config.webhook_id,
-  config.webhook_url
-);
+const config = require("../../config.json");
+const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
 const Guild = require("../../database/schemas/Guild");
 const crypto = require("crypto");
 
@@ -31,19 +28,23 @@ module.exports = class extends Command {
     var id = crypto.randomBytes(4).toString("hex");
 
     if (args.length < 1) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.client.color.blue)
-          .setDescription(`${message.client.emoji.fail} ${language.report1}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.client.color.blue)
+            .setDescription(`${message.client.emoji.fail} ${language.report1}`),
+        ],
+      });
     }
 
     if (args.length < 3) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.client.color.blue)
-          .setDescription(`${message.client.emoji.fail} ${language.report2}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.client.color.blue)
+            .setDescription(`${message.client.emoji.fail} ${language.report2}`),
+        ],
+      });
     }
 
     let invite = await message.channel
@@ -64,10 +65,10 @@ module.exports = class extends Command {
       .addField("User Tag", message.member.user.tag, true)
       .addField("Server", `[${message.guild.name}](${invite || "none "})`, true)
       .addField("Bug Report ID:", `#${id}`, true)
-      .setFooter(
-        message.member.displayName,
-        message.author.displayAvatarURL({ dynamic: true })
-      )
+      .setFooter({
+        text: message.member.displayName,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      })
       .setTimestamp()
       .setColor("GREEN");
 
@@ -75,12 +76,12 @@ module.exports = class extends Command {
       .setTitle("Bug Report")
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `${language.report3} Support [**Server**](https://discord.gg/SPcmvDMRrP)`
+        `${language.report3} Support [**Server**](https://discord.gg/w6YDhvXNcE)`
       )
       .addField("Member", message.member, true)
       .addField("Message", report, true)
       .addField("Bug Report ID:", `#${id}`, true)
-      .setFooter(`https://Aeona.xyz`)
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setTimestamp()
       .setColor("GREEN");
 

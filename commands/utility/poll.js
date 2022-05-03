@@ -46,7 +46,7 @@ module.exports = class extends Command {
     let embedValid = new MessageEmbed()
       .setAuthor(message.author.tag, message.author.displayAvatarURL())
       .setDescription(`${language.poll1.replace(/{prefix}/g, `${prefix}`)}`)
-      .setFooter("https://Aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(message.guild.me.displayHexColor);
 
     let embedValid2 = new MessageEmbed()
@@ -57,7 +57,7 @@ module.exports = class extends Command {
           `${prefix}`
         )}`
       )
-      .setFooter("https://Aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(message.guild.me.displayHexColor);
 
     if (!pollTitle) {
@@ -104,13 +104,15 @@ module.exports = class extends Command {
         if (msg) {
           msg.delete().catch(() => {});
         }
-        message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} Slow down here, timed polls is only for premium guilds.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
-            )
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `${message.client.emoji.fail} Slow down here, timed polls is only for premium guilds.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
+              ),
+          ],
+        });
         return;
       }
 

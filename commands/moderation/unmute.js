@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const ms = require("ms");
 const muteModel = require("../../models/mute");
@@ -65,19 +64,23 @@ module.exports = class extends Command {
     const muteRole = message.guild.roles.cache.find((r) => r.name == "Muted");
 
     if (!mentionedMember) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.unmuteNoUser}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.unmuteNoUser}`)
+            .setColor(client.color.red),
+        ],
+      });
     } else if (!muteRole) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} | ${language.unmuteNoMutedRole}`
-          )
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.unmuteNoMutedRole}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const muteDoc = await muteModel.findOne({
@@ -86,30 +89,36 @@ module.exports = class extends Command {
     });
 
     if (!muteDoc) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.unmuteNotMuted}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.unmuteNotMuted}`)
+            .setColor(client.color.red),
+        ],
+      });
     } else if (
       mentionedMember.roles.highest.potision >=
       message.guild.me.roles.highest.potision
     ) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} | ${language.unmuteUserRoleHigher}`
-          )
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.unmuteUserRoleHigher}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
     } else if (muteRole.potision >= message.guild.me.roles.highest.potision) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} | ${language.unmuteRolePosition}`
-          )
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.unmuteRolePosition}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     mentionedMember.roles
@@ -147,19 +156,21 @@ module.exports = class extends Command {
     const reason = args.slice(1).join(" ") || language.unbanNoReason;
 
     message.channel
-      .send(
-        new Discord.MessageEmbed()
-          .setColor(message.client.color.green)
-          .setDescription(
-            `${message.client.emoji.success} | Unmuted **${
-              mentionedMember.user.tag
-            }** ${
-              logging && logging.moderation.include_reason === "true"
-                ? `\n\n**Reason:** ${reason}`
-                : ``
-            }`
-          )
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.client.color.green)
+            .setDescription(
+              `${message.client.emoji.success} | Unmuted **${
+                mentionedMember.user.tag
+              }** ${
+                logging && logging.moderation.include_reason === "true"
+                  ? `\n\n**Reason:** ${reason}`
+                  : ``
+              }`
+            ),
+        ],
+      })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -205,7 +216,7 @@ module.exports = class extends Command {
                   )
                   .addField("User", mentionedMember, true)
                   .addField("Moderator", message.member, true)
-                  .setFooter(`ID: ${mentionedMember.id}`)
+                  .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
 

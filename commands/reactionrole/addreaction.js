@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 
 const ReactionRole = require("../../packages/reactionrole/index.js");
 const react = new ReactionRole();
-const config = require("../../config.json.js");
+const config = require("../../config.json");
 react.setURL(config.mongodb_url);
 
 module.exports = class extends Command {
@@ -44,7 +44,7 @@ module.exports = class extends Command {
       .setDescription(
         `${fail} The following command the **Administrator** Permission`
       )
-      .setFooter(`https://Aeona.xyz`)
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(client.color.red);
 
     let channel =
@@ -52,30 +52,36 @@ module.exports = class extends Command {
       message.guild.channels.cache.get(args[0]) ||
       message.guild.channels.cache.find((ch) => ch.name === args[0]);
     if (!channel)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Provide me with a valid Channel`)
-          .setFooter(`https://Aeona.xyz`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Provide me with a valid Channel`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
 
     let ID = args[1];
     if (!ID)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Provide me with a valid message ID`)
-          .setFooter(`https://Aeona.xyz`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Provide me with a valid message ID`)
+            .setFooter({ text: "https://Aeona.xyz/" }),
+        ],
+      });
     let messageID = await channel.messages.fetch(ID).catch(() => {
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} I could not find the following ID`)
-          .setFooter(`https://Aeona.xyz`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} I could not find the following ID`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
     });
 
     let role =
@@ -83,13 +89,15 @@ module.exports = class extends Command {
       message.guild.roles.cache.get(args[2]) ||
       message.guild.roles.cache.find((rl) => rl.name === args[2]);
     if (!role)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Provide me with a valid Role`)
-          .setFooter(`https://Aeona.xyz`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Provide me with a valid Role`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
 
     if (role.managed) {
       return message.channel.send(
@@ -100,33 +108,39 @@ module.exports = class extends Command {
     let emoji = args[3];
 
     if (!emoji)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Provide me with a valid Emoji`)
-          .setFooter(`https://Aeona.xyz`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Provide me with a valid Emoji`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
 
     if (isCustomEmoji(args[3]))
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Do Not use custom Emojis!`)
-          .setFooter(`https://Aeona.xyz`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Do Not use custom Emojis!`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
 
     try {
       await messageID.react(emoji);
     } catch (err) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
-          .setDescription(`${fail} Please Provide a valid Emoji.`)
-          .setColor(client.color.red)
-          .setFooter(`https://Aeona.xyz`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${fail} Please Provide a valid Emoji.`)
+            .setColor(client.color.red)
+            .setFooter({ text: "https://Aeona.xyz/" }),
+        ],
+      });
     }
 
     let option = args[4];
@@ -144,18 +158,20 @@ module.exports = class extends Command {
       option
     );
 
-    message.channel.send(
-      new MessageEmbed()
-        .setAuthor("Reaction Roles", message.guild.iconURL(), messageID.url)
-        .setColor(client.color.green)
-        .addField("Channel", channel, true)
-        .addField("Emoji", emoji, true)
-        .addField("Type", option, true)
-        .addField("Message ID", ID, true)
-        .addField("Message", `[Jump To Message](${messageID.url})`, true)
-        .addField("Role", role, true)
-        .setFooter("https://Aeona.xyz")
-    );
+    message.channel.send({
+      embeds: [
+        new MessageEmbed()
+          .setAuthor("Reaction Roles", message.guild.iconURL(), messageID.url)
+          .setColor(client.color.green)
+          .addField("Channel", channel, true)
+          .addField("Emoji", emoji, true)
+          .addField("Type", option, true)
+          .addField("Message ID", ID, true)
+          .addField("Message", `[Jump To Message](${messageID.url})`, true)
+          .addField("Role", role, true)
+          .setFooter({ text: "https://Aeona.xyz/" }),
+      ],
+    });
 
     function isCustomEmoji(emoji) {
       return emoji.split(":").length == 1 ? false : true;

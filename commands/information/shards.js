@@ -38,11 +38,13 @@ module.exports = class extends Command {
       );
     });
 
-    message.channel.send(
-      new MessageEmbed()
-        .setFooter(`Shard #${message.guild.shardID}`)
-        .setDescription(`\`\`\`${table.toString()}\`\`\``)
-        .setColor(message.guild.me.displayHexColor)
-    );
+    message.channel.send({
+      embeds: [
+        new MessageEmbed()
+          .setFooter({ text: `Shard #${message.guild.shardID}` })
+          .setDescription(`\`\`\`${table.toString()}\`\`\``)
+          .setColor(message.guild.me.displayHexColor),
+      ],
+    });
   }
 };

@@ -1,8 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
-const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
 module.exports = class extends Command {
@@ -67,56 +65,26 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!member)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Set Nickname Error`)
-          .setDescription("Please provide a valid user mention / user ID")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Set Nickname Error`)
+            .setDescription("Please provide a valid user mention / user ID")
+            .setTimestamp()
+            .setFooter({ text: "https://pogy.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     if (
       member.roles.highest.position >= message.member.roles.highest.position &&
       member != message.member
     )
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Set Nickname Error`)
-          .setDescription(
-            "The provided user has either an equal or higher role."
-          )
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
-
-    if (!args[1])
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Set Nickname Error`)
-          .setDescription("Please provide a new Nickname")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
-
-    let nickname = args[1];
-    if (nickname.startsWith('"')) {
-      nickname = message.content.slice(message.content.indexOf(args[1]) + 1);
-      if (!nickname.includes('"'))
-        return message.channel.send(
+      return message.channel.send({
+        embeds: [
           new MessageEmbed()
             .setAuthor(
               `${message.author.tag}`,
@@ -124,41 +92,83 @@ module.exports = class extends Command {
             )
             .setTitle(`${fail} Set Nickname Error`)
             .setDescription(
-              `Make sure the nickname is surrounded in Quotes, **"text"**`
+              "The provided user has either an equal or higher role."
             )
             .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
-      nickname = nickname.slice(0, nickname.indexOf('"'));
-      if (!nickname.replace(/\s/g, "").length)
-        return message.channel.send(
+            .setFooter({ text: "https://pogy.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
+
+    if (!args[1])
+      return message.channel.send({
+        embeds: [
           new MessageEmbed()
             .setAuthor(
               `${message.author.tag}`,
               message.author.displayAvatarURL({ dynamic: true })
             )
             .setTitle(`${fail} Set Nickname Error`)
-            .setDescription("Provide a Nickname")
+            .setDescription("Please provide a new Nickname")
             .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+            .setFooter({ text: "https://pogy.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
+
+    let nickname = args[1];
+    if (nickname.startsWith('"')) {
+      nickname = message.content.slice(message.content.indexOf(args[1]) + 1);
+      if (!nickname.includes('"'))
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Set Nickname Error`)
+              .setDescription(
+                `Make sure the nickname is surrounded in Quotes, **"text"**`
+              )
+              .setTimestamp()
+              .setFooter({ text: "https://pogy.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
+      nickname = nickname.slice(0, nickname.indexOf('"'));
+      if (!nickname.replace(/\s/g, "").length)
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Set Nickname Error`)
+              .setDescription("Provide a Nickname")
+              .setTimestamp()
+              .setFooter({ text: "https://pogy.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
     }
 
     if (nickname.length > 32) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Set Nickname Error`)
-          .setDescription("Make sure that nickname is below 32 characters")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Set Nickname Error`)
+            .setDescription("Make sure that nickname is below 32 characters")
+            .setTimestamp()
+            .setFooter({ text: "https://pogy.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     } else {
       let reason;
       if (args[1].startsWith('"'))
@@ -187,7 +197,7 @@ module.exports = class extends Command {
           )
           .setColor(message.guild.me.displayHexColor);
         message.channel
-          .send(embed)
+          .send({ embeds: [embed] })
           .then(async (s) => {
             if (logging && logging.moderation.delete_reply === "true") {
               setTimeout(() => {
@@ -249,7 +259,7 @@ module.exports = class extends Command {
                       .addField("User", member, true)
                       .addField("Moderator", message.member, true)
                       .addField("Reason", reason, true)
-                      .setFooter(`ID: ${member.id}`)
+                      .setFooter({ text: `ID: ${member.id}` })
                       .setTimestamp()
                       .setColor(color);
 
@@ -265,20 +275,22 @@ module.exports = class extends Command {
         }
       } catch (err) {
         message.client.logger.error(err.stack);
-        message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Set Nickname Error`)
-            .setDescription(
-              `Please ensure my role is above the provided user's role.`
-            )
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Set Nickname Error`)
+              .setDescription(
+                `Please ensure my role is above the provided user's role.`
+              )
+              .setTimestamp()
+              .setFooter({ text: "https://pogy.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
       }
     }
   }

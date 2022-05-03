@@ -61,26 +61,29 @@ module.exports = class extends Command {
     let properUsage = new MessageEmbed()
       .setColor(message.guild.me.displayHexColor)
       .setDescription(`${language.tempvc1.replace(/{prefix}/g, `${prefix}`)}`)
-      .setFooter("https://pogy.xyz");
+      .setFooter({ text: "https://Aeona.xyz/" });
 
     if (args.length < 1) {
       return message.channel.send(properUsage);
     }
 
     if (args.includes("disable") || args.includes("off")) {
-      if (!message.member.hasPermission("MANAGE_CHANNELS"))
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} ${language.missingUser} `)
-            .setDescription(`${language.tempvc2}`)
-            .setTimestamp()
-            .setFooter("https://pogy.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+      if (!message.member.permissions.has("MANAGE_CHANNELS"))
+        return message.channel
+          .send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setTitle(`${fail} ${language.missingUser} `)
+                .setDescription(`${language.tempvc2}`)
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          })
+          .setColor(message.guild.me.displayHexColor);
 
       if (
         !vcDB.channelID ||
@@ -88,12 +91,16 @@ module.exports = class extends Command {
         !vcDB.guildId ||
         !vcDB.channelID === null
       )
-        return message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(`${message.client.emoji.fail} ${language.tempvc3}`)
-            .setFooter("https://pogy.xyz")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `${message.client.emoji.fail} ${language.tempvc3}`
+              )
+              .setFooter({ text: "https://Aeona.xyz/" }),
+          ],
+        });
       await Vc.findOne(
         {
           guildId: message.guild.id,
@@ -125,31 +132,36 @@ module.exports = class extends Command {
               .catch((err) => console.error(err));
           }
 
-          return message.channel.send(
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.success} ${language.tempvc4}`
-              )
-              .setFooter("https://pogy.xyz")
-          );
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor(message.guild.me.displayHexColor)
+                .setDescription(
+                  `${message.client.emoji.success} ${language.tempvc4}`
+                )
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          });
         }
       );
       return;
     } else if (args.includes("enable") || args.includes("on")) {
-      if (!message.member.hasPermission("MANAGE_CHANNELS"))
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} ${language.missingUser} `)
-            .setDescription(`${language.tempvc2}`)
-            .setTimestamp()
-            .setFooter("https://pogy.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+      if (!message.member.permissions.has("MANAGE_CHANNELS"))
+        return message.channel
+          .send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setTitle(`${fail} ${language.missingUser} `)
+                .setDescription(`${language.tempvc2}`)
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          })
+          .setColor(message.guild.me.displayHexColor);
 
       try {
         const embed = new MessageEmbed()
@@ -159,7 +171,7 @@ module.exports = class extends Command {
           )
           .setDescription(`\`${language.tempvc6}\``)
           .setColor(message.guild.me.displayHexColor);
-        const msg = await message.channel.send(embed);
+        const msg = await message.channel.send({ embeds: [embed] });
 
         let category = message.guild.channels.cache.find(
           (c) =>
@@ -169,9 +181,9 @@ module.exports = class extends Command {
           if (!category) {
             await embed
               .setDescription(`**${language.tempvc7}**`)
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed) +
+            msg.edit({ embeds: [embed] }) +
               message.guild.channels.create(`Join to Create`, {
                 type: "category",
                 permissionOverwrites: [
@@ -189,9 +201,9 @@ module.exports = class extends Command {
           } else {
             embed
               .setDescription(`**${language.tempvc8}**\n\nID: ${category.id}`)
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
           }
         }, 2000);
 
@@ -203,9 +215,9 @@ module.exports = class extends Command {
           if (!voice) {
             await embed
               .setDescription(`**${language.tempvc9}**`)
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
             +message.guild.channels
               .create("Join to create", {
                 type: "voice",
@@ -229,9 +241,9 @@ module.exports = class extends Command {
           } else {
             embed
               .setDescription(`**${language.tempvc10}**\n\nID: ${voice.id}`)
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
           }
         }, 2000);
 
@@ -242,9 +254,9 @@ module.exports = class extends Command {
               .setDescription(
                 `${language.tempvc11.replace(/{prefix}/g, `${prefix}`)}`
               )
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
             await Vc.findOne(
               {
                 guildId: message.guild.id,
@@ -288,9 +300,9 @@ module.exports = class extends Command {
               .setDescription(
                 `**${language.tempvc13}** ${category.name}\n**${language.tempvc13} ID:** ${category.id}\n\n**${language.tempvc14}** ${voice.name}\n**${language.tempvc14} ID:** ${voice.id}\n\n${language.tempvc15} \`${prefix}tempvc off\` `
               )
-              .setFooter(`Pogy v2.0`)
+              .setFooter({ text: `Aeona v2.0` })
               .setTimestamp();
-            msg.edit(embed);
+            msg.edit({ embeds: [embed] });
             if (channelInv && channelVoice)
               message.channel.send(`${channelInv}`);
             await Vc.findOne(
@@ -319,11 +331,13 @@ module.exports = class extends Command {
           }
         }, 2000);
       } catch {
-        message.channel.send(
-          new MessageEmbed()
-            .setDescription(`${language.tempvc16}`)
-            .setColor(`RED`)
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setDescription(`${language.tempvc16}`)
+              .setColor(`RED`),
+          ],
+        });
         await Vc.findOne(
           {
             guildId: message.guild.id,

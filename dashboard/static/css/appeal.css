@@ -47,7 +47,11 @@
 }
 
 body {
-  background-color: #2f2f2f;
+  background-image: url(https://www.aeona.xyz/svg/background.svg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 a {

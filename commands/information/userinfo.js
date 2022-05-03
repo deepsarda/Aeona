@@ -171,7 +171,7 @@ module.exports = class extends Command {
         member.user.displayAvatarURL({ dynamic: true })
       )
       .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-      .setFooter(`ID: ${member.id}`)
+      .setFooter({ text: `ID: ${member.id}` })
       .setTimestamp()
       .setColor(member.displayHexColor)
       .setDescription(
@@ -197,6 +197,6 @@ module.exports = class extends Command {
         }\`\`\` `
       );
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

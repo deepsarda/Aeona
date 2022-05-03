@@ -13,7 +13,7 @@ module.exports = class extends Event {
         `Required Permission: \`${permissions.replace("_", " ")}\``
       )
       .setTimestamp()
-      .setFooter("https://Aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(message.guild.me.displayHexColor);
     if (
       message.channel &&
@@ -22,7 +22,7 @@ module.exports = class extends Event {
         .permissionsFor(message.guild.me)
         .has(["SEND_MESSAGES", "EMBED_LINKS"])
     ) {
-      message.channel.send(embed).catch(() => {});
+      message.channel.send({ embeds: [embed] }).catch(() => {});
     }
   }
 };

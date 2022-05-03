@@ -30,7 +30,7 @@ module.exports = class extends Event {
             const embed = new discord.MessageEmbed()
               .setDescription(`:pencil: ***Role Updated***`)
 
-              .setFooter(`Role ID: ${newRole.id}`)
+              .setFooter({ text: `Role ID: ${newRole.id}` })
               .setTimestamp()
               .setColor(color);
 

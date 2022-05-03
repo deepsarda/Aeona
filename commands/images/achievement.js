@@ -28,18 +28,26 @@ module.exports = class extends Command {
     const text = args.join(" ");
 
     if (!text)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(`${client.emoji.fail} ${language.changeErrorValid}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(
+              `${client.emoji.fail} ${language.changeErrorValid}`
+            ),
+        ],
+      });
 
     if (text.length > 25)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(`${client.emoji.fail} ${language.mcErrorCharacter}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(
+              `${client.emoji.fail} ${language.mcErrorCharacter}`
+            ),
+        ],
+      });
 
     let numb = Math.ceil(Math.random() * 39);
     /* const superagent = require('superagent')

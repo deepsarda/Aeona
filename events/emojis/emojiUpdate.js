@@ -38,7 +38,7 @@ module.exports = class extends Event {
                 `\`<:${oldEmoji.name}:${oldEmoji.id}>\``,
                 true
               )
-              .setFooter(`Emoji ID: ${oldEmoji.id}`)
+              .setFooter({ text: `Emoji ID: ${oldEmoji.id}` })
               .setTimestamp()
               .setColor(color);
 

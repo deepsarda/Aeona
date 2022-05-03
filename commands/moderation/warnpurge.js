@@ -71,52 +71,62 @@ module.exports = class extends Command {
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
 
-    if (!message.member.hasPermission("MANAGE_ROLES")) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} ${language.warnMissingPermission}`
-          )
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+    if (!message.member.permissions.has("MANAGE_ROLES")) {
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} ${language.warnMissingPermission}`
+            )
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     } else if (!mentionedMember) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.warnMissingUser}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.warnMissingUser}`
+            )
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const mentionedPotision = mentionedMember.roles.highest.position;
     const memberPotision = message.member.roles.highest.position;
 
     if (memberPotision <= mentionedPotision) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(client.emoji.fail + " | " + language.warnHigherRole)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(client.emoji.fail + " | " + language.warnHigherRole)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const amount = parseInt(args[1]);
     if (isNaN(amount) === true || !amount || amount < 0 || amount > 100)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Warn Purge Error`)
-          .setDescription(
-            `Please Provide a message count between 1 - 100 messages`
-          )
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Warn Purge Error`)
+            .setDescription(
+              `Please Provide a message count between 1 - 100 messages`
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     let reason = args.slice(2).join(" ");
     if (!reason) reason = "No Reason Provided";
@@ -179,7 +189,7 @@ module.exports = class extends Command {
       )
       .setColor(message.guild.me.displayHexColor);
     message.channel
-      .send(embed)
+      .send({ embeds: [embed] })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -226,13 +236,15 @@ module.exports = class extends Command {
           );
         }
 
-        message.channel.send(
-          new Discord.MessageEmbed()
-            .setColor(message.client.color.green)
-            .setDescription(
-              `Auto Punish triggered, ${action} **${mentionedMember.user.tag}** ${message.client.emoji.success}`
-            )
-        );
+        message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(message.client.color.green)
+              .setDescription(
+                `Auto Punish triggered, ${action} **${mentionedMember.user.tag}** ${message.client.emoji.success}`
+              ),
+          ],
+        });
 
         const auto = logging.moderation.auto_punish;
         if (auto.dm && auto.dm !== "1") {
@@ -243,11 +255,13 @@ module.exports = class extends Command {
             dmEmbed = `${message.client.emoji.fail} You've been ${action} from **${message.guild.name}**\n__(Auto Punish Triggered)__\n\n**Warn Count:** ${warnDoc.warnings.length}`;
           }
 
-          mentionedMember.send(
-            new MessageEmbed()
-              .setColor(message.client.color.red)
-              .setDescription(dmEmbed)
-          );
+          mentionedMember.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor(message.client.color.red)
+                .setDescription(dmEmbed),
+            ],
+          });
         }
       }
     }
@@ -290,7 +304,9 @@ module.exports = class extends Command {
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
                   .addField("Message Count", messages.size)
-                  .setFooter(`ID: ${mentionedMember.id} | Warn ID: ${warnID}`)
+                  .setFooter({
+                    text: `ID: ${mentionedMember.id} | Warn ID: ${warnID}`,
+                  })
                   .setTimestamp()
                   .setColor(color);
 

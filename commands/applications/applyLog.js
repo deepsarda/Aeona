@@ -26,13 +26,15 @@ module.exports = class extends Command {
     const language = require(`../../data/language/${guildDB.language}.json`);
 
     if (args.length < 1) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setDescription(
-            `${message.client.emoji.fail} | ${language.applylogerrorchannel}`
-          )
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.guild.me.displayHexColor)
+            .setDescription(
+              `${message.client.emoji.fail} | ${language.applylogerrorchannel}`
+            ),
+        ],
+      });
     }
 
     if (args.includes("disable")) {
@@ -47,13 +49,15 @@ module.exports = class extends Command {
             })
             .catch((err) => console.error(err));
 
-          return message.channel.send(
-            new discord.MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.fail} | ${language.applylogdisabled}`
-              )
-          );
+          return message.channel.send({
+            embeds: [
+              new discord.MessageEmbed()
+                .setColor(message.guild.me.displayHexColor)
+                .setDescription(
+                  `${message.client.emoji.fail} | ${language.applylogdisabled}`
+                ),
+            ],
+          });
         }
       );
       return;
@@ -62,13 +66,15 @@ module.exports = class extends Command {
     const channel = await message.mentions.channels.first();
 
     if (!channel)
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setDescription(
-            `${message.client.emoji.fail} | ${language.applylogvalidchannel}`
-          )
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.guild.me.displayHexColor)
+            .setDescription(
+              `${message.client.emoji.fail} | ${language.applylogvalidchannel}`
+            ),
+        ],
+      });
 
     await app.findOne(
       {
@@ -81,13 +87,15 @@ module.exports = class extends Command {
           })
           .catch((err) => console.error(err));
 
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.success} | ${language.applylogSuccess} ${channel}`
-            )
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `${message.client.emoji.success} | ${language.applylogSuccess} ${channel}`
+              ),
+          ],
+        });
       }
     );
   }

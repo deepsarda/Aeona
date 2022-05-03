@@ -37,12 +37,12 @@ module.exports = class extends Command {
           "dddd, MMMM Do YYYY"
         )}*** *__[\`(${moment(
           guildDB.time
-        ).fromNow()})\`](https://aeona.xyz)__*\n\n ${guildDB.news}`
+        ).fromNow()})\`](https://Aeona.xyz)__*\n\n ${guildDB.news}`
       )
-      .setFooter("https://aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setTimestamp();
 
-    message.channel.send(embed).catch(() => {
+    message.channel.send({ embeds: [embed] }).catch(() => {
       message.channel.send(`${language.noNews}`);
     });
   }

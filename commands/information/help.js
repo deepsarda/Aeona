@@ -43,8 +43,8 @@ module.exports = class extends Command {
       owner: `${emojis.owner}`,
     };
 
-    const green = "<:purple:826033456207233045>";
-    const red = "<:redsquare:803527843661217802>";
+    const green = ":purple_circle:";
+    const red = ":red_square:";
 
     const settings = await Guild.findOne({
       guildId: message.guild.id,
@@ -74,25 +74,25 @@ module.exports = class extends Command {
           true
         );
       }
-      embed.setTitle(`aeona's Command List`);
+      embed.setTitle(`Aeona's Command List`);
       embed.setDescription(stripIndent`
-        <:purple:826033456207233045> The Prefix for this server is \`${prefix}\`
+        :purple_circle: The Prefix for this server is \`${prefix}\`
   
         `);
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
       embed.setTimestamp();
 
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args.join(" ").toLowerCase() == "alt detector") ||
       (args && args[0].toLowerCase() == "alt")
@@ -114,18 +114,18 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (args && args[0].toLowerCase() == "owner") {
       if (!this.client.config.developers.includes(message.author.id))
         return message.channel.send(
@@ -149,18 +149,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "applications") ||
       (args && args[0].toLowerCase() == "apps")
@@ -182,20 +183,21 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
 
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "config") ||
       (args && args[0].toLowerCase() == "configuration")
@@ -217,18 +219,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "utility") ||
       (args && args[0].toLowerCase() == "utils")
@@ -250,18 +253,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "economy") ||
       (args && args[0].toLowerCase() == "currency")
@@ -283,18 +287,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (args && args[0].toLowerCase() == "fun") {
       embed.setTitle(` ${emojis.fun} - Fun`);
       embed.setDescription(
@@ -313,18 +318,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "images") ||
       (args && args[0].toLowerCase() == "image")
@@ -346,18 +352,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "information") ||
       (args && args[0].toLowerCase() == "info")
@@ -379,18 +386,19 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "moderation") ||
       (args && args[0].toLowerCase() == "mod")
@@ -411,18 +419,19 @@ module.exports = class extends Command {
           )
           .join("\n")
       );
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (args && args[0].toLowerCase() == "nsfw") {
       embed.setTitle(` ${emojis.nsfw} - NSFW`);
       embed.setDescription(
@@ -441,22 +450,23 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       if (!message.channel.nsfw)
         embed.setDescription(
           `The following Menu only belongs to NSFW Channels 👀`
         );
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args.slice(0).join(" ").toLowerCase() == "reaction role") ||
       (args && args[0].toLowerCase() == "rr")
@@ -478,19 +488,20 @@ module.exports = class extends Command {
           .join("\n")
       );
 
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else if (
       (args && args[0].toLowerCase() == "tickets") ||
       (args && args[0].toLowerCase() == "ticketing")
@@ -513,17 +524,18 @@ module.exports = class extends Command {
       );
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.aeona.xyz) | " +
-          "[Support Server](https://aeona.xyz/support) | " +
-          "[Dashboard](https://aeona.xyz/dashboard)**"
+        "**[Invite](https://invite.Aeona.xyz) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
-      embed.setFooter(
-        `Requested by ${message.author.username}`,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+
       embed.setTimestamp();
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     } else {
       const cmd =
         this.client.commands.get(args[0]) ||
@@ -565,11 +577,11 @@ module.exports = class extends Command {
         embed.addField(
           "__**Examples**__",
           cmd.examples
-            .map((example) => `<:purple:826033456207233045> \`${example}\``)
+            .map((example) => `:purple_circle: \`${example}\``)
             .join("\n")
         );
 
-      return message.channel.send(embed);
+      return message.channel.send({ embeds: [embed] });
     }
   }
 };

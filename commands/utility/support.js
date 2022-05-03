@@ -24,6 +24,6 @@ module.exports = class extends Command {
         `${language.support}(https://discord.gg/duBwdCvCwW) ${message.client.emoji.success}`
       );
 
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
   }
 };

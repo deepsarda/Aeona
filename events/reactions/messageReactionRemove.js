@@ -56,7 +56,7 @@ module.exports = class extends Event {
           .setDescription(
             `You have recieved the **${rrRole.name}** Role by reacting in ${guildName}`
           )
-          .setFooter(`https://pogy.xyz`)
+          .setFooter({ text: "https://Aeona.xyz/" })
           .setColor(message.client.color.green);
 
         let remEmbed = new MessageEmbed()
@@ -68,7 +68,7 @@ module.exports = class extends Event {
           .setDescription(
             `You have removed the **${rrRole.name}** Role by reacting in ${guildName}`
           )
-          .setFooter(`https://pogy.xyz`)
+          .setFooter({ text: "https://Aeona.xyz/" })
           .setColor(message.client.color.green);
 
         if (reactionCooldown.has(user.id)) return;

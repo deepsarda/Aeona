@@ -6,7 +6,7 @@ module.exports = class extends Command {
     super(...args, {
       name: "invite",
       aliases: ["inv"],
-      description: "Sends you Aeona's invite link",
+      description: "Sends you Aeonas invite link",
       category: "Utility",
       cooldown: 3,
     });
@@ -25,6 +25,6 @@ module.exports = class extends Command {
         `${language.invite}(https://Aeona.xyz/invite) ${message.client.emoji.success}`
       );
 
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
   }
 };

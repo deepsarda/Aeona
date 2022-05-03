@@ -92,11 +92,13 @@ module.exports = class extends Command {
         message.channel.send(slap);
       }
     } catch (err) {
-      message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.blue)
-          .setDescription(language.slapError)
-      );
+      message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.blue)
+            .setDescription(language.slapError),
+        ],
+      });
     }
   }
 };

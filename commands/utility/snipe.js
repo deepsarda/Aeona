@@ -38,7 +38,7 @@ module.exports = class extends Command {
         `#${channel.name} | ${message.guild.name}`,
         message.guild.iconURL()
       )
-      .setFooter(message.guild.name)
+      .setFooter({ text: message.guild.name })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor)
       .setDescription(
@@ -60,7 +60,7 @@ module.exports = class extends Command {
         `#${channel.name} | ${message.guild.name}`,
         message.guild.iconURL()
       )
-      .setFooter(message.guild.name)
+      .setFooter({ text: message.guild.name })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor);
 
@@ -86,7 +86,7 @@ module.exports = class extends Command {
 
     if (data.length < 1) return message.channel.send(no);
 
-    message.channel.send(embed).catch(async (err) => {
+    message.channel.send({ embeds: [embed] }).catch(async (err) => {
       await snipe.deleteOne().catch(() => {});
       message.channel.send(
         `The embed contained a huge field that couldn't fit as this is the reason i failed to send the embed. I have resetted the database as you can try rerunning the command again.`

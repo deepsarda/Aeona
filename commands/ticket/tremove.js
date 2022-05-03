@@ -25,11 +25,13 @@ module.exports = class extends Command {
       message.mentions.members.first() ||
       message.guild.members.cache.get(args[0]);
     if (!userToMention)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(language.addNotSpecifyUser)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(language.addNotSpecifyUser),
+        ],
+      });
 
     await ticketSchema.findOne(
       {
@@ -44,29 +46,33 @@ module.exports = class extends Command {
           let ticketLog = message.guild.channels.cache.get(db.ticketModlogID);
 
           if (!message.member.roles.cache.has(ticketRole.id))
-            return message.channel.send(
-              new discord.MessageEmbed()
-                .setColor(client.color.red)
-                .setDescription(
-                  language.claimNotHaveRole.replace(
-                    "{roleName}",
-                    ticketRole.name
-                  )
-                )
-            );
+            return message.channel.send({
+              embeds: [
+                new discord.MessageEmbed()
+                  .setColor(client.color.red)
+                  .setDescription(
+                    language.claimNotHaveRole.replace(
+                      "{roleName}",
+                      ticketRole.name
+                    )
+                  ),
+              ],
+            });
 
           if (!message.channel.name.startsWith("ticket-"))
-            return message.channel.send(
-              new discord.MessageEmbed()
-                .setColor(client.color.red)
-                .setDescription(language.addNotValidChannel)
-            );
+            return message.channel.send({
+              embeds: [
+                new discord.MessageEmbed()
+                  .setColor(client.color.red)
+                  .setDescription(language.addNotValidChannel),
+              ],
+            });
 
-          let pogy = message.guild.me;
+          let Aeona = message.guild.me;
           let everyone = message.guild.roles.everyone;
           let author = message.author;
 
-          message.channel.updateOverwrite(pogy, {
+          message.channel.permissionOverwrites.edit(Aeona, {
             VIEW_CHANNEL: true,
             READ_MESSAGES: true,
             SEND_MESSAGES: true,
@@ -74,9 +80,11 @@ module.exports = class extends Command {
             ATTACH_FILES: true,
           });
 
-          message.channel.updateOverwrite(everyone, { VIEW_CHANNEL: false });
+          message.channel.permissionOverwrites.edit(everyone, {
+            VIEW_CHANNEL: false,
+          });
 
-          message.channel.updateOverwrite(author, {
+          message.channel.permissionOverwrites.edit(author, {
             VIEW_CHANNEL: true,
             READ_MESSAGES: true,
             SEND_MESSAGES: true,
@@ -84,7 +92,7 @@ module.exports = class extends Command {
             ATTACH_FILES: true,
           });
 
-          message.channel.updateOverwrite(userToMention.id, {
+          message.channel.permissionOverwrites.edit(userToMention.id, {
             VIEW_CHANNEL: null,
             READ_MESSAGES: null,
             SEND_MESSAGES: null,
@@ -93,7 +101,7 @@ module.exports = class extends Command {
           });
 
           if (ticketRole) {
-            message.channel.updateOverwrite(ticketRole, {
+            message.channel.permissionOverwrites.edit(ticketRole, {
               VIEW_CHANNEL: true,
               READ_MESSAGES: true,
               SEND_MESSAGES: true,

@@ -30,7 +30,7 @@ module.exports = class extends Command {
         message.author.displayAvatarURL({ format: "png" })
       )
       .setColor(client.color.red)
-      .setFooter("https://aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz" })
       .setTimestamp();
     const successEmbed = new discord.MessageEmbed()
       .setAuthor(
@@ -38,7 +38,7 @@ module.exports = class extends Command {
         message.author.displayAvatarURL({ format: "png" })
       )
       .setColor(client.color.green)
-      .setFooter("https://aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz" })
       .setTimestamp();
 
     if (!args[0])

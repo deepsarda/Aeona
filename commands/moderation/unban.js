@@ -1,8 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
-const mongoose = require("mongoose");
 const Discord = require("discord.js");
 
 const Logging = require("../../database/schemas/logging.js");
@@ -70,9 +68,9 @@ module.exports = class extends Command {
           `**Proper Usage:**\n\n\`1-\` unban peter_#4444 appealed\n\`2-\` unban 710465231779790849 appealed\n\`3-\` unban all`
         )
         .setColor(message.client.color.red)
-        .setFooter("https://Aeona.xyz");
+        .setFooter({ text: "https://Aeona.xyz/" });
 
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
       return;
     }
 
@@ -98,7 +96,7 @@ module.exports = class extends Command {
           )
           .setColor(client.color.green);
 
-        message.channel.send(embed).catch(() => {});
+        message.channel.send({ embeds: [embed] }).catch(() => {});
       } else {
         const embed = new MessageEmbed()
           .setDescription(
@@ -113,7 +111,7 @@ module.exports = class extends Command {
           .setColor(client.color.green);
 
         message.channel
-          .send(embed)
+          .send({ embeds: [embed] })
           .then(async (s) => {
             if (logging && logging.moderation.delete_reply === "true") {
               setTimeout(() => {
@@ -207,7 +205,7 @@ module.exports = class extends Command {
               )
               .setColor(client.color.green);
 
-            message.channel.send(embed).catch(() => {});
+            message.channel.send({ embeds: [embed] }).catch(() => {});
             await message.guild.members
               .unban(
                 userrz,
@@ -264,7 +262,7 @@ module.exports = class extends Command {
                           )
                           .addField("User", userrz, true)
                           .addField("Moderator", message.member, true)
-                          .setFooter(`ID: ${userrz.id}`)
+                          .setFooter({ text: `ID: ${userrz.id}` })
                           .setTimestamp()
                           .setColor(color);
 
@@ -281,22 +279,26 @@ module.exports = class extends Command {
               }
             }
           } else {
-            message.channel.send(
+            message.channel.send({
+              embeds: [
+                new MessageEmbed()
+                  .setDescription(
+                    `${client.emoji.fail} | ${language.unbanInvalidID}`
+                  )
+                  .setColor(client.color.red),
+              ],
+            });
+          }
+        } else {
+          message.channel.send({
+            embeds: [
               new MessageEmbed()
                 .setDescription(
                   `${client.emoji.fail} | ${language.unbanInvalidID}`
                 )
-                .setColor(client.color.red)
-            );
-          }
-        } else {
-          message.channel.send(
-            new MessageEmbed()
-              .setDescription(
-                `${client.emoji.fail} | ${language.unbanInvalidID}`
-              )
-              .setColor(client.color.red)
-          );
+                .setColor(client.color.red),
+            ],
+          });
         }
 
         return;
@@ -305,11 +307,15 @@ module.exports = class extends Command {
       const bannedUsers = await message.guild.fetchBans();
       const user = bannedUsers.get(id);
       if (!user)
-        return message.channel.send(
-          new MessageEmbed()
-            .setDescription(`${client.emoji.fail} | ${language.unbanInvalidID}`)
-            .setColor(client.color.red)
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setDescription(
+                `${client.emoji.fail} | ${language.unbanInvalidID}`
+              )
+              .setColor(client.color.red),
+          ],
+        });
 
       let reason = args.slice(1).join(" ");
       if (!reason) reason = language.unbanNoReason;
@@ -332,7 +338,7 @@ module.exports = class extends Command {
         .setColor(client.color.green);
 
       message.channel
-        .send(embed)
+        .send({ embeds: [embed] })
         .then(async (s) => {
           if (logging && logging.moderation.delete_reply === "true") {
             setTimeout(() => {
@@ -381,7 +387,7 @@ module.exports = class extends Command {
                     )
                     .addField("User", userr, true)
                     .addField("Moderator", message.member, true)
-                    .setFooter(`ID: ${userr.id}`)
+                    .setFooter({ text: `ID: ${userr.id}` })
                     .setTimestamp()
                     .setColor(color);
 

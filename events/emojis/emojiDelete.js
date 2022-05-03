@@ -29,7 +29,7 @@ module.exports = class extends Event {
               .setDescription(`🗑️ ***Emoji Delete***`)
               .addField("Emoji Name", emoji.name, true)
               .addField("Emoji", emoji, true)
-              .setFooter(`Emoji ID: ${emoji.id}`)
+              .setFooter({ text: `Emoji ID: ${emoji.id}` })
               .setTimestamp()
               .setColor(color);
 

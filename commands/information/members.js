@@ -41,7 +41,7 @@ module.exports = class extends Command {
     let embedValid = new MessageEmbed()
       .setAuthor(message.author.tag, message.author.displayAvatarURL())
       .setDescription(`${language.members2.replace(/{prefix}/g, `${prefix}`)}`)
-      .setFooter("https://aeona.xyz")
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(message.guild.me.displayHexColor);
 
     if (!args[0]) return message.channel.send(embedValid);
@@ -63,10 +63,10 @@ module.exports = class extends Command {
       .setTitle(
         `${capitalize(memberRole.name)} ${language.list} [${members.length}]`
       )
-      .setFooter(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      )
+      .setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor);
 
@@ -93,10 +93,10 @@ module.exports = class extends Command {
       embed
         .setTitle(`${capitalize(memberRole.name)} ${language.list}`)
         .setThumbnail(message.guild.iconURL({ dynamic: true }))
-        .setFooter(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        );
+        .setFooter({
+          text: message.author.tag,
+          iconURL: message.author.displayAvatarURL({ dynamic: true }),
+        });
 
       new ReactionMenu(
         message.client,

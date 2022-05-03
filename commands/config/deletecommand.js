@@ -29,19 +29,22 @@ module.exports = class extends Command {
     const name = args[0].toLowerCase();
 
     if (!name)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(
-            `${language.properusage} \`${prefix}deletecommand <command-name>\`\n\n${language.example} \`${prefix}deletecommand pog\``
-          )
-          .setTimestamp()
-          .setFooter("https://aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setDescription(
+                `${language.properusage} \`${prefix}deletecommand <command-name>\`\n\n${language.example} \`${prefix}deletecommand pog\``
+              )
+              .setTimestamp()
+              .setFooter({ text: "https://Aeona.xyz/" }),
+          ],
+        })
+        .setColor(message.guild.me.displayHexColor);
 
     if (name.length > 30)
       return message.channel.send(
@@ -56,18 +59,20 @@ module.exports = class extends Command {
       async (err, data) => {
         if (data) {
           data.delete({ guildId: message.guild.id, name });
-          message.channel.send(
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`${message.client.emoji.success} Delete Command`)
-              .setDescription(`${language.deletecmd1} **${name}**`)
-              .setTimestamp()
-              .setFooter("https://aeona.xyz")
-          );
+          message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor(message.guild.me.displayHexColor)
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setTitle(`${message.client.emoji.success} Delete Command`)
+                .setDescription(`${language.deletecmd1} **${name}**`)
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          });
         } else {
           message.channel.send(
             `${message.client.emoji.fail} ${language.deletecmd2}`

@@ -1,5 +1,5 @@
 const Command = require("../../structures/Command");
-const SlayBotDB = require("../../database/schemas/Pogy");
+const SlayBotDB = require("../../database/schemas/Aeona");
 
 module.exports = class extends Command {
   constructor(...args) {

@@ -127,9 +127,9 @@ module.exports = class extends Command {
       .addField(`${language.AeonaGeneral}`, `\`\`\`css\n${tech}\`\`\``, true)
       .addField(`${language.AeonaTeam}`, `\`\`\`css\n${devs}\`\`\``, true)
       .addField(`${language.AeonaStats}`, `\`\`\`css\n${serverStats}\`\`\``)
-      .setFooter(`Shard #${message.guild.shardID}`)
+      .setFooter({ text: `Shard #${message.guild.shardID}` })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

@@ -29,17 +29,23 @@ module.exports = class extends Command {
     try {
       let text = args.slice(0).join(" ");
       if (!text)
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(client.color.red)
-            .setDescription(`${client.emoji.fail} ${language.changeErrorValid}`)
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(client.color.red)
+              .setDescription(
+                `${client.emoji.fail} ${language.changeErrorValid}`
+              ),
+          ],
+        });
       if (text.length > 40)
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(client.color.red)
-            .setDescription(`${client.emoji.fail} ${language.floorError}`)
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(client.color.red)
+              .setDescription(`${client.emoji.fail} ${language.floorError}`),
+          ],
+        });
       //https://vacefron.nl/api/ejected?name=[MESSAGE]&imposter=true&crewmate=red
       let options = {
         url: "https://vacefron.nl/api/ejected",

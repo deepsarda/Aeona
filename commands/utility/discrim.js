@@ -32,11 +32,15 @@ module.exports = class extends Command {
     const language = require(`../../data/language/${guildDB.language}.json`);
 
     if (!/^\d{4}$/.test(args[0])) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.client.color.blue)
-          .setDescription(`${message.client.emoji.fail} ${language.discrim1}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.client.color.blue)
+            .setDescription(
+              `${message.client.emoji.fail} ${language.discrim1}`
+            ),
+        ],
+      });
     }
 
     let members = this.client.users.cache

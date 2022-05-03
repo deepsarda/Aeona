@@ -27,7 +27,7 @@ module.exports = class extends Event {
           if (logging.server_events.channel_created == "true") {
             const embed = new discord.MessageEmbed()
               .setDescription(`:pencil: ***Guild Updated***`)
-              .setFooter(`Guild ID: ${oldGuild.id}`)
+              .setFooter({ text: `Guild ID: ${oldGuild.id}` })
               .setTimestamp()
               .setColor(color);
 

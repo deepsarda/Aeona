@@ -26,12 +26,12 @@ module.exports = class extends Command {
         message.guild.iconURL({ dynamic: true, size: 512 })
       )
       .setImage(message.guild.iconURL({ dynamic: true, size: 512 }))
-      .setFooter(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      )
+      .setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor);
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

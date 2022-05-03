@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
@@ -65,31 +64,35 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!member)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Remove Role Error`)
-          .setDescription("Please provide a valid role")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Remove Role Error`)
+            .setDescription("Please provide a valid role")
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Remove Role Error`)
-          .setDescription("The Provided user has an equal or higher role.")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Remove Role Error`)
+            .setDescription("The Provided user has an equal or higher role.")
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     const role =
       getRoleFromMention(message, args[1]) ||
@@ -103,31 +106,35 @@ module.exports = class extends Command {
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
     if (!role)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Remove Role Error`)
-          .setDescription("Please provide a valid role")
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Remove Role Error`)
+            .setDescription("Please provide a valid role")
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     else if (!member.roles.cache.has(role.id))
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Remove Role Error`)
-          .setDescription(`The provided user does not have the role.`)
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Remove Role Error`)
+            .setDescription(`The provided user does not have the role.`)
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     else {
       try {
         await member.roles.remove(role, [
@@ -140,7 +147,7 @@ module.exports = class extends Command {
           )
           .setColor(message.guild.me.displayHexColor);
         message.channel
-          .send(embed)
+          .send({ embeds: [embed] })
           .then(async (s) => {
             if (logging && logging.moderation.delete_reply === "true") {
               setTimeout(() => {
@@ -186,7 +193,7 @@ module.exports = class extends Command {
                       )
                       .addField("User", member, true)
                       .addField("Moderator", message.member, true)
-                      .setFooter(`ID: ${member.id}`)
+                      .setFooter({ text: `ID: ${member.id}` })
                       .setTimestamp()
                       .setColor(color);
 
@@ -201,20 +208,22 @@ module.exports = class extends Command {
           }
         }
       } catch (err) {
-        message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Remove Role Error`)
-            .setDescription(
-              `Unable to remove the User's Role, please check the role hiarchy and make sure My role is above the provided user.`
-            )
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Remove Role Error`)
+              .setDescription(
+                `Unable to remove the User's Role, please check the role hiarchy and make sure My role is above the provided user.`
+              )
+              .setTimestamp()
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
       }
     }
   }

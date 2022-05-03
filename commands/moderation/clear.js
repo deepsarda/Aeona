@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const Logging = require("../../database/schemas/logging.js");
 const mongoose = require("mongoose");
 
@@ -75,19 +74,21 @@ module.exports = class extends Command {
         args.shift();
       } else channel = message.channel;
 
-      if (channel.type != "text" || !channel.viewable)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Clear Error`)
-            .setDescription(`Please make sure I can view that channel`)
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+      if (channel.type != "GUILD_TEXT" || !channel.viewable)
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Clear Error`)
+              .setDescription(`Please make sure I can view that channel`)
+              .setTimestamp()
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
 
       const member =
         message.mentions.members.first() ||
@@ -100,34 +101,38 @@ module.exports = class extends Command {
 
       const amount = parseInt(args[0]);
       if (isNaN(amount) === true || !amount || amount < 0 || amount > 100)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Clear Error`)
-            .setDescription(`I can only purge between 1 - 100 messages.`)
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Clear Error`)
+              .setDescription(`I can only purge between 1 - 100 messages.`)
+              .setTimestamp()
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
 
       if (!channel.permissionsFor(message.guild.me).has(["MANAGE_MESSAGES"]))
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Clear Error`)
-            .setDescription(
-              `Please make sure I have the **Manage Messages** Permission!`
-            )
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ dynamic: true })
+              )
+              .setTitle(`${fail} Clear Error`)
+              .setDescription(
+                `Please make sure I have the **Manage Messages** Permission!`
+              )
+              .setTimestamp()
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        });
 
       let reason = args.slice(1).join(" ");
       if (!reason) reason = "None";
@@ -186,7 +191,7 @@ module.exports = class extends Command {
           }
 
           message.channel
-            .send(embed)
+            .send({ embeds: [embed] })
             .then(async (s) => {
               if (logging && logging.moderation.delete_reply === "true") {
                 setTimeout(() => {
@@ -243,7 +248,7 @@ module.exports = class extends Command {
                     )
                     .addField("Moderator", message.member, true)
                     .setTimestamp()
-                    .setFooter(`Responsible ID: ${message.author.id}`)
+                    .setFooter({ text: `Responsible ID: ${message.author.id}` })
                     .setColor(color);
 
                   for (const field in fields) {

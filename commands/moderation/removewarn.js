@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const warnModel = require("../../models/moderation.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
@@ -62,32 +61,36 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!mentionedMember) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const mentionedPotision = mentionedMember.roles.highest.position;
     const memberPotision = message.member.roles.highest.position;
 
     if (memberPotision <= mentionedPotision) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     let reason = args.slice(2).join(" ");
@@ -102,68 +105,78 @@ module.exports = class extends Command {
       .catch((err) => console.log(err));
 
     if (!warnDoc || !warnDoc.warnings.length) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     let warningID = args[1];
     if (!warningID)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
 
     let check = warnDoc.warningID.filter((word) => args[1] === word);
 
     if (!warnDoc.warningID.includes(warningID))
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (!check)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (check.length < 0) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
     let toReset = warnDoc.warningID.length;
 
@@ -239,9 +252,9 @@ module.exports = class extends Command {
                   .addField("User", mentionedMember, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(
-                    `ID: ${mentionedMember.id} | Warn ID: ${warningID}`
-                  )
+                  .setFooter({
+                    text: `ID: ${mentionedMember.id} | Warn ID: ${warningID}`,
+                  })
                   .setTimestamp()
                   .setColor(color);
 

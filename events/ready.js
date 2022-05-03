@@ -14,36 +14,54 @@ module.exports = class extends Event {
 
       logger.info(`✅ loaded Maintenance Mode `, { label: "Status" });
     } else {
-      const activities = [
-        { name: "p!help | pogy.xyz", type: "WATCHING" },
-        { name: "@pogy", type: "WATCHING" },
-      ];
-
-      this.client.user.setPresence({
-        status: "online",
-        activity: activities[0],
-      });
-
-      let activity = 1;
-
+      let client = this.client;
+      client.status = await require("../presence_config");
       setInterval(() => {
-        activities[2] = {
-          name: `p!help | ${this.client.guilds.cache.size} guilds`,
-          type: "WATCHING",
-        };
-        activities[3] = {
-          name: `p!help | ${this.client.guilds.cache.reduce(
-            (a, g) => a + g.memberCount,
-            0
-          )} users`,
-          type: "WATCHING",
-        };
-        if (activity > 3) activity = 0;
-        this.client.user.setActivity(activities[activity]);
-        activity++;
-      }, 35000);
-
-      logger.info(`✅ loaded: Bot Status `, { label: "Status" });
+        const emoji =
+          client.status.emojis[
+            Math.floor(Math.random() * client.status.emojis.length)
+          ];
+        if (client.status.options.type == "dynamic") {
+          const today = moment().format("MM-DD");
+          const special_message = client.status.dates[today];
+          if (special_message) {
+            const motd =
+              special_message[
+                Math.floor(Math.random() * special_message.length)
+              ];
+            if (motd.message && motd.type) {
+              client.user.setActivity(motd.message, {
+                type: motd.type,
+              });
+              this.client.user.setPresence({ status: "idle" });
+            }
+          } else {
+            const dynamic_message =
+              client.status.dynamic[
+                Math.floor(Math.random() * client.status.dynamic.length)
+              ];
+            // Todo: Allow dynamic strings
+            const message = dynamic_message.message
+              .replaceAll("{{ emoji }}", emoji)
+              .replaceAll(
+                "{{ members }}",
+                client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
+              )
+              .replaceAll("{{ servers }}", client.guilds.cache.size);
+            client.user.setActivity(message, {
+              type: dynamic_message.type,
+            });
+            this.client.user.setPresence({ status: "idle" });
+          }
+        } else {
+          if (client.status.static.message && client.status.static.type) {
+            client.user.setActivity(client.status.static.message, {
+              type: client.status.static.type,
+            });
+            this.client.user.setPresence({ status: "idle" });
+          }
+        }
+      }, 10000);
     }
   }
 };

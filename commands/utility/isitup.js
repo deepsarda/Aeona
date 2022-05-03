@@ -24,11 +24,13 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
     if (url.length < 1) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.client.color.blue)
-          .setDescription(`${message.client.emoji.fail} ${language.isitup2}`)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.client.color.blue)
+            .setDescription(`${message.client.emoji.fail} ${language.isitup2}`),
+        ],
+      });
     }
 
     url = url.toString().replace(PROTOCOL_REGEX, "").replace(PATH_REGEX, "");
@@ -48,6 +50,6 @@ module.exports = class extends Command {
       embed.setColor(message.client.color.blue);
       embed.setDescription(`${message.client.emoji.fail} ${language.isitup3}`);
     }
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 };

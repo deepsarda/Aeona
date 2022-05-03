@@ -5,14 +5,14 @@ let uniqid = require("uniqid");
 const cooldownNickname = new Set();
 const express = require("express");
 const passport = require("passport");
-const jsonconfig = require("../config.json.js");
+const jsonconfig = require("../config.json");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const Strategy = require("passport-discord").Strategy;
-const premiumWeb = new Discord.WebhookClient(
-  jsonconfig.webhook_id,
-  jsonconfig.webhook_url
-);
+const premiumWeb = new Discord.WebhookClient({
+  id: jsonconfig.webhook_id,
+  url: jsonconfig.webhook_url,
+});
 const config = require("../config");
 const ejs = require("ejs");
 
@@ -44,7 +44,10 @@ const fs = require("fs");
 const Application = require("../models/application/application.js");
 const customCommand = require("../database/schemas/customCommand.js");
 //dont touch here
-const Hook = new WebhookClient(jsonconfig.webhook_id, jsonconfig.webhook_url);
+const Hook = new WebhookClient({
+  id: jsonconfig.webhook_id,
+  url: jsonconfig.webhook_url,
+});
 //
 
 let rgx =
@@ -178,10 +181,7 @@ module.exports = async (client) => {
       failureRedirect: "/",
     }),
     async (req, res) => {
-      const loginLogs = new Discord.WebhookClient(
-        config.webhook_id,
-        config.webhook_url
-      );
+      const loginLogs = new Discord.WebhookClient({ url: config.webhook_url });
 
       try {
         if (req.session.backURL) {
@@ -551,7 +551,7 @@ module.exports = async (client) => {
                 "dddd, MMMM Do YYYY HH:mm:ss"
               )}`
             )
-            .setFooter("https://Aeona.xyz")
+            .setFooter({ text: "https://aeona.xyz/" })
             .setColor("GREEN");
         } else {
           form.paste.push(`Question #${i + 1} - ${db.questions[i]}`);
@@ -566,24 +566,26 @@ module.exports = async (client) => {
                 "dddd, MMMM Do YYYY HH:mm:ss"
               )}`
             )
-            .setFooter("https://Aeona.xyz")
+            .setFooter({ text: "https://aeona.xyz/" })
             .setColor("GREEN");
         }
       }
       member
-        .send(
-          new MessageEmbed()
-            .setColor("GREEN")
-            .setFooter(`Powered by https://Aeona.xyz`)
-            .setTitle(`Application #${ticketID}`)
-            .setDescription(
-              `Hey ${
-                member.user.username
-              }! Your form was Submitted and ready to be judged.\n\n**Form ID**: \`${ticketID}\`\n**Time:** ${moment(
-                new Date()
-              ).format("dddd, MMMM Do YYYY HH:mm:ss")}`
-            )
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor("GREEN")
+              .setFooter({ text: `Powered by https://aeona.xyz` })
+              .setTitle(`Application #${ticketID}`)
+              .setDescription(
+                `Hey ${
+                  member.user.username
+                }! Your form was Submitted and ready to be judged.\n\n**Form ID**: \`${ticketID}\`\n**Time:** ${moment(
+                  new Date()
+                ).format("dddd, MMMM Do YYYY HH:mm:ss")}`
+              ),
+          ],
+        })
         .catch(() => {});
 
       await form.save().catch(() => {});
@@ -715,7 +717,7 @@ module.exports = async (client) => {
       .setColor(guild.me.displayHexColor);
 
     premiumWeb.send({
-      username: "Aeona Premium",
+      username: "aeona Premium",
       avatarURL: `${domain}/logo.png`,
       embeds: [embedPremium],
     });
@@ -3375,7 +3377,7 @@ send
       if (!guild || !channel || !data)
         return res.status(400).send("Some data is missing");
       const fetchmember = await guild.members.fetch(user.id);
-      if (!fetchmember || !fetchmember.hasPermission("ADMINISTRATOR"))
+      if (!fetchmember || !fetchmember.permissions.has("ADMINISTRATOR"))
         return res.status(403).send("You don't have permission.");
       if (
         !channel.permissionsFor(channel.guild.client.user).has("SEND_MESSAGES")
@@ -3452,13 +3454,13 @@ send
 
       const report = new MessageEmbed()
         .setColor("GREEN")
-        .setTitle(`Aeona Reports`)
+        .setTitle(`aeona Reports`)
         .setDescription(
           `Someone just reported a user!\n\nUser: ${req.body.name}\`(${req.body.id})\`\nReported User: ${req.body.reported_user}\nReported User ID: ${req.body.reported_id}\nReason: \`${req.body.reason}\`\nProof: ${req.body.proof}`
         );
 
       reportEmbed.send({
-        username: "Aeona Reports",
+        username: "aeona Reports",
         avatarURL: `${domain}/logo.png`,
         embeds: [report],
       });
@@ -3477,7 +3479,7 @@ send
         );
 
       contactEmbed.send({
-        username: "Aeona Contact",
+        username: "aeona Contact",
         avatarURL: `${domain}/logo.png`,
         embeds: [contact],
       });
@@ -3602,7 +3604,6 @@ send
       if (data.ticketWelcomeMessage) {
         if (data.ticketWelcomeMessage.length > 1024) {
           ticketSettings.ticketWelcomeMessage = `Hey {user} Welcome to your ticket!
-
 Thank you for creating a ticket, the support team will be with you shortly.
 In the mean time, please explain your issue below`;
           renderTemplate(res, req, "./new/maintickets.ejs", {
@@ -3619,7 +3620,6 @@ In the mean time, please explain your issue below`;
         ticketSettings.ticketWelcomeMessage = data.ticketWelcomeMessage;
       } else {
         ticketSettings.ticketWelcomeMessage = `Hey {user} Welcome to your ticket!
-
 Thank you for creating a ticket, the support team will be with you shortly.
 In the mean time, please explain your issue below`;
 
@@ -3849,7 +3849,7 @@ In the mean time, please explain your issue below`;
           }
 
           if (storedSettings.isPremium == "false") {
-            ticketSettings.ticketFooter = "Powered by Aeona.xyz";
+            ticketSettings.ticketFooter = "Powered by aeona.xyz";
           } else {
             let checkFooter2 = req.body["reactionfooterEmbed"];
             if (checkFooter2) {
@@ -3870,9 +3870,9 @@ In the mean time, please explain your issue below`;
           }
 
           let checkFooter = req.body["reactionfooterEmbed"];
-          let reactionFooter = "Powered by Aeona.xyz";
+          let reactionFooter = "Powered by aeona.xyz";
 
-          let footer = "Powered by Aeona.xyz";
+          let footer = "Powered by aeona.xyz";
           if (storedSettings.isPremium == "true") footer = reactionFooter;
 
           let ticketEmbed = new Discord.MessageEmbed()
@@ -3881,7 +3881,7 @@ In the mean time, please explain your issue below`;
             .setDescription(reactionDescription);
 
           if (storedSettings.isPremium == "false") {
-            ticketEmbed.setFooter(`Powered by Aeona.xyz`);
+            ticketEmbed.setFooter({ text: `Powered by aeona.xyz` });
           } else {
             if (checkFooter) {
               ticketEmbed.setFooter(data.reactionmbedFooter);
@@ -4721,7 +4721,7 @@ In the mean time, please explain your issue below`;
       .setColor("#7289DA")
       .setTitle(`${apiUser.username} Just Voted`)
       .setDescription(
-        `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **Aeona**!`
+        `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **aeona**!`
       );
     Hook.send(msg);
 
@@ -4745,7 +4745,7 @@ In the mean time, please explain your issue below`;
           .setDescription(
             `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
               apiUser.id
-            }) for voting **Aeona**! \n\nVote #${voteNumber + 1}`
+            }) for voting **aeona**! \n\nVote #${voteNumber + 1}`
           )
       );
     }
@@ -4784,8 +4784,8 @@ In the mean time, please explain your issue below`;
   if (config.datadogApiKey) {
     metrics.init({
       apiKey: jsonconfig.datadogApiKey,
-      host: "Aeona",
-      prefix: "Aeona.",
+      host: "aeona",
+      prefix: "aeona.",
     });
     function collectMemoryStats() {
       var memUsage = process.memoryUsage();

@@ -31,7 +31,7 @@ module.exports = class extends Command {
           message.author.displayAvatarURL({ format: "png" })
         )
         .setColor("PURPLE")
-        .setFooter(`${language.f3}`);
+        .setFooter({ text: `${language.f3}` });
       message.channel
         .send({ embed })
         .then((m) => m.react("🇫"))
@@ -42,7 +42,7 @@ module.exports = class extends Command {
         .setAuthor("\u2000", message.author.displayAvatarURL({ format: "png" }))
         .setColor("PURPLE")
         .setDescription(`${message.author} ${language.f2} ${target}`)
-        .setFooter(`${language.f3}`);
+        .setFooter({ text: `${language.f3}` });
       message.channel
         .send({ embed })
         .then((m) => m.react("🇫"))

@@ -130,7 +130,7 @@ module.exports = class extends Event {
                     )
                     .addField("Before", oldMessage.content)
                     .addField("After", newMessage.content)
-                    .setFooter(`Member ID: ${newMessage.member.id}`)
+                    .setFooter({ text: `Member ID: ${newMessage.member.id}` })
                     .setColor(newMessage.guild.me.displayHexColor);
 
                   if (

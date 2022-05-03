@@ -3,7 +3,7 @@ const Guild = require("../../database/schemas/Guild");
 const { MessageEmbed } = require("discord.js");
 
 const ReactionRole = require("../../packages/reactionrole/models/schema");
-const config = require("../../config.json.js");
+const config = require("../../config.json");
 
 module.exports = class extends Command {
   constructor(...args) {
@@ -52,7 +52,7 @@ module.exports = class extends Command {
         .setColor(message.client.color.green)
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
         .setDescription(`The Current Guild has no Existing Reaction Roles!`)
-        .setFooter(`https://Aeona.xyz`);
+        .setFooter({ text: "https://Aeona.xyz/" });
 
       message.channel.send(wipeEmbed3);
 
@@ -65,7 +65,7 @@ module.exports = class extends Command {
       .setDescription(
         `Successfuly deleted **${results.length}** ${resultsHehe}`
       )
-      .setFooter(`https://Aeona.xyz`);
+      .setFooter({ text: "https://Aeona.xyz/" });
 
     message.channel.send(wipeEmbed);
   }

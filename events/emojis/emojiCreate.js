@@ -30,7 +30,7 @@ module.exports = class extends Event {
               .addField("Emoji Name", emoji.name, true)
               .addField("Emoji", emoji, true)
               .addField("Full ID", `\`<:${emoji.name}:${emoji.id}>\``, true)
-              .setFooter(`Emoji ID: ${emoji.id}`)
+              .setFooter({ text: `Emoji ID: ${emoji.id}` })
               .setTimestamp()
               .setColor(color);
 

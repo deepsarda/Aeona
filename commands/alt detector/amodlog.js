@@ -28,11 +28,13 @@ module.exports = class extends Command {
       message.guild.channels.cache.find((ch) => ch.name === args[0]) ||
       message.guild.channels.cache.get(args[0]);
     if (!channel)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(language.amodlogNotValidChannel)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(language.amodlogNotValidChannel),
+        ],
+      });
 
     await alt.findOne({ guildID: message.guild.id }, async (err, db) => {
       if (!db) {
@@ -48,26 +50,30 @@ module.exports = class extends Command {
 
         await newGuild.save();
 
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(client.color.green)
-            .setDescription(
-              language.amodlogSuccess.replace("{modLog}", "#" + channel.name)
-            )
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(client.color.green)
+              .setDescription(
+                language.amodlogSuccess.replace("{modLog}", "#" + channel.name)
+              ),
+          ],
+        });
       }
 
       await db.updateOne({
         altModlog: channel.id,
       });
 
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.green)
-          .setDescription(
-            language.amodlogSuccess.replace("{modLog}", "#" + channel.name)
-          )
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.green)
+            .setDescription(
+              language.amodlogSuccess.replace("{modLog}", "#" + channel.name)
+            ),
+        ],
+      });
     });
   }
 };

@@ -49,10 +49,10 @@ module.exports = class extends Command {
         `\`\`\`\n${array.join("\n\n")}\`\`\`` || "No Pending Applications Found"
       )
       .setColor(message.client.color.green)
-      .setFooter(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      .setFooter({
+        text: message.author.tag,
+        ixonURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
 
     if (array.length <= interval) {
       const range = array.length == 1 ? "[1]" : `[1 - ${array.length}]`;
@@ -64,18 +64,18 @@ module.exports = class extends Command {
               "No Pending Applications Found"
           )
           .setColor(message.client.color.green)
-          .setFooter(
-            message.author.tag,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
+          .setFooter({
+            text: message.author.tag,
+            ixonURL: message.author.displayAvatarURL({ dynamic: true }),
+          })
       );
     } else {
       embed
         .setTitle(`Applications - Review`)
-        .setFooter(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        );
+        .setFooter({
+          text: message.author.tag,
+          iconURL: message.author.displayAvatarURL({ dynamic: true }),
+        });
 
       new ReactionMenu(
         message.client,

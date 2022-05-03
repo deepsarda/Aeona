@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const warnModel = require("../../models/moderation.js");
 const mongoose = require("mongoose");
 const discord = require("discord.js");
@@ -64,32 +63,36 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!mentionedMember) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const mentionedPotision = mentionedMember.roles.highest.position;
     const memberPotision = message.member.roles.highest.position;
 
     if (memberPotision <= mentionedPotision) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     let reason = args.slice(1).join(" ");
@@ -104,16 +107,18 @@ module.exports = class extends Command {
       .catch((err) => console.log(err));
 
     if (!warnDoc || !warnDoc.warnings.length) {
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
-          .setTimestamp(message.createdAt)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
+            .setTimestamp(message.createdAt)
+            .setColor(client.color.red),
+        ],
+      });
     }
     await warnDoc.updateOne({
       modType: [],
@@ -183,7 +188,7 @@ module.exports = class extends Command {
                   .addField("User", mentionedMember, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${mentionedMember.id}`)
+                  .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
 

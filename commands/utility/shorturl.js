@@ -158,13 +158,15 @@ module.exports = class extends Command {
       ];
 
       if (!link)
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setDescription(
-              `${message.client.emoji.fail} | ${language.shortUrlError}`
-            )
-            .setColor(message.client.color.red)
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setDescription(
+                `${message.client.emoji.fail} | ${language.shortUrlError}`
+              )
+              .setColor(message.client.color.red),
+          ],
+        });
 
       if (
         link.includes("porn") ||
@@ -188,13 +190,15 @@ module.exports = class extends Command {
       }, 3600000 * 2);
 
       if (!rgx.test(args[0]))
-        return message.channel.send(
-          new discord.MessageEmbed()
-            .setDescription(
-              `${message.client.emoji.fail} | ${language.shortUrlError}`
-            )
-            .setColor(message.client.color.red)
-        );
+        return message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setDescription(
+                `${message.client.emoji.fail} | ${language.shortUrlError}`
+              )
+              .setColor(message.client.color.red),
+          ],
+        });
 
       await ShortUrl.create({
         full: link,
@@ -202,13 +206,15 @@ module.exports = class extends Command {
         guildID: message.guild.id,
         memberID: message.author.id,
       });
-      message.channel.send(
-        new discord.MessageEmbed()
-          .setDescription(
-            `${language.urlCreated}\n\n**Short Url:** [https://Aeona.xyz/url/${kaka}](https://Aeona.xyz/url/${kaka})\n**Full url:** ${args[0]}\n\n**Please note that by making urls you abide by our [policy](https://Aeona.xyz/url)**`
-          )
-          .setColor(message.client.color.blue)
-      );
+      message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${language.urlCreated}\n\n**Short Url:** [https://Aeona.xyz/url/${kaka}](https://Aeona.xyz/url/${kaka})\n**Full url:** ${args[0]}\n\n**Please note that by making urls you abide by our [policy](https://Aeona.xyz/url)**`
+            )
+            .setColor(message.client.color.blue),
+        ],
+      });
     }
   }
 };

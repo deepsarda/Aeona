@@ -34,11 +34,13 @@ module.exports = class extends Command {
     if (!joke.endsWith("!") && !joke.endsWith(".") && !joke.endsWith('"'))
       joke += "!";
     message.channel
-      .send(
-        new discord.MessageEmbed()
-          .setColor("GREEN")
-          .setDescription(`hey ${user}, ${joke}`)
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor("GREEN")
+            .setDescription(`hey ${user}, ${joke}`),
+        ],
+      })
       .catch(() => {});
   }
 };

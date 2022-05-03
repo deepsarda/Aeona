@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
@@ -86,29 +85,33 @@ module.exports = class extends Command {
       return message.channel.send(lockchannelError2);
     }
 
-    channel
-      .updateOverwrite(message.guild.me, { SEND_MESSAGES: true })
+    channel.permissionOverwrites
+      .edit(message.guild.me, { SEND_MESSAGES: true })
       .catch(() => {});
 
-    channel
-      .updateOverwrite(message.guild.id, { SEND_MESSAGES: true })
+    channel.permissionOverwrites
+      .edit(message.guild.id, { SEND_MESSAGES: true })
       .catch(() => {});
 
-    channel
-      .updateOverwrite(message.author.id, { SEND_MESSAGES: true })
+    channel.permissionOverwrites
+      .edit(message.author.id, { SEND_MESSAGES: true })
       .catch(() => {});
 
     if (member) {
-      channel.updateOverwrite(member, { SEND_MESSAGES: true }).catch(() => {});
+      channel.permissionOverwrites
+        .edit(member, { SEND_MESSAGES: true })
+        .catch(() => {});
     }
 
     if (memberr) {
-      channel.updateOverwrite(memberr, { SEND_MESSAGES: true }).catch(() => {});
+      channel.permissionOverwrites
+        .edit(memberr, { SEND_MESSAGES: true })
+        .catch(() => {});
     }
 
     if (verified) {
-      channel
-        .updateOverwrite(verified, { SEND_MESSAGES: true })
+      channel.permissionOverwrites
+        .edit(verified, { SEND_MESSAGES: true })
         .catch(() => {});
     }
 
@@ -122,7 +125,7 @@ module.exports = class extends Command {
       )
       .setColor(client.color.green);
     message.channel
-      .send(embed)
+      .send({ embeds: [embed] })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -174,7 +177,7 @@ module.exports = class extends Command {
                   .addField("Channel", channel, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${message.author.id}`)
+                  .setFooter({ text: `ID: ${message.author.id}` })
                   .setTimestamp()
                   .setColor(color);
 

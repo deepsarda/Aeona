@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 
 const ReactionRole = require("../../packages/reactionrole/index.js");
 const react = new ReactionRole();
-const config = require("../../config.json.js");
+const config = require("../../config.json");
 react.setURL(config.mongodb_url);
 
 module.exports = class extends Command {
@@ -34,13 +34,15 @@ module.exports = class extends Command {
     const prefix = guildDB.prefix;
 
     if (guildDB.isPremium == "false") {
-      return message.channel.send(
-        new MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setDescription(
-            `${fail} Slow down here, the current command is only for premium guilds.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
-          )
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setColor(message.guild.me.displayHexColor)
+            .setDescription(
+              `${fail} Slow down here, the current command is only for premium guilds.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
+            ),
+        ],
+      });
     }
 
     const missingPermEmbed = new MessageEmbed()
@@ -48,7 +50,7 @@ module.exports = class extends Command {
       .setDescription(
         `${fail} The following command the **Administrator** Permission`
       )
-      .setFooter(`https://Aeona.xyz`)
+      .setFooter({ text: "https://Aeona.xyz/" })
       .setColor(client.color.red);
 
     let properUsage = new MessageEmbed()
@@ -56,7 +58,7 @@ module.exports = class extends Command {
       .setDescription(
         `__**Proper Usage**__\n\n\`1-\` ${prefix}rrdm on\n\`2-\` ${prefix}rrdm off`
       )
-      .setFooter("https://Aeona.xyz");
+      .setFooter({ text: "https://Aeona.xyz/" });
 
     if (args.length < 1) {
       return message.channel.send(properUsage);
@@ -69,33 +71,36 @@ module.exports = class extends Command {
         },
         async (err, guild) => {
           if (guild.reactionDM === false)
-            return message.channel.send(
-              new MessageEmbed()
-                .setAuthor(
-                  message.author.tag,
-                  message.author.displayAvatarURL()
-                )
-                .setDescription(`${fail} DMs are already disabled`)
-                .setFooter(`https://Aeona.xyz`)
-                .setColor(client.color.red)
-            );
+            return message.channel
+              .send({
+                embeds: [
+                  new MessageEmbed()
+                    .setAuthor(
+                      message.author.tag,
+                      message.author.displayAvatarURL()
+                    )
+                    .setDescription(`${fail} DMs are already disabled`)
+                    .setFooter({ text: "https://Aeona.xyz/" }),
+                ],
+              })
+              .setColor(client.color.red);
+
           guild
             .updateOne({
               reactionDM: false,
             })
             .catch((err) => console.error(err));
-
-          message.channel.send(
-            new MessageEmbed()
-              .setAuthor(message.author.tag, message.author.displayAvatarURL())
-              .setDescription(
-                `${success} Reaction Role DMs have been disabled!`
-              )
-              .setFooter(`https://Aeona.xyz`)
-              .setColor(client.color.red)
-          );
         }
       );
+      message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setDescription(`${success} Reaction Role DMs have been disabled!`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(client.color.red),
+        ],
+      });
     } else if (args.includes("enable") || args.includes("on")) {
       await Guild.findOne(
         {
@@ -103,29 +108,38 @@ module.exports = class extends Command {
         },
         async (err, guild) => {
           if (guild.reactionDM === true)
-            return message.channel.send(
-              new MessageEmbed()
-                .setAuthor(
-                  message.author.tag,
-                  message.author.displayAvatarURL()
-                )
-                .setDescription(`${fail} DMs are already enabled`)
-                .setFooter(`https://Aeona.xyz`)
-                .setColor(client.color.red)
-            );
+            return message.channel.send({
+              embeds: [
+                new MessageEmbed()
+                  .setAuthor(
+                    message.author.tag,
+                    message.author.displayAvatarURL()
+                  )
+                  .setDescription(`${fail} DMs are already enabled`)
+                  .setFooter({ text: "https://Aeona.xyz/" })
+                  .setColor(client.color.red),
+              ],
+            });
           guild
             .updateOne({
               reactionDM: true,
             })
             .catch((err) => console.error(err));
 
-          message.channel.send(
-            new MessageEmbed()
-              .setAuthor(message.author.tag, message.author.displayAvatarURL())
-              .setDescription(`${success} Reaction Role DMs have been enabled!`)
-              .setFooter(`https://Aeona.xyz`)
-              .setColor(client.color.red)
-          );
+          message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  message.author.tag,
+                  message.author.displayAvatarURL()
+                )
+                .setDescription(
+                  `${success} Reaction Role DMs have been enabled!`
+                )
+                .setFooter({ text: "https://Aeona.xyz/" })
+                .setColor(client.color.red),
+            ],
+          });
         }
       );
     } else if (args[0]) {

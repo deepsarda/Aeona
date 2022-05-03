@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
@@ -62,32 +61,40 @@ module.exports = class extends Command {
       message.guild.members.cache.get(args[0]);
 
     if (!member)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (member.id === message.author.id)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.kickYourself}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.kickYourself}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banHigherRole}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.banHigherRole}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (!member.kickable)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.kickKickable}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.kickKickable}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     let reason = args.slice(1).join(" ");
     if (!reason) reason = `${language.noReasonProvided}`;
@@ -96,11 +103,15 @@ module.exports = class extends Command {
     await member
       .kick(`${reason} / Responsible user: ${message.author.tag}`)
       .catch((err) =>
-        message.channel.send(
-          new MessageEmbed()
-            .setColor(client.color.red)
-            .setDescription(`${client.emoji.fail} | An error occured: ${err}`)
-        )
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(client.color.red)
+              .setDescription(
+                `${client.emoji.fail} | An error occured: ${err}`
+              ),
+          ],
+        })
       );
 
     const embed = new MessageEmbed()
@@ -116,7 +127,7 @@ module.exports = class extends Command {
       .setColor(client.color.green);
 
     message.channel
-      .send(embed)
+      .send({ embeds: [embed] })
 
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
@@ -141,11 +152,13 @@ module.exports = class extends Command {
       }
 
       member
-        .send(
-          new MessageEmbed()
-            .setColor(message.client.color.red)
-            .setDescription(dmEmbed)
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.client.color.red)
+              .setDescription(dmEmbed),
+          ],
+        })
         .catch(() => {});
     }
 
@@ -191,7 +204,7 @@ module.exports = class extends Command {
                   .addField("User", member, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${member.id}`)
+                  .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
 

@@ -9,7 +9,7 @@ module.exports = {
   port: "5003",
 
   client_id: process.env.ID, // bot client ID
-  secret:process.env.SECERT, // bot client secret for auth
+  secret: process.env.SECERT, // bot client secret for auth
 };
 
 // for dashboard, read more on https://github.com/IgorKowalczyk/majobot

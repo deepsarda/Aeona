@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const Logging = require("../../database/schemas/logging.js");
 const mongoose = require("mongoose");
 
@@ -86,7 +85,7 @@ module.exports = class extends Command {
             .setColor(client.color.green);
 
           message.channel
-            .send(embed)
+            .send({ embeds: [embed] })
             .then(async (s) => {
               if (logging && logging.moderation.delete_reply === "true") {
                 setTimeout(() => {
@@ -139,7 +138,7 @@ module.exports = class extends Command {
                         .addField("User", u, true)
                         .addField("Moderator", message.member, true)
                         .addField("Reason", reason, true)
-                        .setFooter(`ID: ${u.id}`)
+                        .setFooter({ text: `ID: ${u.id}` })
                         .setTimestamp()
                         .setColor(color);
 
@@ -158,35 +157,47 @@ module.exports = class extends Command {
         })
         .catch((err) => {
           console.log(err);
-          return message.channel.send(
-            new MessageEmbed()
-              .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-              .setColor(client.color.red)
-          );
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setDescription(
+                  `${client.emoji.fail} | ${language.banUserValid}`
+                )
+                .setColor(client.color.red),
+            ],
+          });
         });
       return;
     }
 
     if (member.id === message.author.id)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banYourselfError}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.banYourselfError}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
 
     if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banHigherRole}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.banHigherRole}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     if (!member.bannable)
-      return message.channel.send(
-        new MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banBannable}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.banBannable}`)
+            .setColor(client.color.red),
+        ],
+      });
 
     let reason = args.slice(1).join(" ");
     if (!reason) reason = `${language.noReasonProvided}`;
@@ -195,11 +206,15 @@ module.exports = class extends Command {
     await member
       .ban({ reason: `${reason} / Responsible user: ${message.author.tag}` })
       .catch((err) =>
-        message.channel.send(
-          new MessageEmbed()
-            .setColor(client.color.red)
-            .setDescription(`${client.emoji.fail} | An error occured: ${err}`)
-        )
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(client.color.red)
+              .setDescription(
+                `${client.emoji.fail} | An error occured: ${err}`
+              ),
+          ],
+        })
       );
 
     let dmEmbed;
@@ -218,11 +233,13 @@ module.exports = class extends Command {
       }
 
       member
-        .send(
-          new MessageEmbed()
-            .setColor(message.client.color.red)
-            .setDescription(dmEmbed)
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.client.color.red)
+              .setDescription(dmEmbed),
+          ],
+        })
         .catch(() => {});
     }
 
@@ -267,7 +284,7 @@ module.exports = class extends Command {
       .setColor(client.color.green);
 
     message.channel
-      .send(embed)
+      .send({ embeds: [embed] })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -315,7 +332,7 @@ module.exports = class extends Command {
                   .addField("User", member, true)
                   .addField("Moderator", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${member.id}`)
+                  .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
 

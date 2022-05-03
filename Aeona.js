@@ -18,18 +18,20 @@ module.exports = class AeonaClient extends Client {
       disableMentions: "everyone",
       messageCacheMaxSize: 25,
       messageCacheLifetime: 10000,
-      messageSweepInterval: 12000,
       shardCount: 1,
-      ws: {
-        intents: [
-          "GUILDS",
-          "GUILD_MEMBERS",
-          "GUILD_MESSAGES",
-          "GUILD_EMOJIS",
-          "GUILD_MESSAGE_REACTIONS",
-          "GUILD_VOICE_STATES",
-        ],
-      },
+      intents: [
+        "GUILDS",
+        "GUILD_MEMBERS",
+        "GUILD_BANS",
+        "GUILD_EMOJIS_AND_STICKERS",
+        "GUILD_INTEGRATIONS",
+        "GUILD_WEBHOOKS",
+        "GUILD_INVITES",
+        "GUILD_VOICE_STATES",
+        "GUILD_MESSAGES",
+        "GUILD_MESSAGE_REACTIONS",
+        "GUILD_MESSAGE_TYPING",
+      ],
     });
 
     this.validate(options);

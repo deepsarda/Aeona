@@ -43,34 +43,41 @@ module.exports = class extends Command {
     let properUsage = new MessageEmbed()
       .setColor(message.guild.me.displayHexColor)
       .setDescription(`${language.reportt1.replace(/{prefix}/g, `${prefix}`)}`)
-      .setFooter("https://Aeona.xyz");
+      .setFooter({ text: "https://Aeona.xyz/" });
 
     if (args.length < 1) {
       return message.channel.send(properUsage);
     }
 
     if (args.includes("disable") || args.includes("off")) {
-      if (!message.member.hasPermission("MANAGE_MESSAGES"))
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} ${language.missingUser}`)
-            .setDescription(`${language.missingUser1}`)
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+      if (!message.member.permissions.has("MANAGE_MESSAGES"))
+        return message.channel
+          .send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setTitle(`${fail} ${language.missingUser}`)
+                .setDescription(`${language.missingUser1}`)
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          })
+          .setColor(message.guild.me.displayHexColor);
 
       if (guildDB.report.reportChannelID === null)
-        return message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(`${message.client.emoji.fail} ${language.report4}`)
-            .setFooter("https://Aeona.xyz")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `${message.client.emoji.fail} ${language.report4}`
+              )
+              .setFooter({ text: "https://Aeona.xyz/" }),
+          ],
+        });
       await Guild.findOne(
         {
           guildId: message.guild.id,
@@ -79,42 +86,49 @@ module.exports = class extends Command {
           guild.report.reportChannelID = null;
           await guild.save().catch(() => {});
 
-          return message.channel.send(
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.success} ${language.report5}`
-              )
-              .setFooter("https://Aeona.xyz")
-          );
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor(message.guild.me.displayHexColor)
+                .setDescription(
+                  `${message.client.emoji.success} ${language.report5}`
+                )
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          });
+          return;
         }
       );
-      return;
     } else if (args.includes("enable")) {
-      if (!message.member.hasPermission("MANAGE_MESSAGES"))
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} ${language.missingUser}`)
-            .setDescription(`${language.missingUser1}`)
-            .setTimestamp()
-            .setFooter("https://Aeona.xyz")
-            .setColor(message.guild.me.displayHexColor)
-        );
+      if (!message.member.permissions.has("MANAGE_MESSAGES"))
+        return message.channel
+          .send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setTitle(`${fail} ${language.missingUser}`)
+                .setDescription(`${language.missingUser1}`)
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" }),
+            ],
+          })
+          .setColor(message.guild.me.displayHexColor);
 
       const channel = await message.mentions.channels.first();
 
       if (!channel) return message.channel.send(properUsage);
       if (guildDB.report.reportChannelID === channel.id)
-        return message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(`${fail} ${channel} ${language.report6}`)
-            .setFooter("https://Aeona.xyz")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(`${fail} ${channel} ${language.report6}`)
+              .setFooter({ text: "https://Aeona.xyz/" }),
+          ],
+        });
       await Guild.findOne(
         {
           guildId: message.guild.id,
@@ -123,13 +137,15 @@ module.exports = class extends Command {
           guild.report.reportChannelID = channel.id;
           await guild.save().catch(() => {});
 
-          return message.channel.send(
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.success} ${language.report7} ${channel}`
-              )
-          );
+          return message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setColor(message.guild.me.displayHexColor)
+                .setDescription(
+                  `${message.client.emoji.success} ${language.report7} ${channel}`
+                ),
+            ],
+          });
         }
       );
     } else if (args.includes("issue")) {
@@ -140,62 +156,70 @@ module.exports = class extends Command {
             `Issue Reports are disabled in the current guild ${message.client.emoji.fail}`
           );
 
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
       }
       const serverReports = guildDB.report.reportChannelID;
       const channel = message.guild.channels.cache.get(serverReports);
       if (!channel)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report11}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report11}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       var acceptReason = args.splice(1).join(" ");
       if (!acceptReason)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report12}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report12}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (acceptReason.length < 5)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report13}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report13}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (acceptReason.length > 600 || args.join(" ").length > 600)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report14}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report14}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       let dmEmbed = new MessageEmbed()
         .setAuthor(
@@ -203,7 +227,7 @@ module.exports = class extends Command {
           message.author.displayAvatarURL({ format: "png" })
         )
         .setDescription(`${language.report15}`)
-        .setFooter("https://Aeona.xyz")
+        .setFooter({ text: "https://Aeona.xyz/" })
         .setTimestamp()
         .setColor(message.client.color.green);
 
@@ -225,10 +249,10 @@ module.exports = class extends Command {
           true
         )
         .addField(`${language.report27}`, `\`\`\`${acceptReason}\`\`\``)
-        .setFooter(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        )
+        .setFooter({
+          text: message.author.tag,
+          iconURL: message.author.displayAvatarURL({ dynamic: true }),
+        })
         .setTimestamp()
         .setColor(reportColor);
 
@@ -268,112 +292,128 @@ module.exports = class extends Command {
       message.author.send(dmEmbed).catch(() => {});
     } else if (args.includes("user")) {
       if (guildDB.report.disableUser == "true") {
-        message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `User Reports are disabled in the current guild ${message.client.emoji.fail}`
-            )
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `User Reports are disabled in the current guild ${message.client.emoji.fail}`
+              ),
+          ],
+        });
         return;
       }
       if (!user) return message.channel.send(properUsage);
       if (user.id === message.author.id)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report8}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report8}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (user.bot)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report9}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report9}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (
         !guildDB.report.reportChannelID ||
         !guildDB.report.reportChannelID === null
       )
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report10}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report10}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       let serverReports = guildDB.report.reportChannelID;
       let channel = message.guild.channels.cache.get(serverReports);
       if (!channel)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report11}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report11}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       var acceptReason = args.splice(2).join(" ");
       if (!acceptReason)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report12}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report12}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (acceptReason.length < 5)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report13}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report13}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       if (acceptReason.length > 600 || args.join(" ").length > 600)
-        return message.channel.send(
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ format: "png" })
-            )
-            .setDescription(`${fail} ${language.report14}`)
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-            .setColor("RED")
-        );
+        return message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor(
+                `${message.author.tag}`,
+                message.author.displayAvatarURL({ format: "png" })
+              )
+              .setDescription(`${fail} ${language.report14}`)
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp()
+              .setColor("RED"),
+          ],
+        });
 
       let dmEmbed = new MessageEmbed()
         .setAuthor(
@@ -381,7 +421,7 @@ module.exports = class extends Command {
           message.author.displayAvatarURL({ format: "png" })
         )
         .setDescription(`${language.report15}`)
-        .setFooter("https://Aeona.xyz")
+        .setFooter({ text: "https://Aeona.xyz/" })
         .setTimestamp()
         .setColor(message.client.color.green);
 
@@ -406,10 +446,10 @@ module.exports = class extends Command {
           true
         )
         .addField(`${language.report27}`, `\`\`\`${acceptReason}\`\`\``)
-        .setFooter(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        )
+        .setFooter({
+          text: message.author.tag,
+          iconURL: message.author.displayAvatarURL({ dynamic: true }),
+        })
         .setTimestamp()
         .setColor(reportColor);
 

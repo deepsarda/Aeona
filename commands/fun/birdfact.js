@@ -25,12 +25,14 @@ module.exports = class extends Command {
 
     const { fact } = data;
 
-    message.channel.send(
-      new MessageEmbed()
+    message.channel.send({
+      embeds: [
+        new MessageEmbed()
 
-        .setColor(message.client.color.blue)
-        .setDescription(`${fact}`)
-        .setFooter("/some-random-api/bird")
-    );
+          .setColor(message.client.color.blue)
+          .setDescription(`${fact}`)
+          .setFooter({ text: "/some-random-api/bird" }),
+      ],
+    });
   }
 };

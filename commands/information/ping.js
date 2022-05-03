@@ -25,9 +25,9 @@ module.exports = class extends Command {
     const embed = new MessageEmbed()
       .setDescription(`\`${language.pinging}\``)
       .setColor(message.guild.me.displayHexColor)
-      .setFooter(`Shard #${message.guild.shardID}`);
+      .setFooter({ text: `Powered By https://Aeona.xyz/` });
 
-    const msg = await message.channel.send(embed);
+    const msg = await message.channel.send({ embeds: [embed] });
 
     const latency = msg.createdTimestamp - message.createdTimestamp;
 
@@ -47,6 +47,6 @@ module.exports = class extends Command {
 
     embed.setDescription(`${koko}`);
     embed.setColor(color);
-    msg.edit(embed);
+    msg.edit({ embeds: [embed] });
   }
 };

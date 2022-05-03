@@ -26,28 +26,34 @@ module.exports = class extends Command {
 
     let days = args[0];
     if (!days)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(language.setdaysInvalidArg)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(language.setdaysInvalidArg),
+        ],
+      });
     if (isNaN(days))
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(language.setdaysInvalidArg)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(language.setdaysInvalidArg),
+        ],
+      });
 
     let day = Number(days);
 
     if (day > 100)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(client.color.red)
-          .setDescription(
-            `${message.client.emoji.fail} Please do not exceed the length of 100 days.`
-          )
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.red)
+            .setDescription(
+              `${message.client.emoji.fail} Please do not exceed the length of 100 days.`
+            ),
+        ],
+      });
 
     await alt.findOne(
       {
@@ -69,22 +75,26 @@ module.exports = class extends Command {
             console.log(err);
           });
 
-          return message.channel.send(
-            new discord.MessageEmbed()
-              .setColor(client.color.green)
-              .setDescription(language.setdaysSuccess)
-          );
+          return message.channel.send({
+            embeds: [
+              new discord.MessageEmbed()
+                .setColor(client.color.green)
+                .setDescription(language.setdaysSuccess),
+            ],
+          });
         }
 
         await db.updateOne({
           altDays: day,
         });
 
-        message.channel.send(
-          new discord.MessageEmbed()
-            .setColor(client.color.green)
-            .setDescription(language.setdaysSuccess)
-        );
+        message.channel.send({
+          embeds: [
+            new discord.MessageEmbed()
+              .setColor(client.color.green)
+              .setDescription(language.setdaysSuccess),
+          ],
+        });
       }
     );
   }

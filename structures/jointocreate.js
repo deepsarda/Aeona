@@ -132,7 +132,7 @@ module.exports = function (client) {
             vc.id
           );
 
-          await vc.overwritePermissions([
+          await vc.permissionOverwrites.set([
             {
               id: user.id,
               allow: ["MANAGE_CHANNELS"],

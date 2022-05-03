@@ -32,7 +32,7 @@ module.exports = class extends Event {
               .setDescription(`🆕 ***Role Created***`)
               .addField("Role", role, true)
               .addField("Role Name", role.name, true)
-              .setFooter(`Role ID: ${role.id}`)
+              .setFooter({ text: `Role ID: ${role.id}` })
               .setTimestamp()
               .setColor(color);
 

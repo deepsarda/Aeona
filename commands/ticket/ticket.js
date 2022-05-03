@@ -30,34 +30,38 @@ module.exports = class extends Command {
       async (err, db) => {
         if (!db) return;
         if (db.ticketType !== "message")
-          return message.channel.send(
-            new Discord.MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ format: "png" })
-              )
-              .setDescription(
-                `${message.client.emoji.fail} This Feature is disabled in the current guild`
-              )
-              .setFooter("https://Aeona.xyz")
-              .setTimestamp()
-              .setColor("RED")
-          );
+          return message.channel.send({
+            embeds: [
+              new discord.MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ format: "png" })
+                )
+                .setDescription(
+                  `${message.client.emoji.fail} This Feature is disabled in the current guild`
+                )
+                .setFooter({ text: "https://Aeona.xyz/" })
+                .setTimestamp()
+                .setColor("RED"),
+            ],
+          });
 
         if (db.ticketToggle == "false")
-          return message.channel.send(
-            new Discord.MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ format: "png" })
-              )
-              .setDescription(
-                `${message.client.emoji.fail} This Feature is disabled in the current guild`
-              )
-              .setFooter("https://Aeona.xyz")
-              .setTimestamp()
-              .setColor("RED")
-          );
+          return message.channel.send({
+            embeds: [
+              new discord.MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ format: "png" })
+                )
+                .setDescription(
+                  `${message.client.emoji.fail} This Feature is disabled in the current guild`
+                )
+                .setFooter({ text: "https://Aeona.xyz/" })
+                .setTimestamp()
+                .setColor("RED"),
+            ],
+          });
 
         let ticketRole = message.guild.roles.cache.get(db.supportRoleID);
         let ticketCategory = message.guild.channels.cache.get(db.categoryID);
@@ -72,19 +76,21 @@ module.exports = class extends Command {
 
         if (db.requireReason == "true") {
           if (!reason)
-            return message.channel.send(
-              new Discord.MessageEmbed()
-                .setAuthor(
-                  `${message.author.tag}`,
-                  message.author.displayAvatarURL({ format: "png" })
-                )
-                .setDescription(
-                  `${message.client.emoji.fail} Please provide a reason`
-                )
-                .setFooter("https://Aeona.xyz")
-                .setTimestamp()
-                .setColor("RED")
-            );
+            return message.channel.send({
+              embeds: [
+                new discord.MessageEmbed()
+                  .setAuthor(
+                    `${message.author.tag}`,
+                    message.author.displayAvatarURL({ format: "png" })
+                  )
+                  .setDescription(
+                    `${message.client.emoji.fail} Please provide a reason`
+                  )
+                  .setFooter({ text: "https://Aeona.xyz/" })
+                  .setTimestamp()
+                  .setColor("RED"),
+              ],
+            });
         }
 
         try {
@@ -105,18 +111,20 @@ module.exports = class extends Command {
           if (arraylength > ticketlimit || arraylength == ticketlimit) {
             message.react(client.emoji.fail);
             return message.channel
-              .send(
-                new discord.MessageEmbed()
-                  .setColor(client.color.red)
-                  .setDescription(
-                    `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
-                  )
-                  .setAuthor(
-                    message.author.tag,
-                    message.author.displayAvatarURL()
-                  )
-                  .setFooter("https://Aeona.xyz")
-              )
+              .send({
+                embeds: [
+                  new discord.MessageEmbed()
+                    .setColor(client.color.red)
+                    .setDescription(
+                      `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
+                    )
+                    .setAuthor(
+                      message.author.tag,
+                      message.author.displayAvatarURL()
+                    )
+                    .setFooter({ text: "https://Aeona.xyz/" }),
+                ],
+              })
               .then((m) => m.delete({ timeout: 5000 }));
           }
 
@@ -126,7 +134,7 @@ module.exports = class extends Command {
             .create(chann, { type: "text" })
             .then(async (chan) => {
               if (Aeona) {
-                chan.updateOverwrite(Aeona, {
+                chan.permissionOverwrites.edit(Aeona, {
                   VIEW_CHANNEL: true,
                   READ_MESSAGES: true,
                   SEND_MESSAGES: true,
@@ -134,12 +142,12 @@ module.exports = class extends Command {
                   ATTACH_FILES: true,
                 });
               }
-              chan
-                .updateOverwrite(message.guild.me, { SEND_MESSAGES: true })
+              chan.permissionOverwrites
+                .edit(message.guild.me, { SEND_MESSAGES: true })
                 .catch(() => {});
-              chan.updateOverwrite(everyone, { VIEW_CHANNEL: false });
+              chan.permissionOverwrites.edit(everyone, { VIEW_CHANNEL: false });
 
-              chan.updateOverwrite(user, {
+              chan.permissionOverwrites.edit(user, {
                 VIEW_CHANNEL: true,
                 READ_MESSAGES: true,
                 SEND_MESSAGES: true,
@@ -148,7 +156,7 @@ module.exports = class extends Command {
               });
 
               if (ticketRole) {
-                chan.updateOverwrite(ticketRole, {
+                chan.permissionOverwrites.edit(ticketRole, {
                   VIEW_CHANNEL: true,
                   READ_MESSAGES: true,
                   SEND_MESSAGES: true,
@@ -207,7 +215,7 @@ module.exports = class extends Command {
 
               const embedLog = new discord.MessageEmbed()
                 .setColor(color2)
-                .setFooter("https://Aeona.xyz")
+                .setFooter({ text: "https://Aeona.xyz/" })
                 .setTitle(language.ticketNewTicketTitle)
                 .setTimestamp()
                 //.addField("Information" , `**User:** ${user}\n**Ticket Channel: **${chan.name}\n**Ticket:** #${serverCase}\n**Date:** ${moment(new Date()).format("dddd, MMMM Do YYYY")} `)

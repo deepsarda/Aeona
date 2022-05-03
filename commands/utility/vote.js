@@ -43,24 +43,26 @@ module.exports = class extends Command {
     if (user && user.votes === 1) votes = "1 time";
     if (user && user.votes > 1) votes = `${user.votes} times`;
 
-    await message.channel.send(
-      new MessageEmbed()
-        .setDescription(
-          `__**Top.gg**__\n${
-            checkDBLVote
-              ? `\`In ${ms(user.lastVoted - Date.now() + DBL_INTERVAL, {
-                  long: true,
-                })}\``
-              : "[`Available Now!`](https://top.gg/bot/931226824753700934/vote)"
-          }\n\n__**Rewards:**__\n`
-        )
-        .setAuthor(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        )
-        .setColor(message.guild.me.displayHexColor)
-        .setFooter("https://Aeona.xyz")
-        .setTimestamp()
-    );
+    await message.channel.send({
+      embeds: [
+        new MessageEmbed()
+          .setDescription(
+            `__**Top.gg**__\n${
+              checkDBLVote
+                ? `\`In ${ms(user.lastVoted - Date.now() + DBL_INTERVAL, {
+                    long: true,
+                  })}\``
+                : "[`Available Now!`](https://top.gg/bot/931226824753700934/vote)"
+            }\n\n__**Rewards:**__\n`
+          )
+          .setAuthor(
+            message.author.tag,
+            message.author.displayAvatarURL({ dynamic: true })
+          )
+          .setColor(message.guild.me.displayHexColor)
+          .setFooter({ text: "https://Aeona.xyz/" })
+          .setTimestamp(),
+      ],
+    });
   }
 };

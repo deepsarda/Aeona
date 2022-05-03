@@ -134,7 +134,7 @@ module.exports = class extends Event {
                 message.author.displayAvatarURL({ dynamic: true })
               )
               .setTimestamp()
-              .setFooter(`ID: ${message.id}`)
+              .setFooter({ text: `ID: ${message.id}` })
               .setColor(message.guild.me.displayHexColor);
 
             if (message.content) {

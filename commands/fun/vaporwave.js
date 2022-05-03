@@ -34,10 +34,12 @@ module.exports = class extends Command {
       })
       .join("")
       .replace(/，/g, "  ");
-    message.channel.send(
-      new discord.MessageEmbed()
-        .setDescription(vaporwavefied)
-        .setColor(message.client.color.blue)
-    );
+    message.channel.send({
+      embeds: [
+        new discord.MessageEmbed()
+          .setDescription(vaporwavefied)
+          .setColor(message.client.color.blue),
+      ],
+    });
   }
 };

@@ -4,15 +4,9 @@ const logger = require("../../utils/logger");
 const Guild = require("../../database/schemas/Guild");
 const metrics = require("datadog-metrics");
 const Logging = require("../../database/schemas/logging");
-const config = require("../../config.json.js");
-const webhookClient = new Discord.WebhookClient(
-  config.webhook_id,
-  config.webhook_url
-);
-const welcomeClient = new Discord.WebhookClient(
-  config.webhook_id,
-  config.webhook_url
-);
+const config = require("../../config.json");
+const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
+const welcomeClient = new Discord.WebhookClient({ url: config.webhook_url });
 module.exports = class extends Event {
   async run(guild) {
     Guild.findOneAndDelete(
@@ -34,10 +28,10 @@ module.exports = class extends Event {
       .setDescription(`Aeona left a Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
-      .setFooter(
-        `${this.client.guilds.cache.size} guilds `,
-        "https://Aeona.xyz/logo.png"
-      );
+      .setFooter({
+        text: `${this.client.guilds.cache.size} guilds `,
+        iconURL: "https://Aeona.xyz/logo.png",
+      });
 
     welcomeClient.send({
       username: "Aeona",
@@ -61,11 +55,11 @@ module.exports = class extends Event {
     const embed = new Discord.MessageEmbed()
       .setColor("RED")
       .setDescription(`I have left the ${guild.name} server.`)
-      .setFooter(
-        `Lost ${guild.members.cache.size - 1} members • I'm now in ${
+      .setFooter({
+        text: `Lost ${guild.members.cache.size - 1} members • I'm now in ${
           this.client.guilds.cache.size
-        } servers..\n\nID: ${guild.id}`
-      )
+        } servers..\n\nID: ${guild.id}`,
+      })
       .setThumbnail(
         guild.iconURL({ dynamic: true })
           ? guild.iconURL({ dynamic: true })

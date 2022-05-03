@@ -42,7 +42,7 @@ module.exports = class extends Event {
                 )
                 .setTimestamp()
                 .setColor(colorGreen)
-                .setFooter(`ID: ${newMember.id}`)
+                .setFooter({ text: `ID: ${newMember.id}` })
                 .setDescription(
                   `**Added Roles**\n Role: ${role}\n User: ${newMember}\n\n ${newMember} Was given the **${role.name}** Role.`
                 );
@@ -70,7 +70,7 @@ module.exports = class extends Event {
                 )
                 .setTimestamp()
                 .setColor(colorRed)
-                .setFooter(`ID: ${newMember.id}`)
+                .setFooter({ text: `ID: ${newMember.id}` })
                 .setDescription(
                   `**Removed Roles**\n Role: ${role}\n User: ${newMember}\n\n The **${role.name}** role was removed from ${newMember}`
                 );
@@ -105,7 +105,7 @@ module.exports = class extends Event {
                   newMember.user.displayAvatarURL({ dynamic: true })
                 )
                 .setTimestamp()
-                .setFooter(`ID: ${newMember.id}`)
+                .setFooter({ text: `ID: ${newMember.id}` })
                 .setColor(colorYellow)
                 .setDescription(
                   `**Nickname Update**\n ${newMember}'s **nickname** was changed.`

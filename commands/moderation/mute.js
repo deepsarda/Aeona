@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const ms = require("ms");
 const muteModel = require("../../models/mute.js");
@@ -68,17 +67,21 @@ module.exports = class extends Command {
     );
 
     if (!mentionedMember) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
+            .setColor(client.color.red),
+        ],
+      });
     } else if (!msRegex.test(args[1])) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.muteTime}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.muteTime}`)
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     if (!muteRole) {
@@ -99,19 +102,25 @@ module.exports = class extends Command {
       mentionedMember.roles.highest.position >=
       message.guild.me.roles.highest.position
     ) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.muteRolePosition}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.muteRolePosition}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
     } else if (muteRole.position >= message.guild.me.roles.highest.position) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(
-            `${client.emoji.fail} | ${language.muteRolePositionBot}`
-          )
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(
+              `${client.emoji.fail} | ${language.muteRolePositionBot}`
+            )
+            .setColor(client.color.red),
+        ],
+      });
     }
 
     const isMuted = await muteModel.findOne({
@@ -120,11 +129,13 @@ module.exports = class extends Command {
     });
 
     if (isMuted) {
-      return message.channel.send(
-        new Discord.MessageEmbed()
-          .setDescription(`${client.emoji.fail} | ${language.muteMuted}`)
-          .setColor(client.color.red)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`${client.emoji.fail} | ${language.muteMuted}`)
+            .setColor(client.color.red),
+        ],
+      });
     }
     let reason = args.slice(1).join(" ");
     if (!reason) reason = `${language.noReasonProvided}`;
@@ -152,27 +163,31 @@ module.exports = class extends Command {
       }
 
       mentionedMember
-        .send(
-          new MessageEmbed()
-            .setColor(message.client.color.red)
-            .setDescription(dmEmbed)
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.client.color.red)
+              .setDescription(dmEmbed),
+          ],
+        })
         .catch(() => {});
     }
     message.channel
-      .send(
-        new Discord.MessageEmbed()
-          .setColor(message.client.color.green)
-          .setDescription(
-            `${message.client.emoji.success} | Muted **${
-              mentionedMember.user.tag
-            }** for **${msRegex.exec(args[1])[1]}** ${
-              logging && logging.moderation.include_reason === "true"
-                ? `\n\n**Reason:** ${reason}`
-                : ``
-            }`
-          )
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.client.color.green)
+            .setDescription(
+              `${message.client.emoji.success} | Muted **${
+                mentionedMember.user.tag
+              }** for **${msRegex.exec(args[1])[1]}** ${
+                logging && logging.moderation.include_reason === "true"
+                  ? `\n\n**Reason:** ${reason}`
+                  : ``
+              }`
+            ),
+        ],
+      })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -183,8 +198,8 @@ module.exports = class extends Command {
       .catch(() => {});
 
     for (const channel of message.guild.channels.cache) {
-      channel[1]
-        .updateOverwrite(muteRole, {
+      channel[1].permissionOverwrites
+        .edit(muteRole, {
           SEND_MESSAGES: false,
           CONNECT: false,
         })
@@ -261,7 +276,7 @@ module.exports = class extends Command {
                   .addField("User", mentionedMember, true)
                   .addField("Moderator", message.member, true)
                   .addField("Length", msRegex.exec(args[1])[1], true)
-                  .setFooter(`ID: ${mentionedMember.id}`)
+                  .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
 
@@ -336,7 +351,7 @@ module.exports = class extends Command {
                     )
                     .addField("User", mentionedMember, true)
                     .addField("Reason", "Mute Duration Expired", true)
-                    .setFooter(`ID: ${mentionedMember.id}`)
+                    .setFooter({ text: `ID: ${mentionedMember.id}` })
                     .setTimestamp()
                     .setColor(color);
 

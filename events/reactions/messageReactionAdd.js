@@ -74,7 +74,7 @@ module.exports = class extends Event {
           .setDescription(
             `You have recieved the **${rrRole.name}** Role by reacting in ${guildName}`
           )
-          .setFooter(`https://pogy.xyz`)
+          .setFooter({ text: "https://Aeona.xyz/" })
           .setColor(message.client.color.green);
 
         let remEmbed = new MessageEmbed()
@@ -86,7 +86,7 @@ module.exports = class extends Event {
           .setDescription(
             `You have removed the **${rrRole.name}** Role by reacting in ${guildName}`
           )
-          .setFooter(`https://pogy.xyz`)
+          .setFooter({ text: "https://Aeona.xyz/" })
           .setColor(message.client.color.green);
 
         let errorReaction = new MessageEmbed()
@@ -98,7 +98,7 @@ module.exports = class extends Event {
           .setDescription(
             `${message.client.emoji.fail} Failed to Add the role, since I'm Missing the Manage Roles Permission.\n\nPlease let an admin Know.`
           )
-          .setFooter(`https://pogy.xyz`)
+          .setFooter({ text: "https://Aeona.xyz/" })
           .setColor(message.client.color.green);
 
         if (reactionCooldown.has(user.id)) {
@@ -422,15 +422,17 @@ module.exports = class extends Event {
                 )
                   return;
                 message.channel
-                  .send(
-                    new discord.MessageEmbed()
-                      .setColor(message.client.color.red)
-                      .setDescription(
-                        `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
-                      )
-                      .setAuthor(user.tag, user.displayAvatarURL())
-                      .setFooter("https://pogy.xyz")
-                  )
+                  .send({
+                    embeds: [
+                      new discord.MessageEmbed()
+                        .setColor(message.client.color.red)
+                        .setDescription(
+                          `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
+                        )
+                        .setAuthor(user.tag, user.displayAvatarURL())
+                        .setFooter({ text: "https://Aeona.xyz/" }),
+                    ],
+                  })
                   .then((m) => m.delete({ timeout: 5000 }));
                 ticketCooldownLol.add(user.id);
                 setTimeout(() => {
@@ -440,7 +442,7 @@ module.exports = class extends Event {
                 return;
               }
 
-              let pogy = message.guild.me;
+              let Aeona = message.guild.me;
 
               let everyone = message.guild.roles.everyone;
 
@@ -490,7 +492,7 @@ module.exports = class extends Event {
                   topic: `**ID:** ${user.id} | **Tag:** ${user.tag}`,
                 })
                 .then(async (chan) => {
-                  await chan.updateOverwrite(user, {
+                  await chan.permissionOverwrites.edit(user, {
                     VIEW_CHANNEL: true,
                     READ_MESSAGES: true,
                     SEND_MESSAGES: true,
@@ -535,22 +537,25 @@ module.exports = class extends Event {
                       .setColor(color)
                   );
 
-                  chan.send(
-                    new MessageEmbed()
-                      .setDescription(
-                        `Please use \`${prefix}close\` to close the ticket.`
-                      )
-                      .setColor(message.client.color.red)
-                      .setFooter("https://pogy.xyz")
-                      .setTimestamp()
-                  );
+                  chan
+                    .send({
+                      embeds: [
+                        new MessageEmbed()
+                          .setDescription(
+                            `Please use \`${prefix}close\` to close the ticket.`
+                          )
+                          .setColor(message.client.color.red)
+                          .setFooter({ text: "https://Aeona.xyz/" }),
+                      ],
+                    })
+                    .setTimestamp();
 
                   let color2 = db.ticketLogColor;
                   if (color2 == "#000000") color2 = `#36393f`;
 
                   const embedLog = new discord.MessageEmbed()
                     .setColor(color2)
-                    .setFooter("https://pogy.xyz")
+                    .setFooter({ text: "https://Aeona.xyz/" })
                     .setTitle("Ticket Created")
                     .setTimestamp()
                     .addField(
@@ -577,13 +582,15 @@ module.exports = class extends Event {
                   )
                     return;
                   message.channel
-                    .send(
-                      new discord.MessageEmbed()
-                        .setColor(message.client.color.red)
-                        .setDescription(
-                          "There was an error creating the ticket, please check my permissions or contact support."
-                        )
-                    )
+                    .send({
+                      embeds: [
+                        new discord.MessageEmbed()
+                          .setColor(message.client.color.red)
+                          .setDescription(
+                            "There was an error creating the ticket, please check my permissions or contact support."
+                          ),
+                      ],
+                    })
                     .then((m) => m.delete({ timeout: 5000 }))
                     .catch(() => {});
                 });

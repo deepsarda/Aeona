@@ -31,10 +31,10 @@ module.exports = class extends Command {
 
     const embed = new MessageEmbed()
       .setAuthor(`${language.emoji1}`, message.guild.iconURL({ dynamic: true }))
-      .setFooter(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      )
+      .setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      })
       .setTimestamp()
       .setColor(message.guild.me.displayHexColor);
 
@@ -59,10 +59,10 @@ module.exports = class extends Command {
           `${language.emoji1}`,
           message.guild.iconURL({ dynamic: true })
         )
-        .setFooter(
-          message.author.tag,
-          message.author.displayAvatarURL({ dynamic: true })
-        );
+        .setFooter({
+          text: message.author.tag,
+          iconURL: message.author.displayAvatarURL({ dynamic: true }),
+        });
 
       new ReactionMenu(
         message.client,

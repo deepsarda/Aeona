@@ -38,59 +38,67 @@ module.exports = class extends Command {
       !guildDB.suggestion.suggestionChannelID ||
       !guildDB.suggestion.suggestionChannelID === null
     )
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ format: "png" })
-          )
-          .setDescription(`${fail} ${language.suggesting1}`)
-          .setFooter("https://Aeona.xyz")
-          .setTimestamp()
-          .setColor("RED")
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ format: "png" })
+            )
+            .setDescription(`${fail} ${language.suggesting1}`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setTimestamp()
+            .setColor("RED"),
+        ],
+      });
 
     let suggestion = guildDB.suggestion.suggestionChannelID;
     let channel = message.guild.channels.cache.get(suggestion);
     if (!channel)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ format: "png" })
-          )
-          .setDescription(`${fail} ${language.suggesting2}`)
-          .setFooter("https://Aeona.xyz")
-          .setTimestamp()
-          .setColor("RED")
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ format: "png" })
+            )
+            .setDescription(`${fail} ${language.suggesting2}`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setTimestamp()
+            .setColor("RED"),
+        ],
+      });
 
     let suggestionName = args.slice(0).join(" ");
     if (!suggestionName)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ format: "png" })
-          )
-          .setDescription(`${fail} ${language.suggest1}`)
-          .setFooter("https://Aeona.xyz")
-          .setTimestamp()
-          .setColor("RED")
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ format: "png" })
+            )
+            .setDescription(`${fail} ${language.suggest1}`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setTimestamp()
+            .setColor("RED"),
+        ],
+      });
 
     if (args.join(" ").length > 600)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ format: "png" })
-          )
-          .setDescription(`${fail} ${language.suggesting17}`)
-          .setFooter("https://Aeona.xyz")
-          .setTimestamp()
-          .setColor("RED")
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ format: "png" })
+            )
+            .setDescription(`${fail} ${language.suggesting17}`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setTimestamp()
+            .setColor("RED"),
+        ],
+      });
 
     let log = new discord.MessageEmbed()
       .setColor(suggestColor)
@@ -106,10 +114,10 @@ module.exports = class extends Command {
         true
       )
       .addField(`Suggestion`, `\`\`\`${suggestionName}\`\`\``)
-      .setFooter(
-        message.author.tag,
-        message.author.displayAvatarURL({ dynamic: true })
-      );
+      .setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
 
     if (guildDB.suggestion.suggestionChannelID !== null) {
       let channelLog = await message.guild.channels.cache.get(
@@ -127,7 +135,7 @@ module.exports = class extends Command {
       .setColor("PURPLE")
       .setTitle(`${language.suggesting3}`)
       .setDescription(suggestionName)
-      .setFooter(`${language.suggesting4} ${message.author.tag}`);
+      .setFooter({ text: `${language.suggesting4} ${message.author.tag}` });
 
     if (guildDB.isPremium == "false") {
       channel
@@ -159,16 +167,16 @@ module.exports = class extends Command {
             .replace(/{guild}/g, `${member.guild.name}`)
             .replace(/{suggestion}/g, `${suggestionName}`)}`
         )
-        .setFooter(
-          `${footer
+        .setFooter({
+          text: `${footer
             .replace(/{user}/g, `${member}`)
             .replace(/{user_tag}/g, `${member.user.tag}`)
             .replace(/{user_name}/g, `${member.user.username}`)
             .replace(/{user_ID}/g, `${member.id}`)
             .replace(/{guild_name}/g, `${member.guild.name}`)
             .replace(/{guild}/g, `${member.guild.name}`)
-            .replace(/{guild_ID}/g, `${member.guild.id}`)}`
-        );
+            .replace(/{guild_ID}/g, `${member.guild.id}`)}`,
+        });
 
       if (guildDB.suggestion.timestamp == "true") theEmbed.setTimestamp();
 
@@ -205,17 +213,19 @@ module.exports = class extends Command {
     }
 
     message.channel
-      .send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ format: "png" })
-          )
-          .setDescription(`${language.suggesting6} ${channel}`)
-          .setFooter("https://Aeona.xyz")
-          .setTimestamp()
-          .setColor("GREEN")
-      )
+      .send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ format: "png" })
+            )
+            .setDescription(`${language.suggesting6} ${channel}`)
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setTimestamp()
+            .setColor("GREEN"),
+        ],
+      })
       .then((k) => {
         if (guildDB.deleteSuggestion == "true") {
           message.delete().catch(() => {});

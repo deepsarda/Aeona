@@ -45,7 +45,7 @@ module.exports = class extends Event {
                 `**${messages.size} messages** in ${message.channel} were deleted.`
               )
               .setColor(message.guild.me.displayHexColor)
-              .setFooter(`${messages.size} Messages`);
+              .setFooter({ text: `${messages.size} Messages` });
 
             if (
               channelEmbed &&

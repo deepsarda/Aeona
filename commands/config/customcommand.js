@@ -28,36 +28,40 @@ module.exports = class extends Command {
     const namee = args[0];
 
     if (!namee)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(
-            `${language.properusage} \`${prefix}customcommand <command-name> <text-reply>\`\n\n${language.example} \`${prefix}customcommand ping pong\``
-          )
-          .setTimestamp()
-          .setFooter("https://aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(
+              `${language.properusage} \`${prefix}customcommand <command-name> <text-reply>\`\n\n${language.example} \`${prefix}customcommand ping pong\``
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     let name = namee.toLowerCase();
     const content = args.slice(1).join(" ");
     if (!content)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setDescription(
-            `${language.properusage} \`${prefix}customcommand <command-name> <text-reply>\`\n\n${language.example} \`${prefix}customcommand ping pong\``
-          )
-          .setTimestamp()
-          .setFooter("https://aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setDescription(
+              `${language.properusage} \`${prefix}customcommand <command-name> <text-reply>\`\n\n${language.example} \`${prefix}customcommand ping pong\``
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     if (namee.length > 30)
       return message.channel.send(
@@ -80,13 +84,15 @@ module.exports = class extends Command {
       const results = await customCommand.find(conditional);
 
       if (results.length >= 10) {
-        message.channel.send(
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} custom Command Limit Reached **(10)**\n\n[Upgrade Premium Here for unlimited commands](https://aeona.xyz/premium)`
-            )
-        );
+        message.channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setColor(message.guild.me.displayHexColor)
+              .setDescription(
+                `${message.client.emoji.fail} custom Command Limit Reached **(10)**\n\n[Upgrade Premium Here for unlimited commands](https://Aeona.xyz/premium)`
+              ),
+          ],
+        });
 
         return;
       }
@@ -100,19 +106,21 @@ module.exports = class extends Command {
       async (err, data) => {
         if (!data) {
           customCommand.create({ guildId: message.guild.id, name, content });
-          message.channel.send(
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setDescription(
-                `**${language.cc3}** ${name}\n\nDelete the following command using \`${prefix}deletecommand <command-name>\``
-              )
-              .setTimestamp()
-              .setFooter("https://aeona.xyz")
-              .setColor(message.guild.me.displayHexColor)
-          );
+          message.channel.send({
+            embeds: [
+              new MessageEmbed()
+                .setAuthor(
+                  `${message.author.tag}`,
+                  message.author.displayAvatarURL({ dynamic: true })
+                )
+                .setDescription(
+                  `**${language.cc3}** ${name}\n\nDelete the following command using \`${prefix}deletecommand <command-name>\``
+                )
+                .setTimestamp()
+                .setFooter({ text: "https://Aeona.xyz/" })
+                .setColor(message.guild.me.displayHexColor),
+            ],
+          });
         } else {
           return message.channel.send(
             `${message.client.emoji.fail} ${language.cc4}`

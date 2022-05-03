@@ -3,10 +3,7 @@ const Discord = require("discord.js");
 const { MessageEmbed } = require("discord.js");
 const logger = require("../../utils/logger");
 const config = require("../../config.json");
-const webhookClient = new Discord.WebhookClient(
-  config.webhook_id,
-  config.webhook_url
-);
+const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
 
 module.exports = class extends Event {
   constructor(...args) {
@@ -24,7 +21,7 @@ module.exports = class extends Event {
     const embed = new MessageEmbed()
       .setColor("RED")
       .setDescription(
-        `Pogy: [${this.client.shard.ids - 1 + 2}/${
+        `Aeona: [${this.client.shard.ids - 1 + 2}/${
           this.client.shard.count
         }] Disconnected`
       )

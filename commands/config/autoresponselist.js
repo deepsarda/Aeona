@@ -37,7 +37,7 @@ module.exports = class extends Command {
           .setColor("PURPLE")
           .setTitle(`${language.cc6}`)
           .setDescription(array.join(" - "))
-          .setFooter(message.guild.name);
+          .setFooter({ text: message.guild.name });
 
         if (!Array.isArray(array) || !array.length) {
           embed.setDescription(`${language.cc5}`);
@@ -45,7 +45,7 @@ module.exports = class extends Command {
           embed.setDescription(array.join(" - "));
         }
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       }
     );
   }

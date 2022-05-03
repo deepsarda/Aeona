@@ -29,16 +29,18 @@ module.exports = class extends Command {
 
     if (!message.channel.name.startsWith("ticket-"))
       return message.channel
-        .send(
-          new MessageEmbed()
-            .setColor("PURPLE")
-            .setTitle("Close a ticket")
-            .setDescription(
-              `Unable to close ticket, it seems like you aren't in any ticket channel.`
-            )
-            .setFooter("https://Aeona.xyz")
-            .setTimestamp()
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setColor("PURPLE")
+              .setTitle("Close a ticket")
+              .setDescription(
+                `Unable to close ticket, it seems like you aren't in any ticket channel.`
+              )
+              .setFooter({ text: "https://Aeona.xyz/" })
+              .setTimestamp(),
+          ],
+        })
         .then((m) => {
           message.delete().catch(() => {});
           setTimeout(() => {
@@ -66,19 +68,21 @@ module.exports = class extends Command {
                 (r) => r.name.toLowerCase() === role.name.toLowerCase()
               )
             )
-              return message.channel.send(
-                new discord.MessageEmbed()
-                  .setAuthor(
-                    `${message.author.tag}`,
-                    message.author.displayAvatarURL({ format: "png" })
-                  )
-                  .setDescription(
-                    `${message.client.emoji.fail} Only users with the support team role Can Close this Ticket`
-                  )
-                  .setFooter("https://Aeona.xyz")
-                  .setTimestamp()
-                  .setColor("RED")
-              );
+              return message.channel.send({
+                embeds: [
+                  new discord.MessageEmbed()
+                    .setAuthor(
+                      `${message.author.tag}`,
+                      message.author.displayAvatarURL({ format: "png" })
+                    )
+                    .setDescription(
+                      `${message.client.emoji.fail} Only users with the support team role Can Close this Ticket`
+                    )
+                    .setFooter({ text: "https://Aeona.xyz/" })
+                    .setTimestamp()
+                    .setColor("RED"),
+                ],
+              });
           }
         }
 

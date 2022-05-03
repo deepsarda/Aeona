@@ -1,7 +1,6 @@
 const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
-const Economy = require("../../models/economy.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
 
@@ -69,70 +68,78 @@ module.exports = class extends Command {
       index--;
     }
 
-    if (channel.type != "text" || !channel.viewable)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Slow Mode Error`)
-          .setDescription(`I can't view the provided channel`)
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+    if (channel.type != "GUILD_TEXT" || !channel.viewable)
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Slow Mode Error`)
+            .setDescription(`I can't view the provided channel`)
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     const rate = args[index];
     if (!rate || rate < 0 || rate > 59)
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Slow Mode Error`)
-          .setDescription(
-            ` Please provide a rate limit between 0 and 59 seconds`
-          )
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Slow Mode Error`)
+            .setDescription(
+              ` Please provide a rate limit between 0 and 59 seconds`
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     const number = parseInt(rate);
     if (isNaN(number)) {
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Slow Mode Error`)
-          .setDescription(
-            ` Please provide a rate limit between 0 and 59 seconds`
-          )
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Slow Mode Error`)
+            .setDescription(
+              ` Please provide a rate limit between 0 and 59 seconds`
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
     }
 
     if (!channel.permissionsFor(message.guild.me).has(["MANAGE_CHANNELS"]))
-      return message.channel.send(
-        new MessageEmbed()
-          .setAuthor(
-            `${message.author.tag}`,
-            message.author.displayAvatarURL({ dynamic: true })
-          )
-          .setTitle(`${fail} Slow Mode Error`)
-          .setDescription(
-            ` Please make sure I have the **Manage Channels** Permission`
-          )
-          .setTimestamp()
-          .setFooter("https://Aeona.xyz")
-          .setColor(message.guild.me.displayHexColor)
-      );
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+            .setAuthor(
+              `${message.author.tag}`,
+              message.author.displayAvatarURL({ dynamic: true })
+            )
+            .setTitle(`${fail} Slow Mode Error`)
+            .setDescription(
+              ` Please make sure I have the **Manage Channels** Permission`
+            )
+            .setTimestamp()
+            .setFooter({ text: "https://Aeona.xyz/" })
+            .setColor(message.guild.me.displayHexColor),
+        ],
+      });
 
     let reason = args.slice(index + 1).join(" ");
     if (!reason) reason = "No Reason was Provided";
@@ -142,23 +149,25 @@ module.exports = class extends Command {
     const status = channel.rateLimitPerUser ? "enabled" : "disabled";
     const embed = new MessageEmbed()
       .setTitle("Slowmode")
-      .setFooter(`To disable set the rate to 0`)
+      .setFooter({ text: `To disable set the rate to 0` })
       .setTimestamp()
       .setColor("GREEN");
 
     if (rate === "0") {
       message.channel
-        .send(
-          new MessageEmbed()
-            .setDescription(
-              `${success} Slow Mode was successfuly disabled${
-                logging && logging.moderation.include_reason === "true"
-                  ? `\n\n**Reason:** ${reason}`
-                  : ``
-              }`
-            )
-            .setColor(message.guild.me.displayHexColor)
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setDescription(
+                `${success} Slow Mode was successfuly disabled${
+                  logging && logging.moderation.include_reason === "true"
+                    ? `\n\n**Reason:** ${reason}`
+                    : ``
+                }`
+              )
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        })
         .then(async (s) => {
           if (logging && logging.moderation.delete_reply === "true") {
             setTimeout(() => {
@@ -169,17 +178,19 @@ module.exports = class extends Command {
         .catch(() => {});
     } else {
       message.channel
-        .send(
-          new MessageEmbed()
-            .setDescription(
-              `${success} | Slow Mode was successfuly enabled to **1 msg /${rate}s** ${
-                logging && logging.moderation.include_reason === "true"
-                  ? `\n\n**Reason:** ${reason}`
-                  : ``
-              }`
-            )
-            .setColor(message.guild.me.displayHexColor)
-        )
+        .send({
+          embeds: [
+            new MessageEmbed()
+              .setDescription(
+                `${success} | Slow Mode was successfuly enabled to **1 msg /${rate}s** ${
+                  logging && logging.moderation.include_reason === "true"
+                    ? `\n\n**Reason:** ${reason}`
+                    : ``
+                }`
+              )
+              .setColor(message.guild.me.displayHexColor),
+          ],
+        })
         .then(async (s) => {
           if (logging && logging.moderation.delete_reply === "true") {
             setTimeout(() => {
@@ -231,7 +242,7 @@ module.exports = class extends Command {
                   )
                   .addField("User", message.member, true)
                   .addField("Reason", reason, true)
-                  .setFooter(`ID: ${message.author.id}`)
+                  .setFooter({ text: `ID: ${message.author.id}` })
                   .setTimestamp()
                   .setColor(color);
 

@@ -36,11 +36,13 @@ module.exports = class extends Command {
         { size: 512 }
       )}`
     ).then((res) => res.json());
-    message.channel.send(
-      new discord.MessageEmbed()
-        .setColor(client.color.blue)
-        .setImage(data.message)
-    );
+    message.channel.send({
+      embeds: [
+        new discord.MessageEmbed()
+          .setColor(client.color.blue)
+          .setImage(data.message),
+      ],
+    });
 
     function match(msg, i) {
       if (!msg) return undefined;

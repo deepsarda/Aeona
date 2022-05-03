@@ -26,13 +26,15 @@ module.exports = class extends Command {
     const language = require(`../../data/language/${guildDB.language}.json`);
 
     if (guildDB.isPremium === "false") {
-      message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setDescription(
-            `${message.client.emoji.fail} | ${language.approvepremium}.\n\n[Check Premium Here](https://aeona.xyz/premium)`
-          )
-      );
+      message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.guild.me.displayHexColor)
+            .setDescription(
+              `${message.client.emoji.fail} | ${language.approvepremium}.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
+            ),
+        ],
+      });
 
       return;
     }
@@ -96,14 +98,16 @@ module.exports = class extends Command {
     if (add_role) {
       await member.roles.add(add_role).catch(() => {});
     }
-    message.channel.send(
-      new discord.MessageEmbed()
-        .setColor(message.client.color.green)
-        .setTitle(language.approveapplicationdoneapprovedtitle)
-        .setDescription(
-          `${client.emoji.success} | ${language.approveapplicationdoneapproveddescription} ${id}\n**Approved by:** ${message.author.tag}\n**Reason:** ${reason}`
-        )
-    );
+    message.channel.send({
+      embeds: [
+        new discord.MessageEmbed()
+          .setColor(message.client.color.green)
+          .setTitle(language.approveapplicationdoneapprovedtitle)
+          .setDescription(
+            `${client.emoji.success} | ${language.approveapplicationdoneapproveddescription} ${id}\n**Approved by:** ${message.author.tag}\n**Reason:** ${reason}`
+          ),
+      ],
+    });
     if (app.dm === true) {
       member
         .send(

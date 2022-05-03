@@ -24,11 +24,13 @@ module.exports = class extends Command {
     const rating = Math.floor(Math.random() * 10) + 0;
     const item = message.content.split(/\s+/g).slice(1).join(" ");
     if (!item)
-      return message.channel.send(
-        new discord.MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setDescription(`${language.rate1} ${rating}/10!`)
-      );
+      return message.channel.send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.guild.me.displayHexColor)
+            .setDescription(`${language.rate1} ${rating}/10!`),
+        ],
+      });
 
     if (item.length > 40) return message.channel.send(`${language.rate2}`);
 
@@ -36,13 +38,15 @@ module.exports = class extends Command {
       return message.channel.send(`${language.rate3}`);
 
     return message.channel
-      .send(
-        new discord.MessageEmbed()
-          .setColor(client.color.blue)
-          .setDescription(
-            `${language.rate4} **${item}** ${language.rate5} ${rating}/10!`
-          )
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(client.color.blue)
+            .setDescription(
+              `${language.rate4} **${item}** ${language.rate5} ${rating}/10!`
+            ),
+        ],
+      })
       .catch(() => {});
   }
 };
