@@ -1013,7 +1013,7 @@ window.onload = () => {
       picker.source.style.background = this.color(r, g, b);
     });
   }, 1000);
-
+  json.embeds=[json.embed];
   document.querySelector(".timeText").innerText = tstamp();
   document
     .querySelectorAll(".markup pre > code")
