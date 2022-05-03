@@ -7,5 +7,5 @@ module.exports = {
   prefix: "+", //prefix
   arc: null, //arc.io source (optional)
   webhook_id: "",
-  webhook_url: proccess.env.WEBHOOK_URL,
+  webhook_url: process.env.WEBHOOK_URL,
 };

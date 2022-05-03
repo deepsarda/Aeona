@@ -4,16 +4,17 @@
   "author": "",
   "license": "MIT",
   "keywords": [],
-  "description": "",
+  "description": "Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_",
   "main": "shard.js",
   "scripts": {
-    "node": "node shard.js",
+    "start": "node shard.js",
     "dev": "nodemon shard.js",
     "lavalink": "java -jar Lavalink.jar"
   },
   "devDependencies": {
     "eslint": "^7.6.0",
-    "eslint-config-tesseract": "^0.0.3"
+    "eslint-config-tesseract": "^0.0.3",
+    "node": "^16.14.2"
   },
   "dependencies": {
     "@top-gg/sdk": "^3.0.8",
@@ -76,5 +77,13 @@
     "youtube-search": "^1.1.6",
     "zalgo": "0.0.1",
     "zalgolize": "^1.2.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepsarda/Aeona.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deepsarda/Aeona/issues"
+  },
+  "homepage": "https://github.com/deepsarda/Aeona#readme"
 }
