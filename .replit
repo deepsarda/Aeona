@@ -1,0 +1,2 @@
+language = "nodejs"
+run = "while true; do node shard.js; sleep 0; done"

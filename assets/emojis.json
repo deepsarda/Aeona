@@ -1,0 +1,61 @@
+{
+  "image": "🖼️",
+  "currency": "₪",
+
+  "games": "🎮 ",
+  "admin": "🔨 ",
+  "configs": "<:settings:956753542608199721>  ",
+  "utils": "🧰 ",
+  "success": "<:success:956753542658535454>  ",
+
+  "green": ":green_square: ",
+  "red": ":red_square: ",
+
+  "dot": ":purple_cirlce: ",
+  "fail": ":x:  ",
+
+  "misc": ":speaker: ",
+  "mod": "🔨",
+  "music": "🎵",
+
+  "heartbreak": "💔 ",
+
+  "lock": ":lock: ",
+  "unlock": ":unlock: ",
+
+  "owner": "<:owner:956753542612406343> ",
+
+  "discord_employee": "<:discordemployee:956753542679519242> ",
+  "discord_partner": "<:discordpartner:956753542985682994> ",
+  "bughunter_level_1": "<:bug_hunter:956753542729850940>  ",
+  "bughunter_level_2": "<:bug_hunter_2:956753542868250664> ",
+  "hypesquad_events": "<:hypesquad:956753542675300422> ",
+  "house_brilliance": "<:brilliance:956753542813720596>  ",
+  "house_bravery": "<:hypesquad_bravery:956753542905991258> ",
+  "house_balance": "<:hypesquad_balance:956753542692081746>  ",
+  "early_supporter": "<:discord_early_supporter:956753542922788934> ",
+  "verified_bot": "<:bot:956753542700482670> ",
+  "verified_developer": "<:verified_bot_developer:956753543266713671> ",
+
+  "online": "<:online:956753542717259846> ",
+  "idle": "<:idle:956753542478172171>  ",
+  "offline": "<:offline:956753542817910804>  ",
+  "dnd": "<:dnd:956753542700466216> ",
+  "verify": "<:success:956753542658535454>",
+
+  "voice": "🔉 ",
+
+  "pong": "<:online:956753542717259846> ",
+
+  "altdetector": ":credit_card:",
+  "applications": "📝",
+  "config": "<:settings:956753542608199721>",
+  "utility": "🧰 ",
+  "economy": "₪ ",
+  "fun": ":laughing: ",
+  "images": "🖼️",
+  "information": "📝 ",
+  "moderation": "🔨 ",
+  "reactionrole": ":+1:",
+  "tickets": ":tickets: "
+}
