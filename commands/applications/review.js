@@ -70,12 +70,10 @@ module.exports = class extends Command {
           })
       );
     } else {
-      embed
-        .setTitle(`Applications - Review`)
-        .setFooter({
-          text: message.author.tag,
-          iconURL: message.author.displayAvatarURL({ dynamic: true }),
-        });
+      embed.setTitle(`Applications - Review`).setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
 
       new ReactionMenu(
         message.client,

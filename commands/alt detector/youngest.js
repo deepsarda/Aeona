@@ -91,12 +91,10 @@ module.exports = class extends Command {
           .setDescription(array.join("\n\n"))
       );
     } else {
-      embed
-        .setTitle(`Alt Detector - Join age < ${days} Days`)
-        .setFooter({
-          text: message.author.tag,
-          iconURL: message.author.displayAvatarURL({ dynamic: true }),
-        });
+      embed.setTitle(`Alt Detector - Join age < ${days} Days`).setFooter({
+        text: message.author.tag,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
 
       new ReactionMenu(
         message.client,
