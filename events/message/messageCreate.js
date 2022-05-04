@@ -21,6 +21,7 @@ const maintenanceCooldown = new Set();
 const metrics = require("datadog-metrics");
 const permissions = require("../../assets/json/permissions.json");
 const Maintenance = require("../../database/schemas/maintenance");
+const fetch = require("node-fetch");
 require("moment-duration-format");
 
 module.exports = class extends Event {
@@ -60,24 +61,35 @@ module.exports = class extends Event {
 
       if (!message.guild || message.author.bot) return;
 
-      const settings = await Guild.findOne(
+      let settings = await Guild.findOne(
         {
           guildId: message.guild.id,
         },
-        async (err, guild) => {
-          if (err) console.log(err);
-
-          if (!guild) {
-            const newGuild = await Guild.create({
-              guildId: message.guild.id,
-              prefix: config.prefix || "p!",
-              language: "english",
-            });
-          }
-        }
       );
 
-      //if (!settings) return message.channel.send('Oops, this server was not found in the database. Please try to run the command again now!');
+      if (!settings) { 
+        settings = new Guild({
+          guildId: message.guild.id,
+        });
+        await settings.save();
+      }
+
+      if(settings.aiAutoMod){
+          //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
+          let toxicity = await fetch(`https://Toxicity.aeona.repl.co/?sentence=${message.content}`);
+          let toxicityText = await toxicity.text();
+          
+          if(!toxicityText.includes("No")){
+                message.delete();
+                message.channel.send(`<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`).then(async (s) => {
+                    setTimeout(() => {
+                      s.delete().catch(() => {});
+                    }, 5000);
+                })
+                .catch(() => {});
+          }
+
+      }
 
       if (message.content.match(mentionRegex)) {
         const proofita = `\`\`\`css\n[     Prefix: ${
@@ -508,6 +520,7 @@ module.exports = class extends Event {
 
         if (config.datadogApiKey) {
           metrics.increment("commands_served");
+          metrics.increment("command." + command.name);
         }
 
         if (command.disabled)
@@ -529,6 +542,10 @@ module.exports = class extends Event {
           return this.client.emit("commandError", error, message, cmd);
         });
       } else {
+        if (config.datadogApiKey) {
+          metrics.increment("commands_served");
+          metrics.increment("command.chatbot");
+        }
         execute(message, prefix, 0);
       }
     } catch (error) {
@@ -720,6 +737,8 @@ async function execute(message, prefix, i) {
             webhook.send(
               `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`
             );
+            
+
             return;
           } catch (e) {
             console.log(e);

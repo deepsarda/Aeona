@@ -32,7 +32,9 @@ module.exports = class extends Event {
     if (maintenance && maintenance.toggle == "true") return;
 
     const member = message.guild.members.cache.get(user.id);
-
+    let guildDB = await GuildDB.findOne({
+      guildId: message.guild.id,
+    });
     await Db.findOne(
       {
         guildid: message.guild.id,

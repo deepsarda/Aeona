@@ -21,6 +21,11 @@ const guildConfigSchema = mongoose.Schema({
     required: false,
     default: false,
   },
+  aiAutoMod: {
+    type: mongoose.SchemaTypes.Boolean,
+    required: false,
+    default: false,
+  },
   premium: {
     redeemedBy: {
       id: { type: mongoose.SchemaTypes.String, default: null },
