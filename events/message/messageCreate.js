@@ -271,7 +271,7 @@ module.exports = class extends Event {
           if (maintenanceCooldown.has(message.author.id)) return;
 
           message.channel.send(
-            `Aeona is currently undergoing maintenance which won't allow anyone to access Aeona's Commands. Feel free to try again later. For updates: https://discord.gg/FqdH4sfKBg`
+            `Aeona is currently undergoing maintenance which won't allow anyone to access Aeona's Commands. Feel free to try again later.`
           );
 
           maintenanceCooldown.add(message.author.id);
@@ -459,7 +459,7 @@ module.exports = class extends Event {
                 `${this.client.user.tag}`,
                 message.client.user.displayAvatarURL({ dynamic: true })
               )
-              .setTitle(`<:wrong:822376943763980348> Missing Bot Permissions`)
+              .setTitle(`:x: Missing Bot Permissions`)
               .setDescription(
                 `Command Name: **${
                   command.name
@@ -485,7 +485,7 @@ module.exports = class extends Event {
                 `${message.author.tag}`,
                 message.author.displayAvatarURL({ dynamic: true })
               )
-              .setTitle(`<:wrong:822376943763980348> Missing User Permissions`)
+              .setTitle(`:x: Missing User Permissions`)
               .setDescription(
                 `Command Name: **${
                   command.name
@@ -512,7 +512,7 @@ module.exports = class extends Event {
 
         if (command.disabled)
           return message.channel.send(
-            `The owner has disabled the following command for now. Try again Later!\n\nFor Updates: https://discord.gg/w6YDhvXNcE`
+            `The owner has disabled the following command for now. Try again Later!\n\n`
           );
 
         Statcord.ShardingClient.postCommand(

@@ -73,3 +73,10 @@
 2022-05-04 04:22:04 [[32minfo[39m] [[36mCommand[39m] "+help owner" (help) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#separate-channel" (963054255701372998)
 2022-05-04 04:22:49 [[32minfo[39m] [[36mCommand[39m] "+eval console.log("hi")" (eval) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#separate-channel" (963054255701372998)
 2022-05-04 04:31:46 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-04 04:42:50 [[32minfo[39m] [[36mCommand[39m] "+restart" (restart) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#moderator-only" (942118536166383717)
+2022-05-04 04:42:59 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-04 04:46:51 [[32minfo[39m] [[36mCommand[39m] "+ban <@547905866255433758>" (ban) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#💬・global-chat" (971271415280070687)
+2022-05-04 04:48:34 [[32minfo[39m] [[36mCommand[39m] "+ban <@547905866255433758>" (ban) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#📛・moderation-logs" (970641155089920012)
+2022-05-04 04:50:09 [[32minfo[39m] [[36mCommand[39m] "+ban <@909130309767942214>" (ban) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#📛・moderation-logs" (970641155089920012)
+2022-05-04 04:50:36 [[32minfo[39m] [[36mCommand[39m] "+ban <@547905866255433758>" (ban) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#💬・general" (970641144293781525)
+2022-05-04 04:52:28 [[32minfo[39m] [[36mCommand[39m] "+ban <@765260885764997120>" (ban) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (909821178070335508) channel "#💬・general" (909821178070335511)
