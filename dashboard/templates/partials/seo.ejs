@@ -15,17 +15,17 @@
 <meta name="description" content="<%- description %>">
 
 <% if (image) { %>
-<meta property="og:image" content="https://<%= hostname %>/logo.png" />
-<% } %>
+    <meta property="og:image" content="https://<%= hostname %>/logo.png" />
+    <% } %>
 
-<meta name="twitter:card" content="summary">
-<meta name="twitter:url" content="https://<%= hostname %><%= path %>">
-<meta name="twitter:title" content="<%= title %>">
-<meta name="twitter:description" content="<%= description %>">
-<% if (verification != null) { %>
-<meta name="google-site-verification" content="<%= verification %>">
-<% } %>
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:url" content="https://<%= hostname %><%= path %>">
+        <meta name="twitter:title" content="<%= title %>">
+        <meta name="twitter:description" content="<%= description %>">
+        <% if (verification !=null) { %>
+            <meta name="google-site-verification" content="<%= verification %>">
+            <% } %>
 
-<% if(arc) { %>
-<script async src="<%= arc %>"></script>
-<% } %>
+                <% if(arc) { %>
+                    <script async src="<%= arc %>"></script>
+                    <% } %>
