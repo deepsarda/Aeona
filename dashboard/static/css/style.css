@@ -706,12 +706,7 @@ code {
 }
 
 
-input{
-  background-color:#55465bb5 !important;
-  color:#333;
-  padding:1px;
-}
-textarea{
+input,textarea,select{
   background-color:#55465bb5 !important;
   color:#333;
   padding:1px;

@@ -89,7 +89,7 @@ module.exports = class extends Command {
           embeds: [
             new discord.MessageEmbed()
               .setDescription(
-                `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/duBwdCvCwW)\n\n**Could not send your Reciept via dms so here it is:**\n**Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}\n\n**Please make sure to keep this information safe, you might need it if you ever wanna refund / transfer servers.**\n\n**Expires At:** ${expires}`
+                `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/SPcmvDMRrP)\n\n**Could not send your Reciept via dms so here it is:**\n**Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}\n\n**Please make sure to keep this information safe, you might need it if you ever wanna refund / transfer servers.**\n\n**Expires At:** ${expires}`
               )
               .setColor(message.guild.me.displayHexColor)
               .setFooter({ text: message.guild.name }),

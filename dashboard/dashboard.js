@@ -263,11 +263,11 @@ module.exports = async (client) => {
   });
 
   app.get("/support", (req, res) => {
-    res.redirect(`https://discord.gg/duBwdCvCwW`);
+    res.redirect(`https://discord.gg/SPcmvDMRrP`);
   });
 
   app.get("/server", (req, res) => {
-    res.redirect(`https://discord.gg/duBwdCvCwW`);
+    res.redirect(`https://discord.gg/SPcmvDMRrP`);
   });
 
   app.get("/invite", function (req, res) {

@@ -76,7 +76,7 @@ module.exports = class extends Command {
       .setTitle("Bug Report")
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `${language.report3} Support [**Server**](https://discord.gg/w6YDhvXNcE)`
+        `${language.report3} Support [**Server**](https://discord.gg/SPcmvDMRrP)`
       )
       .addField("Member", message.member, true)
       .addField("Message", report, true)

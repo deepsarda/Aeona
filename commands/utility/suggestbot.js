@@ -80,7 +80,7 @@ module.exports = class extends Command {
       .setTitle("Bot Suggestions")
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(
-        `${language.suggest3} Support [**Server**](https://discord.gg/duBwdCvCwW)`
+        `${language.suggest3} Support [**Server**](https://discord.gg/SPcmvDMRrP)`
       )
       .addField("Member", message.member, true)
       .addField("Message", report, true)
