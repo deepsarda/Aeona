@@ -1,4 +1,11 @@
 <%- include("partials/head", { arc, bot, user, path, title: "Aeona - Dashboard" }) %>
+<style>
+  body{
+  background-attachment: fixed;
+  background-position: center;
+  background-image: url("../svg/background.svg")!important;
+}
+  </style>
 <div class="content">
 
 <h2>SELECT A SERVER</h2>
@@ -45,7 +52,7 @@
 
   <% }); %>
   <% user.guilds.forEach(guild => {
- const permsOnGuild = new perms(guild.permissions);
+ const permsOnGuild = new perms(guild.permissions.toString());
  if(!permsOnGuild.has("MANAGE_GUILD")) {
  return
  }

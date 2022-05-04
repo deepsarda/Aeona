@@ -151,6 +151,9 @@ body {
   justify-content: center;
   margin-right: auto;
   margin-left: auto;
+  background-attachment: fixed;
+  background-position: center;
+  background-image: url("../svg/background.svg");
 }
 
 .content {

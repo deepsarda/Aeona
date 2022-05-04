@@ -12,7 +12,7 @@
     <section class="footer-item">
       <h1>Aeona</h1>
        
-      <h2>Aeona is a multi-purpose discord bot <br>ready to skill up and boost up <br>your Discord server! <br> With an state of the art AI Chatbot be sure to never get bored!</h2>
+      <h2>Aeona is a multi-purpose discord bot <br>ready to skill up and boost up <br>your Discord server!</h2>
       <br>
     </section>
         
@@ -41,8 +41,8 @@
     </section>
         
     <section class="footer-item">
-        
-        <a href="/contact"><h3>Contact</h3></a>
+        <h3>Contact</h3>
+        <p><i class="fab" style="font-size:16px"> &#xf392; </i> LoneWolf#0022<br><a href="/contact">or here</a></p>
     </section>
         
     <section class="footer-item">
@@ -62,12 +62,7 @@
   </nav>
  
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-    new Crate({
-    server: '942062344840822824',
-    location: ['bottom', 'right'] 
-  })
-  </script>
+
 <div class="ready">
   <button class="right" onclick="PopupCenter('<%= `${https}discordapp.com/oauth2/authorize?client_id=931226824753700934&scope=bot&response_type=code&redirect_uri=${encodeURIComponent(`${domain}/thanks`)}&permissions=490073207` %>', 'Add Aeona to your server.', 500, 666)">Invite Me</button>
   
@@ -78,7 +73,6 @@
   </div>
 
 <style>
-
 #return-to-top {
     border:none;
     position: fixed;
@@ -120,9 +114,6 @@
     color: #fff;
     top: 5px;
 }
-
-
-
 .right{
 position: absolute;
 right: 0;
@@ -153,17 +144,16 @@ box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
   margin-left: 120px;
 }
 footer {
-    background-color: #2222221f;
+    background-color: #222222;
     font-family: "Lato", sans-serif;
     padding: 85px 0 285px 0;
-
+    border: 5px solid #2f2f2f;
     border-radius: 5px;
     margin-left: 80px;
     
     margin-right: 80px;
     
 }
-
 .footer-inner {
     width: 90%;
     margin-left: auto;
@@ -172,21 +162,17 @@ footer {
     max-width: 1170px;
     position: relative;
 }
-
 .footer-item {
     float: left;
     margin: 0 7.2% 0 0;
 }
-
 .footer-item:nth-of-type(4) {
     display: none;
 }
-
 .footer-item:nth-of-type(7) {
     float: right;
     margin-right: 0;
 }
-
 .footer-button {
     color: white;
     position: relative;
@@ -217,7 +203,6 @@ footer {
     width: 112px;
     right: 0px;
 }
-
 h1 {
     font-weight: 900;
     color: white;
@@ -249,7 +234,6 @@ h3 {
     padding-bottom: 9px;
     letter-spacing: 0.03em;
 }
-
 h3.desktop {
     padding-top: 30px;
 }
@@ -287,7 +271,6 @@ a:hover {
 .desktop {
     display: auto;
 }
-
 .footer-inner:after {
     content: "© 2021 Aeona, All rights reserved";
     font-weight: 300;
@@ -299,59 +282,48 @@ a:hover {
     clear: both;
     display: block;
 }
-
 @media (max-width: 1024px) {
   
 footer {
     padding: 50px 0 70px 0 !important;
 }
-
 .footer-inner {
     border-bottom: 1px solid #333;
     padding-bottom: 490px;
     margin-bottom: 50px;
 }
-
 .footer-item {
     margin: 0 0 42px 0;
     width: 50%;
 }
-
 .footer-item:nth-of-type(1) {
     border-bottom: 1px solid #333;
     padding-bottom: 32px;
     float: none;
     width: 100%;
 }
-
 .footer-item:nth-of-type(2) {
     clear: both;
 }
-
 .footer-item:nth-of-type(4) {
     clear: both;
     display: block;
 }
-
 .footer-item:nth-of-type(6) {
     clear: both;
 }
-
 .footer-item:nth-of-type(7) {
     clear: both;
     float: left;
     margin: 20px 0 0 -13px;
 }
-
 .desktop {
     display: none;
 }
-
 .footer-inner:after {
     top: 730px;
 }
 }
-
 .hover {
 width:200px;
 height: 200px;
@@ -369,7 +341,6 @@ animation: hover 3s infinite linear;
 #mobileScreen {
 display: block;
 }
-
 @media only screen and (max-width: 1024px) {
   #mobileScreen {
     display: none;
