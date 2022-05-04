@@ -1013,7 +1013,7 @@ window.onload = () => {
       picker.source.style.background = this.color(r, g, b);
     });
   }, 1000);
-  
+
   document.querySelector(".timeText").innerText = tstamp();
   document
     .querySelectorAll(".markup pre > code")
@@ -1027,7 +1027,7 @@ window.onload = () => {
         () => el.target.closest(".done").classList.remove("sent"),
         3000
       );
-      json.embeds=[json.embed];
+      json.embeds = [json.embed];
       fetch(`/dashboard/${guildID}/embeds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

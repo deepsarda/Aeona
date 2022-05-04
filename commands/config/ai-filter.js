@@ -7,7 +7,8 @@ module.exports = class extends Command {
     super(...args, {
       name: "ai-filter",
       aliases: ["aifilter", "filter"],
-      description: "Automatically filter the messages that come in order to stay within the Discord TOS.",
+      description:
+        "Automatically filter the messages that come in order to stay within the Discord TOS.",
       category: "Config",
       usage: ["<enable | disable>"],
       examples: ["anti-invites enable", "anti-invites disable"],
@@ -21,10 +22,13 @@ module.exports = class extends Command {
       guildId: message.guild.id,
     });
 
-    if(!guildDB) return message.channel.send("This guild is not in the database.");
+    if (!guildDB)
+      return message.channel.send("This guild is not in the database.");
 
-    if(guildDB.isPremium === "false" ){
-        return message.channel.send("This guild is not premium. \n Get premium for free at https://Aeona.xyz/reedem");
+    if (guildDB.isPremium === "false") {
+      return message.channel.send(
+        "This guild is not premium. \n Get premium for free at https://Aeona.xyz/reedem"
+      );
     }
     if (args.length < 1) {
       return message.channel.send({
@@ -72,7 +76,7 @@ module.exports = class extends Command {
         async (err, guild) => {
           guild
             .updateOne({
-                aiAutoMod: false,
+              aiAutoMod: false,
             })
             .catch((err) => console.error(err));
 
@@ -109,7 +113,7 @@ module.exports = class extends Command {
         async (err, guild) => {
           guild
             .updateOne({
-                aiAutoMod: true,
+              aiAutoMod: true,
             })
             .catch((err) => console.error(err));
 

@@ -619,7 +619,7 @@ module.exports = async (client) => {
   app.get("/dashboard", checkAuth, (req, res) => {
     const server = client.guilds.cache.get("942062344840822824");
     let user = server.members.cache.has(req.user.id);
-    
+
     renderTemplate(res, req, "dashboard.ejs", {
       perms: Discord.Permissions,
       userExists: user,
@@ -1951,8 +1951,8 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    let members=[];
-    guild.members.cache.forEach(member=>members.push(member));
+    let members = [];
+    guild.members.cache.forEach((member) => members.push(member));
     renderTemplate(res, req, "./new/mainmembers.ejs", {
       guild: guild,
       members: members,
@@ -1978,8 +1978,8 @@ module.exports = async (client) => {
           .includes(req.query.filter.toLowerCase());
       });
     }
-    let members1=[];
-    guild.members.cache.forEach(member=>members1.push(member));
+    let members1 = [];
+    guild.members.cache.forEach((member) => members1.push(member));
     const memberArray = members1.slice(start, start + limit);
 
     const returnObject = [];

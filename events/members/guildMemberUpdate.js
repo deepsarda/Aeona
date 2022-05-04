@@ -54,7 +54,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send({embeds:[embed]}).catch(() => {});
+                channelEmbed.send({ embeds: [embed] }).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);
@@ -82,7 +82,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send({embeds:[embed]}).catch(() => {});
+                channelEmbed.send({ embeds: [embed] }).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);
@@ -119,7 +119,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send({embeds:[embed]}).catch(() => {});
+                channelEmbed.send({ embeds: [embed] }).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);

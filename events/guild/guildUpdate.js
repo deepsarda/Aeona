@@ -110,7 +110,7 @@ module.exports = class extends Event {
                 .permissionsFor(newGuild.me)
                 .has(["SEND_MESSAGES", "EMBED_LINKS"])
             ) {
-              channelEmbed.send({embeds:[embed]}).catch(() => {});
+              channelEmbed.send({ embeds: [embed] }).catch(() => {});
             }
           }
         }

@@ -5,7 +5,7 @@ const Statcord = require("statcord.js");
 const moment = require("moment");
 const discord = require("discord.js");
 const config = require("../../config.json.js");
-const { MessageEmbed,WebhookClient } = require("discord.js");
+const { MessageEmbed, WebhookClient } = require("discord.js");
 const logger = require("../../utils/logger");
 const mongoose = require("mongoose");
 const Guild = require("../../database/schemas/Guild");
@@ -44,7 +44,7 @@ module.exports = class extends Event {
   }
 
   async run(message) {
-    let client=message.client;
+    let client = message.client;
     try {
       if (!message.guild) return;
 
@@ -61,34 +61,37 @@ module.exports = class extends Event {
 
       if (!message.guild || message.author.bot) return;
 
-      let settings = await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-      );
+      let settings = await Guild.findOne({
+        guildId: message.guild.id,
+      });
 
-      if (!settings) { 
+      if (!settings) {
         settings = new Guild({
           guildId: message.guild.id,
         });
         await settings.save();
       }
 
-      if(settings.aiAutoMod){
-          //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
-          let toxicity = await fetch(`https://Toxicity.aeona.repl.co/?sentence=${message.content}`);
-          let toxicityText = await toxicity.text();
-          
-          if(!toxicityText.includes("No")){
-                message.delete();
-                message.channel.send(`<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`).then(async (s) => {
-                    setTimeout(() => {
-                      s.delete().catch(() => {});
-                    }, 5000);
-                })
-                .catch(() => {});
-          }
+      if (settings.aiAutoMod) {
+        //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
+        let toxicity = await fetch(
+          `https://Toxicity.aeona.repl.co/?sentence=${message.content}`
+        );
+        let toxicityText = await toxicity.text();
 
+        if (!toxicityText.includes("No")) {
+          message.delete();
+          message.channel
+            .send(
+              `<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`
+            )
+            .then(async (s) => {
+              setTimeout(() => {
+                s.delete().catch(() => {});
+              }, 5000);
+            })
+            .catch(() => {});
+        }
       }
 
       if (message.content.match(mentionRegex)) {
@@ -737,7 +740,6 @@ async function execute(message, prefix, i) {
             webhook.send(
               `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`
             );
-            
 
             return;
           } catch (e) {

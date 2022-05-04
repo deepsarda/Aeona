@@ -19,7 +19,7 @@ jointocreate(client);
 Aeona.react = new Map();
 Aeona.fetchforguild = new Map();
 
-if (config.dashboard ) {
+if (config.dashboard) {
   const Dashboard = require("./dashboard/dashboard");
   Dashboard(client);
 }
@@ -88,4 +88,4 @@ setInterval(async () => {
 
   await updater.autoUpdate();
   updating = false;
-}, 60 * 1000*5);
+}, 60 * 1000 * 5);

@@ -1,4 +1,4 @@
-<%- include("partials/head", {arc, bot, user, path, title: "Pogy - Commands" }) %>
+<%- include("partials/head", {arc, bot, user, path, title: "Aeona - Commands" }) %>
 <html>
    <head>
       <meta charset="UTF-8">
@@ -8,15 +8,15 @@
    
   <% var url = urlSite;
   let prefix = new URL(url).searchParams.get("prefix") 
-  if(!prefix || prefix === null) prefix = `p!`
-  if(prefix.length > 5) prefix = `p!` %> 
+  if(!prefix || prefix === null) prefix = `+`
+  if(prefix.length > 5) prefix = `+` %> 
 
 
    </head>
    
    <body class="zoomed">
       </header>
-      <!-- <div class="cmdsBox" >
+       <div class="cmdsBox" >
          <div class="cmdsBoxInner">
             <header>
                <div class="menuIcon">
@@ -1174,7 +1174,7 @@
             </div>
          </div>
     
-      </div> -->
+      </div> 
       <h1 style="position: fixed; top: 50%; left: 50%;">Soon</h1>
   
    </body>

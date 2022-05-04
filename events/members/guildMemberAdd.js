@@ -72,7 +72,7 @@ module.exports = class extends Event {
                 .permissionsFor(member.guild.me)
                 .has(["SEND_MESSAGES", "EMBED_LINKS"])
             ) {
-              channelEmbed.send({embeds:[embed]}).catch(() => {});
+              channelEmbed.send({ embeds: [embed] }).catch(() => {});
             }
           }
         }
@@ -248,7 +248,7 @@ module.exports = class extends Event {
             image = member.user.displayAvatarURL({ dynamic: true, size: 512 });
           if (image !== null) embed.setImage(image);
 
-          member.send({embeds:[embed]}).catch(() => {});
+          member.send({ embeds: [embed] }).catch(() => {});
         }
       }
       if (welcome.welcomeDM == "false") {
@@ -376,7 +376,7 @@ module.exports = class extends Event {
                   .permissionsFor(member.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                greetChannel.send({embeds:[embed]}).catch(() => {});
+                greetChannel.send({ embeds: [embed] }).catch(() => {});
               }
             }
           }

@@ -44,7 +44,7 @@ module.exports = class extends Event {
               )
               .setTimestamp()
               .setColor(member.guild.me.displayHexColor);
-            channelEmbed.send({embeds:[embed]}).catch(() => {});
+            channelEmbed.send({ embeds: [embed] }).catch(() => {});
           }
         }
       }
@@ -177,7 +177,7 @@ module.exports = class extends Event {
             });
           if (thumbnail !== null) embed.setThumbnail(thumbnail);
 
-          member.send({embeds:[embed]}).catch(() => {});
+          member.send({ embeds: [embed] }).catch(() => {});
         }
       }
       if (leave.leaveDM == "false") {
@@ -282,7 +282,7 @@ module.exports = class extends Event {
                 });
               if (thumbnail !== null) embed.setThumbnail(thumbnail);
 
-              greetChannel.send({embeds:[embed]}).catch(() => {});
+              greetChannel.send({ embeds: [embed] }).catch(() => {});
             }
           }
         }

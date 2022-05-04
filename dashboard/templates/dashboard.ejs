@@ -45,7 +45,7 @@
 
   <% }); %>
   <% user.guilds.forEach(guild => {
- const permsOnGuild = new perms(guild.permissions.toString());
+ const permsOnGuild = new perms(guild.permissions);
  if(!permsOnGuild.has("MANAGE_GUILD")) {
  return
  }

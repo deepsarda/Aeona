@@ -13,8 +13,8 @@
 		<ul class="nav-list">
 			<li class="nav-list-item"><a href="/" class="nav-link">Home</a></li>
 			<li class="nav-list-item"><a href="/support" class="nav-link">Support</a></li>
-      		<li class="nav-list-item"><a href="/dashboard" class="nav-link">Stats</a></li>
-			
+      		<li class="nav-list-item"><a href="/stats" class="nav-link">Stats</a></li>
+			<li class="nav-list-item"><a href="/commands" class="nav-link">Commands</a></li>
 
 		</ul>
 	</nav>
@@ -22,7 +22,7 @@
 <ul class="menu">
 <% if (user) { %>
 <li><a href="https://<%= hostname %>/server" target="_blank" rel="noopener">Support</a></li>
- <li><a href="https://<%= hostname %>/dashboard" target="_blank" rel="noopener">Dashboard</a></li>
+ <li><a href="https://<%= hostname %>/commands" target="_blank" rel="noopener">Commands</a></li>
 <% if (user.avatar) {
  avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=128";
 } else {
@@ -32,8 +32,9 @@
 <a class="avatar-container dropdownHead" id="dropdownHead" onclick="dropdown(this)"><img class="user-avatar" src="<%= avatar %>"/><span class="user-name"><%= user.username %>#<%= user.discriminator %></span></a>
 <% } else { %>
 
-
+ <li><a href="https://<%= hostname %>/stats" target="_blank" rel="noopener">Stats</a></li>
  <li><a href="https://<%= hostname %>/support" target="_blank" rel="noopener">Support</a></li>
+ <li><a href="https://<%= hostname %>/commands" target="_blank" rel="noopener">Commands</a></li>
  <li><a href="https://<%= hostname %>/login">Login</a></li>
 <% } %>
 

@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
 
 :root {
-  --white: #2222221f;
+  --white: #222;
   --preloader: #222;
   --spinner: #888;
   --spinner-border: #333;
@@ -18,9 +18,9 @@
   --svg: #fff;
   --text: #fff;
   --scrollbar: #222;
-  --scrollbar-thumb: transparent;
-  --scrollbar-hover: transparent;
-  --scrollbar-active: transparent;
+  --scrollbar-thumb: #2b2b2b;
+  --scrollbar-hover: #363636;
+  --scrollbar-active: #454545;
 }
 
 .no-js {
@@ -64,16 +64,44 @@
   width: 550px;
   height: 550px;
   position: absolute;
-  background: url(https://aeona.xyz/logo);
+  background: url(https://aeona.xyz/logo.png);
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
+  animation: spinning 3s infinite linear;
 }
 
 .preloader.fade {
   opacity: 0;
+}
+
+@keyframes spinning {
+  0% {
+    top: 0px;
+    background: url(https://aeona.xyz/logo.png);
+  }
+  12% {
+    top: 0px;
+    background: url(https://aeona.xyz/logo.png);
+  }
+  15% {
+    top: 0px;
+    background: url(https://aeona.xyz/logo.png);
+  }
+  17% {
+    top: 0px;
+    background: url(https://aeona.xyz/logo.png);
+  }
+  50% {
+    top: 80px;
+    background: url(https://aeona.xyz/logo.png);
+  }
+  100% {
+    top: 0px;
+    background: url(https://aeona.xyz/logo.png);
+  }
 }
 
 @keyframes comeUp {
@@ -110,11 +138,7 @@
 }
 
 body {
-  background-image: url(https://www.aeona.xyz/svg/background.svg);
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--white);
   margin: 0 0;
   padding: 0 0;
   transition: 300ms all;
@@ -686,28 +710,21 @@ code {
 }
 
 ::-webkit-scrollbar {
-  width: 0;
-  background-color: transparent;
+  width: 16px;
+  background-color: var(--scrollbar);
   cursor: pointer;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  height: 0;
+  background-color: var(--scrollbar-thumb);
+  height: 16px;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color:transparent;
+  background-color: var(--scrollbar-hover);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background-color: transparent;
-}
-
-
-input,textarea,select{
-  background-color:#55465bb5 !important;
-  color:#333;
-  padding:1px;
+  background-color: var(--scrollbar-active);
 }

@@ -21,20 +21,20 @@ const closedby = bot.users.cache.get(db.by)
 <div style="">
 <% for (let i = 0; db.paste.length  > i; i++) { %>
 <% 
-const aeona = bot.users.cache.get(db.paste2[i]);
+const pogg = bot.users.cache.get(db.paste2[i]);
 let pog;
- if (aeona && aeona.avatar) {
- pog = "https://cdn.discordapp.com/avatars/" + aeona.id + "/" + aeona.avatar + ".png?size=128";
+ if (pogg && pogg.avatar) {
+ pog = "https://cdn.discordapp.com/avatars/" + pogg.id + "/" + pogg.avatar + ".png?size=128";
 } else {
  pog = "https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404.png?v=1602412158188";
 }
 
 
  %>
-<% if(aeona && aeona.tag && db.paste[i]) { %>
+<% if(pogg && pogg.tag && db.paste[i]) { %>
  <div class="hover">
   <img style="vertical-align:middle; width: 50px; height: 50px; border-radius: 50%" src="<%= pog %>">
-  <span style="">&nbsp;&nbsp;<%= aeona.tag + ': ' + db.paste[i]%></span>
+  <span style="">&nbsp;&nbsp;<%= pogg.tag + ': ' + db.paste[i]%></span>
 </div>
 
 <div style="padding-top: 5px"></div>
