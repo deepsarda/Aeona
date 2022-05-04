@@ -88,4 +88,4 @@ setInterval(async () => {
 
   await updater.autoUpdate();
   updating = false;
-}, 60 * 1000);
+}, 60 * 1000*5);
