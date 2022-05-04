@@ -106,7 +106,7 @@ module.exports = class extends Event {
                   .permissionsFor(newState.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send(joinembed).catch(() => {});
+                channelEmbed.send({embeds:[joinembed]}).catch(() => {});
                 cooldown.add(newState.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newState.guild.id);
@@ -136,7 +136,7 @@ module.exports = class extends Event {
                   .permissionsFor(newState.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send(leaveembed).catch(() => {});
+                channelEmbed.send({embeds:[leaveembed]}).catch(() => {});
                 cooldown.add(newState.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newState.guild.id);
@@ -167,7 +167,7 @@ module.exports = class extends Event {
                     .permissionsFor(newState.guild.me)
                     .has(["SEND_MESSAGES", "EMBED_LINKS"])
                 ) {
-                  channelEmbed.send(moveembed).catch(() => {});
+                  channelEmbed.send({embeds:[moveembed]}).catch(() => {});
                   cooldown.add(newState.guild.id);
                   setTimeout(() => {
                     cooldown.delete(newState.guild.id);

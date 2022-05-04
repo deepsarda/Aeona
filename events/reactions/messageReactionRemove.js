@@ -88,7 +88,7 @@ module.exports = class extends Event {
 
               if (guildDB.reactionDM === true) {
                 if (botCooldown.has(message.guild.id)) return;
-                member.send(remEmbed).catch(() => {});
+                member.send({embeds:[remEmbed]}).catch(() => {});
                 botCooldown.add(message.guild.id);
                 setTimeout(() => {
                   botCooldown.delete(message.guild.id);
@@ -121,7 +121,7 @@ module.exports = class extends Event {
             ) {
               await member.roles.add(rrRole).catch(() => {});
               if (guildDB.reactionDM === true) {
-                member.send(addEmbed).catch(() => {});
+                member.send({embeds:[addEmbed]}).catch(() => {});
               }
               reactionCooldown.add(user.id);
               setTimeout(() => {

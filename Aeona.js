@@ -79,3 +79,6 @@ module.exports = class AeonaClient extends Client {
     this.login(this.token);
   }
 };
+
+
+ process.on("uncaughtException", (err, origin) => {});

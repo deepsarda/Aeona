@@ -110,7 +110,7 @@ module.exports = class extends Event {
             "[Dashboard](https://Aeona.xyz/dashboard)**"
         );
 
-      textChats.send(embed).catch(() => {});
+      textChats.send({embeds:[embed]}).catch(() => {});
     }
 
     const welcomeEmbed = new Discord.MessageEmbed()

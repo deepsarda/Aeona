@@ -35,7 +35,7 @@ module.exports = class extends Event {
               .first();
 
             if (oldMember.roles.cache.size < newMember.roles.cache.size) {
-              const roleAddembed = new discord.MessageEmbed()
+              const embed = new discord.MessageEmbed()
                 .setAuthor(
                   `${newMember.user.tag} | Role add`,
                   newMember.user.displayAvatarURL({ dynamic: true })
@@ -54,7 +54,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send(roleAddembed).catch(() => {});
+                channelEmbed.send({embeds:[embed]}).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);
@@ -63,7 +63,7 @@ module.exports = class extends Event {
             }
 
             if (oldMember.roles.cache.size > newMember.roles.cache.size) {
-              const roleRemoveembed = new discord.MessageEmbed()
+              const embed = new discord.MessageEmbed()
                 .setAuthor(
                   `${newMember.user.tag} | Role Remove`,
                   newMember.user.displayAvatarURL({ dynamic: true })
@@ -82,7 +82,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send(roleRemoveembed).catch(() => {});
+                channelEmbed.send({embeds:[embed]}).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);
@@ -99,7 +99,7 @@ module.exports = class extends Event {
               const oldNickname = oldMember.nickname || "`None`";
               const newNickname = newMember.nickname || "`None`";
 
-              const nicknameEmbed = new discord.MessageEmbed()
+              const embed = new discord.MessageEmbed()
                 .setAuthor(
                   `${newMember.user.tag} | Nickname Update`,
                   newMember.user.displayAvatarURL({ dynamic: true })
@@ -119,7 +119,7 @@ module.exports = class extends Event {
                   .permissionsFor(newMember.guild.me)
                   .has(["SEND_MESSAGES", "EMBED_LINKS"])
               ) {
-                channelEmbed.send(nicknameEmbed).catch(() => {});
+                channelEmbed.send({embeds:[embed]}).catch(() => {});
                 cooldown.add(newMember.guild.id);
                 setTimeout(() => {
                   cooldown.delete(newMember.guild.id);

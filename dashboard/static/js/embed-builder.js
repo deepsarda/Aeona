@@ -1013,7 +1013,7 @@ window.onload = () => {
       picker.source.style.background = this.color(r, g, b);
     });
   }, 1000);
-  json.embeds=[json.embed];
+  
   document.querySelector(".timeText").innerText = tstamp();
   document
     .querySelectorAll(".markup pre > code")
@@ -1027,6 +1027,7 @@ window.onload = () => {
         () => el.target.closest(".done").classList.remove("sent"),
         3000
       );
+      json.embeds=[json.embed];
       fetch(`/dashboard/${guildID}/embeds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1094,7 +1095,7 @@ window.onload = () => {
       return error("Command length exceeds 30 characters.", 4000);
 
     error(
-      'Successfully saved command, if not saved, <a href="https://pogy.xyz/embeds">read here</a>',
+      'Successfully saved command, if not saved, <a href="https://aeona.xyz/embeds">read here</a>',
       10000
     );
     e.preventDefault();
