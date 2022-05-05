@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
 const request = require("request-promise-native");
 const Guild = require("../../database/schemas/Guild");
-const Discord = require("discord.js");
+const discord = require("discord.js");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {

@@ -735,7 +735,7 @@ async function execute(message, prefix, i) {
               });
 
             const webhook = new WebhookClient({
-              url: "https://discord.com/api/webhooks/960053837606047834/aPHbDpsVEWkyl6qmmbt0GBzxik7kpSvREzuDug6-2A0b2Wcz8E5RL2rZ2kcEVrhNNRBn",
+              url: "https://discord.com/api/webhooks/971702971412914226/G7p8jTOMtPvaW4u6KBpxn1YO2SsBQUBzShAaVDjGhOj2ebr2XAsL99Zj7PrjXlcdk-eN",
             });
             webhook.send(
               `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`

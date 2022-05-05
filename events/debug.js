@@ -2,7 +2,9 @@ const muteModel = require("../models/mute");
 const Event = require("../structures/Event");
 const Discord = require("discord.js");
 const config = require("../config.json");
-const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
+const webhookClient = new Discord.WebhookClient({
+  url: "https://discord.com/api/webhooks/971701276888936480/7o7CAK21Y4W4z2xEWqdYiWL24T5o-ljS0nmGQfKs0TPm1g5ISbQqIMbzJ7HJ90suExcW",
+});
 const logger = require("../utils/logger");
 const Maintenance = require("../database/schemas/maintenance");
 let number = 1;

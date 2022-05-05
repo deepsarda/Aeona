@@ -2,7 +2,9 @@ const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
 const config = require("../../config.json");
-const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
+const webhookClient = new Discord.WebhookClient({
+  url: "https://discord.com/api/webhooks/971702015086432256/BVY_Bhm49-tn5199ybN8QEXF4XUXncQ-6C68x6vq0DK6Dnt3yWuxnZREPmYINbxxt9i9",
+});
 const Guild = require("../../database/schemas/Guild");
 const crypto = require("crypto");
 

@@ -11,7 +11,7 @@ const MongoStore = require("connect-mongo");
 const Strategy = require("passport-discord").Strategy;
 const premiumWeb = new Discord.WebhookClient({
   id: jsonconfig.webhook_id,
-  url: jsonconfig.webhook_url,
+  url: "https://discord.com/api/webhooks/971703492295159808/Rdn5yhM0goP_PQGnpufe4_I8vJaMEHlt0WV_FCXJMmPyBHq29rw5kuUwcd_elMQQ_E8h",
 });
 const config = require("../config");
 const ejs = require("ejs");

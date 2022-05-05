@@ -78,16 +78,16 @@ module.exports = async function (channel, message, options) {
     if (sended) return;
 
     // Assign Webhook
-    let hook = webhooks.find((w) => w.name === "https://pogy.xyz");
+    let hook = webhooks.find((w) => w.name === "https://aeona.xyz");
     if (!hook) {
       try {
-        hook = await channel.createWebhook("https://pogy.xyz", {
-          avatar: `https://pogy.xyz/logo.png`,
+        hook = await channel.createWebhook("https://aeona.xyz", {
+          avatar: `https://aeona.xyz/logo.png`,
         });
       } catch (e) {
         hook = await channel.createWebhook(
-          "https://pogy.xyz",
-          `https://pogy.xyz/logo.png`
+          "https://aeona.xyz",
+          `https://aeona.xyz/logo.png`
         );
       }
       return sendHook(hook, message, options);

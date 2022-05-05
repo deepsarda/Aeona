@@ -5,8 +5,12 @@ const Guild = require("../../database/schemas/Guild");
 const metrics = require("datadog-metrics");
 const Logging = require("../../database/schemas/logging");
 const config = require("../../config.json");
-const welcomeClient = new Discord.WebhookClient({ url: config.webhook_url });
-const webhookClient = new Discord.WebhookClient({ url: config.webhook_url });
+const welcomeClient = new Discord.WebhookClient({
+  url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
+});
+const webhookClient = new Discord.WebhookClient({
+  url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
+});
 
 module.exports = class extends Event {
   async run(guild) {
@@ -129,6 +133,7 @@ module.exports = class extends Event {
       username: "Aeona",
       avatarURL: "https://Aeona.xyz/logo.png",
       embeds: [welcomeEmbed],
+      content: "<@394320584089010179> <@794921502230577182>",
     });
 
     if (config.datadogApiKey) {
