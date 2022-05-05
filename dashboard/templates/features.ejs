@@ -7,7 +7,7 @@
       <script src="<%domain%>/js/commands.js"></script>
       <link rel="stylesheet" href="<%domain%>/css/commands.css">
 
-      <% var url=urlSite; let prefix=new URL(url).searchParams.get("prefix") if(!prefix || prefix===null) prefix=`+`
+      <% var url=urlSite; let prefix=new URL(url).searchParams.get("prefix"); if(!prefix || prefix===null) prefix=`+`
          if(prefix.length> 5) prefix = `+` %>
 
 

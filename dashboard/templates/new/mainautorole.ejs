@@ -156,8 +156,7 @@
                             parseInt(result[3], 16) } : null; } %>
                             <select class="select" name="role">
                               <% if(settings.autoroleToggle===true && guild.roles.cache.has(settings.autoroleID)){ %>
-                                <option style="color: <%= guild.roles.cache.get(settings.autoroleID).hexColor === "
-                                  #000000" ? {r:255,g:255,b:255} : guild.roles.cache.get(settings.autoroleID).hexColor%>
+                                <option style="color: <%= guild.roles.cache.get(settings.autoroleID).hexColor === "#000000" ? {r:255,g:255,b:255} : guild.roles.cache.get(settings.autoroleID).hexColor%>
                                   " selected="selected">@<%= guild.roles.cache.get(settings.autoroleID).name %>
                                 </option>
                                 <% guild.roles.cache.filter((r)=> r.id !== settings.autoroleID && r.name !== "@everyone"
@@ -240,8 +239,7 @@
                           <div class="select-wrapper">
                             <select class="select" name="stickyrole">
                               <% if(sticky.stickyroleToggle=="true" && guild.roles.cache.has(sticky.stickyroleID)){ %>
-                                <option style="color: <%= guild.roles.cache.get(sticky.stickyroleID).hexColor === "
-                                  #000000" ? {r:255,g:255,b:255} : guild.roles.cache.get(sticky.stickyroleID).hexColor%>
+                                <option style="color: <%= guild.roles.cache.get(sticky.stickyroleID).hexColor === "#000000" ? {r:255,g:255,b:255} : guild.roles.cache.get(sticky.stickyroleID).hexColor%>
                                   " selected="selected">@<%= guild.roles.cache.get(sticky.stickyroleID).name %>
                                 </option>
                                 <% guild.roles.cache.filter((r)=> r.id !== sticky.stickyroleID && r.name !== "@everyone"
