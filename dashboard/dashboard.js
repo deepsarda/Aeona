@@ -4716,7 +4716,7 @@ In the mean time, please explain your issue below`;
     const apiUser = await fetch(
       `https://discord.com/api/v8/users/${req.vote.user}`,
       {
-        headers: { Authorization: `Bot ${process.env.TOKEN}` },
+        headers: { Authorization: `Bot ${process.env.BOTTOKEN}` },
       }
     ).then((res) => res.json());
 
