@@ -13,8 +13,13 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-  new Crate({
+  let crate= new Crate({
     server: '942062344840822824',
-    location: ['bottom', 'right']
-  })
+    location: ['bottom', 'right'],
+    notifications:true,
+    indicator:true,
+  });
+
+  crate.notify(" ** Ask for support or chat on our server **");
+  
 </script>

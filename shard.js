@@ -9,10 +9,10 @@ const { AutoPoster } = require('topgg-autoposter')
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
-  //totalShards: 'auto'
-  totalShards: 1,
+  totalShards: 'auto'
+  //totalShards: 1,
 });
-const poster = AutoPoster('topggtoken', manager)
+const poster = AutoPoster(process.env.TOKEN, manager)
 manager.spawn();
 
 manager.on("shardCreate", (shard) => {

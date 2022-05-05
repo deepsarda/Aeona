@@ -65,15 +65,17 @@ module.exports = class extends Command {
     });
 
     const language = require(`../../data/language/${guildDB.language}.json`);
-
+    let owner=await message.guild.fetchOwner();
+    await message.guild.members.fetch();
     const embed = new MessageEmbed()
       .setFooter({ text: `Shard #${message.guild.shardID}` })
-      .setAuthor(message.guild.name, message.guild.iconURL)
+      .setAuthor({name:message.guild.name,iconUrl: message.guild.iconURL})
       .addField(`${language.nameS}`, message.guild.name, true)
       .addField("ID", message.guild.id, true)
       .addField(
         `${language.owner}`,
-        `${message.guild.owner.user.username}#${message.guild.owner.user.discriminator}`,
+       
+ `${owner.user.username}#${owner.user.discriminator}`,
         true
       )
       .addField(`${language.region}`, message.guild.region, true)
@@ -86,22 +88,16 @@ module.exports = class extends Command {
         }`,
         true
       )
-      .addField(
-        `${language.verificationLevel}`,
-        message.guild.verificationLevel,
-        true
-      )
+      
       .addField(`${language.channels}`, message.guild.channels.cache.size, true)
       .addField(`${language.roleCount}`, message.guild.roles.cache.size, true)
       .addField(
         `Created at`,
-        `${message.channel.guild.createdAt
-          .toUTCString()
-          .substr(0, 16)} **(${checkDays(message.channel.guild.createdAt)})**`,
+        `<t:${message.channel.guild.createdAt}:>`,
         true
       )
       .setThumbnail(message.guild.iconURL())
       .setColor(message.guild.me.displayHexColor);
-    message.channel.send({ embed });
+    message.channel.send({ embeds:[embed] });
   }
 };

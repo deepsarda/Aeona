@@ -1951,6 +1951,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
+    await guild.members.fetch();
     let members = [];
     guild.members.cache.forEach((member) => members.push(member));
     renderTemplate(res, req, "./new/mainmembers.ejs", {
@@ -1962,9 +1963,7 @@ module.exports = async (client) => {
   app.get("/dashboard/:guildID/members/list", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    if (req.query.fetch) {
-      await guild.fetchMembers();
-    }
+    await guild.members.fetch();
     const totals = guild.members.size;
     const start = parseInt(req.query.start, 10) || 0;
     const limit = parseInt(req.query.limit, 10) || 50;

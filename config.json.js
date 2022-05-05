@@ -1,5 +1,5 @@
 module.exports = {
-  main_token: process.env.TOKEN,
+  main_token: process.env.BOTTOKEN,
   mongodb_url: process.env.MONGO_CONNECTION, //mongo db URL
   developers: ["794921502230577182", "394320584089010179"],
   datadogApiKey: process.env.DATADOG, // for statistics (optional)

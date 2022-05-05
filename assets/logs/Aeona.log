@@ -162,3 +162,95 @@
 2022-05-05 09:50:51 [[32minfo[39m] [[36mCommand[39m] ">meme" (meme) ran by "Dharma#4945" (272377206825549825) on guild "Let’s grab Pokemons" (958272707198337064) channel "#spam-with-bots" (965389420712845375)
 2022-05-05 09:50:51 [[32minfo[39m] [[36mCommand[39m] ">poll" (poll) ran by "Dharma#4945" (272377206825549825) on guild "Let’s grab Pokemons" (958272707198337064) channel "#spam-with-bots" (965389420712845375)
 2022-05-05 09:53:20 [[32minfo[39m] [[36mCommand[39m] ">meme" (meme) ran by "Dharma#4945" (272377206825549825) on guild "Let’s grab Pokemons" (958272707198337064) channel "#spam-with-bots" (965389420712845375)
+2022-05-05 10:46:19 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:46:17 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:46:07 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:46:19 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:46:20 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:48:28 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:49:25 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:49:59 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:50:35 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:51:56 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:51:57 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:51:38 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:52:01 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:52:11 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:52:45 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:53:59 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:52:51 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:54:42 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 10:55:07 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:02:52 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:03:28 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:04:24 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:05:06 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:05:10 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:05:36 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:05:40 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:06:06 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:06:21 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:06:33 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:06:40 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-05 11:29:58 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 11:30:07 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 11:30:49 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 11:31:01 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 11:44:54 [[32minfo[39m] [[36mShard[39m] Shard 1/1 has resumed
+2022-05-05 13:20:14 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:40:28 [[32minfo[39m] [[36mCommand[39m] "+userinfo <@825282667448762389>" (userinfo) ran by "Nam Are Confusing#4420" (825282667448762389) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:41:10 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "Nam Are Confusing#4420" (825282667448762389) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:41:29 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "Nam Are Confusing#4420" (825282667448762389) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:43:32 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:45:33 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:45:44 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 13:46:30 [[32minfo[39m] [[36mCommand[39m] "+userinfo <@825282667448762389>" (userinfo) ran by "Nam Are Confusing#4420" (825282667448762389) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:49:20 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:49:29 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 13:49:40 [[32minfo[39m] [[36mCommand[39m] "+userinfo <@825282667448762389>" (userinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:49:44 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:50:38 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:50:47 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 13:50:51 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:51:33 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:51:43 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 13:51:55 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:53:39 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 13:53:48 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 13:53:50 [[32minfo[39m] [[36mCommand[39m] "+members" (members) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 13:59:48 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "Nam Are Confusing#4420" (825282667448762389) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:00:39 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:00:47 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:01:13 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:01:23 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:01:25 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:03:35 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:03:43 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:03:58 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:05:13 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:05:24 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:05:32 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:06:12 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:06:21 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:06:36 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:06:51 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:07:00 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:07:20 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:08:19 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:08:29 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:08:36 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:08:59 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:09:09 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:09:16 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:09:43 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:09:52 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:10:23 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:11:01 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:11:09 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:11:33 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:12:33 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:12:42 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:13:09 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
+2022-05-05 14:13:33 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
+2022-05-05 14:13:42 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-05 14:13:51 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
