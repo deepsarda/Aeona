@@ -2,50 +2,6 @@ const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const Guild = require("../../database/schemas/Guild");
-const filterLevels = {
-  DISABLED: "Off",
-  MEMBERS_WITHOUT_ROLES: "No Role",
-  ALL_MEMBERS: "Everyone",
-};
-
-const verificationLevels = {
-  NONE: "None",
-  LOW: "Low",
-  MEDIUM: "Medium",
-  HIGH: "High",
-  VERY_HIGH: "Highest",
-};
-function checkDays(date) {
-  let now = new Date();
-  let diff = now.getTime() - date.getTime();
-  let days = Math.floor(diff / 86400000);
-  return days + (days == 1 ? " day" : " days") + " ago";
-}
-let verifLevels = [
-  "None",
-  "Low",
-  "Medium",
-  "(╯°□°）╯︵  ┻━┻",
-  "┻━┻ミヽ(ಠ益ಠ)ノ彡┻━┻",
-];
-
-let region = {
-  "eu-central": ":flag_eu: Central Europe",
-  singapore: ":flag_sg: Singapore",
-  "us-central": ":flag_us: U.S. Central",
-  sydney: ":flag_au: Sydney",
-  "us-east": ":flag_us: U.S. East",
-  "us-south": ":flag_us: U.S. South",
-  "us-west": ":flag_us: U.S. West",
-  "eu-west": ":flag_eu: Western Europe",
-  "vip-us-east": ":flag_us: VIP U.S. East",
-  london: ":flag_gb: London",
-  amsterdam: ":flag_nl: Amsterdam",
-  hongkong: ":flag_hk: Hong Kong",
-  russia: ":flag_ru: Russia",
-  southafrica: ":flag_za:  South Africa",
-  brazil: ":flag_br: Brazil",
-};
 
 module.exports = class extends Command {
   constructor(...args) {
@@ -70,32 +26,14 @@ module.exports = class extends Command {
     const embed = new MessageEmbed()
       .setFooter({ text: `Shard #${message.guild.shardID}` })
       .setAuthor({name:message.guild.name,iconUrl: message.guild.iconURL})
-      .addField(`${language.nameS}`, message.guild.name, true)
-      .addField("ID", message.guild.id, true)
-      .addField(
-        `${language.owner}`,
-       
- `${owner.user.username}#${owner.user.discriminator}`,
-        true
-      )
-      .addField(`${language.region}`, message.guild.region, true)
-      .addField(
-        `${language.serverInfo1}`,
-        `${message.guild.members.cache.size} | ${
-          message.guild.members.cache.filter((member) => !member.user.bot).size
-        } | ${
-          message.guild.members.cache.filter((member) => member.user.bot).size
-        }`,
-        true
-      )
-      
-      .addField(`${language.channels}`, message.guild.channels.cache.size, true)
-      .addField(`${language.roleCount}`, message.guild.roles.cache.size, true)
-      .addField(
-        `Created at`,
-        `<t:${message.channel.guild.createdAt}:>`,
-        true
-      )
+      .addField(`${client.bot_emojis.owner_crown} Owner`, `> <@${message.guild.ownerId}> (ID: \`${message.guild.ownerId}\`)`, true)
+    .addField(`${client.bot_emojis.channel} Server ID`, `> \`${message.guild.id}\``, true)
+    .addField(`${client.bot_emojis.discord_logo} Description`, `> ${message.guild.description || "No server description!"}`)
+    .addField(`${client.bot_emojis.member} Members`, `\`${message.guild.memberCount}/${message.guild.maximumMembers}\` members (\`${message.guild.members.cache.filter((member) => member.user.bot).size}\` bots)`)
+    .addField(`${client.bot_emojis.discord_badges} Emojis`, `> Total emojis: \`${message.guild.emojis.cache.size}\``, true)
+    .addField(`${client.bot_emojis.boosts_animated} Boosts`, `> \`${message.guild.premiumSubscriptionCount}\` (${capitalize(message.guild.premiumTier.toLowerCase().replace("_", " "))})`, true)
+    .addField(`${client.bot_emojis.lock} Verification`, `> \`${capitalize(message.guild.verificationLevel.toLowerCase().replace("_", " "))}\``, true)
+    .addField(`${client.bot_emojis.stopwatch} Creation Date`, `> <t:${moment(message.channel.guild.createdTimestamp).unix()}> (<t:${moment(message.channel.guild.createdTimestamp).unix()}:R>)`, true)
       .setThumbnail(message.guild.iconURL())
       .setColor(message.guild.me.displayHexColor);
     message.channel.send({ embeds:[embed] });
