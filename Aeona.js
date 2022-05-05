@@ -80,4 +80,4 @@ module.exports = class AeonaClient extends Client {
   }
 };
 
-process.on("uncaughtException", (err, origin) => {});
+

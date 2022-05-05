@@ -5,7 +5,7 @@ const Statcord = require("statcord.js");
 const { token } = require("./utils/variables.js");
 const { AutoPoster } = require('topgg-autoposter')
 
-
+process.on("uncaughtException", (err, origin) => {});
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
