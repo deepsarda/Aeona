@@ -61,16 +61,17 @@
 }
 
 .spinner {
-  width: 550px;
-  height: 550px;
+  width: 451px;
+  height: 451px;
   position: absolute;
-  background: url(https://aeona.xyz/logo.png);
+  background-image: url(https://aeona.xyz/logo.png);
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
   animation: spinning 3s infinite linear;
+  background-repeat:no-repeat;
 }
 
 .preloader.fade {

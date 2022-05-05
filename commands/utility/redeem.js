@@ -4,6 +4,7 @@ const Premium = require("../../database/schemas/GuildPremium");
 const moment = require("moment");
 const config = require("../../config.json");
 const discord = require("discord.js");
+const Discord = require("discord.js");
 const webhookClient = new discord.WebhookClient({
   url: "https://discord.com/api/webhooks/971702015086432256/BVY_Bhm49-tn5199ybN8QEXF4XUXncQ-6C68x6vq0DK6Dnt3yWuxnZREPmYINbxxt9i9",
 });
@@ -78,7 +79,7 @@ module.exports = class extends Command {
 
       try {
         await message.author.send(
-          new Discord.MessageEmbed()
+          new discord.MessageEmbed()
             .setDescription(
               `**Premium Subscription**\n\nYou've recently redeemed a code in **${message.guild.name}** and here is your receipt:\n\n **Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}`
             )
@@ -112,7 +113,7 @@ module.exports = class extends Command {
         ],
       });
 
-      const embedPremium = new Discord.MessageEmbed()
+      const embedPremium = new discord.MessageEmbed()
         .setDescription(
           `**Premium Subscription**\n\n**${message.author.tag}** Redeemed a code in **${message.guild.name}**\n\n **Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}\n**Redeemer Tag:** ${message.author.tag}\n**Redeemer ID:** ${message.author.id}\n\n**Expires At:** ${expires}`
         )

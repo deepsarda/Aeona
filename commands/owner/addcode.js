@@ -62,7 +62,7 @@ module.exports = class extends Command {
 
     message.channel.send({
       embeds: [
-        new discord.MessageEmbed()
+        new Discord.MessageEmbed()
           .setColor(message.client.color.green)
           .setDescription(
             `**Generated ${array.length} Premium Code(s)**\n\n${array.join(
