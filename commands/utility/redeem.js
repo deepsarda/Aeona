@@ -106,7 +106,7 @@ module.exports = class extends Command {
         embeds: [
           new discord.MessageEmbed()
             .setDescription(
-              `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/FqdH4sfKBg)\n**your receipt has been sent via dms**\n\n**Expires At:** ${expires}`
+              `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/SPcmvDMRrP)\n**your receipt has been sent via dms**\n\n**Expires At:** ${expires}`
             )
             .setColor(message.guild.me.displayHexColor)
             .setFooter({ text: message.guild.name }),
