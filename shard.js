@@ -9,8 +9,8 @@ process.on("uncaughtException", (err, origin) => {});
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
-  totalShards: 'auto'
-  //totalShards: 1,
+ // totalShards: 'auto'
+  totalShards: 1,
 });
 const poster = AutoPoster(process.env.TOKEN, manager)
 manager.spawn();
