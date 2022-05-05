@@ -6,7 +6,7 @@ module.exports = {
   google_analitics: process.env.ANALYTICS, // google analitics
   token: process.env.BOTTOKEN,
   https: "https://", // leave as is
-  port: "5003",
+  port: process.env.PORT || 5000,
 
   client_id: process.env.ID, // bot client ID
   secret: process.env.SECERT, // bot client secret for auth
