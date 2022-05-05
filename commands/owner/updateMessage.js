@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
-      name: "updateMessage",
+      name: "updatemessage",
       description: "Send a update message to all servers!",
       category: "Owner",
       ownerOnly: true,
