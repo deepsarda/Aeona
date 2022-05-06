@@ -10,6 +10,7 @@ module.exports = class extends Command {
       category: "Chatbot",
       cooldown: 3,
       usage: "<channel>",
+      userPermission: ["MANAGE_CHANNELS"],
     });
   }
   async run(message, args) {

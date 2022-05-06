@@ -488,7 +488,7 @@ module.exports = class extends Event {
           }
         }
 
-        if (command.userPermission) {
+        if (command.userPermission && !this.client.config.developers.includes(message.author.id)) {
           const missingPermissions = message.channel
             .permissionsFor(message.author)
             .missing(command.userPermission)
