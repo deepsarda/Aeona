@@ -18,7 +18,7 @@ module.exports = class extends Event {
     ) {
       message.channel
         .send(
-          `${message.client.emoji.fail} Hey pogger! An Error just occured, make sure to report it here https://discord.gg/SPcmvDMRrP `
+          `${message.client.emoji.fail} Hey ${message.member.displayName}! An Error just occured, make sure to report it here https://discord.gg/SPcmvDMRrP if you can! \`\`\`${error}\`\`\``
         )
         .catch(() => {});
     }

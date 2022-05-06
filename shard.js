@@ -4,7 +4,14 @@ const Discord = require("discord.js");
 const Statcord = require("statcord.js");
 const { token } = require("./utils/variables.js");
 const { AutoPoster } = require('topgg-autoposter')
+var exec = require('child_process').exec;
+function execute(command, callback){
+    exec(command, function(error, stdout, stderr){ callback(stdout); });
+};
 
+execute("git remove -v",function(remotes){
+    console.log(remotes);
+})
 process.on("uncaughtException", (err, origin) => {});
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,

@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
 const { MessageEmbed } = require("discord.js");
-module.exports = class extends Command {
+module.exports = class extends Command { 
   constructor(...args) {
     super(...args, {
       name: "disablechannel",
