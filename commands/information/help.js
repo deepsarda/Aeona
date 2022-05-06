@@ -168,7 +168,7 @@ module.exports = class extends Command {
       embed.setTitle(` ${emojis.altdetector} - Anime`);
       embed.setDescription(
         this.client.commands
-          .filter((cmd) => cmd.category.toLowerCase() === "Anime")
+          .filter((cmd) => cmd.category.toLowerCase() === "anime")
           .map(
             (cmd) =>
               `${
