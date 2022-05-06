@@ -28,7 +28,7 @@ module.exports = class extends Command {
     });
     if (!guild) {
       guild = new Guild({
-        guildID: message.guild.id,
+        guildId: message.guild.id,
         prefix:"+"
       });
     }
