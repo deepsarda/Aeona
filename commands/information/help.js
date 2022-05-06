@@ -162,7 +162,7 @@ module.exports = class extends Command {
       );
       return message.channel.send({ embeds: [embed] });
     }else if (
-      (args && args.join(" ").toLowerCase() == "Anime") ||
+      (args && args.join(" ").toLowerCase() == "anime") ||
       (args && args[0].toLowerCase() == "woman")
     ) {
       embed.setTitle(` ${emojis.altdetector} - Anime`);

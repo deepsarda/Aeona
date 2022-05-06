@@ -12,9 +12,7 @@ module.exports = class extends Command {
   async run(message, args) {
     if (!args[0])
       return message.channel.send(
-        `Please specify a user to hug! \`${
-          this.client.commands.get("hug").help.usage
-        }\``
+        `Please specify a user to hug!`
       );
     const user =
       message.mentions.users.first() ||

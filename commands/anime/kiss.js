@@ -38,7 +38,7 @@ module.exports = class extends Command {
     const body = await response.json();
     const embed = new MessageEmbed() // Prettier
       .setAuthor({
-        name: `${user.displayName} just got a kiss from ${message.author.username}`,
+        name: `${member.displayName} just got a kiss from ${message.author.username}`,
         iconURL: message.author.displayAvatarURL({
           dynamic: true,
           format: "png",

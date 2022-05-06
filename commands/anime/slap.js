@@ -14,10 +14,10 @@ module.exports = class extends Command {
   }
   async run(message, args) {
     if (!args[0]) return message.channel.send(`Please specify a user to slap!`);
-    const user =
+    const member =
       message.mentions.users.first() ||
       message.guild.members.cache.get(args[0]);
-    if (!user) return message.channel.send(`Please specify a valid user!`);
+    if (!member) return message.channel.send(`Please specify a valid user!`);
     const res = await fetch(`https://nekos.life/api/v2/img/slap`).catch(() => {
       return message.channel.send(`An error occured while fetching the image!`);
     });
