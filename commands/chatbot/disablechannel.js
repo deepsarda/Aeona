@@ -22,7 +22,7 @@ module.exports = class extends Command {
     if (!channel)
       return message.channel.send(`Please specify a valid channel!`);
     let guild = await Guild.findOne({
-      guildID: message.guild.id,
+      guildId: message.guild.id,
     }).catch(() => {
       return message.channel.send(`An error occured while fetching the guild!`);
     });

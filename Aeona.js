@@ -1,9 +1,10 @@
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, MessageEmbed } = require("discord.js");
 const Util = require("./structures/Util");
 const config = require("./config.json.js");
 const logger = require("./utils/logger");
+const prettyMs = require("pretty-ms");
 const { token } = require("./utils/variables");
-
+const MusicManager = require("./MusicManager");
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
@@ -50,6 +51,36 @@ module.exports = class AeonaClient extends Client {
     this.utils = new Util(this);
     this.config = require("./config.json.js");
     this.bot_emojies = require("./assets/emojis.json");
+    this.musicManager = new MusicManager(this);
+    this.musicManager.on("trackStart", (client, player, track, payload) => {
+      const channel = client.channels.cache.get(player.textChannel);
+
+      const embed = new MessageEmbed()
+        .setAuthor({ name: "Now Playing" })
+        .setDescription(`[${track.title}](${track.uri})`)
+        .addField(
+          "Song Duration",
+          "`" + prettyMs(track.duration, { colonNotation: true }) + "`",
+          true
+        )
+        .setFooter({ text: `Requested By: ${track.requester.tag}` });
+
+      if (typeof track.displayThumbnail === "function")
+        embed.setThumbnail(track.displayThumbnail("hqdefault"));
+      if (player.queue.totalSize > 0)
+        embed.addField(
+          "Position in Queue",
+          (player.queue.size - 0).toString(),
+          true
+        );
+      channel.send({ embeds: [embed] });
+    });
+
+    this.musicManager.on("queueEnd", (client, player) => {
+      const channel = client.channels.cache.get(player.textChannel);
+      channel.send("Queue has ended.");
+      player.destroy();
+    });
   }
 
   validate(options) {
@@ -80,5 +111,3 @@ module.exports = class AeonaClient extends Client {
     this.login(this.token);
   }
 };
-
-

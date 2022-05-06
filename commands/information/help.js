@@ -43,6 +43,7 @@ module.exports = class extends Command {
       owner: `${emojis.owner}`,
       chatbot: `🤖`,
       anime: `👩`,
+      music: `🎵`,
     };
 
     const green = "<:PurpleDot:971039873148522546>";
@@ -129,6 +130,39 @@ module.exports = class extends Command {
       );
       return message.channel.send({ embeds: [embed] });
     } else if (
+      (args && args.join(" ").toLowerCase() == "music") ||
+      (args && args[0].toLowerCase() == "music")
+    ) {
+      embed.setTitle(` ${emojis.chatbot} - Music`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "music")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} :\` ${
+                cmd.description
+              }`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    }else if (
       (args && args.join(" ").toLowerCase() == "chatbot") ||
       (args && args[0].toLowerCase() == "chatbot")
     ) {

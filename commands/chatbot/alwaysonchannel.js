@@ -21,9 +21,7 @@ module.exports = class extends Command {
       message.guild.channels.cache.get(args[0]);
     if (!channel)
       return message.channel.send(`Please specify a valid channel!`);
-    let guild = await Guild.findOne({ guildID: message.guild.id }).catch(() => {
-      return message.channel.send(`An error occured while fetching the guild!`);
-    });
+    let guild = await Guild.findOne({ guildId: message.guild.id });
     if (!guild) {
       guild = new Guild({
         guildId: message.guild.id,
