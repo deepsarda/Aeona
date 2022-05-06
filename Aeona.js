@@ -81,6 +81,8 @@ module.exports = class AeonaClient extends Client {
       channel.send("Queue has ended.");
       player.destroy();
     });
+
+    this.statcord = require("./shard");
   }
 
   validate(options) {
