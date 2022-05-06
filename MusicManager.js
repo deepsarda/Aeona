@@ -2,7 +2,6 @@ const { Manager } = require("erela.js");
 const Deezer = require("erela.js-deezer");
 const Facebook = require("erela.js-facebook");
 const Spotify = require("erela.js-spotify");
-const { MUSIC } = require("@root/config");
 
 module.exports = class MusicManager extends Manager {
   constructor(client) {
