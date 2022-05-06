@@ -71,7 +71,7 @@
   right: 0;
   margin: auto;
   animation: spinning 3s infinite linear;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
 }
 
 .preloader.fade {

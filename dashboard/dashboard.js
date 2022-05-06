@@ -17,8 +17,6 @@ const config = require("../config");
 const ejs = require("ejs");
 
 const ShortUrl = require("../models/ShortUrl.js");
-const { mem, cpu, os } = require("node-os-utils");
-var metrics = require("datadog-metrics");
 const randoStrings = require("randostrings");
 const random = new randoStrings();
 const sendingEmbed = new Set();
@@ -4777,36 +4775,4 @@ In the mean time, please explain your issue below`;
   app.listen(config.port, null, null, () =>
     console.log(`Dashboard is up and running on port ${config.port}.`)
   );
-
-  const d = moment.duration(client.uptime);
-  const days = d.days() == 1 ? `${d.days()}` : `${d.days()}`;
-  const hours = d.hours() == 1 ? `${d.hours()}` : `${d.hours()}`;
-  const minutes = d.minutes() == 1 ? `${d.minutes()}` : `${d.minutes()}`;
-  const seconds = d.seconds() == 1 ? `${d.seconds()}` : `${d.seconds()}`;
-
-  if (config.datadogApiKey) {
-    metrics.init({
-      apiKey: jsonconfig.datadogApiKey,
-      host: "aeona",
-      prefix: "aeona.",
-    });
-    function collectMemoryStats() {
-      var memUsage = process.memoryUsage();
-      metrics.gauge("memory.rss", memUsage.rss);
-      metrics.gauge("memory.heapTotal", memUsage.heapTotal);
-      metrics.gauge("memory.heapUsed", memUsage.heapUsed);
-      metrics.gauge("CPU USAGE", cpu.usage());
-      metrics.gauge(
-        "Ram Usage",
-        (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
-      );
-      metrics.gauge("guilds.size", client.guilds.cache.size);
-      metrics.gauge(
-        "users.size",
-        client.guilds.cache.reduce((a, g) => a + g.memberCount, 0)
-      );
-      metrics.gauge("ping", client.ws.ping);
-    }
-    setInterval(collectMemoryStats, 5000);
-  }
 };

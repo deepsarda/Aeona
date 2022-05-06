@@ -266,3 +266,105 @@
 2022-05-05 14:33:17 [[32minfo[39m] [[36mCommand[39m] "+serverinfo" (serverinfo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#🔐・staff-commands" (970641153181487144)
 2022-05-05 14:33:47 [[32minfo[39m] [[36mShard[39m] Launching Shard 1
 2022-05-06 21:53:51 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 22:50:20 [[31merror[39m] [[36mundefined[39m] Top.gg token is missing
+2022-05-06 22:51:31 [[31merror[39m] [[36mundefined[39m] client is not defined
+2022-05-06 22:51:32 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:51:32 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:51:33 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:51:48 [[31merror[39m] [[36mundefined[39m] client is not defined
+2022-05-06 22:51:49 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:51:49 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:13 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:14 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:26 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:40 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:41 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:55 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:52:56 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:12 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:13 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:35 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:36 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:54 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:53:55 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:07 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:25 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:26 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:27 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:44 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:45 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:46 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:48 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:54:49 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:58:05 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:58:06 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:59:13 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:59:14 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:59:53 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 22:59:54 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:00:10 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:00:11 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:00:55 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:00:56 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:01:47 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:01:48 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:01:49 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:01:49 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:02:27 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:02:27 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:02:51 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:02:51 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:02:52 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:02:52 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:03:22 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:03:24 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:03:50 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:03:51 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:03:52 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:03:52 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:03:53 [[31merror[39m] [[36mDatabase[39m] option usecreateindex is not supported
+2022-05-06 23:04:45 [[31merror[39m] [[36mDatabase[39m] option usefindandmodify is not supported
+2022-05-06 23:04:45 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:04:46 [[31merror[39m] [[36mDatabase[39m] option usefindandmodify is not supported
+2022-05-06 23:04:47 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:05:05 [[31merror[39m] [[36mDatabase[39m] option usefindandmodify is not supported
+2022-05-06 23:05:05 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:05:06 [[31merror[39m] [[36mDatabase[39m] option usefindandmodify is not supported
+2022-05-06 23:05:06 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:05:21 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:05:22 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:06:06 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:06:08 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:06:41 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:06:42 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:07:04 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:07:06 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:07:30 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:07:47 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:17 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:19 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:21 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:22 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:24 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:26 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:28 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:30 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:32 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:33 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:35 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:37 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:39 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:41 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:42 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:44 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:08:46 [[31merror[39m] [[36mundefined[39m] Shard 0's process exited before its Client became ready.
+2022-05-06 23:09:21 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:09:39 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:10:30 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:10:46 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:11:03 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:11:20 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:11:35 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:11:52 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:12:08 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-06 23:12:51 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected

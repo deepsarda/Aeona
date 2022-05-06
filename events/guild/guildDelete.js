@@ -2,7 +2,6 @@ const Event = require("../../structures/Event");
 const Discord = require("discord.js");
 const logger = require("../../utils/logger");
 const Guild = require("../../database/schemas/Guild");
-const metrics = require("datadog-metrics");
 const Logging = require("../../database/schemas/logging");
 const config = require("../../config.json");
 const webhookClient = new Discord.WebhookClient({
@@ -47,16 +46,6 @@ module.exports = class extends Event {
     Logging.findOneAndDelete({
       guildId: guild.id,
     }).catch(() => {});
-
-    if (config.datadogApiKey) {
-      metrics.init({
-        apiKey: this.client.config.datadogApiKey,
-        host: "Aeona",
-        prefix: "Aeona.",
-      });
-      metrics.increment("guildDelete");
-    }
-
     const embed = new Discord.MessageEmbed()
       .setColor("RED")
       .setDescription(`I have left the ${guild.name} server.`)

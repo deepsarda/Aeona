@@ -46,108 +46,109 @@ module.exports = class extends Command {
           color: 9115903,
         },
       ],
-      "content": "https://aeona.xyz/  || https://cdn.discordapp.com/attachments/942118536166383717/971460584593850468/unknown.png ||",
-      components:[
+      content:
+        "https://aeona.xyz/  || https://cdn.discordapp.com/attachments/942118536166383717/971460584593850468/unknown.png ||",
+      components: [
         new Discord.MessageActionRow().addComponents(
-              new Discord.MessageButton()
-              .setLabel("Invite")
-              .setURL("https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot")
-              .setStyle("LINK"), 
-              new Discord.MessageButton()
-              .setLabel("Support Server")
-              .setURL("https://discord.gg/YKwf9B39fT")
-              .setStyle("LINK"),
-              new Discord.MessageButton()
-              .setLabel("Website/Dashboard")
-              .setURL("https://aeona.xyz")
-              .setStyle("LINK"),
-              new Discord.MessageButton()
-              .setLabel("Vote")
-              .setURL("https://top.gg/bot/931226824753700934/vote")
-              .setStyle("LINK")
-              )
+          new Discord.MessageButton()
+            .setLabel("Invite")
+            .setURL(
+              "https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot"
+            )
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Support Server")
+            .setURL("https://discord.gg/YKwf9B39fT")
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Website/Dashboard")
+            .setURL("https://aeona.xyz")
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Vote")
+            .setURL("https://top.gg/bot/931226824753700934/vote")
+            .setStyle("LINK")
+        ),
       ],
     };
 
-
     for (var i = 0; i < bot.guilds.cache.size; i++) {
-        var guild = bot.guilds.cache.at(i);
-        await guild.channels.fetch();
-        var everyone = guild.roles.everyone;
-        //filter the guild channels based on the bot's permissions , channel is not private and if the channel is a text channel
-        var channels = guild.channels.cache.filter(function (channel) {
-          return (
-            channel.isText() &&
-            channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
-           channel.permissionsFor(everyone).has("SEND_MESSAGES")
-          );
-        });
- 
+      var guild = bot.guilds.cache.at(i);
+      await guild.channels.fetch();
+      var everyone = guild.roles.everyone;
+      //filter the guild channels based on the bot's permissions , channel is not private and if the channel is a text channel
+      var channels = guild.channels.cache.filter(function (channel) {
+        return (
+          channel.isText() &&
+          channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
+          channel.permissionsFor(everyone).has("SEND_MESSAGES")
+        );
+      });
+
       var systemChannelIsGood = false;
-        var systemChannel = guild.systemChannel;
-        if (systemChannel) {
-          if (
-            systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
-            systemChannel.permissionsFor(everyone).has("SEND_MESSAGES")
-          ) {
-            systemChannel.send(updateMessage);
-            systemChannelIsGood = true;
-          }
+      var systemChannel = guild.systemChannel;
+      if (systemChannel) {
+        if (
+          systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
+          systemChannel.permissionsFor(everyone).has("SEND_MESSAGES")
+        ) {
+          systemChannel.send(updateMessage);
+          systemChannelIsGood = true;
         }
-        //Look for a channel named "chat" or "general"
-        if (!systemChannelIsGood) {
-         var channel = channels.find(
-            (channel) =>
-              channel.name.toLowerCase().includes("chat") ||
-              channel.name.toLowerCase().includes("general")
+      }
+      //Look for a channel named "chat" or "general"
+      if (!systemChannelIsGood) {
+        var channel = channels.find(
+          (channel) =>
+            channel.name.toLowerCase().includes("chat") ||
+            channel.name.toLowerCase().includes("general")
+        );
+
+        if (channel) {
+          channel.send(updateMessage);
+          console.log(
+            "Sending update message to " + channel.name + " in " + guild.name
           );
- 
-          if (channel) {
-            channel.send(updateMessage);
+        } else {
+          //Get the system channel
+          channel = guild.systemChannel;
+          if (!channel) {
+            //If there is no system channel, get the first channel
+            channels = guild.channels.cache.filter(function (channel) {
+              return (
+                channel.isText() &&
+                channel.permissionsFor(guild.me).has("SEND_MESSAGES")
+              );
+            });
+            channel = channels.at(0);
+
+            if (!channel) {
+              util.error({
+                msg: message,
+                title: "No channel found",
+                description:
+                  "I could not find a channel to send the message to for guild: " +
+                  guild.name,
+              });
+            } else {
+              channel.send(updateMessage);
+              console.log(
+                "Sending update message to " +
+                  channel.name +
+                  " in " +
+                  guild.name
+              );
+            }
+          } else {
+            var e = embed;
+            e.channel = channel;
+            util.success(e);
             console.log(
               "Sending update message to " + channel.name + " in " + guild.name
             );
-          } else {
-            //Get the system channel
-            channel = guild.systemChannel;
-            if (!channel) {
-          //If there is no system channel, get the first channel
-             channels = guild.channels.cache.filter(function (channel) {
-                return (
-                channel.isText() &&
-                  channel.permissionsFor(guild.me).has("SEND_MESSAGES")
-                );
-              });
-              channel = channels.at(0);
- 
-              if (!channel) {
-                util.error({
-                 msg: message,
-                 title: "No channel found",
-                  description:
-                    "I could not find a channel to send the message to for guild: " +
-                    guild.name,
-                });
-              } else {
-
-                channel.send(updateMessage);
-                console.log(
-                 "Sending update message to " +
-                   channel.name +
-                    " in " +
-                    guild.name
-                );
-              }
-            } else {
-              var e=embed;
-              e.channel = channel;
-              util.success(e);
-              console.log(
-                "Sending update message to " + channel.name + " in " + guild.name
-              );
-            }
           }
-       }
-     }
+        }
+      }
+    }
   }
 };

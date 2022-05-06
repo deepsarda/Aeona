@@ -1,7 +1,6 @@
 const Event = require("../../structures/Event");
 const { Permissions, Collection } = require("discord.js");
 const afk = require("../../models/afk");
-const Statcord = require("statcord.js");
 const moment = require("moment");
 const discord = require("discord.js");
 const config = require("../../config.json.js");
@@ -18,7 +17,6 @@ const autoResponseCooldown = new Set();
 const inviteFilter = require("../../filters/inviteFilter");
 const linkFilter = require("../../filters/linkFilter");
 const maintenanceCooldown = new Set();
-const metrics = require("datadog-metrics");
 const permissions = require("../../assets/json/permissions.json");
 const Maintenance = require("../../database/schemas/maintenance");
 const fetch = require("node-fetch");
@@ -48,16 +46,7 @@ module.exports = class extends Event {
     try {
       if (!message.guild) return;
 
-      if (config.datadogApiKey) {
-        metrics.init({
-          apiKey: this.client.config.datadogApiKey,
-          host: "Aeona",
-          prefix: "Aeona.",
-        });
-      }
-
       const mentionRegex = RegExp(`^<@!?${this.client.user.id}>$`);
-      const mentionRegexPrefix = RegExp(`^<@!?${this.client.user.id}>`);
 
       if (!message.guild || message.author.bot) return;
 
@@ -68,7 +57,7 @@ module.exports = class extends Event {
       if (!settings) {
         settings = new Guild({
           guildId: message.guild.id,
-          prefix:"+",
+          prefix: "+",
         });
         await settings.save();
       }
@@ -113,11 +102,6 @@ module.exports = class extends Event {
           .setColor("#FF2C98");
         message.channel.send({ embeds: [embed] });
       }
-
-      if (config.datadogApiKey) {
-        metrics.increment("messages_seen");
-      }
-
       // Filters
       if (settings && (await inviteFilter(message))) return;
       if (settings && (await linkFilter(message))) return;
@@ -132,21 +116,18 @@ module.exports = class extends Event {
         `<@${client.user.id}>`,
         `<@!${client.user.id}>`,
       ];
-      if (settings.chatbot.alwaysOnChannel==message.channel.id) prefix = "";
-      
+      if (settings.chatbot.alwaysOnChannel == message.channel.id) prefix = "";
+
       if (message.mentions.repliedUser) {
         if (message.mentions.repliedUser.id == message.client.user.id) {
           prefix = "";
         }
       }
 
-
       for (let i = 0; i < prefixes.length; i++) {
         if (message.content.toLowerCase().startsWith(prefixes[i]))
           prefix = prefixes[i];
       }
-
- 
 
       const moderation = await Moderation.findOne({
         guildId: message.guild.id,
@@ -493,7 +474,10 @@ module.exports = class extends Event {
           }
         }
 
-        if (command.userPermission && !this.client.config.developers.includes(message.author.id)) {
+        if (
+          command.userPermission &&
+          !this.client.config.developers.includes(message.author.id)
+        ) {
           const missingPermissions = message.channel
             .permissionsFor(message.author)
             .missing(command.userPermission)
@@ -525,36 +509,21 @@ module.exports = class extends Event {
             return;
         }
 
-        if (config.datadogApiKey) {
-          metrics.increment("commands_served");
-          metrics.increment("command." + command.name);
-        }
-
         if (command.disabled)
           return message.channel.send(
             `The owner has disabled the following command for now. Try again Later!\n\n`
           );
 
+        message.client.statcord.postCommand(command.name, message.author.id);
         await this.runCommand(message, cmd, args).catch((error) => {
-          if (config.datadogApiKey) {
-            metrics.increment("command_error");
-          }
-
           return this.client.emit("commandError", error, message, cmd);
         });
       } else {
-        if (config.datadogApiKey) {
-          metrics.increment("commands_served");
-          metrics.increment("command.chatbot");
-        }
+        if (settings.chatbot.disabledChannels.includes(message.channel.id))
+          return;
         execute(message, prefix, 0);
       }
     } catch (error) {
-      if(settings.chatbot.disabledChannels.includes(message.channel.id))
-        return;
-      if (config.datadogApiKey) {
-        metrics.increment("command_error");
-      }
       return this.client.emit("fatalError", error, message);
     }
   }

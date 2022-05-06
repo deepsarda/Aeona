@@ -81,7 +81,6 @@ module.exports = class AeonaClient extends Client {
       channel.send("Queue has ended.");
       player.destroy();
     });
-
   }
 
   validate(options) {

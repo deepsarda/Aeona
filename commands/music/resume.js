@@ -21,15 +21,14 @@ module.exports = class extends Command {
       message.client.musicManager.get(message.guild.id).voiceChannel
     )
       return message.channel.send("🚫 You're not in the same voice channel!");
-    
+
     const response = resume(message);
     message.reply(response);
   }
 };
 function resumePlayer({ client, guildId }) {
-    const player = client.musicManager.get(guildId);
-    if (!player.paused) return "The player is already resumed";
-    player.pause(false);
-    return "▶️ Resumed the music player";
-  }
-  
+  const player = client.musicManager.get(guildId);
+  if (!player.paused) return "The player is already resumed";
+  player.pause(false);
+  return "▶️ Resumed the music player";
+}

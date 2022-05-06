@@ -1,26 +1,30 @@
+const dotenv = require("dotenv").config();
 const config = require("./config.json");
 const logger = require("./utils/logger");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
 const { token } = require("./utils/variables.js");
-const { AutoPoster } = require('topgg-autoposter')
-var exec = require('child_process').exec;
-function execute(command, callback){
-    exec(command, function(error, stdout, stderr){ callback(stdout); });
-};
+const { AutoPoster } = require("topgg-autoposter");
 
-execute("git remove -v",function(remotes){
-    console.log(remotes);
-})
-process.on("uncaughtException", (err, origin) => {});
+process.on("uncaughtException", (err, origin) => {
+  logger.error(err);
+});
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
- // totalShards: 'auto'
+  // totalShards: 'auto'
   totalShards: 1,
 });
-const poster = AutoPoster(process.env.TOKEN, manager)
+const poster = AutoPoster(process.env.TOKEN, manager);
 manager.spawn();
+
+// Create statcord client
+const statcord = new Statcord.ShardingClient({
+  manager,
+  key: process.env.STATCORD,
+});
+
+manager.statcord = statcord;
 
 manager.on("shardCreate", (shard) => {
   logger.info(`Launching Shard ${shard.id + 1}`, { label: `Shard` });
@@ -33,5 +37,5 @@ manager.on("shardCreate", (shard) => {
     )
     .catch(console.error);
 
-  
+  statcord.autopost();
 });

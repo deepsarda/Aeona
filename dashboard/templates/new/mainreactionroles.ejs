@@ -245,7 +245,7 @@
                             <p style="padding-left: 40px">Channel</p>
                             <select class="select" name="sendChannel">
 
-                              <% guild.channels.cache.filter((ch)=> ch.type === "text").forEach((ch) => { %>
+                              <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                 <option>#<%= ch.name %>
                                 </option>
                                 <% }); %>

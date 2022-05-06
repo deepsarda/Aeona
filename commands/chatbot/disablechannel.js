@@ -1,7 +1,7 @@
 const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
 const { MessageEmbed } = require("discord.js");
-module.exports = class extends Command { 
+module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "disablechannel",
@@ -30,7 +30,7 @@ module.exports = class extends Command {
     if (!guild) {
       guild = new Guild({
         guildId: message.guild.id,
-        prefix:"+"
+        prefix: "+",
       });
     }
 
@@ -39,7 +39,7 @@ module.exports = class extends Command {
     }
 
     guild.chatbot.disabledChannels.push(channel.id);
-    await guild.save()
+    await guild.save();
     message.channel.send(
       `Successfully disabled channel ${channel.name}! I will no longer reply to messages in this channel!`
     );

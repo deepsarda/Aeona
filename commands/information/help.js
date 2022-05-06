@@ -110,9 +110,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );
@@ -143,9 +141,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );
@@ -162,7 +158,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (
+    } else if (
       (args && args.join(" ").toLowerCase() == "chatbot") ||
       (args && args[0].toLowerCase() == "chatbot")
     ) {
@@ -176,9 +172,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );
@@ -195,7 +189,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (
+    } else if (
       (args && args.join(" ").toLowerCase() == "anime") ||
       (args && args[0].toLowerCase() == "woman")
     ) {
@@ -209,9 +203,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );
@@ -228,7 +220,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (args && args[0].toLowerCase() == "owner") {
+    } else if (args && args[0].toLowerCase() == "owner") {
       if (!this.client.config.developers.includes(message.author.id))
         return message.channel.send(
           `${message.client.emoji.fail} | You are not allowed to view this category`
@@ -382,9 +374,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );
@@ -545,9 +535,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} :\` ${
-                cmd.description
-              }`
+              } \`${cmd.name} :\` ${cmd.description}`
           )
           .join("\n")
       );

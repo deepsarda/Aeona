@@ -10,10 +10,7 @@ module.exports = class extends Command {
     });
   }
   async run(message, args) {
-    if (!args[0])
-      return message.channel.send(
-        `Please specify a user to hug!`
-      );
+    if (!args[0]) return message.channel.send(`Please specify a user to hug!`);
     const user =
       message.mentions.users.first() ||
       message.guild.members.cache.get(args[0]);

@@ -19,23 +19,65 @@ module.exports = class extends Command {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
-    let client=message.client;
+    let client = message.client;
     const language = require(`../../data/language/${guildDB.language}.json`);
-    let owner=await message.guild.fetchOwner();
+    let owner = await message.guild.fetchOwner();
     await message.guild.members.fetch();
     const embed = new MessageEmbed()
       .setFooter({ text: `Shard #${message.guild.shardID}` })
-      .setAuthor({name:message.guild.name,iconUrl: message.guild.iconURL})
-      .addField(`${client.bot_emojis.owner} Owner`, `> <@${message.guild.ownerId}> (ID: \`${message.guild.ownerId}\`)`, true)
-    .addField(`<:channel:956753542541115432> Server ID`, `> \`${message.guild.id}\``, true)
-    .addField(`<:discord_2:956753542650155100> Description`, `> ${message.guild.description || "No server description!"}`)
-    .addField(`<:members:956753542662717510> Members`, `\`${message.guild.memberCount}/${message.guild.maximumMembers}\` members (\`${message.guild.members.cache.filter((member) => member.user.bot).size}\` bots)`)
-    .addField(`<a:badges_roll:956753542494973953> Emojis`, `> Total emojis: \`${message.guild.emojis.cache.size}\``, true)
-    .addField(`<a:booster:956753544923455508> Boosts`, `> \`${message.guild.premiumSubscriptionCount}\` (${capitalize(message.guild.premiumTier.toLowerCase().replace("_", " "))})`, true)
-    .addField(`:lock: Verification`, `> \`${capitalize(message.guild.verificationLevel.toLowerCase().replace("_", " "))}\``, true)
-    .addField(`:stopwatch: Creation Date`, `> <t:${moment(message.channel.guild.createdTimestamp).unix()}> (<t:${moment(message.channel.guild.createdTimestamp).unix()}:R>)`, true)
+      .setAuthor({ name: message.guild.name, iconUrl: message.guild.iconURL })
+      .addField(
+        `${client.bot_emojis.owner} Owner`,
+        `> <@${message.guild.ownerId}> (ID: \`${message.guild.ownerId}\`)`,
+        true
+      )
+      .addField(
+        `<:channel:956753542541115432> Server ID`,
+        `> \`${message.guild.id}\``,
+        true
+      )
+      .addField(
+        `<:discord_2:956753542650155100> Description`,
+        `> ${message.guild.description || "No server description!"}`
+      )
+      .addField(
+        `<:members:956753542662717510> Members`,
+        `\`${message.guild.memberCount}/${
+          message.guild.maximumMembers
+        }\` members (\`${
+          message.guild.members.cache.filter((member) => member.user.bot).size
+        }\` bots)`
+      )
+      .addField(
+        `<a:badges_roll:956753542494973953> Emojis`,
+        `> Total emojis: \`${message.guild.emojis.cache.size}\``,
+        true
+      )
+      .addField(
+        `<a:booster:956753544923455508> Boosts`,
+        `> \`${message.guild.premiumSubscriptionCount}\` (${capitalize(
+          message.guild.premiumTier.toLowerCase().replace("_", " ")
+        )})`,
+        true
+      )
+      .addField(
+        `:lock: Verification`,
+        `> \`${capitalize(
+          message.guild.verificationLevel.toLowerCase().replace("_", " ")
+        )}\``,
+        true
+      )
+      .addField(
+        `:stopwatch: Creation Date`,
+        `> <t:${moment(
+          message.channel.guild.createdTimestamp
+        ).unix()}> (<t:${moment(
+          message.channel.guild.createdTimestamp
+        ).unix()}:R>)`,
+        true
+      )
       .setThumbnail(message.guild.iconURL())
       .setColor(message.guild.me.displayHexColor);
-    message.channel.send({ embeds:[embed] });
+    message.channel.send({ embeds: [embed] });
   }
 };

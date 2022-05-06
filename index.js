@@ -27,28 +27,13 @@ if (config.dashboard) {
 Aeona.start();
 
 const http = require("https");
-const os = require("os");
-const AutoGitUpdate = require("auto-git-update");
 function randomString(length, chars) {
   var result = "";
   for (var i = length; i > 0; --i)
     result += chars[Math.floor(Math.random() * chars.length)];
   return result;
 }
-
-let updating = false;
-let tempDir = os.tmpdir();
-const autoUpdateConfig = {
-  repository: "https://github.com/deepsarda/Aeona",
-  fromReleases: false,
-  tempLocation: tempDir,
-  ignoreFiles: [],
-  executeOnComplete: "",
-  exitOnComplete: true,
-};
-
-const updater = new AutoGitUpdate(autoUpdateConfig);
-setInterval(async () => {
+setInterval(() => {
   const options = {
     method: "GET",
     hostname: "dumbotapi.aeona.repl.co",
@@ -82,10 +67,4 @@ setInterval(async () => {
     });
   });
   req.end();
-
-  if (updating) return;
-  updating = true;
-
-  await updater.autoUpdate();
-  updating = false;
 }, 60 * 1000 * 5);

@@ -125,7 +125,6 @@ module.exports = class extends Command {
     }
 
     const userFlags = (await member.user.fetchFlags()).toArray();
-    
 
     // Trim roles
     let rolesNoob;

@@ -2,7 +2,6 @@ const Event = require("../../structures/Event");
 const Discord = require("discord.js");
 const logger = require("../../utils/logger");
 const Guild = require("../../database/schemas/Guild");
-const metrics = require("datadog-metrics");
 const Logging = require("../../database/schemas/logging");
 const config = require("../../config.json");
 const welcomeClient = new Discord.WebhookClient({

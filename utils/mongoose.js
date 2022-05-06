@@ -5,24 +5,22 @@ const logger = require("../utils/logger");
 
 module.exports = {
   init: () => {
-    const dbOptions = {
-      keepAlive: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-    };
-
     if (!config.mongodb_url)
       logger.error(
         `Database failed to load - Required environment variable "mongodb_url" is not set.`,
         { label: "Database" }
       );
-    mongoose.connect(mongodb, dbOptions).catch((e) => {
-      logger.error(e.message, { label: "Database" });
-      this.database = null;
-    });
-
-    mongoose.set("useFindAndModify", false);
+    mongoose
+      .connect(mongodb, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+      })
+      .catch((e) => {
+        logger.error(e.message, { label: "Database" });
+        this.database = null;
+      });
     mongoose.Promise = global.Promise;
 
     mongoose.connection.on("err", (err) => {

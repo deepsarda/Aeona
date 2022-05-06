@@ -1,15 +1,6 @@
 const Event = require("../../structures/Event");
-const discord = require("discord.js");
-const config = require("./../../config.json");
 const { MessageEmbed } = require("discord.js");
-const logger = require("../../utils/logger");
-const mongoose = require("mongoose");
-const Guild = require("../../database/schemas/Guild");
-const User = require("../../database/schemas/User");
-const metrics = require("datadog-metrics");
 require("moment-duration-format");
-const Db = require("../../packages/reactionrole/models/schema.js");
-const reactionTicket = require("../../models/tickets.js");
 const Logging = require("../../database/schemas/logging");
 const Maintenance = require("../../database/schemas/maintenance");
 module.exports = class extends Event {
