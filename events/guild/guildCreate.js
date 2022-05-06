@@ -5,10 +5,10 @@ const Guild = require("../../database/schemas/Guild");
 const Logging = require("../../database/schemas/logging");
 const config = require("../../config.json");
 const welcomeClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
+  url: "https://discord.com/api/webhooks/972210670143684668/5tmW7ounOmjKRgBgr6UZT22ux6cNRY8sL5Z43vvJJw9HN1A7AoYOpZBe1FeQLvaKWbtV",
 });
 const webhookClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
+  url: "https://discord.com/api/webhooks/972210670143684668/5tmW7ounOmjKRgBgr6UZT22ux6cNRY8sL5Z43vvJJw9HN1A7AoYOpZBe1FeQLvaKWbtV",
 });
 
 module.exports = class extends Event {

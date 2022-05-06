@@ -3,7 +3,7 @@ const { combine, timestamp, label, printf } = format;
 const Discord = require("discord.js");
 const config = require("../config.json.js");
 const webhookClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971701276888936480/7o7CAK21Y4W4z2xEWqdYiWL24T5o-ljS0nmGQfKs0TPm1g5ISbQqIMbzJ7HJ90suExcW",
+  url: "https://discord.com/api/webhooks/972210514165899285/Sd59Nv73XbtdXk6d92csyYQc_kLejBSZJ-UsbO_hbs2dldhy9mw9TTlxmicUMwB4KMyt",
 });
 const chalk = require("chalk");
 
