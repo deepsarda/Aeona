@@ -546,7 +546,8 @@ module.exports = class extends Event {
         execute(message, prefix, 0);
       }
     } catch (error) {
-      if(settings.dis)
+      if(settings.chatbot.disabledChannels.includes(message.channel.id))
+        return;
       if (config.datadogApiKey) {
         metrics.increment("command_error");
       }
