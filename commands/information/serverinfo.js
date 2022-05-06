@@ -19,7 +19,7 @@ module.exports = class extends Command {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
-    let client=bot.client;
+    let client=message.client;
     const language = require(`../../data/language/${guildDB.language}.json`);
     let owner=await message.guild.fetchOwner();
     await message.guild.members.fetch();

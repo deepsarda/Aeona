@@ -33,7 +33,7 @@ module.exports = class extends Command {
         }\`\`\``;
       }
 
-      message.channel.send({ embeds: [embed] });
+      message.channel.send(embed);
     } else {
       message.channel.send("Bruh you tryina steal my token huh?");
     }

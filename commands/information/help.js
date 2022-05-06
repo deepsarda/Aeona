@@ -41,6 +41,8 @@ module.exports = class extends Command {
       reactionrole: `${emojis.reactionrole}`,
       tickets: `${emojis.tickets}`,
       owner: `${emojis.owner}`,
+      chatbot: `🤖`,
+      anime: `👩`,
     };
 
     const green = "<:PurpleDot:971039873148522546>";
@@ -88,7 +90,7 @@ module.exports = class extends Command {
 
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -121,12 +123,78 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    } else if (args && args[0].toLowerCase() == "owner") {
+    } else if (
+      (args && args.join(" ").toLowerCase() == "chatbot") ||
+      (args && args[0].toLowerCase() == "chatbot")
+    ) {
+      embed.setTitle(` ${emojis.chatbot} - Chatbot Config`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "chatbot")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+                cmd.description
+              }`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    }else if (
+      (args && args.join(" ").toLowerCase() == "Anime") ||
+      (args && args[0].toLowerCase() == "woman")
+    ) {
+      embed.setTitle(` ${emojis.altdetector} - Anime`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "Anime")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+                cmd.description
+              }`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    }else if (args && args[0].toLowerCase() == "owner") {
       if (!this.client.config.developers.includes(message.author.id))
         return message.channel.send(
           `${message.client.emoji.fail} | You are not allowed to view this category`
@@ -157,7 +225,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -192,7 +260,7 @@ module.exports = class extends Command {
 
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -227,7 +295,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -261,7 +329,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -295,7 +363,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -326,7 +394,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -360,7 +428,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -394,7 +462,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -427,7 +495,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -458,7 +526,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -496,7 +564,7 @@ module.exports = class extends Command {
       embed.setTimestamp();
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
@@ -524,7 +592,7 @@ module.exports = class extends Command {
       );
       embed.addField(
         "\u200b",
-        "**[Invite](https://invite.Aeona.xyz) | " +
+        "**[Invite](https://aeona.xyz/invite) | " +
           "[Support Server](https://Aeona.xyz/support) | " +
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );

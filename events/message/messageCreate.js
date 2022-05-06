@@ -140,9 +140,8 @@ module.exports = class extends Event {
           prefix = "";
         }
       }
-      const guildDB = await Guild.findOne({
-        guildId: message.guild.id,
-      });
+
+      if (settings.chatbot.alwaysOnChannel) prefix = "";
 
       const moderation = await Moderation.findOne({
         guildId: message.guild.id,
@@ -216,8 +215,8 @@ module.exports = class extends Event {
 
       //afk
       let language = require(`../../data/language/english.json`);
-      if (guildDB)
-        language = require(`../../data/language/${guildDB.language}.json`);
+      if (settings)
+        language = require(`../../data/language/${settings.language}.json`);
 
       moment.suppressDeprecationWarnings = true;
 
@@ -405,7 +404,7 @@ module.exports = class extends Event {
           }
         );
 
-        const disabledCommands = guildDB.disabledCommands;
+        const disabledCommands = settings.disabledCommands;
         if (typeof disabledCommands === "string")
           disabledCommands = disabledCommands.split(" ");
 
@@ -452,7 +451,7 @@ module.exports = class extends Event {
                   : ""
               }${
                 number === 2
-                  ? "*You can check our top.gg page at `https://vote.Aeona.xyz`*"
+                  ? "*You can check our top.gg page at `https://Aeona.xyz`*"
                   : ""
               }`
             )
@@ -531,12 +530,6 @@ module.exports = class extends Event {
             `The owner has disabled the following command for now. Try again Later!\n\n`
           );
 
-        Statcord.ShardingClient.postCommand(
-          cmd,
-          message.author.id,
-          this.client
-        );
-
         await this.runCommand(message, cmd, args).catch((error) => {
           if (config.datadogApiKey) {
             metrics.increment("command_error");
@@ -552,6 +545,7 @@ module.exports = class extends Event {
         execute(message, prefix, 0);
       }
     } catch (error) {
+      if(settings.dis)
       if (config.datadogApiKey) {
         metrics.increment("command_error");
       }
