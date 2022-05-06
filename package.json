@@ -34,8 +34,6 @@
     "datadog-metrics": "^0.8.2",
     "date-and-time": "^0.14.2",
     "dblapi.js": "^2.4.1",
-    "discord-backup": "^3.2.1",
-    "discord-chatbot": "^2.0.2",
     "discord.js": "^13.6.0",
     "discord.js-light": "^3.5.9",
     "ejs": "^3.1.6",
