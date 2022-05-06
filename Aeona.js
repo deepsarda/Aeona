@@ -49,6 +49,7 @@ module.exports = class AeonaClient extends Client {
     this.mongoose = require("./utils/mongoose");
     this.utils = new Util(this);
     this.config = require("./config.json.js");
+    this.bot_emojies = require("./assets/emojis.json");
   }
 
   validate(options) {
