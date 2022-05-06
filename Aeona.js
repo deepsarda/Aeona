@@ -5,7 +5,6 @@ const logger = require("./utils/logger");
 const prettyMs = require("pretty-ms");
 const { token } = require("./utils/variables");
 const MusicManager = require("./MusicManager");
-const backup = require("discord-backup");
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
@@ -82,8 +81,7 @@ module.exports = class AeonaClient extends Client {
       channel.send("Queue has ended.");
       player.destroy();
     });
-    this.backupManager = backup;
-    this.backupManager.setStorageFolder(`${process.cwd()}/database/backups`);
+
   }
 
   validate(options) {
