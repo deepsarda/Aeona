@@ -27,15 +27,14 @@ module.exports = class extends Command {
     if (!guild) {
       guild = new Guild({
         guildID: message.guild.id,
+        prefix:"+"
       });
     }
     if (guild.chatbot.alwaysOnChannel === channel.id) {
       return message.channel.send(`That channel is already enabled!`);
     }
     guild.chatbot.alwaysOnChannel = channel.id;
-    await guild.save().catch(() => {
-      return message.channel.send(`An error occured while saving the guild!`);
-    });
+    await guild.save()
     message.channel.send(
       `Successfully enabled channel ${channel.name}! I will now reply to messages in this channel!`
     );

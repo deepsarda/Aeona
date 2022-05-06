@@ -29,6 +29,7 @@ module.exports = class extends Command {
     if (!guild) {
       guild = new Guild({
         guildID: message.guild.id,
+        prefix:"+"
       });
     }
     if (!guild.chatbot.disabledChannels.includes(channel.id)) {
@@ -38,9 +39,7 @@ module.exports = class extends Command {
       guild.chatbot.disabledChannels.indexOf(channel.id),
       1
     );
-    await guild.save().catch(() => {
-      return message.channel.send(`An error occured while saving the guild!`);
-    });
+    await guild.save()
     message.channel.send(
       `Successfully enabled channel ${channel.name}! I will now reply to messages in this channel!`
     );

@@ -68,6 +68,7 @@ module.exports = class extends Event {
       if (!settings) {
         settings = new Guild({
           guildId: message.guild.id,
+          prefix:"+",
         });
         await settings.save();
       }

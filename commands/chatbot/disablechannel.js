@@ -30,6 +30,7 @@ module.exports = class extends Command {
     if (!guild) {
       guild = new Guild({
         guildID: message.guild.id,
+        prefix:"+"
       });
     }
 
@@ -38,10 +39,7 @@ module.exports = class extends Command {
     }
 
     guild.chatbot.disabledChannels.push(channel.id);
-    await guild.save().catch(() => {
-      return message.channel.send(`An error occured while saving the guild!`);
-    });
-
+    await guild.save()
     message.channel.send(
       `Successfully disabled channel ${channel.name}! I will no longer reply to messages in this channel!`
     );

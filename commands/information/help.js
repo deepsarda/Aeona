@@ -109,7 +109,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+              } \`${cmd.name} :\` ${
                 cmd.description
               }`
           )
@@ -142,7 +142,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+              } \`${cmd.name} :\` ${
                 cmd.description
               }`
           )
@@ -175,7 +175,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+              } \`${cmd.name} :\` ${
                 cmd.description
               }`
           )
@@ -348,7 +348,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+              } \`${cmd.name} :\` ${
                 cmd.description
               }`
           )
@@ -511,7 +511,7 @@ module.exports = class extends Command {
                 cmd.disabled || disabledCommands.includes(cmd.name || cmd)
                   ? red
                   : green
-              } \`${cmd.name} ${" ".repeat(9 - Number(cmd.name.length))}:\` ${
+              } \`${cmd.name} :\` ${
                 cmd.description
               }`
           )
