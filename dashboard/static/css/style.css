@@ -3,8 +3,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap");
 
 :root {
-  --white: #222;
-  --preloader: #222;
+  --white: #1a114d;
+  --preloader: #1a114d;
   --spinner: #888;
   --spinner-border: #333;
   --link: #fff;
@@ -17,7 +17,7 @@
   --button-hover: #3b3e42;
   --svg: #fff;
   --text: #fff;
-  --scrollbar: #222;
+  --scrollbar: #1a114d;
   --scrollbar-thumb: #2b2b2b;
   --scrollbar-hover: #363636;
   --scrollbar-active: #454545;
@@ -139,7 +139,7 @@
 }
 
 body {
-  background: var(--white);
+  background-image: url("../svg/background-1.svg");
   margin: 0 0;
   padding: 0 0;
   transition: 300ms all;
