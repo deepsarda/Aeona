@@ -488,7 +488,7 @@
                             <% if(log.server_events.channel && bot.channels.cache.has(log.server_events.channel)){ %>
                               <option selected="selected">#<%= bot.channels.cache.get(log.server_events.channel).name %>
                               </option>
-                              <% guild.channels.cache.filter((ch)=> ch.type === "text" && ch.id !==
+                              <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
                                 log.server_events.channel).forEach((ch) => { %>
                                 <option>#<%= ch.name %>
                                 </option>
@@ -496,7 +496,7 @@
                                   <option>None</option>
                                   <% } else { %>
                                     <option selected="selected">None</option>
-                                    <% guild.channels.cache.filter((ch)=> ch.type === "text").forEach((ch) => { %>
+                                    <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                       <option>#<%= ch.name %>
                                       </option>
                                       <% }); %>
@@ -581,7 +581,7 @@
                             <% if(log.member_events.channel && bot.channels.cache.has(log.member_events.channel)){ %>
                               <option selected="selected">#<%= bot.channels.cache.get(log.member_events.channel).name %>
                               </option>
-                              <% guild.channels.cache.filter((ch)=> ch.type === "text" && ch.id !==
+                              <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
                                 log.member_events.channel).forEach((ch) => { %>
                                 <option>#<%= ch.name %>
                                 </option>
@@ -589,7 +589,7 @@
                                   <option>None</option>
                                   <% } else { %>
                                     <option selected="selected">None</option>
-                                    <% guild.channels.cache.filter((ch)=> ch.type === "text").forEach((ch) => { %>
+                                    <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                       <option>#<%= ch.name %>
                                       </option>
                                       <% }); %>
@@ -705,7 +705,7 @@
                           <% if(log.message_events.channel && bot.channels.cache.has(log.message_events.channel)){ %>
                             <option selected="selected">#<%= bot.channels.cache.get(log.message_events.channel).name %>
                             </option>
-                            <% guild.channels.cache.filter((ch)=> ch.type === "text" && ch.id !==
+                            <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
                               log.message_events.channel).forEach((ch) => { %>
                               <option>#<%= ch.name %>
                               </option>
@@ -713,7 +713,7 @@
                                 <option>None</option>
                                 <% } else { %>
                                   <option selected="selected">None</option>
-                                  <% guild.channels.cache.filter((ch)=> ch.type === "text").forEach((ch) => { %>
+                                  <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                     <option>#<%= ch.name %>
                                     </option>
                                     <% }); %>
