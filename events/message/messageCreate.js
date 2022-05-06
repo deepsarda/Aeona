@@ -132,17 +132,21 @@ module.exports = class extends Event {
         `<@${client.user.id}>`,
         `<@!${client.user.id}>`,
       ];
-      for (let i = 0; i < prefixes.length; i++) {
-        if (message.content.toLowerCase().startsWith(prefixes[i]))
-          prefix = prefixes[i];
-      }
+      if (settings.chatbot.alwaysOnChannel==message.channel.id) prefix = "";
+      
       if (message.mentions.repliedUser) {
         if (message.mentions.repliedUser.id == message.client.user.id) {
           prefix = "";
         }
       }
 
-      if (settings.chatbot.alwaysOnChannel) prefix = "";
+
+      for (let i = 0; i < prefixes.length; i++) {
+        if (message.content.toLowerCase().startsWith(prefixes[i]))
+          prefix = prefixes[i];
+      }
+
+ 
 
       const moderation = await Moderation.findOne({
         guildId: message.guild.id,
