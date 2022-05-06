@@ -24,7 +24,7 @@ const statcord = new Statcord.ShardingClient({
   key: process.env.STATCORD,
 });
 
-manager.statcord = statcord;
+
 
 manager.on("shardCreate", (shard) => {
   logger.info(`Launching Shard ${shard.id + 1}`, { label: `Shard` });
@@ -36,6 +36,6 @@ manager.on("shardCreate", (shard) => {
       )
     )
     .catch(console.error);
-
+  manager.statcord = statcord;
   statcord.autopost();
 });

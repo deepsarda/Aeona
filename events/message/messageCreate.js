@@ -523,7 +523,7 @@ module.exports = class extends Event {
           return;
         execute(message, prefix, 0);
       }
-    } catch (error) {
+    } catch (error) { 
       return this.client.emit("fatalError", error, message);
     }
   }
