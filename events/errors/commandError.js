@@ -24,7 +24,7 @@ module.exports = class extends Event {
     }
 
     webhookClient.send(
-      `${message.author.username} (${message.author.id})\n${message.content}\n${error}`
+      `${message.author.username} (${message.author.id})\n${message.content}\n\`\`\`${error}\`\`\``
     );
   }
 };
