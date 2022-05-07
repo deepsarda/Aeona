@@ -521,6 +521,7 @@ module.exports = class extends Event {
       } else {
         if (settings.chatbot.disabledChannels.includes(message.channel.id))
           return;
+        message.client.statcord.postCommand("chatbot", message.author.id);
         execute(message, prefix, 0);
       }
     } catch (error) { 
