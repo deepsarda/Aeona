@@ -47,14 +47,14 @@ window.onload = () => {
       embed: {
         title: "Hello! :wave:",
         description:
-          "You can use [links](https://pogy.xyz) or emojis :smile: :eyes:\n```\nAnd also code blocks\n```",
+          "You can use [links](https://Aeona.xyz) or emojis :smile: :eyes:\n```\nAnd also code blocks\n```",
         color: 4321431,
         timestamp: new Date().toISOString(),
-        url: "https://pogy.xyz",
+        url: "https://Aeona.xyz",
         author: {
           name: "Author name",
-          url: "https://pogy.xyz",
-          icon_url: "https://i.imgur.com/sGUVicW.png",
+          url: "https://Aeona.xyz",
+          icon_url: "https://aeona.xyz/logo.png",
         },
         thumbnail: {
           url: "https://blog.logomyway.com/wp-content/uploads/2020/12/discord-mascot.png",
@@ -64,7 +64,7 @@ window.onload = () => {
         },
         footer: {
           text: "This is a footer text",
-          icon_url: "https://i.imgur.com/sGUVicW.png",
+          icon_url: "https://aeona.xyz/logo.png",
         },
         fields: [
           {

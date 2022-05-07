@@ -172,7 +172,7 @@ module.exports = class extends Event {
                 const embed = new Discord.MessageEmbed()
                   .setColor(this.client.color.red)
                   .setDescription(
-                    `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired :(\n\n__You can you re-new your server here! [https://pogy.xyz/premium](https://pogy.xyz/premium)__\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.\n\n**- Pogy**`
+                    `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired :(\n\n__You can you re-new your server here! [https://Aeona.xyz/premium](https://Aeona.xyz/premium)__\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.\n\n**- Aeona**`
                   );
 
                 user.send(embed).catch(() => {});
@@ -191,7 +191,7 @@ module.exports = class extends Event {
 
               await premiumrip
                 .send({
-                  username: "Pogy Loose Premium",
+                  username: "Aeona Loose Premium",
                   avatarURL: `${this.client.domain}/logo.png`,
                   embeds: [rip],
                 })

@@ -68,8 +68,8 @@ module.exports = class extends Command {
         .addField("Reason", reason);
 
       webhookClient.send({
-        username: "Pogy",
-        avatarURL: "https://pogy.xyz/logo.png",
+        username: "Aeona",
+        avatarURL: "https://Aeona.xyz/logo.png",
         embeds: [embed],
       });
 
@@ -103,8 +103,8 @@ module.exports = class extends Command {
         .addField("Reason", reason);
 
       webhookClient.send({
-        username: "Pogy",
-        avatarURL: "https://pogy.xyz/logo.png",
+        username: "Aeona",
+        avatarURL: "https://Aeona.xyz/logo.png",
         embeds: [embed],
       });
     }

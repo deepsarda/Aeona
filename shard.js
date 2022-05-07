@@ -4,6 +4,7 @@ const locker = new SingleInstance("aeona");
 locker
   .lock()
   .then(() => {
+    console.log("starting")
     const dotenv = require("dotenv").config();
     const logger = require("./utils/logger");
     const Discord = require("discord.js");
@@ -52,5 +53,5 @@ locker
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err); 
   });
