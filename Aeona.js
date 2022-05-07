@@ -84,7 +84,7 @@ module.exports = class AeonaClient extends Client {
     });
 
     this.statcord = new Statcord.Client({
-      manager,
+      client: this,
       key: process.env.STATCORD,
     });
 

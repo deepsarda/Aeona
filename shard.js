@@ -12,7 +12,7 @@ locker
     const { AutoPoster } = require("topgg-autoposter");
 
     process.on("uncaughtException", (err, origin) => {
-      console.err(err);
+      logger.info(err);
     });
     const manager = new Discord.ShardingManager("./index.js", {
       token: token,
