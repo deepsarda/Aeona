@@ -6,9 +6,7 @@ const Statcord = require("statcord.js");
 const { token } = require("./utils/variables.js");
 const { AutoPoster } = require("topgg-autoposter");
 
-process.on("uncaughtException", (err, origin) => {
-  logger.error(err);
-});
+
 const manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
@@ -16,8 +14,6 @@ const manager = new Discord.ShardingManager("./index.js", {
   totalShards: 1,
 });
 const poster = AutoPoster(process.env.TOKEN, manager);
-manager.spawn();
-
 // Create statcord client
 const statcord = new Statcord.ShardingClient({
   manager,
@@ -33,6 +29,10 @@ statcord.on("post", status => {
   if (!status) logger.info("Successful post");
   else console.error(status);
 });
+
+manager.spawn();
+
+
 manager.on("shardCreate", (shard) => {
   logger.info(`Launching Shard ${shard.id + 1}`, { label: `Shard` });
   manager
