@@ -45,6 +45,7 @@
     "randostrings": "^0.1.6",
     "request-promise-native": "^1.0.9",
     "shortid": "^2.2.16",
+    "single-instance": "^0.0.1",
     "statcord.js": "^3.4.2",
     "string-progressbar": "^1.0.4",
     "topgg-autoposter": "^2.0.1",
