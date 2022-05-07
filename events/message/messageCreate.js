@@ -515,14 +515,14 @@ module.exports = class extends Event {
             `The owner has disabled the following command for now. Try again Later!\n\n`
           );
 
-          Statcord.ShardingClient.postCommand(command.name, message.author.id);
+          Statcord.ShardingClient.postCommand(command.name, message.author.id,message.client);
         await this.runCommand(message, cmd, args).catch((error) => {
           return this.client.emit("commandError", error, message, cmd);
         });
       } else {
         if (settings.chatbot.disabledChannels.includes(message.channel.id))
           return;
-          Statcord.ShardingClient.postCommand("chatbot", message.author.id);
+          Statcord.ShardingClient.postCommand("chatbot", message.author.id,message.client);
         execute(message, prefix, 0);
       }
     } catch (error) { 
