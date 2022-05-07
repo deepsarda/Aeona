@@ -8,7 +8,6 @@ locker
     const config = require("./config.json");
     const logger = require("./utils/logger");
     const Discord = require("discord.js");
-    const Statcord = require("statcord.js");
     const { token } = require("./utils/variables.js");
     const { AutoPoster } = require("topgg-autoposter");
 
@@ -22,21 +21,7 @@ locker
       totalShards: 1,
     });
     const poster = AutoPoster(process.env.TOKEN, manager);
-    // Create statcord client
-    const statcord = new Statcord.ShardingClient({
-      manager,
-      key: process.env.STATCORD,
-    });
 
-    //Expose the statcord client to the rest of the code
-    module.exports = statcord;
-
-    statcord.on("post", (status) => {
-      // status = false if the post was successful
-      // status = "Error message" or status = Error if there was an error
-      if (!status) logger.info("Successful post");
-      else console.error(status);
-    });
 
     manager.spawn();
 

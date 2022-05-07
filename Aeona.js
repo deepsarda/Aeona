@@ -5,6 +5,7 @@ const logger = require("./utils/logger");
 const prettyMs = require("pretty-ms");
 const { token } = require("./utils/variables");
 const MusicManager = require("./MusicManager");
+const Statcord = require("statcord.js");
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
@@ -82,7 +83,11 @@ module.exports = class AeonaClient extends Client {
       player.destroy();
     });
 
-    this.statcord = require("./shard");
+    this.statcord = new Statcord.Client({
+      manager,
+      key: process.env.STATCORD,
+    });
+
   }
 
   validate(options) {
