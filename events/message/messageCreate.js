@@ -21,6 +21,7 @@ const permissions = require("../../assets/json/permissions.json");
 const Maintenance = require("../../database/schemas/maintenance");
 const fetch = require("node-fetch");
 require("moment-duration-format");
+const Statcord = require("statcord.js");
 
 module.exports = class extends Event {
   constructor(...args) {
@@ -514,14 +515,14 @@ module.exports = class extends Event {
             `The owner has disabled the following command for now. Try again Later!\n\n`
           );
 
-        message.client.statcord.postCommand(command.name, message.author.id);
+          Statcord.ShardingClient.postCommand(command.name, message.author.id);
         await this.runCommand(message, cmd, args).catch((error) => {
           return this.client.emit("commandError", error, message, cmd);
         });
       } else {
         if (settings.chatbot.disabledChannels.includes(message.channel.id))
           return;
-        message.client.statcord.postCommand("chatbot", message.author.id);
+          Statcord.ShardingClient.postCommand("chatbot", message.author.id);
         execute(message, prefix, 0);
       }
     } catch (error) { 

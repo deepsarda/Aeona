@@ -1,11 +1,10 @@
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const Util = require("./structures/Util");
-const config = require("./config.json.js");
+const config = require("./config.js");
 const logger = require("./utils/logger");
 const prettyMs = require("pretty-ms");
 const { token } = require("./utils/variables");
 const MusicManager = require("./MusicManager");
-const Statcord = require("statcord.js");
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
@@ -83,10 +82,6 @@ module.exports = class AeonaClient extends Client {
       player.destroy();
     });
 
-    this.statcord = new Statcord.Client({
-      client: this,
-      key: process.env.STATCORD,
-    });
 
   }
 

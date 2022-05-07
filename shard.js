@@ -5,12 +5,11 @@ locker
   .lock()
   .then(() => {
     const dotenv = require("dotenv").config();
-    const config = require("./config.json");
     const logger = require("./utils/logger");
     const Discord = require("discord.js");
     const { token } = require("./utils/variables.js");
     const { AutoPoster } = require("topgg-autoposter");
-
+    const Statcord = require("statcord.js");
     process.on("uncaughtException", (err, origin) => {
       logger.info(err);
     });
@@ -22,9 +21,12 @@ locker
     });
     const poster = AutoPoster(process.env.TOKEN, manager);
 
+    let statcord = new Statcord.ShardingClient({
+      manager,
+      key: process.env.STATCORD,
+    });
 
     manager.spawn();
-
     manager.on("shardCreate", (shard) => {
       logger.info(`Launching Shard ${shard.id + 1}`, { label: `Shard` });
       manager

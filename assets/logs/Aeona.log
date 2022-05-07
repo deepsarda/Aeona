@@ -569,3 +569,8 @@
 2022-05-07 10:14:14 [[32minfo[39m] [[36mRate Limit[39m] Time out: 3800ms. Limit: 2
 2022-05-07 10:14:14 [[32minfo[39m] [[36mRate Limit[39m] Time out: 522ms. Limit: 2
 2022-05-07 10:14:14 [[32minfo[39m] [[36mRate Limit[39m] Time out: 1567ms. Limit: 2
+2022-05-07 11:15:02 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-07 11:15:33 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-07 11:15:49 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-07 11:16:02 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-07 11:17:40 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
