@@ -28,14 +28,14 @@ module.exports = class MusicManager extends Manager {
     super({
       nodes: [
         {
-          host: "lavalink.oops.wtf",
-          port: 2000,
-          password: "www.freelavalink.ga",
-          identifier: "USA Link",
-          retryDelay: 5000,
-          secure: false,
-        },
-      ],
+         host: "usa.lavalink.mitask.tech",
+         port: 2333,
+         password: "lvserver",
+         identifier: "USA Link",
+         retryDelay: 5000,
+         secure: false,
+       },
+     ],
       autoPlay: true,
       plugins,
 

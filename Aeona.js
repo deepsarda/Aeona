@@ -32,6 +32,10 @@ module.exports = class AeonaClient extends Client {
         "GUILD_MESSAGES",
         "GUILD_MESSAGE_REACTIONS",
         "GUILD_MESSAGE_TYPING",
+        "DIRECT_MESSAGES",
+        "DIRECT_MESSAGE_REACTIONS",
+        "DIRECT_MESSAGE_TYPING",
+        
       ],
     });
 
@@ -81,6 +85,8 @@ module.exports = class AeonaClient extends Client {
       channel.send("Queue has ended.");
       player.destroy();
     });
+
+
   }
 
   validate(options) {

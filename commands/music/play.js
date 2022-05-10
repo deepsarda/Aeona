@@ -14,7 +14,7 @@ module.exports = class extends Command {
     });
   }
   async run(message, args) {
-    const response = play(message, args);
+    const response = await play(message, args);
     message.reply(response);
   }
 };
@@ -51,7 +51,7 @@ async function play({ member, guild, channel }, user, query) {
       throw res.exception;
     }
   } catch (err) {
-    guild.client.logger.error("Search Exception", err);
+    console.log("Search Exception", err);
     return "There was an error while searching";
   }
 

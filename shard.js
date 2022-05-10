@@ -1,5 +1,8 @@
 const SingleInstance = require("single-instance");
 const locker = new SingleInstance("aeona");
+process.on("uncaughtException", (err, origin) => {
+  console.log(err);
+});
 
 locker
   .lock()
@@ -11,9 +14,7 @@ locker
     const { token } = require("./utils/variables.js");
     const { AutoPoster } = require("topgg-autoposter");
     const Statcord = require("statcord.js");
-    process.on("uncaughtException", (err, origin) => {
-      logger.info(err);
-    });
+
     const manager = new Discord.ShardingManager("./index.js", {
       token: token,
       //autoSpawn: true,

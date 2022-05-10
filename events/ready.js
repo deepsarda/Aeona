@@ -16,6 +16,7 @@ module.exports = class extends Event {
       logger.info(`✅ loaded Maintenance Mode `, { label: "Status" });
     } else {
       let client = this.client;
+      this.client.musicManager.init(client.user.id);
       client.status = await require("../presence_config");
       setInterval(() => {
         const emoji =
