@@ -119,13 +119,7 @@ module.exports = class extends Command {
             channel = channels.at(0);
 
             if (!channel) {
-              util.error({
-                msg: message,
-                title: "No channel found",
-                description:
-                  "I could not find a channel to send the message to for guild: " +
-                  guild.name,
-              });
+             
             } else {
               channel.send(updateMessage);
               console.log(
@@ -136,9 +130,7 @@ module.exports = class extends Command {
               );
             }
           } else {
-            var e = embed;
-            e.channel = channel;
-            util.success(e);
+            channel.send(updateMessage);
             console.log(
               "Sending update message to " + channel.name + " in " + guild.name
             );
