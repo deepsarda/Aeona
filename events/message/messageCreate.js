@@ -531,7 +531,7 @@ module.exports = class extends Event {
           message.author.id,
           message.client
         );
-        execute(message, prefix, 0);
+        execute(message, prefix, 0,settings.chatbot.chatbot);
       }
     } catch (error) {
       return this.client.emit("fatalError", error, message);
@@ -587,14 +587,11 @@ module.exports = class extends Event {
 };
 
 const http = require("https");
-async function execute(message, prefix, i) {
+async function execute(message, prefix, i,chatbot) {
   if (i == 10) {
     return;
   }
 
-  if (message.content == "") {
-    message.content = "RANDOM";
-  }
   i++;
   try {
     let bot = message.client;
@@ -634,14 +631,17 @@ async function execute(message, prefix, i) {
         }
       }
     }
-
+    message.content=message.content.slice(prefix.length).trim();
+    if (message.content.trim() == "") {
+      message.content = "RANDOM";
+    }
     const options = {
       method: "GET",
       hostname: "dumbotapi.aeona.repl.co",
       port: null,
       path: encodeURI(
         "/?" +
-          `text=${message.content.slice(prefix.length).trim()}&userId=${
+          `text=${message.content}&userId=${
             message.author.id
           }&key=${process.env.apiKey}${context ? `&context=${context}` : ""}${
             context1 ? `&context1=${context1}` : ""
@@ -649,20 +649,20 @@ async function execute(message, prefix, i) {
             context3 ? `&context3=${context3}` : ""
           } ${context4 ? `&context4=${context4}` : ""} ${
             context5 ? `&context5=${context5}` : ""
-          }`
+          } ${chatbot ? `&chatbot=${chatbot}` : ""}`  
       ),
     };
     const req = http.request(options, function (res) {
       const chunks = [];
       req.on("error", function (e) {
         console.log(e);
-        execute(message, prefix, i);
+        execute(message, "", i,chatbot);
       });
 
       req.on("timeout", function () {
         console.log("timeout");
         req.abort();
-        execute(message, "", i);
+        execute(message, "", i,chatbot);
       });
       res.on("data", function (chunk) {
         chunks.push(chunk);
@@ -674,7 +674,7 @@ async function execute(message, prefix, i) {
 
         //If reply is not a json
         if (reply.toLowerCase().includes("<html>")) {
-          execute(message, "", i);
+          execute(message, "", i,chatbot);
           return;
         }
         if (!reply.startsWith("{") && reply != "") {
@@ -723,18 +723,18 @@ async function execute(message, prefix, i) {
             return;
           } catch (e) {
             console.log(e);
-            execute(message, "", i);
+            execute(message, "", i,chatbot);
             return;
           }
         }
         message.content = "Random";
-        execute(message, "", i);
+        execute(message, "", i,chatbot);
         return;
       });
     });
     req.end();
   } catch (e) {
     console.log(e);
-    execute(message, prefix, i);
+    execute(message, "", i,chatbot);
   }
 }

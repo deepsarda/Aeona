@@ -36,8 +36,7 @@ locker
     statcord.on("post", (status) => {
       // status = false if the post was successful
       // status = "Error message" or status = Error if there was an error
-      if (!status) logger.info("Successful post");
-      else console.error(status);
+      if (status)  console.error(status);
     });
 
     manager.spawn();

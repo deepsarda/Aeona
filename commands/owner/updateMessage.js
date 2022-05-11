@@ -14,40 +14,36 @@ module.exports = class extends Command {
     let updateMessage = {
       embeds: [
         {
-          title: "v6.0.0 is out!",
-          description:
-            " This is the largest update in the history of Aeona\n\n\n\n **[Please upvote us!](https://top.gg/bot/931226824753700934/vote)** \n\n\n\n > Changelog:\n\n\n",
-          fields: [
-            {
-              name: "Aeona now has over 180 commands!",
-              value:
-                "\nWhen we last counted we had around 100 commands!\n We now have feature equal if not more to bots like mee6 and carl bot!  \n\n\n\n\n",
-              inline: false,
-            },
-            {
-              name: "Website!",
-              value:
-                "The website has been redesigned while keeping the same core values as before!  The dashboard is way way more powerful! \n\n\nThis allows you to use the new features with a greater ease than before!\n\n\n\n\n",
-              inline: false,
-            },
-            {
-              name: "v6.1.0",
-              value:
-                "This update will come in next few days! It will be mainly a bug fixes and a brand new game if it is finished in time!\n\nor it will come with the full economy system when v6.2.0 releases!",
-              inline: false,
-            },
+          "title": "v6.1.0 is out!",
+          "description": "** This is a massive AI update!**\n\n\n\n> Changelog:\n\n\n",
+          "fields": [
+              {
+                  "name": "Added `+chatbot` command",
+                  "value": "This allows you to change the chatbot. **Premium only feature**. \n\n\n\n\n",
+                  "inline": false
+              },
+              {
+                  "name": "Get Aeona Premium For Free!",
+                  "value": "**[Upvote us and leave a review!](https://top.gg/bot/931226824753700934)** Then dm `LoneWolf#0022` to get it for free!\n\n\n\n\n",
+                  "inline": false
+              },
+              {
+                  "name": "v6.2.0",
+                  "value": "This update will come in next few days! It will be mainly a bug fixes and a brand new game if it is finished in time!\n\nor it will come with the full economy system when v6.3.0 releases!",
+                  "inline": false
+              }
           ],
-          image: {
-            url: "https://cdn.discordapp.com/attachments/970641138912489492/971461570083299398/unknown.png",
+          "image": {
+              "url": "https://cdn.discordapp.com/attachments/942118536166383717/973915337588363284/unknown.png?size=4096"
           },
-          footer: {
-            text: "The current look of dashboard",
+          "footer": {
+              "text": "The current options for Chatbot!"
           },
-          color: 9115903,
+          "color": 9115903
         },
       ],
       content:
-        "https://aeona.xyz/  || https://cdn.discordapp.com/attachments/942118536166383717/971460584593850468/unknown.png ||",
+        "https://discord.gg/SPcmvDMRrP",
       components: [
         new Discord.MessageActionRow().addComponents(
           new Discord.MessageButton()

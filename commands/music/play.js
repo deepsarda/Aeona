@@ -14,7 +14,7 @@ module.exports = class extends Command {
     });
   }
   async run(message, args) {
-    const response = await play(message, args);
+    const response = await play(message, args.join(" "));
     message.reply(response);
   }
 };
