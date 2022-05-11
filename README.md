@@ -1,4 +1,6 @@
 # Aeona | Chatbot
+[![Discord Bots](https://top.gg/api/widget/931226824753700934.svg)(https://top.gg/bot/931226824753700934)
+
 
 Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_
 
@@ -38,3 +40,8 @@ Aeona also has **multiple** miscellaneous commands, such as:
 ### So that's about it for Aeona. This bot is still in its early stages after verification, so you can be sure to expect loads of new changes and updates very soon
 
 Credits to <https://github.com/WLegit/Pogy> for base bot code
+
+
+## Commits By User
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=deepsarda&repo=aeona&theme=radical&show_icons=true&show_owner=true)](https://github.com/deepsarda/Aeona)
