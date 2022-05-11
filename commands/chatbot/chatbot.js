@@ -50,7 +50,7 @@ module.exports = class extends Command {
         guildDB.chatbot.chatbot=i.customId;
         await guildDB.save();
         console.log(guildDB.chatbot.chatbot);
-        await i.update({ content: `✅ \n > Successfully set the chatbot to ${i.customId}.` });
+        await i.update({ content: `✅ \n > Successfully set the chatbot to ${i.label}.` });
     })
 }
 };
