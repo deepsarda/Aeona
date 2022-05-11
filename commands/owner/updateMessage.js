@@ -76,7 +76,9 @@ module.exports = class extends Command {
       var channels = guild.channels.cache.filter(function (channel) {
         return (
           channel.isText() &&
-          channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
+          channel.permissionsFor(guild.me).has("SEND_MESSAGES")&&
+          channel.permissionsFor(guild.me).has("EMBED_LINKS") &&
+          
           channel.permissionsFor(everyone).has("SEND_MESSAGES")
         );
       });
@@ -85,7 +87,8 @@ module.exports = class extends Command {
       var systemChannel = guild.systemChannel;
       if (systemChannel) {
         if (
-          systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
+          systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES")&&
+          systemChannel.permissionsFor(guild.me).has("EMBED_LINKS") &&
           systemChannel.permissionsFor(everyone).has("SEND_MESSAGES")
         ) {
           systemChannel.send(updateMessage);
@@ -114,6 +117,8 @@ module.exports = class extends Command {
               return (
                 channel.isText() &&
                 channel.permissionsFor(guild.me).has("SEND_MESSAGES")
+                &&
+                channel.permissionsFor(guild.me).has("EMBED_LINKS")
               );
             });
             channel = channels.at(0);
