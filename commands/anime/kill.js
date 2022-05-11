@@ -5,7 +5,7 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "kill",
-      aliases: ["kill"],
+      aliases: ["murder"],
       description: "Murder a user",
       category: "anime",
     });

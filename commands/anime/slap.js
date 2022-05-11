@@ -26,6 +26,7 @@ module.exports = class extends Command {
       .setTitle(
         `${member.user.username} just got slapped by ${message.author.username}`
       )
+      .setImage(await res.json().url)
       .setFooter({
         text: `Requested by ${message.author.username} • That must hurt ._.`,
         iconURL: message.author.displayAvatarURL({
