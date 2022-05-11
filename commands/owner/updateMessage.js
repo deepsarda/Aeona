@@ -67,7 +67,7 @@ module.exports = class extends Command {
         ),
       ],
     };
-
+    let bot=message.client;
     for (var i = 0; i < bot.guilds.cache.size; i++) {
       var guild = bot.guilds.cache.at(i);
       await guild.channels.fetch();
