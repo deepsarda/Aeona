@@ -49,7 +49,7 @@ module.exports = class extends Command {
     collector.on("collect", async (i) => {
         guildDB.chatbot.chatbot=i.customId;
         await guildDB.save();
-
+        console.log(guildDB.chatbot.chatbot);
         await i.update({ content: `✅ \n > Successfully set the chatbot to ${i.customId}.` });
     })
 }
