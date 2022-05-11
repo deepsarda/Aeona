@@ -44,7 +44,7 @@ module.exports = class extends Command {
     let embed=new Discord.MessageEmbed().setTitle("Choose a chatbot").setDescription("Choose a chatbot to use by default. \n We recommend Aeona as it will have the fastest response time.").setColor("#0099ff").setFooter("Aeona Bot");
     let m=await message.channel.send({embeds:[embed],components:[row,row2]});
     const filter = i => i.user.id === message.author.id;
-    const collector = message.createMessageComponentCollector({ filter, time: 60000 });
+    const collector = message.channel.createMessageComponentCollector({ filter, time: 60000 });
     
     collector.on("collect", async (i) => {
         guildDB.chatbot.chatbot=i.customId;
