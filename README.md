@@ -1,5 +1,5 @@
 # Aeona | Chatbot
-[![Discord Bots](https://top.gg/api/widget/931226824753700934.svg)(https://top.gg/bot/931226824753700934)
+[![Discord Bots](https://top.gg/api/widget/931226824753700934.svg)](https://top.gg/bot/931226824753700934)
 
 
 Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_
