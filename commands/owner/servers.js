@@ -28,11 +28,13 @@ module.exports = class extends Command {
 
     if (servers.length <= 10) {
       const range = servers.length == 1 ? "[1]" : `[1 - ${servers.length}]`;
-      message.channel.send(
-        embed
-          .setTitle(`Server List ${range}`)
-          .setDescription(servers.join("\n"))
-      );
+      message.channel.send({
+        embeds: [
+          embed
+            .setTitle(`Server List ${range}`)
+            .setDescription(servers.join("\n")),
+        ],
+      });
     } else {
       new ReactionMenu(
         message.client,

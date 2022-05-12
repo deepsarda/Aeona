@@ -3,7 +3,7 @@ const User = require("../../database/schemas/User");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
-      name: "sendpremimum",
+      name: "premiumnotification",
       aliases: [],
       description: "Send all the users a notification",
       category: "Owner",
