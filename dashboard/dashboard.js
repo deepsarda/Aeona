@@ -4724,7 +4724,7 @@ In the mean time, please explain your issue below`;
       .setDescription(
         `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **aeona**!`
       );
-    Hook.send(msg);
+    Hook.send({embeds:[msg]});
 
     const userSettings = await User.findOne({ discordId: req.vote.user });
     if (!userSettings)
@@ -4739,7 +4739,7 @@ In the mean time, please explain your issue below`;
     let voteNumber = userSettings.votes;
     if (!voteNumber) voteNumber = 0;
     if (voteUser) {
-      voteUser.send(
+      voteUser.send({embeds:[
         new Discord.MessageEmbed()
           .setColor("#7289DA")
           .setTitle(`Thanks for Voting!`)
@@ -4747,7 +4747,7 @@ In the mean time, please explain your issue below`;
             `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
               apiUser.id
             }) for voting **aeona**! \n\nVote #${voteNumber + 1}`
-          )
+          )]}
       );
     }
 
