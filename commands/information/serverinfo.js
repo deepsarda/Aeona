@@ -21,13 +21,12 @@ module.exports = class extends Command {
     });
     let client = message.client;
     const language = require(`../../data/language/${guildDB.language}.json`);
-    let owner = await message.guild.fetchOwner();
     await message.guild.members.fetch();
     const embed = new MessageEmbed()
       .setFooter({ text: `Shard #${message.guild.shardID}` })
       .setAuthor({ name: message.guild.name, iconUrl: message.guild.iconURL })
       .addField(
-        `${client.bot_emojis.owner} Owner`,
+      `<:owner:956753542612406343> Owner`,
         `> <@${message.guild.ownerId}> (ID: \`${message.guild.ownerId}\`)`,
         true
       )

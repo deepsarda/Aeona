@@ -14,36 +14,39 @@ module.exports = class extends Command {
     let updateMessage = {
       embeds: [
         {
-          "title": "v6.1.0 is out!",
-          "description": "** This is a massive AI update!**\n\n\n\n> Changelog:\n\n\n",
-          "fields": [
-              {
-                  "name": "Added `+chatbot` command",
-                  "value": "This allows you to change the chatbot. **Premium only feature**. \n\n\n\n\n",
-                  "inline": false
-              },
-              {
-                  "name": "Get Aeona Premium For Free!",
-                  "value": "**[Upvote us and leave a review!](https://top.gg/bot/931226824753700934)** Then dm `LoneWolf#0022` to get it for free!\n\n\n\n\n",
-                  "inline": false
-              },
-              {
-                  "name": "v6.2.0",
-                  "value": "This update will come in next few days! It will be mainly a bug fixes and a brand new game if it is finished in time!\n\nor it will come with the full economy system when v6.3.0 releases!",
-                  "inline": false
-              }
+          title: "v6.1.0 is out!",
+          description:
+            "** This is a massive AI update!**\n\n\n\n> Changelog:\n\n\n",
+          fields: [
+            {
+              name: "Added `+chatbot` command",
+              value:
+                "This allows you to change the chatbot. **Premium only feature**. \n\n\n\n\n",
+              inline: false,
+            },
+            {
+              name: "Get Aeona Premium For Free!",
+              value:
+                "**[Upvote us and leave a review!](https://top.gg/bot/931226824753700934)** Then dm `LoneWolf#0022` to get it for free!\n\n\n\n\n",
+              inline: false,
+            },
+            {
+              name: "v6.2.0",
+              value:
+                "This update will come in next few days! It will be mainly a bug fixes and a brand new game if it is finished in time!\n\nor it will come with the full economy system when v6.3.0 releases!",
+              inline: false,
+            },
           ],
-          "image": {
-              "url": "https://cdn.discordapp.com/attachments/942118536166383717/973915337588363284/unknown.png?size=4096"
+          image: {
+            url: "https://cdn.discordapp.com/attachments/942118536166383717/973915337588363284/unknown.png?size=4096",
           },
-          "footer": {
-              "text": "The current options for Chatbot!"
+          footer: {
+            text: "The current options for Chatbot!",
           },
-          "color": 9115903
+          color: 9115903,
         },
       ],
-      content:
-        "https://discord.gg/SPcmvDMRrP",
+      content: "https://discord.gg/SPcmvDMRrP",
       components: [
         new Discord.MessageActionRow().addComponents(
           new Discord.MessageButton()
@@ -67,7 +70,7 @@ module.exports = class extends Command {
         ),
       ],
     };
-    let bot=message.client;
+    let bot = message.client;
     for (var i = 0; i < bot.guilds.cache.size; i++) {
       var guild = bot.guilds.cache.at(i);
       await guild.channels.fetch();
@@ -76,9 +79,8 @@ module.exports = class extends Command {
       var channels = guild.channels.cache.filter(function (channel) {
         return (
           channel.isText() &&
-          channel.permissionsFor(guild.me).has("SEND_MESSAGES")&&
+          channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
           channel.permissionsFor(guild.me).has("EMBED_LINKS") &&
-          
           channel.permissionsFor(everyone).has("SEND_MESSAGES")
         );
       });
@@ -87,12 +89,14 @@ module.exports = class extends Command {
       var systemChannel = guild.systemChannel;
       if (systemChannel) {
         if (
-          systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES")&&
+          systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
           systemChannel.permissionsFor(guild.me).has("EMBED_LINKS") &&
           systemChannel.permissionsFor(everyone).has("SEND_MESSAGES")
         ) {
-          systemChannel.send(updateMessage);
-          systemChannelIsGood = true;
+          try {
+            await systemChannel.send(updateMessage);
+            systemChannelIsGood = true;
+          } catch (e) {}
         }
       }
       //Look for a channel named "chat" or "general"
@@ -104,10 +108,12 @@ module.exports = class extends Command {
         );
 
         if (channel) {
-          channel.send(updateMessage);
-          console.log(
-            "Sending update message to " + channel.name + " in " + guild.name
-          );
+          try {
+            await channel.send(updateMessage);
+            console.log(
+              "Sending update message to " + channel.name + " in " + guild.name
+            );
+          } catch (e) {}
         } else {
           //Get the system channel
           channel = guild.systemChannel;
@@ -116,29 +122,34 @@ module.exports = class extends Command {
             channels = guild.channels.cache.filter(function (channel) {
               return (
                 channel.isText() &&
-                channel.permissionsFor(guild.me).has("SEND_MESSAGES")
-                &&
+                channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
                 channel.permissionsFor(guild.me).has("EMBED_LINKS")
               );
             });
             channel = channels.at(0);
 
             if (!channel) {
-             
             } else {
-              channel.send(updateMessage);
+              try {
+                await channel.send(updateMessage);
+                console.log(
+                  "Sending update message to " +
+                    channel.name +
+                    " in " +
+                    guild.name
+                );
+              } catch (e) {}
+            }
+          } else {
+            try {
+              await channel.send(updateMessage);
               console.log(
                 "Sending update message to " +
                   channel.name +
                   " in " +
                   guild.name
               );
-            }
-          } else {
-            channel.send(updateMessage);
-            console.log(
-              "Sending update message to " + channel.name + " in " + guild.name
-            );
+            } catch (e) {}
           }
         }
       }

@@ -6,7 +6,7 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "play",
-      aliases: [],
+      aliases: ["p"],
       description: "Play a song or playlist.",
       category: "Music",
       cooldown: 3,
