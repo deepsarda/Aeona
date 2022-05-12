@@ -56,8 +56,8 @@ module.exports = class AeonaClient extends Client {
     this.config = require("./config.json.js");
     this.bot_emojies = require("./assets/emojis.json");
     this.musicManager = new MusicManager(this);
-    this.musicManager.on("trackStart", (client, player, track, payload) => {
-      const channel = client.channels.cache.get(player.textChannel);
+    this.musicManager.on("trackStart", (player, track, payload) => {
+      const channel = this.channels.cache.get(player.textChannel);
 
       const embed = new MessageEmbed()
         .setAuthor({ name: "Now Playing" })
@@ -80,8 +80,8 @@ module.exports = class AeonaClient extends Client {
       channel.send({ embeds: [embed] });
     });
 
-    this.musicManager.on("queueEnd", (client, player) => {
-      const channel = client.channels.cache.get(player.textChannel);
+    this.musicManager.on("queueEnd", (player) => {
+      const channel = this.channels.cache.get(player.textChannel);
       channel.send("Queue has ended.");
       player.destroy();
     });
