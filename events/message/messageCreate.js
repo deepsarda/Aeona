@@ -197,7 +197,7 @@ module.exports = class extends Event {
               setTimeout(() => {
                 autoResponseCooldown.delete(message.author.id);
               }, 2000);
-              return;
+              break;
             }
           }
         }
