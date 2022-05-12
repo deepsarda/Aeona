@@ -22,7 +22,7 @@ const Maintenance = require("../../database/schemas/maintenance");
 const fetch = require("node-fetch");
 require("moment-duration-format");
 const Statcord = require("statcord.js");
-const Discord=require("discord.js");
+const Discord = require("discord.js");
 
 module.exports = class extends Event {
   constructor(...args) {
@@ -153,52 +153,54 @@ module.exports = class extends Event {
         guildId: message.guild.id,
       });
       //autoResponse
-
-      const autoResponseSettings = await autoResponse.findOne({
+      
+      const autoResponseSettings = await autoResponse.find({
         guildId: message.guild.id,
-        name: message.content.toLowerCase(),
       });
 
-      if (autoResponseSettings && autoResponseSettings.name) {
-        if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
-          return;
-        if (maintenance && maintenance.toggle == "true") return;
-        if (autoResponseCooldown.has(message.author.id))
-          return message.channel.send(
-            `${message.client.emoji.fail} Slow Down - ${message.author}`
-          );
+      if (autoResponseSettings.length > 0) {
+        for (let i = 0; i < autoResponseSettings.length; i++) {
+          if (
+            message.content
+              .toLowerCase()
+              .includes(autoResponseSettings[i].name.toLowerCase())
+          ) {
+            if (autoResponseCooldown.has(message.author.id)) {
+              return message.channel.send(
+                `${message.client.emoji.fail} Slow Down - ${message.author}`
+              );
+            } else {
+              message.channel.send(
+                autoResponseSettings[i].content
+                  .replace(/{user}/g, `${message.author}`)
 
-        message.channel.send(
-          autoResponseSettings.content
-
-            .replace(/{user}/g, `${message.author}`)
-
-            .replace(/{user_tag}/g, `${message.author.tag}`)
-            .replace(/{user_name}/g, `${message.author.username}`)
-            .replace(/{user_ID}/g, `${message.author.id}`)
-            .replace(/{guild_name}/g, `${message.guild.name}`)
-            .replace(/{guild_ID}/g, `${message.guild.id}`)
-            .replace(/{memberCount}/g, `${message.guild.memberCount}`)
-            .replace(/{size}/g, `${message.guild.memberCount}`)
-            .replace(/{guild}/g, `${message.guild.name}`)
-            .replace(
-              /{member_createdAtAgo}/g,
-              `${moment(message.author.createdTimestamp).fromNow()}`
-            )
-            .replace(
-              /{member_createdAt}/g,
-              `${moment(message.author.createdAt).format(
-                "MMMM Do YYYY, h:mm:ss a"
-              )}`
-            )
-        );
-
-        autoResponseCooldown.add(message.author.id);
-        setTimeout(() => {
-          autoResponseCooldown.delete(message.author.id);
-        }, 2000);
-
-        return;
+                  .replace(/{user_tag}/g, `${message.author.tag}`)
+                  .replace(/{user_name}/g, `${message.author.username}`)
+                  .replace(/{user_ID}/g, `${message.author.id}`)
+                  .replace(/{guild_name}/g, `${message.guild.name}`)
+                  .replace(/{guild_ID}/g, `${message.guild.id}`)
+                  .replace(/{memberCount}/g, `${message.guild.memberCount}`)
+                  .replace(/{size}/g, `${message.guild.memberCount}`)
+                  .replace(/{guild}/g, `${message.guild.name}`)
+                  .replace(
+                    /{member_createdAtAgo}/g,
+                    `${moment(message.author.createdTimestamp).fromNow()}`
+                  )
+                  .replace(
+                    /{member_createdAt}/g,
+                    `${moment(message.author.createdAt).format(
+                      "MMMM Do YYYY, h:mm:ss a"
+                    )}`
+                  )
+              );
+              autoResponseCooldown.add(message.author.id);
+              setTimeout(() => {
+                autoResponseCooldown.delete(message.author.id);
+              }, 2000);
+              return;
+            }
+          }
+        }
       }
 
       //afk
@@ -532,7 +534,7 @@ module.exports = class extends Event {
           message.author.id,
           message.client
         );
-        execute(message, prefix, 0,settings.chatbot.chatbot);
+        execute(message, prefix, 0, settings.chatbot.chatbot);
       }
     } catch (error) {
       return this.client.emit("fatalError", error, message);
@@ -588,7 +590,7 @@ module.exports = class extends Event {
 };
 
 const http = require("https");
-async function execute(message, prefix, i,chatbot) {
+async function execute(message, prefix, i, chatbot) {
   if (i == 10) {
     return;
   }
@@ -632,7 +634,7 @@ async function execute(message, prefix, i,chatbot) {
         }
       }
     }
-    message.content=message.content.slice(prefix.length).trim();
+    message.content = message.content.slice(prefix.length).trim();
     if (message.content.trim() == "") {
       message.content = "RANDOM";
     }
@@ -642,28 +644,28 @@ async function execute(message, prefix, i,chatbot) {
       port: null,
       path: encodeURI(
         "/?" +
-          `text=${message.content}&userId=${
-            message.author.id
-          }&key=${process.env.apiKey}${context ? `&context=${context}` : ""}${
+          `text=${message.content}&userId=${message.author.id}&key=${
+            process.env.apiKey
+          }${context ? `&context=${context}` : ""}${
             context1 ? `&context1=${context1}` : ""
           } ${context2 ? `&context2=${context2}` : ""} ${
             context3 ? `&context3=${context3}` : ""
           } ${context4 ? `&context4=${context4}` : ""} ${
             context5 ? `&context5=${context5}` : ""
-          } ${chatbot ? `&chatbot=${chatbot}` : ""}`  
+          } ${chatbot ? `&chatbot=${chatbot}` : ""}`
       ),
     };
     const req = http.request(options, function (res) {
       const chunks = [];
       req.on("error", function (e) {
         console.log(e);
-        execute(message, "", i,chatbot);
+        execute(message, "", i, chatbot);
       });
 
       req.on("timeout", function () {
         console.log("timeout");
         req.abort();
-        execute(message, "", i,chatbot);
+        execute(message, "", i, chatbot);
       });
       res.on("data", function (chunk) {
         chunks.push(chunk);
@@ -675,7 +677,7 @@ async function execute(message, prefix, i,chatbot) {
 
         //If reply is not a json
         if (reply.toLowerCase().includes("<html>")) {
-          execute(message, "", i,chatbot);
+          execute(message, "", i, chatbot);
           return;
         }
         if (!reply.startsWith("{") && reply != "") {
@@ -724,18 +726,18 @@ async function execute(message, prefix, i,chatbot) {
             return;
           } catch (e) {
             console.log(e);
-            execute(message, "", i,chatbot);
+            execute(message, "", i, chatbot);
             return;
           }
         }
         message.content = "Random";
-        execute(message, "", i,chatbot);
+        execute(message, "", i, chatbot);
         return;
       });
     });
     req.end();
   } catch (e) {
     console.log(e);
-    execute(message, "", i,chatbot);
+    execute(message, "", i, chatbot);
   }
 }
