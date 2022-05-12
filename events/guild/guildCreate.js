@@ -159,8 +159,7 @@ module.exports = class extends Event {
           : `https://guild-default-icon.herokuapp.com/${encodeURIComponent(
               guild.nameAcronym
             )}`
-      )
-      .addField("Server Owner", `${guild.owner.user.tag} / ${guild.ownerID}`);
+      );
 
     webhookClient.send({
       username: "Aeona",
