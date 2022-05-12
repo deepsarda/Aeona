@@ -20,6 +20,7 @@ module.exports = class extends Command {
 };
 
 async function play({ member, guild, channel }, user, query) {
+  if (!query) return "🚫 You need to provide a query!";
   if (!member.voice.channel) return "🚫 You need to join a voice channel first";
   let player = guild.client.musicManager.get(guild.id);
 

@@ -22,7 +22,7 @@ module.exports = class extends Command {
     )
       return message.channel.send("🚫 You're not in the same voice channel!");
 
-    const response = resume(message);
+    const response = resumePlayer(message);
     message.reply(response);
   }
 };
