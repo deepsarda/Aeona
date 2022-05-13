@@ -26,7 +26,16 @@ const TankTacticsSchema = mongoose.Schema({
         type: mongoose.SchemaTypes.Boolean,
         default: true,
     },
-    // Game Settings
+    event: {
+        nextType: {
+            type: mongoose.SchemaTypes.String,
+            default: "wait",
+        },
+        nextTimestamp: {
+            type: mongoose.SchemaTypes.String,
+            default: "",
+        }
+    }
 
 });
 

@@ -80,3 +80,8 @@ module.exports = class extends Command {
     message.channel.send({ embeds: [embed] });
   }
 };
+
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

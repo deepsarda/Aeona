@@ -1,8 +1,12 @@
+
+process.on("uncaughtException", (err, origin) => {
+  console.log("An error occured"+err);
+});
+
+
 const SingleInstance = require("single-instance");
 const locker = new SingleInstance("aeona");
-process.on("uncaughtException", (err, origin) => {
-  console.log(err);
-});
+
 
 locker
   .lock()
