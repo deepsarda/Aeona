@@ -14,22 +14,29 @@ module.exports = class extends Command {
     let updateMessage = {
       embeds: [
         {
-          title: "v6.1.0 is out!",
+          title: "v6.1.1 is out!",
           description:
-            "** This is a massive AI update!**\n\n\n\n> Changelog:\n\n\n",
+            "** This is a tweak to the chatbot command and bugfixes!** \n > Changelog:\n\n\n",
           fields: [
             {
-              name: "Added `+chatbot` command",
+              name: "Changed `+chatbot` command",
               value:
-                "This allows you to change the chatbot. **Premium only feature**. \n\n\n\n\n",
+                "You can now use `+chatbot` without manage guild permission.",
               inline: false,
             },
             {
-              name: "Get Aeona Premium For Free!",
+              name: "Aeona is giving away free premium!",
               value:
-                "**[Upvote us and leave a review!](https://top.gg/bot/931226824753700934)** Then dm `LoneWolf#0022` to get it for free!\n\n\n\n\n",
+                "** To get it simply invite me to your server and on 24 hr from now your server will get free premium!**",
               inline: false,
             },
+            {
+              name: "Music bugfixes",
+              value:
+                "** Fixed a bug where the bot would not play music in voice channels.**",
+              inline: false,
+            },
+            
             {
               name: "v6.2.0",
               value:
