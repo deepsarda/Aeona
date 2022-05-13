@@ -58,13 +58,13 @@ module.exports = class extends Command {
     }
 
     if (args.includes("disable")) {
-      if (guildDB.aiAutoMod === true)
+      if (guildDB.aiAutoMod === false)
         return message.channel.send({
           embeds: [
             new MessageEmbed()
               .setColor(message.guild.me.displayHexColor)
               .setDescription(
-                `${message.client.emoji.fail} ${language.moduleDisabled}`
+                `${message.client.emoji.fail} AI filter is already disabled.`
               ),
           ],
         });
@@ -101,7 +101,7 @@ module.exports = class extends Command {
             new MessageEmbed()
               .setColor(message.guild.me.displayHexColor)
               .setDescription(
-                `${message.client.emoji.fail} ${language.moduleEnabled}`
+                `${message.client.emoji.fail} Successfully enabled the AI filter.`
               ),
           ],
         });
