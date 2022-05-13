@@ -586,7 +586,7 @@ module.exports = async (client) => {
         .catch(() => {});
 
       await form.save().catch(() => {});
-      channel.send(embed);
+      channel.send({embeds:[embed]});
 
       renderTemplate(res, req, "appealMain.ejs", {
         guild: guild,
