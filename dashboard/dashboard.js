@@ -3682,12 +3682,12 @@ In the mean time, please explain your issue below`;
       // ticket category
 
       let ticketLogValid = await guild.channels.cache.find(
-        (ch) => ch.name === data.ticketCategory && ch.type === "category"
+        (ch) => ch.name === data.ticketCategory && ch.type === "GUILD_CATEGORY"
       );
 
       if (ticketLogValid) {
         ticketSettings.categoryID = guild.channels.cache.find(
-          (ch) => ch.name === data.ticketCategory && ch.type === "category"
+          (ch) => ch.name === data.ticketCategory && ch.type === "GUILD_CATEGORY"
         ).id;
       } else {
         ticketSettings.ticketToggle = false;
@@ -3973,7 +3973,7 @@ In the mean time, please explain your issue below`;
           setTimeout(() => {
             sendingEmbed.delete(guild.id);
           }, 10000);
-          ticketChannel.send(ticketEmbed).then(async (s) => {
+          ticketChannel.send({embeds:[ticketEmbed]}).then(async (s) => {
             s.react(emoji);
 
             ticketSettings.messageID.push(s.id);

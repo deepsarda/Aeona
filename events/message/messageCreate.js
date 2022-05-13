@@ -676,7 +676,7 @@ async function execute(message, prefix, i, chatbot) {
         let reply = body.toString();
 
         //If reply is not a json
-        if (reply.toLowerCase().includes("<html>")) {
+        if (reply.toLowerCase().includes("<html>")||reply.toLowerCase().includes("<body>")|| reply.toLowerCase().includes("error")) {
           execute(message, "", i, chatbot);
           return;
         }

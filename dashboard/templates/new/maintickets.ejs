@@ -166,7 +166,7 @@ max-height:200px; min-height:60px; background-color: #2f2f2f; color: white;" id=
                             <%= bot.channels.cache.get(ticket.categoryID).name %>
                           </option>
                           <% guild.channels.cache.filter((ch)=> ch.id !== ticket.categoryID && ch.type ===
-                            "category").forEach((ch) => { %>
+                            "GUILD_CATEGORY").forEach((ch) => { %>
                             <option>
                               <%= ch.name %>
                             </option>
