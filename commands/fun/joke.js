@@ -23,13 +23,13 @@ module.exports = class extends Command {
     const { type, category, joke, setup, delivery } = data;
 
     message.channel.send({
-      embed: {
+      embeds:[ {
         color: "BLURPLE",
         title: `${category} joke`,
         description: `${
           type === "twopart" ? `${setup}\n\n||${delivery}||` : joke
         }`,
-      },
+      }],
     });
   }
 };

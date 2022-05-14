@@ -20,10 +20,10 @@ module.exports = class extends Command {
     const sizee = size / 2.54;
     const random = (user.id.slice(-6) % 40) + 3;
     await message.channel.send({
-      embed: {
+      embeds:[ {
         color: "BLURPLE",
         description: `${sizee.toFixed(2)} inch\n8${"=".repeat(size)}D`,
-      },
+      }],
     });
   }
 };

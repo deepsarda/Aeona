@@ -33,7 +33,7 @@ module.exports = class extends Command {
         .setColor("PURPLE")
         .setFooter({ text: `${language.f3}` });
       message.channel
-        .send({ embed })
+        .send({ embeds: [embed] })
         .then((m) => m.react("🇫"))
         .catch(() => {});
     } else {
@@ -44,7 +44,7 @@ module.exports = class extends Command {
         .setDescription(`${message.author} ${language.f2} ${target}`)
         .setFooter({ text: `${language.f3}` });
       message.channel
-        .send({ embed })
+        .send({ embeds: [embed] })
         .then((m) => m.react("🇫"))
         .catch(() => {});
     }

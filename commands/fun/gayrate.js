@@ -38,9 +38,9 @@ module.exports = class extends Command {
       .setDescription(`${language.simpyouare} **${amount}%** gay`);
 
     if (target === authorId) {
-      message.channel.send(embedd);
+      message.channel.send({ embeds: [embedd] });
     }
-    if (!target) return message.channel.send(embedd);
+    if (!target) return message.channel.send({ embeds: [embedd] });
     let targett = target.username;
     let embed = new discord.MessageEmbed()
       .setColor("GREEN")
