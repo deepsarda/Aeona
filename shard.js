@@ -39,8 +39,13 @@ async function start() {
     try {
       console.log("Attempting to spawn shards");
       await manager.spawn();
-      break;
+      console.log("Shards spawned");
+      return;
     } catch (e) {
+      if(e.includes("spawn")) {
+        console.log("Shards already spawned");
+        return;
+      }
       console.log(e);
     }
   }
