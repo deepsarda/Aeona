@@ -4,13 +4,7 @@ process.on("uncaughtException", (err, origin) => {
 });
 
 
-const SingleInstance = require("single-instance");
-const locker = new SingleInstance("aeona");
 
-
-locker
-  .lock()
-  .then(() => {
     console.log("starting")
     const dotenv = require("dotenv").config();
     const logger = require("./utils/logger");
@@ -55,7 +49,3 @@ locker
         )
         .catch(console.error);
     });
-  })
-  .catch((err) => {
-    console.log(err); 
-  });
