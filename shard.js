@@ -34,15 +34,18 @@ statcord.on("post", (status) => {
   // status = "Error message" or status = Error if there was an error
   if (status) console.error(status);
 });
-while (true) {
-  try {
-    Console.log("Attempting to spawn shards");
-    await manager.spawn();
-    break;
-  } catch (e) {
-    console.log(e);
+async function start() {
+  while (true) {
+    try {
+      Console.log("Attempting to spawn shards");
+      await manager.spawn();
+      break;
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
+start();
 manager.on("shardCreate", (shard) => {
   logger.info(`Launching Shard ${shard.id + 1}`, { label: `Shard` });
   manager
