@@ -8,7 +8,7 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "ban",
-      aliases: ["b"],
+      aliases: [],
       description: "Bans the specified user from your Discord server.",
       category: "Moderation",
       usage: "<user> [reason]",

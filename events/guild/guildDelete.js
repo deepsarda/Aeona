@@ -8,7 +8,7 @@ const webhookClient = new Discord.WebhookClient({
   url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
 });
 const welcomeClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971700329869631568/UEj6A3MwgPLqxVRT4eAV1wDGPJPvXU96fofoSofDKiNu63tAV5gG1L7H82_pRsTvQgLd",
+  url: "https://discord.com/api/webhooks/962202863889686538/TJarYS_MeQg2dVN2LOUoBPYo5uZcHk6rggqJeUe-GMvVJagM5eiEcVE7-fFxsgIViZRr",
 });
 module.exports = class extends Event {
   async run(guild) {

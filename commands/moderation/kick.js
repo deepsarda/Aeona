@@ -8,7 +8,7 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "kick",
-      aliases: ["k"],
+      aliases: [],
       description: "Kicks the specified user from your Discord server.",
       category: "Moderation",
       usage: "<user> [reason]",

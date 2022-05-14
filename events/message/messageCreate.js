@@ -87,10 +87,10 @@ module.exports = class extends Event {
       }
 
       if (message.content.match(mentionRegex)) {
-        const proofita = `\`\`\`css\n[     Prefix: ${
+        const proofita = `\`\`\`css\n[Prefix: ${
           settings.prefix || "!"
         }     ]\`\`\``;
-        const proofitaa = `\`\`\`css\n[      Help: ${
+        const proofitaa = `\`\`\`css\n[Help: ${
           settings.prefix || "!"
         }help    ]\`\`\``;
         const embed = new MessageEmbed()
@@ -98,7 +98,7 @@ module.exports = class extends Event {
           .addField(`Prefix`, proofita, true)
           .addField(`Usage`, proofitaa, true)
           .setDescription(
-            `\nIf you like Aeona, Consider [voting](https://top.gg/bot/931226824753700934), or [inviting](https://discord.com/oauth2/authorize?client_id=931226824753700934&scope=bot&permissions=470150262) it to your server! Thank you for using Aeona, we hope you enjoy it, as we always look forward to improve the bot`
+            `\nIf you like Aeona, Consider [voting](https://top.gg/bot/931226824753700934), or [inviting](https://discord.com/oauth2/authorize?client_id=931226824753700934&scope=bot&permissions=470150262) it to your server! Thank you for using Aeona, we hope you enjoy it, as we always look forward to improve the bot. \n \n To talk with my AI chatbot, just reply to me with a message.`
           )
           .setFooter({ text: "Thank you for using Aeona!!" })
           .setColor("#FF2C98");

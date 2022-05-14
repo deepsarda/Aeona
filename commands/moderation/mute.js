@@ -10,7 +10,7 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "mute",
-      aliases: ["m", "tempmute"],
+      aliases: [ "tempmute"],
       description: "Mute the specified user from the guild",
       category: "Moderation",
       usage: "<user> [time]",
