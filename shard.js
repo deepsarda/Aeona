@@ -37,7 +37,7 @@ statcord.on("post", (status) => {
 async function start() {
   while (true) {
     try {
-      Console.log("Attempting to spawn shards");
+      console.log("Attempting to spawn shards");
       await manager.spawn();
       break;
     } catch (e) {
