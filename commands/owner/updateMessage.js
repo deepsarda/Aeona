@@ -14,26 +14,26 @@ module.exports = class extends Command {
     let updateMessage = {
       embeds: [
         {
-          title: "v6.1.1 is out!",
+          title: "v6.1.2 is out!",
           description:
-            "** This is a tweak to the chatbot command and bugfixes!** \n > Changelog:\n\n\n",
+            "** A brand new command! Global Chat ** \n Chat with people from different servers! ",
           fields: [
             {
-              name: "Changed `+chatbot` command",
+              name: "Changed AI updates!",
               value:
-                "You can now use `+chatbot` without manage guild permission.",
+                "Made the bot a bit more random!",
               inline: false,
             },
             {
-              name: "Aeona is giving away free premium!",
+              name: "Global Chat",
               value:
-                "** To get it simply invite me to your server and on 24 hr from now your server will get free premium!**",
+                " To use global chat, use +globalchat to join in on the fun! \n To leave global chat, use +globalchat leave! \n ** Note the global chat is auto moderated by using our custom toxicity AI! **",
               inline: false,
             },
             {
-              name: "Music bugfixes",
+              name: "Music Improved!",
               value:
-                "** Fixed a bug where the bot would not play music in voice channels.**",
+                "** Fixed a bug where the bot would stop play music in voice channels.**",
               inline: false,
             },
             

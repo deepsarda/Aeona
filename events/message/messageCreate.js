@@ -17,6 +17,7 @@ const autoResponseCooldown = new Set();
 const inviteFilter = require("../../filters/inviteFilter");
 const linkFilter = require("../../filters/linkFilter");
 const maintenanceCooldown = new Set();
+
 const permissions = require("../../assets/json/permissions.json");
 const Maintenance = require("../../database/schemas/maintenance");
 const fetch = require("node-fetch");
@@ -50,7 +51,12 @@ module.exports = class extends Event {
 
       const mentionRegex = RegExp(`^<@!?${this.client.user.id}>$`);
 
-      if (!message.guild || message.author.bot) return;
+      if (
+        !message.guild ||
+        message.author.id == client.user.id ||
+        message.webhookId
+      )
+        return;
 
       let settings = await Guild.findOne({
         guildId: message.guild.id,
@@ -64,6 +70,67 @@ module.exports = class extends Event {
         await settings.save();
       }
 
+      if (
+        settings.globalChatChannel &&
+        message.channel.id == settings.globalChatChannel
+      ) {
+        //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
+        let toxicity = await fetch(
+          `https://Toxicity.aeona.repl.co/?sentence=${message.content}`
+        );
+        let toxicityText = await toxicity.text();
+
+        if (!toxicityText.includes("No")) {
+          message.delete();
+          message.channel
+            .send(
+              `<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`
+            )
+            .then(async (s) => {
+              setTimeout(() => {
+                s.delete().catch(() => {});
+              }, 5000);
+            })
+            .catch(() => {});
+        }
+        async function globalChat() {
+          let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
+          Statcord.ShardingClient.postCommand(
+            "globalChat",
+            message.author.id,
+            message.client
+          );
+          for (let guild in guilds) {
+            let guild = guilds[guild];
+            let channel = await client.channels.fetch(guild.globalChatChannel);
+            if (channel) {
+              //Create a webhook for the channel if it doesn't exist
+              let webhooks = await channel.fetchWebhooks();
+              let webhook = webhooks.find((webhook) => webhook.token);
+
+              if (!webhook) {
+                webhook = await channel.createWebhook(
+                  `${client.user.username} Global Chat`,
+                  {
+                    avatar: client.user.displayAvatarURL(),
+                  }
+                );
+              }
+
+              webhook.send({
+                username: message.member.displayName,
+                avatarURL: message.member.displayAvatarURL(),
+                content: message.content,
+                embeds: [message.embeds],
+                attachment: message.attachments.values(),
+                allowedMentions: { parse: [] },
+              });
+            }
+          }
+        }
+
+        globalChat();
+      }
       if (settings.aiAutoMod) {
         //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
         let toxicity = await fetch(
@@ -153,7 +220,7 @@ module.exports = class extends Event {
         guildId: message.guild.id,
       });
       //autoResponse
-      
+
       const autoResponseSettings = await autoResponse.find({
         guildId: message.guild.id,
       });
@@ -676,7 +743,11 @@ async function execute(message, prefix, i, chatbot) {
         let reply = body.toString();
 
         //If reply is not a json
-        if (reply.toLowerCase().includes("<html>")||reply.toLowerCase().includes("<body>")|| reply.toLowerCase().includes("error")) {
+        if (
+          reply.toLowerCase().includes("<html>") ||
+          reply.toLowerCase().includes("<body>") ||
+          reply.toLowerCase().includes("error")
+        ) {
           execute(message, "", i, chatbot);
           return;
         }

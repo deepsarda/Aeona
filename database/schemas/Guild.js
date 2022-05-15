@@ -26,7 +26,11 @@ const guildConfigSchema = mongoose.Schema({
     required: false,
     default: false,
   },
-
+  globalChatChannel: {
+    type: mongoose.SchemaTypes.String,
+    required: false,
+    default: null,
+  },
   chatbot: {
     alwaysOnChannel: {
       type: mongoose.SchemaTypes.String,
