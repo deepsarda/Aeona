@@ -135,6 +135,8 @@ module.exports = class extends Event {
               }
             }
           }
+
+          message.delete().catch(() => {});
         }
 
         globalChat();
