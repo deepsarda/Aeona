@@ -28,9 +28,7 @@ Aeona.start();
 process.on("uncaughtException", (error) => {
   logger.error(error);
 
-  if (!isOperationalError(error)) {
-    process.exit(1);
-  }
+ 
 });
 const http = require("https");
 function randomString(length, chars) {

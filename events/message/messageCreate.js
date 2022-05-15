@@ -89,6 +89,7 @@ module.exports = class extends Event {
             .catch(() => {});
         }
         async function globalChat() {
+          console.log("globalChat");
           let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
           Statcord.ShardingClient.postCommand(
             "globalChat",
@@ -123,9 +124,23 @@ module.exports = class extends Event {
                       avatarURL: message.member.displayAvatarURL(),
                       content: message.content,
                       embeds: message.embeds,
-                      attachment: message.attachments.values(),
+                      
                       allowedMentions: { parse: [] },
                     });
+
+                    if (message.attachments.size > 0) {
+                      for (const [key, value] of message.attachments) {
+                        webhook.send({
+                          username: message.member.displayName,
+                          avatarURL: message.member.displayAvatarURL(),
+                          files: [value.url],
+                        });
+                      }
+                    } 
+
+                    console.log( `${message.member.displayName} sent a message in the global chat.`);
+                   
+                    
                   } catch (e) {
                     channel
                       .send(
