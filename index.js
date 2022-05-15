@@ -1,7 +1,7 @@
 const AeonaClient = require("./Aeona");
 const config = require("./config.json.js");
 const domain = require("./config.js");
-
+const logger = require("./utils/logger");
 const Aeona = new AeonaClient(config);
 
 const color = require("./data/colors");
@@ -25,7 +25,13 @@ if (config.dashboard) {
 }
 
 Aeona.start();
-
+process.on('uncaughtException', error => {
+  logger.error(error);
+ 
+  if (!isOperationalError(error)) {
+  process.exit(1)
+  }
+ })
 const http = require("https");
 function randomString(length, chars) {
   var result = "";
