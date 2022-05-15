@@ -121,7 +121,7 @@ module.exports = class extends Event {
                 username: message.member.displayName,
                 avatarURL: message.member.displayAvatarURL(),
                 content: message.content,
-                embeds: [message.embeds],
+                embeds: message.embeds,
                 attachment: message.attachments.values(),
                 allowedMentions: { parse: [] },
               });
