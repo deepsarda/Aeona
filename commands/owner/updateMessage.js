@@ -20,8 +20,7 @@ module.exports = class extends Command {
           fields: [
             {
               name: "Changed AI updates!",
-              value:
-                "Made the bot a bit more random!",
+              value: "Made the bot a bit more random!",
               inline: false,
             },
             {
@@ -36,7 +35,7 @@ module.exports = class extends Command {
                 "** Fixed a bug where the bot would stop play music in voice channels.**",
               inline: false,
             },
-            
+
             {
               name: "v6.2.0",
               value:

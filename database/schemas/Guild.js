@@ -42,11 +42,11 @@ const guildConfigSchema = mongoose.Schema({
       required: false,
       default: [],
     },
-    chatbot:{
+    chatbot: {
       type: mongoose.SchemaTypes.String,
       required: false,
       default: "deepparag/Aeona",
-    }
+    },
   },
   leveling: {
     enabled: {

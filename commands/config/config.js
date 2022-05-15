@@ -6,7 +6,20 @@ module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
       name: "settings",
-      aliases: ["config","settings","welcome","leave","logging","modlog","autorole","altdetector","tickets","suggestions","reports","automod"],
+      aliases: [
+        "config",
+        "settings",
+        "welcome",
+        "leave",
+        "logging",
+        "modlog",
+        "autorole",
+        "altdetector",
+        "tickets",
+        "suggestions",
+        "reports",
+        "automod",
+      ],
       description: "Show's the current settings for this guild",
       category: "Config",
       guildOnly: true,

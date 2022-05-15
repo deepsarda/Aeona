@@ -9,7 +9,6 @@ const welcomeClient = new Discord.WebhookClient({
 });
 const webhookClient = new Discord.WebhookClient({
   url: "https://discord.com/api/webhooks/972210670143684668/5tmW7ounOmjKRgBgr6UZT22ux6cNRY8sL5Z43vvJJw9HN1A7AoYOpZBe1FeQLvaKWbtV",
-
 });
 
 module.exports = class extends Event {

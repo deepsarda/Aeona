@@ -13,7 +13,6 @@ const SlayBotSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     required: true,
   },
-
 });
 
 module.exports = mongoose.model("AeonaNews", SlayBotSchema);

@@ -137,7 +137,11 @@ module.exports = class extends Command {
                         )
                         .addField("User", u, true)
                         .addField("Moderator", message.member, true)
-                        .addField("Reason", reason?reason:"no reason given!", true)
+                        .addField(
+                          "Reason",
+                          reason ? reason : "no reason given!",
+                          true
+                        )
                         .setFooter({ text: `ID: ${u.id}` })
                         .setTimestamp()
                         .setColor(color);
@@ -331,7 +335,7 @@ module.exports = class extends Command {
                   )
                   .addField("User", member, true)
                   .addField("Moderator", message.member, true)
-                  .addField("Reason", reason?reason:"no reason given", true)
+                  .addField("Reason", reason ? reason : "no reason given", true)
                   .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);

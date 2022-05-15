@@ -26,7 +26,7 @@ module.exports = class extends Command {
       .setFooter({ text: `Shard #${message.guild.shardID}` })
       .setAuthor({ name: message.guild.name, iconUrl: message.guild.iconURL })
       .addField(
-      `<:owner:956753542612406343> Owner`,
+        `<:owner:956753542612406343> Owner`,
         `> <@${message.guild.ownerId}> (ID: \`${message.guild.ownerId}\`)`,
         true
       )
@@ -80,7 +80,6 @@ module.exports = class extends Command {
     message.channel.send({ embeds: [embed] });
   }
 };
-
 
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

@@ -26,7 +26,8 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    return message.channel.send( "Check https://aeona.xyz/"+message.guild.id+"/members");
+    return message.channel.send(
+      "Check https://aeona.xyz/" + message.guild.id + "/members"
+    );
   }
 };
-

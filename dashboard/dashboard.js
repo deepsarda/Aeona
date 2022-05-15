@@ -586,7 +586,7 @@ module.exports = async (client) => {
         .catch(() => {});
 
       await form.save().catch(() => {});
-      channel.send({embeds:[embed]});
+      channel.send({ embeds: [embed] });
 
       renderTemplate(res, req, "appealMain.ejs", {
         guild: guild,
@@ -3687,7 +3687,8 @@ In the mean time, please explain your issue below`;
 
       if (ticketLogValid) {
         ticketSettings.categoryID = guild.channels.cache.find(
-          (ch) => ch.name === data.ticketCategory && ch.type === "GUILD_CATEGORY"
+          (ch) =>
+            ch.name === data.ticketCategory && ch.type === "GUILD_CATEGORY"
         ).id;
       } else {
         ticketSettings.ticketToggle = false;
@@ -3973,7 +3974,7 @@ In the mean time, please explain your issue below`;
           setTimeout(() => {
             sendingEmbed.delete(guild.id);
           }, 10000);
-          ticketChannel.send({embeds:[ticketEmbed]}).then(async (s) => {
+          ticketChannel.send({ embeds: [ticketEmbed] }).then(async (s) => {
             s.react(emoji);
 
             ticketSettings.messageID.push(s.id);
@@ -4724,7 +4725,7 @@ In the mean time, please explain your issue below`;
       .setDescription(
         `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **aeona**!`
       );
-    Hook.send({embeds:[msg]});
+    Hook.send({ embeds: [msg] });
 
     const userSettings = await User.findOne({ discordId: req.vote.user });
     if (!userSettings)
@@ -4739,16 +4740,18 @@ In the mean time, please explain your issue below`;
     let voteNumber = userSettings.votes;
     if (!voteNumber) voteNumber = 0;
     if (voteUser) {
-      voteUser.send({embeds:[
-        new Discord.MessageEmbed()
-          .setColor("#7289DA")
-          .setTitle(`Thanks for Voting!`)
-          .setDescription(
-            `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
-              apiUser.id
-            }) for voting **aeona**! \n\nVote #${voteNumber + 1}`
-          )]}
-      );
+      voteUser.send({
+        embeds: [
+          new Discord.MessageEmbed()
+            .setColor("#7289DA")
+            .setTitle(`Thanks for Voting!`)
+            .setDescription(
+              `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
+                apiUser.id
+              }) for voting **aeona**! \n\nVote #${voteNumber + 1}`
+            ),
+        ],
+      });
     }
 
     await userSettings.updateOne({
