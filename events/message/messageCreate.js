@@ -100,8 +100,8 @@ module.exports = class extends Event {
             message.author.id,
             message.client
           );
-          for (let guild in guilds) {
-            let guild = guilds[guild];
+          for (let i=0; i < guilds.length; i++) {
+            let guild = guilds[i];
             let channel = await client.channels.fetch(guild.globalChatChannel);
             if (channel) {
               //Create a webhook for the channel if it doesn't exist
