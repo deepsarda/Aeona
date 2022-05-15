@@ -146,8 +146,6 @@ module.exports = class extends Event {
 
         globalChat();
       }
-
-      if(message.author.bot) return;
       if (settings.aiAutoMod) {
         //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
         let toxicity = await fetch(
