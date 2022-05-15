@@ -167,7 +167,7 @@ module.exports = class extends Event {
             .catch(() => {});
         }
       }
-
+      if(message.author.id== client.user.id) return;
       if (message.content.match(mentionRegex)) {
         const proofita = `\`\`\`css\n[Prefix: ${
           settings.prefix || "!"
