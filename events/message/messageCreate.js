@@ -51,11 +51,7 @@ module.exports = class extends Event {
 
       const mentionRegex = RegExp(`^<@!?${this.client.user.id}>$`);
 
-      if (
-        !message.guild ||
-        message.webhookId
-      )
-        return;
+      if (!message.guild || message.webhookId) return;
 
       let settings = await Guild.findOne({
         guildId: message.guild.id,
@@ -167,7 +163,11 @@ module.exports = class extends Event {
             .catch(() => {});
         }
       }
-      if(message.author.id== client.user.id&& message.channel.id != "970641138153304134") return;
+      if (
+        message.author.id == client.user.id &&
+        message.channel.id != "970641138153304134"
+      )
+        return;
       if (message.content.match(mentionRegex)) {
         const proofita = `\`\`\`css\n[Prefix: ${
           settings.prefix || "!"
