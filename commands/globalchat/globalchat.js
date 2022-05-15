@@ -12,6 +12,7 @@ module.exports = class extends Command {
       description: "Setup global chat!",
       category: "Information",
       cooldown: 3,
+      botPermission:["MANAGE_WEBHOOKS"],
     });
   }
 
