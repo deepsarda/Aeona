@@ -102,41 +102,43 @@ module.exports = class extends Event {
           );
           for (let i = 0; i < guilds.length; i++) {
             let guild = guilds[i];
-            let channel = await client.channels.fetch(guild.globalChatChannel);
-            if (channel) {
-              try {
-                //Create a webhook for the channel if it doesn't exist
-                let webhooks = await channel.fetchWebhooks();
-                let webhook = webhooks.find((webhook) => webhook.token);
+            if (guild.id != message.guild.id) {
+              let channel = await client.channels.fetch(
+                guild.globalChatChannel
+              );
+              if (channel) {
+                try {
+                  //Create a webhook for the channel if it doesn't exist
+                  let webhooks = await channel.fetchWebhooks();
+                  let webhook = webhooks.find((webhook) => webhook.token);
 
-                if (!webhook) {
-                  webhook = await channel.createWebhook(
-                    `${client.user.username} Global Chat`,
-                    {
-                      avatar: client.user.displayAvatarURL(),
-                    }
-                  );
+                  if (!webhook) {
+                    webhook = await channel.createWebhook(
+                      `${client.user.username} Global Chat`,
+                      {
+                        avatar: client.user.displayAvatarURL(),
+                      }
+                    );
+                  }
+
+                  webhook.send({
+                    username: message.member.displayName,
+                    avatarURL: message.member.displayAvatarURL(),
+                    content: message.content,
+                    embeds: message.embeds,
+                    attachment: message.attachments.values(),
+                    allowedMentions: { parse: [] },
+                  });
+                } catch (e) {
+                  channel
+                    .send(
+                      `Please give me MANAGE_WEBHOOKS permission to recieve global chat messages.`
+                    )
+                    .catch(() => {});
                 }
-
-                webhook.send({
-                  username: message.member.displayName,
-                  avatarURL: message.member.displayAvatarURL(),
-                  content: message.content,
-                  embeds: message.embeds,
-                  attachment: message.attachments.values(),
-                  allowedMentions: { parse: [] },
-                });
-              } catch (e) {
-                channel
-                  .send(
-                    `Please give me MANAGE_WEBHOOKS permission to recieve global chat messages.`
-                  )
-                  .catch(() => {});
               }
             }
           }
-
-          message.delete().catch(() => {});
         }
 
         globalChat();
