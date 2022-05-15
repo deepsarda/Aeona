@@ -42,7 +42,7 @@ async function start() {
       console.log("Shards spawned");
       return;
     } catch (e) {
-      if(e.includes("spawn")) {
+      if(e.message.includes("spawn")) {
         console.log("Shards already spawned");
         return;
       }
