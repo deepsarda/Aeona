@@ -34,12 +34,16 @@ module.exports = class extends Command {
       content: `<@${message.author.id}>, <@${user2.id}> wants to fight! Do you accept? type -accept to accept or -decline to decline!`,
     });
 
-    const filter = (user) => user.author.id === user2.author.id;
+    const filter = (me) => me.author.id === user2.author.id;
 
     m.channel
-      .awaitMessages(filter, { max: 1, time: 1000*60*15, errors: ["time"] })
+      .awaitMessages({filter,max: 1, time: 1000*60*15, errors: ["time"] })
       .then(async (collected) => {
+        if(collected.content.toLowerCase() === "-accept"){
         fight.duo(message, user2);
+        } else {
+          message.channel.send(`<@${user2.id}> declined <@${message.author.id}>'s duel!`)
+        }
       })
       .catch((err) => {
         message.channel.send(
