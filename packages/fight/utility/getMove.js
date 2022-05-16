@@ -11,9 +11,7 @@ module.exports = function (player1, message, timeout) {
     return new Promise(async (resolve) => {
         const that = this;
 
-        message.channel.send({ content: `${player1.toString()} check your DM to choose your move.` }).then(x => setTimeout(() => {
-            message.channel.messages.delete(x);
-        }, 3000));
+        
 
         const msg = await player1.send({ embeds: [{ color: "AQUA", title: `Choose your move, ${player1.username}` }], components: await getComponents.bind(that)(timeout) });
 

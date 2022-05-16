@@ -43,15 +43,17 @@ class fight {
             let title = this.options.midMessage;
 
             if (botHealth < 1 || userHealth < 1) {
-                msg.edit({ embeds: [{ title: title, description: content }] });
-
+                msg.channel.send({ embeds: [{ title: title, description: content }] });
+                msg.author.send({ embeds: [{ title: title, description: content }] });
                 if (botHealth < 1) title = this.options.endMessage.replace(/{winner}/g, message.author.username).replace(/{looser}/g, this.client.user.username);
                 else if (userHealth < 1) title = this.options.endMessage.replace(/{winner}/g, this.client.user.username).replace(/{looser}/g, message.author.username);
 
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
+                console.log('Sending message to ' + message.author.username + ' and ' + this.client.user.username);
                 await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
             } else{
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
+                console.log('Sending message to ' + message.author.username + ' and ' + this.client.user.username);
                 await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
             }
 
@@ -99,16 +101,19 @@ class fight {
             else if (userHealth < 1) title = this.options.endMessage.replace(/{looser}/g, message.author.username).replace(/{winner}/g, player2.username);
 
             if (userHealth < 1 || user2Health < 1) {
-                msg.edit({ embeds: [{ title: title, description: content }] });
-
+                msg.channel.send({ embeds: [{ title: title, description: content }] });
+                msg.author.send({ embeds: [{ title: title, description: content }] });
+                player2.send({ embeds: [{ title: title, description: content }] });
                 if (user2Health < 1) title = this.options.endMessage.replace(/{winner}/g, message.author.username).replace(/{looser}/g, player2.username);
                 else if (userHealth < 1) title = this.options.endMessage.replace(/{looser}/g, message.author.username).replace(/{winner}/g, player2.username);
 
                 content = "Game ended";
+                console.log('Sending message to ' + message.author.username + ' and ' + player2.displayName);
                 await  msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 await player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
             } else {
+                console.log('Sending message to ' + message.author.username + ' and ' + player2.username);
                 await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 await player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
