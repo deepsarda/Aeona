@@ -34,7 +34,7 @@ module.exports = class extends Command {
       content: `<@${message.author.id}>, <@${user2.id}> wants to fight! Do you accept? type -accept to accept or -decline to decline!`,
     });
 
-    const filter = (me) => me.author.id === user2.author.id;
+    const filter = (me) => me.author.id === user2.id;
 
     m.channel
       .awaitMessages({filter,max: 1, time: 1000*60*15, errors: ["time"] })
