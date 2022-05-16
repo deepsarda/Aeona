@@ -20,6 +20,6 @@ module.exports = class extends Command {
         let client = message.client;
 
         if(!fight)  fight = new game(client);
-        fight.solo(message);
+        await fight.solo(message);
     }
 };
