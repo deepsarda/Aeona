@@ -44,6 +44,8 @@ module.exports = class extends Command {
       chatbot: `🤖`,
       anime: `👩`,
       music: `🎵`,
+      globalchat: `💬`,
+      fight: `🗡`,
     };
 
     const green = "<:PurpleDot:971039873148522546>";
@@ -97,6 +99,37 @@ module.exports = class extends Command {
       );
       return message.channel.send({ embeds: [embed] });
     } else if (
+      (args && args.join(" ").toLowerCase() == "fight") ||
+      (args && args[0].toLowerCase() == "fight")
+    ) {
+      embed.setTitle(`🗡 - Fight`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "fight")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} :\` ${cmd.description}`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    }else if (
       (args && args.join(" ").toLowerCase() == "alt detector") ||
       (args && args[0].toLowerCase() == "alt")
     ) {
@@ -166,6 +199,37 @@ module.exports = class extends Command {
       embed.setDescription(
         this.client.commands
           .filter((cmd) => cmd.category.toLowerCase() === "chatbot")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} :\` ${cmd.description}`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    }else if (
+      (args && args.join(" ").toLowerCase() == "globalchat") ||
+      (args && args[0].toLowerCase() == "globalchat")
+    ) {
+      embed.setTitle(`💬 - Globalchat Config`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "globalchat")
           .map(
             (cmd) =>
               `${

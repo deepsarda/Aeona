@@ -783,7 +783,7 @@ async function execute(message, prefix, i, chatbot) {
         }
         if (!reply.startsWith("{") && reply != "") {
           let comp = [];
-          if (Math.random() * 100 < 5) {
+          if (Math.random() * 100 < 15) {
             comp = [
               new Discord.MessageActionRow().addComponents(
                 new Discord.MessageButton()

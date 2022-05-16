@@ -10,7 +10,7 @@ module.exports = class extends Command {
       aliases: ["gc"],
       usage: "setup/disable",
       description: "Setup global chat!",
-      category: "Information",
+      category: "globalchat",
       cooldown: 3,
       botPermission: ["MANAGE_WEBHOOKS"],
     });
