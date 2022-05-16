@@ -49,10 +49,10 @@ class fight {
                 else if (userHealth < 1) title = this.options.endMessage.replace(/{winner}/g, this.client.user.username).replace(/{looser}/g, message.author.username);
 
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
-                msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
+                await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
             } else{
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
-                msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
+                await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || botHealth < 1 ? "" : content }] });
             }
 
             await new Promise(res => setTimeout(res, 500));
@@ -105,13 +105,13 @@ class fight {
                 else if (userHealth < 1) title = this.options.endMessage.replace(/{looser}/g, message.author.username).replace(/{winner}/g, player2.username);
 
                 content = "Game ended";
-                msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
-                player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
+                await  msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
+                await player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
             } else {
-                msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
+                await msg.author.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
                 msg.channel.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
-                player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
+                await player2.send({ embeds: [{ title: title, description: userHealth < 1 || user2Health < 1 ? "" : content }] });
             }
         }
     }

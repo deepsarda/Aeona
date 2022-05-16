@@ -40,7 +40,7 @@ module.exports = class extends Command {
       .awaitMessages({filter,max: 1, time: 1000*60*15, errors: ["time"] })
       .then(async (collected) => {
         if(collected.first().content.toLowerCase() === "-accept"){
-        fight.duo(message, user2);
+          fight.duo(message, user2);
         } else {
           message.channel.send(`<@${user2.id}> declined <@${message.author.id}>'s duel!`)
         }
