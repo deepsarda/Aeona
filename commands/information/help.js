@@ -46,6 +46,7 @@ module.exports = class extends Command {
       music: `🎵`,
       globalchat: `💬`,
       fight: `🗡`,
+      game: `🎮`,
     };
 
     const green = "<:PurpleDot:971039873148522546>";
@@ -129,7 +130,39 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (
+    } else if (
+      (args && args.join(" ").toLowerCase() == "game") ||
+      (args && args[0].toLowerCase() == "game")
+    ) {
+      embed.setTitle(`🎮 - game`);
+      embed.setDescription(
+        this.client.commands
+          .filter((cmd) => cmd.category.toLowerCase() === "game")
+          .map(
+            (cmd) =>
+              `${
+                cmd.disabled || disabledCommands.includes(cmd.name || cmd)
+                  ? red
+                  : green
+              } \`${cmd.name} :\` ${cmd.description}`
+          )
+          .join("\n")
+      );
+
+      embed.setFooter({
+        text: `Requested by ${message.author.username}`,
+        iconURL: message.author.displayAvatarURL({ dynamic: true }),
+      });
+      embed.setTimestamp();
+      embed.addField(
+        "\u200b",
+        "**[Invite](https://aeona.xyz/invite) | " +
+          "[Support Server](https://Aeona.xyz/support) | " +
+          "[Dashboard](https://Aeona.xyz/dashboard)**"
+      );
+      return message.channel.send({ embeds: [embed] });
+    } 
+    else if (
       (args && args.join(" ").toLowerCase() == "alt detector") ||
       (args && args[0].toLowerCase() == "alt")
     ) {
