@@ -1,18 +1,10 @@
 const mongoose = require("mongoose");
 
 const TankTacticsSchema = mongoose.Schema({
-  gameId: {
-    type: mongoose.SchemaTypes.String,
-    required: true,
-    unique: true,
-  },
+ 
   users: {
     type: mongoose.SchemaTypes.Array,
     default: [],
-  },
-  messageId: {
-    type: mongoose.SchemaTypes.String,
-    required: true,
   },
   channelId: {
     type: mongoose.SchemaTypes.String,
@@ -36,6 +28,14 @@ const TankTacticsSchema = mongoose.Schema({
       default: "",
     },
   },
+  boardSize:{
+    type: mongoose.SchemaTypes.Number,
+    default:32
+  },
+  seed:{
+    type: mongoose.SchemaTypes.Number,
+    required:true
+  }
 });
 
 module.exports = mongoose.model("TankTactics", TankTacticsSchema);
