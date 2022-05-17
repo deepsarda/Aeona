@@ -43,83 +43,108 @@ module.exports = class TankTacticsHandler {
     });
   }
 
+  //Event Functions
+  async onAction(channel, user, inter) {
+    const game = await this.getGame(channel.id);
+
+    if (!this.getUser(channel.id, user.id)) {
+      await inter.reply({
+        content: "Oops! Looks like you're not in this game.\n**Join** the game before performing an action 😅",
+        ephemeral: true
+      });
+      return false;
+    }
+
+    return game;
+  }
+
+  async onMiscAction(channel, user, inter, type) {
+    actions = {
+      heal: this.heal,
+      give: this.getGiveOptions,
+      attack: this.getAttackOptions,
+      join: this.join
+    };
+
+    const game = await this.onAction(channel, user, inter);
+
+    if (!game) return;
+
+    actions[type](game, user, inter);
+  }
+
+  async onHeal(channel, user, inter) {
+    await this.onMiscAction(channel, user, inter, "heal");
+  }
+
+  async onGive(channel, user, inter) {
+    await this.onMiscAction(channel, user, inter, "give");
+  }
+
+  async onAttack(channel, user, inter) {
+    await this.onMiscAction(channel, user, inter, "attack");
+  }
+
+  async onJoin(channel, user, inter) {
+    await this.onMiscAction(channel, user, inter, "join");
+  }
+
+  async onMovement(channel, user, inter, type) {
+    const game = await this.onAction(channel, user, inter);
+
+    if (!game) return;
+
+    this.move(game, user, type, inter);
+  }
+
+  async onLeft(channel, user, inter) {
+    await this.onMovement(channel, user, inter, "left");
+  }
+
+  async onRight(channel, user, inter) {
+    await this.onMovement(channel, user, inter, "right");
+  }
+
+  async onUp(channel, user, inter) {
+    await this.onMovement(channel, user, inter, "up");
+  }
+
+  async onDown(channel, user, inter) {
+    await this.onMovement(channel, user, inter, "down");
+  }
+
   //Events
   async interactionCreate(interaction) {
     if (interaction.customId) {
       interaction.user = interaction.member;
       interaction.user.userId = interaction.user.id;
 
-      if (interaction.customId == "right") {
-        let game = await this.getGame(interaction.channelId);
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        let user = interaction.user;
-        this.move(game, user, "right", interaction);
-      } else if (interaction.customId == "left") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        this.move(game, user, "left", interaction);
-      } else if (interaction.customId == "up") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        this.move(game, user, "up", interaction);
-      } else if (interaction.customId == "down") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        this.move(game, user, "down", interaction);
-      } else if (interaction.customId == "heal") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        this.heal(game, user, interaction);
-      } else if (interaction.customId == "give") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
-        this.getGiveOptions(game, user, interaction);
-      } else if (interaction.customId == "attack") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        if (!this.getUser(interaction.channel.id, interaction.user.id))
-          return await interaction.reply({
-            content: `You are not in this game. \n Try joining the game instead`,
-            ephemeral: true,
-          });
+      if (interaction.customId === "left")
+        await this.onLeft(interaction.channel, interaction.user, interaction);
 
-        this.getAttackOptions(game, user, interaction);
-      } else if (interaction.customId == "join") {
-        let game = await this.getGame(interaction.channelId);
-        let user = interaction.user;
-        this.join(game, user, interaction);
-      } else if (interaction.customId == "help") {
+      else if (interaction.customId === "right")
+        await this.onRight(interaction.channel, interaction.user, interaction);
+      
+      else if (interaction.customId === "up")
+        await this.onUp(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId === "down")
+        await this.onDown(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId === "heal")
+        await this.onHeal(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId === "give")
+        await this.onGive(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId === "attack")
+        await this.onAttack(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId === "join")
+        await this.onJoin(interaction.channel, interaction.user, interaction);
+
+      else if (interaction.customId == "help")
         this.help(interaction);
-      }
     }
   }
 
