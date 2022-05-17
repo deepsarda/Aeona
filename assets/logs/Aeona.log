@@ -636,3 +636,25 @@
 2022-05-16 14:53:25 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
 2022-05-16 14:53:57 [[32minfo[39m] [[36mCommand[39m] "+duo <@394320584089010179>" (duo) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#💬・general" (970641144293781525)
 2022-05-16 14:59:13 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:22:32 [[31merror[39m] [[36mundefined[39m] Cannot read properties of undefined (reading 'nextType')
+2022-05-17 16:22:35 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:22:35 [[31merror[39m] [[36mundefined[39m] Cannot read properties of undefined (reading 'displayAvatarURL')
+2022-05-17 16:24:56 [[32minfo[39m] [[36mRate Limit[39m] Time out: 3093ms. Limit: 5
+2022-05-17 16:25:08 [[32minfo[39m] [[36mRate Limit[39m] Time out: 2901ms. Limit: 5
+2022-05-17 16:25:39 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:25:39 [[31merror[39m] [[36mundefined[39m] Cannot read properties of undefined (reading 'displayAvatarURL')
+2022-05-17 16:26:30 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:26:31 [[31merror[39m] [[36mundefined[39m] range is not defined
+2022-05-17 16:27:34 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:27:35 [[31merror[39m] [[36mundefined[39m] user is not defined
+2022-05-17 16:29:31 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:30:23 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:32:24 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:37:38 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:39:00 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:40:03 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:40:41 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:41:11 [[32minfo[39m] [[36mCommand[39m] "+globalchat help" (globalchat) ran by "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩#3419" (238737825409794051) on guild "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩'𝔰 𝔇𝔢𝔫" (942862609537966110) channel "#⚔bot-spam⚔" (943914453085356123)
+2022-05-17 16:41:40 [[32minfo[39m] [[36mCommand[39m] "+help globalchat" (help) ran by "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩#3419" (238737825409794051) on guild "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩'𝔰 𝔇𝔢𝔫" (942862609537966110) channel "#⚔bot-spam⚔" (943914453085356123)
+2022-05-17 16:42:12 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:44:24 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected

@@ -25,13 +25,15 @@ module.exports = class TankTacticsHandler {
       this.data = docs;
       this.data.forEach((doc) => {
         this.channels.push(doc.channelId);
+
+
         
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
           let timeout = setTimeout(() => {
             this.handleEvent(doc);
-          }, nextEvent.timeout);
+          }, nextEvent);
 
           this.timeouts.set(doc.channelId, timeout);
         }
@@ -103,21 +105,21 @@ module.exports = class TankTacticsHandler {
     let now = new Date().getTime();
 
     //Get the next event
-    let nextEvent = Number("" + doc.event.nextTimestamp);
+    let event = Number("" + doc.event.nextTimestamp);
 
     //Return the difference between now and the next event
-    return nextEvent - now > 0 ? nextEvent - now : 0;
+    return event - now > 0 ? event - now : 0;
   }
 
   async handleEvent(doc) {
-    if (doc.nextEvent.nextType == "wait") {
+    if (doc.event.nextType == "wait") {
       //End the game
       doc.logs.push(`Game has ended due to inactivity`);
       await this.updateGame(doc, true);
 
       //Delete the game
       this.deleteGame(doc.channelId);
-    } else if (doc.nextEvent.nextType == "start") {
+    } else if (doc.event.nextType == "start") {
       //Start the game
       doc.logs.push(`Game has started`);
       doc.open = false;
@@ -152,7 +154,7 @@ module.exports = class TankTacticsHandler {
 
       //Update the game
       await this.updateGame(doc, true);
-    } else if (doc.nextEvent.nextType == "AP") {
+    } else if (doc.event.nextType == "AP") {
       //Loop through all users
       let logs = ``;
       for (let i = 0; i < doc.users.length; i++) {
@@ -200,8 +202,8 @@ module.exports = class TankTacticsHandler {
     let guild =  channel.guild;
 
     //Create the canvas
-    let width = game.boardSize * 18;
-    let height = game.boardSize * 18;
+    let width = game.boardSize * 20;
+    let height = game.boardSize * 20;
     let canvas = Canvas.createCanvas( width, height );
 
     //Make the background white
@@ -213,7 +215,7 @@ module.exports = class TankTacticsHandler {
     ctx.fillStyle = "white";
     for (let i = 0; i < game.boardSize; i++) {
       for (let j = 0; j < game.boardSize; j++) {
-        ctx.fillRect(i * 18, j * 18, 16, 16);
+        ctx.fillRect(i * 20, j * 20, 16, 16);
       }
     }
 
@@ -225,18 +227,25 @@ module.exports = class TankTacticsHandler {
       let y = user.y;
       
       //Fetch the user
-      let member=guild.members.fetch(user.userId);
+      let member=await guild.members.fetch(user.userId);
       let avatar=member.user.displayAvatarURL({format: "png", size: 16});
       let u=await this.client.users.fetch(user.userId,{force:true});
 
       let image = await Canvas.loadImage(avatar);
-      ctx.drawImage(image, x * 18, y * 18, 16, 16);
+      ctx.drawImage(image, x * 20, y * 20, 16, 16);
 
       //Draw the range
 
-      ctx.strokeStyle  =u.hexAccentColor;
+      //Generate a random color
+      let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
-      ctx.strokeRect((x-range)*18 -1, (y-range)*18-1, (x+range)*18+1, (y+range)*18+1);
+      ctx.strokeStyle  =color;
+  
+
+      ctx.beginPath();
+      ctx.strokeRect((x-user.range)*20 -1, (y-user.range)*20-1, (user.range*2)*20+20, (user.range*2)*20+20);
+      ctx.stroke();
+
     }
 
     let content=``
@@ -251,19 +260,19 @@ module.exports = class TankTacticsHandler {
     content+=`\n > ${game.logs.length > 0 ? game.logs[game.logs.length - 1] : ""}`;
 
     let description=`${game.users.length} players\n${game.boardSize}x${game.boardSize}`;
-    if(game.nextEvent.nextType=="AP")
-      description+=`\nNext event: \`Action points Donation\` in <t:${game.nextEvent.nextTimestamp}:>`;
-    else if(game.nextEvent.nextType=="wait")
+    if(game.event.nextType=="AP")
+      description+=`\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:>`;
+    else if(game.event.nextType=="wait")
       description+=`\nWaiting for players to join`;
-    else if(game.nextEvent.nextType=="start")
-      description+=`\nNext event: \`Game start\` in <t:${game.nextEvent.nextTimestamp}:>`;
+    else if(game.event.nextType=="start")
+      description+=`\nNext event: \`Game start\` in <t:${game.event.nextTimestamp}:>`;
 
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(),'board.png'); 
     let embed= new Discord.MessageEmbed().setTitle(`<a:tank:975792552806588506> Tank Tactics`).setDescription(description).setColor(0x00AE86).setFooter(`Last game update at <t:${Date.now()}:>`).setImage('attachment://board.png');
 
     //Loop though all users
     for (let i = 0; i < game.users.length; i++) {
-      let member=guild.members.cache.get(user.userId);
+      let member=guild.members.cache.get(game.users[i].userId);
 
       let actionPointText=``;
       let healthText=``;

@@ -10,7 +10,7 @@ module.exports = class extends Event {
     });
     for(let i=0;i<this.client.tankTacticsHandler.data.length;i++) {
       const game = this.client.tankTacticsHandler.data[i];
-      await this.client.tankTacticsHandler.updateGame(game);
+      await this.client.tankTacticsHandler.updateGame(game,false);
     }
     if (maintenance && maintenance.toggle == "true") {
       this.client.user.setPresence({ status: "dnd" });
