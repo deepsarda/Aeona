@@ -2,6 +2,7 @@ const TankTacticsSchema = require("../database/schemas/TankTactics");
 const Discord = require("discord.js");
 const perlinNoise = require("../packages/perlinnoise");
 const Canvas = require("canvas");
+const getColors = require('get-image-colors')
 module.exports = class TankTacticsHandler {
   constructor(client) {
     this.client = client;
@@ -228,19 +229,18 @@ module.exports = class TankTacticsHandler {
       
       //Fetch the user
       let member=await guild.members.fetch(user.userId);
-      let avatar=member.user.displayAvatarURL({format: "png", size: 16});
-      let u=await this.client.users.fetch(user.userId,{force:true});
+      let avatar=member.displayAvatarURL({format: "png", size: 16});
 
       let image = await Canvas.loadImage(avatar);
+      getColors(avatar).then(colors => {
+        
+        ctx.strokeStyle  =colors[0].hex();
+      })
+
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
 
-      //Draw the range
-
-      //Generate a random color
-      let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-
-      ctx.strokeStyle  =color;
-  
+    
+      ctx.lineWidth = 8;
 
       ctx.beginPath();
       ctx.strokeRect((x-user.range)*20 -1, (y-user.range)*20-1, (user.range*2)*20+20, (user.range*2)*20+20);

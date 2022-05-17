@@ -658,3 +658,20 @@
 2022-05-17 16:41:40 [[32minfo[39m] [[36mCommand[39m] "+help globalchat" (help) ran by "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩#3419" (238737825409794051) on guild "𝔅𝔯𝔞𝔢𝔱𝔥𝔦𝔢𝔩'𝔰 𝔇𝔢𝔫" (942862609537966110) channel "#⚔bot-spam⚔" (943914453085356123)
 2022-05-17 16:42:12 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
 2022-05-17 16:44:24 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:46:31 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 16:47:02 [[31merror[39m] [[36mundefined[39m] Unknown Channel
+2022-05-17 16:58:21 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:05:53 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:06:34 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:09:12 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:09:44 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:16:52 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:16:53 [[31merror[39m] [[36mundefined[39m] input.match is not a function
+2022-05-17 17:16:53 [[31merror[39m] [[36mundefined[39m] input.match is not a function
+2022-05-17 17:17:07 [[32minfo[39m] [[36mCommand[39m] ">editsnipe" (editsnipe) ran by "silvemm#2020" (832280386175500297) on guild "AlooParathaGang" (871966939822567485) channel "#general" (871966940321681519)
+2022-05-17 17:17:50 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 17:17:51 [[31merror[39m] [[36mundefined[39m] input.match is not a function
+2022-05-17 17:17:51 [[31merror[39m] [[36mundefined[39m] input.match is not a function
+2022-05-17 17:18:34 [[32minfo[39m] [[36mCommand[39m] ">kill" (kill) ran by "silvemm#2020" (832280386175500297) on guild "AlooParathaGang" (871966939822567485) channel "#general" (871966940321681519)
+2022-05-17 17:18:50 [[32minfo[39m] [[36mCommand[39m] ">kill <@731757462088318997>" (kill) ran by "silvemm#2020" (832280386175500297) on guild "AlooParathaGang" (871966939822567485) channel "#general" (871966940321681519)
+2022-05-17 17:19:20 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
