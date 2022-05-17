@@ -362,7 +362,7 @@ module.exports = class TankTacticsHandler {
 
 
     // Set the timeout for the next event
-    timeout = setTimeout(() => {
+    let timeout = setTimeout(() => {
       this.handleEvent(game);
     }, this.getNextEvent(game));
 
