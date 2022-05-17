@@ -209,7 +209,7 @@ module.exports = class TankTacticsHandler {
 
     //Make the background white
     let ctx = canvas.getContext("2d");
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#414245";
     ctx.fillRect(0, 0, width, height);
 
     //Draw the board
@@ -230,9 +230,9 @@ module.exports = class TankTacticsHandler {
       //Fetch the user
       let member=await guild.members.fetch(user.userId);
       let avatar=member.displayAvatarURL({format: "png", size: 16});
-
-      let image = await Canvas.loadImage(avatar);
-      getColors(avatar).then(colors => {
+      let avatar64=member.displayAvatarURL({format: "png", size: 64});
+      let image = await Canvas.loadImage(avatar64);
+      getColors(avatar64).then(colors => {
         
         ctx.strokeStyle  =colors[0].hex();
       })
@@ -288,6 +288,7 @@ module.exports = class TankTacticsHandler {
       
       
       embed.addField(`${member.displayName}`,`**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`);
+
     }
 
 
@@ -311,6 +312,8 @@ module.exports = class TankTacticsHandler {
     ]);
 
     channel.send({embeds:[embed],files:[attachment],content:showContent?content:"",components:[row,row2]});
+
+    channel.send 
   }
 
   async getGame(channelId) {
