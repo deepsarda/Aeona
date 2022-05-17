@@ -49,8 +49,9 @@ module.exports = class TankTacticsHandler {
 
     if (!this.getUser(channel.id, user.id)) {
       await inter.reply({
-        content: "Oops! Looks like you're not in this game.\n**Join** the game before performing an action 😅",
-        ephemeral: true
+        content:
+          "Oops! Looks like you're not in this game.\n**Join** the game before performing an action 😅",
+        ephemeral: true,
       });
       return false;
     }
@@ -63,7 +64,7 @@ module.exports = class TankTacticsHandler {
       heal: this.heal,
       give: this.getGiveOptions,
       attack: this.getAttackOptions,
-      join: this.join
+      join: this.join,
     };
 
     const game = await this.onAction(channel, user, inter);
@@ -121,30 +122,21 @@ module.exports = class TankTacticsHandler {
 
       if (interaction.customId === "left")
         await this.onLeft(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "right")
         await this.onRight(interaction.channel, interaction.user, interaction);
-      
       else if (interaction.customId === "up")
         await this.onUp(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "down")
         await this.onDown(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "heal")
         await this.onHeal(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "give")
         await this.onGive(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "attack")
         await this.onAttack(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "join")
         await this.onJoin(interaction.channel, interaction.user, interaction);
-
-      else if (interaction.customId == "help")
-        this.help(interaction);
+      else if (interaction.customId == "help") this.help(interaction);
     }
   }
 

@@ -53,7 +53,6 @@ async function start() {
         // totalShards: 'auto'
         totalShards: 1,
       });
-      
     }
   }
 }
