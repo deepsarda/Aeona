@@ -1,4 +1,4 @@
-const EconomySchema = require("../../database/schemas/Economy.js");
+const EconomySchema = require("../database/schemas/Economy.js");
 
 module.exports = class Economy{
 

@@ -295,6 +295,7 @@ module.exports = class TankTacticsHandler {
     ])
 
     row2.addComponents([
+      new Discord.MessageButton().setCustomId('range').setEmoji('<:range:976064452766081064>').setStyle('SECONDARY'),
       new Discord.MessageButton().setCustomId('attack').setEmoji('<:ATTACKER:976056587338801193>').setStyle('SECONDARY'),
       new Discord.MessageButton().setCustomId('give').setEmoji('<:donater:976056819162169365>').setStyle('SECONDARY'),
       new Discord.MessageButton().setCustomId('help').setEmoji('<:help:976057165263564851>').setStyle('SECONDARY'),
@@ -383,6 +384,7 @@ module.exports = class TankTacticsHandler {
   //Attack
 
   async getAttackOptions(game, user, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
@@ -457,6 +459,7 @@ module.exports = class TankTacticsHandler {
   }
 
   async attack(game, user, enemy, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
@@ -542,6 +545,7 @@ module.exports = class TankTacticsHandler {
 
   //give
   async getGiveOptions(game, user, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
@@ -613,6 +617,7 @@ module.exports = class TankTacticsHandler {
   }
 
   async give(game, user, enemy, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.id;
@@ -663,6 +668,7 @@ module.exports = class TankTacticsHandler {
 
   //heal
   async heal(game, user, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
@@ -718,6 +724,7 @@ module.exports = class TankTacticsHandler {
 
   //move
   async move(game, user, move, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.id;
@@ -788,6 +795,7 @@ module.exports = class TankTacticsHandler {
 
   //range
   async range(game, user, interaction) {
+    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
