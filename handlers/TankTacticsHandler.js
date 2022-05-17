@@ -95,7 +95,7 @@ module.exports = class TankTacticsHandler {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
         this.join(game, user, interaction);
-      }
+      } 
     }
   }
 
@@ -307,6 +307,7 @@ module.exports = class TankTacticsHandler {
       new Discord.MessageButton().setCustomId('attack').setEmoji('<:ATTACKER:976056587338801193>').setStyle('SECONDARY'),
       new Discord.MessageButton().setCustomId('give').setEmoji('<:donater:976056819162169365>').setStyle('SECONDARY'),
       new Discord.MessageButton().setCustomId('help').setEmoji('<:help:976057165263564851>').setStyle('SECONDARY'),
+      new Discord.MessageButton().setCustomId('join').setLabel('Join').setStyle('SECONDARY'),
     ]);
 
     channel.send({embeds:[embed],files:[attachment],content:content,components:[row,row2]});
