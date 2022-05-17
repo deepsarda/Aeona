@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const TankTacticsSchema = mongoose.Schema({
- 
   users: {
     type: mongoose.SchemaTypes.Array,
     default: [],
@@ -28,14 +27,14 @@ const TankTacticsSchema = mongoose.Schema({
       default: "",
     },
   },
-  boardSize:{
+  boardSize: {
     type: mongoose.SchemaTypes.Number,
-    default:32
+    default: 32,
   },
-  seed:{
+  seed: {
     type: mongoose.SchemaTypes.Number,
-    required:true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("TankTactics", TankTacticsSchema);

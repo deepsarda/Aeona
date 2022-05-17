@@ -15,11 +15,10 @@ module.exports = class extends Command {
     });
   }
 
-    async run(message, args) {
+  async run(message, args) {
+    let client = message.client;
 
-        let client = message.client;
-
-        if(!fight)  fight = new game(client);
-        await fight.solo(message);
-    }
+    if (!fight) fight = new game(client);
+    await fight.solo(message);
+  }
 };

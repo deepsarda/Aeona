@@ -47,7 +47,7 @@ module.exports = class extends Command {
       globalchat: `💬`,
       fight: `🗡`,
       game: `🎮`,
-      tanktactics:'<:tank:975793095792820284>',
+      tanktactics: "<:tank:975793095792820284>",
     };
 
     const green = "<:PurpleDot:971039873148522546>";
@@ -162,8 +162,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    } 
-    else if (
+    } else if (
       (args && args.join(" ").toLowerCase() == "alt detector") ||
       (args && args[0].toLowerCase() == "alt")
     ) {
@@ -225,7 +224,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (
+    } else if (
       (args && args.join(" ").toLowerCase() == "tanktactics") ||
       (args && args[0].toLowerCase() == "tanktactics")
     ) {
@@ -287,7 +286,7 @@ module.exports = class extends Command {
           "[Dashboard](https://Aeona.xyz/dashboard)**"
       );
       return message.channel.send({ embeds: [embed] });
-    }else if (
+    } else if (
       (args && args.join(" ").toLowerCase() == "globalchat") ||
       (args && args[0].toLowerCase() == "globalchat")
     ) {

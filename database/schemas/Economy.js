@@ -58,7 +58,7 @@ const EconomySchema = mongoose.Schema({
   rank: {
     type: mongoose.SchemaTypes.String,
     default: "Noob",
-  },  
+  },
 });
 
 module.exports = mongoose.model("Economy", EconomySchema);

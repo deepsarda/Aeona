@@ -27,8 +27,6 @@ if (config.dashboard) {
 Aeona.start();
 process.on("uncaughtException", (error) => {
   logger.error(error);
-
- 
 });
 const http = require("https");
 function randomString(length, chars) {
