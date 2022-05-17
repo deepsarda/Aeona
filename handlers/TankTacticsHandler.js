@@ -203,7 +203,7 @@ module.exports = class TankTacticsHandler {
     //Create the canvas
     let width = game.boardSize * 18;
     let height = game.boardSize * 18;
-    let canvas = new Canvas( width, height );
+    let canvas = Canvas.createCanvas( width, height );
 
     //Make the background white
     let ctx = canvas.getContext("2d");
