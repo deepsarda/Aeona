@@ -358,7 +358,27 @@ module.exports = class TankTacticsHandler {
       getColors(avatar128).then((colors) => {
         colors=colors.map(color => color.hex());
         console.log(colors.toString());
-        ctx.strokeStyle = colors[0].hex();
+
+        let color;
+        let l=0; 
+        //Loop through all the colors
+        for (let i = 0; i < colors.length; i++) {
+          let co = colors[i];
+          //If the color is dark
+          var c = co.substring(1);      // strip #
+          var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+          var r = (rgb >> 16) & 0xff;  // extract red
+          var g = (rgb >>  8) & 0xff;  // extract green
+          var b = (rgb >>  0) & 0xff;  // extract blue
+
+          var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+
+          if(luma>l){
+            l=luma;
+            color=co;
+          }
+        }
+        ctx.strokeStyle = color;
       });
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
@@ -476,7 +496,7 @@ module.exports = class TankTacticsHandler {
         .setStyle("SECONDARY"),
     ]);
 
-    channel.send({
+    await channel.send({
       embeds: [embed],
       files: [attachment],
       content: showContent ? content : "_ _",
