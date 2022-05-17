@@ -437,6 +437,8 @@ module.exports = class TankTacticsHandler {
         game.event.nextTimestamp / 1000
       )}:R>** `;
 
+    description += `\n\n\n`;
+
     //Loop though all users
     for (let i = 0; i < game.users.length; i++) {
       let member = guild.members.cache.get(game.users[i].userId);
