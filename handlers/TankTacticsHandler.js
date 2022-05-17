@@ -453,7 +453,7 @@ module.exports = class TankTacticsHandler {
         healthText += `:black_heart:`;
 
       description +=
-        `**${member}**: \n` +
+        `\n\n**${member}** \n\n` +
         `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
     }
 
