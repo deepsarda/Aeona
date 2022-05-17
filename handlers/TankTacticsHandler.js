@@ -2,7 +2,7 @@ const TankTacticsSchema = require("../database/schemas/TankTactics");
 const Discord = require("discord.js");
 const perlinNoise = require("../packages/perlinnoise");
 const Canvas = require("canvas");
-const getColors = require("../packages/getColors");
+const getColors = require("../packages/imagecolors");
 const paginationEmbed = require("discordjs-button-pagination");
 const { MessageEmbed, MessageButton } = require("discord.js");
 
