@@ -14,9 +14,9 @@ const TankTacticsSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.Boolean,
     default: true,
   },
-  public: {
-    type: mongoose.SchemaTypes.Boolean,
-    default: true,
+  logs: {
+    type: mongoose.SchemaTypes.Array,
+    default: [],
   },
   event: {
     nextType: {
