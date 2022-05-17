@@ -352,9 +352,19 @@ module.exports = class TankTacticsHandler {
       let y = user.y;
 
       //Fetch the user
-      let member = await guild.members.fetch(user.userId);
+      let member;
+      try{
+       member= await guild.members.fetch(user.userId);
+      }catch(e){
+        game.users.splice(i,1);
+        await game.save();
+        continue;
+        
+      }
+
+
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
-      let avatar128 = member.displayAvatarURL({ format: "png", size: 128 });
+      let avatar128 = member.displayAvatarURL({ format: "png", size: 512 });
       let image = await Canvas.loadImage(avatar);
       getColors(avatar128).then((colors) => {
         //Loop through the colors and find the one with the highest amount 
