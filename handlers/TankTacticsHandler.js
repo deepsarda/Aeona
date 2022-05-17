@@ -321,8 +321,8 @@ module.exports = class TankTacticsHandler {
   }
   //Game
 
-  async updateGame(game, mentionAllUsers, showContent ) {
-    if(showContent === undefined) showContent = true;
+  async updateGame(game, mentionAllUsers, showContent) {
+    if (showContent === undefined) showContent = true;
     //Get the guild
     let channel = await this.client.channels.fetch(game.channelId);
     let guild = channel.guild;
@@ -344,7 +344,7 @@ module.exports = class TankTacticsHandler {
         ctx.fillRect(i * 20, j * 20, 16, 16);
       }
     }
-    let colorsUsed=[];
+    let colorsUsed = [];
     //Draw the players
     for (let i = 0; i < game.users.length; i++) {
       let user = game.users[i];
@@ -353,21 +353,19 @@ module.exports = class TankTacticsHandler {
 
       //Fetch the user
       let member;
-      try{
-       member= await guild.members.fetch(user.userId);
-      }catch(e){
-        game.users.splice(i,1);
+      try {
+        member = await guild.members.fetch(user.userId);
+      } catch (e) {
+        game.users.splice(i, 1);
         await game.save();
         continue;
-        
       }
-
 
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
       let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let image = await Canvas.loadImage(avatar);
       getColors(avatar128).then((colors) => {
-        //Loop through the colors and find the one with the highest amount 
+        //Loop through the colors and find the one with the highest amount
         let color;
         let max = 0;
 
@@ -375,7 +373,7 @@ module.exports = class TankTacticsHandler {
           let c = colors[i];
           if (colorsUsed.includes(c.color.hex())) continue;
 
-          if(c.amount > max){
+          if (c.amount > max) {
             max = c.amount;
             color = c.color.hex();
           }
@@ -412,28 +410,20 @@ module.exports = class TankTacticsHandler {
 
     let description = `** ${game.users.length} players** \n** Board Size **: ${game.boardSize}x${game.boardSize}`;
     if (game.event.nextType == "AP")
-      description += `\n** Next event: \`Action points Donation\` in <t:${Math.floor(game.event.nextTimestamp/1000)}:R>**  `;
+      description += `\n** Next event: \`Action points Donation\` in <t:${Math.floor(
+        game.event.nextTimestamp / 1000
+      )}:R>**  `;
     else if (game.event.nextType == "wait")
       description += `\n** Waiting for players to join** `;
     else if (game.event.nextType == "start")
-      description += `\n** Next event: \`Game start\` in <t:${Math.floor(game.event.nextTimestamp/1000)}:R>** `;
-
-    const attachment = new Discord.MessageAttachment(
-      canvas.toBuffer(),
-      "board.png"
-    );
-    
-    let embed = new Discord.MessageEmbed()
-      .setTitle(`<a:tank:975792552806588506> Tank Tactics`)
-      .setDescription(description)
-      .setColor(0x00ae86)
-      .setFooter(`Current map: ${game.boardSize}x${game.boardSize}`)
-      .setImage("attachment://board.png");
+      description += `\n** Next event: \`Game start\` in <t:${Math.floor(
+        game.event.nextTimestamp / 1000
+      )}:R>** `;
 
     //Loop though all users
     for (let i = 0; i < game.users.length; i++) {
       let member = guild.members.cache.get(game.users[i].userId);
-      if(!member) continue;
+      if (!member) continue;
       let actionPointText = ``;
       let healthText = ``;
 
@@ -445,11 +435,22 @@ module.exports = class TankTacticsHandler {
       for (let j = 0; j < 3 - game.users[i].health; j++)
         healthText += `:black_heart:`;
 
-      embed.addField(
-        `${member}`,
-        `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`
-      );
+      description +=
+        `**${member}**: \n` +
+        `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
     }
+
+    const attachment = new Discord.MessageAttachment(
+      canvas.toBuffer(),
+      "board.png"
+    );
+
+    let embed = new Discord.MessageEmbed()
+      .setTitle(`<a:tank:975792552806588506> Tank Tactics`)
+      .setDescription(description)
+      .setColor(0x00ae86)
+      .setFooter(`Current map: ${game.boardSize}x${game.boardSize}`)
+      .setImage("attachment://board.png");
 
     let row = new Discord.MessageActionRow();
     let row2 = new Discord.MessageActionRow();
