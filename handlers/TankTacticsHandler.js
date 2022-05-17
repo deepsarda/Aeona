@@ -364,7 +364,7 @@ module.exports = class TankTacticsHandler {
 
 
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
-      let avatar128 = member.displayAvatarURL({ format: "png", size: 512 });
+      let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let image = await Canvas.loadImage(avatar);
       getColors(avatar128).then((colors) => {
         //Loop through the colors and find the one with the highest amount 
@@ -446,7 +446,7 @@ module.exports = class TankTacticsHandler {
         healthText += `:black_heart:`;
 
       embed.addField(
-        `${member.displayName}`,
+        `${member}`,
         `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`
       );
     }
