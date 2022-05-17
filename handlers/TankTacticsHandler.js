@@ -25,8 +25,7 @@ module.exports = class TankTacticsHandler {
       this.data = docs;
       this.data.forEach((doc) => {
         this.channels.push(doc.channelId);
-        this.data.push(doc);
-
+        
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
@@ -227,7 +226,7 @@ module.exports = class TankTacticsHandler {
       
       //Fetch the user
       let member=guild.members.fetch(user.userId);
-      let avatar=member.user.avatarURL({format: "png", size: 16});
+      let avatar=member.user.displayAvatarURL({format: "png", size: 16});
       let u=await this.client.users.fetch(user.userId,{force:true});
 
       let image = await Canvas.loadImage(avatar);

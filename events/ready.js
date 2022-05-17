@@ -8,11 +8,14 @@ module.exports = class extends Event {
     const maintenance = await Maintenance.findOne({
       maintenance: "maintenance",
     });
-
+    for(let i=0;i<this.client.tankTacticsHandler.data.length;i++) {
+      const game = this.client.tankTacticsHandler.data[i];
+      await this.client.tankTacticsHandler.updateGame(game);
+    }
     if (maintenance && maintenance.toggle == "true") {
       this.client.user.setPresence({ status: "dnd" });
       this.client.user.setActivity("Under Maintenance");
-
+      
       logger.info(`✅ loaded Maintenance Mode `, { label: "Status" });
     } else {
       let client = this.client;
