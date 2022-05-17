@@ -195,7 +195,7 @@ module.exports = class TankTacticsHandler {
 
   //Game
 
-  async updateGame(game, mentionAllUsers) {
+  async updateGame(game, mentionAllUsers,showContent=true) {
 
 
     //Get the guild
@@ -261,7 +261,7 @@ module.exports = class TankTacticsHandler {
 
     let description=`${game.users.length} players\n${game.boardSize}x${game.boardSize}`;
     if(game.event.nextType=="AP")
-      description+=`\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:>`;
+      description+=`\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:R>`;
     else if(game.event.nextType=="wait")
       description+=`\nWaiting for players to join`;
     else if(game.event.nextType=="start")
@@ -310,7 +310,7 @@ module.exports = class TankTacticsHandler {
       new Discord.MessageButton().setCustomId('join').setLabel('Join').setStyle('SECONDARY'),
     ]);
 
-    channel.send({embeds:[embed],files:[attachment],content:content,components:[row,row2]});
+    channel.send({embeds:[embed],files:[attachment],content:showContent?content:"",components:[row,row2]});
   }
 
   async getGame(channelId) {
@@ -859,8 +859,8 @@ module.exports = class TankTacticsHandler {
 
         if (game.users.length == 4) {
           game.event.nextType = "start";
-          //Set the timpstamp for the next event to be now + 3 hour
-          game.event.nextTimestamp = Date.now() + 1000 * 60 * 60 * 3;
+          //Set the timpstamp for the next event to be now + 6 hour
+          game.event.nextTimestamp = Date.now() + 1000 * 60 * 60 * 6;
 
           //Set the timeout for the next event
           let timeout = this.timeouts.get(game.channelId);
