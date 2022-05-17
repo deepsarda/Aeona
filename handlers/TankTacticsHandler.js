@@ -832,7 +832,7 @@ module.exports = class TankTacticsHandler {
   //join
   async join(game, user, interaction) {
     if (game.open) {
-      let player = this.getUser(game.channelId, user.id);
+      let player = await this.getUser(game.channelId, user.id);
       if (!player) {
         game.users.push({
           userId: user.id,
