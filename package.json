@@ -28,6 +28,7 @@
     "discord-clicking-game": "^0.0.2",
     "discord-reflex-speed": "^1.0.1",
     "discord.js": "^13.6.0",
+    "discordjs-button-pagination": "^3.0.1",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.7",
     "erela.js": "^2.3.3",

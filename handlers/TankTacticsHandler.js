@@ -2,7 +2,10 @@ const TankTacticsSchema = require("../database/schemas/TankTactics");
 const Discord = require("discord.js");
 const perlinNoise = require("../packages/perlinnoise");
 const Canvas = require("canvas");
-const getColors = require('get-image-colors')
+const getColors = require("get-image-colors");
+const paginationEmbed = require("discordjs-button-pagination");
+const { MessageEmbed, MessageButton } = require("discord.js");
+
 module.exports = class TankTacticsHandler {
   constructor(client) {
     this.client = client;
@@ -27,8 +30,6 @@ module.exports = class TankTacticsHandler {
       this.data.forEach((doc) => {
         this.channels.push(doc.channelId);
 
-
-        
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
@@ -47,55 +48,78 @@ module.exports = class TankTacticsHandler {
     if (interaction.customId) {
       interaction.user = interaction.member;
       interaction.user.userId = interaction.user.id;
-      
+
       if (interaction.customId == "right") {
         let game = await this.getGame(interaction.channelId);
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         let user = interaction.user;
         this.move(game, user, "right", interaction);
       } else if (interaction.customId == "left") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         this.move(game, user, "left", interaction);
       } else if (interaction.customId == "up") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         this.move(game, user, "up", interaction);
       } else if (interaction.customId == "down") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         this.move(game, user, "down", interaction);
       } else if (interaction.customId == "heal") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         this.heal(game, user, interaction);
       } else if (interaction.customId == "give") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
         this.getGiveOptions(game, user, interaction);
       } else if (interaction.customId == "attack") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
-        if (!this.getUser(interaction.channel.id , interaction.user.id)) 
-          return await interaction.reply({content: `You are not in this game. \n Try joining the game instead`,ephemeral: true});
+        if (!this.getUser(interaction.channel.id, interaction.user.id))
+          return await interaction.reply({
+            content: `You are not in this game. \n Try joining the game instead`,
+            ephemeral: true,
+          });
 
         this.getAttackOptions(game, user, interaction);
       } else if (interaction.customId == "join") {
         let game = await this.getGame(interaction.channelId);
         let user = interaction.user;
         this.join(game, user, interaction);
-      } 
+      } else if (interaction.customId == "help") {
+        this.help(interaction);
+      }
     }
   }
 
@@ -193,19 +217,119 @@ module.exports = class TankTacticsHandler {
     }
   }
 
+  async help(interaction) {
+    const embed1 = new MessageEmbed()
+      .setTitle("What is this?")
+      .setDescription("An Idle co-op staregy game.");
+
+    const embed2 = new MessageEmbed()
+      .setTitle("What is the goal?")
+      .setDescription(
+        "The goal of the game is to survive as long as possible."
+      );
+
+    const embed3 = new MessageEmbed()
+      .setTitle("How do I join?")
+      .setDescription(
+        " To join the game, type `+join` or click the join button in the game menu."
+      );
+
+    const embed4 = new MessageEmbed()
+      .setTitle("How do I start the game?")
+      .setDescription(
+        "The game will start automatically when the fourth player joins. There will a 6 hr wait period before the game starts to allow for more players to join."
+      );
+
+    const embed5 = new MessageEmbed()
+      .setTitle("What are action points?")
+      .setDescription(
+        "Action points are used to perform actions in the game. Each action point is used to perform one of the following actions: \n - Move \n - Heal \n - Attack \n - Give \n -Range\n\n Action points are given randomly every day. \n Action points are given to dead player at a higher frequency. The alive players have to negociate with the dead players to get more action points. \n ** The  best way to win is to have the most number of dead player on your side.** As they decide who will win very often"
+      );
+
+    const embed6 = new MessageEmbed()
+      .setTitle("What are the actions?")
+      .setDescription(
+        "The actions are as follows: \n - Move: Move to up,down,left right \n - Heal: Heal yourself \n - Attack: Attack a random player \n - Give: Give a random player an action point  \n - Range Upgrade the range of your tank! "
+      );
+
+    const embed7 = new MessageEmbed()
+      .setTitle("How do I move?")
+      .setDescription(
+        "To move, type `+right`, `+left`, `+up`, or `+down` in the chat or alternatively click the  button in the game menu."
+      )
+      .setImage(
+        "https://cdn.discordapp.com/attachments/942118536166383717/976143154917048370/unknown.png?size=4096"
+      );
+
+    const embed8 = new MessageEmbed()
+      .setTitle("How do I heal?")
+      .setDescription(
+        "To heal, type `+heal` in the chat or alternatively click the  button in the game menu. Healing has a 10% chance of working."
+      )
+      .setImage(
+        "https://media.discordapp.net/attachments/942118536166383717/976143343375507546/unknown.png"
+      );
+
+    const embed9 = new MessageEmbed()
+      .setTitle("How do I attack?")
+      .setDescription(
+        "To attack, type `+attack` in the chat or alternatively click the  button in the game menu. You can only attack as far as your range. Which is indicated by the square around you."
+      )
+      .setImage(
+        "https://media.discordapp.net/attachments/942118536166383717/976143931152687104/unknown.png"
+      );
+
+    const embed10 = new MessageEmbed()
+      .setTitle("How do I give?")
+      .setDescription(
+        "To give, type `+give` in the chat or alternatively click the  button in the game menu. You can only give as far as your range. Which is indicated by the square around you. Unless you are dead then you can give to anyone."
+      )
+      .setImage(
+        "https://media.discordapp.net/attachments/942118536166383717/976145099224395777/unknown.png"
+      );
+    const embed11 = new MessageEmbed()
+      .setTitle("How do I upgrade range?")
+      .setDescription("To upgrade range, click the  button in the game menu. ")
+      .setImage(
+        "https://media.discordapp.net/attachments/942118536166383717/976144960036409394/unknown.png"
+      );
+    const button1 = new MessageButton()
+      .setCustomId("previousbtn")
+      .setLabel("Previous")
+      .setStyle("DANGER");
+
+    const button2 = new MessageButton()
+      .setCustomId("nextbtn")
+      .setLabel("Next")
+      .setStyle("SUCCESS");
+    let pages = [
+      embed1,
+      embed2,
+      embed3,
+      embed4,
+      embed5,
+      embed6,
+      embed7,
+      embed8,
+      embed9,
+      embed10,
+      embed11,
+    ];
+
+    let buttonList = [button1, button2];
+    paginationEmbed(interaction, pages, buttonList, 60 * 1000 * 5);
+  }
   //Game
 
-  async updateGame(game, mentionAllUsers,showContent=true) {
-
-
+  async updateGame(game, mentionAllUsers, showContent = true) {
     //Get the guild
     let channel = await this.client.channels.fetch(game.channelId);
-    let guild =  channel.guild;
+    let guild = channel.guild;
 
     //Create the canvas
     let width = game.boardSize * 20;
     let height = game.boardSize * 20;
-    let canvas = Canvas.createCanvas( width, height );
+    let canvas = Canvas.createCanvas(width, height);
 
     //Make the background white
     let ctx = canvas.getContext("2d");
@@ -220,108 +344,152 @@ module.exports = class TankTacticsHandler {
       }
     }
 
-
     //Draw the players
     for (let i = 0; i < game.users.length; i++) {
       let user = game.users[i];
       let x = user.x;
       let y = user.y;
-      
+
       //Fetch the user
-      let member=await guild.members.fetch(user.userId);
-      let avatar=member.displayAvatarURL({format: "png", size: 16});
-      let avatar64=member.displayAvatarURL({format: "png", size: 64});
+      let member = await guild.members.fetch(user.userId);
+      let avatar = member.displayAvatarURL({ format: "png", size: 16 });
+      let avatar64 = member.displayAvatarURL({ format: "png", size: 64 });
       let image = await Canvas.loadImage(avatar64);
-      getColors(avatar64).then(colors => {
-        
-        ctx.strokeStyle  =colors[0].hex();
-      })
+      getColors(avatar64).then((colors) => {
+        ctx.strokeStyle = colors[0].hex();
+      });
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
 
-    
       ctx.lineWidth = 8;
 
       ctx.beginPath();
-      ctx.strokeRect((x-user.range)*20 -1, (y-user.range)*20-1, (user.range*2)*20+20, (user.range*2)*20+20);
+      ctx.strokeRect(
+        (x - user.range) * 20 - 1,
+        (y - user.range) * 20 - 1,
+        user.range * 2 * 20 + 20,
+        user.range * 2 * 20 + 20
+      );
       ctx.stroke();
-
     }
 
-    let content=``
-    if(mentionAllUsers){
+    let content = ``;
+    if (mentionAllUsers) {
       //Loop through all users
       for (let i = 0; i < game.users.length; i++) {
-        content+=`<@${game.users[i].userId}> `;
+        content += `<@${game.users[i].userId}> `;
       }
-
     }
 
-    content+=`\n > ${game.logs.length > 0 ? game.logs[game.logs.length - 1] : ""}`;
+    content += `\n > ${
+      game.logs.length > 0 ? game.logs[game.logs.length - 1] : ""
+    }`;
 
-    let description=`${game.users.length} players\n${game.boardSize}x${game.boardSize}`;
-    if(game.event.nextType=="AP")
-      description+=`\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:R>`;
-    else if(game.event.nextType=="wait")
-      description+=`\nWaiting for players to join`;
-    else if(game.event.nextType=="start")
-      description+=`\nNext event: \`Game start\` in <t:${game.event.nextTimestamp}:>`;
+    let description = `${game.users.length} players\n${game.boardSize}x${game.boardSize}`;
+    if (game.event.nextType == "AP")
+      description += `\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:R>`;
+    else if (game.event.nextType == "wait")
+      description += `\nWaiting for players to join`;
+    else if (game.event.nextType == "start")
+      description += `\nNext event: \`Game start\` in <t:${game.event.nextTimestamp}:>`;
 
-    const attachment = new Discord.MessageAttachment(canvas.toBuffer(),'board.png'); 
-    let embed= new Discord.MessageEmbed().setTitle(`<a:tank:975792552806588506> Tank Tactics`).setDescription(description).setColor(0x00AE86).setFooter(`Last game update at <t:${Date.now()}:>`).setImage('attachment://board.png');
+    const attachment = new Discord.MessageAttachment(
+      canvas.toBuffer(),
+      "board.png"
+    );
+    let embed = new Discord.MessageEmbed()
+      .setTitle(`<a:tank:975792552806588506> Tank Tactics`)
+      .setDescription(description)
+      .setColor(0x00ae86)
+      .setFooter(`Last game update at <t:${Date.now()}:>`)
+      .setImage("attachment://board.png");
 
     //Loop though all users
     for (let i = 0; i < game.users.length; i++) {
-      let member=guild.members.cache.get(game.users[i].userId);
+      let member = guild.members.cache.get(game.users[i].userId);
 
-      let actionPointText=``;
-      let healthText=``;
-  
-      for(let j=0;j<game.users[i].actionPoints;j++)
-        actionPointText+=`<a:BlueCoin:976053896982196254>`;
-      
-      for(let j=0;j<game.users[i].health;j++)
-        healthText+=`:heart:`;
-      
-      for(let j=0;j<3-game.users[i].health;j++)
-        healthText+=`:black_heart:`;
-      
-      
-      embed.addField(`${member.displayName}`,`**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`);
+      let actionPointText = ``;
+      let healthText = ``;
 
+      for (let j = 0; j < game.users[i].actionPoints; j++)
+        actionPointText += `<a:BlueCoin:976053896982196254>`;
+
+      for (let j = 0; j < game.users[i].health; j++) healthText += `:heart:`;
+
+      for (let j = 0; j < 3 - game.users[i].health; j++)
+        healthText += `:black_heart:`;
+
+      embed.addField(
+        `${member.displayName}`,
+        `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`
+      );
     }
 
-
-    let row=new Discord.MessageActionRow();
-    let row2=new Discord.MessageActionRow();
+    let row = new Discord.MessageActionRow();
+    let row2 = new Discord.MessageActionRow();
 
     row.addComponents([
-      new Discord.MessageButton().setCustomId('left').setEmoji('<:labs_left:976055411994153022>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('up').setEmoji('<:labs_up:976055596438654976>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('down').setEmoji('<:labs_down:976055697705951282>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('right').setEmoji('<:labs_right:976055753259495444>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('heal').setEmoji('<:health:976056237542232114>').setStyle('SECONDARY'),
-    ])
-
-    row2.addComponents([
-      new Discord.MessageButton().setCustomId('range').setEmoji('<:range:976064452766081064>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('attack').setEmoji('<:ATTACKER:976056587338801193>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('give').setEmoji('<:donater:976056819162169365>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('help').setEmoji('<:help:976057165263564851>').setStyle('SECONDARY'),
-      new Discord.MessageButton().setCustomId('join').setLabel('Join').setStyle('SECONDARY'),
+      new Discord.MessageButton()
+        .setCustomId("left")
+        .setEmoji("<:labs_left:976055411994153022>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("up")
+        .setEmoji("<:labs_up:976055596438654976>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("down")
+        .setEmoji("<:labs_down:976055697705951282>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("right")
+        .setEmoji("<:labs_right:976055753259495444>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("heal")
+        .setEmoji("<:health:976056237542232114>")
+        .setStyle("SECONDARY"),
     ]);
 
-    channel.send({embeds:[embed],files:[attachment],content:showContent?content:"",components:[row,row2]});
+    row2.addComponents([
+      new Discord.MessageButton()
+        .setCustomId("range")
+        .setEmoji("<:range:976064452766081064>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("attack")
+        .setEmoji("<:ATTACKER:976056587338801193>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("give")
+        .setEmoji("<:donater:976056819162169365>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("help")
+        .setEmoji("<:help:976057165263564851>")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setCustomId("join")
+        .setLabel("Join")
+        .setStyle("SECONDARY"),
+    ]);
 
-    channel.send 
+    channel.send({
+      embeds: [embed],
+      files: [attachment],
+      content: showContent ? content : "_ _",
+      components: [row, row2],
+    });
+
+    channel.send(
+      "** TO JOIN**: Click the join button! \n **Learn how to play**: click on the button marked with <:help:976057165263564851> "
+    );
   }
 
   async getGame(channelId) {
     let g = this.data.find((game) => {
       return game.channelId == channelId;
     });
-
-    
 
     return g;
   }
@@ -347,10 +515,10 @@ module.exports = class TankTacticsHandler {
   }
   async getUser(channelId, userId) {
     let game = await this.getGame(channelId);
-    
+
     if (!game) return;
 
-    let user=null;
+    let user = null;
     for (let i = 0; i < game.users.length; i++) {
       if (game.users[i].userId == userId) {
         user = game.users[i];
@@ -378,7 +546,6 @@ module.exports = class TankTacticsHandler {
     this.channels.push(channelId);
     this.data.push(game);
 
-
     // Set the timeout for the next event
     let timeout = setTimeout(() => {
       this.handleEvent(game);
@@ -402,20 +569,27 @@ module.exports = class TankTacticsHandler {
   //Attack
 
   async getAttackOptions(game, user, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
 
-    if(player.health==0){
-      interaction.reply({ content: `Dead players cannot attack`,ephemeral:true });
+    if (player.health == 0) {
+      interaction.reply({
+        content: `Dead players cannot attack`,
+        ephemeral: true,
+      });
       return;
     }
 
     //Loop through all users
     for (let i = 0; i < game.users.length; i++) {
       if (game.users[i].userId != user.userId) {
-        if (game.users[i].userId!= 0) {
+        if (game.users[i].userId != 0) {
           if (this.checkIfInRange(player, game.users[i])) {
             options.push(game.users[i]);
           }
@@ -423,7 +597,7 @@ module.exports = class TankTacticsHandler {
       }
     }
 
-    if(options.length == 0){
+    if (options.length == 0) {
       interaction.reply({
         content: `You can't attack  anyone.`,
         ephemeral: true,
@@ -442,7 +616,6 @@ module.exports = class TankTacticsHandler {
         value: `${options[i].userId}`,
       });
     }
-
 
     let row = new Discord.MessageActionRow();
     new Discord.MessageSelectMenu()
@@ -477,7 +650,11 @@ module.exports = class TankTacticsHandler {
   }
 
   async attack(game, user, enemy, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
@@ -485,8 +662,11 @@ module.exports = class TankTacticsHandler {
 
     let player = game.users[userIndex];
 
-    if(player.health==0){
-      interaction.reply({ content: `Dead players cannot attack`,ephemeral:true });
+    if (player.health == 0) {
+      interaction.reply({
+        content: `Dead players cannot attack`,
+        ephemeral: true,
+      });
       return;
     }
     //Check if the user has enough action points
@@ -563,7 +743,11 @@ module.exports = class TankTacticsHandler {
 
   //give
   async getGiveOptions(game, user, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
@@ -581,7 +765,7 @@ module.exports = class TankTacticsHandler {
       }
     }
 
-    if(options.length == 0){
+    if (options.length == 0) {
       interaction.reply({
         content: `You can't give to anyone.`,
         ephemeral: true,
@@ -600,7 +784,6 @@ module.exports = class TankTacticsHandler {
         value: `${options[i].userId}`,
       });
     }
-
 
     let row = new Discord.MessageActionRow();
     new Discord.MessageSelectMenu()
@@ -635,7 +818,11 @@ module.exports = class TankTacticsHandler {
   }
 
   async give(game, user, enemy, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.id;
@@ -686,7 +873,11 @@ module.exports = class TankTacticsHandler {
 
   //heal
   async heal(game, user, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
@@ -742,7 +933,11 @@ module.exports = class TankTacticsHandler {
 
   //move
   async move(game, user, move, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.id;
@@ -813,7 +1008,11 @@ module.exports = class TankTacticsHandler {
 
   //range
   async range(game, user, interaction) {
-    if(game.open) return interaction.reply({content:`The game has not started yet.`,ephemeral:true});
+    if (game.open)
+      return interaction.reply({
+        content: `The game has not started yet.`,
+        ephemeral: true,
+      });
     //Find the user
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.userId;
