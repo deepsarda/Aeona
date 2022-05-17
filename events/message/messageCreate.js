@@ -99,9 +99,10 @@ module.exports = class extends Event {
           for (let i = 0; i < guilds.length; i++) {
             let guild = guilds[i];
             if (guild.guildId != message.guild.id) {
-              let channel = await client.channels.fetch(
-                guild.globalChatChannel
-              );
+              let channel = null;
+              try {
+                channel = await client.channels.fetch(guild.globalChatChannel);
+              } catch (e) {}
               if (channel) {
                 async function send() {
                   try {
@@ -124,7 +125,7 @@ module.exports = class extends Event {
                       avatarURL: message.member.displayAvatarURL(),
                       content: message.content,
                       embeds: message.embeds,
-                      
+
                       allowedMentions: { parse: [] },
                     });
 
@@ -136,11 +137,11 @@ module.exports = class extends Event {
                           files: [value.url],
                         });
                       }
-                    } 
+                    }
 
-                    console.log( `${message.member.displayName} sent a message in the global chat.`);
-                   
-                    
+                    console.log(
+                      `${message.member.displayName} sent a message in the global chat.`
+                    );
                   } catch (e) {
                     channel
                       .send(
