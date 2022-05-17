@@ -309,9 +309,7 @@ module.exports = class TankTacticsHandler {
       return game.channelId == channelId;
     });
 
-    if (!g) {
-      g = await this.createGame(channelId);
-    }
+    
 
     return g;
   }
