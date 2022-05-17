@@ -733,3 +733,11 @@
 2022-05-17 21:57:50 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
 2022-05-17 21:58:00 [[31merror[39m] [[36mundefined[39m] Cannot read properties of undefined (reading 'displayName')
 2022-05-17 21:59:08 [[32minfo[39m] [[36mShard[39m] Shard 1/1 has resumed
+2022-05-17 22:00:37 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
+2022-05-17 22:01:16 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 22:01:27 [[31merror[39m] [[36mundefined[39m] Cannot read properties of undefined (reading 'displayName')
+2022-05-17 22:03:03 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 22:03:31 [[31merror[39m] [[36mDatabase[39m] Mongoose connection lost
+2022-05-17 22:04:01 [[31merror[39m] [[36mundefined[39m] Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+2022-05-17 22:04:01 [[31merror[39m] [[36mundefined[39m] Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+2022-05-17 22:04:02 [[31merror[39m] [[36mundefined[39m] Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/

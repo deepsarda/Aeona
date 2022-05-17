@@ -433,7 +433,7 @@ module.exports = class TankTacticsHandler {
     //Loop though all users
     for (let i = 0; i < game.users.length; i++) {
       let member = guild.members.cache.get(game.users[i].userId);
-
+      if(!member) continue;
       let actionPointText = ``;
       let healthText = ``;
 
