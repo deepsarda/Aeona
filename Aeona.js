@@ -55,8 +55,8 @@ module.exports = class AeonaClient extends Client {
     this.config = require("./config.json.js");
     this.bot_emojies = require("./assets/emojis.json");
     this.musicManager = new MusicManager(this);
-    requre('./handlers/Economy')(this);
-    requre('./handlers/TankTacticsHandler')(this);
+    require('./handlers/Economy')(this);
+    require('./handlers/TankTacticsHandler')(this);
     this.musicManager.on("trackStart", (player, track, payload) => {
       const channel = this.channels.cache.get(player.textChannel);
 
