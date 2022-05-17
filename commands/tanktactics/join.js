@@ -20,7 +20,7 @@ module.exports = class extends Command {
           }
 
 
-          await message.client.join(game, message.author,message);
+          await message.client.tankTacticsHandler.join(game, message.author,message);
         }
     };
     

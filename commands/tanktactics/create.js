@@ -21,7 +21,7 @@ module.exports = class extends Command {
 
           game= await message.client.tankTacticsHandler.createGame(message.channel.id);
 
-          await message.client.join(game, message.author,message);
+          await message.client.tankTacticsHandler.join(game, message.author,message);
         }
     };
     
