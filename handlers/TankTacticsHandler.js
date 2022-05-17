@@ -353,9 +353,11 @@ module.exports = class TankTacticsHandler {
       //Fetch the user
       let member = await guild.members.fetch(user.userId);
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
-      let avatar64 = member.displayAvatarURL({ format: "png", size: 64 });
-      let image = await Canvas.loadImage(avatar64);
-      getColors(avatar64).then((colors) => {
+      let avatar128 = member.displayAvatarURL({ format: "png", size: 128 });
+      let image = await Canvas.loadImage(avatar);
+      getColors(avatar128).then((colors) => {
+        colors=colors.map(color => color.hex());
+        console.log(colors.toString());
         ctx.strokeStyle = colors[0].hex();
       });
 
