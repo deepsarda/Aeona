@@ -2,7 +2,7 @@ const TankTacticsSchema = require("../database/schemas/TankTactics");
 const Discord = require("discord.js");
 const perlinNoise = require("../packages/perlinnoise");
 const Canvas = require("canvas");
-const getColors = require("get-image-colors");
+const getColors = require("../packages/getColors");
 const paginationEmbed = require("discordjs-button-pagination");
 const { MessageEmbed, MessageButton } = require("discord.js");
 
@@ -321,7 +321,8 @@ module.exports = class TankTacticsHandler {
   }
   //Game
 
-  async updateGame(game, mentionAllUsers, showContent = true) {
+  async updateGame(game, mentionAllUsers, showContent ) {
+    if(showContent === undefined) showContent = true;
     //Get the guild
     let channel = await this.client.channels.fetch(game.channelId);
     let guild = channel.guild;
@@ -343,7 +344,7 @@ module.exports = class TankTacticsHandler {
         ctx.fillRect(i * 20, j * 20, 16, 16);
       }
     }
-
+    let colorsUsed=[];
     //Draw the players
     for (let i = 0; i < game.users.length; i++) {
       let user = game.users[i];
@@ -353,29 +354,23 @@ module.exports = class TankTacticsHandler {
       //Fetch the user
       let member = await guild.members.fetch(user.userId);
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
-      let avatar512 = member.displayAvatarURL({ format: "png", size: 512 });
+      let avatar128 = member.displayAvatarURL({ format: "png", size: 128 });
       let image = await Canvas.loadImage(avatar);
-      getColors(avatar512).then((colors) => {
-        colors=colors.map(color => color.hex());
+      getColors(avatar128).then((colors) => {
+        //Loop through the colors and find the one with the highest amount 
         let color;
-        let l=0; 
-        //Loop through all the colors
+        let max = 0;
+
         for (let i = 0; i < colors.length; i++) {
-          let co = colors[i];
-          //If the color is dark
-          var c = co.substring(1);      // strip #
-          var rgb = parseInt(c, 16);   // convert rrggbb to decimal
-          var r = (rgb >> 16) & 0xff;  // extract red
-          var g = (rgb >>  8) & 0xff;  // extract green
-          var b = (rgb >>  0) & 0xff;  // extract blue
+          let c = colors[i];
+          if (colorsUsed.includes(c.color.hex())) continue;
 
-          var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-
-          if(luma>l){
-            l=luma;
-            color=co;
+          if(c.amount > max){
+            max = c.amount;
+            color = c.color.hex();
           }
         }
+
         ctx.strokeStyle = color;
       });
 
