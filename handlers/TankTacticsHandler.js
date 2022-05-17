@@ -335,9 +335,17 @@ module.exports = class TankTacticsHandler {
   }
   async getUser(channelId, userId) {
     let game = await this.getGame(channelId);
-    return game.users.find((user) => {
-      return user.userId == userId;
-    });
+    
+    if (!game) return;
+
+    let user=null;
+    for (let i = 0; i < game.users.length; i++) {
+      if (game.users[i].userId == userId) {
+        user = game.users[i];
+      }
+    }
+
+    return user;
   }
 
   async createGame(channelId) {
