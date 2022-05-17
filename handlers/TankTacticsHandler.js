@@ -338,7 +338,7 @@ module.exports = class TankTacticsHandler {
     ctx.fillRect(0, 0, width, height);
 
     //Draw the board
-    ctx.fillStyle = "white";
+    ctx.fillStyle = "#b2e4ed";
     for (let i = 0; i < game.boardSize; i++) {
       for (let j = 0; j < game.boardSize; j++) {
         ctx.fillRect(i * 20, j * 20, 16, 16);
