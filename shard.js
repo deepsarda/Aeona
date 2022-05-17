@@ -11,7 +11,7 @@ const { AutoPoster } = require("topgg-autoposter");
 const Statcord = require("statcord.js");
 const { Console } = require("console");
 
-const manager = new Discord.ShardingManager("./index.js", {
+let manager = new Discord.ShardingManager("./index.js", {
   token: token,
   //autoSpawn: true,
   // totalShards: 'auto'
@@ -47,6 +47,13 @@ async function start() {
         return;
       }
       console.log(e);
+      manager = new Discord.ShardingManager("./index.js", {
+        token: token,
+        //autoSpawn: true,
+        // totalShards: 'auto'
+        totalShards: 1,
+      });
+      
     }
   }
 }

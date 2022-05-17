@@ -675,3 +675,26 @@
 2022-05-17 17:18:34 [[32minfo[39m] [[36mCommand[39m] ">kill" (kill) ran by "silvemm#2020" (832280386175500297) on guild "AlooParathaGang" (871966939822567485) channel "#general" (871966940321681519)
 2022-05-17 17:18:50 [[32minfo[39m] [[36mCommand[39m] ">kill <@731757462088318997>" (kill) ran by "silvemm#2020" (832280386175500297) on guild "AlooParathaGang" (871966939822567485) channel "#general" (871966940321681519)
 2022-05-17 17:19:20 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 21:21:09 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-17 21:24:43 [[31merror[39m] [[36mundefined[39m] MessageEmbed field values must be non-empty strings.
+2022-05-17 21:24:43 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
+2022-05-17 21:24:54 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
+2022-05-17 21:25:29 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
+2022-05-17 21:26:13 [[32minfo[39m] [[36mCommand[39m] "<@931226824753700934> help" (help) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#bot-commands" (798918432719634470)
+2022-05-17 21:26:36 [[32minfo[39m] [[36mCommand[39m] "+help catbot" (help) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#bot-commands" (798918432719634470)
+2022-05-17 21:26:44 [[32minfo[39m] [[36mCommand[39m] "+help chatbot" (help) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#bot-commands" (798918432719634470)
+2022-05-17 21:26:48 [[32minfo[39m] [[36mCommand[39m] "+ping" (ping) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#bot-commands" (798918432719634470)
+2022-05-17 21:27:18 [[32minfo[39m] [[36mCommand[39m] "+chatbot" (chatbot) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#global-chat" (975694542344966204)
+2022-05-17 21:27:20 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:20 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:20 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:20 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:21 [[31merror[39m] [[36mundefined[39m] Message content must be a non-empty string.
+2022-05-17 21:27:39 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
+2022-05-17 21:28:44 [[32minfo[39m] [[36mCommand[39m] "+vote" (vote) ran by "Bean#2033" (971080218401996880) on guild "GARUDA Official Server" (790982401407844384) channel "#bot-commands" (798918432719634470)

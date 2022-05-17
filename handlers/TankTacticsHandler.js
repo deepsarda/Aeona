@@ -353,12 +353,10 @@ module.exports = class TankTacticsHandler {
       //Fetch the user
       let member = await guild.members.fetch(user.userId);
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
-      let avatar128 = member.displayAvatarURL({ format: "png", size: 128 });
+      let avatar512 = member.displayAvatarURL({ format: "png", size: 512 });
       let image = await Canvas.loadImage(avatar);
-      getColors(avatar128).then((colors) => {
+      getColors(avatar512).then((colors) => {
         colors=colors.map(color => color.hex());
-        console.log(colors.toString());
-
         let color;
         let l=0; 
         //Loop through all the colors
@@ -407,23 +405,24 @@ module.exports = class TankTacticsHandler {
       game.logs.length > 0 ? game.logs[game.logs.length - 1] : ""
     }`;
 
-    let description = `${game.users.length} players\n${game.boardSize}x${game.boardSize}`;
+    let description = `** ${game.users.length} players** \n** Board Size **: ${game.boardSize}x${game.boardSize}`;
     if (game.event.nextType == "AP")
-      description += `\nNext event: \`Action points Donation\` in <t:${game.event.nextTimestamp}:R>`;
+      description += `\n** Next event: \`Action points Donation\` in <t:${Math.floor(game.event.nextTimestamp/1000)}:R>**  `;
     else if (game.event.nextType == "wait")
-      description += `\nWaiting for players to join`;
+      description += `\n** Waiting for players to join** `;
     else if (game.event.nextType == "start")
-      description += `\nNext event: \`Game start\` in <t:${game.event.nextTimestamp}:>`;
+      description += `\n** Next event: \`Game start\` in <t:${Math.floor(game.event.nextTimestamp/1000)}:R>** `;
 
     const attachment = new Discord.MessageAttachment(
       canvas.toBuffer(),
       "board.png"
     );
+    
     let embed = new Discord.MessageEmbed()
       .setTitle(`<a:tank:975792552806588506> Tank Tactics`)
       .setDescription(description)
       .setColor(0x00ae86)
-      .setFooter(`Last game update at <t:${Date.now()}:>`)
+      .setFooter(`Current map: ${game.boardSize}x${game.boardSize}`)
       .setImage("attachment://board.png");
 
     //Loop though all users
