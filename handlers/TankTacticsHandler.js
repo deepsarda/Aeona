@@ -150,7 +150,7 @@ module.exports = class TankTacticsHandler {
     let event = Number("" + doc.event.nextTimestamp);
 
     //Return the difference between now and the next event
-    return event - now > 0 ? event - now : 0;
+    return event - now > 0 ? event - now : 10000;
   }
 
   async handleEvent(doc) {
