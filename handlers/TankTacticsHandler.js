@@ -482,10 +482,11 @@ module.exports = class TankTacticsHandler {
       for (let j = 0; j < 3 - game.users[i].health; j++)
         healthText += `:black_heart:`;
 
-      embed.addField(
-        `${member.displayName}:`,
-        `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`
-      );
+      embed.addField({
+        name: `${member.displayName}:`,
+        value: `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`,
+        inline: true
+      });
     }
     let row = new Discord.MessageActionRow();
     let row2 = new Discord.MessageActionRow();
