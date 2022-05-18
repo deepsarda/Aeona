@@ -46,7 +46,7 @@ module.exports = class TankTacticsHandler {
   //Event Functions
   async onAction(channel, user, inter) {
     const game = await this.getGame(channel.id);
-
+    console.log(this)
     if (!this.getUser(channel.id, user.id)) {
       await inter.reply({
         content:
@@ -75,19 +75,19 @@ module.exports = class TankTacticsHandler {
   }
 
   async onHeal(channel, user, inter) {
-    await this.onMiscAction(channel, user, inter, "heal");
+     this.onMiscAction(channel, user, inter, "heal");
   }
 
   async onGive(channel, user, inter) {
-    await this.onMiscAction(channel, user, inter, "give");
+     this.onMiscAction(channel, user, inter, "give");
   }
 
   async onAttack(channel, user, inter) {
-    await this.onMiscAction(channel, user, inter, "attack");
+     this.onMiscAction(channel, user, inter, "attack");
   }
 
   async onJoin(channel, user, inter) {
-    await this.onMiscAction(channel, user, inter, "join");
+     this.onMiscAction(channel, user, inter, "join");
   }
 
   async onMovement(channel, user, inter, type) {
@@ -99,19 +99,19 @@ module.exports = class TankTacticsHandler {
   }
 
   async onLeft(channel, user, inter) {
-    await this.onMovement(channel, user, inter, "left");
+     this.onMovement(channel, user, inter, "left");
   }
 
   async onRight(channel, user, inter) {
-    await this.onMovement(channel, user, inter, "right");
+     this.onMovement(channel, user, inter, "right");
   }
 
   async onUp(channel, user, inter) {
-    await this.onMovement(channel, user, inter, "up");
+     this.onMovement(channel, user, inter, "up");
   }
 
   async onDown(channel, user, inter) {
-    await this.onMovement(channel, user, inter, "down");
+     this.onMovement(channel, user, inter, "down");
   }
 
   //Events
@@ -121,21 +121,21 @@ module.exports = class TankTacticsHandler {
       interaction.user.userId = interaction.user.id;
 
       if (interaction.customId === "left")
-        await this.onLeft(interaction.channel, interaction.user, interaction);
+       this.onLeft(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "right")
-        await this.onRight(interaction.channel, interaction.user, interaction);
+         this.onRight(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "up")
-        await this.onUp(interaction.channel, interaction.user, interaction);
+         this.onUp(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "down")
-        await this.onDown(interaction.channel, interaction.user, interaction);
+         this.onDown(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "heal")
-        await this.onHeal(interaction.channel, interaction.user, interaction);
+         this.onHeal(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "give")
-        await this.onGive(interaction.channel, interaction.user, interaction);
+         this.onGive(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "attack")
-        await this.onAttack(interaction.channel, interaction.user, interaction);
+         this.onAttack(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "join")
-        await this.onJoin(interaction.channel, interaction.user, interaction);
+         this.onJoin(interaction.channel, interaction.user, interaction);
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
