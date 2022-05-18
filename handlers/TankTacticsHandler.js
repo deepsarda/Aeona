@@ -464,7 +464,6 @@ module.exports = class TankTacticsHandler {
       )
       .setDescription(description)
       .setColor(0x00ae86)
-      .addFields()
       .setImage("attachment://board.png")
       .setFooter(`Map size: ${game.boardSize}x${game.boardSize}`);
 
