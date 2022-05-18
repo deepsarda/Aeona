@@ -310,6 +310,9 @@ module.exports = class TankTacticsHandler {
       .setImage(
         "https://media.discordapp.net/attachments/942118536166383717/976144960036409394/unknown.png"
       );
+    const embed12 = new MessageEmbed()
+      .setTitle("Communication")
+      .setDescription(`Key to win is to communicate with different players form alliances. You can dm players to talk to them.`)
     const button1 = new MessageButton()
       .setCustomId("previousbtn")
       .setLabel("Previous")
@@ -331,6 +334,7 @@ module.exports = class TankTacticsHandler {
       embed9,
       embed10,
       embed11,
+      embed12
     ];
 
     let buttonList = [button1, button2];
