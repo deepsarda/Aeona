@@ -46,7 +46,7 @@ module.exports = class TankTacticsHandler {
   //Event Functions
   async onAction(channel, user, inter) {
     const game = await this.getGame(channel.id);
-    console.log(this)
+    console.log(this);
     if (!this.getUser(channel.id, user.id)) {
       await inter.reply({
         content:
@@ -75,19 +75,19 @@ module.exports = class TankTacticsHandler {
   }
 
   async onHeal(channel, user, inter) {
-     this.onMiscAction(channel, user, inter, "heal");
+    this.onMiscAction(channel, user, inter, "heal");
   }
 
   async onGive(channel, user, inter) {
-     this.onMiscAction(channel, user, inter, "give");
+    this.onMiscAction(channel, user, inter, "give");
   }
 
   async onAttack(channel, user, inter) {
-     this.onMiscAction(channel, user, inter, "attack");
+    this.onMiscAction(channel, user, inter, "attack");
   }
 
   async onJoin(channel, user, inter) {
-     this.onMiscAction(channel, user, inter, "join");
+    this.onMiscAction(channel, user, inter, "join");
   }
 
   async onMovement(channel, user, inter, type) {
@@ -99,19 +99,19 @@ module.exports = class TankTacticsHandler {
   }
 
   async onLeft(channel, user, inter) {
-     this.onMovement(channel, user, inter, "left");
+    this.onMovement(channel, user, inter, "left");
   }
 
   async onRight(channel, user, inter) {
-     this.onMovement(channel, user, inter, "right");
+    this.onMovement(channel, user, inter, "right");
   }
 
   async onUp(channel, user, inter) {
-     this.onMovement(channel, user, inter, "up");
+    this.onMovement(channel, user, inter, "up");
   }
 
   async onDown(channel, user, inter) {
-     this.onMovement(channel, user, inter, "down");
+    this.onMovement(channel, user, inter, "down");
   }
 
   //Events
@@ -121,21 +121,21 @@ module.exports = class TankTacticsHandler {
       interaction.user.userId = interaction.user.id;
 
       if (interaction.customId === "left")
-       this.onLeft(interaction.channel, interaction.user, interaction);
+        this.onLeft(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "right")
-         this.onRight(interaction.channel, interaction.user, interaction);
+        this.onRight(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "up")
-         this.onUp(interaction.channel, interaction.user, interaction);
+        this.onUp(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "down")
-         this.onDown(interaction.channel, interaction.user, interaction);
+        this.onDown(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "heal")
-         this.onHeal(interaction.channel, interaction.user, interaction);
+        this.onHeal(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "give")
-         this.onGive(interaction.channel, interaction.user, interaction);
+        this.onGive(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "attack")
-         this.onAttack(interaction.channel, interaction.user, interaction);
+        this.onAttack(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "join")
-         this.onJoin(interaction.channel, interaction.user, interaction);
+        this.onJoin(interaction.channel, interaction.user, interaction);
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
@@ -481,11 +481,11 @@ module.exports = class TankTacticsHandler {
       for (let j = 0; j < 3 - game.users[i].health; j++)
         healthText += `:black_heart:`;
 
-      embed.addField({
-        name: `${member.displayName}:`,
-        value: `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`,
-        inline: true
-      });
+      embed.addField(
+        `${member.displayName}:`,
+        `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`,
+        true
+      );
     }
     let row = new Discord.MessageActionRow();
     let row2 = new Discord.MessageActionRow();
@@ -536,16 +536,20 @@ module.exports = class TankTacticsHandler {
         .setStyle("SECONDARY"),
     ]);
 
-    await channel.send({
-      embeds: [embed],
-      files: [attachment],
-      content: showContent ? content : "_ _",
-      components: [row, row2],
-    }).catch();
+    await channel
+      .send({
+        embeds: [embed],
+        files: [attachment],
+        content: showContent ? content : "_ _",
+        components: [row, row2],
+      })
+      .catch();
 
-    channel.send(
-      "** TO JOIN**: Click the join button! \n **Learn how to play**: click on the button marked with <:help:976057165263564851> "
-    ).catch();
+    channel
+      .send(
+        "** TO JOIN**: Click the join button! \n **Learn how to play**: click on the button marked with <:help:976057165263564851> "
+      )
+      .catch();
   }
 
   async getGame(channelId) {
