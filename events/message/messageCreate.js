@@ -96,6 +96,9 @@ module.exports = class extends Event {
             message.author.id,
             message.client
           );
+          console.log(
+            `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
+          );
           for (let i = 0; i < guilds.length; i++) {
             let guild = guilds[i];
             if (guild.guildId != message.guild.id) {
@@ -139,9 +142,7 @@ module.exports = class extends Event {
                       }
                     }
 
-                    console.log(
-                      `${message.member.displayName} sent a message in the global chat.`
-                    );
+                   
                   } catch (e) {
                     channel
                       .send(

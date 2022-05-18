@@ -689,10 +689,12 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    new Discord.MessageSelectMenu()
+    row.addComponent(new Discord.MessageSelectMenu()
       .setCustomId("select")
       .setPlaceholder("Select which user!")
-      .setOptions(selectOptions);
+      .setOptions(selectOptions));
+
+    console.log(row);
 
     let m = await interaction.reply({
       content: "Select which user you want to attack!",
@@ -857,10 +859,10 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    new Discord.MessageSelectMenu()
-      .setCustomId("select")
-      .setPlaceholder("Select which user!")
-      .setOptions(selectOptions);
+    row.addComponent(new Discord.MessageSelectMenu()
+    .setCustomId("select")
+    .setPlaceholder("Select which user!")
+    .setOptions(selectOptions));
 
     let m = await interaction.reply({
       content: "Select which user you want to give to!",
