@@ -150,7 +150,7 @@ module.exports = class TankTacticsHandler {
     let event = Number("" + doc.event.nextTimestamp);
 
     //Return the difference between now and the next event
-    return event - now > 0 ? event - now : 10000;
+    return event - now > 0 ? event - now : 1000;
   }
 
   async handleEvent(doc) {
@@ -226,7 +226,7 @@ module.exports = class TankTacticsHandler {
 
       this.timeouts.set(doc.channelId, timeout);
 
-      docs.logs.push(logs);
+      doc.logs.push(logs);
       await doc.save();
 
       //Update the game
