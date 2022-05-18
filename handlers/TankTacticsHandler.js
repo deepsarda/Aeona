@@ -60,7 +60,7 @@ module.exports = class TankTacticsHandler {
   }
 
   async onMiscAction(channel, user, inter, type) {
-    actions = {
+    let actions = {
       heal: this.heal,
       give: this.getGiveOptions,
       attack: this.getAttackOptions,
