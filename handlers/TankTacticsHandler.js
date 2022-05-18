@@ -64,6 +64,7 @@ module.exports = class TankTacticsHandler {
       give: this.getGiveOptions.bind(this),
       attack: this.getAttackOptions.bind(this),
       join: this.join.bind(this),
+      range: this.range.bind(this),
     };
 
     const game = await this.onAction(channel, user, inter);
@@ -88,7 +89,9 @@ module.exports = class TankTacticsHandler {
   async onJoin(channel, user, inter) {
     this.onMiscAction(channel, user, inter, "join");
   }
-
+  async onRange(channel, user, inter) {
+    this.onMiscAction(channel, user, inter, "range");
+  }
   async onMovement(channel, user, inter, type) {
     const game = await this.onAction(channel, user, inter);
 
@@ -135,6 +138,9 @@ module.exports = class TankTacticsHandler {
         this.onAttack(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "join")
         this.onJoin(interaction.channel, interaction.user, interaction);
+      else if (interaction.customId === "range")
+        this.onRange(interaction.channel, interaction.user, interaction);
+  
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
@@ -149,7 +155,7 @@ module.exports = class TankTacticsHandler {
     let event = Number("" + doc.event.nextTimestamp);
 
     //Return the difference between now and the next event
-    return event - now > 0 ? event - now : 100;
+    return event - now > 0 ? event - now : 10;
   }
 
   async handleEvent(doc) {
@@ -166,7 +172,7 @@ module.exports = class TankTacticsHandler {
       doc.open = false;
       //Loop through all users
       for (let i = 0; i < doc.users.length; i++) {
-        if (Math.floor(Math.random() * 24) < doc.users[i].hoursPassed + 1) {
+        if (Math.floor(Math.random() * 12) < doc.users[i].hoursPassed + 1) {
           doc.users[i].actionPoints += 1;
           doc.users[i].hoursPassed = 0;
         } else {
@@ -1115,7 +1121,7 @@ module.exports = class TankTacticsHandler {
           x: Math.floor(Math.random() * game.boardSize),
           y: Math.floor(Math.random() * game.boardSize),
           health: 3,
-          range: 2,
+          range: 4,
           actionPoints: 1,
           hoursPassed: 0,
         });
