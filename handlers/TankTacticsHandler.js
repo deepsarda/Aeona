@@ -792,7 +792,7 @@ module.exports = class TankTacticsHandler {
         economyUser.wins += 1;
         await economyUser.save();
         game.markModified('users');
-        await game.save();
+        await game.update();
 
         //Update the game
         await this.updateGame(game, true);
@@ -800,7 +800,7 @@ module.exports = class TankTacticsHandler {
         //The user has not won
         game.logs.push(`<@${user.userId}> has killed <@${enemy.userId}>`);
         game.markModified('users');
-        await game.save();
+        await game.update();
 
         //Update the game
         await this.updateGame(game, false);
@@ -809,7 +809,7 @@ module.exports = class TankTacticsHandler {
       game.logs.push(`<@${user.userId}> has attacked <@${enemy.userId}>`);
       //Save the game
       game.markModified('users');
-      await game.save();
+      await game.update();
 
       //Update the game
       await this.updateGame(game, false);
@@ -943,7 +943,7 @@ module.exports = class TankTacticsHandler {
     );
     //Save the game
     game.markModified('users');
-    await game.save();
+    await game.update();
 
     //Update the game
     await this.updateGame(game, false);
@@ -997,7 +997,7 @@ module.exports = class TankTacticsHandler {
       economyUser.heals += 1;
       await economyUser.save();
       game.markModified('users');
-      await game.save();
+      await game.update();
 
       //Update the game
       await this.updateGame(game, false);
@@ -1078,7 +1078,7 @@ module.exports = class TankTacticsHandler {
     economyUser.moves += 1;
     await economyUser.save();
     game.markModified('users');
-    await game.save();
+    await game.update();
 
     //Update the game
     await this.updateGame(game, false);
@@ -1113,7 +1113,7 @@ module.exports = class TankTacticsHandler {
 
     game.logs.push(`<@${user.userId}> has upgraded their range`);
     game.markModified('users');
-    await game.save();
+    await game.update();
 
     //Update the game
     await this.updateGame(game, false);
