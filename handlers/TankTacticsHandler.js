@@ -61,17 +61,17 @@ module.exports = class TankTacticsHandler {
 
   async onMiscAction(channel, user, inter, type) {
     let actions = {
-      heal: this.heal,
-      give: this.getGiveOptions,
-      attack: this.getAttackOptions,
-      join: this.join,
+      heal: this.heal.bind(this),
+      give: this.getGiveOptions.bind(this),
+      attack: this.getAttackOptions.bind(this),
+      join: this.join.bind(this),
     };
 
     const game = await this.onAction(channel, user, inter);
 
     if (!game) return;
 
-    actions[type](game, user, inter).bind(this);
+    actions[type](game, user, inter);
   }
 
   async onHeal(channel, user, inter) {
