@@ -632,7 +632,7 @@ module.exports = class TankTacticsHandler {
     let distancey = Math.abs(user.y - target.y);
 
     //are they in range?
-    if (distancex <= range && distancey <= range) {
+    if (distancex <= user.range && distancey <= user.range) {
       return true;
     }
     return false;
