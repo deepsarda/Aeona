@@ -46,7 +46,6 @@ module.exports = class TankTacticsHandler {
   //Event Functions
   async onAction(channel, user, inter) {
     const game = await this.getGame(channel.id);
-    console.log(this);
     if (!this.getUser(channel.id, user.id)) {
       await inter.reply({
         content:
@@ -150,7 +149,7 @@ module.exports = class TankTacticsHandler {
     let event = Number("" + doc.event.nextTimestamp);
 
     //Return the difference between now and the next event
-    return event - now > 0 ? event - now : 1000;
+    return event - now > 0 ? event - now : 100;
   }
 
   async handleEvent(doc) {
