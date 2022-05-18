@@ -873,7 +873,7 @@ module.exports = class TankTacticsHandler {
     });
     const filter = (i) =>
     i.user.id === interaction.user.id && i.message.id === m.id;
-    
+
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
       time: 60000 * 10,
@@ -1033,22 +1033,22 @@ module.exports = class TankTacticsHandler {
       return;
     }
 
-    if (move == "up") {
+    if (move == "down") {
       if (player.y < game.boardSize - 1) {
         game.users[userIndex].y++;
-        game.users[userIndex].actionPoints -= 1;
-        game.logs.push(`<@${user.userId}> has moved up`);
-      } else {
-        interaction.reply({ content: `You cannot move up`, ephemeral: true });
-        return;
-      }
-    } else if (move == "down") {
-      if (player.y > 0) {
-        game.users[userIndex].y--;
         game.users[userIndex].actionPoints -= 1;
         game.logs.push(`<@${user.userId}> has moved down`);
       } else {
         interaction.reply({ content: `You cannot move down`, ephemeral: true });
+        return;
+      }
+    } else if (move == "up") {
+      if (player.y > 0) {
+        game.users[userIndex].y--;
+        game.users[userIndex].actionPoints -= 1;
+        game.logs.push(`<@${user.userId}> has moved up`);
+      } else {
+        interaction.reply({ content: `You cannot move up`, ephemeral: true });
         return;
       }
     } else if (move == "left") {
