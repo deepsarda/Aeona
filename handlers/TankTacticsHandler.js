@@ -483,7 +483,7 @@ module.exports = class TankTacticsHandler {
         healthText += `:black_heart:`;
 
       embed.addField(
-        `${member.displayName}`,
+        `${member.displayName}:`,
         `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`
       );
     }
@@ -541,11 +541,11 @@ module.exports = class TankTacticsHandler {
       files: [attachment],
       content: showContent ? content : "_ _",
       components: [row, row2],
-    });
+    }).catch();
 
     channel.send(
       "** TO JOIN**: Click the join button! \n **Learn how to play**: click on the button marked with <:help:976057165263564851> "
-    );
+    ).catch();
   }
 
   async getGame(channelId) {
