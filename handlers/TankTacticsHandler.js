@@ -71,7 +71,7 @@ module.exports = class TankTacticsHandler {
 
     if (!game) return;
 
-    actions[type](game, user, inter);
+    actions[type](game, user, inter).bind(this);
   }
 
   async onHeal(channel, user, inter) {
