@@ -310,10 +310,6 @@ module.exports = class TankTacticsHandler {
       .setImage(
         "https://media.discordapp.net/attachments/942118536166383717/976144960036409394/unknown.png"
       );
-    
-    const embed12 = new MessageEmbed()
-      .setTitle("Communication")
-      .setDescription( `Key to win is to communicate with different players form alliances. You can dm players to talk to them.`)
     const button1 = new MessageButton()
       .setCustomId("previousbtn")
       .setLabel("Previous")
@@ -335,7 +331,6 @@ module.exports = class TankTacticsHandler {
       embed9,
       embed10,
       embed11,
-      embed12
     ];
 
     let buttonList = [button1, button2];
@@ -445,24 +440,40 @@ module.exports = class TankTacticsHandler {
     description += `\n\n\n`;
 
     //Loop though all users
+    // for (let i = 0; i < game.users.length; i++) {
+    //   let member = guild.members.cache.get(game.users[i].userId);
+    //   if (!member) continue;
+    //   let actionPointText = ``;
+    //   let healthText = ``;
+
+    //   for (let j = 0; j < game.users[i].actionPoints; j++)
+    //     actionPointText += `<a:BlueCoin:976053896982196254>`;
+
+    //   for (let j = 0; j < game.users[i].health; j++) healthText += `:heart:`;
+
+    //   for (let j = 0; j < 3 - game.users[i].health; j++)
+    //     healthText += `:black_heart:`;
+
+    //   description +=
+    //     `**${member}**: \n` +
+    //     `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
+    // }
+
+    fields = [];
+
     for (let i = 0; i < game.users.length; i++) {
-      let member = guild.members.cache.get(game.users[i].userId);
+      const member = guild.members.cache.get(game.user[i].userId);
       if (!member) continue;
-      let actionPointText = ``;
-      let healthText = ``;
-
-      for (let j = 0; j < game.users[i].actionPoints; j++)
-        actionPointText += `<a:BlueCoin:976053896982196254>`;
-
-      for (let j = 0; j < game.users[i].health; j++) healthText += `:heart:`;
-
-      for (let j = 0; j < 3 - game.users[i].health; j++)
-        healthText += `:black_heart:`;
-
-      description +=
-        `\n\n**${member}** \n\n` +
-        `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
-    }
+      
+      fields.push({
+        name: member.username,
+        value: `**AP**: <a:BlueCoin:976053896982196254> ${game.users[i].actionPoints}\n**HP**: :heart: ${game.users[i].health}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`
+      })
+//       description +=
+//         `\n\n**${member }** \n\n` +
+//         `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
+// >>>>>>> deb81efdd90004e98ebfea5cfb672bfe0c6373f6
+//     }
 
     const attachment = new Discord.MessageAttachment(
       canvas.toBuffer(),
@@ -470,11 +481,12 @@ module.exports = class TankTacticsHandler {
     );
 
     let embed = new Discord.MessageEmbed()
-      .setTitle(`<a:tank:975792552806588506> Tank Tactics`)
-      .setDescription(description)
+      .setTitle(`<a:tank:975792552806588506> Tank Tactics (${game.users.length} Players)`)
+      //.setDescription(description)
       .setColor(0x00ae86)
-      .setFooter(`Current map: ${game.boardSize}x${game.boardSize}`)
-      .setImage("attachment://board.png");
+      .addFields(...fields)
+      .setImage("attachment://board.png")
+      .setFooter(`Map size: ${game.boardSize}x${game.boardSize}`);
 
     let row = new Discord.MessageActionRow();
     let row2 = new Discord.MessageActionRow();
