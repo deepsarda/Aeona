@@ -701,12 +701,13 @@ module.exports = class TankTacticsHandler {
       components: [row],
       ephemeral: true,
     });
+    const filter = (i) =>
+    i.user.id === interaction.user.id && i.message.id === m.id;
+
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
       time: 60000 * 10,
     });
-    const filter = (i) =>
-      i.user.id === interaction.user.id && i.message.id === m.id;
 
     collector.on("collect", async (i) => {
       this.attack(
@@ -870,12 +871,14 @@ module.exports = class TankTacticsHandler {
       components: [row],
       ephemeral: true,
     });
+    const filter = (i) =>
+    i.user.id === interaction.user.id && i.message.id === m.id;
+    
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
       time: 60000 * 10,
     });
-    const filter = (i) =>
-      i.user.id === interaction.user.id && i.message.id === m.id;
+
 
     collector.on("collect", async (i) => {
       this.give(
