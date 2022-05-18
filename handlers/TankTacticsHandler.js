@@ -689,10 +689,10 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    row.addComponent(new Discord.MessageSelectMenu()
+    row.addComponents([new Discord.MessageSelectMenu()
       .setCustomId("select")
       .setPlaceholder("Select which user!")
-      .setOptions(selectOptions));
+      .setOptions(selectOptions)]);
 
     console.log(row);
 
@@ -859,10 +859,10 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    row.addComponent(new Discord.MessageSelectMenu()
+    row.addComponents([new Discord.MessageSelectMenu()
     .setCustomId("select")
     .setPlaceholder("Select which user!")
-    .setOptions(selectOptions));
+    .setOptions(selectOptions)]);
 
     let m = await interaction.reply({
       content: "Select which user you want to give to!",
