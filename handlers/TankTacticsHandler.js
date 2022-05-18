@@ -790,7 +790,7 @@ module.exports = class TankTacticsHandler {
         //Update the economy
         economyUser.wins += 1;
         await economyUser.save();
-
+        game.markModified('users');
         await game.save();
 
         //Update the game
@@ -798,7 +798,7 @@ module.exports = class TankTacticsHandler {
       } else {
         //The user has not won
         game.logs.push(`<@${user.userId}> has killed <@${enemy.userId}>`);
-
+        game.markModified('users');
         await game.save();
 
         //Update the game
@@ -807,6 +807,7 @@ module.exports = class TankTacticsHandler {
     } else {
       game.logs.push(`<@${user.userId}> has attacked <@${enemy.userId}>`);
       //Save the game
+      game.markModified('users');
       await game.save();
 
       //Update the game
@@ -938,6 +939,7 @@ module.exports = class TankTacticsHandler {
       `<@${user.userId}> has given <@${enemy.userId}> an action point.`
     );
     //Save the game
+    game.markModified('users');
     await game.save();
 
     //Update the game
@@ -991,7 +993,7 @@ module.exports = class TankTacticsHandler {
       let economyUser = await this.client.economy.getUser(user.id);
       economyUser.heals += 1;
       await economyUser.save();
-
+      game.markModified('users');
       await game.save();
 
       //Update the game
@@ -1072,7 +1074,7 @@ module.exports = class TankTacticsHandler {
     let economyUser = await this.client.economy.getUser(user.id);
     economyUser.moves += 1;
     await economyUser.save();
-
+    game.markModified('users');
     await game.save();
 
     //Update the game
@@ -1107,7 +1109,7 @@ module.exports = class TankTacticsHandler {
     game.users[userIndex].range += 1;
 
     game.logs.push(`<@${user.userId}> has upgraded their range`);
-
+    game.markModified('users');
     await game.save();
 
     //Update the game
