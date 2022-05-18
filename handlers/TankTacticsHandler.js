@@ -702,7 +702,7 @@ module.exports = class TankTacticsHandler {
       ephemeral: true,
     });
     const filter = (i) =>
-    i.user.id === interaction.user.id && i.message.id === m.id;
+    i.user.id === interaction.user.id;
 
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
@@ -872,7 +872,7 @@ module.exports = class TankTacticsHandler {
       ephemeral: true,
     });
     const filter = (i) =>
-    i.user.id === interaction.user.id && i.message.id === m.id;
+    i.user.id === interaction.user.id ;
 
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
