@@ -140,7 +140,6 @@ module.exports = class TankTacticsHandler {
         this.onJoin(interaction.channel, interaction.user, interaction);
       else if (interaction.customId === "range")
         this.onRange(interaction.channel, interaction.user, interaction);
-  
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
@@ -689,10 +688,12 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    row.addComponents([new Discord.MessageSelectMenu()
-      .setCustomId("select")
-      .setPlaceholder("Select which user!")
-      .setOptions(selectOptions)]);
+    row.addComponents([
+      new Discord.MessageSelectMenu()
+        .setCustomId("select")
+        .setPlaceholder("Select which user!")
+        .setOptions(selectOptions),
+    ]);
 
     console.log(row);
 
@@ -701,8 +702,7 @@ module.exports = class TankTacticsHandler {
       components: [row],
       ephemeral: true,
     });
-    const filter = (i) =>
-    i.user.id === interaction.user.id;
+    const filter = (i) => i.user.id === interaction.user.id;
 
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
@@ -791,16 +791,20 @@ module.exports = class TankTacticsHandler {
         //Update the economy
         economyUser.wins += 1;
         await economyUser.save();
-        game.markModified('users');
+        let e = game._id;
+        game._id = null;
         await game.update();
-
+        game._id = e;
         //Update the game
         await this.updateGame(game, true);
       } else {
         //The user has not won
         game.logs.push(`<@${user.userId}> has killed <@${enemy.userId}>`);
-        game.markModified('users');
+
+        let e = game._id;
+        game._id = null;
         await game.update();
+        game._id = e;
 
         //Update the game
         await this.updateGame(game, false);
@@ -808,8 +812,11 @@ module.exports = class TankTacticsHandler {
     } else {
       game.logs.push(`<@${user.userId}> has attacked <@${enemy.userId}>`);
       //Save the game
-      game.markModified('users');
+
+      let e = game._id;
+      game._id = null;
       await game.update();
+      game._id = e;
 
       //Update the game
       await this.updateGame(game, false);
@@ -861,24 +868,24 @@ module.exports = class TankTacticsHandler {
     }
 
     let row = new Discord.MessageActionRow();
-    row.addComponents([new Discord.MessageSelectMenu()
-    .setCustomId("select")
-    .setPlaceholder("Select which user!")
-    .setOptions(selectOptions)]);
+    row.addComponents([
+      new Discord.MessageSelectMenu()
+        .setCustomId("select")
+        .setPlaceholder("Select which user!")
+        .setOptions(selectOptions),
+    ]);
 
     let m = await interaction.reply({
       content: "Select which user you want to give to!",
       components: [row],
       ephemeral: true,
     });
-    const filter = (i) =>
-    i.user.id === interaction.user.id ;
+    const filter = (i) => i.user.id === interaction.user.id;
 
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
       time: 60000 * 10,
     });
-
 
     collector.on("collect", async (i) => {
       this.give(
@@ -942,8 +949,11 @@ module.exports = class TankTacticsHandler {
       `<@${user.userId}> has given <@${enemy.userId}> an action point.`
     );
     //Save the game
-    game.markModified('users');
+
+    let e = game._id;
+    game._id = null;
     await game.update();
+    game._id = e;
 
     //Update the game
     await this.updateGame(game, false);
@@ -996,8 +1006,11 @@ module.exports = class TankTacticsHandler {
       let economyUser = await this.client.economy.getUser(user.id);
       economyUser.heals += 1;
       await economyUser.save();
-      game.markModified('users');
+
+      let e = game._id;
+      game._id = null;
       await game.update();
+      game._id = e;
 
       //Update the game
       await this.updateGame(game, false);
@@ -1077,8 +1090,11 @@ module.exports = class TankTacticsHandler {
     let economyUser = await this.client.economy.getUser(user.id);
     economyUser.moves += 1;
     await economyUser.save();
-    game.markModified('users');
+
+    let e = game._id;
+    game._id = null;
     await game.update();
+    game._id = e;
 
     //Update the game
     await this.updateGame(game, false);
@@ -1112,8 +1128,11 @@ module.exports = class TankTacticsHandler {
     game.users[userIndex].range += 1;
 
     game.logs.push(`<@${user.userId}> has upgraded their range`);
-    game.markModified('users');
+
+    let e = game._id;
+    game._id = null;
     await game.update();
+    game._id = e;
 
     //Update the game
     await this.updateGame(game, false);
