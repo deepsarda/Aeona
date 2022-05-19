@@ -386,6 +386,8 @@ module.exports = class TankTacticsHandler {
       let x = user.x;
       let y = user.y;
 
+
+      if(user.health==0) continue;
       //Fetch the user
       let member;
       try {
@@ -423,8 +425,8 @@ module.exports = class TankTacticsHandler {
 
       ctx.beginPath();
       ctx.strokeRect(
-        (x - user.range*4) * 20 - 1,
-        (y - user.range*4) * 20 - 1,
+        (x - user.range*2) * 20 - 1,
+        (y - user.range*2) * 20 - 1,
         user.range * 2 * 20 + 20,
         user.range * 2 * 20 + 20
       );
@@ -481,6 +483,8 @@ module.exports = class TankTacticsHandler {
 
     for (let i = 0; i < game.users.length; i++) {
       let member = guild.members.cache.get(game.users[i].userId);
+
+
       if (!member) continue;
       let actionPointText = ``;
       let healthText = ``;
