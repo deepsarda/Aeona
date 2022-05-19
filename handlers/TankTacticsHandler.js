@@ -793,7 +793,7 @@ module.exports = class TankTacticsHandler {
         await economyUser.save();
         let e = game._id;
         game._id = null;
-        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
         game._id = e;
         //Update the game
         await this.updateGame(game, true);
@@ -803,7 +803,7 @@ module.exports = class TankTacticsHandler {
 
         let e = game._id;
         game._id = null;
-        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
         game._id = e;
 
         //Update the game
@@ -815,7 +815,7 @@ module.exports = class TankTacticsHandler {
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
       game._id = e;
 
       //Update the game
@@ -952,7 +952,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
     game._id = e;
 
     //Update the game
@@ -1009,7 +1009,7 @@ module.exports = class TankTacticsHandler {
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
       game._id = e;
 
       //Update the game
@@ -1093,7 +1093,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
     game._id = e;
 
     //Update the game
@@ -1131,7 +1131,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJson());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
     game._id = e;
 
     //Update the game
