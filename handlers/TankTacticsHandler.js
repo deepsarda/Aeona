@@ -37,7 +37,7 @@ module.exports = class TankTacticsHandler {
          }
         }
 
-        await TankTacticsSchema.updateOne({'channelId': doc.channelId},{users: doc.users});
+         TankTacticsSchema.updateOne({'channelId': doc.channelId},{users: doc.users});
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
