@@ -141,8 +141,6 @@ module.exports = class extends Event {
                         });
                       }
                     }
-
-                   
                   } catch (e) {
                     channel
                       .send(
