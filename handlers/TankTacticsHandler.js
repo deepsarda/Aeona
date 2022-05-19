@@ -425,8 +425,8 @@ module.exports = class TankTacticsHandler {
 
       ctx.beginPath();
       ctx.strokeRect(
-        (x - user.range*2) * 20 - 1,
-        (y - user.range*2) * 20 - 1,
+        (x - user.range) * 20 - 1,
+        (y - user.range) * 20 - 1,
         user.range * 2 * 20 + 20,
         user.range * 2 * 20 + 20
       );
