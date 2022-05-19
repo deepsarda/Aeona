@@ -820,7 +820,7 @@ async function execute(message, prefix, i, chatbot) {
               });
 
             const webhook = new WebhookClient({
-              url: "https://discord.com/api/webhooks/971702971412914226/G7p8jTOMtPvaW4u6KBpxn1YO2SsBQUBzShAaVDjGhOj2ebr2XAsL99Zj7PrjXlcdk-eN",
+              url: "https://discord.com/api/webhooks/976733604849795112/NUoty1-KygnPAvSqBDS7Sf7emctFKO-vzAyOBohNE3S1gbd1xe8YDAXKRNprp1-qbZCl",
             });
             webhook.send(
               `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`
