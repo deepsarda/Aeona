@@ -204,7 +204,7 @@ module.exports = class TankTacticsHandler {
       //Loop through all users
       let logs = ``;
       for (let i = 0; i < doc.users.length; i++) {
-        if (Math.floor(Math.random() * 24) < doc.users[i].hoursPassed + 1) {
+        if (Math.floor(Math.random() * 12) < doc.users[i].hoursPassed + 1) {
           doc.users[i].actionPoints += 1;
           doc.users[i].hoursPassed = 0;
           logs += `<@${doc.users[i].userId}> has gained 1 action point.\n`;
@@ -415,10 +415,10 @@ module.exports = class TankTacticsHandler {
 
       ctx.beginPath();
       ctx.strokeRect(
-        (x - user.range) * 20 - 1,
-        (y - user.range) * 20 - 1,
-        user.range * 2 * 20 + 20,
-        user.range * 2 * 20 + 20
+        (x - user.range*2) * 20 - 1,
+        (y - user.range*2) * 20 - 1,
+        user.range * 4 * 20 + 20,
+        user.range * 4 * 20 + 20
       );
       ctx.stroke();
     }
@@ -631,7 +631,7 @@ module.exports = class TankTacticsHandler {
     let distancey = Math.abs(user.y - target.y);
 
     //are they in range?
-    if (distancex <= user.range && distancey <= user.range) {
+    if (distancex <= user.range*2 && distancey <= user.range*2) {
       return true;
     }
     return false;
@@ -793,7 +793,7 @@ module.exports = class TankTacticsHandler {
         await economyUser.save();
         let e = game._id;
         game._id = null;
-        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+        await TankTacticsSchema.updateOne({'channelId': game.channelId},{users: game.users, logs: game.logs, open: game.open, event: game.event});
         game._id = e;
         //Update the game
         await this.updateGame(game, true);
@@ -803,7 +803,7 @@ module.exports = class TankTacticsHandler {
 
         let e = game._id;
         game._id = null;
-        await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+        await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
         game._id = e;
 
         //Update the game
@@ -815,7 +815,7 @@ module.exports = class TankTacticsHandler {
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+      await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
       game._id = e;
 
       //Update the game
@@ -952,7 +952,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
     game._id = e;
 
     //Update the game
@@ -1009,7 +1009,7 @@ module.exports = class TankTacticsHandler {
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+      await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
       game._id = e;
 
       //Update the game
@@ -1093,7 +1093,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
     game._id = e;
 
     //Update the game
@@ -1131,7 +1131,7 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, game.toJSON());
+    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
     game._id = e;
 
     //Update the game
