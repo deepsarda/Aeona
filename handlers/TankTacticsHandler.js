@@ -30,6 +30,14 @@ module.exports = class TankTacticsHandler {
       this.data.forEach((doc) => {
         this.channels.push(doc.channelId);
 
+        //Loop through all users in the game
+        for (let i = 0; i < doc.users.length; i++) {
+         if(doc.users[i].range<6){
+          doc.users[i].range=6;
+         }
+        }
+
+        await TankTacticsSchema.updateOne({'channelId': doc.channelId},{users: doc.users});
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
@@ -415,10 +423,10 @@ module.exports = class TankTacticsHandler {
 
       ctx.beginPath();
       ctx.strokeRect(
-        (x - user.range*2) * 20 - 1,
-        (y - user.range*2) * 20 - 1,
-        user.range * 4 * 20 + 20,
-        user.range * 4 * 20 + 20
+        (x - user.range*4) * 20 - 1,
+        (y - user.range*4) * 20 - 1,
+        user.range * 2 * 20 + 20,
+        user.range * 2 * 20 + 20
       );
       ctx.stroke();
     }
@@ -631,7 +639,7 @@ module.exports = class TankTacticsHandler {
     let distancey = Math.abs(user.y - target.y);
 
     //are they in range?
-    if (distancex <= user.range*2 && distancey <= user.range*2) {
+    if (distancex <= user.range && distancey <= user.range) {
       return true;
     }
     return false;
@@ -791,20 +799,18 @@ module.exports = class TankTacticsHandler {
         //Update the economy
         economyUser.wins += 1;
         await economyUser.save();
-        let e = game._id;
-        game._id = null;
+        
         await TankTacticsSchema.updateOne({'channelId': game.channelId},{users: game.users, logs: game.logs, open: game.open, event: game.event});
-        game._id = e;
+       
         //Update the game
         await this.updateGame(game, true);
       } else {
         //The user has not won
         game.logs.push(`<@${user.userId}> has killed <@${enemy.userId}>`);
 
-        let e = game._id;
-        game._id = null;
+        
         await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-        game._id = e;
+       
 
         //Update the game
         await this.updateGame(game, false);
@@ -816,7 +822,7 @@ module.exports = class TankTacticsHandler {
       let e = game._id;
       game._id = null;
       await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-      game._id = e;
+     
 
       //Update the game
       await this.updateGame(game, false);
@@ -953,7 +959,7 @@ module.exports = class TankTacticsHandler {
     let e = game._id;
     game._id = null;
     await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-    game._id = e;
+   
 
     //Update the game
     await this.updateGame(game, false);
@@ -1010,7 +1016,7 @@ module.exports = class TankTacticsHandler {
       let e = game._id;
       game._id = null;
       await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-      game._id = e;
+     
 
       //Update the game
       await this.updateGame(game, false);
@@ -1094,7 +1100,7 @@ module.exports = class TankTacticsHandler {
     let e = game._id;
     game._id = null;
     await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-    game._id = e;
+   
 
     //Update the game
     await this.updateGame(game, false);
@@ -1132,7 +1138,7 @@ module.exports = class TankTacticsHandler {
     let e = game._id;
     game._id = null;
     await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-    game._id = e;
+   
 
     //Update the game
     await this.updateGame(game, false);
@@ -1147,7 +1153,7 @@ module.exports = class TankTacticsHandler {
           x: Math.floor(Math.random() * game.boardSize),
           y: Math.floor(Math.random() * game.boardSize),
           health: 3,
-          range: 4,
+          range: 6,
           actionPoints: 1,
           hoursPassed: 0,
         });
