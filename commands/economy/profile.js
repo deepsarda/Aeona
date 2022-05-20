@@ -15,7 +15,7 @@ module.exports = class extends Command {
   async run(message, args) {
     const mentionUser = message.mentions.members.first()&&message.mentions.members.filter(m=>args[0]&&args[0].includes(m.user.id)).size>=1?message.mentions.members.filter(m=>args[0]&&args[0].includes(m.user.id)).first():false|| message.guild.members.cache.get(args[0])|| args.length > 0 && message.guild.members.cache.find(m => m.user.username.toLowerCase().includes(args.join(" ").toLowerCase()))||message.member;
     
-    let user=message.client.economy.getUser(mentionUser.id)
+    let user=await message.client.economy.getUser(mentionUser.id)
 
     let embed=new Discord.MessageEmbed().setTitle(`${user}'s Profile`).setThumbnail(mentionUser.displayAvatarURL({dynamic:true})).addField("Wallet",user.money.wallet.toLocaleString()+'₪')
     .addField(`Bank`,user.money.bank.toLocaleString()+'/'+user.money.maxBank.toLocaleString()+`₪`)
