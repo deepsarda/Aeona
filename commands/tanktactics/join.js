@@ -26,7 +26,7 @@ module.exports = class extends Command {
 
 
         await message.channel.send(
-          `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!**`
+          `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME! To confirm type +join** `
         );
 
         return;
