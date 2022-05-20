@@ -473,8 +473,10 @@ module.exports = class TankTacticsHandler {
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
       //Draw the player name
-      ctx.fillStyle = color;
+    
       ctx.font = "18px Arial";
+      console.log(color)
+      ctx.fillStyle = color;
       ctx.fillText(member.username, x * 20, y * 20 + 16);
       if (user.health > 0) {
         ctx.lineWidth = 8;
@@ -545,7 +547,7 @@ module.exports = class TankTacticsHandler {
         healthText += ` :broken_heart:`;
 
       embed.addField(
-        `${member.displayName}:`,
+        `${member.username}:`,
         `**AP**:${actionPointText}\n**HP**:${healthText}\n**Position**: ${game.users[i].x}x${game.users[i].y}\n**Range**: ${game.users[i].range}`,
         true
       );
