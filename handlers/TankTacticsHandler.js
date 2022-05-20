@@ -634,8 +634,10 @@ module.exports = class TankTacticsHandler {
   async getGame(channelId) {
     let g = this.data.find((game) => {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        if (game.chatChannelIds[i] == channelId ||game.channelId==channelId) return true;
+        if (game.chatChannelIds[i] == channelId ) return true;
       }
+
+      if(game.channelId==channelId) return true
     });
 
     return g;
