@@ -733,9 +733,9 @@ module.exports = class TankTacticsHandler {
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
-
+    interaction.deferReply({ ephemeral: true });
     if (player.health == 0) {
-      interaction.reply({
+      interaction.editReply({
         content: `Dead players cannot attack`,
         ephemeral: true,
       });
@@ -754,7 +754,7 @@ module.exports = class TankTacticsHandler {
     }
 
     if (options.length == 0) {
-      interaction.reply({
+      interaction.editReply({
         content: `You can't attack  anyone.`,
         ephemeral: true,
       });
@@ -781,7 +781,7 @@ module.exports = class TankTacticsHandler {
 
     console.log(row);
 
-    let m = await interaction.reply({
+    let m = await interaction.editReply({
       content: "Select which user you want to attack!",
       components: [row],
       ephemeral: true,
@@ -943,6 +943,8 @@ module.exports = class TankTacticsHandler {
         content: `The game has not started yet.`,
         ephemeral: true,
       });
+
+    interaction.deferReply({ ephemeral: true });
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
@@ -961,7 +963,7 @@ module.exports = class TankTacticsHandler {
     }
 
     if (options.length == 0) {
-      interaction.reply({
+      interaction.editReply({
         content: `You can't give to anyone.`,
         ephemeral: true,
       });
@@ -986,7 +988,7 @@ module.exports = class TankTacticsHandler {
         .setOptions(selectOptions),
     ]);
 
-    let m = await interaction.reply({
+    let m = await interaction.editReply({
       content: "Select which user you want to give to!",
       components: [row],
       ephemeral: true,
