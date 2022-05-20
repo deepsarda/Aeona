@@ -869,7 +869,7 @@ module.exports = class TankTacticsHandler {
       if (enemiesLeft.length == 1) {
         //The user has won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemyUser.Id);
+        let enemy = await this.client.users.fetch(enemyUser.userId);
         game.logs.push(
           `|| <@!${k.userId}>  <@!${enemy.userId}> || ${k.username} has won the game by killing ${enemy.username}`
         );
@@ -894,7 +894,7 @@ module.exports = class TankTacticsHandler {
       } else {
         //The user has not won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemyUser.Id);
+        let enemy = await this.client.users.fetch(enemyUser.userId);
         game.logs.push(
           `|| <@!${k.userId}> <@!${enemy.userId}> \n || ${k.username} has killed ${enemy.username} `
         );
@@ -1053,7 +1053,7 @@ module.exports = class TankTacticsHandler {
     economyUser.donations += 1;
     await economyUser.save();
     let k = await this.client.users.fetch(player.userId);
-    let enemyUser = await this.client.users.fetch(enemy.Id);
+    let enemyUser = await this.client.users.fetch(enemy.userId);
     interaction.reply({
       content: `You have given ${enemy.username} an action point.`,
       ephemeral: true,
