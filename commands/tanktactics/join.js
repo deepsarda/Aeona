@@ -24,12 +24,12 @@ module.exports = class extends Command {
           message.channel.id
         );
 
+        await message.client.tankTacticsHandler.join(game, message.member, message);
 
         await message.channel.send(
-          `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME! To confirm type +join** `
+          `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!** `
         );
-
-        return;
+        
       } else {
         return message.channel.send(
           "There is no game running currently! \n Use `+create ` to make one or use **+join in a thread to join a public game. (recommended for faster times)**"
@@ -37,6 +37,6 @@ module.exports = class extends Command {
       }
     }
 
-    await message.client.tankTacticsHandler.join(game, message.author, message);
+    await message.client.tankTacticsHandler.join(game, message.member, message);
   }
 };
