@@ -27,22 +27,7 @@ module.exports = class MusicManager extends Manager {
 
     super({
       nodes: [
-        {
-          host: "usa.lavalink.mitask.tech",
-          port: 2333,
-          password: "lvserver",
-          identifier: "USA Link",
-          retryDelay: 5000,
-          secure: false,
-        },
-        {
-          host: "lavalink.oops.wtf",
-          port: 2000,
-          password: "www.freelavalink.ga",
-          identifier: "lavalink.oops.wtf Link",
-          retryDelay: 5000,
-          secure: false,
-        },
+
         {
           host: "https://lavalink-replit.aeona.repl.co",
           port: 433,

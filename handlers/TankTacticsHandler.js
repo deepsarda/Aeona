@@ -1292,6 +1292,7 @@ module.exports = class TankTacticsHandler {
 
         if (!channelThere && game.public) {
           game.chatChannelIds.push(interaction.channel.id);
+          this.chatChannelIds.push(interaction.channel.id);
         }
 
           await game.save();
