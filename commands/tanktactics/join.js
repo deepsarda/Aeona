@@ -24,7 +24,6 @@ module.exports = class extends Command {
           message.channel.id
         );
 
-        await message.client.tankTacticsHandler.join(game, message.member, message);
 
         await message.channel.send(
           `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!**`
