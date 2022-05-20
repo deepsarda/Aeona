@@ -20,7 +20,7 @@ module.exports = class extends Command {
     if (!game) {
       //Check if the channel is a thread
       if (message.channel.isThread()) {
-        let g = getPublicGame(message.channel.id);
+        let g = message.client.tankTacticsHandler.getPublicGame(message.channel.id);
         message.client.tankTacticsHandler.join(g, message.member, message);
 
         message.channel.send(
