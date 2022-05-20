@@ -1285,7 +1285,7 @@ module.exports = class TankTacticsHandler {
 
         let channelThere = false;
         for (let i = 0; i < game.chatChannelIds.length; i++) {
-          if (game.chatChannelIds[i] == game.channelId) {
+          if (game.chatChannelIds[i] == interaction.channel.id) {
             channelThere = true;
           }
         }
@@ -1294,7 +1294,7 @@ module.exports = class TankTacticsHandler {
           game.chatChannelIds.push(interaction.channel.id);
         }
 
-        
+          await game.save();
         let pingeveryone = false;
         let economyUser = await this.client.economy.getUser(user.id);
         economyUser.gameplayed += 1;
