@@ -20,13 +20,13 @@ module.exports = class extends Command {
     let embed=new Discord.MessageEmbed().setTitle(`${user}'s Profile`).setThumbnail(mentionUser.displayAvatarURL({dynamic:true})).addField("Wallet",user.money.wallet.toLocaleString()+'₪')
     .addField(`Bank`,user.money.bank.toLocaleString()+'/'+user.money.maxBank.toLocaleString()+`₪`)
     .addField(`Tank Tactics`,'_ _ Stats for Tank Tactics')
-    .addField(`Games Played`,user.gameplayed,true)
-    .addField('Wins',user.wins,true)
-    .addField('Kills',user.kills,true)
-    .addField('Deaths',user.deaths,true)
-    .addField('Moves',user.moves,true)
-    .addField('Donations',user.donations,true)
-    .addField('Heals',user.heals,true)
+    .addField(`Games Played`,user.gameplayed +'_ _',true)
+    .addField('Wins',user.wins+'_ _',true)
+    .addField('Kills',user.kills+'_ _',true)
+    .addField('Deaths',user.deaths+'_ _',true)
+    .addField('Moves',user.moves+'_ _',true)
+    .addField('Donations',user.donations+'_ _',true)
+    .addField('Heals',user.heals+'_ _',true)
 
 
     message.reply({embeds:[embed]});
