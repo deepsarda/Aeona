@@ -132,22 +132,31 @@ module.exports = class TankTacticsHandler {
 
       if (interaction.customId === "left")
         this.onLeft(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "right")
         this.onRight(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "up")
         this.onUp(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "down")
         this.onDown(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "heal")
         this.onHeal(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "give")
         this.onGive(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "attack")
         this.onAttack(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "join")
         this.onJoin(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId === "range")
         this.onRange(interaction.channel, interaction.user, interaction);
+
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
@@ -246,7 +255,7 @@ module.exports = class TankTacticsHandler {
     }
   }
 
-  async help(interaction) {
+  async _help(interaction) {
     const embed1 = new MessageEmbed()
       .setTitle("What is this?")
       .setDescription("An Idle co-op staregy game.");
@@ -353,6 +362,27 @@ module.exports = class TankTacticsHandler {
 
     let buttonList = [button1, button2];
     paginationEmbed(interaction, pages, buttonList, 60 * 1000 * 5);
+  }
+
+  async help(inter) {
+    const introEmbed = new MessageEmbed()
+      .setTitle("What is Tank Tactics?")
+      .setDescription("Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n(Don't worry, AP will be explained later)\n\nPlaying the game is simple, either type `+join`, or select the **join** button in the game menu.\n\n__Move to the next page to view in-game mechanics.__");
+  
+    const previous = new MessageButton()
+      .setCustomId("previousbtn")
+      .setEmoji("<:left:907825540927471627>")
+      .setStyle("PRIMARY");
+
+    const next = new MessageButton()
+      .setCustomd("nextbtn")
+      .setEmoji("<:right:907828453859028992>")
+      .setStyle("PRIMARY");
+
+    const pages = [introEmbed];
+    const buttons = [previous, next];
+
+    paginationEmbed(inter, pages, buttons, 60 * 1000 * 5);
   }
   //Game
 
