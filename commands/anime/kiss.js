@@ -13,7 +13,7 @@ module.exports = class extends Command {
   }
   async run(message, args) {
     let client = message.client;
-    const member =
+    let member =
       (await message.mentions.members.first()) ||
       message.guild.members.cache.get(args[0]) ||
       message.guild.members.cache.find(
@@ -27,13 +27,9 @@ module.exports = class extends Command {
           args.join(" ").toLocaleLowerCase()
       );
     if (!member) {
-      return message.reply(
-        ` You must mention someone to kiss!\n\n**Usage:** \`+ kiss <user>\``
-      );
+      member=guild.me;
     }
-    if (message.author === member || message.member == member) {
-      return message.reply(` You can't kiss yourself...`);
-    }
+    
     const response = await fetch("https://nekos.life/api/v2/img/kiss");
     const body = await response.json();
     const embed = new MessageEmbed() // Prettier

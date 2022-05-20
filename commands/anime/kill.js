@@ -21,7 +21,7 @@ module.exports = class extends Command {
   }
   async run(message, args) {
     let client = message.client;
-    const member =
+    let member =
       (await await message.mentions.members.first()) ||
       message.guild.members.cache.get(args[0]) ||
       message.guild.members.cache.find(
@@ -35,13 +35,9 @@ module.exports = class extends Command {
           args.join(" ").toLocaleLowerCase()
       );
     if (!member) {
-      return message.reply(
-        ` You must mention someone to kill!\n\n**Usage:** \`+ kill <user>\``
-      );
+      member=guild.me;
     }
-    if (message.author === member || message.member == member) {
-      return message.reply(` You can't kill yourself...`);
-    }
+  
     const pickeddeath = deaths[Math.floor(Math.random() * deaths.length)];
     const change1 = pickeddeath.replace("[NAME1]", "<@" + message.author + ">");
     const change2 = change1.replace("[NAME2]", "<@" + member + ">");

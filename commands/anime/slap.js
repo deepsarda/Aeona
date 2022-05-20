@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
   async run(message, args) {
-    if (!args[0]) return message.channel.send(`Please specify a user to slap!`);
+    if (!args[0]) args.push(message.client.user.id);
     const member =
       message.mentions.users.first() ||
       message.guild.members.cache.get(args[0]);

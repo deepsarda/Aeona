@@ -11,11 +11,7 @@ module.exports = class extends Command {
   }
   async run(message, args) {
     if (!args[0])
-      return message.channel.send(
-        `Please specify a user to cuddle! \`${
-          this.client.commands.get("cuddle").help.usage
-        }\``
-      );
+      args.push(message.client.user.id);
     const user =
       message.mentions.users.first() ||
       message.guild.members.cache.get(args[0]);

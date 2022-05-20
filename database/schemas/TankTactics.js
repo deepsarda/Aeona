@@ -35,6 +35,16 @@ const TankTacticsSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.Number,
     required: true,
   },
+
+  public: {
+    type: mongoose.SchemaTypes.Boolean,
+    default: false,
+  },
+
+  chatChannelIds: {
+    type: mongoose.SchemaTypes.Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("TankTactics", TankTacticsSchema);

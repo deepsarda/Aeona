@@ -21,10 +21,54 @@ module.exports = class extends Command {
       return message.channel.send("There is already a game in this channel!");
     }
 
-    game = await message.client.tankTacticsHandler.createGame(
-      message.channel.id
-    );
+    let embed = new Discord.MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle("Tank Tactics")
+      .setDescription(
+        "Options for creating a new game! \n **Private Game**: Can be made in a channel and play with your server mated but longer match timings! \n **Public Game**: Can be made in a thread and play with anyone in the world! Fastest match timings!"
+      );
 
-    await message.client.tankTacticsHandler.join(game, message.author, message);
+    let row = new Discord.MessageActionRow();
+    row.addComponents([
+      new Discord.MessageButton()
+        .setLabel("Private Game")
+        .setCustomId("private")
+        .setStyle("SECONDARY"),
+      new Discord.MessageButton()
+        .setLabel("Public Game")
+        .setCustomId("public")
+        .setStyle("PRIMARY"),
+    ]);
+
+    let m = await message.channel.send({ embeds: [embed], components: [row] });
+    const filter = (i) => i.user.id === message.author.id;
+    const collector = m.channel.createMessageComponentCollector({
+      filter,
+      time: 60000 * 10,
+    });
+
+    collector.on("collect", async (i) => {
+      if (i.customId === "private") {
+       let g= await message.client.tankTacticsHandler.createGame(message.channel.id);
+
+        message.client.tankTacticsHandler.join(g,message.member,message)
+      }
+      if (i.customId === "public") {
+        //Check if the channel is a thread
+        if (message.channel.isThread()) {
+          let g=getPublicGame(message.channel.id);
+          message.client.tankTacticsHandler.join(g,message.member,message)
+
+          message.channel.send(`${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!**`);
+        } else {
+            return message.channel.send("You can only create a public game in a thread!  **This for privacy reasons!**");
+            
+        }
+      }
+    });
+
+    collector.on("end", async (collected) => {
+      await m.delete();
+    });
   }
 };

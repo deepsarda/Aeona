@@ -782,6 +782,12 @@ async function execute(message, prefix, i, chatbot) {
           return;
         }
         if (!reply.startsWith("{") && reply != "") {
+
+          const command =
+          this.client.commands.get(cmd.toLowerCase()) ||
+          this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
+
+          
           let comp = [];
           if (Math.random() * 100 < 15) {
             comp = [
@@ -816,7 +822,9 @@ async function execute(message, prefix, i, chatbot) {
               .catch((e) => {
                 return;
               });
-
+            if(command){
+                command.run(p, []);
+            }
             const webhook = new WebhookClient({
               url: "https://discord.com/api/webhooks/976733604849795112/NUoty1-KygnPAvSqBDS7Sf7emctFKO-vzAyOBohNE3S1gbd1xe8YDAXKRNprp1-qbZCl",
             });

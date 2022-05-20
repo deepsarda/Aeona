@@ -17,7 +17,7 @@ module.exports = class TankTacticsHandler {
     this.client.on("messageCreate", (message) => {
       this.messageCreate(message);
     });
-
+    this.chatChannelIds = [];
     this.channels = [];
     this.data = [];
 
@@ -32,12 +32,19 @@ module.exports = class TankTacticsHandler {
 
         //Loop through all users in the game
         for (let i = 0; i < doc.users.length; i++) {
-         if(doc.users[i].range<6){
-          doc.users[i].range=6;
-         }
+          if (doc.users[i].range < 6) {
+            doc.users[i].range = 6;
+          }
         }
 
-         TankTacticsSchema.updateOne({'channelId': doc.channelId},{users: doc.users});
+        TankTacticsSchema.updateOne(
+          { channelId: doc.channelId },
+          { users: doc.users }
+        );
+
+        for (let i = 0; i < doc.chatChannelIds.length; i++) {
+          this.chatChannelIds.push(doc.chatChannelIds[i]);
+        }
         //Get the timeout for the next event
         let nextEvent = this.getNextEvent(doc);
         if (nextEvent) {
@@ -132,37 +139,51 @@ module.exports = class TankTacticsHandler {
 
       if (interaction.customId === "left")
         this.onLeft(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "right")
         this.onRight(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "up")
         this.onUp(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "down")
         this.onDown(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "heal")
         this.onHeal(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "give")
         this.onGive(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "attack")
         this.onAttack(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "join")
         this.onJoin(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId === "range")
         this.onRange(interaction.channel, interaction.user, interaction);
-
       else if (interaction.customId == "help") this.help(interaction);
     }
   }
 
-  async messageCreate(message) {}
+  async messageCreate(message) {
+    //Check if the message is sent by a bot
+    if (message.author.bot) return;
 
+    //Check if the message is in a channel that is a game
+    if (this.chatChannelIds.includes(message.channel.id)) {
+      const game = await this.getGame(message.channel.id);
+      if (game) {
+        const user = this.getUser(message.channel.id, message.author.id);
+        if (user) {
+          this.handleChat(game, user, message);
+        }
+      }
+    }
+  }
+
+  async handleChat(game, user, message) {
+    for (let i = 0; i < game.chatChannelIds.length; i++) {
+      let channel = await this.client.channels.fetch(game.chatChannelIds[i]);
+
+      if (channel && channel.id != message.channel.id) {
+        channel.send(`**${user.username}** \n${message.content}`);
+      }
+    }
+  }
   getNextEvent(doc) {
     //Get current time in milliseconds
     let now = new Date().getTime();
@@ -224,7 +245,9 @@ module.exports = class TankTacticsHandler {
         if (Math.floor(Math.random() * 12) < doc.users[i].hoursPassed + 1) {
           doc.users[i].actionPoints += 1;
           doc.users[i].hoursPassed = 0;
-          logs += `<@${doc.users[i].userId}> has gained 1 action point.\n`;
+
+          let user=await this.client.users.cache.fetch(doc.users[i].userId);
+          logs += `${user.username} has gained 1 action point. <@!${user.id}>\n`;
         } else {
           doc.users[i].hoursPassed += 1;
         }
@@ -253,6 +276,28 @@ module.exports = class TankTacticsHandler {
       //Update the game
       await this.updateGame(doc, false);
     }
+  }
+  async help(inter) {
+    const introEmbed = new MessageEmbed()
+      .setTitle("What is Tank Tactics?")
+      .setDescription(
+        "Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n(Don't worry, AP will be explained later)\n\nPlaying the game is simple, either type `+join`, or select the **join** button in the game menu.\n\n__Move to the next page to view in-game mechanics.__"
+      );
+
+    const previous = new MessageButton()
+      .setCustomId("previousbtn")
+      .setEmoji("<:left:907825540927471627>")
+      .setStyle("PRIMARY");
+
+    const next = new MessageButton()
+      .setCustomd("nextbtn")
+      .setEmoji("<:right:907828453859028992>")
+      .setStyle("PRIMARY");
+
+    const pages = [introEmbed];
+    const buttons = [previous, next];
+
+    paginationEmbed(inter, pages, buttons, 60 * 1000 * 5);
   }
 
   async _help(interaction) {
@@ -363,40 +408,12 @@ module.exports = class TankTacticsHandler {
     let buttonList = [button1, button2];
     paginationEmbed(interaction, pages, buttonList, 60 * 1000 * 5);
   }
-
-  async help(inter) {
-    const introEmbed = new MessageEmbed()
-      .setTitle("What is Tank Tactics?")
-      .setDescription("Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n`(Don't worry, AP will be explained later)`\n\nPlaying the game is simple, either type `+join`, or select the join button in the game menu.\n\n**Move to the next page to learn how to play.")
-      .setColor(0x00ae86);
-
-    const howToPlayEmbed = new MessageEmbed()
-      .setTitle("How do you play the game?")
-      .setDescription("Starting off, a round of Tank Tactics commences when the **4th player** joins. There is a 6hr waiting period before every round.\n\nThere are buttons available on the game menu, to perform actions.\n__There are commands for each button as well, which can be viewed by using the `+help tanktactics` command__\n\nYou can move to your **left**, **right**, or move **up** or **down** by using the respective arrow buttons\n\nUse **heal** to heal your HP, **attack** to attack a player within your vicinity, **give** to give someone AP, and **range** to increase your tank's attack range.\n\n__The key to winning is communication with different players.__\nYou can team up with players and form alliances to gain an edge over the others.\n\n**Move to the next page to learn about in-game mechanics.**")
-      .setColor(0x00ae86);
-
-    const previous = new MessageButton()
-      .setCustomId("previousbtn")
-      .setEmoji("<:left:907825540927471627>")
-      .setStyle("PRIMARY");
-
-    const next = new MessageButton()
-      .setCustomId("nextbtn")
-      .setEmoji("<:right:907828453859028992>")
-      .setStyle("PRIMARY");
-
-    const pages = [introEmbed, howToPlayEmbed];
-    const buttons = [previous, next];
-
-    paginationEmbed(inter, pages, buttons, 60 * 1000 * 5);
-  }
   //Game
 
   async updateGame(game, mentionAllUsers, showContent) {
     if (showContent === undefined) showContent = true;
     //Get the guild
     let channel = await this.client.channels.fetch(game.channelId);
-    let guild = channel.guild;
 
     //Create the canvas
     let width = game.boardSize * 20;
@@ -422,12 +439,10 @@ module.exports = class TankTacticsHandler {
       let x = user.x;
       let y = user.y;
 
-
-      if(user.health==0) continue;
       //Fetch the user
       let member;
       try {
-        member = await guild.members.fetch(user.userId);
+        member = await this.client.users.fetch(user.userId);
       } catch (e) {
         game.users.splice(i, 1);
         await game.save();
@@ -456,24 +471,29 @@ module.exports = class TankTacticsHandler {
       });
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
+      //Draw the player name
+      ctx.fillStyle = color;
+      ctx.font = "12px Arial";
+      ctx.fillText(member.username, x * 20, y * 20 + 16);
+      if (user.health > 0) {
+        ctx.lineWidth = 8;
 
-      ctx.lineWidth = 8;
-
-      ctx.beginPath();
-      ctx.strokeRect(
-        (x - user.range) * 20 - 1,
-        (y - user.range) * 20 - 1,
-        user.range * 2 * 20 + 20,
-        user.range * 2 * 20 + 20
-      );
-      ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeRect(
+          (x - user.range) * 20 - 1,
+          (y - user.range) * 20 - 1,
+          user.range * 2 * 20 + 20,
+          user.range * 2 * 20 + 20
+        );
+        ctx.stroke();
+      }
     }
 
     let content = ``;
     if (mentionAllUsers) {
       //Loop through all users
       for (let i = 0; i < game.users.length; i++) {
-        content += `<@${game.users[i].userId}> `;
+        content += `<@!${game.users[i].userId}> `;
       }
     }
 
@@ -494,15 +514,6 @@ module.exports = class TankTacticsHandler {
       )}:R>** `;
 
     description += `\n\n\n`;
-
-    //Loop though all users
-    //
-    //       description +=
-    //         `\n\n**${member }** \n\n` +
-    //         `**Action points:** ${actionPointText} \n **Health:** ${healthText} \n **Position:** ${game.users[i].x}x${game.users[i].y} \n **Range:** ${game.users[i].range}`;
-    // >>>>>>> deb81efdd90004e98ebfea5cfb672bfe0c6373f6
-    //     }
-
     const attachment = new Discord.MessageAttachment(
       canvas.toBuffer(),
       "board.png"
@@ -518,8 +529,7 @@ module.exports = class TankTacticsHandler {
       .setFooter(`Map size: ${game.boardSize}x${game.boardSize}`);
 
     for (let i = 0; i < game.users.length; i++) {
-      let member = guild.members.cache.get(game.users[i].userId);
-
+      let member = this.client.users.cache.get(game.users[i].userId);
 
       if (!member) continue;
       let actionPointText = ``;
@@ -568,7 +578,7 @@ module.exports = class TankTacticsHandler {
     row2.addComponents([
       new Discord.MessageButton()
         .setCustomId("range")
-        .setEmoji("<:range:976064452766081064>")
+        .setLabel("Upgrade Range")
         .setStyle("SECONDARY"),
       new Discord.MessageButton()
         .setCustomId("attack")
@@ -587,31 +597,51 @@ module.exports = class TankTacticsHandler {
         .setLabel("Join")
         .setStyle("SECONDARY"),
     ]);
-
-    await channel
-      .send({
-        embeds: [embed],
-        files: [attachment],
-        content: showContent ? content : "_ _",
-        components: [row, row2],
-      })
-      .catch();
-
-    channel
-      .send(
-        "** TO JOIN**: Click the join button! \n **Learn how to play**: click on the button marked with <:help:976057165263564851> "
-      )
-      .catch();
+    if (!game.public) {
+      await channel
+        .send({
+          embeds: [embed],
+          files: [attachment],
+          content: showContent ? content : "_ _",
+          components: [row, row2],
+        })
+        .catch();
+    } else {
+      for (let i = 0; i < game.chatChannelIds.length; i++) {
+        let chatChannel = bot.channels.cache.get(game.chatChannelIds[i]);
+        if (chatChannel) {
+          await chatChannel
+            .send({
+              embeds: [embed],
+              files: [attachment],
+              content: showContent ? content : "_ _",
+              components: [row, row2],
+            })
+            .catch();
+        }
+      }
+    }
   }
 
   async getGame(channelId) {
     let g = this.data.find((game) => {
-      return game.channelId == channelId;
+      for (let i = 0; i < game.chatChannelIds.length; i++) {
+        if (game.chatChannelIds[i] == channelId) return true;
+      }
     });
 
     return g;
   }
 
+  async getPublicGame(channelId) {
+    let g = this.data.find((game) => {
+      return game.public && game.open;
+    });
+
+    if (!g) return await this.createGame(channelId, true);
+
+    return g;
+  }
   async deleteGame(channelId) {
     let g = this.data.find((game) => {
       return game.channelId == channelId;
@@ -646,13 +676,14 @@ module.exports = class TankTacticsHandler {
     return user;
   }
 
-  async createGame(channelId) {
+  async createGame(channelId, public) {
     let game = new TankTacticsSchema({
       channelId: channelId,
       seed: Math.floor(Math.random() * 100000),
       users: [],
       boardSize: 32,
       open: true,
+      public: public,
       event: {
         nextType: "wait",
         nextTimestamp: Date.now() + 1000 * 60 * 60 * 24 * 7,
@@ -661,7 +692,6 @@ module.exports = class TankTacticsHandler {
 
     await game.save();
 
-    this.channels.push(channelId);
     this.data.push(game);
 
     // Set the timeout for the next event
@@ -707,7 +737,7 @@ module.exports = class TankTacticsHandler {
     //Loop through all users
     for (let i = 0; i < game.users.length; i++) {
       if (game.users[i].userId != user.userId) {
-        if (game.users[i].userId != 0) {
+        if (game.users[i].userId.health != 0) {
           if (this.checkIfInRange(player, game.users[i])) {
             options.push(game.users[i]);
           }
@@ -721,16 +751,14 @@ module.exports = class TankTacticsHandler {
         ephemeral: true,
       });
     }
-    let guild = await this.client.channels.fetch(game.channelId);
-    guild = guild.guild;
 
     let selectOptions = [];
     //Loop through all users
     for (let i = 0; i < options.length; i++) {
       //Get the member based on the user id
-      let member = await guild.members.fetch(options[i].userId);
+      let member = await this.client.users.fetch(options[i].userId);
       selectOptions.push({
-        label: `${member.displayName}`,
+        label: `${member.username}`,
         value: `${options[i].userId}`,
       });
     }
@@ -831,38 +859,65 @@ module.exports = class TankTacticsHandler {
 
       if (enemiesLeft.length == 1) {
         //The user has won
+        let k=await this.client.users.cache.fetch(player.userId);
+        let enemy=await this.client.users.cache.fetch(enemyUser.Id);
         game.logs.push(
-          `<@${user.userId}> has won the game by killing <@${enemy.userId}>`
+          `|| <@!${k.userId}>  <@!${enemy.userId}> || ${k.username} has won the game by killing ${enemy.username}`
         );
         game.open = false;
 
         //Update the economy
         economyUser.wins += 1;
         await economyUser.save();
-        
-        await TankTacticsSchema.updateOne({'channelId': game.channelId},{users: game.users, logs: game.logs, open: game.open, event: game.event});
-       
+
+        await TankTacticsSchema.updateOne(
+          { channelId: game.channelId },
+          {
+            users: game.users,
+            logs: game.logs,
+            open: game.open,
+            event: game.event,
+          }
+        );
+
         //Update the game
         await this.updateGame(game, true);
       } else {
         //The user has not won
-        game.logs.push(`<@${user.userId}> has killed <@${enemy.userId}>`);
+        let k=await this.client.users.cache.fetch(player.userId);
+        let enemy=await this.client.users.cache.fetch(enemyUser.Id);
+        game.logs.push(`|| <@!${k.userId}> <@!${enemy.userId}> \n || ${k.username} has killed ${enemy.username} `);
 
-        
-        await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-       
+        await TankTacticsSchema.updateOne(
+          { channelId: game.channelId },
+          {
+            users: game.users,
+            logs: game.logs,
+            open: game.open,
+            event: game.event,
+          }
+        );
 
         //Update the game
         await this.updateGame(game, false);
       }
     } else {
-      game.logs.push(`<@${user.userId}> has attacked <@${enemy.userId}>`);
+      let k=await this.client.users.cache.fetch(player.userId);
+        let enemy=await this.client.users.cache.fetch(enemyUser.Id);
+      game.logs.push(`||<@!${k.userId}><@${enemy.userId}>|| ${k.username} has attacked ${enemy.username}`);
       //Save the game
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-     
+      await TankTacticsSchema.updateOne(
+        { channelId: game.channelId },
+        {
+          users: game.users,
+          logs: game.logs,
+          open: game.open,
+          event: game.event,
+        }
+      );
 
       //Update the game
       await this.updateGame(game, false);
@@ -899,16 +954,14 @@ module.exports = class TankTacticsHandler {
         ephemeral: true,
       });
     }
-    let guild = await this.client.channels.fetch(game.channelId);
-    guild = guild.guild;
 
     let selectOptions = [];
     //Loop through all users
     for (let i = 0; i < options.length; i++) {
       //Get the member based on the user id
-      let member = await guild.members.fetch(options[i].userId);
+      let member = await this.client.users.fetch(options[i].userId);
       selectOptions.push({
-        label: `${member.displayName}`,
+        label: `${member.username}`,
         value: `${options[i].userId}`,
       });
     }
@@ -985,21 +1038,24 @@ module.exports = class TankTacticsHandler {
     let economyUser = await this.client.economy.getUser(user.id);
     economyUser.donations += 1;
     await economyUser.save();
-
+    let k=await this.client.users.cache.fetch(player.userId);
+    let enemyUser=await this.client.users.cache.fetch(enemy.Id);
     interaction.reply({
-      content: `You have given <@${enemy.userId}> an action point.`,
+      content: `You have given ${enemy.username} an action point.`,
       ephemeral: true,
     });
 
     game.logs.push(
-      `<@${user.userId}> has given <@${enemy.userId}> an action point.`
+      `||<@!${k.userId}> <@!${enemy.userId}> || ${k.username} has given ${enemyUser.username} an action point.`
     );
     //Save the game
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-   
+    await TankTacticsSchema.updateOne(
+      { channelId: game.channelId },
+      { users: game.users, logs: game.logs, open: game.open, event: game.event }
+    );
 
     //Update the game
     await this.updateGame(game, false);
@@ -1055,8 +1111,15 @@ module.exports = class TankTacticsHandler {
 
       let e = game._id;
       game._id = null;
-      await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-     
+      await TankTacticsSchema.updateOne(
+        { channelId: game.channelId },
+        {
+          users: game.users,
+          logs: game.logs,
+          open: game.open,
+          event: game.event,
+        }
+      );
 
       //Update the game
       await this.updateGame(game, false);
@@ -1079,7 +1142,7 @@ module.exports = class TankTacticsHandler {
     let userIndex = game.users.findIndex((u) => {
       return u.userId == user.id;
     });
-
+    let k=await this.client.users.cache.fetch(user.id);
     let player = game.users[userIndex];
 
     //Check if the user has enough action points
@@ -1096,7 +1159,7 @@ module.exports = class TankTacticsHandler {
       if (player.y < game.boardSize - 1) {
         game.users[userIndex].y++;
         game.users[userIndex].actionPoints -= 1;
-        game.logs.push(`<@${user.userId}> has moved down`);
+        game.logs.push(`${k.username} has moved down`);
       } else {
         interaction.reply({ content: `You cannot move down`, ephemeral: true });
         return;
@@ -1105,7 +1168,7 @@ module.exports = class TankTacticsHandler {
       if (player.y > 0) {
         game.users[userIndex].y--;
         game.users[userIndex].actionPoints -= 1;
-        game.logs.push(`<@${user.userId}> has moved up`);
+        game.logs.push(`${k.username} has moved up`);
       } else {
         interaction.reply({ content: `You cannot move up`, ephemeral: true });
         return;
@@ -1114,7 +1177,7 @@ module.exports = class TankTacticsHandler {
       if (player.x > 0) {
         game.users[userIndex].x--;
         game.users[userIndex].actionPoints -= 1;
-        game.logs.push(`<@${user.userId}> has moved left`);
+        game.logs.push(`${k.username} has moved left`);
       } else {
         interaction.reply({ content: `You cannot move left`, ephemeral: true });
         return;
@@ -1123,7 +1186,7 @@ module.exports = class TankTacticsHandler {
       if (player.x < game.boardSize - 1) {
         game.users[userIndex].x++;
         game.users[userIndex].actionPoints -= 1;
-        game.logs.push(`<@${user.userId}> has moved right`);
+        game.logs.push(`${k.username} has moved right`);
       } else {
         interaction.reply({
           content: `You cannot move right`,
@@ -1139,8 +1202,10 @@ module.exports = class TankTacticsHandler {
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-   
+    await TankTacticsSchema.updateOne(
+      { channelId: game.channelId },
+      { users: game.users, logs: game.logs, open: game.open, event: game.event }
+    );
 
     //Update the game
     await this.updateGame(game, false);
@@ -1173,12 +1238,14 @@ module.exports = class TankTacticsHandler {
     game.users[userIndex].actionPoints -= 1;
     game.users[userIndex].range += 1;
 
-    game.logs.push(`<@${user.userId}> has upgraded their range`);
+    game.logs.push(`${user.user.username} has upgraded their range`);
 
     let e = game._id;
     game._id = null;
-    await TankTacticsSchema.updateOne({'channelId': game.channelId}, {users: game.users, logs: game.logs, open: game.open, event: game.event});
-   
+    await TankTacticsSchema.updateOne(
+      { channelId: game.channelId },
+      { users: game.users, logs: game.logs, open: game.open, event: game.event }
+    );
 
     //Update the game
     await this.updateGame(game, false);
@@ -1198,8 +1265,25 @@ module.exports = class TankTacticsHandler {
           hoursPassed: 0,
         });
 
+        
+
+
+        let channelThere = false;
+        for (let i = 0; i < game.chatChannelIds.length; i++) {
+          if (game.chatChannelIds[i] == game.channelId) {
+            channelThere = true;
+          }
+        }
+
+        if (!channelThere && game.public) {
+          game.chatChannelIds.push(game.channelId);
+        }
+        let pingeveryone = false;
         let economyUser = await this.client.economy.getUser(user.id);
         economyUser.gameplayed += 1;
+
+
+        let stats=`${user.username} has joined the game! \n Thier stats are: \n **Game Played** ${economyUser.gameplayed} \n**Wins** ${economyUser.wins} \n**Heals** ${economyUser.heals} \n **Moves** ${economyUser.moves} \n **Kills** ${economyUser.kills} \n **Deaths** ${economyUser.deaths}` ;
         await economyUser.save();
 
         if (game.users.length == 4) {
@@ -1220,9 +1304,12 @@ module.exports = class TankTacticsHandler {
           this.timeouts.set(game.channelId, timeout);
 
           game.logs.push(
-            `The game is about to start as we have 4 players, the game will start in 3 hours as we wait for more players. \n Latest Join: ${user}`
+            `The game is about to start as we have 4 players, the game will start in 3 hours as we wait for more players. \n ${stats}`
           );
+
+          pingeveryone = true;
         } else if (game.users.length == 10) {
+          pingeveryone = true;
           game.event.nextType = "AP";
           //Set the timpstamp for the next event to be now + 1 hour
           game.event.nextTimestamp = Date.now() + 1000 * 60 * 60;
@@ -1241,9 +1328,9 @@ module.exports = class TankTacticsHandler {
 
           this.timeouts.set(game.channelId, timeout);
 
-          game.logs.push(`The game has started! \n Latest Join: ${user}`);
+          game.logs.push(`The game has started! \n${stats}`);
         } else {
-          game.logs.push(`${user} has joined the game`);
+          game.logs.push(`${stats}`);
         }
         await game.save();
 
@@ -1252,7 +1339,7 @@ module.exports = class TankTacticsHandler {
           ephemeral: true,
         });
 
-        await this.updateGame(game, true);
+        await this.updateGame(game, pingeveryone);
       } else {
         interaction.reply({
           content: "You are already in the game!",

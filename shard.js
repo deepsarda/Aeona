@@ -28,7 +28,9 @@ statcord.on("autopost-start", () => {
   // Emitted when statcord autopost starts
   console.log("Started autopost");
 });
-
+poster.on('posted', (stats) => { // ran when succesfully posted
+  console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`)
+})
 statcord.on("post", (status) => {
   // status = false if the post was successful
   // status = "Error message" or status = Error if there was an error
