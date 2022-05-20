@@ -280,9 +280,13 @@ module.exports = class TankTacticsHandler {
   async help(inter) {
     const introEmbed = new MessageEmbed()
       .setTitle("What is Tank Tactics?")
-      .setDescription(
-        "Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n(Don't worry, AP will be explained later)\n\nPlaying the game is simple, either type `+join`, or select the **join** button in the game menu.\n\n__Move to the next page to view in-game mechanics.__"
-      );
+      .setDescription("Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n`(Don't worry, AP will be explained later)`\n\nPlaying the game is simple, either type `+join`, or select the join button in the game menu.\n\n**Move to the next page to learn how to play.")
+      .setColor(0x00ae86);
+
+    const howToPlayEmbed = new MessageEmbed()
+      .setTitle('How do you play the game?')
+      .setDescription("Starting off, a round of Tank Tactics commences when the **4th player** joins. There is a 6hr waiting period before every round.\n\nThere are buttons available on the game menu, to perform actions.\n__There are commands for each button as well, which can be viewed by using the `+help tanktactics` command__\n\nYou can move to your **left**, **right**, or move **up** or **down** by using the respective arrow buttons\n\nUse **heal** to heal your HP, **attack** to attack a player within your vicinity, **give** to give someone AP, and **range** to increase your tank's attack range.\n\n__The key to winning is communication with different players.__\nYou can team up with players and form alliances to gain an edge over the others.\n\n**Move to the next page to learn about in-game mechanics.**")
+      .setColor(0x00ae86);
 
     const previous = new MessageButton()
       .setCustomId("previousbtn")
@@ -294,7 +298,7 @@ module.exports = class TankTacticsHandler {
       .setEmoji("<:right:907828453859028992>")
       .setStyle("PRIMARY");
 
-    const pages = [introEmbed];
+    const pages = [introEmbed, howToPlayEmbed];
     const buttons = [previous, next];
 
     paginationEmbed(inter, pages, buttons, 60 * 1000 * 5);
