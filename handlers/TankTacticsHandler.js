@@ -455,7 +455,7 @@ module.exports = class TankTacticsHandler {
       let image = await Canvas.loadImage(avatar);
       getColors(avatar128).then((colors) => {
         //Loop through the colors and find the one with the highest amount
-       
+
         let max = 0;
 
         for (let i = 0; i < colors.length; i++) {
@@ -467,14 +467,14 @@ module.exports = class TankTacticsHandler {
             color = c.color.hex();
           }
         }
-       
+
         ctx.strokeStyle = color;
       });
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
       //Draw the player name
       ctx.fillStyle = color;
-      ctx.font = "12px Arial";
+      ctx.font = "18px Arial";
       ctx.fillText(member.username, x * 20, y * 20 + 16);
       if (user.health > 0) {
         ctx.lineWidth = 8;
