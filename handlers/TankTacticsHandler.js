@@ -453,7 +453,7 @@ module.exports = class TankTacticsHandler {
       let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let color;
       let image = await Canvas.loadImage(avatar);
-      getColors(avatar128).then((colors) => {
+      let colors=await getColors(avatar128);
         //Loop through the colors and find the one with the highest amount
 
         let max = 0;
@@ -469,13 +469,11 @@ module.exports = class TankTacticsHandler {
         }
 
         ctx.strokeStyle = color;
-      });
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
       //Draw the player name
     
       ctx.font = "18px Arial";
-      console.log(color)
       ctx.fillStyle = color;
       ctx.fillText(member.username, x * 20, y * 20 + 16);
       if (user.health > 0) {
@@ -643,6 +641,7 @@ module.exports = class TankTacticsHandler {
 
     if (!g) return await this.createGame(channelId, true);
 
+    
     return g;
   }
   async deleteGame(channelId) {
