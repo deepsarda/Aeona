@@ -611,7 +611,7 @@ module.exports = class TankTacticsHandler {
         .catch();
     } else {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        let chatChannel = bot.channels.cache.get(game.chatChannelIds[i]);
+        let chatChannel = this.client.channels.cache.get(game.chatChannelIds[i]);
         if (chatChannel) {
           await chatChannel
             .send({
