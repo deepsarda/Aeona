@@ -290,7 +290,7 @@ module.exports = class TankTacticsHandler {
       .setStyle("PRIMARY");
 
     const next = new MessageButton()
-      .setCustomd("nextbtn")
+      .setCustomId("nextbtn")
       .setEmoji("<:right:907828453859028992>")
       .setStyle("PRIMARY");
 
