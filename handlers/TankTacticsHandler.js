@@ -1297,7 +1297,7 @@ module.exports = class TankTacticsHandler {
         let economyUser = await this.client.economy.getUser(user.id);
         economyUser.gameplayed += 1;
 
-        let stats = `${user.username} has joined the game! \n Thier stats are: \n **Game Played** ${economyUser.gameplayed} \n**Wins** ${economyUser.wins} \n**Heals** ${economyUser.heals} \n **Moves** ${economyUser.moves} \n **Kills** ${economyUser.kills} \n **Deaths** ${economyUser.deaths}`;
+        let stats = `${user.user.username} has joined the game! \n Thier stats are: \n **Game Played** ${economyUser.gameplayed} \n**Wins** ${economyUser.wins} \n**Heals** ${economyUser.heals} \n **Moves** ${economyUser.moves} \n **Kills** ${economyUser.kills} \n **Deaths** ${economyUser.deaths}`;
         await economyUser.save();
 
         if (game.users.length == 4) {
