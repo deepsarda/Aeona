@@ -180,7 +180,7 @@ module.exports = class TankTacticsHandler {
       let channel = await this.client.channels.fetch(game.chatChannelIds[i]);
 
       if (channel && channel.id != message.channel.id) {
-        channel.send(`**${user.username}** \n${message.content}`);
+        channel.send(`**${message.author.username}** \n${message.content}`);
       }
     }
   }
