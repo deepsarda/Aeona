@@ -19,13 +19,13 @@ module.exports = class extends Command {
 
     let embed=new Discord.MessageEmbed().setTitle(`${user}'s Profile`).setThumbnail(mentionUser.displayAvatarURL({dynamic:true})).addField("Wallet",user.money.wallet.toLocaleString()+'₪')
     .addField(`Bank`,user.money.bank.toLocaleString()+'/'+user.money.maxBank.toLocaleString()+`₪`)
-    .addField(`Tank Tactics`,'_ _')
+    .addField(`Tank Tactics`,'_ _ ')
     .addField(`Games Played`,user.gameplayed,true)
     .addField('Wins',user.wins,true)
     .addField('Kills',user.kills,true)
     .addField('Deaths',user.deaths,true)
     .addField('Moves',user.moves,true)
-    .addField('Donations',user.dontations,true)
+    .addField('Donations',user.donations,true)
     .addField('Heals',user.heals,true)
 
 
