@@ -592,8 +592,8 @@ module.exports = class TankTacticsHandler {
         .setStyle("SECONDARY"),
       new Discord.MessageButton()
         .setCustomId("attack")
-        .setEmoji("Attack")
-        .setLabel("SECONDARY"),
+        .setLabel("Attack")
+        .setStyle("SECONDARY"),
       new Discord.MessageButton()
         .setCustomId("give")
         .setLabel("Give")
