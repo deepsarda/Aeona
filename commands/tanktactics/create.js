@@ -49,7 +49,7 @@ module.exports = class extends Command {
 
     collector.on("collect", async (i) => {
       if (i.customId === "private") {
-       let g= await message.client.tankTacticsHandler.createGame(message.channel.id);
+       let g= await message.client.tankTacticsHandler.createGame(message.channel.id,false);
 
         message.client.tankTacticsHandler.join(g,message.member,message)
       }
