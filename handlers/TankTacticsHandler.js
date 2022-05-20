@@ -634,7 +634,7 @@ module.exports = class TankTacticsHandler {
   async getGame(channelId) {
     let g = this.data.find((game) => {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        if (game.chatChannelIds[i] == channelId) return true;
+        if (game.chatChannelIds[i] == channelId ||game.channelId==channelId) return true;
       }
     });
 
@@ -733,9 +733,8 @@ module.exports = class TankTacticsHandler {
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
-    interaction.deferReply({ ephemeral: true });
     if (player.health == 0) {
-      interaction.editReply({
+      interaction.reply({
         content: `Dead players cannot attack`,
         ephemeral: true,
       });
@@ -754,7 +753,7 @@ module.exports = class TankTacticsHandler {
     }
 
     if (options.length == 0) {
-      interaction.editReply({
+      interaction.reply({
         content: `You can't attack  anyone.`,
         ephemeral: true,
       });
@@ -781,7 +780,7 @@ module.exports = class TankTacticsHandler {
 
     console.log(row);
 
-    let m = await interaction.editReply({
+    let m = await interaction.reply({
       content: "Select which user you want to attack!",
       components: [row],
       ephemeral: true,
@@ -944,7 +943,6 @@ module.exports = class TankTacticsHandler {
         ephemeral: true,
       });
 
-    interaction.deferReply({ ephemeral: true });
     let options = [];
     //Get the user
     let player = await this.getUser(game.channelId, user.id);
@@ -963,7 +961,7 @@ module.exports = class TankTacticsHandler {
     }
 
     if (options.length == 0) {
-      interaction.editReply({
+      interaction.reply({
         content: `You can't give to anyone.`,
         ephemeral: true,
       });
@@ -988,7 +986,7 @@ module.exports = class TankTacticsHandler {
         .setOptions(selectOptions),
     ]);
 
-    let m = await interaction.editReply({
+    let m = await interaction.reply({
       content: "Select which user you want to give to!",
       components: [row],
       ephemeral: true,
