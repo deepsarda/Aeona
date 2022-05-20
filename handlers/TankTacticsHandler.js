@@ -385,7 +385,7 @@ module.exports = class TankTacticsHandler {
       .setEmoji("<:right:907828453859028992>")
       .setStyle("PRIMARY");
 
-    const pages = [introEmbed];
+    const pages = [introEmbed, howToPlayEmbed];
     const buttons = [previous, next];
 
     paginationEmbed(inter, pages, buttons, 60 * 1000 * 5);
