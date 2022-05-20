@@ -453,30 +453,34 @@ module.exports = class TankTacticsHandler {
       let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let color;
       let image = await Canvas.loadImage(avatar);
-      let colors=await getColors(avatar128);
-        //Loop through the colors and find the one with the highest amount
+      let colors = await getColors(avatar128);
+      //Loop through the colors and find the one with the highest amount
 
-        let max = 0;
+      let max = 0;
 
-        for (let i = 0; i < colors.length; i++) {
-          let c = colors[i];
-          if (colorsUsed.includes(c.color.hex())) continue;
+      for (let i = 0; i < colors.length; i++) {
+        let c = colors[i];
+        if (colorsUsed.includes(c.color.hex())) continue;
 
-          if (c.amount > max) {
-            max = c.amount;
-            color = c.color.hex();
-          }
+        if (c.amount > max) {
+          max = c.amount;
+          color = c.color.hex();
         }
+      }
 
-        ctx.strokeStyle = color;
+      ctx.strokeStyle = color;
 
       ctx.drawImage(image, x * 20, y * 20, 16, 16);
       //Draw the player name
-    
-      ctx.font = "18px Arial";
+
+      ctx.font = "bold 22px Arial";
       ctx.fillStyle = color;
-      let width = ctx.measureText(member.username).width;
-      ctx.fillText(member.username, x * 20, y * 20 + 16);
+
+      if (y < 10) {
+        ctx.fillText(member.username, x * 20, y * 20 - 38);
+      } else {
+        ctx.fillText(member.username, x * 20, y * 20 + 38);
+      }
       if (user.health > 0) {
         ctx.lineWidth = 8;
 
@@ -610,7 +614,9 @@ module.exports = class TankTacticsHandler {
         .catch();
     } else {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        let chatChannel = this.client.channels.cache.get(game.chatChannelIds[i]);
+        let chatChannel = this.client.channels.cache.get(
+          game.chatChannelIds[i]
+        );
         if (chatChannel) {
           await chatChannel
             .send({
@@ -642,7 +648,6 @@ module.exports = class TankTacticsHandler {
 
     if (!g) return await this.createGame(channelId, true);
 
-    
     return g;
   }
   async deleteGame(channelId) {
