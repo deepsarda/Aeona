@@ -784,7 +784,7 @@ async function execute(message, prefix, i, chatbot) {
 
           const command =
           message.client.commands.get(reply.toLowerCase()) ||
-          message.client.commands.get(this.client.aliases.get(reply.toLowerCase()));
+          message.client.commands.get(message.client.aliases.get(reply.toLowerCase()));
 
           
           let comp = [];
