@@ -476,7 +476,7 @@ module.exports = class TankTacticsHandler {
       ctx.font = "bold 22px Arial";
       ctx.fillStyle = color;
 
-      if (y < 10) {
+      if (y > 30) {
         ctx.fillText(member.username, x * 20, y * 20 - 38);
       } else {
         ctx.fillText(member.username, x * 20, y * 20 + 38);

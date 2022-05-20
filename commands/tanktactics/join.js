@@ -20,13 +20,17 @@ module.exports = class extends Command {
     if (!game) {
       //Check if the channel is a thread
       if (message.channel.isThread()) {
-         game = await message.client.tankTacticsHandler.getPublicGame(message.channel.id);
+        game = await message.client.tankTacticsHandler.getPublicGame(
+          message.channel.id
+        );
 
-        message.client.tankTacticsHandler.join(game, message.member, message);
+        await message.client.tankTacticsHandler.join(game, message.member, message);
 
-        message.channel.send(
+        await message.channel.send(
           `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!**`
         );
+
+        return;
       } else {
         return message.channel.send(
           "There is no game running currently! \n Use `+create ` to make one or use **+join in a thread to join a public game. (recommended for faster times)**"
