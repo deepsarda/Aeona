@@ -475,6 +475,7 @@ module.exports = class TankTacticsHandler {
     
       ctx.font = "18px Arial";
       ctx.fillStyle = color;
+      let width = ctx.measureText(member.username).width;
       ctx.fillText(member.username, x * 20, y * 20 + 16);
       if (user.health > 0) {
         ctx.lineWidth = 8;
