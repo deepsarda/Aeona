@@ -24,7 +24,6 @@ const fetch = require("node-fetch");
 require("moment-duration-format");
 const Statcord = require("statcord.js");
 const Discord = require("discord.js");
-const discord = require("discord.js");
 module.exports = class extends Event {
   constructor(...args) {
     super(...args);
