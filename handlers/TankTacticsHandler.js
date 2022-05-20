@@ -1258,7 +1258,6 @@ module.exports = class TankTacticsHandler {
   }
   //join
   async join(game, user, interaction) {
-    console.log(game)
     if (game.open) {
       let player = await this.getUser(game.channelId, user.id);
       if (!player) {

@@ -20,9 +20,9 @@ module.exports = class extends Command {
     if (!game) {
       //Check if the channel is a thread
       if (message.channel.isThread()) {
-        let g = await message.client.tankTacticsHandler.getPublicGame(message.channel.id);
+         game = await message.client.tankTacticsHandler.getPublicGame(message.channel.id);
         console.log(g);
-        message.client.tankTacticsHandler.join(g, message.member, message);
+        message.client.tankTacticsHandler.join(game, message.member, message);
 
         message.channel.send(
           `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!**`
