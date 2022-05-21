@@ -273,20 +273,24 @@ module.exports = class TankTacticsHandler {
       doc.logs.push(logs);
       await doc.save();
 
-      //Update the game                               
-    
+      //Update the game
+
       await this.updateGame(doc, false);
     }
   }
   async help(inter) {
     const introEmbed = new MessageEmbed()
       .setTitle("What is Tank Tactics?")
-      .setDescription("Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n`(Don't worry, AP will be explained later)`\n\nPlaying the game is simple, either type `+join`, or select the join button in the game menu.\n\n**Move to the next page to learn how to play.**")
+      .setDescription(
+        "Tank Tactics is an idle, multiplayer co-op strategy game, where you **generally** try to survive for as long as possible.\n\n*There is a slight catch however*. Dead players can be considered __more powerful__ at times, as they generate AP **faster than your average player**\n`(Don't worry, AP will be explained later)`\n\nPlaying the game is simple, either type `+join`, or select the join button in the game menu.\n\n**Move to the next page to learn how to play.**"
+      )
       .setColor(0x00ae86);
 
     const howToPlayEmbed = new MessageEmbed()
-      .setTitle('How do you play the game?')
-      .setDescription("Starting off, a round of Tank Tactics commences when the **4th player** joins. There is a 6hr waiting period before every round.\n\nThere are buttons available on the game menu, to perform actions.\n**There are commands for each button as well, which can be viewed by using the `+help tanktactics` command**\n\nYou can move to your **left**, **right**, or move **up** or **down** by using the respective arrow buttons\n\nUse **heal** to heal your HP, **attack** to attack a player within your vicinity, **give** to give someone AP, and **range** to increase your tank's attack range.\n\n__The key to winning is communication with different players.__\nYou can team up with players and form alliances to gain an edge over the others.\n\n**Move to the next page to learn about in-game mechanics.**")
+      .setTitle("How do you play the game?")
+      .setDescription(
+        "Starting off, a round of Tank Tactics commences when the **4th player** joins. There is a 6hr waiting period before every round.\n\nThere are buttons available on the game menu, to perform actions.\n**There are commands for each button as well, which can be viewed by using the `+help tanktactics` command**\n\nYou can move to your **left**, **right**, or move **up** or **down** by using the respective arrow buttons\n\nUse **heal** to heal your HP, **attack** to attack a player within your vicinity, **give** to give someone AP, and **range** to increase your tank's attack range.\n\n__The key to winning is communication with different players.__\nYou can team up with players and form alliances to gain an edge over the others.\n\n**Move to the next page to learn about in-game mechanics.**"
+      )
       .setColor(0x00ae86);
 
     const previous = new MessageButton()
@@ -418,8 +422,10 @@ module.exports = class TankTacticsHandler {
   async updateGame(game, mentionAllUsers, showContent) {
     if (showContent === undefined) showContent = true;
     //Get the guild
-    let channel = await this.client.channels.fetch(game.channelId);
-
+    let channel;
+    try {
+      channel= await this.client.channels.fetch(game.channelId);
+    } catch (e) {}
     //Create the canvas
     let width = game.boardSize * 20;
     let height = game.boardSize * 20;
@@ -609,6 +615,7 @@ module.exports = class TankTacticsHandler {
         .setStyle("SECONDARY"),
     ]);
     if (!game.public) {
+      if(channel)
       await channel
         .send({
           embeds: [embed],
@@ -618,6 +625,7 @@ module.exports = class TankTacticsHandler {
         })
         .catch();
     } else {
+      console.log(game.chatChannelIds.toString());
       for (let i = 0; i < game.chatChannelIds.length; i++) {
         let chatChannel = await this.client.channels.fetch(
           game.chatChannelIds[i]
@@ -639,10 +647,10 @@ module.exports = class TankTacticsHandler {
   async getGame(channelId) {
     let g = this.data.find((game) => {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        if (game.chatChannelIds[i] == channelId ) return true;
+        if (game.chatChannelIds[i] == channelId) return true;
       }
 
-      if(game.channelId==channelId) return true
+      if (game.channelId == channelId) return true;
     });
 
     return g;

@@ -788,3 +788,6 @@ components[1].components[3].emoji.name: Invalid emoji
 2022-05-20 21:36:39 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
 2022-05-20 21:37:24 [[31merror[39m] [[36mundefined[39m] Unknown Webhook
 2022-05-20 21:38:52 [[32minfo[39m] [[36mCommand[39m] "+join" (join) ran by "Multiii#7676" (394320584089010179) on guild "Æther Realm • Legends II" (785776583218036756) channel "#Tank Tactics cross server" (977115491053219851)
+2022-05-21 21:55:55 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-21 21:56:04 [[32minfo[39m] [[36mRate Limit[39m] Time out: 767ms. Limit: 30
+2022-05-21 21:56:33 [[31merror[39m] [[36mundefined[39m] Missing Access
