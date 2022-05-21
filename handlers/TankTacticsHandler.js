@@ -812,10 +812,12 @@ module.exports = class TankTacticsHandler {
     });
 
     collector.on("collect", async (i) => {
+      let enemy = await this.getUser(game.channelId, i.content);
+
       this.attack(
         game,
-        user,
-        await this.getUser(interaction.channel.id, i.values[0]),
+        user, 
+        enemy,
         i
       );
     });
@@ -1018,10 +1020,12 @@ module.exports = class TankTacticsHandler {
     });
 
     collector.on("collect", async (i) => {
+      let enemy = await this.getUser(game.channelId, i.content);
+      console.log(enemy)
       this.give(
         game,
-        user,
-        await this.getUser(interaction.channel.id, i.values[0]),
+        user, 
+        enemy,
         i
       );
     });
