@@ -886,7 +886,7 @@ module.exports = class TankTacticsHandler {
       if (enemiesLeft.length == 1) {
         //The user has won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemyUser.userId);
+        let enemy = await this.client.users.fetch(enemy.userId);
         game.logs.push(
           `|| <@!${k.userId}>  <@!${enemy.userId}> || ${k.username} has won the game by killing ${enemy.username}`
         );
@@ -911,7 +911,7 @@ module.exports = class TankTacticsHandler {
       } else {
         //The user has not won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemyUser.userId);
+        let enemy = await this.client.users.fetch(enemy.userId);
         game.logs.push(
           `|| <@!${k.userId}> <@!${enemy.userId}> \n || ${k.username} has killed ${enemy.username} `
         );
