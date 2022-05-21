@@ -812,7 +812,7 @@ module.exports = class TankTacticsHandler {
     });
 
     collector.on("collect", async (i) => {
-      let enemy = await this.getUser(game.channelId, i.content);
+      let enemy = await this.getUser(game.channelId, i.values[0]);
 
       this.attack(
         game,
@@ -859,7 +859,7 @@ module.exports = class TankTacticsHandler {
 
     //Find the enemy
     let enemyIndex = game.users.findIndex((u) => {
-      return u.userId == enemy.userId;
+      return u.userId == i.values[0];
     });
 
     let enemyUser = game.users[enemyIndex];
@@ -877,7 +877,7 @@ module.exports = class TankTacticsHandler {
       await economyUser.save();
 
       //Enemys economy
-      let economyEnemy = await this.client.economy.getUser(enemy.userId);
+      let economyEnemy = await this.client.economy.getUser(i.values[0]);
       economyEnemy.deaths += 1;
       await economyEnemy.save();
       //Check how many enemies are left
@@ -888,9 +888,9 @@ module.exports = class TankTacticsHandler {
       if (enemiesLeft.length == 1) {
         //The user has won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemy.userId);
+        let enemy = await this.client.users.fetch(i.values[0]);
         game.logs.push(
-          `|| <@!${k.userId}>  <@!${enemy.userId}> || ${k.username} has won the game by killing ${enemy.username}`
+          `|| <@!${k.userId}>  <@!${i.values[0]}> || ${k.username} has won the game by killing ${enemy.username}`
         );
         game.open = false;
 
@@ -913,9 +913,9 @@ module.exports = class TankTacticsHandler {
       } else {
         //The user has not won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(enemy.userId);
+        let enemy = await this.client.users.fetch(i.values[0]);
         game.logs.push(
-          `|| <@!${k.userId}> <@!${enemy.userId}> \n || ${k.username} has killed ${enemy.username} `
+          `|| <@!${k.userId}> <@!${i.values[0]}> \n || ${k.username} has killed ${enemy.username} `
         );
 
         await TankTacticsSchema.updateOne(
@@ -935,7 +935,7 @@ module.exports = class TankTacticsHandler {
       let k = await this.client.users.fetch(player.userId);
       let enemy = await this.client.users.fetch(enemyUser.Id);
       game.logs.push(
-        `||<@!${k.userId}><@${enemy.userId}>|| ${k.username} has attacked ${enemy.username}`
+        `||<@!${k.userId}><@${i.values[0]}>|| ${k.username} has attacked ${enemy.username}`
       );
       //Save the game
 
@@ -1020,7 +1020,7 @@ module.exports = class TankTacticsHandler {
     });
 
     collector.on("collect", async (i) => {
-      let enemy = await this.getUser(game.channelId, i.content);
+      let enemy = await this.getUser(game.channelId, i.values[0]);
       console.log(enemy)
       this.give(
         game,
@@ -1060,7 +1060,7 @@ module.exports = class TankTacticsHandler {
 
     //Find the enemy
     let enemyIndex = game.users.findIndex((u) => {
-      return u.userId == enemy.userId;
+      return u.userId == i.values[0];
     });
 
     //Reduce the user's action points
@@ -1074,14 +1074,14 @@ module.exports = class TankTacticsHandler {
     economyUser.donations += 1;
     await economyUser.save();
     let k = await this.client.users.fetch(player.userId);
-    let enemyUser = await this.client.users.fetch(enemy.userId);
+    let enemyUser = await this.client.users.fetch(i.values[0]);
     interaction.reply({
       content: `You have given ${enemy.username} an action point.`,
       ephemeral: true,
     });
 
     game.logs.push(
-      `||<@!${k.userId}> <@!${enemy.userId}> || ${k.username} has given ${enemyUser.username} an action point.`
+      `||<@!${k.userId}> <@!${i.values[0]}> || ${k.username} has given ${enemyUser.username} an action point.`
     );
     //Save the game
 
