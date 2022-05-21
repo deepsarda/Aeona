@@ -763,7 +763,7 @@ module.exports = class TankTacticsHandler {
     //Loop through all users
     for (let i = 0; i < game.users.length; i++) {
       if (game.users[i].userId != user.userId) {
-        if (game.users[i].userId.health != 0) {
+        if (game.users[i].health != 0) {
           if (this.checkIfInRange(player, game.users[i])) {
             options.push(game.users[i]);
           }
@@ -859,7 +859,7 @@ module.exports = class TankTacticsHandler {
 
     //Find the enemy
     let enemyIndex = game.users.findIndex((u) => {
-      return u.userId == i.values[0];
+      return u.userId == interaction.values[0];
     });
 
     let enemyUser = game.users[enemyIndex];
@@ -877,7 +877,7 @@ module.exports = class TankTacticsHandler {
       await economyUser.save();
 
       //Enemys economy
-      let economyEnemy = await this.client.economy.getUser(i.values[0]);
+      let economyEnemy = await this.client.economy.getUser(interaction.values[0]);
       economyEnemy.deaths += 1;
       await economyEnemy.save();
       //Check how many enemies are left
@@ -888,9 +888,9 @@ module.exports = class TankTacticsHandler {
       if (enemiesLeft.length == 1) {
         //The user has won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(i.values[0]);
+        let enemy = await this.client.users.fetch(interaction.values[0]);
         game.logs.push(
-          `|| <@!${k.userId}>  <@!${i.values[0]}> || ${k.username} has won the game by killing ${enemy.username}`
+          `|| <@!${k.userId}>  <@!${interaction.values[0]}> || ${k.username} has won the game by killing ${enemy.username}`
         );
         game.open = false;
 
@@ -913,9 +913,9 @@ module.exports = class TankTacticsHandler {
       } else {
         //The user has not won
         let k = await this.client.users.fetch(player.userId);
-        let enemy = await this.client.users.fetch(i.values[0]);
+        let enemy = await this.client.users.fetch(interaction.values[0]);
         game.logs.push(
-          `|| <@!${k.userId}> <@!${i.values[0]}> \n || ${k.username} has killed ${enemy.username} `
+          `|| <@!${k.userId}> <@!${interaction.values[0]}> \n || ${k.username} has killed ${enemy.username} `
         );
 
         await TankTacticsSchema.updateOne(
@@ -935,7 +935,7 @@ module.exports = class TankTacticsHandler {
       let k = await this.client.users.fetch(player.userId);
       let enemy = await this.client.users.fetch(enemyUser.Id);
       game.logs.push(
-        `||<@!${k.userId}><@${i.values[0]}>|| ${k.username} has attacked ${enemy.username}`
+        `||<@!${k.userId}><@${interaction.values[0]}>|| ${k.username} has attacked ${enemy.username}`
       );
       //Save the game
 
@@ -1060,7 +1060,7 @@ module.exports = class TankTacticsHandler {
 
     //Find the enemy
     let enemyIndex = game.users.findIndex((u) => {
-      return u.userId == i.values[0];
+      return u.userId == interaction.values[0];
     });
 
     //Reduce the user's action points
@@ -1074,14 +1074,14 @@ module.exports = class TankTacticsHandler {
     economyUser.donations += 1;
     await economyUser.save();
     let k = await this.client.users.fetch(player.userId);
-    let enemyUser = await this.client.users.fetch(i.values[0]);
+    let enemyUser = await this.client.users.fetch(interaction.values[0]);
     interaction.reply({
       content: `You have given ${enemy.username} an action point.`,
       ephemeral: true,
     });
 
     game.logs.push(
-      `||<@!${k.userId}> <@!${i.values[0]}> || ${k.username} has given ${enemyUser.username} an action point.`
+      `||<@!${k.userId}> <@!${interaction.values[0]}> || ${k.username} has given ${enemyUser.username} an action point.`
     );
     //Save the game
 
