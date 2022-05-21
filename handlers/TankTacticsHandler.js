@@ -180,7 +180,7 @@ module.exports = class TankTacticsHandler {
       let channel = await this.client.channels.fetch(game.chatChannelIds[i]);
 
       if (channel && channel.id != message.channel.id) {
-        channel.send(`**${message.author.username}** \n${message.content}`);
+        channel.send(`**${user.username}** \n${message.content}`);
       }
     }
   }
@@ -273,7 +273,8 @@ module.exports = class TankTacticsHandler {
       doc.logs.push(logs);
       await doc.save();
 
-      //Update the game
+      //Update the game                               
+    
       await this.updateGame(doc, false);
     }
   }
@@ -1285,17 +1286,14 @@ module.exports = class TankTacticsHandler {
 
         let channelThere = false;
         for (let i = 0; i < game.chatChannelIds.length; i++) {
-          if (game.chatChannelIds[i] == interaction.channel.id) {
+          if (game.chatChannelIds[i] == game.channelId) {
             channelThere = true;
           }
         }
 
         if (!channelThere && game.public) {
-          game.chatChannelIds.push(interaction.channel.id);
-          this.chatChannelIds.push(interaction.channel.id);
+          game.chatChannelIds.push(game.channelId);
         }
-
-          await game.save();
         let pingeveryone = false;
         let economyUser = await this.client.economy.getUser(user.id);
         economyUser.gameplayed += 1;
