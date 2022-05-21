@@ -460,6 +460,7 @@ module.exports = class TankTacticsHandler {
         continue;
       }
 
+      if(user.health <= 0) continue;
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
       let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let color;
