@@ -29,6 +29,8 @@ module.exports = class extends Command {
         await message.channel.send(
           `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!** `
         );
+
+        return;
         
       } else {
         return message.channel.send(

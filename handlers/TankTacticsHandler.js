@@ -618,7 +618,7 @@ module.exports = class TankTacticsHandler {
         .catch();
     } else {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
-        let chatChannel = this.client.channels.cache.get(
+        let chatChannel = await this.client.channels.fetch(
           game.chatChannelIds[i]
         );
         if (chatChannel) {
@@ -1300,7 +1300,7 @@ module.exports = class TankTacticsHandler {
         let economyUser = await this.client.economy.getUser(user.id);
         economyUser.gameplayed += 1;
 
-        let stats = `${user.user.username} has joined the game! \n Thier stats are: \n **Game Played** ${economyUser.gameplayed} \n**Wins** ${economyUser.wins} \n**Heals** ${economyUser.heals} \n **Moves** ${economyUser.moves} \n **Kills** ${economyUser.kills} \n **Deaths** ${economyUser.deaths}`;
+        let stats = `${user.user.username} has joined the game! \n Their stats are: \n **Game Played** ${economyUser.gameplayed} \n**Wins** ${economyUser.wins} \n**Heals** ${economyUser.heals} \n **Moves** ${economyUser.moves} \n **Kills** ${economyUser.kills} \n **Deaths** ${economyUser.deaths}`;
         await economyUser.save();
 
         if (game.users.length == 4) {
