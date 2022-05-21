@@ -625,20 +625,23 @@ module.exports = class TankTacticsHandler {
         })
         .catch();
     } else {
-      console.log(game.chatChannelIds.toString());
       for (let i = 0; i < game.chatChannelIds.length; i++) {
         let chatChannel = await this.client.channels.fetch(
           game.chatChannelIds[i]
         );
         if (chatChannel) {
-          await chatChannel
+
+            console.log(`Sending to ${chatChannel.name}`);
+           chatChannel
             .send({
               embeds: [embed],
               files: [attachment],
               content: showContent ? content : "_ _",
               components: [row, row2],
             })
-            .catch();
+            .catch(console.error);
+          
+          
         }
       }
     }
@@ -1294,14 +1297,14 @@ module.exports = class TankTacticsHandler {
 
         let channelThere = false;
         for (let i = 0; i < game.chatChannelIds.length; i++) {
-          if (game.chatChannelIds[i] == game.channelId) {
+          if (game.chatChannelIds[i] == interaction.channel.id) {
             channelThere = true;
           }
         }
 
         if (!channelThere && game.public) {
-          game.chatChannelIds.push(game.channelId);
-          this.chatChannelIds.push(game.channelId);
+          game.chatChannelIds.push(interaction.channel.id);
+          this.chatChannelIds.push(interaction.channel.id);
         }
         let pingeveryone = false;
         let economyUser = await this.client.economy.getUser(user.id);
