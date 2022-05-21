@@ -18,7 +18,7 @@ module.exports = class extends Command {
     let user = await message.client.economy.getUser(mentionUser.id)
 
     let embed = new Discord.MessageEmbed()
-      .setTitle(`${{mentionUser.username}'s Profile`)
+      .setTitle(`${mentionUser.username}\'s Profile`)
       .setThumbnail(mentionUser.displayAvatarURL({ dynamic: true }))
       .addField("Wallet", user.money.wallet.toLocaleString()+'₪')
       .addField(`Bank`, user.money.bank.toLocaleString()+'/'+user.money.maxBank.toLocaleString()+`₪`)
