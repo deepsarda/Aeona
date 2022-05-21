@@ -933,7 +933,7 @@ module.exports = class TankTacticsHandler {
       }
     } else {
       let k = await this.client.users.fetch(player.userId);
-      let enemy = await this.client.users.fetch(enemyUser.Id);
+      let enemy = await this.client.users.fetch(interaction.values[0]);
       game.logs.push(
         `||<@!${k.userId}><@${interaction.values[0]}>|| ${k.username} has attacked ${enemy.username}`
       );
