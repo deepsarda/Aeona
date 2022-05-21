@@ -1293,6 +1293,7 @@ module.exports = class TankTacticsHandler {
 
         if (!channelThere && game.public) {
           game.chatChannelIds.push(game.channelId);
+          this.chatChannelIds.push(game.channelId);
         }
         let pingeveryone = false;
         let economyUser = await this.client.economy.getUser(user.id);
