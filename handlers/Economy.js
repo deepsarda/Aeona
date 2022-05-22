@@ -143,7 +143,7 @@ module.exports = class Economy {
 
   async takeUserItem(id, item, amount) {
     let config = await this.getUser(id);
-    let item = await this.getItemFromArray(config.items, item);
+     item = await this.getItemFromArray(config.items, item);
     if (!item) {
       return;
     } else {
