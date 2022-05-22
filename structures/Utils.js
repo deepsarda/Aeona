@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 
 module.exports = class commandInteraction {
   constructor(message, command) {
-    console.log(message);
+    
     this.message = message;
     this.bot = message.client;
     this.command = command;
