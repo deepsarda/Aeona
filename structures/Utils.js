@@ -8,6 +8,7 @@ function getRandomInt(min, max) {
 
 module.exports = class commandInteraction {
   constructor(message, command) {
+    console.log(message);
     this.message = message;
     this.bot = message.client;
     this.command = command;
@@ -73,7 +74,7 @@ module.exports = class commandInteraction {
   }
 
   async error(options) {
-    const ratelimits = this.bot.ratelimits.get(message.author.id) || {};
+    const ratelimits = this.bot.ratelimits.get(this.message.author.id) || {};
     ratelimits[this.command.name] = 0;
     this.bot.ratelimits.set(message.author.id, ratelimits);
     return await resources.error.embed(options);
