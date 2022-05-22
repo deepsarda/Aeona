@@ -73,9 +73,9 @@ module.exports = class commandInteraction {
   }
 
   async error(options) {
-    const ratelimits = this.ratelimits.get(message.author.id) || {};
+    const ratelimits = this.bot.ratelimits.get(message.author.id) || {};
     ratelimits[this.command.name] = 0;
-    this.message.ratelimits.set(message.author.id, ratelimits);
+    this.bot.ratelimits.set(message.author.id, ratelimits);
     return await resources.error.embed(options);
   }
 
