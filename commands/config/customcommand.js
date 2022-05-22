@@ -22,7 +22,7 @@ module.exports = class extends Command {
       guildId: message.guild.id,
     });
 
-    let prefix = guildDB.prefix;
+    
 
     const language = require(`../../data/language/${guildDB.language}.json`);
     const namee = args[0];

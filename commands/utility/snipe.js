@@ -21,7 +21,7 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    let prefix = guildDB.prefix;
+    
     let fail = message.client.emoji.fail;
     let client = message.client;
 

@@ -27,7 +27,7 @@ module.exports = class extends Event {
       guildId: message.guild.id,
     });
 
-    let prefix = guildDB.prefix;
+    
 
     await Db.findOne(
       {

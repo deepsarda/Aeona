@@ -22,7 +22,7 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    let prefix = guildDB.prefix;
+    
 
     const emojis = [];
     message.guild.emojis.cache.forEach((e) =>

@@ -28,7 +28,7 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    let prefix = guildDB.prefix;
+    
     let fail = message.client.emoji.fail;
     let properUsage = new MessageEmbed()
       .setColor(message.guild.me.displayHexColor)
