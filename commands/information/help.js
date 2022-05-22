@@ -25,7 +25,7 @@ module.exports = class extends Command {
     if (typeof disabledCommands === "string")
       disabledCommands = disabledCommands.split(" ");
 
-    const prefix = guildDB.prefix;
+    
 
     const emoji = {
       altdetector: `${emojis.altdetector}`,

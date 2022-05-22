@@ -26,7 +26,7 @@ module.exports = class extends Command {
     });
 
     const language = require(`../../data/language/${guildDB.language}.json`);
-    const prefix = guildDB.prefix;
+    
     if (embedstarted.has(message.author.id))
       return message.channel
         .send(

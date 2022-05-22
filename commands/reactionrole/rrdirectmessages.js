@@ -31,7 +31,7 @@ module.exports = class extends Command {
 
     let fail = message.client.emoji.fail;
     let success = message.client.emoji.success;
-    const prefix = guildDB.prefix;
+    
 
     if (guildDB.isPremium == "false") {
       return message.channel.send({
