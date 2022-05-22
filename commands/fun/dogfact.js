@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     const res = await fetch("https://dog-api.kinduff.com/api/facts");
     const fact = (await res.json()).facts[0];
 

@@ -65,7 +65,7 @@ module.exports = function (client) {
           `tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`
         )
       ) {
-        var vc = oldState.guild.channels.cache.get(
+        let vc = oldState.guild.channels.cache.get(
           jointocreatemap.get(
             `tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`
           )
@@ -91,7 +91,7 @@ module.exports = function (client) {
             `tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`
           )
         ) {
-          var vc = oldState.guild.channels.cache.get(
+          let vc = oldState.guild.channels.cache.get(
             jointocreatemap.get(
               `tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`
             )

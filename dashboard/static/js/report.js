@@ -16,7 +16,7 @@ window.onload = () => {
     const understand = document.getElementById("checkboxL");
 
     if (understand.checked == true) {
-      var v = grecaptcha.getResponse();
+      let v = grecaptcha.getResponse();
       if (v.length == 0) {
         document.getElementById("captcha").innerHTML =
           "Invalid Captcha Attempt.";

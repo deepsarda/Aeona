@@ -19,7 +19,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     /*------ Guild Data ------*/
     const client = message.client;
     const fail = message.client.emoji.fail;

@@ -17,7 +17,7 @@ function PerlinNoiseGenerator(seed) {
   if (seed) {
     this.setSeed(seed);
   } else {
-    for (var i = 0; i < 256; i++) {
+    for (let i = 0; i < 256; i++) {
       this.p[256 + i] = this.p[i] = this.permutation[i];
     }
   }
@@ -53,20 +53,20 @@ PerlinNoiseGenerator.prototype.setSeed = function (seed) {
     );
     return;
   }
-  var seedRND = new SeededRandomNumberGenerator();
+  let seedRND = new SeededRandomNumberGenerator();
   seedRND.seed = seed;
-  var i;
+  let i;
   for (i = 0; i < 256; i++) {
     this.permutation[i] = i;
   }
   for (i = 0; i < 256; i++) {
-    var k = seedRND.randomIntRange(0, 256 - i) + i; //(256 - i) + i;
-    var l = this.permutation[i];
+    let k = seedRND.randomIntRange(0, 256 - i) + i; //(256 - i) + i;
+    let l = this.permutation[i];
     this.permutation[i] = this.permutation[k];
     this.permutation[k] = l;
     this.permutation[i + 256] = this.permutation[i];
   }
-  for (var i = 0; i < 256; i++) {
+  for (let i = 0; i < 256; i++) {
     this.p[256 + i] = this.p[i] = this.permutation[i];
   }
 };
@@ -76,22 +76,22 @@ PerlinNoiseGenerator.prototype.noise = function (x, y, z) {
   // Modern browsers inline Math.floor(), so it may actually be faster...
 
   //Find unit cube that contains point
-  var X = ~~x & 255;
-  var Y = ~~y & 255;
-  var Z = ~~z & 255;
+  let X = ~~x & 255;
+  let Y = ~~y & 255;
+  let Z = ~~z & 255;
   //Find relative x,y,z of point in cube
   x -= ~~x;
   y -= ~~y;
   z -= ~~z;
   //compute fade curves for each of x,y,z
-  var u = this.fade(x);
-  var v = this.fade(y);
-  var w = this.fade(z);
+  let u = this.fade(x);
+  let v = this.fade(y);
+  let w = this.fade(z);
   //hash coordinates of the 8 cube corners
-  var A = this.p[X] + Y,
+  let A = this.p[X] + Y,
     AA = this.p[A] + Z,
     AB = this.p[A + 1] + Z;
-  var B = this.p[X + 1] + Y,
+  let B = this.p[X + 1] + Y,
     BA = this.p[B] + Z,
     BB = this.p[B + 1] + Z;
   return (
@@ -138,9 +138,9 @@ PerlinNoiseGenerator.prototype.lerp = function (t, a, b) {
 };
 PerlinNoiseGenerator.prototype.grad = function (hash, x, y, z) {
   //convert LO 4 bits of hash code into 12 gradient directions
-  var h = hash & 15;
-  var u = h < 8 ? x : y;
-  var v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+  let h = hash & 15;
+  let u = h < 8 ? x : y;
+  let v = h < 4 ? y : h == 12 || h == 14 ? x : z;
   return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
 };
 

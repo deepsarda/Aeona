@@ -59,6 +59,12 @@ const EconomySchema = mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     default: "Noob",
   },
+  dailyStreak: {
+    type: Date,
+    required: false,
+    default: new Date(Date.now() - 86400000),
+  },
+  passive: { type: Boolean, required: false, default: false },
 });
 
 module.exports = mongoose.model("Economy", EconomySchema);

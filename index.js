@@ -7,7 +7,7 @@ const Aeona = new AeonaClient(config);
 const color = require("./data/colors");
 Aeona.color = color;
 
-Aeona.domain = domain.domain || `https://Aeona.xyz`;
+Aeona.domain = domain.domain || `https://aeona.xyz`;
 
 const emoji = require("./data/emoji");
 Aeona.emoji = emoji;
@@ -33,8 +33,8 @@ process.on("uncaughtException", (error) => {
 });
 const http = require("https");
 function randomString(length, chars) {
-  var result = "";
-  for (var i = length; i > 0; --i)
+  let result = "";
+  for (let i = length; i > 0; --i)
     result += chars[Math.floor(Math.random() * chars.length)];
   return result;
 }
@@ -67,7 +67,7 @@ setInterval(() => {
 
     res.on("end", async function () {
       const body = Buffer.concat(chunks);
-      var reply = body.toString();
+      let reply = body.toString();
       console.log("Pinging AI: Reply recived: " + reply);
     });
   });

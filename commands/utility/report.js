@@ -20,7 +20,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -175,7 +175,7 @@ module.exports = class extends Command {
           ],
         });
 
-      var acceptReason = args.splice(1).join(" ");
+      let acceptReason = args.splice(1).join(" ");
       if (!acceptReason)
         return message.channel.send({
           embeds: [
@@ -369,7 +369,7 @@ module.exports = class extends Command {
           ],
         });
 
-      var acceptReason = args.splice(2).join(" ");
+      let acceptReason = args.splice(2).join(" ");
       if (!acceptReason)
         return message.channel.send({
           embeds: [

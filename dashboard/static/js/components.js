@@ -1,4 +1,4 @@
-var emojis = {
+let emojis = {
   open_hands: "👐",
   open_hands_tone1: "👐🏻",
   open_hands_tone2: "👐🏼",

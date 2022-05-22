@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guild = message.guild;
     const adminRole = guild.roles.cache.find(
       (r) => r.name === "Admin" || r.name === "Developers"

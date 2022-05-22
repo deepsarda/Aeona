@@ -11,15 +11,15 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     try {
       if (args.length < 1) {
         return message.channel.send("Please give me a subreddit!");
       }
 
-      var subreddits = [args.join(" ").split("").join("")];
+      let subreddits = [args.join(" ").split("").join("")];
 
-      var reddit =
+      let reddit =
         subreddits[Math.round(Math.random() * (subreddits.length - 1))];
 
       const data = await fetch(

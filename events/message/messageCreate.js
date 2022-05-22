@@ -40,7 +40,8 @@ module.exports = class extends Event {
       "ADD_REACTIONS",
     ]);
 
-    this.ratelimits = new Collection();
+    this.client.ratelimits = new Collection();
+    this.ratelimits = this.client.ratelimits;
   }
 
   async run(message) {
@@ -654,7 +655,7 @@ module.exports = class extends Event {
       { label: "Command" }
     );
 
-    await command.run(message, args);
+    await command.run(message, args, this.client);
   }
 
   ratelimit(message, cmd) {
@@ -781,12 +782,12 @@ async function execute(message, prefix, i, chatbot) {
           return;
         }
         if (!reply.startsWith("{") && reply != "") {
-
           const command =
-          message.client.commands.get(reply.toLowerCase()) ||
-          message.client.commands.get(message.client.aliases.get(reply.toLowerCase()));
+            message.client.commands.get(reply.toLowerCase()) ||
+            message.client.commands.get(
+              message.client.aliases.get(reply.toLowerCase())
+            );
 
-          
           let comp = [];
           if (Math.random() * 100 < 15) {
             comp = [
@@ -821,10 +822,12 @@ async function execute(message, prefix, i, chatbot) {
               .catch((e) => {
                 return;
               });
-            if(command){
-                command.run(p, []);
+
+            if (command) {
+              console.log(command);
+              command.run(p, [], message.client);
             }
-           
+
             logger.info(
               `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`
             );

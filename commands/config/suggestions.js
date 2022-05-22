@@ -21,7 +21,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -175,7 +175,7 @@ module.exports = class extends Command {
         });
 
       try {
-        var suggestionMsg = await channel.messages.fetch(args[1]);
+        let suggestionMsg = await channel.messages.fetch(args[1]);
       } catch (e) {
         message.channel.send({
           embeds: [
@@ -228,7 +228,7 @@ module.exports = class extends Command {
 
         return;
       }
-      var acceptReason = args.splice(2).join(" ");
+      let acceptReason = args.splice(2).join(" ");
       if (!acceptReason) acceptReason = `${language.noReasonProvided}`;
       if (args.join(" ").length > 600)
         return message.channel.send({
@@ -344,7 +344,7 @@ module.exports = class extends Command {
         });
 
       try {
-        var suggestionMsg = await channel.messages.fetch(args[1]);
+        let suggestionMsg = await channel.messages.fetch(args[1]);
       } catch (e) {
         message.channel.send({
           embeds: [
@@ -395,7 +395,7 @@ module.exports = class extends Command {
 
         return;
       }
-      var acceptReason = args.splice(2).join(" ");
+      let acceptReason = args.splice(2).join(" ");
       if (!acceptReason) acceptReason = `${language.noReasonProvided}`;
 
       if (args.join(" ").length > 600)

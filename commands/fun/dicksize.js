@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     let user = message.mentions.users.first();
     if (!user) {
       user = message.author;

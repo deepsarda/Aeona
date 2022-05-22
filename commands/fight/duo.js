@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     let client = message.client;
     if (!fight) fight = new game(client);
 

@@ -13,14 +13,14 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildId = args[0];
     if (!rgx.test(guildId)) return message.channel.send(`Provide a guild`);
     const guild = message.client.guilds.cache.get(guildId);
     if (!guild) return message.channel.send(`Invalid guild ID`);
 
     const array = [];
-    var textChats = guild.channels.cache.find(
+    let textChats = guild.channels.cache.find(
       (ch) =>
         ch.type === "text" &&
         ch.permissionsFor(guild.me).has("CREATE_INSTANT_INVITE")

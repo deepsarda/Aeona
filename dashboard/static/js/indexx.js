@@ -1,7 +1,7 @@
 // Want to use or contribute to this? https://github.com/Glitchii/embedbuilder
 // If you found an issue, please report it, make a P.R, or use the discussion page. Thanks
 
-var activeFields,
+let activeFields,
   colNum = 1,
   num = 0,
   toRGB = (hex, reversed, integer) => {

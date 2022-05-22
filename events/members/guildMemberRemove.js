@@ -329,7 +329,7 @@ module.exports = class extends Event {
   }
 };
 function removeA(arr) {
-  var what,
+  let what,
     a = arguments,
     L = a.length,
     ax;

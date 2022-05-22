@@ -5,7 +5,7 @@ module.exports = async (message, reaction) => {
   while (true) {
     // eslint-disable-line no-constant-condition
     try {
-      var fetchedUsers = // eslint-disable-line no-var
+      let fetchedUsers = // eslint-disable-line no-var
         lastID != ""
           ? await message.reactions.cache
               .get(reaction)

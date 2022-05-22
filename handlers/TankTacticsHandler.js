@@ -424,7 +424,7 @@ module.exports = class TankTacticsHandler {
     //Get the guild
     let channel;
     try {
-      channel= await this.client.channels.fetch(game.channelId);
+      channel = await this.client.channels.fetch(game.channelId);
     } catch (e) {}
     //Create the canvas
     let width = game.boardSize * 20;
@@ -460,7 +460,7 @@ module.exports = class TankTacticsHandler {
         continue;
       }
 
-      if(user.health <= 0) continue;
+      if (user.health <= 0) continue;
       let avatar = member.displayAvatarURL({ format: "png", size: 16 });
       let avatar128 = member.displayAvatarURL({ format: "png", size: 1024 });
       let color;
@@ -616,24 +616,23 @@ module.exports = class TankTacticsHandler {
         .setStyle("SECONDARY"),
     ]);
     if (!game.public) {
-      if(channel)
-      await channel
-        .send({
-          embeds: [embed],
-          files: [attachment],
-          content: showContent ? content : "_ _",
-          components: [row, row2],
-        })
-        .catch();
+      if (channel)
+        await channel
+          .send({
+            embeds: [embed],
+            files: [attachment],
+            content: showContent ? content : "_ _",
+            components: [row, row2],
+          })
+          .catch();
     } else {
       for (let i = 0; i < game.chatChannelIds.length; i++) {
         let chatChannel = await this.client.channels.fetch(
           game.chatChannelIds[i]
         );
         if (chatChannel) {
-
-            console.log(`Sending to ${chatChannel.name}`);
-           chatChannel
+          console.log(`Sending to ${chatChannel.name}`);
+          chatChannel
             .send({
               embeds: [embed],
               files: [attachment],
@@ -641,8 +640,6 @@ module.exports = class TankTacticsHandler {
               components: [row, row2],
             })
             .catch(console.error);
-          
-          
         }
       }
     }
@@ -814,12 +811,7 @@ module.exports = class TankTacticsHandler {
     collector.on("collect", async (i) => {
       let enemy = await this.getUser(game.channelId, i.values[0]);
 
-      this.attack(
-        game,
-        user, 
-        enemy,
-        i
-      );
+      this.attack(game, user, enemy, i);
     });
 
     collector.on("end", async (collected) => {
@@ -877,7 +869,9 @@ module.exports = class TankTacticsHandler {
       await economyUser.save();
 
       //Enemys economy
-      let economyEnemy = await this.client.economy.getUser(interaction.values[0]);
+      let economyEnemy = await this.client.economy.getUser(
+        interaction.values[0]
+      );
       economyEnemy.deaths += 1;
       await economyEnemy.save();
       //Check how many enemies are left
@@ -1021,13 +1015,8 @@ module.exports = class TankTacticsHandler {
 
     collector.on("collect", async (i) => {
       let enemy = await this.getUser(game.channelId, i.values[0]);
-      console.log(enemy)
-      this.give(
-        game,
-        user, 
-        enemy,
-        i
-      );
+      console.log(enemy);
+      this.give(game, user, enemy, i);
     });
 
     collector.on("end", async (collected) => {

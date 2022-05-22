@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const settings = await Guild.findOne(
       {
         guildId: message.guild.id,
@@ -87,7 +87,7 @@ module.exports = class extends Command {
   }
 };
 function removeA(arr) {
-  var what,
+  let what,
     a = arguments,
     L = a.length,
     ax;

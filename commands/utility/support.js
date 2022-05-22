@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -21,7 +21,7 @@ module.exports = class extends Command {
     const embed = new discord.MessageEmbed()
       .setColor(message.guild.me.displayHexColor)
       .setDescription(
-        `${language.support}(https://discord.gg/duBwdCvCwW) ${message.client.emoji.success}`
+        `${language.support}(https://aeona.xyz/support) ${message.client.emoji.success}`
       );
 
     await message.channel.send({ embeds: [embed] });

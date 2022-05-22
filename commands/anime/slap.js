@@ -12,7 +12,7 @@ module.exports = class extends Command {
       usage: "<user>",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     if (!args[0]) args.push(message.client.user.id);
     const member =
       message.mentions.users.first() ||

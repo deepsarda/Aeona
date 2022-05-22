@@ -2098,7 +2098,7 @@ animation
 
             // Reset all <selects and dropdowns in our lists array
             methods.reset = function () {
-              for (var i = 0, l = lists.length; i < l; i++) {
+              for (let i = 0, l = lists.length; i < l; i++) {
                 var
                   listData = lists[i].data('dropkick'),
                   $dk = listData.$dk,
@@ -2182,7 +2182,7 @@ animation
 
             // Update the <select> value, and the dropdown label
             function _updateFields(option, $dk, reset) {
-              var value, label, data;
+              let value, label, data;
 
               value = option.attr('data-dk-dropdown-value');
               label = option.text();
@@ -2209,7 +2209,7 @@ animation
             }
 
             function _setScrollPos($dk, anchor) {
-              var height = anchor.prevAll('li').outerHeight() * anchor.prevAll('li').length;
+              let height = anchor.prevAll('li').outerHeight() * anchor.prevAll('li').length;
               $dk.find('.dk_options_inner').animate({ scrollTop: height + 'px' }, 0);
             }
 
@@ -2220,7 +2220,7 @@ animation
 
             // Open a dropdown
             function _openDropdown($dk) {
-              var data = $dk.data('dropkick');
+              let data = $dk.data('dropkick');
               $dk.find('.dk_options').css({ top: $dk.find('.dk_toggle').outerHeight() - 1 });
               $dk.toggleClass('dk_open');
 
@@ -2244,7 +2244,7 @@ animation
               template = template.replace('{{ classname }}', view.classname);
 
               if (view.options && view.options.length) {
-                for (var i = 0, l = view.options.length; i < l; i++) {
+                for (let i = 0, l = view.options.length; i < l; i++) {
                   var
                     $option = $(view.options[i]),
                     current = 'dk_option_current',
@@ -2273,7 +2273,7 @@ animation
 
               // Handle click events on the dropdown toggler
               $(document).on('click', '.dk_toggle', function (e) {
-                var $dk = $(this).parents('.dk_container').first();
+                let $dk = $(this).parents('.dk_container').first();
 
                 _openDropdown($dk);
 
@@ -2361,7 +2361,7 @@ animation
             /* TOOLTIP PUBLIC CLASS DEFINITION
              * =============================== */
 
-            var Tooltip = function (element, options) {
+            let Tooltip = function (element, options) {
               this.init('tooltip', element, options)
             }
 
@@ -2370,7 +2370,7 @@ animation
               constructor: Tooltip
 
               , init: function (type, element, options) {
-                var eventIn
+                let eventIn
                   , eventOut
                   , triggers
                   , trigger
@@ -2414,7 +2414,7 @@ animation
               }
 
               , enter: function (e) {
-                var self = $(e.currentTarget)[this.type](this._options).data(this.type)
+                let self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
                 if (!self.options.delay || !self.options.delay.show) return self.show()
 
@@ -2426,7 +2426,7 @@ animation
               }
 
               , leave: function (e) {
-                var self = $(e.currentTarget)[this.type](this._options).data(this.type)
+                let self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
                 if (this.timeout) clearTimeout(this.timeout)
                 if (!self.options.delay || !self.options.delay.hide) return self.hide()
@@ -2438,7 +2438,7 @@ animation
               }
 
               , show: function () {
-                var $tip
+                let $tip
                   , pos
                   , actualWidth
                   , actualHeight
@@ -2492,7 +2492,7 @@ animation
               }
 
               , applyPlacement: function (offset, placement) {
-                var $tip = this.tip()
+                let $tip = this.tip()
                   , width = $tip[0].offsetWidth
                   , height = $tip[0].offsetHeight
                   , actualWidth
@@ -2539,7 +2539,7 @@ animation
               }
 
               , setContent: function () {
-                var $tip = this.tip()
+                let $tip = this.tip()
                   , title = this.getTitle()
 
                 $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
@@ -2547,7 +2547,7 @@ animation
               }
 
               , hide: function () {
-                var that = this
+                let that = this
                   , $tip = this.tip()
                   , e = $.Event('hide')
 
@@ -2557,7 +2557,7 @@ animation
                 $tip.removeClass('in')
 
                 function removeWithAnimation() {
-                  var timeout = setTimeout(function () {
+                  let timeout = setTimeout(function () {
                     $tip.off($.support.transition.end).detach()
                   }, 500)
 
@@ -2577,7 +2577,7 @@ animation
               }
 
               , fixTitle: function () {
-                var $e = this.$element
+                let $e = this.$element
                 if ($e.attr('title') || typeof ($e.attr('data-original-title')) != 'string') {
                   $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
                 }
@@ -2588,7 +2588,7 @@ animation
               }
 
               , getPosition: function () {
-                var el = this.$element[0]
+                let el = this.$element[0]
                 return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
                   width: el.offsetWidth
                   , height: el.offsetHeight
@@ -2596,7 +2596,7 @@ animation
               }
 
               , getTitle: function () {
-                var title
+                let title
                   , $e = this.$element
                   , o = this.options
 
@@ -2635,7 +2635,7 @@ animation
               }
 
               , toggle: function (e) {
-                var self = e ? $(e.currentTarget)[this.type](this._options).data(this.type) : this
+                let self = e ? $(e.currentTarget)[this.type](this._options).data(this.type) : this
                 self.tip().hasClass('in') ? self.hide() : self.show()
               }
 
@@ -2649,11 +2649,11 @@ animation
             /* TOOLTIP PLUGIN DEFINITION
              * ========================= */
 
-            var old = $.fn.tooltip
+            let old = $.fn.tooltip
 
             $.fn.tooltip = function (option) {
               return this.each(function () {
-                var $this = $(this)
+                let $this = $(this)
                   , data = $this.data('tooltip')
                   , options = typeof option == 'object' && option
                 if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))

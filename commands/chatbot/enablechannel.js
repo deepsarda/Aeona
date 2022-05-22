@@ -13,7 +13,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_CHANNELS"],
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     if (!args[0])
       return message.channel.send(`Please specify a channel to enable!`);
     const channel =

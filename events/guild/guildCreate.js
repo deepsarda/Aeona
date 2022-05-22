@@ -27,7 +27,7 @@ module.exports = class extends Event {
       await guildConfig.save().catch(() => {});
     }
 
-    var textChats = guild.channels.cache.find(
+    let textChats = guild.channels.cache.find(
       (ch) =>
         ch.type === "text" &&
         ch

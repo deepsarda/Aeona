@@ -9,7 +9,7 @@ window.onload = () => {
       email = document.getElementsByName("email")[0],
       msg = document.getElementsByName("message")[0];
     if (!msg || !msg.value) return msg.focus();
-    var v = grecaptcha.getResponse();
+    let v = grecaptcha.getResponse();
     if (v.length == 0) {
       document.getElementById("captcha").innerHTML = "Invalid Captcha Attempt.";
       return false;

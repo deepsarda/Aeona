@@ -51,7 +51,7 @@ document.addEventListener("click", function (event) {
   )
     return;
   event.preventDefault();
-  var link = event.target;
+  let link = event.target;
   document.body.style.opacity = 0;
   document.body.addEventListener("transitionend", function () {
     location.href = link.href;

@@ -19,14 +19,14 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    var id = crypto.randomBytes(4).toString("hex");
+    let id = crypto.randomBytes(4).toString("hex");
 
     if (args.length < 1) {
       return message.channel.send({

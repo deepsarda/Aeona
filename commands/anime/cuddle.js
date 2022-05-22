@@ -9,9 +9,8 @@ module.exports = class extends Command {
       category: "anime",
     });
   }
-  async run(message, args) {
-    if (!args[0])
-      args.push(message.client.user.id);
+  async run(message, args, bot) {
+    if (!args[0]) args.push(message.client.user.id);
     const user =
       message.mentions.users.first() ||
       message.guild.members.cache.get(args[0]);

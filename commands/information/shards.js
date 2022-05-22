@@ -14,7 +14,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, args, bot) {
     const table = new AsciiTable()
       .setHeading("Shard", "Servers", "Users", "Ping", "Uptime")
       .setAlign(0, AsciiTable.CENTER)

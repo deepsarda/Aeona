@@ -12,7 +12,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     let game = await message.client.tankTacticsHandler.getGame(
       message.channel.id
     );
@@ -24,14 +24,17 @@ module.exports = class extends Command {
           message.channel.id
         );
 
-        await message.client.tankTacticsHandler.join(game, message.member, message);
+        await message.client.tankTacticsHandler.join(
+          game,
+          message.member,
+          message
+        );
 
         await message.channel.send(
           `${message.member} **NOTE ALL MESSAGES SENT HERE WILL BE SENT TO ALL PLAYERS IN THE GAME!** `
         );
 
         return;
-        
       } else {
         return message.channel.send(
           "There is no game running currently! \n Use `+create ` to make one or use **+join in a thread to join a public game. (recommended for faster times)**"

@@ -1086,8 +1086,8 @@ animation
       </script>
 
       <script type="text/javascript">
-        var guildID = "<%= guild.id %>";
-        var pages = {
+        let guildID = "<%= guild.id %>";
+        let pages = {
           total: null,
           current: null,
           elements: null,
@@ -1097,7 +1097,7 @@ animation
           filter: null
         };
         function hexToRgb(hex) {
-          var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+          let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
           return result ? {
             r: parseInt(result[1], 16),
             g: parseInt(result[2], 16),
@@ -1116,16 +1116,16 @@ animation
 
         function updateTable(members) {
           $("table tbody").empty();
-          for (var i = 0; i < members.length; i++) {
+          for (let i = 0; i < members.length; i++) {
             member = members[i];
-            var color = member.highestRole.hexColor === "#000000" ? '#FFFFFF' : member.highestRole.hexColor;
+            let color = member.highestRole.hexColor === "#000000" ? '#FFFFFF' : member.highestRole.hexColor;
 
-            var roles = member.roles.filter(r => r.name !== "@everyone").map(r => {
-              var rc = r.hexColor === "#000000" ? { r: 255, g: 255, b: 255 } : hexToRgb(r.hexColor);
+            let roles = member.roles.filter(r => r.name !== "@everyone").map(r => {
+              let rc = r.hexColor === "#000000" ? { r: 255, g: 255, b: 255 } : hexToRgb(r.hexColor);
               return `<span class="roleBox" style="color: rgb(${rc.r}, ${rc.g}, ${rc.b}); background-color: rgba(${rc.r}, ${rc.g}, ${rc.b}, 0.0980392); border: 1px solid rgba(${rc.r}, ${rc.g}, ${rc.b}, 0.498039);">${r.name}</span>`;
             }).join(" ");
 
-            var thishtml = snippet
+            let thishtml = snippet
               .replace(/\{color\}/g, color)
               .replace("{displayName}", member.displayName)
               .replace("{status}", member.status)
@@ -1143,7 +1143,7 @@ animation
         }
 
         function changePage(page) {
-          var start = page * pages.limit;
+          let start = page * pages.limit;
           pages.current = page;
           getMembers(start, function (data) {
             updateTable(data.members);
@@ -1153,8 +1153,8 @@ animation
         function drawPagination() {
           $('.pagination').empty();
           $('.pagination').append('<li class="page-item active"><a class="page-link" href="#" data-pagenum="1">1</a></li>')
-          for (var i = 1; i < pages.total; i++) {
-            var strItem = '<li class="page-item"><a class="page-link" href="#" data-pagenum="' + (i + 1) + '">' + (i + 1) + '</a></li>';
+          for (let i = 1; i < pages.total; i++) {
+            let strItem = '<li class="page-item"><a class="page-link" href="#" data-pagenum="' + (i + 1) + '">' + (i + 1) + '</a></li>';
             $('.pagination').append(strItem);
           }
           $('.page-link').click(function (e) {
@@ -1165,13 +1165,13 @@ animation
             return false;
           });
         }
-        var snippet = `    <tr>
+        let snippet = `    <tr>
       <td style="color:{color}"><span class="status {status}"></span> {displayName}{botimg}</td>
       <td style="color:{color}">{tag}<br/><b class="id">({id})</b></td>
       <td style="color:{color}">{joined}</td>
       <td>{roles}</td>
     </tr>`;
-        var roleSnippet = '<span style="color:{color}">{name}</span>';
+        let roleSnippet = '<span style="color:{color}">{name}</span>';
         $(document).ready(function () {
           getMembers(0, function (data) {
             pages.current = data.page;
@@ -1195,8 +1195,8 @@ animation
             drawPagination();
           });
         });
-        var typingTimer;                //timer identifier
-        var doneTypingInterval = 1000;  //time in ms (5 seconds)
+        let typingTimer;                //timer identifier
+        let doneTypingInterval = 1000;  //time in ms (5 seconds)
         $('#display-name-search').keyup(function () {
           clearTimeout(typingTimer);
           if ($('#display-name-search').val()) {

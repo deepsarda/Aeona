@@ -1062,7 +1062,7 @@
   <br>
   <script>
     //Get the button
-    var mybutton = document.getElementById("myBtn");
+    let mybutton = document.getElementById("myBtn");
 
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function () { scrollFunction() };
@@ -1091,21 +1091,21 @@
       <script>
         const button = document.getElementById("switch").onclick = function () {
 
-          var x = document.getElementById("1");
+          let x = document.getElementById("1");
           if (x.innerHTML === "2.99$/month") {
             x.innerHTML = "29.99$/year";
           } else {
             x.innerHTML = "2.99$/month";
           }
 
-          var x2 = document.getElementById("2");
+          let x2 = document.getElementById("2");
           if (x2.innerHTML === "7.99$/month") {
             x2.innerHTML = "62.99$/year";
           } else {
             x2.innerHTML = "7.99$/month";
           }
 
-          var x3 = document.getElementById("3");
+          let x3 = document.getElementById("3");
           if (x3.innerHTML === "11.99$/month") {
             x3.innerHTML = "95.99$/year";
           } else {

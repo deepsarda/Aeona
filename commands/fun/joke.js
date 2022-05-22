@@ -10,7 +10,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     const data = await fetch(
       `https://sv443.net/jokeapi/v2/joke/Programming,Miscellaneous?blacklistFlags=nsfw,religious,political,racist,sexist`
     ).then((res) => res.json());

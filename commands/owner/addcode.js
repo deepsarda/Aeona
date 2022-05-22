@@ -3,7 +3,7 @@ const Premium = require("../../database/schemas/GuildPremium");
 const Discord = require("discord.js");
 const moment = require("moment");
 
-var voucher_codes = require("voucher-code-generator");
+let voucher_codes = require("voucher-code-generator");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const client = message.client;
 
     const plans = ["month", "year"];
@@ -38,7 +38,7 @@ module.exports = class extends Command {
     if (!amount) amount = 1;
 
     const array = [];
-    for (var i = 0; i < amount; i++) {
+    for (let i = 0; i < amount; i++) {
       const codePremium = voucher_codes.generate({
         pattern: "####-####-####",
       });

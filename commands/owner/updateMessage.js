@@ -10,7 +10,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, args, bot) {
     let updateMessage = {
       embeds: [
         {
@@ -76,13 +76,12 @@ module.exports = class extends Command {
         ),
       ],
     };
-    let bot = message.client;
-    for (var i = 0; i < bot.guilds.cache.size; i++) {
-      var guild = bot.guilds.cache.at(i);
+    for (let i = 0; i < bot.guilds.cache.size; i++) {
+      let guild = bot.guilds.cache.at(i);
       await guild.channels.fetch();
-      var everyone = guild.roles.everyone;
+      let everyone = guild.roles.everyone;
       //filter the guild channels based on the bot's permissions , channel is not private and if the channel is a text channel
-      var channels = guild.channels.cache.filter(function (channel) {
+      let channels = guild.channels.cache.filter(function (channel) {
         return (
           channel.isText() &&
           channel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
@@ -91,8 +90,8 @@ module.exports = class extends Command {
         );
       });
 
-      var systemChannelIsGood = false;
-      var systemChannel = guild.systemChannel;
+      let systemChannelIsGood = false;
+      let systemChannel = guild.systemChannel;
       if (systemChannel) {
         if (
           systemChannel.permissionsFor(guild.me).has("SEND_MESSAGES") &&
@@ -107,7 +106,7 @@ module.exports = class extends Command {
       }
       //Look for a channel named "chat" or "general"
       if (!systemChannelIsGood) {
-        var channel = channels.find(
+        let channel = channels.find(
           (channel) =>
             channel.name.toLowerCase().includes("chat") ||
             channel.name.toLowerCase().includes("general")

@@ -1,8 +1,8 @@
 !(function (e) {
-  var t = {};
+  let t = {};
   function n(r) {
     if (t[r]) return t[r].exports;
-    var o = (t[r] = { i: r, l: !1, exports: {} });
+    let o = (t[r] = { i: r, l: !1, exports: {} });
     return e[r].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
   }
   (n.m = e),
@@ -19,13 +19,13 @@
     (n.t = function (e, t) {
       if ((1 & t && (e = n(e)), 8 & t)) return e;
       if (4 & t && "object" == typeof e && e && e.__esModule) return e;
-      var r = Object.create(null);
+      let r = Object.create(null);
       if (
         (n.r(r),
         Object.defineProperty(r, "default", { enumerable: !0, value: e }),
         2 & t && "string" != typeof e)
       )
-        for (var o in e)
+        for (let o in e)
           n.d(
             r,
             o,
@@ -36,7 +36,7 @@
       return r;
     }),
     (n.n = function (e) {
-      var t =
+      let t =
         e && e.__esModule
           ? function () {
               return e.default;
@@ -84,7 +84,7 @@
       n.d(t, "g", function () {
         return m;
       });
-    var r = {
+    let r = {
         images: [
           "bmp",
           "jpeg",
@@ -199,15 +199,15 @@
   99: function (e, t, n) {
     "use strict";
     n.r(t);
-    var r = n(3);
+    let r = n(3);
     if ("undefined" != typeof ServiceWorkerGlobalScope) {
-      var o = "https://arc.io" + r.j;
+      let o = "https://arc.io" + r.j;
       importScripts(o);
     } else if ("undefined" != typeof SharedWorkerGlobalScope) {
-      var c = "https://arc.io" + r.h;
+      let c = "https://arc.io" + r.h;
       importScripts(c);
     } else if ("undefined" != typeof DedicatedWorkerGlobalScope) {
-      var i = "https://arc.io" + r.b;
+      let i = "https://arc.io" + r.b;
       importScripts(i);
     }
   },

@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, args, bot) {
     const client = message.client;
     const guildDB = await Guild.findOne({
       tag: "710465231779790849",

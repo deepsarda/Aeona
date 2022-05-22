@@ -10,8 +10,8 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
-    var sitesList = [
+  async run(message, args, bot) {
+    let sitesList = [
       "http://heeeeeeeey.com/",
       "http://corndog.io/",
       "https://alwaysjudgeabookbyitscover.com",
@@ -90,7 +90,7 @@ module.exports = class extends Command {
       "https://www.bouncingdvdlogo.com/",
     ];
 
-    var sites = sitesList[Math.round(Math.random() * (sitesList.length - 1))];
+    let sites = sitesList[Math.round(Math.random() * (sitesList.length - 1))];
 
     message.channel.send(sites);
   }

@@ -18,7 +18,7 @@
    
     setInterval(function() {
       if (hyperEnable == undefined) return;
-      var cur = player.getCurrentTime();
+      let cur = player.getCurrentTime();
       if (Math.round(cur) == 139) {
         hyperEnable();
       } else if (cur >= 215 && cur < 216) {

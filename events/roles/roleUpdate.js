@@ -44,7 +44,7 @@ module.exports = class extends Event {
               embed.addField("Name Update", `Name not updated`, true);
             }
             function makehex(rgb) {
-              var hex = Number(rgb).toString(16);
+              let hex = Number(rgb).toString(16);
               if (hex.length < 2) {
                 hex = "0" + hex;
               }

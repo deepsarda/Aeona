@@ -15,7 +15,7 @@ function capitalize(string) {
  * @param {*} value
  */
 function removeElement(arr, value) {
-  var index = arr.indexOf(value);
+  let index = arr.indexOf(value);
   if (index > -1) {
     arr.splice(index, 1);
   }

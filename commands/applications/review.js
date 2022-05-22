@@ -17,7 +17,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_GUILD"],
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     const client = message.client;
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,

@@ -12,7 +12,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     const page = args.length && Number(args[0]) ? Number(args[0]) : 1;
     const response = getQueue(message, page);
     await message.reply(response);

@@ -10,7 +10,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     if (!message.client.musicManager.get(message.guild.id))
       return message.channel.send("🚫 No music is being played!");
     if (!message.member.voice?.channelId)

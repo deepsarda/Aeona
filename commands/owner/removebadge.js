@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const client = message.client;
 
     let user =
@@ -71,7 +71,7 @@ function match(msg, i) {
 }
 
 function removeA(arr) {
-  var what,
+  let what,
     a = arguments,
     L = a.length,
     ax;

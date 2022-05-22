@@ -13,7 +13,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     const response = await play(message, message.author, args.join(" "));
     message.reply(response);
   }

@@ -11,7 +11,7 @@ module.exports = class extends Command {
       category: "anime",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     let client = message.client;
     let member =
       (await message.mentions.members.first()) ||
@@ -27,9 +27,9 @@ module.exports = class extends Command {
           args.join(" ").toLocaleLowerCase()
       );
     if (!member) {
-      member=guild.me;
+      member = message.guild.me;
     }
-    
+
     const response = await fetch("https://nekos.life/api/v2/img/kiss");
     const body = await response.json();
     const embed = new MessageEmbed() // Prettier

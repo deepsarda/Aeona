@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     const data = await fetch("https://some-random-api.ml/facts/bird")
       .then((res) => res.json())
       .catch(() => {});

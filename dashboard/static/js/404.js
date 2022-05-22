@@ -1,16 +1,16 @@
 "use strict";
 
-var cnvs = document.querySelector("canvas");
-var ctx = cnvs.getContext("2d");
+let cnvs = document.querySelector("canvas");
+let ctx = cnvs.getContext("2d");
 
 function resize() {
   cnvs.width = innerWidth;
   cnvs.height = innerHeight;
 }
 
-var memes = [];
-var cap = 250;
-var hyper = false;
+let memes = [];
+let cap = 250;
+let hyper = false;
 
 function hyperEnable() {
   hyper = true;
@@ -36,7 +36,7 @@ function draw() {
   }
   ctx.fillRect(0, 0, cnvs.width, cnvs.height);
 
-  for (var i = 0; i < memes.length; i++) {
+  for (let i = 0; i < memes.length; i++) {
     let meme = memes[i];
     ctx.save();
     ctx.translate(meme.x, meme.y);
@@ -48,7 +48,7 @@ function draw() {
   }
 
   // remove sprites that fall off of the screen
-  for (var i = memes.length - 1; i > 0; i--) {
+  for (let i = memes.length - 1; i > 0; i--) {
     if (memes[i].y > innerHeight + memes[i].image.height) {
       memes.splice(i, 1);
     }
@@ -60,7 +60,7 @@ function draw() {
 
 setInterval(function () {
   if (hyper) {
-    for (var i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       spawnMeme();
     }
   } else {
@@ -75,7 +75,7 @@ window.addEventListener("resize", function () {
   resize();
 });
 
-var images = document.querySelectorAll(".images img");
+let images = document.querySelectorAll(".images img");
 
 function spawnMeme() {
   // cap at 200 sprites
@@ -83,11 +83,11 @@ function spawnMeme() {
     return;
   }
 
-  var far = Math.random();
+  let far = Math.random();
   if (far > 0.35) far = 0.35;
-  var img = images[Math.floor(Math.random() * images.length)];
-  var x = Math.floor(Math.random() * innerWidth);
-  var y = 0 - img.height * 2;
+  let img = images[Math.floor(Math.random() * images.length)];
+  let x = Math.floor(Math.random() * innerWidth);
+  let y = 0 - img.height * 2;
 
   memes.push({
     image: img,

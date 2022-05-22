@@ -16,7 +16,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_GUILD"],
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -79,7 +79,7 @@ module.exports = class extends Command {
       });
 
       function removeA(arr) {
-        var what,
+        let what,
           a = arguments,
           L = a.length,
           ax;

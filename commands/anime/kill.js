@@ -19,7 +19,7 @@ module.exports = class extends Command {
       category: "anime",
     });
   }
-  async run(message, args) {
+  async run(message, args, bot) {
     let client = message.client;
     let member =
       (await await message.mentions.members.first()) ||
@@ -35,9 +35,9 @@ module.exports = class extends Command {
           args.join(" ").toLocaleLowerCase()
       );
     if (!member) {
-      member=guild.me;
+      member = message.guild.me;
     }
-  
+
     const pickeddeath = deaths[Math.floor(Math.random() * deaths.length)];
     const change1 = pickeddeath.replace("[NAME1]", "<@" + message.author + ">");
     const change2 = change1.replace("[NAME2]", "<@" + member + ">");

@@ -14,7 +14,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     const rand = Math.floor(Math.random() * 802);
     const poke = rand > 0 ? rand : Math.floor(Math.random() * 802);
     const pokem = pokemon[poke];

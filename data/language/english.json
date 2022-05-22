@@ -72,7 +72,7 @@
   "searchInvalidChoice": "This is not a valid place to search in",
 
   "balanceTitle": "{user}'s balance",
-  "balanceCheck": "Cash: {money}{emoji}\nBank: {bank}/{bankspace}\nTotal: {total}",
+  "balanceCheck": "Cash: {money}{emoji}\nBank: {bank}/{money.maxBank}\nTotal: {total}",
 
   "depositMissingArg0": "You did not specify how much money you would like to deposit",
   "depositSuccessfull": "I have successfully deposited {money} to your bank",

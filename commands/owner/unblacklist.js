@@ -18,7 +18,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const match = message.content.match(/\d{18}/);
     let member;
     try {

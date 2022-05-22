@@ -58,7 +58,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const embed = new MessageEmbed()
       .setDescription(line[Math.round(Math.random() * (line.length - 1))])
       .setColor(message.client.color.pink);

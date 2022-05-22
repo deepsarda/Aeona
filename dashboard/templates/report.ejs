@@ -6,8 +6,8 @@
   <body>
     <% if (user) { %>
       <script>
-        var username = "<%= user.username %>#<%= user.discriminator %>";
-        var userID = "<%= user.id %>";
+        let username = "<%= user.username %>#<%= user.discriminator %>";
+        let userID = "<%= user.id %>";
       </script>
       <div class="container-contact">
         <div class="wrap-contact">
@@ -114,12 +114,12 @@
 
   </html>
   <script type="text/javascript">
-    var verifyCallback = function (response) {
+    let verifyCallback = function (response) {
       alert(response);
     };
-    var widgetId1;
-    var widgetId2;
-    var onloadCallback = function () {
+    let widgetId1;
+    let widgetId2;
+    let onloadCallback = function () {
       // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
       // The id of the reCAPTCHA widget is assigned to 'widgetId1'.
       widgetId1 = grecaptcha.render('example1', {

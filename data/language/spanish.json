@@ -72,7 +72,7 @@
   "searchInvalidChoice": "Este no es un lugar válido para buscar",
 
   "balanceTitle": "Saldo de {user}",
-  "balanceCheck": "Efectivo: {money}{emoji}\nBanco: {bank}/{bankspace}\nTotal: {total}",
+  "balanceCheck": "Efectivo: {money}{emoji}\nBanco: {bank}/{money.maxBank}\nTotal: {total}",
 
   "depositMissingArg0": "No especificó cuánto dinero desea depositar",
   "depositSuccessfull": "He depositado correctamente {money} en su banco",

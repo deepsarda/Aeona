@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     const res = await fetch("https://catfact.ninja/fact").catch(() => {});
     const fact = (await res.json()).fact;
     const embed = new MessageEmbed()

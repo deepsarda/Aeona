@@ -26,7 +26,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     function checkDays(date) {
       let now = new Date();
       let diff = now.getTime() - date.getTime();

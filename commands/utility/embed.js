@@ -19,7 +19,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     let channel = message.mentions.channels.first();
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
@@ -342,7 +342,7 @@ module.exports = class extends Command {
                                                                   let argword =
                                                                     collected.first()
                                                                       .content;
-                                                                  var myArray =
+                                                                  let myArray =
                                                                     argword.split(
                                                                       " "
                                                                     );

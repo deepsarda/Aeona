@@ -84,12 +84,12 @@
 
   </html>
   <script type="text/javascript">
-    var verifyCallback = function (response) {
+    let verifyCallback = function (response) {
       alert(response);
     };
-    var widgetId1;
-    var widgetId2;
-    var onloadCallback = function () {
+    let widgetId1;
+    let widgetId2;
+    let onloadCallback = function () {
       // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
       // The id of the reCAPTCHA widget is assigned to 'widgetId1'.
       widgetId1 = grecaptcha.render('example1', {
@@ -121,7 +121,7 @@
 
         document.querySelector('form').addEventListener('submit', e => {
           e.preventDefault();
-          var v = grecaptcha.getResponse();
+          let v = grecaptcha.getResponse();
           if (v.length == 0) {
             document.getElementById('captcha').innerHTML = "Invalid Captcha Attempt.";
             return false;

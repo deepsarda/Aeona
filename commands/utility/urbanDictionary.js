@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -52,27 +52,29 @@ module.exports = class extends Command {
     }
 
     await message.channel.send({
-      embed: {
-        color: message.client.color.blue,
-        title: "Urban Dictionary",
-        fields: [
-          {
-            name: `${language.namse}`,
-            value: response.word || args.join(" "),
+      embeds: [
+        {
+          color: message.client.color.blue,
+          title: "Urban Dictionary",
+          fields: [
+            {
+              name: `${language.namse}`,
+              value: response.word || args.join(" "),
+            },
+            {
+              name: `${language.define3}`,
+              value: response.definition || "-",
+            },
+            {
+              name: `${language.define4}`,
+              value: response.example || "-",
+            },
+          ],
+          footer: {
+            text: `${language.define5}`,
           },
-          {
-            name: `${language.define3}`,
-            value: response.definition || "-",
-          },
-          {
-            name: `${language.define4}`,
-            value: response.example || "-",
-          },
-        ],
-        footer: {
-          text: `${language.define5}`,
         },
-      },
+      ],
     });
   }
 };

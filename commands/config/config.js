@@ -27,7 +27,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const settings = await Guild.findOne({
       guildId: message.guild.id,
     });

@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args) {
+  async run(message, args, bot) {
     const input = args.join(" ");
     if (!input) return message.channel.send(`What do I evaluate?`);
     if (!input.toLowerCase().includes("token")) {

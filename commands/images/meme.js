@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message) {
+  async run(message, bot) {
     try {
       const embed = new Discord.MessageEmbed();
       got("https://www.reddit.com/r/memes/random/.json").then((response) => {

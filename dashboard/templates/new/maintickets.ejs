@@ -2438,18 +2438,18 @@ animation
                         </script>
                         <script>
                           function markRequired() {
-                            var control = $(this).children(".form-control");
-                            var label = $(this).children("label");
+                            let control = $(this).children(".form-control");
+                            let label = $(this).children("label");
                             if (control.attr("required") == "required") {
                               label.addClass("required");
                             }
                           }
 
                           function countCharacters() {
-                            var max = $(this).attr("maxlength");
-                            var length = $(this).val().length;
-                            var counter = max - length;
-                            var helper = $(this).next(".form-text");
+                            let max = $(this).attr("maxlength");
+                            let length = $(this).val().length;
+                            let counter = max - length;
+                            let helper = $(this).next(".form-text");
                             // Switch to the singular if there's exactly 1 character remaining
                             if (counter !== 1) {
                               helper.text(counter + " characters remaining");
@@ -2492,8 +2492,8 @@ animation
 
                         <script>
                           function myFunction04() {
-                            var checkBox = document.getElementById("reactionEmbedFooter");
-                            var text = document.getElementById("reactionEmbedFooterID");
+                            let checkBox = document.getElementById("reactionEmbedFooter");
+                            let text = document.getElementById("reactionEmbedFooterID");
                             if (checkBox.checked == true) {
                               text.style.display = "block";
                             } else {

@@ -117,8 +117,8 @@ module.exports = async (client) => {
   );
 
   const renderTemplate = (res, req, template, data = {}) => {
-    var hostname = req.headers.host;
-    var pathname = url.parse(req.url).pathname;
+    let hostname = req.headers.host;
+    let pathname = url.parse(req.url).pathname;
     const baseData = {
       https: "https://",
       domain: domain,
@@ -232,13 +232,13 @@ module.exports = async (client) => {
 
   // Features list redirect endpoint.
   app.get("/commands", (req, res) => {
-    var fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+    let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
     renderTemplate(res, req, "features.ejs", {
       urlSite: fullUrl,
     });
   });
   app.get("/color", (req, res) => {
-    var url = req.protocol + "://" + req.get("host") + req.originalUrl;
+    let url = req.protocol + "://" + req.get("host") + req.originalUrl;
     renderTemplate(res, req, "color.ejs", {
       urlSite: url,
     });
@@ -438,7 +438,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -487,7 +487,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -639,7 +639,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -670,7 +670,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -742,7 +742,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -816,7 +816,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -940,7 +940,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -949,7 +949,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var appSettings = await App.findOne({ guildID: guild.id });
+    let appSettings = await App.findOne({ guildID: guild.id });
     if (!appSettings) {
       const newSettings5 = new App({
         guildID: guild.id,
@@ -983,7 +983,7 @@ module.exports = async (client) => {
     }
     const data = req.body;
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -992,7 +992,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var appSettings = await App.findOne({ guildID: guild.id });
+    let appSettings = await App.findOne({ guildID: guild.id });
     if (!appSettings) {
       const newSettings5 = new App({
         guildID: guild.id,
@@ -1078,7 +1078,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -1110,7 +1110,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -1143,7 +1143,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -1151,7 +1151,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
-    var welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
+    let welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     if (!welcomeSettings) {
       const newSettings = new WelcomeSchema({
         guildId: guild.id,
@@ -1160,7 +1160,7 @@ module.exports = async (client) => {
       welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     }
 
-    var leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
+    let leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
     if (!leaveSettings) {
       const newSettings = new LeaveSchema({
         guildId: guild.id,
@@ -1195,7 +1195,7 @@ module.exports = async (client) => {
       return renderTemplate(res, req, "maintenance.ejs");
     }
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new WelcomeSchema({
         guildId: guild.id,
@@ -1203,7 +1203,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
-    var welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
+    let welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     if (!welcomeSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -1211,7 +1211,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     }
-    var leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
+    let leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
     if (!leaveSettings) {
       const newSettings = new LeaveSchema({
         guildId: guild.id,
@@ -2028,7 +2028,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2058,7 +2058,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2090,7 +2090,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2099,7 +2099,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var logSettings = await Logging.findOne({ guildId: guild.id });
+    let logSettings = await Logging.findOne({ guildId: guild.id });
     if (!logSettings) {
       const newSettings1 = new Logging({
         guildId: guild.id,
@@ -2130,7 +2130,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2139,7 +2139,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var logSettings = await Logging.findOne({ guildId: guild.id });
+    let logSettings = await Logging.findOne({ guildId: guild.id });
     if (!logSettings) {
       const newSettings1 = new Logging({
         guildId: guild.id,
@@ -2353,7 +2353,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2362,7 +2362,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var logSettings = await Logging.findOne({ guildId: guild.id });
+    let logSettings = await Logging.findOne({ guildId: guild.id });
     if (!logSettings) {
       const newSettings1 = new Logging({
         guildId: guild.id,
@@ -2395,7 +2395,7 @@ module.exports = async (client) => {
     }
     const data = req.body;
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2404,7 +2404,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var logSettings = await Logging.findOne({ guildId: guild.id });
+    let logSettings = await Logging.findOne({ guildId: guild.id });
     if (!logSettings) {
       const newSettings1 = new Logging({
         guildId: guild.id,
@@ -2845,7 +2845,7 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2854,7 +2854,7 @@ module.exports = async (client) => {
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var stickySettings = await StickySettings.findOne({ guildId: guild.id });
+    let stickySettings = await StickySettings.findOne({ guildId: guild.id });
     if (!stickySettings) {
       const newSettingss = new StickySettings({
         guildId: guild.id,
@@ -2887,7 +2887,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -2895,7 +2895,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
-    var stickySettings = await StickySettings.findOne({ guildId: guild.id });
+    let stickySettings = await StickySettings.findOne({ guildId: guild.id });
     if (!stickySettings) {
       const newSettingss = new StickySettings({
         guildId: guild.id,
@@ -3001,7 +3001,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3034,7 +3034,7 @@ module.exports = async (client) => {
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3269,7 +3269,7 @@ send
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3299,7 +3299,7 @@ send
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3331,7 +3331,7 @@ send
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3361,7 +3361,7 @@ send
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3504,7 +3504,7 @@ send
       return renderTemplate(res, req, "maintenance.ejs");
     }
     const data = req.body;
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3513,7 +3513,7 @@ send
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var ticketSettings = await TicketSettings.findOne({ guildID: guild.id });
+    let ticketSettings = await TicketSettings.findOne({ guildID: guild.id });
     if (!ticketSettings) {
       const newSettingsT = new TicketSettings({
         guildID: guild.id,
@@ -3546,7 +3546,7 @@ send
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -3555,7 +3555,7 @@ send
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var ticketSettings = await TicketSettings.findOne({ guildID: guild.id });
+    let ticketSettings = await TicketSettings.findOne({ guildID: guild.id });
     if (!ticketSettings) {
       const newSettingsz = new TicketSettings({
         guildID: guild.id,
@@ -4229,7 +4229,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4260,7 +4260,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4410,7 +4410,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4419,7 +4419,7 @@ In the mean time, please explain your issue below`;
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var altSettings = await AltSettings.findOne({ guildID: guild.id });
+    let altSettings = await AltSettings.findOne({ guildID: guild.id });
     if (!altSettings) {
       const newSettings = new AltSettings({
         guildID: guild.id,
@@ -4452,7 +4452,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4461,7 +4461,7 @@ In the mean time, please explain your issue below`;
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
 
-    var altSettings = await AltSettings.findOne({ guildID: guild.id });
+    let altSettings = await AltSettings.findOne({ guildID: guild.id });
     if (!altSettings) {
       const newSettings = new AltSettings({
         guildID: guild.id,
@@ -4585,7 +4585,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4617,7 +4617,7 @@ In the mean time, please explain your issue below`;
     if (maintenance && maintenance.toggle == "true") {
       return renderTemplate(res, req, "maintenance.ejs");
     }
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -4761,7 +4761,7 @@ In the mean time, please explain your issue below`;
   });
 
   app.get("*", (req, res) => {
-    var fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+    let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
 
     if (
       fullUrl == domain ||

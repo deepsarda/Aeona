@@ -35,7 +35,6 @@ module.exports = class MusicManager extends Manager {
           retryDelay: 5000,
           secure: false,
         },
-        
       ],
       autoPlay: true,
       plugins,

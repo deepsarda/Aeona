@@ -18,7 +18,7 @@ module.exports = class Event {
   }
 
   // eslint-disable-next-line no-unused-vars
-  async run(message, args) {
+  async run(message, args, bot) {
     throw new Error(`The run method has not been implemented in ${this.name}`);
   }
 
