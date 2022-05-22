@@ -13,7 +13,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     message.reply(nowPlaying(message));
   }
 };

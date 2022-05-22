@@ -12,7 +12,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let game = await message.client.tankTacticsHandler.getGame(
       message.channel.id
     );

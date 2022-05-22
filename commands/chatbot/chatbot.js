@@ -13,7 +13,7 @@ module.exports = class extends Command {
       usage: "<chatbot>",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });

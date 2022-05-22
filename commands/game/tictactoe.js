@@ -15,7 +15,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let user2 = message.mentions.users.first()
       ? message.mentions.users.first()
       : message.guild.members.cache.get(args[0])

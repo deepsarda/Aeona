@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     const client = message.client;
     let user =
       message.mentions.users.first() ||

@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     await message.channel
       .send("Restarting!")
       .catch((err) => this.client.console.error(err));

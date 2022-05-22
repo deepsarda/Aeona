@@ -13,7 +13,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_CHANNELS"],
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     if (!args[0])
       return message.channel.send(`Please specify a channel to disable!`);
     const channel =

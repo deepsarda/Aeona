@@ -11,7 +11,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let util = new Utils(message, this);
     let data = await bot.economy.getConfig(message.member);
     let founditem = data.items.find((x) => x.name.toLowerCase() === "pickaxe");

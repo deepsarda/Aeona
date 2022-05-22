@@ -19,7 +19,7 @@ module.exports = class extends Command {
       category: "anime",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let client = message.client;
     let member =
       (await await message.mentions.members.first()) ||

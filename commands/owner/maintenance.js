@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     if (!args[0])
       return message.channel.send(
         "Would you like to enable or disable maintenance mode?"

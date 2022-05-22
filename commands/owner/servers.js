@@ -12,7 +12,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     const servers = message.client.guilds.cache.array().map((guild) => {
       return `\`${guild.id}\` - **${guild.name}** - \`${guild.memberCount}\` members`;
     });

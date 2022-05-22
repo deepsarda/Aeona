@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     message.client.guilds.cache.forEach(async (guild) => {
       const check = await Guild.findOne({
         guildId: guild.id,

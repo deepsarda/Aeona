@@ -11,7 +11,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     try {
       if (args.length < 1) {
         return message.channel.send("Please give me a subreddit!");

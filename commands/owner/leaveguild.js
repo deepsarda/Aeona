@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     const guildId = args[0];
     if (!rgx.test(guildId)) return message.channel.send(`Provide a guild`);
     const guild = message.client.guilds.cache.get(guildId);

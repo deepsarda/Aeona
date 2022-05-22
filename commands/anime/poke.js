@@ -9,7 +9,7 @@ module.exports = class extends Command {
       category: "anime",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     if (!args[0]) args.push(message.client.user.id);
     let user =
       message.mentions.users.first() ||

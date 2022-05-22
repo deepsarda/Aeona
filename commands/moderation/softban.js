@@ -19,7 +19,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let client = message.client;
     /*------ Guild Data ------*/
     const logging = await Logging.findOne({ guildId: message.guild.id });

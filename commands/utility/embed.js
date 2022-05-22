@@ -19,7 +19,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let channel = message.mentions.channels.first();
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,

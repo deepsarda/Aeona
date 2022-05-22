@@ -12,7 +12,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let util = new Utils(message, this);
     let item = args[0];
     let amount = numberParse(args[1]);

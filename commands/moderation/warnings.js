@@ -22,7 +22,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let client = message.client;
     const settings = await Guild.findOne(
       {

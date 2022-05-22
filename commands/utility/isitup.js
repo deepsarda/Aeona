@@ -17,7 +17,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     let url = args[0];
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,

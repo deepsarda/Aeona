@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     if (message.content.includes("config.json"))
       return message.channel.send(
         "<:sbdeny:736927045522817106> Due to privacy reasons, we can't show the config.json file."

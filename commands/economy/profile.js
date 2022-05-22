@@ -12,7 +12,7 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args, bot) {
+  async run(message, args, bot,prefix='+' ) {
     const mentionUser =
       message.mentions.members.first() &&
       message.mentions.members.filter(
