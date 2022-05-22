@@ -1,5 +1,10 @@
-const randint = require("./randint.js");
-const resources = require("../framework/util/resources");
+
+const resources = require("../utils/resources");
+function randint(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 const array = [
   {
