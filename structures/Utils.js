@@ -1,4 +1,4 @@
-const resources = require("../util/resources");
+const resources = require("../utils/resources");
 const Discord = require("discord.js");
 function getRandomInt(min, max) {
   min = Math.ceil(min);
