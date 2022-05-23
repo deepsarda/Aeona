@@ -31,12 +31,12 @@ class Server extends Events{
         this.app.set('views',  path.join(__dirname,`../Frontend`));
     }
     _buildRoute(){
-        this.app.get(`dev/${(this.config.login_path ||'')}`,(req, res) => {
+        this.app.get(`/dev/${(this.config.login_path ||'')}`,(req, res) => {
             res.redirect(`https://discord.com/api/oauth2/authorize?client_id=${this.config.bot.client_id}&redirect_uri=${this.config.redirect_uri}&response_type=code&scope=${this.config.scope.join('+')}`)
         })
        
           
-        this.app.get("dev/status", (req, res) =>{
+        this.app.get("/dev/status", (req, res) =>{
             try{
                 const shardData = FormData.shardData(0, {all: true})
                 const totalData = FormData.totalData()
@@ -48,7 +48,7 @@ class Server extends Events{
         })
           
           
-        this.app.get("dev/shard", (req, res) => {
+        this.app.get("/dev/shard", (req, res) => {
             try{
                 const shardid = req.query.shardid;
                 let data = FormData.shardData(Number(shardid));
@@ -60,7 +60,7 @@ class Server extends Events{
             }
         })
 
-        this.app.get("dev/killShard", (req, res) => {
+        this.app.get("/dev/killShard", (req, res) => {
             try{
                 const shardid = req.query.shardid;
                 const code = req.query.code;
@@ -73,7 +73,7 @@ class Server extends Events{
         })
           
           
-        this.app.post('dev/stats', (req, res) => {       
+        this.app.post('/dev/stats', (req, res) => {       
             try{
                 if(!req.headers.authorization) return res.status(404).end()
                 const authProvided = req.headers.authorization
@@ -97,7 +97,7 @@ class Server extends Events{
             }
         })
 
-        this.app.post(`dev/deleteShards`, (req, res) =>{
+        this.app.post(`/dev/deleteShards`, (req, res) =>{
             if(!req.headers.authorization) return res.status(404).end()
             const authProvided = req.headers.authorization
             const authKey = Buffer.from(this.config.authorizationkey).toString('base64');
