@@ -116,5 +116,8 @@ module.exports = class extends Command {
         description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You lost ${amount.toLocaleString()} credits!`,
       });
     }
+
+
+    await profile.save();
   }
 };
