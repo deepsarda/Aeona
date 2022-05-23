@@ -90,7 +90,23 @@ module.exports = async (client) => {
       }
     )
   );
+  app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
+    // Request methods you wish to allow
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader("Access-Control-Allow-Credentials", true);
+
+    // Pass to next layer of middleware
+    next();
+  });
   app.use(
     session({
       secret: "asdasdasda7734r734753ererfretertdf43534wfefrrrr4awewdasdadadad",
@@ -4759,7 +4775,7 @@ In the mean time, please explain your issue below`;
       lastVoted: Date.now(),
     });
   });
-  const Stats  = require('../packages/live stats');
+  const Stats = require("../packages/live stats");
   const c = new Stats.Server(app, {
     bot: {
       name: "Aeona",
@@ -4788,7 +4804,6 @@ In the mean time, please explain your issue below`;
       renderTemplate(res, req, "404.ejs");
     }
   });
-
 
   app.listen(config.port, null, null, () =>
     console.log(`Dashboard is up and running on port ${config.port}.`)
