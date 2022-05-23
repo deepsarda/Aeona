@@ -103,7 +103,10 @@ module.exports = async (client) => {
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     res.setHeader("Access-Control-Allow-Credentials", true);
-
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
     // Pass to next layer of middleware
     next();
   });
@@ -4808,4 +4811,6 @@ In the mean time, please explain your issue below`;
   app.listen(config.port, null, null, () =>
     console.log(`Dashboard is up and running on port ${config.port}.`)
   );
+
+  return app;
 };
