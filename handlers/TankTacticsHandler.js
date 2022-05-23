@@ -821,10 +821,6 @@ module.exports = class TankTacticsHandler {
 
       this.attack(game, user, enemy, i);
     });
-
-    collector.on("end", async (collected) => {
-      await m.delete();
-    });
   }
 
   async attack(game, user, enemy, interaction) {
@@ -1025,10 +1021,6 @@ module.exports = class TankTacticsHandler {
       let enemy = await this.getUser(game.channelId, i.values[0]);
       console.log(enemy);
       this.give(game, user, enemy, i);
-    });
-
-    collector.on("end", async (collected) => {
-      await m.delete();
     });
   }
 

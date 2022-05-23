@@ -26,7 +26,7 @@ if (config.dashboard) {
 
 Aeona.start();
 process.on("uncaughtException", (error) => {
-  logger.error(error);
+  logger.error(error.stack);
 
   //Show the error stack in the console
   console.error(error.stack);

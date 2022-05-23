@@ -5,10 +5,16 @@ const config = require("../config.json.js");
 const webhookClient = new Discord.WebhookClient({
   url: "https://discord.com/api/webhooks/972210514165899285/Sd59Nv73XbtdXk6d92csyYQc_kLejBSZJ-UsbO_hbs2dldhy9mw9TTlxmicUMwB4KMyt",
 });
+
+const errorWebhookClient = new Discord.WebhookClient({
+  url: "https://discord.com/api/webhooks/971700660330459146/C1hPyLLMaU7qTgZ5tv3-1yOHP3N-toRJ_-HiDba2g0gLdRXv-5Hhz5Aiex6AppZH8xF-",
+});
 const chalk = require("chalk");
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
-  webhookClient.send(`${timestamp} [${label}] ${message}`);
+  if(level ==0)
+    errorWebhookClient.send(`${timestamp} [${label}] ${message}`);
+  else webhookClient.send(`${timestamp} [${label}] ${message}`);
   return `${timestamp} [${level}] [${chalk.cyan(label)}] ${message}`;
 });
 
