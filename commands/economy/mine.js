@@ -11,10 +11,10 @@ module.exports = class extends Command {
       usage: "",
     });
   }
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     let util = new Utils(message, this);
 
-    let data = await bot.economy.getConfig(message.member);
+    var data = await bot.economy.getConfig(message.member);
     let founditem = data.items.find((x) => x.name.toLowerCase() === "pickaxe");
 
     if (!founditem) {
@@ -62,7 +62,7 @@ module.exports = class extends Command {
         plural: "precious gems",
       },
     };
-    let Amount=0;
+
     const response =
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
