@@ -14,7 +14,7 @@ module.exports = class extends Command {
   }
   async run(message, args, bot,prefix='+' ) {
     let util = new Utils(message, this);
-
+    
     let item1 = args[0];
     let amount = numberParse(args[1]);
     if (!amount) amount = 1;
