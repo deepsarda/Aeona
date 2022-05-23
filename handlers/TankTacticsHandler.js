@@ -271,7 +271,15 @@ module.exports = class TankTacticsHandler {
       this.timeouts.set(doc.channelId, timeout);
 
       doc.logs.push(logs);
-      await doc.save();
+      await TankTacticsSchema.updateOne(
+        { channelId: doc.channelId },
+        {
+          users: doc.users,
+          logs: doc.logs,
+          open: doc.open,
+          event: doc.event,
+        }
+      );
 
       //Update the game
 

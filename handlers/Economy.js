@@ -42,7 +42,7 @@ module.exports = class Economy {
     return await this.getUser(member.id);
   }
   async getOres(id) {
-    let profile = this.getUser(id);
+    let profile = this.getConfig(id);
     if (!profile) {
       return;
     }
@@ -52,7 +52,7 @@ module.exports = class Economy {
     return profile.items;
   }
   async getAnimals(id) {
-    let profile = await this.getUser(id);
+    let profile = await this.getConfig(id);
     if (!profile) {
       return;
     }
@@ -63,7 +63,7 @@ module.exports = class Economy {
   }
 
   async getFish(id) {
-    let profile = this.getUser(id);
+    let profile = this.getConfig(id);
     if (!profile) {
       return;
     }
@@ -111,7 +111,7 @@ module.exports = class Economy {
   }
 
   async giveUserItem(id, i, amount) {
-    let config = await this.getUser(id);
+    let config = await this.getConfig(id);
 
     let item = this.getItemFromArray(config.items, i);
     let a = this.getItem(i);
@@ -128,21 +128,21 @@ module.exports = class Economy {
   }
 
   async giveUserCredits(id, amount) {
-    let config = await this.getUser(id);
+    let config = await this.getConfig(id);
     config.money.wallet += amount;
     config.markModified("pets");
     await config.save();
   }
 
   async takeUserCredits(id, amount) {
-    let config = await this.getUser(id);
+    let config = await this.getConfig(id);
     config.money.wallet -= amount;
     config.markModified("pets");
     await config.save();
   }
 
   async takeUserItem(id, item, amount) {
-    let config = await this.getUser(id);
+    let config = await this.getConfig(id);
      item = await this.getItemFromArray(config.items, item);
     if (!item) {
       return;

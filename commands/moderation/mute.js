@@ -4,7 +4,7 @@ const Guild = require("../../database/schemas/Guild.js");
 const mongoose = require("mongoose");
 const ms = require("ms");
 const muteModel = require("../../models/mute.js");
-const Discord = require("discord.js");
+const discord = require("discord.js");
 const Logging = require("../../database/schemas/logging.js");
 module.exports = class extends Command {
   constructor(...args) {

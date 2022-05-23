@@ -4,7 +4,7 @@ const Utils = require("../../structures/Utils");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
-      name: "Shop",
+      name: "shop",
       description: "See the shop",
       category: "economy",
       cooldown: 3,
