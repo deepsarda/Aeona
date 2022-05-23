@@ -7,7 +7,7 @@ const webhookClient = new Discord.WebhookClient({
 });
 
 const errorWebhookClient = new Discord.WebhookClient({
-  urls: proccess.env.errors,
+  urls: process.env.errors,
 });
 const chalk = require("chalk");
 
