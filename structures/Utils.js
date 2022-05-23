@@ -17,9 +17,7 @@ module.exports = class commandInteraction {
 
   async success(options) {
     if (
-      getRandomInt(0, 100) < 5 &&
-      this.command.name != "help" &&
-      this.command.name != "sendupdatemessage"
+      getRandomInt(0, 100) < 5
     ) {
       if (options.components) {
         options.components.push(
