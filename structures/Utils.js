@@ -12,6 +12,7 @@ module.exports = class commandInteraction {
     this.message = message;
     this.bot = message.client;
     this.command = command;
+    this.emotes = resources.emotes;
   }
 
   async success(options) {
