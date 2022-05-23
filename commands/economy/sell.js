@@ -14,7 +14,8 @@ module.exports = class extends Command {
   }
   async run(message, args, bot,prefix='+' ) {
     let util = new Utils(message, this);
-    
+    var user = message.member;
+    var profile = await bot.economy.getConfig(user);
     let item1 = args[0];
     let amount = numberParse(args[1]);
     if (!amount) amount = 1;
