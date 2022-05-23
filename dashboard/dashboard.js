@@ -4759,6 +4759,7 @@ In the mean time, please explain your issue below`;
       lastVoted: Date.now(),
     });
   });
+  const Stats  = require('discord-live-stats');
   const c = new Stats.Server(app, {
     bot: {
       name: "Aeona",
@@ -4787,7 +4788,7 @@ In the mean time, please explain your issue below`;
       renderTemplate(res, req, "404.ejs");
     }
   });
-  const Stats  = require('discord-live-stats');
+
 
   app.listen(config.port, null, null, () =>
     console.log(`Dashboard is up and running on port ${config.port}.`)
