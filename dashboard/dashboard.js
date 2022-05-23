@@ -4759,6 +4759,19 @@ In the mean time, please explain your issue below`;
       lastVoted: Date.now(),
     });
   });
+  const c = new Stats.Server(app, {
+    bot: {
+      name: "Aeona",
+      icon: "https://www.aeona.xyz/logo.png",
+      website: "https://www.aeona.xyz",
+      client_id: config.client_id,
+      client_secret: config.secret,
+    },
+    stats_uri: config.domain + "/dev/", //Base URL
+    redirect_uri: config.domain + "login", //Landing Page
+    owners: ["394320584089010179", "794921502230577182"],
+    authorizationkey: "LazyCatEatsWolf",
+  });
 
   app.get("*", (req, res) => {
     let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
@@ -4775,19 +4788,6 @@ In the mean time, please explain your issue below`;
     }
   });
   const Stats  = require('discord-live-stats');
-  const c = new Stats.Server(app, {
-    bot: {
-      name: "Aeona",
-      icon: "https://www.aeona.xyz/logo.png",
-      website: "https://www.aeona.xyz",
-      client_id: config.client_id,
-      client_secret: config.secret,
-    },
-    stats_uri: config.domain + "/dev/", //Base URL
-    redirect_uri: config.domain + "login", //Landing Page
-    owners: ["394320584089010179", "794921502230577182"],
-    authorizationkey: "LazyCatEatsWolf",
-  });
 
   app.listen(config.port, null, null, () =>
     console.log(`Dashboard is up and running on port ${config.port}.`)
