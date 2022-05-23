@@ -2,7 +2,7 @@ const Event = require("../../structures/Event");
 const Discord = require("discord.js");
 const config = require("../../config.json");
 const webhookClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971700660330459146/C1hPyLLMaU7qTgZ5tv3-1yOHP3N-toRJ_-HiDba2g0gLdRXv-5Hhz5Aiex6AppZH8xF-",
+  url: process.env.errors,
 });
 
 module.exports = class extends Event {

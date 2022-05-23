@@ -6,7 +6,7 @@ const MessageEmbed = require("discord.js");
 const Discord = require("discord.js");
 const config = require("../config.json");
 const webhookClient = new Discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971700660330459146/C1hPyLLMaU7qTgZ5tv3-1yOHP3N-toRJ_-HiDba2g0gLdRXv-5Hhz5Aiex6AppZH8xF-",
+  url: process.env.rateLimit,
 });
 
 module.exports = class extends Event {
@@ -19,7 +19,7 @@ module.exports = class extends Event {
       .setTimestamp();
 
     await setTimeout(function () {
-      //webhookClient.send({ embeds: [embed] });
+      webhookClient.send({ embeds: [embed] });
       logger.info(`Time out: ${rl.timeout}ms. Limit: ${rl.limit}`, {
         label: "Rate Limit",
       });

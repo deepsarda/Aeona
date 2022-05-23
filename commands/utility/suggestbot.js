@@ -4,7 +4,7 @@ const discord = require("discord.js");
 const crypto = require("crypto");
 const config = require("../../config.json");
 const webhookClient = new discord.WebhookClient({
-  url: "https://discord.com/api/webhooks/971702015086432256/BVY_Bhm49-tn5199ybN8QEXF4XUXncQ-6C68x6vq0DK6Dnt3yWuxnZREPmYINbxxt9i9",
+  url: process.env.importantLogs,
 });
 const Guild = require("../../database/schemas/Guild");
 module.exports = class extends Command {

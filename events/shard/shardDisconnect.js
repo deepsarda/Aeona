@@ -27,6 +27,6 @@ module.exports = class extends Event {
       )
       .setTimestamp();
 
-    webhookClient.send({ embeds: [embed] });
+   
   }
 };

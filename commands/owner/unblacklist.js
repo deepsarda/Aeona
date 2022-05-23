@@ -1,8 +1,7 @@
 const Command = require("../../structures/Command");
 const { WebhookClient, MessageEmbed } = require("discord.js");
 const webhookClient = new WebhookClient({
-  id: "967669185280872458",
-  url: "https://discord.com/api/webhooks/971702015086432256/BVY_Bhm49-tn5199ybN8QEXF4XUXncQ-6C68x6vq0DK6Dnt3yWuxnZREPmYINbxxt9i9",
+  url: process.env.importantLogs,
 });
 const logger = require("../../utils/logger");
 const Blacklist = require("../../database/schemas/blacklist");
