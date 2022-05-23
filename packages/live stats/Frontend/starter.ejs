@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <%=config.bot.name%>
+  </title>
+  <link rel="icon" href="<%=config.bot.icon%>" type="image/x-icon">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+
+  <link rel="stylesheet" href="dist/css/adminlte.css">
+  <link rel="stylesheet" href="dist/css/custom.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script text="text/javascript" src="/functions.js"></script>
+  <script>
+    
+    $(document).ready(function () {
+      setInterval(() => {
+        refreshStats(0, `<%=secret.code%>`);
+      },1000)
+    });
+    
+  </script>
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="/" class="nav-link">Home</a>
+        </li>
+      </ul>
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+
+
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+            <i class="fas fa-th-large"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="/" class="brand-link">
+        <img src="<%=config.bot.icon%>" alt="<%=config.bot.name%> Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light"><b>
+            <%=config.bot.name%>
+          </b></span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+          <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-sidebar">
+                <i class="fas fa-search fa-fw"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+            <li class="nav-item menu-open">
+              <a href="#" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                  Statistics
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="#" class="nav-link active">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Stats</p>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Control
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="background-color: #242424;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Statistics</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Statistics</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Main content -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="m-0 white"><b>General Stats</b></h5>
+                </div>
+                <div class="card-body" style="color: white;">
+                  <p class="shard-modal-button">
+                  <b><i id="general-status" class="fa fa-circle <%=data.color%>"
+                        aria-hidden="true">
+                        <%=data.status%>
+                      </i></b></p>
+                  <p class="shard-modal-button"><b><i id="general-status-cpu" class="fa fa-microchip"
+                        aria-hidden="true">
+                        <%=data.cpu%>
+                      </i></b></p>
+                  <p class="shard-modal-button"><b><i id="general-status-ram" class="fas fa-memory" aria-hidden="true">
+                        <%=data.ram%>
+                      </i></b></p>
+                  <p class="shard-modal-button"><b><i id="general-status-ping" class="fas fa-table-tennis"
+                        aria-hidden="true">
+                        <%=data.ping%>
+                      </i></b></p>
+                  <p class="shard-modal-button"><b><i id="general-status-servercount" class="fa fa-server"
+                        aria-hidden="true">
+                        <%=data.guildcount%>
+                      </i></b></p>
+                </div>
+              </div>
+
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+              <div class="card card-primary card-outline">
+                <div class="card-header">
+                  <h5 class="m-0 white"><b>Shard Status</b></h5>
+                </div>
+                <div id="shard-status-card" class="card-body">
+                  <% 
+                    const code = secret.code;
+                    let i=0; posts.forEach((post)=> {
+                    const classname2 = (post.color === 'green' ? 'normal' : 'redalert');
+                    %>
+                    <div id="shard-button<%=i%>" class="shard-button">
+                      <p id="shard-button-name<%=i%>" class="shard-button <%=post.color%>"><b>Shard <%=post.id %></b></p>
+                      
+                      <div class="shard-button ressource"><i class="fa fa-cog"></i><span>
+                          <button id="shard-button-ressource-stats<%=i%>" title="Statistics"
+                            class="shard-button managestats" onClick="shardStats(`<%=i%>`, `<%=code%>`)"><i
+                              class="fa fa-hdd"></i></button>
+                          <button id="shard-button-ressource-refresh<%=i%>" title="Refresh Stats"
+                            class="shard-button managegreen" onClick="refreshStats(`<%=i%>`, `<%=code%>`)"><i
+                              class="fa fa-retweet"></i></button>
+                          <button id="shard-button-ressource-kill<%=i%>" title="Kill Shard"
+                            class="shard-button managered" onClick="killShard(`<%=i%>`, `<%=code%>`)"><i
+                              class="fa fa-stop"></i></button>
+                        </span></div>
+                        <p id="shard-button-log<%=i%>" class="shard-button log <%=classname2%>">
+                          <%=post.message%>
+                        </p>
+                    </div>
+                    <% i++ } )%>
+                </div>
+              </div>
+
+
+            </div>
+            <!-- /.col-md-6 -->
+          </div>
+          <!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+      <div class="p-3">
+        <h5>Title</h5>
+        <p>Sidebar content</p>
+      </div>
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    <footer class="dark-mode main-footer">
+      <!-- To the right -->
+      <div class="float-right d-none d-sm-inline">
+        Made with ❤
+      </div>
+      <!-- Default to the left -->
+      <strong>Copyright &copy; 2020-2021 <a href="<%=config.bot.website%>">
+          <%=config.bot.name%>
+        </a>.</strong> All rights
+      reserved.
+    </footer>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- REQUIRED SCRIPTS -->
+
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

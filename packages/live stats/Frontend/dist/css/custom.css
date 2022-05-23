@@ -1,0 +1,193 @@
+
+
+
+.shard-button{
+    font-family: Tahoma, Verdana, sans-serif;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px; 
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 7px;
+    text-align: left;
+    font-size: 1em;
+    background-color: #36393f;
+    border-color: #36393f;
+}
+
+.fa:before, .far:before, .fas:before {
+    font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+.fa, .far, .fas {
+    font-family: sans-serif;
+    font-weight: 500;;
+}
+
+  .shard-button.green{
+    background-color:#43b581;
+    border-color: #43b581;
+    border-width: 7px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+    float: left;
+    color: white;
+    z-index: auto;
+  }
+
+  .shard-button.red{
+    background-color:#f04747;
+    border-color: #f04747;
+    border-width: 7px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+    float: left;
+    color: white;
+    z-index: auto;
+  }
+
+  .shard-button.blue{
+    color: white;
+    background-color:#007bff;
+    border-color: #007bff;
+  }
+
+  .shard-button.log{
+    background-color:#202225;
+    border-color: #202225; 
+    border-width: 7px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    margin-right: 36px;
+    display: flex; /*Delete*/
+    padding-left: 3px; /*turn to 0px*/
+    z-index: auto;
+  }
+  
+ 
+
+  .shard-button.log.redalert{
+    color: #ED4245;
+    z-index: inherit;
+  }
+
+  .shard-button.log.normal{
+    color: #43b581;
+    z-index: inherit;
+  }
+
+  
+  .shard-button.managestats{
+    background-color:#007bff;
+    border-color: #007bff; 
+    color: white;
+    font-size: 1em;
+    text-align: center;
+    border-width: 4px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    margin: 0px 1.2px 0px 6.2px;
+    padding: 0px;
+
+  }
+  .shard-button.managered{
+    background-color:#ED4245;
+    border-color: #ED4245; 
+    color: white;
+    font-size: 1em;
+    text-align: center;
+    border-width: 4px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    margin: 0px 1px 0px 1px;
+    padding: 0px;
+  }
+  .shard-button.managegreen{
+    background-color:#43b581;
+    border-color: #43b581; 
+    color: white;
+    font-size: 1em;
+    text-align: center;
+    border-width: 4px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    margin: 0px 1px 0px 1px;
+    padding: 0px;
+  }
+
+
+  .shard-button.ressource{
+    background-color:#3d4263;
+    border-color: #3d4263; 
+    border-width: 7px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    text-align: center;
+    margin-right: 30px;
+    margin-left: 4px;
+    overflow: hidden;
+    right: 0;
+    float: right;
+    color: white;
+    position: absolute;
+    z-index: auto;
+  }
+
+  .shard-button.ressource span{
+    max-width: 0;
+    -webkit-transition: max-width 1s;
+    transition: max-width 1s;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0.5;
+    z-index: 4;
+  }
+
+  .shard-button.ressource:hover span{
+    max-width: 25rem;
+    opacity: 1;
+    z-index: 5;
+  }
+  
+  
+  
+
+
+
+
+/*ICONS*/
+.green , fa-circle{
+  color: #57F287;
+}
+.red , fa-circle{
+  color:  #ED4245;
+}
+.yellow fa-circle{
+  color: #43b581;
+}
+
+
+.shard-modal-button{
+  font-family: Tahoma, Verdana, sans-serif;
+  margin-left: 7px;
+  margin-right: 7px;
+  margin-top: 2px;
+  margin-bottom: 2px; 
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 7px;
+  padding: 2px 2px 2px 2px;
+  padding-left: 10px;
+  text-align: left;
+  font-size: 1em;
+  background-color: #36393f;
+  border-color: #36393f;
+}
+

@@ -4759,7 +4759,7 @@ In the mean time, please explain your issue below`;
       lastVoted: Date.now(),
     });
   });
-  const Stats  = require('discord-live-stats');
+  const Stats  = require('../packages/live stats');
   const c = new Stats.Server(app, {
     bot: {
       name: "Aeona",
