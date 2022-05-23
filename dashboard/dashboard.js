@@ -4769,7 +4769,7 @@ In the mean time, please explain your issue below`;
       client_secret: config.secret,
     },
     stats_uri: config.domain + "/dev/", //Base URL
-    redirect_uri: config.domain + "login", //Landing Page
+    redirect_uri: config.domain + "/dev/login", //Landing Page
     owners: ["394320584089010179", "794921502230577182"],
     authorizationkey: "LazyCatEatsWolf",
   });
