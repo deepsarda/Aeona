@@ -114,7 +114,9 @@ class Server extends Events {
         this.emit("error", error);
       }
     });
-
+    this.app.get("/dev/stats", (req, res) => {
+      res.send("Okay");
+    });
     this.app.post("/dev/stats", (req, res) => {
       try {
         if (!req.headers.authorization) return res.status(404).end();
@@ -140,7 +142,10 @@ class Server extends Events {
         this.emit("error", error);
       }
     });
-
+    this.app.get('/dev/deleteShards', (req, res) => {
+        res.send('okay');	
+    });
+    
     this.app.post(`/dev/deleteShards`, (req, res) => {
       if (!req.headers.authorization) return res.status(404).end();
       const authProvided = req.headers.authorization;
