@@ -80,8 +80,8 @@ module.exports = class extends Command {
     )
       ? 1000000000000
       : maxAmount;
-    if (betAmount > maxAmount) {
-      betAmount = maxAmount;
+    if (amount > maxAmount) {
+      amount = maxAmount;
     }
 
     const botRoll = Math.floor(Math.random() * 13) + 1;
