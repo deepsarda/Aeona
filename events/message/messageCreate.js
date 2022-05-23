@@ -87,69 +87,72 @@ module.exports = class extends Event {
               }, 5000);
             })
             .catch(() => {});
-        }
-        async function globalChat() {
-          console.log("globalChat");
-          let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
-          Statcord.ShardingClient.postCommand(
-            "globalChat",
-            message.author.id,
-            message.client
-          );
-          console.log(
-            `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
-          );
-          for (let i = 0; i < guilds.length; i++) {
-            let guild = guilds[i];
-            if (guild.guildId != message.guild.id) {
-              let channel = null;
-              try {
-                channel = await client.channels.fetch(guild.globalChatChannel);
-              } catch (e) {}
-              if (channel) {
-                async function send() {
-                  try {
-                    //Create a webhook for the channel if it doesn't exist
+        } else {
+          async function globalChat() {
+            console.log("globalChat");
+            let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
+            Statcord.ShardingClient.postCommand(
+              "globalChat",
+              message.author.id,
+              message.client
+            );
+            console.log(
+              `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
+            );
+            for (let i = 0; i < guilds.length; i++) {
+              let guild = guilds[i];
+              if (guild.guildId != message.guild.id) {
+                let channel = null;
+                try {
+                  channel = await client.channels.fetch(
+                    guild.globalChatChannel
+                  );
+                } catch (e) {}
+                if (channel) {
+                  async function send() {
+                    try {
+                      //Create a webhook for the channel if it doesn't exist
 
-                    let webhooks = await channel.fetchWebhooks();
-                    let webhook = webhooks.find((webhook) => webhook.token);
+                      let webhooks = await channel.fetchWebhooks();
+                      let webhook = webhooks.find((webhook) => webhook.token);
 
-                    if (!webhook) {
-                      webhook = await channel.createWebhook(
-                        `${client.user.username} Global Chat`,
-                        {
-                          avatar: client.user.displayAvatarURL(),
-                        }
-                      );
-                    }
-
-                    webhook.send({
-                      username: message.member.displayName,
-                      avatarURL: message.member.displayAvatarURL(),
-                      content: message.content,
-                      embeds: message.embeds,
-
-                      allowedMentions: { parse: [] },
-                    });
-
-                    if (message.attachments.size > 0) {
-                      for (const [key, value] of message.attachments) {
-                        webhook.send({
-                          username: message.member.displayName,
-                          avatarURL: message.member.displayAvatarURL(),
-                          files: [value.url],
-                        });
+                      if (!webhook) {
+                        webhook = await channel.createWebhook(
+                          `${client.user.username} Global Chat`,
+                          {
+                            avatar: client.user.displayAvatarURL(),
+                          }
+                        );
                       }
+
+                      webhook.send({
+                        username: message.member.displayName,
+                        avatarURL: message.member.displayAvatarURL(),
+                        content: message.content,
+                        embeds: message.embeds,
+
+                        allowedMentions: { parse: [] },
+                      });
+
+                      if (message.attachments.size > 0) {
+                        for (const [key, value] of message.attachments) {
+                          webhook.send({
+                            username: message.member.displayName,
+                            avatarURL: message.member.displayAvatarURL(),
+                            files: [value.url],
+                          });
+                        }
+                      }
+                    } catch (e) {
+                      channel
+                        .send(
+                          `Please give me MANAGE_WEBHOOKS permission to recieve global chat messages.`
+                        )
+                        .catch(() => {});
                     }
-                  } catch (e) {
-                    channel
-                      .send(
-                        `Please give me MANAGE_WEBHOOKS permission to recieve global chat messages.`
-                      )
-                      .catch(() => {});
                   }
+                  send();
                 }
-                send();
               }
             }
           }
