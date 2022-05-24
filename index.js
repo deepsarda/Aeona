@@ -3,7 +3,6 @@ const config = require("./config.json.js");
 const domain = require("./config.js");
 const logger = require("./utils/logger");
 const Aeona = new AeonaClient(config);
-const Stats  = require('discord-live-stats');
 const color = require("./data/colors");
 Aeona.color = color;
 
@@ -32,10 +31,7 @@ process.on("uncaughtException", (error) => {
   console.error(error.stack);
 });
 
-const Poster = new Stats.Client(client, {
-  stats_uri: domain.domain+ "/dev/",
-  authorizationkey: "LazyCatEatsWolfLazyCatEatsWolf",
-})
+
 const http = require("https");
 function randomString(length, chars) {
   let result = "";

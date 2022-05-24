@@ -67,6 +67,7 @@ module.exports = class extends Command {
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
     console.log(itemLevel);
+    let Amount;
     if (randint(0, 100) > 90) Amount = parseInt(randint(3, 5)) + itemLevel;
     else Amount = parseInt(randint(1, 2)) + itemLevel;
 
