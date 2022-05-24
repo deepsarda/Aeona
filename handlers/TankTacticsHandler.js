@@ -56,6 +56,22 @@ module.exports = class TankTacticsHandler {
         }
       });
     });
+
+
+    //Loop through all the data 
+    for(let i = 0; i < this.data.length; i++) {
+      let doc = this.data[i];
+      let aliveplayers=0;
+      for(let u= 0; u < doc.users.length; u++) {
+        if(doc.users[u].health>0) {
+          aliveplayers++;
+        }
+      }
+
+      if(aliveplayers<=1) {
+        this.deleteGame(doc.channelId);
+      }
+    }
   }
 
   //Event Functions
@@ -675,13 +691,20 @@ module.exports = class TankTacticsHandler {
     return g;
   }
   async deleteGame(channelId) {
-    let g = this.data.find((game) => {
-      return game.channelId == channelId;
-    });
+    let g = this.getGame(channelId);
 
     if (g) {
       this.data.splice(this.data.indexOf(g), 1);
-      this.channels.splice(this.channels.indexOf(channelId), 1);
+      this.channels.splice(this.channels.indexOf(g.channelId), 1);
+
+      //Loop though all te chatChannelsId
+      for (let i = 0; i < g.chatChannelIds.length; i++) {
+        let chatChannel = await this.client.channels.fetch(g.chatChannelIds[i]);
+        if (chatChannel) chatChannel.send("Game has ended and has been deleted");
+
+        this.chatChannelIds.splice(this.chatChannelIds.indexOf(g.chatChannelIds[i]), 1);
+
+      }
       clearTimeout(this.timeouts.get(channelId));
     }
 
@@ -692,6 +715,11 @@ module.exports = class TankTacticsHandler {
         return;
       }
     });
+
+
+    g.logs.push(`Game has ended! Use +join to join again`);
+
+    this.updateGame(g,true);
   }
   async getUser(channelId, userId) {
     let game = await this.getGame(channelId);
