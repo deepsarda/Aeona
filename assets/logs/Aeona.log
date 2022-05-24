@@ -914,3 +914,21 @@ components[1].components[3].emoji.name: Invalid emoji
     at module.exports.run (C:\Users\deepp\Downloads\Aeona\events\ready.js:16:36)
     at runMicrotasks (<anonymous>)
     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+2022-05-24 13:11:50 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-05-24 13:12:18 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Interaction has already been acknowledged.
+    at RequestHandler.execute (C:\Users\deepp\Downloads\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ButtonInteraction.reply (C:\Users\deepp\Downloads\Aeona\node_modules\discord.js\src\structures\interfaces\InteractionResponses.js:103:5)
+2022-05-24 13:12:21 [[32minfo[39m] [[36mRate Limit[39m] Time out: 12254ms. Limit: 30
+2022-05-24 13:13:08 [[32minfo[39m] [[36mCommand[39m] "+join" (join) ran by "LoneWolf#0022" (794921502230577182) on guild "Æther Realm • Legends II" (785776583218036756) channel "#Tank Tactics cross server" (977115491053219851)
+2022-05-24 13:13:09 [[32minfo[39m] [[36mundefined[39m] 
+
+ **AI query** +join] 
+
+ **User** LoneWolf 
+
+ **Guild** Æther Realm • Legends II 
+
+ **AI response**  Uhh
+2022-05-24 13:13:11 [[32minfo[39m] [[36mRate Limit[39m] Time out: 619ms. Limit: 5
