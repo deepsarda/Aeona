@@ -12,6 +12,8 @@ module.exports = class extends Event {
       const game = this.client.tankTacticsHandler.data[i];
       await this.client.tankTacticsHandler.updateGame(game, false, false);
     }
+
+    this.client.tankTacticsHandler.endGames();
     if (maintenance && maintenance.toggle == "true") {
       this.client.user.setPresence({ status: "dnd" });
       this.client.user.setActivity("Under Maintenance");
