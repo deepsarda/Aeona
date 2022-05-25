@@ -1,0 +1,52 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Embed - FAQ" , url, image }) %>
+<div class="max-w-lg mx-auto rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10">
+<h1>  Embed - FAQ</h1>
+<details>
+    <summary>
+      Why is my Embed custom command not saving?
+      <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+      </svg>
+      <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+      </svg>
+    </summary>
+    <p>Your custom commands can fail to save for many reasons:</p>
+    <ul>
+      <li>1- Your custom command already exists or is a existing bot command.</li>
+      <li>2- The bot fails to recieve the JSON or guild, or the command name.</li>
+      <li>3- You exceed the custom command limit in your guild.</li>
+    </ul>
+  </details>
+
+  <details>
+
+    <summary>
+      Why is my webhook not sending?
+      <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+      </svg>
+      <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+      </svg>
+    </summary>
+    <p>Your webhook will fail if the given webhook is invalid, or there was an error in the JSON given.</p>
+  </details>
+
+  <details>
+    <summary>
+      How do I send the embed to a channel of my choice?
+      <svg class="control-icon control-icon-expand" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#expand-more" />
+      </svg>
+      <svg class="control-icon control-icon-close" width="24" height="24" role="presentation">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close" />
+      </svg>
+    </summary>
+    <p>First, simply fill out the embed that you want, then press on the send button which is located at the bottom
+      right of the page. Once clicked, you will have the option of sending it to a channel of your choice, click on one
+      of these channels to send your embed.</p>
+  </details>
+</div>
+
+<%- include("./partials/footer") %>

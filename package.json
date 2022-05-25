@@ -1,0 +1,51 @@
+{
+  "name": "aeona",
+  "version": "6.1.1",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "description": "Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_",
+  "main": "index.js.js",
+  "scripts": {
+    "start": "node index.js",
+    "tailwind": "node index.js & npx tailwind build -o ./dashboard/static/css/build.css --watch ",
+    "dev": "nodemon index.js",
+    "lint": "ejslint **/*.ejs",
+    "lavalink": "java -jar Lavalink.jar"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.2",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.16.0",
+    "eslint-config-tesseract": "^0.3.0",
+    "node": "^17.7.2",
+    "tailwindcss": "^3.0.24",
+    "tailwindcss-filters": "^3.0.0"
+  },
+  "dependencies": {
+    "@top-gg/sdk": "^3.1.3",
+    "body-parser": "^1.20.0",
+    "connect-mongo": "^4.6.0",
+    "daisyui": "^2.15.0",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.7",
+    "express": "^4.18.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.13.14",
+    "passport": "^0.6.0",
+    "passport-discord": "^0.1.4",
+    "tailwindcss-animatecss": "^1.0.7"
+  },
+  "engines": {
+    "node": "17.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepsarda/Aeona.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deepsarda/Aeona/issues"
+  },
+  "homepage": "https://github.com/deepsarda/Aeona#readme"
+}

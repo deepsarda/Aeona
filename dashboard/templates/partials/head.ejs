@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="my-theme">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://www.aeona.xyz/logo.png">
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" type="text/css" href="<%=https%><%=hostname%>/css/build.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" type="text/css" href="<%=https%><%=hostname%>/css/scroll.css">
+  <% if (analitics) { %>
+  <%- include('./analytics.ejs') %>
+  <% } %>
+  <%- include("./seo", { arc, bot, user, path, description, title, url,
+                    image:`${https}${hostname}/logo.png`}) %>
+  <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.5/dist/flowbite.min.css" />
+</head>
+
+<body class="text-white h-screen w-screen bg-gradient-to-r from-violet-700 to-violet-900  text-lg">
+  <div class="bg-[url('https://www.aeona.xyz/svg/background-1.svg')] bg-repeat h-screen w-screen      scroll-smooth overflow-y-auto ">
+    <article class="prose prose-invert  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5">
+    
+      <% if(user){ %>
+      <% if (user.avatar) { avatar="https://cdn.discordapp.com/avatars/" + user.id + "/" +
+                    user.avatar+".png?size=128" ; } else {
+                    avatar="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404.png?v=1602412158188"
+                    ; } %>
+      <nav class="w-full mb-20 not-prose">
+        <div class="container flex flex-wrap justify-between items-center mx-auto">
+          
+          <a href="https://www.aeona.xyz/" class="flex items-center  md:pr-2">
+            <img src="https://www.aeona.xyz/logo.png" class="mr-3 h-6 sm:h-9" alt="Aeona Logo" />
+            <span class="self-center text-3xl font-semibold whitespace-nowrap ease-in duration-300 hover:scale-110 ">Aeona</span>
+          </a>
+          <div class="flex items-center md:order-2">
+            <button type="button" class="flex mr-3 text-2xl  rounded-full md:mr-0 focus:ring-4  focus:scale-110" id="user-menu-button" aria-expanded="false" type="button" data-dropdown-toggle="dropdown">
+              <span class="sr-only">Open user menu</span>
+              <img class="w-8 h-8 rounded-full" src="<%= avatar %>" alt="<%= user.name %> avatar" />
+            </button>
+            <!-- Dropdown menu -->
+            <div class="hidden z-50 my-4 text-base list-none  rounded divide-y shadow " id="dropdown">
+              <div class="py-3 px-4">
+                <span class="block text-2xl  "></span>
+                <span class="block text-2xl font-medium  truncate ">
+                  <%= user.name %>
+                </span>
+              </div>
+              <ul class="py-1" aria-labelledby="dropdown">
+                <li>
+                  <a href="/dashboard" class="block py-2 px-4 text-2xl  ease-in duration-300 hover:scale-110  text-gray-200 hover:text-white">Dashboard</a>
+                </li>
+                <li>
+                  <a href="/dashboard" class="block py-2 px-4 text-2xl  ease-in duration-300 hover:scale-110  text-gray-200 hover:text-white">My
+                    Servers</a>
+                </li>
+                <li>
+                  <a href="/premium" class="block py-2 px-4 text-2xl  ease-in duration-300 hover:scale-110 text-gray-200 hover:text-white">Premium</a>
+                </li>
+                <li>
+                  <a href="#" class="block py-2 px-4 text-2xl  ease-in duration-300 hover:scale-110 text-gray-200 hover:text-white">Sign
+                    out</a>
+                </li>
+              </ul>
+            </div>
+            <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-2xl  rounded-lg md:hidden ease-in duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400  " aria-controls="mobile-menu-2" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+              </svg>
+              <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+            <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-2xl md:font-medium">
+              <li>
+                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white">Home</a>
+              </li>
+              <li>
+                <a href="/dashboard" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Dashboard</a>
+              </li>
+              <li>
+                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
+              </li>
+              <li>
+                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
+              </li>
+              <li>
+                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
+              </li>
+              <li>
+                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <% }else{ %>
+      <nav class="w-full mb-20 not-prose">
+        <div class="container flex flex-wrap justify-between items-center mx-auto text-xl">
+          <a href="https://www.aeona.xyz" class="flex items-center   pr-2">
+            <img src="https://www.aeona.xyz/logo.png" class="mr-3 h-6 sm:h-9" alt="Aeona Logo" />
+            <span class="self-center text-3xl font-semibold whitespace-nowrap text-white ease-in duration-300 hover:scale-110">Aeona</span>
+          </a>
+          <button data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-3 text-2xl  rounded-lg md:hidden  focus:outline-none focus:ring-2  text-gray-400 ease-in duration-300 hover:scale-110 " aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
+            <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-base md:font-medium">
+              <li>
+                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white ">Home</a>
+              </li>
+
+              <li>
+                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
+              </li>
+              <li>
+                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
+              </li>
+              <li>
+                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
+              </li>
+              <li>
+                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
+              </li>
+              <li>
+                <a href="/login" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <% } %>
