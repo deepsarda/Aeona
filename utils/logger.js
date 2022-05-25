@@ -1,5 +1,5 @@
-const HTTPS = require('https');
 
+const Discord = require('discord.js');
 function timestamp() {
     let now = new Date();
     let hour = now.getHours();
@@ -10,23 +10,11 @@ function timestamp() {
 }
 
 function Webhook(url) {
-    let options = {
-        hostname: 'discord.com',
-        port: 443,
-        path: url.replace("https://discord.com", ""),
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
+    let webhook = new Discord.WebhookClient({url});
+    
     return (message) => {
-        const request = HTTPS.request(options, response => {
-            response.on("data", responseData => process.stdout.write(responseData))
-        })
-
-        request.on("error", error => process.stdout.write(error))
-        request.write(JSON.stringify({ content: message }));
-        request.end();
+        webhook.send(message);
+       
     }
 }
 
