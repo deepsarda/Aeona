@@ -30,11 +30,11 @@ module.exports = class commandInteraction {
               .setStyle("LINK"),
             new Discord.MessageButton()
               .setLabel("Support Server")
-              .setURL("https://discord.gg/YKwf9B39fT")
+              .setURL("https://www.aeona.xyz/support")
               .setStyle("LINK"),
             new Discord.MessageButton()
               .setLabel("Website/Dashboard")
-              .setURL("https://aeona.repl.co")
+              .setURL("https://aeona.xyz")
               .setStyle("LINK"),
             new Discord.MessageButton()
               .setLabel("Vote")
