@@ -89,6 +89,11 @@ module.exports = class extends Event {
             .catch(() => {});
         } else {
           async function globalChat() {
+            const userBlacklistSettings = await Blacklist.findOne({
+              discordId: message.author.id,
+            });
+            if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
+              return;
             console.log("globalChat");
             let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
             Statcord.ShardingClient.postCommand(
@@ -96,9 +101,19 @@ module.exports = class extends Event {
               message.author.id,
               message.client
             );
-            console.log(
+            logger.log(
               `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
             );
+
+            function linkify(text) {
+              var urlRegex =
+                /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+              return text.replace(urlRegex, function (url) {
+                return url.includes('tenor')?url:'`Link was filtered`';
+              });
+            }
+
+            message.content=linkify(message.content);
             for (let i = 0; i < guilds.length; i++) {
               let guild = guilds[i];
               if (guild.guildId != message.guild.id) {
@@ -158,8 +173,6 @@ module.exports = class extends Event {
           }
           globalChat();
         }
-
-        
       }
       if (settings.aiAutoMod) {
         //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
