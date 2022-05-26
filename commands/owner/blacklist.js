@@ -83,7 +83,7 @@ module.exports = class extends Command {
         .setColor("BLURPLE")
         .setTitle(`Blacklist Report`)
         .addField("Status", "Added to the blacklist.")
-        .addField("User", `${member.user.tag} (${member.id})`)
+        .addField("User", `${member.tag} (${member.id})`)
         .addField("Responsible", `${message.author} (${message.author.id})`)
         .addField("Reason", reason);
 
