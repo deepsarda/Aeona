@@ -3,7 +3,7 @@ const Command = require("../../structures/Command");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
-      name: "give",
+      name: "giveap",
       aliases: [],
       usage: "",
       description: "Give Action Points to a player",
