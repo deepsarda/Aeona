@@ -804,11 +804,11 @@ async function execute(message, prefix, i, chatbot) {
                   .setStyle("LINK"),
                 new Discord.MessageButton()
                   .setLabel("Support Server")
-                  .setURL("https://discord.gg/YKwf9B39fT")
+                  .setURL("https://aeona.xyz/invite")
                   .setStyle("LINK"),
                 new Discord.MessageButton()
                   .setLabel("Website/Dashboard")
-                  .setURL("https://aeona.repl.co")
+                  .setURL("https://aeona.xyz")
                   .setStyle("LINK"),
                 new Discord.MessageButton()
                   .setLabel("Vote")
@@ -831,10 +831,6 @@ async function execute(message, prefix, i, chatbot) {
               console.log(command);
               command.run(p, [], message.client);
             }
-
-            logger.info(
-              `\n\n **AI query** ${message.content} \n\n **User** ${message.member.displayName} \n\n **Guild** ${message.guild.name} \n\n **AI response** ${reply}`
-            );
 
             return;
           } catch (e) {
