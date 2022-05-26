@@ -101,7 +101,7 @@ module.exports = class extends Event {
               message.author.id,
               message.client
             );
-            logger.log(
+            logger.info(
               `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
             );
 
