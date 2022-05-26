@@ -28,7 +28,7 @@ module.exports = class extends Command {
     try {
       member = match
         ? message.mentions.members.first() ||
-          message.guild.members.fetch(args[1])
+          await message.client.users.fetch(args[1])
         : null;
     } catch {
       return message.channel.send(`Provide me with a user`);
