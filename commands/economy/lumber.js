@@ -7,7 +7,7 @@ module.exports = class extends Command {
       name: "lumber",
       description: "Chop Wood",
       category: "economy",
-      cooldown: 3,
+      cooldown: 1,
       usage: "",
     });
   }

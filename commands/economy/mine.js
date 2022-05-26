@@ -7,7 +7,7 @@ module.exports = class extends Command {
       name: "mine",
       description: "Mine ores",
       category: "economy",
-      cooldown: 3,
+      cooldown: 1,
       usage: "",
     });
   }

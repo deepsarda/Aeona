@@ -7,7 +7,7 @@ module.exports = class extends Command {
       name: "work",
       description: "Do a job",
       category: "economy",
-      cooldown: 3,
+      cooldown: 1,
       usage: "",
     });
   }

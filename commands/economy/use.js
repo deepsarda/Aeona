@@ -17,7 +17,7 @@ module.exports = class extends Command {
 
     let item = args[0];
     let amount = numberParse(args[1]);
-
+    if(!amount) amount=1;
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let itemData = await bot.economy.getItem(item);
