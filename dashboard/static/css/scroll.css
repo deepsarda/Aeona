@@ -20,9 +20,7 @@
   height: 100vh;
 }
 
-::root {
-  --tw-bg-opacity: 0;
-}
+
 
 .glass2 {
   background: rgba(255 255 255/4%);
@@ -90,4 +88,10 @@ li {
 
 ::-webkit-scrollbar-thumb {
   background: rgba(255 255 255/4%);
+}
+
+
+
+:root {
+  --bc: 318 46% 89%;
 }

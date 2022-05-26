@@ -19,9 +19,9 @@
   <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.5/dist/flowbite.min.css" />
 </head>
 
-<body class="text-white h-screen w-screen bg-gradient-to-r from-fuchsia-300 to-fuchsia-600  text-lg">
+<body class="text-white h-screen w-screen bg-gradient-to-r from-fuchsia-400 to-rose-400  text-lg">
   <div class="bg-[url('https://www.aeona.xyz/svg/background-1.svg')] bg-repeat h-screen w-screen      scroll-smooth overflow-y-auto ">
-    <article class="prose prose-invert  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5">
+    <article class="prose  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5">
     
       <% if(user){ %>
       <% if (user.avatar) { avatar="https://cdn.discordapp.com/avatars/" + user.id + "/" +
@@ -65,7 +65,7 @@
                 </li>
               </ul>
             </div>
-            <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-2xl  rounded-lg md:hidden ease-in duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-200 text-gray-400  " aria-controls="mobile-menu-2" aria-expanded="false">
+            <button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-2xl  rounded-lg md:hidden ease-in duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-200 text-base-100  " aria-controls="mobile-menu-2" aria-expanded="false">
               <span class="sr-only">Open main menu</span>
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -78,22 +78,22 @@
           <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-2xl md:font-medium">
               <li>
-                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white">Home</a>
+                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white">Home</a>
               </li>
               <li>
-                <a href="/dashboard" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Dashboard</a>
+                <a href="/dashboard" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Dashboard</a>
               </li>
               <li>
-                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
+                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
               </li>
               <li>
-                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
+                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
               </li>
               <li>
-                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
+                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
               </li>
               <li>
-                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
+                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
               </li>
             </ul>
           </div>
@@ -106,7 +106,7 @@
             <img src="https://www.aeona.xyz/logo.png" class="mr-3 h-6 sm:h-9 rounded-full" alt="Aeona Logo" />
             <span class="self-center text-3xl font-semibold whitespace-nowrap text-white ease-in duration-300 hover:scale-110">Aeona</span>
           </a>
-          <button data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-3 text-2xl  rounded-lg md:hidden  focus:outline-none focus:ring-2  text-gray-400 ease-in duration-300 hover:scale-110 " aria-controls="mobile-menu" aria-expanded="false">
+          <button data-collapse-toggle="mobile-menu" type="button" class="inline-flex items-center p-2 ml-3 text-2xl  rounded-lg md:hidden  focus:outline-none focus:ring-2  text-base-100 ease-in duration-300 hover:scale-110 " aria-controls="mobile-menu" aria-expanded="false">
             <span class="sr-only">Open main menu</span>
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -118,23 +118,23 @@
           <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
             <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-base md:font-medium">
               <li>
-                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white ">Home</a>
+                <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white ">Home</a>
               </li>
 
               <li>
-                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
+                <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
               </li>
               <li>
-                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
+                <a href="/support" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Support</a>
               </li>
               <li>
-                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
+                <a href="/premium" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Premium</a>
               </li>
               <li>
-                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
+                <a href="/stats" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Stats</a>
               </li>
               <li>
-                <a href="/login" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-400 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Login</a>
+                <a href="/login" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-base-100 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Login</a>
               </li>
             </ul>
           </div>

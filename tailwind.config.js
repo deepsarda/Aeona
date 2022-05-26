@@ -4,23 +4,22 @@ module.exports = {
     themes: [
       {
         mytheme: {
-          
-          "primary": "#9333ea",
-          
-          "secondary": "#ec4899",
-                   
-          "accent": "#0284c7",
-                   
-          "neutral": "#6d28d9",
-                   
-          "base-100": "#581c87",
-                   
+          "primary": "#E96D7B",
+
+          "secondary": "#88DCDD",
+
+          "accent": "#88DCDD",
+
+          "neutral": "#f9a8d4",
+
+          "base-100": "#f0d6e8",
+
           "info": "#53C0F3",
-                   
+
           "success": "#71EAD2",
-                   
+
           "warning": "#F3CC30",
-                   
+
           "error": "#E24056",
         },
       },
@@ -64,10 +63,8 @@ module.exports = {
   },
 
   plugins: [
-    require("daisyui"),
     require("@tailwindcss/typography"),
-    require("tailwindcss-filters"),
-
+    require("daisyui"),
     require("tailwindcss-animatecss")({
       settings: {},
       variants: ["responsive", "hover", "reduced-motion"],
