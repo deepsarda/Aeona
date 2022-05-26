@@ -53,7 +53,7 @@ module.exports = class extends Command {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
         let level = itemUser.level ? itemUser.level : 1;
         let m = false;
-        let cost = 100000;
+        let cost = 10000;
         let totalLevels = Math.floor(profile.money.wallet / cost);
         let totalCost = cost * totalLevels;
         profile.money.wallet -= totalCost;
@@ -74,7 +74,7 @@ module.exports = class extends Command {
     let level = itemUser.level ? itemUser.level : 1;
     let max = false;
     for (let i = 0; i < amount; i++) {
-      let cost = 100000;
+      let cost = 10000;
       if (profile.money.wallet < cost) {
         util.error({
           msg: message,
