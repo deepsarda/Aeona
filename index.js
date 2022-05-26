@@ -22,9 +22,9 @@ async function start() {
       console.log("Launching dashboard...");
       dashboard(client);
 
-      let channel=await client.channels.fetch("785776583502856193");
-      let msg=await channel.send({title:"Aeona is ready!",description:"Aeona is ready to serve you!\n\n Discord.js Text Channel Overriden!", content:"<@394320584089010179> <@794921502230577182>"});
-      msg.reply({title:"Aeona is ready!",description:"Aeona is ready to serve you!\n\n Discord.js Message Overriden!", content:"<@394320584089010179> <@794921502230577182>"});
+      //let channel=await client.channels.fetch("785776583502856193");
+      //let msg=await channel.send({title:"Aeona is ready!",description:"Aeona is ready to serve you!\n\n Discord.js Text Channel Overriden!", content:"<@394320584089010179> <@794921502230577182>"});
+      //msg.reply({title:"Aeona is ready!",description:"Aeona is ready to serve you!\n\n Discord.js Message Overriden!", content:"<@394320584089010179> <@794921502230577182>"});
       break;
     } catch (e) {
       console.log(e);
