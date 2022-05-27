@@ -48,6 +48,7 @@ module.exports = class extends Command {
     send(channel, msg, {
       name: `${message.author.username}`,
       icon: `${message.author.displayAvatarURL()}`,
+      allowedMentions: { parse: [] },
     }).catch(() => {});
   }
 };

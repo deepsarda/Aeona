@@ -218,7 +218,7 @@ module.exports = class extends Event {
           )
           .setFooter({ text: "Thank you for using Aeona!!" })
           .setColor("#FF2C98");
-        message.channel.send({ embeds: [embed] });
+        return message.channel.send({ embeds: [embed] });
       }
       // Filters
       if (settings && (await inviteFilter(message))) return;
@@ -854,7 +854,7 @@ async function execute(message, prefix, i, chatbot) {
             return;
           }
         }
-        message.content = "Random";
+        message.content = "UDC";
         execute(message, "", i, chatbot);
         return;
       });
