@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 module.exports = {
   name: "messageCreate",
   async execute(message) {
-    let prefixs = [
+    let prefixes = [
       "+",
       ">",
       "aeona",
@@ -18,11 +18,10 @@ module.exports = {
         prefix = "";
       }
     }
-    for (let i = 0; i < prefixs.length; i++) {
-      if (message.content.startsWith(prefixs[i])) {
-        prefix = prefixs[i];
-        break;
-      }
+    
+    for (let prefix of prefixes) {
+      if (message.content.startsWith(prefix)
+          break;
     }
 
     if (!prefix) return;
