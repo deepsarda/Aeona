@@ -2646,6 +2646,10 @@ body[dir="rtl"] .checkbox:checked,
   margin-top: 5rem;
 }
 
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
 .mb-20 {
   margin-bottom: 5rem;
 }
@@ -2664,10 +2668,6 @@ body[dir="rtl"] .checkbox:checked,
 
 .ml-3 {
   margin-left: 0.75rem;
-}
-
-.mt-3 {
-  margin-top: 0.75rem;
 }
 
 .box-border {
@@ -2860,21 +2860,25 @@ body[dir="rtl"] .checkbox:checked,
   --tw-bg-opacity: 0.1;
 }
 
-.bg-gradient-to-r {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
 .bg-\[url\(\'https\:\/\/www\.aeona\.xyz\/svg\/background-1\.svg\'\)\] {
   background-image: url('https://www.aeona.xyz/svg/background-1.svg');
 }
 
-.from-fuchsia-400 {
-  --tw-gradient-from: #e879f9;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(232 121 249 / 0));
+.from-indigo-500 {
+  --tw-gradient-from: #6366f1;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(99 102 241 / 0));
 }
 
-.to-rose-400 {
-  --tw-gradient-to: #fb7185;
+.via-purple-500 {
+  --tw-gradient-stops: var(--tw-gradient-from), #a855f7, var(--tw-gradient-to, rgb(168 85 247 / 0));
+}
+
+.to-pink-500 {
+  --tw-gradient-to: #ec4899;
 }
 
 .bg-clip-padding {
@@ -3005,11 +3009,6 @@ body[dir="rtl"] .checkbox:checked,
 .text-gray-200 {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
-}
-
-.text-gray-400 {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .text-base-100 {

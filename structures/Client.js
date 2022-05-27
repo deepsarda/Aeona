@@ -65,7 +65,7 @@ module.exports = class AeonaClient extends Client {
     }
   } 
 
-  loadFiles(dir) {
+  async loadFiles(dir) {
     let filesPath=[];
     const files = await fs.readdir(dir);
     for (const file of files) {
