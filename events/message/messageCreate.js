@@ -5,6 +5,9 @@ const Discord = require("discord.js");
 module.exports = {
     name: "messageCreate",
     execute: async message => {
+        if (!["+", ">"].includes(message.content.charAt(0)))
+            return;
+        
         let args = message.content.split(" ");
         let command = args.shift().toLowerCase();
 
@@ -17,7 +20,7 @@ module.exports = {
             for (const file of files) {
                 const fileCommand = require(`../commands/${category}/${file}`);
                 if (fileCommand.name.toLowerCase() === command.toLowerCase())
-                    return fileCommand.execute(message, args, message.client, Discord)
+                    return fileCommand.execute(message, args, message.client, message.content.charAt(0))
             }
         };
     }
