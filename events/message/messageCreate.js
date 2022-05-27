@@ -18,10 +18,12 @@ module.exports = {
         prefix = "";
       }
     }
-    
-    for (let prefix of prefixes) {
-      if (message.content.startsWith(prefix)
-          break;
+
+    for (let p of prefixes) {
+      if (message.content.startsWith(p)) {
+        prefix = p;
+        break;
+      }
     }
 
     if (!prefix) return;
