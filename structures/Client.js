@@ -1,5 +1,5 @@
 const { Client, Collection, MessageEmbed } = require("discord.js");
-
+const fs = require("fs");
 
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
@@ -41,17 +41,15 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-    this.commands = new Collection()
+      (this.commandsCache = new Collection());
+    this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
-
   }
 
   async start(token) {
     this.loadCommands();
-    if (!process.env.DEV)
-      this.loadEvents()
-      .catch((e) => console.log(e));
+    if (!process.env.DEV) this.loadEvents().catch((e) => console.log(e));
 
     this.mongoose.init();
     await this.login(token);
@@ -59,7 +57,29 @@ module.exports = class AeonaClient extends Client {
 
   async loadCommands() {}
 
-  async loadEvents() {}
+  async loadEvents() {
+    let events = await this.loadFiles("../events");
+    for (const event of events) {
+      this.events.set(event.name, event.event);
+      this.on(event.name, event.event);
+    }
+  } 
+
+  loadFiles(dir) {
+    let filesPath=[];
+    const files = await fs.readdir(dir);
+    for (const file of files) {
+      //Check if the file is a directory
+      const stat = await fs.stat(`${dir}/${file}`);
+      if (stat.isDirectory()) {
+        filesPath.push(...this.loadFiles(`${dir}/${file}`));
+      } else {
+        if (file.endsWith(".js")) {
+          filesPath.push(`${dir}/${file}`);
+        }
+      }
+    }
+
+    return filesPath;
+  }
 };
-
-
