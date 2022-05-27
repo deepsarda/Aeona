@@ -13,7 +13,7 @@ module.exports = class extends Command {
       description:
         "Flip a coin, If you win gain double the money or lose all the money.",
       category: "economy",
-      cooldown: 60 * 10,
+      cooldown: 60 * 5,
       usage: "",
     });
   }
