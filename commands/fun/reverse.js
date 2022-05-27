@@ -13,7 +13,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -24,11 +24,13 @@ module.exports = class extends Command {
     const text = args.join(" ");
     const converted = text.split("").reverse().join("");
     message.channel
-      .send(
-        new discord.MessageEmbed()
-          .setDescription(`\u180E${converted}`)
-          .setColor(message.client.color.blue)
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setDescription(`\u180E${converted}`)
+            .setColor(message.client.color.blue),
+        ],
+      })
       .catch(() => {});
   }
 };

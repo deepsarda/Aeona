@@ -8,7 +8,7 @@ module.exports = class extends Command {
       name: "magik",
       aliases: [],
       description: "Make a magik avatar!",
-      category: "Fun",
+      category: "image",
       usage: "<magik>",
       examples: ["magik"],
       guildOnly: true,
