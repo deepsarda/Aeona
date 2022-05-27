@@ -200,6 +200,8 @@ module.exports = class extends Event {
         message.channel.id != "970641138153304134"
       )
         return;
+
+      if(message.author.bot) return;
       if (message.content.match(mentionRegex)) {
         const proofita = `\`\`\`css\n[Prefix: ${
           settings.prefix || "!"
