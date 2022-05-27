@@ -201,7 +201,6 @@ module.exports = class extends Event {
       )
         return;
 
-      if(message.author.bot) return;
       if (message.content.match(mentionRegex)) {
         const proofita = `\`\`\`css\n[Prefix: ${
           settings.prefix || "!"
@@ -674,10 +673,12 @@ module.exports = class extends Event {
       { label: "Command" }
     );
 
+    if(message.author.bot) return;
     await command.run(message, args, this.client);
   }
 
   ratelimit(message, cmd) {
+    if(message.author.bot) return;
     try {
       const command =
         this.client.commands.get(cmd.toLowerCase()) ||
