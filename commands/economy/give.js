@@ -34,18 +34,19 @@ module.exports = class extends Command {
         message.member;
     var profile = await bot.economy.getConfig(user);
     var amount = args[1];
+    if(!amount) amount=1000;
     if (typeof amount == "string") {
       if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all") {
-        amount = profile.coinsInWallet;
+        amount = profile.money.wallet;
       }
     }
 
-    if (amount > profile.coinsInWallet) {
+    if (amount > profile.money.wallet) {
       util.error({
         msg: message,
         title: "You don't have enough money.",
         description: `You need ${(
-          amount - profile.coinsInWallet
+          amount - profile.money.wallet
         ).toLocaleString()} more credits.`,
       });
       return;
@@ -61,8 +62,8 @@ module.exports = class extends Command {
 
     var profile2 = await bot.economy.getConfig(user2);
     
-    profile.coinsInWallet -= amount;
-    profile2.coinsInWallet += amount;
+    profile.money.wallet -= amount;
+    profile2.money.wallet += amount;
 
     await profile2.save();
     await profile.save();

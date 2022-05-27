@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
 const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
+const discord = require("discord.js");
 
 module.exports = class extends Command {
   constructor(...args) {

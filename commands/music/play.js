@@ -37,7 +37,7 @@ async function play({ member, guild, channel }, user, query) {
     });
   } catch (ex) {
     if (ex.message === "No available nodes.") {
-      guild.client.logger.debug("No available nodes!");
+     
       return "🚫 No available nodes! Try again later";
     }
   }

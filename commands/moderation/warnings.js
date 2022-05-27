@@ -6,7 +6,7 @@ const { MessageEmbed } = require("discord.js");
 const warnModel = require("../../models/moderation.js");
 const mongoose = require("mongoose");
 const ReactionMenu = require("../../data/ReactionMenu.js");
-
+const discord = require("discord.js");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {

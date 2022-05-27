@@ -7,6 +7,7 @@ const Discord = require("discord.js");
 const randoStrings = require("randostrings");
 const random = new randoStrings();
 const Logging = require("../../database/schemas/logging.js");
+const discord = require("discord.js");
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {

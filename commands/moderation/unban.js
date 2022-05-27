@@ -2,7 +2,7 @@ const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
 const Guild = require("../../database/schemas/Guild.js");
 const Discord = require("discord.js");
-
+const discord = require("discord.js");
 const Logging = require("../../database/schemas/logging.js");
 module.exports = class extends Command {
   constructor(...args) {

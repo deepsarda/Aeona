@@ -21,9 +21,7 @@ module.exports = class extends Command {
 
     const language = require(`../../data/language/${guildDB.language}.json`);
 
-    let uptime = this.client.shard
-      ? await this.client.shard.broadcastEval("this.uptime")
-      : this.client.uptime;
+    let uptime = this.client.uptime;
     if (uptime instanceof Array) {
       uptime = uptime.reduce((max, cur) => Math.max(max, cur), -Infinity);
     }
