@@ -41,7 +41,7 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-    this.commands = new Collection();
+      (this.commands = new Collection());
     this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
@@ -55,44 +55,56 @@ module.exports = class AeonaClient extends Client {
     await this.login(token);
   }
 
-  async loadCommands() {
-    let commands = await this.loadFiles("../commands");
+  loadCommands() {
+    let commands = this.loadFiles("./commands");
     for (let command of commands) {
-      command = require(command);
-      let category = command.category;
-      if (!this.catergories.has(category)) {
-        this.catergories.set(category, []);
-      }
-      this.catergories.get(category).push(command);
-
-      this.commands.set(command.name, command);
-
-      if(command.aliases){
-        for(let alias of command.aliases){
-          this.commands.set(alias, command);
+      try {
+        command = require("." + command);
+        let category = command.category;
+        if (!this.catergories.has(category)) {
+          this.catergories.set(category, []);
         }
+        this.catergories.get(category).push(command);
+
+        this.commands.set(command.name, command);
+
+        if (command.aliases) {
+          for (let alias of command.aliases) {
+            this.commands.set(alias, command);
+          }
+        }
+
+        console.log(`Loaded command ${command.name}`);
+      } catch (e) {
+        console.error(e);
+        console.log(`${command} failed to load`);
       }
-     
     }
   }
 
-  async loadEvents() {
-    let events = await this.loadFiles("../events");
+  loadEvents() {
+    let events = this.loadFiles("./events");
+
     for (let event of events) {
-       event= require(event);
-      this.events.set(event.name, event.execute);
-      this.on(event.name, event.execute);
+      try {
+        event = require("." + event);
+        this.events.set(event.name, event.execute);
+        this.on(event.name, event.execute);
 
-      console.log(`Loaded event ${event.name}`);
+        console.log(`Loaded event ${event.name}`);
+      } catch (e) {
+        console.error(e);
+        console.log(`Failed to load event ${event.name}`);
+      }
     }
-  } 
+  }
 
-  async loadFiles(dir) {
-    let filesPath=[];
-    const files = await fs.readdir(dir);
+  loadFiles(dir) {
+    let filesPath = [];
+    const files = fs.readdirSync(dir);
     for (const file of files) {
       //Check if the file is a directory
-      const stat = await fs.stat(`${dir}/${file}`);
+      const stat = fs.statSync(`${dir}/${file}`);
       if (stat.isDirectory()) {
         filesPath.push(...this.loadFiles(`${dir}/${file}`));
       } else {
