@@ -42,7 +42,7 @@ function DiscordLogger(appName, webhookURL){
                     return accumulator + current.toString() + "      ";
                 }, "").trim();
 
-                webhook(`\`${prefix} ${message}\``);
+                webhook(`${prefix} ${message}`);
             }
         }
     }

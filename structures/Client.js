@@ -41,7 +41,7 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-      (this.commandsCache = new Collection());
+
     this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
@@ -55,13 +55,24 @@ module.exports = class AeonaClient extends Client {
     await this.login(token);
   }
 
-  async loadCommands() {}
+  async loadCommands() {
+    let commands = await this.loadFiles("../commands");
+    for (const command of commands) {
+      let category = command.category;
+      if (!this.catergories.has(category)) {
+        this.catergories.set(category, []);
+      }
+      this.catergories.get(category).push(command);
+    }
+  }
 
   async loadEvents() {
     let events = await this.loadFiles("../events");
     for (const event of events) {
-      this.events.set(event.name, event.event);
-      this.on(event.name, event.event);
+      this.events.set(event.name, event.execute);
+      this.on(event.name, event.execute);
+
+      console.log(`Loaded event ${event.name}`);
     }
   } 
 
