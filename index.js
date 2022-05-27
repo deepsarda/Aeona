@@ -5,14 +5,18 @@ const aeonaClient = require("./structures/Client");
 const config = require("./utils/config");
 const dashboard = require("./dashboard");
 
-
 //Override prototype
 require("./structures/TextChannel").run();
 require("./structures/Message").run();
 const logger = require("./utils/logger");
 logger("Aeona", config.logs_webhook_url);
 console.log("Launching Aeona...");
-let client= new aeonaClient();
+let client = new aeonaClient();
+
+//Look for errors
+process.on("uncaughtException", (err) => {
+  console.error(err);
+});
 
 async function start() {
   while (!client.ready) {

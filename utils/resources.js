@@ -63,7 +63,7 @@ class Resource {
       });
     } else if (options.author === "footer") {
       embed.setFooter({
-        namtext: options.footerText ?? msg.author.tag,
+        text: options.footerText ?? msg.author.tag,
         iconURL:
           options.footerIconURL ??
           msg.member.displayAvatarURL({ dynamic: true }),
