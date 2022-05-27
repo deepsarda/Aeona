@@ -1,6 +1,11 @@
 const Command = require("../../structures/Command");
 const Discord = require("discord.js");
 const Utils = require("../../structures/Utils");
+
+function randint(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 module.exports = class extends Command {
   constructor(...args) {
     super(...args, {
