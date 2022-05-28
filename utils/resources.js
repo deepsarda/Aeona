@@ -126,7 +126,7 @@ class Resource {
 
     const messageOptions = {
       content: options.content,
-      embeds: [embed],
+      embeds: [options.noEmbed ? undefined : embed],
       reply:options.reply,
       tts: cleanNull(options.tts, "boolean"),
       files: cleanNull(options.files, "array"),

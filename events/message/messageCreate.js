@@ -32,8 +32,8 @@ module.exports = {
     }).exec();
 
     if (afk) {
-      await message.channel.send({content: `Welcome back ${message.author.mention}, I've cleared your AFK.`});
-      
+      await message.channel.send({content: `Welcome back ${message.author.mention}, I've cleared your AFK.`, noEmbed: true});
+
       await AFKModel.deleteOne({
         userID: message.author.id,
         guildID: message.guild.id
