@@ -1,8 +1,48 @@
 const Discord = require("discord.js");
 
+const AFKModel = require("../../dashboard/models/afk.js");
+
 module.exports = {
   name: "messageCreate",
   async execute(message) {
+    
+    // Searching for AFK user mentions
+
+    if (message.mentions.members.size > 0) {
+      for (const member of message.mentions.members.values()) {
+        const afk = await AFKModel.findOne({
+          userID: member.id,
+          guildID: message.guild.id
+        }).exec();
+
+        if (!afk) continue;
+
+        await message.channel.send({
+          title: `${member.displayName} is AFK!`,
+          description: `${member} is AFK.\nStatus: ${afk.message}`
+        })
+      }
+    }
+
+    // Searching for AFK users
+
+    const afk = await AFKModel.findOne({
+      userID: message.author.id,
+      guildID: message.guild.id
+    }).exec();
+
+    if (afk) {
+      await message.channel.send({content: `Welcome back ${message.author.mention}, I've cleared your AFK.`});
+      
+      await AFKModel.deleteOne({
+        userID: message.author.id,
+        guildID: message.guild.id
+      }).exec();
+    }
+
+
+    // Searching for a command
+
     let prefixes = [
       "+",
       ">",
