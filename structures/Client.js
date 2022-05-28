@@ -49,7 +49,7 @@ module.exports = class AeonaClient extends Client {
 
   async start(token) {
     this.loadCommands();
-    if (!process.env.DEV) this.loadEvents().catch((e) => console.log(e));
+    if (!process.env.DEV) this.loadEvents()
 
     this.mongoose.init();
     await this.login(token);
