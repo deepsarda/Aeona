@@ -17,7 +17,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_GUILD"],
     });
   }
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     const client = message.client;
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
@@ -56,19 +56,21 @@ module.exports = class extends Command {
 
     if (array.length <= interval) {
       const range = array.length == 1 ? "[1]" : `[1 - ${array.length}]`;
-      message.channel.send(
-        embed
-          .setTitle(`Applications - Review ${range}`)
-          .setDescription(
-            `\`\`\`\n${array.join("\n\n")}\`\`\`` ||
-              "No Pending Applications Found"
-          )
-          .setColor(message.client.color.green)
-          .setFooter({
-            text: message.author.tag,
-            ixonURL: message.author.displayAvatarURL({ dynamic: true }),
-          })
-      );
+      message.channel.send({
+        embeds: [
+          embed
+            .setTitle(`Applications - Review ${range}`)
+            .setDescription(
+              `\`\`\`\n${array.join("\n\n")}\`\`\`` ||
+                "No Pending Applications Found"
+            )
+            .setColor(message.client.color.green)
+            .setFooter({
+              text: message.author.tag,
+              ixonURL: message.author.displayAvatarURL({ dynamic: true }),
+            }),
+        ],
+      });
     } else {
       embed.setTitle(`Applications - Review`).setFooter({
         text: message.author.tag,

@@ -16,7 +16,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     const client = message.client;
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
@@ -49,25 +49,27 @@ module.exports = class extends Command {
         console.log(err);
       });
 
-      return message.channel.send({embeds:[closed]});
+      return message.channel.send({ embeds: [closed] });
     }
 
     if (db.questions.length === 0 || db.questions.length < 1)
       return message.channel.send(closed);
-    const channel = await message.guild.channels.cache.get(db.appLogs);
-    if (!channel) return message.channel.send({embeds:[closed]});
+    const channel = await message.guild.channels.fetch(db.appLogs);
+    if (!channel) return message.channel.send({ embeds: [closed] });
     await message.author
-      .send(
-        new discord.MessageEmbed()
-          .setColor(message.client.color.green)
-          .setFooter({ text: "Powered by Aeona.xyz" })
-          .setDescription(
-            `${message.client.emoji.success} | ${language.applaydone} **${message.guild.name}** [by clicking here](https://Aeona.xyz/apply/${message.guild.id})`
-          )
-      )
+      .send({
+        embeds: [
+          new discord.MessageEmbed()
+            .setColor(message.client.color.green)
+            .setFooter({ text: "Powered by Aeona.xyz" })
+            .setDescription(
+              `${message.client.emoji.success} | ${language.applaydone} **${message.guild.name}** [by clicking here](https://Aeona.xyz/apply/${message.guild.id})`
+            ),
+        ],
+      })
       .then(message.channel.send(`Form sent by DMs - ${message.author}`))
       .catch(() => {
-        return message.channel.send({embeds:[closed2]});
+        return message.channel.send({ embeds: [closed2] });
       });
   }
 };
