@@ -49,13 +49,13 @@ module.exports = class extends Command {
         console.log(err);
       });
 
-      return message.channel.send(closed);
+      return message.channel.send({embeds:[closed]});
     }
 
     if (db.questions.length === 0 || db.questions.length < 1)
       return message.channel.send(closed);
     const channel = await message.guild.channels.cache.get(db.appLogs);
-    if (!channel) return message.channel.send(closed);
+    if (!channel) return message.channel.send({embeds:[closed]});
     await message.author
       .send(
         new discord.MessageEmbed()
@@ -67,7 +67,7 @@ module.exports = class extends Command {
       )
       .then(message.channel.send(`Form sent by DMs - ${message.author}`))
       .catch(() => {
-        return message.channel.send(closed2);
+        return message.channel.send({embeds:[closed2]});
       });
   }
 };

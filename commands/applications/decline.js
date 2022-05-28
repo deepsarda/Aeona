@@ -110,13 +110,15 @@ module.exports = class extends Command {
 
     if (app.dm === true) {
       member
-        .send(
+        .send({
+          embeds: [
           new discord.MessageEmbed()
             .setColor(message.client.color.red)
             .setTitle(language.declinedeclined)
             .setDescription(
               `${client.emoji.fail} Hey ${member.user.tag}, ${language.declinedeclineddescriptionmember} ${id}\n**Declined by:** ${message.author.tag}\n**Reason:** ${reason}`
             )
+          ]}
         )
         .catch(() => {
           message.channel.send(

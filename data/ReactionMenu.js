@@ -103,7 +103,7 @@ module.exports = class ReactionMenu {
      */
     this.timeout = timeout;
 
-    const first = new MessageEmbed(this.json);
+    const first = embed;
     const description = this.arr
       ? this.arr.slice(this.current, this.interval)
       : null;
@@ -115,7 +115,7 @@ module.exports = class ReactionMenu {
             getRange(this.arr, this.current, this.interval)
         )
         .setDescription(description);
-
+    console.log(first)
     this.channel.send({ embeds: [first] }).then((message) => {
       /**
        * The menu message
