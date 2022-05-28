@@ -41,8 +41,10 @@ module.exports = {
         console.log(`${message.author.tag} ran command ${cmd.name} in ${message.guild.name} (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id}) with args ${args.join(" ")} userId: ${message.author.id}`);
       } catch (e) {
         console.error(e);
-        message.reply(
-          `Hey,${message.author}! Something went wrong! \n \`\`\`js ${e} \`\`\``
+        message.reply({
+          title: "Error",
+          description:`Hey,${message.author}! Something went wrong! \n \`\`\`js ${e} \`\`\``
+        }
         );
       }
     }
