@@ -38,4 +38,17 @@ module.exports.run = () => {
     }
     return this.channel.sendError(data);
   };
+
+  Message.prototype.edit = function (options) {
+    options = resources.success.embed(options);
+    if (!this.channel) return Promise.reject(new Error("CHANNEL_NOT_CACHED"));
+    return this.channel.messages.edit(this, options);
+  };
+
+  Message.prototype.editError = function (options) {
+    options = resources.error.embed(options);
+    if (!this.channel) return Promise.reject(new Error("CHANNEL_NOT_CACHED"));
+    return this.channel.messages.edit(this, options);
+  }
+  
 };
