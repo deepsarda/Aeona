@@ -34,7 +34,8 @@ module.exports = {
     if (afk) {
       await message.channel.send({
         title: "Removed AFK status!",
-        description: `Welcome back ${message.member}, I've cleared your AFK.`
+        description: `Welcome back ${message.member}, I've cleared your AFK.`,
+        thumbnailURL: message.member.displayAvatarURL({ dynamic: true })
       });
 
       await AFKModel.deleteOne({
