@@ -10,10 +10,14 @@ module.exports = class extends Event {
     });
     for (let i = 0; i < this.client.tankTacticsHandler.data.length; i++) {
       const game = this.client.tankTacticsHandler.data[i];
-      await this.client.tankTacticsHandler.updateGame(game, false, false);
+      try {
+        await this.client.tankTacticsHandler.updateGame(game, false, false);
+      } catch (e) {}
     }
-
-    this.client.tankTacticsHandler.endGames();
+    this.client.musicManager.init(this.client.user.id);
+    try {
+      this.client.tankTacticsHandler.endGames();
+    } catch (e) {}
     if (maintenance && maintenance.toggle == "true") {
       this.client.user.setPresence({ status: "dnd" });
       this.client.user.setActivity("Under Maintenance");
@@ -21,7 +25,7 @@ module.exports = class extends Event {
       logger.info(`✅ loaded Maintenance Mode `, { label: "Status" });
     } else {
       let client = this.client;
-      this.client.musicManager.init(client.user.id);
+
       client.status = await require("../presence_config");
       setInterval(() => {
         const emoji =
