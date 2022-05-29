@@ -98,7 +98,7 @@ module.exports = {
           return message.channel.send({ embeds: [embed] });
         }
         if (
-          !channel
+          !message.channel
             .permissionsFor(message.guild.me)
             ?.has(Permissions.FLAGS.EMBED_LINKS) &&
           client.user.id !== userId
