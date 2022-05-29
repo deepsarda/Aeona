@@ -4,7 +4,7 @@ const ms = require("ms");
 
 module.exports = {
   name: "queueEnd",
-  execute(client, player) {
+  async execute(client, player) {
     const channel = client.channels.cache.get(player.textChannel);
     let thing = new MessageEmbed()
       .setColor(client.embedColor)

@@ -3,7 +3,7 @@ const { Player } = require("erela.js");
 
 module.exports = {
     name: "playerMove",
-    execute(client, player, oldChannel, newChannel)  {
+    async execute(client, player, oldChannel, newChannel)  {
         const guild = client.guilds.cache.get(player.guild)
         if(!guild) return;
         const channel = guild.channels.cache.get(player.textChannel);

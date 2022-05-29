@@ -1,6 +1,6 @@
 module.exports = {
     name:"TrackEnd",
-    execute(client, player, track, playload) {
+    async execute(client, player, track, playload) {
         const autoplay = player.get("autoplay")
         if (autoplay === true) {
             const requester = player.get("requester");
