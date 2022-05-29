@@ -92,6 +92,7 @@ module.exports = class AeonaClient extends Client {
       "about": "🔎",
       "jump": "⏭️"
     }
+    this.emoji=this.emojies;
   }
 
   async start(token) {
