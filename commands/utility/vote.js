@@ -2,6 +2,7 @@ module.exports = {
     name: "vote",
     description: "Vote for aeona",
     usage: "+vote",
+    requiredArgs: 0,
     execute: async (message, args, bot, prefix) => {
         await message.channel.send({
             title: "Vote for aeona",

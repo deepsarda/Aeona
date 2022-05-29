@@ -80,8 +80,12 @@ module.exports = {
     if (message.client.commands.has(command)) {
       cmd = message.client.commands.get(command);
       try {
+        if (args.length < cmd.requiredArgs)
+          return await message.channel.sendError({
+            title: "Invalid Usage!",
+            description: `Correct Usage: \`${cmd.usage}\`\nPlease retry this command.`
+          });
         await cmd.execute(message, args, message.client, prefix);
-
         console.log(`${message.author.tag} ran command ${cmd.name} in ${message.guild.name} (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id}) with args ${args.join(" ")} userId: ${message.author.id}`);
       } catch (e) {
         console.error(e);

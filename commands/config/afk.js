@@ -4,6 +4,7 @@ module.exports = {
     name: "afk",
     description: "Set an AFK message!",
     usage: "+afk [message]",
+    requiredArgs: 0,
     execute: async (message, args, bot, prefix) => {
         if (!message.guild)
             return await message.channel.sendError({
