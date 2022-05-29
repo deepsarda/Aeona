@@ -1,6 +1,6 @@
-const request = require("request-promise-native");
+const axios = require('axios').default;
 
-const { emotes } = require("../../utils/handlers/resources.js"); 
+const { emotes } = require("../../utils/resources.js"); 
 
 module.exports = {
     name: "urban",
@@ -15,18 +15,22 @@ module.exports = {
             json: true,
         };
     
-        let response = await request(options);
-        response = response.list[0];
+        let response = await axios.get(options.url);
+        response = response.data.list[0];
 
         if (!response)
             return await message.channel.sendError({
                 title: "Oops!",
                 description: "We were unable to fetch a definition for your term!"
-            })
+            });
 
         await message.channel.send({
             title: `Definition for: ${term}`,
-            description: `${response.definition}\n\n${emotes.pencil} ${response.example}`
-        })
+            description: response.definition,
+            thumbnailURL: message.member.displayAvatarURL({ dynamic: true }),
+            fieldNames: ["Example:"],
+            fieldValues: [`${emotes.pencil} ${response.example}`],
+            inlines: [false]
+        });
 }
 };
