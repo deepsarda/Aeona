@@ -32,6 +32,7 @@ class Resource {
   }
 
   embed = (options) => {
+    if(options.embeds) return options;
     const msg = options.msg;
     let title = "";
 

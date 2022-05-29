@@ -1,6 +1,25 @@
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const fs = require("fs");
+const MusicManager = require("./MusicManager");
+const { Structure } = require("erela.js");
 
+// This system from discord music bot https://github.com/SudhanPlayz
+
+Structure.extend(
+  "Player",
+  (Player) =>
+    class extends Player {
+      /**
+       * Sets now playing message for deleting next time
+       * @param {Message} message
+       */
+      setNowplayingMessage(message) {
+        if (this.nowPlayingMessage && !this.nowPlayingMessage.deleted)
+          this.nowPlayingMessage.delete();
+        return (this.nowPlayingMessage = message);
+      }
+    }
+);
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
@@ -45,11 +64,39 @@ module.exports = class AeonaClient extends Client {
     this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
+    this.manager = new MusicManager(this);
+    this.emojies={
+      "mute": "🔇",
+      "volumemiddle": "🔉",
+      "volumelow": "🔈",
+      "volumehigh": "🔊",
+      "stop": "⏹️",
+      "skip": "⏭️",
+      "shuffle": "🔀",
+      "rewind": "⏪",
+      "resume": "▶️",
+      "remove": "⏏️",
+      "queue": "🎶",
+      "playlist": "🎶",
+      "play": "▶️",
+      "pause": "⏸️",
+      "loop": "🔁",
+      "forward": "⏩",
+      "filter": "🎛️",
+      "autoplay": "🎵",
+      "addsong": "🎵",
+      "music": "🎵",
+      "warn": "⚠️",
+      "join": "📥",
+      "leave": "📤",
+      "about": "🔎",
+      "jump": "⏭️"
+    }
   }
 
   async start(token) {
     this.loadCommands();
-    if (!process.env.DEV) this.loadEvents()
+    if (!process.env.DEV) this.loadEvents();
 
     this.mongoose.init();
     await this.login(token);
@@ -87,10 +134,16 @@ module.exports = class AeonaClient extends Client {
 
     for (let event of events) {
       try {
+        let music = false;
+        if (event.includes("music")) music = true;
         event = require("." + event);
-        this.events.set(event.name, event.execute);
-        this.on(event.name, event.execute);
 
+        if (music) {
+          this.manager.on(event.name, event.execute.bind(event));
+        } else {
+          this.events.set(event.name, event.execute);
+          this.on(event.name, event.execute);
+        }
         console.log(`Loaded event ${event.name}`);
       } catch (e) {
         console.error(e);
