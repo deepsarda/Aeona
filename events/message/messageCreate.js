@@ -100,7 +100,7 @@ module.exports = {
         if (
           !message.channel
             .permissionsFor(message.guild.me)
-            ?.has(Permissions.FLAGS.EMBED_LINKS) &&
+            ?.has(Discord.Permissions.FLAGS.EMBED_LINKS) &&
           client.user.id !== userId
         ) {
           return channel.send({
