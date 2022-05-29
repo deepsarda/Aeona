@@ -1,5 +1,5 @@
 module.exports = {
-    name:"TrackEnd",
+    name:"trackEnd",
     async execute(client, player, track, playload) {
         const autoplay = player.get("autoplay")
         if (autoplay === true) {

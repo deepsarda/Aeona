@@ -1,7 +1,7 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 
 module.exports = {
-  name: "TrackStart",
+  name: "trackStart",
   async execute(client, player, track, playload) {
     const emojiplay = client.emoji.play;
     const volumeEmoji = client.emoji.volumehigh;
