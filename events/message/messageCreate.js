@@ -4,7 +4,7 @@ const AFKModel = require("../../dashboard/models/afk.js");
 
 module.exports = {
   name: "messageCreate",
-  async execute(message) {
+  async execute(client,message) {
     // Searching for AFK user mentions
 
     if (message.mentions.members.size > 0) {

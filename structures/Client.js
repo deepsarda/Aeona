@@ -61,10 +61,10 @@ module.exports = class AeonaClient extends Client {
       "USER",
     ]),
       (this.commands = new Collection());
+    this.manager = new MusicManager(this);
     this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
-    this.manager = new MusicManager(this);
     this.emojies={
       "mute": "🔇",
       "volumemiddle": "🔉",
@@ -139,10 +139,10 @@ module.exports = class AeonaClient extends Client {
         event = require("." + event);
 
         if (music) {
-          this.manager.on(event.name, event.execute.bind(event));
+          this.manager.on(event.name, event.execute.bind(null,this));
         } else {
           this.events.set(event.name, event.execute);
-          this.on(event.name, event.execute);
+          this.on(event.name, (...args) => event.execute(this, ...args));
         }
         console.log(`Loaded event ${event.name}`);
       } catch (e) {
