@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-let ratelimits = new Collection();
+let ratelimits = new Discord.Collection();
 const afk = require("../../database/schemas/afk");
 const Guild = require("../../database/schemas/Guild");
 const User = require("../../database/schemas/User");
