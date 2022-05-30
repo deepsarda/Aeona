@@ -11,7 +11,7 @@ const { description } = require("../../utils/config");
 const autoResponseCooldown = new Set();
 module.exports = {
   name: "messageCreate",
-  async executeChatBot(client, message) {
+  async execute(client, message) {
     // Searching for a command
     let settings = await Guild.findOne({
       guildId: message.guild.id,
