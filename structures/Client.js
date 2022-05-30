@@ -3,6 +3,7 @@ const fs = require("fs");
 const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
 const Discord = require("discord.js");
+const Statcord = require("statcord.js");
 
 // This system from discord music bot https://github.com/SudhanPlayz
 

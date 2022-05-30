@@ -1,34 +1,23 @@
 const Discord = require("discord.js");
 const url = require("url");
 const path = require("path");
-let uniqid = require("uniqid");
 const cooldownNickname = new Set();
 const express = require("express");
 const passport = require("passport");
-const jsonconfig = require("../config.json");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const Strategy = require("passport-discord").Strategy;
-
 const config = require("../utils/config");
 const ejs = require("ejs");
-
-const ShortUrl = require("../database/schemas/ShortUrl.js");
 const randoStrings = require("randostrings");
 const random = new randoStrings();
 const sendingEmbed = new Set();
 const bodyParser = require("body-parser");
-const { readdirSync } = require("fs");
 const { WebhookClient, MessageEmbed } = require("discord.js");
-
-const premiumWeb = new Discord.WebhookClient({
-  url: jsonconfig.webhook_url,
-});
 const DBL = require("@top-gg/sdk");
-const mongoose = require("mongoose");
 const User = require("../database/schemas/User");
 const TicketSettings = require("../database/schemas/tickets");
-const ReactionRole = require("../packages/reactionrole/database/schemas/schema");
+const ReactionRole = require("../packages/reactionrole/models/schema");
 const ReactionRoles = require("../packages/reactionrole/index.js");
 const reactP = new ReactionRoles();
 const EmojiArray = require("../assets/json/emojiarray.json");
@@ -38,13 +27,12 @@ const fetch = require("node-fetch");
 const Paste = require("../database/schemas/transcript.js");
 const moment = require("moment");
 const cooldownEmbed = new Set();
-const fs = require("fs");
-const Application = require("../database/schemas/application/application.js");
+const Application = require("../database/schemas/application.js");
 const customCommand = require("../database/schemas/customCommand.js");
 //dont touch here
 const Hook = new WebhookClient({
-  id: jsonconfig.webhook_id,
-  url: jsonconfig.webhook_url,
+  id: config.webhook_id,
+  url: config.webhook_url,
 });
 //
 
@@ -59,7 +47,7 @@ let LeaveSchema = require("../database/schemas/leave");
 let StickySettings = require("../database/schemas/stickyRole");
 let AltSettings = require("../database/schemas/altdetector.js");
 let Logging = require("../database/schemas/logging");
-let App = require("../database/schemas/application/application.js");
+let App = require("../database/schemas/application.js");
 
 //important
 const domain = config.domain;
@@ -96,7 +84,7 @@ module.exports = async (client) => {
       secret: "asdasdasda7734r734753ererfretertdf43534wfefrrrr4awewdasdadadad",
       resave: true,
       saveUninitialized: true,
-      store: MongoStore.create({ mongoUrl: jsonconfig.mongodb_url }),
+      store: MongoStore.create({ mongoUrl: config.mongodb_url }),
     })
   );
 
@@ -134,7 +122,7 @@ module.exports = async (client) => {
       image: `${domain}/logo.png`,
       name: client.username,
       tag: client.tag,
-      arc: jsonconfig.arc,
+      arc: config.arc,
       analitics: config.google_analitics,
     };
     res.render(
@@ -317,20 +305,6 @@ module.exports = async (client) => {
   });
   app.get("/paste", (req, res) => {
     res.send(`Working`);
-  });
-
-  app.get("/url/:shortUrl", async (req, res) => {
-    const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
-    if (shortUrl == null) return res.send("Invalid url Provided");
-
-    shortUrl.clicks++;
-    shortUrl.save();
-
-    res.redirect(shortUrl.full);
-  });
-
-  app.get("/url", async (req, res) => {
-    renderTemplate(res, req, "url.ejs");
   });
 
   const pastes = await Paste.find({

@@ -26,7 +26,7 @@ module.exports = {
     }
 
     globalchat(settings, message, client);
-    afk(settings, message, client);
+    afkCheck(settings, message, client);
 
     const autoResponseSettings = await autoResponse.find({
       guildId: message.guild.id,
@@ -519,7 +519,7 @@ function deleteLink(message) {
   return true;
 }
 
-async function afk(settings, message, client) {
+async function afkCheck(settings, message, client) {
   if (message.mentions.members.first()) {
     if (maintenance && maintenance.toggle == "true") return;
     const afklist = await afk.findOne({
