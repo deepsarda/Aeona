@@ -258,7 +258,7 @@ module.exports = {
           }
         }
         client.statcord.postCommand(command.name, message.client.id);
-        await cmd.executeChatBot(message, args, message.client, prefix);
+        await cmd.execute(message, args, message.client, prefix);
         console.log(
           `${message.author.tag} ran command ${cmd.name} in ${
             message.guild.name
@@ -277,7 +277,7 @@ module.exports = {
       if (settings.chatbot.disabledChannels.includes(message.channel.id))
         return;
       client.statcord.postCommand("chatbot", message.author.id, message.client);
-      execute(message, prefix, 0, settings.chatbot.chatbot);
+      executeChatBot(message, prefix, 0, settings.chatbot.chatbot);
     }
   },
 };
@@ -669,7 +669,7 @@ function ratelimit(message, command) {
       return true;
     }
   } catch (e) {
-    this.client.emit("fatalError", error, message);
+    console.error(e)
   }
 }
 
