@@ -708,6 +708,7 @@ module.exports = class extends Event {
 
 const http = require("https");
 async function execute(message, prefix, i, chatbot) {
+  if(message.author.bot) return;
   if (i == 10) {
     return;
   }

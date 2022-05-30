@@ -381,7 +381,7 @@ module.exports = class extends Event {
               let ticketCategory = message.guild.channels.cache.get(
                 db.categoryID
               );
-              let ticketLog = message.guild.channels.cache.get(
+              let ticketLog = await message.guild.channels.fetch(
                 db.ticketModlogID
               );
 
@@ -534,18 +534,17 @@ module.exports = class extends Event {
                       .setColor(color)
                   );
 
-                  chan
-                    .send({
-                      embeds: [
-                        new MessageEmbed()
-                          .setDescription(
-                            `Please use \`aeona close\` to close the ticket.`
-                          )
-                          .setColor(message.client.color.red)
-                          .setFooter({ text: "https://Aeona.xyz/" }),
-                      ],
-                    })
-                    .setTimestamp();
+                  chan.send({
+                    embeds: [
+                      new MessageEmbed()
+                        .setDescription(
+                          `Please use \`aeona close\` to close the ticket.`
+                        )
+                        .setColor(message.client.color.red)
+                        .setFooter({ text: "https://Aeona.xyz/" })
+                        .setTimestamp(),
+                    ],
+                  });
 
                   let color2 = db.ticketLogColor;
                   if (color2 == "#000000") color2 = `#36393f`;
@@ -565,10 +564,7 @@ module.exports = class extends Event {
                     );
 
                   if (ticketLog) {
-                    send(ticketLog, embedLog, {
-                      name: `Ticket Logs`,
-                      icon: `${message.client.domain}/logo.png`,
-                    }).catch(() => {});
+                    ticketLog.send({embeds:[embedLog]})
                   }
                 })
                 .catch(() => {
