@@ -62,9 +62,9 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-      (this.commands = new Collection());
+    (this.commands = new Collection());
     this.manager = new MusicManager(this);
-    this.catergories = new Collection();
+    this.categories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
     this.emojies = {
@@ -116,10 +116,10 @@ module.exports = class AeonaClient extends Client {
       try {
         command = require("." + command);
         let category = command.category;
-        if (!this.catergories.has(category)) {
-          this.catergories.set(category, []);
+        if (!this.categories.has(category)) {
+          this.categories.set(category, []);
         }
-        this.catergories.get(category).push(command);
+        this.categories.get(category).push(command);
 
         this.commands.set(command.name, command);
 
