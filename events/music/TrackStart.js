@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
-const { convertTime } = require('../../utils/convert.js');
+const { convertTime } = require("../../utils/convert.js");
 module.exports = {
   name: "trackStart",
   async execute(client, player, track, playload) {
@@ -11,11 +11,7 @@ module.exports = {
     const emojiskip = client.emoji.skip;
 
     const thing = new MessageEmbed()
-      .setDescription(
-        `${emojiplay} **Started Playing**\n [${track.title}](${
-          track.uri
-        }) - \`[${convertTime(track.duration)}]\``
-      )
+      .setDescription()
       .setThumbnail(
         `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`
       )
@@ -54,9 +50,13 @@ module.exports = {
       But5
     );
 
-    let NowPlaying = await client.channels.cache
-      .get(player.textChannel)
-      .send({ embeds: [thing], components: [row] });
+    let NowPlaying = await client.channels.cache.get(player.textChannel).send({
+      description: `${emojiplay} **Started Playing**\n [${track.title}](${
+        track.uri
+      }) - \`[${convertTime(track.duration)}]\``,
+      thumbnailUrl: `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`,
+      components: [row],
+    });
     player.setNowplayingMessage(NowPlaying);
 
     const embed = new MessageEmbed().setColor(client.embedColor).setTimestamp();
@@ -88,16 +88,7 @@ module.exports = {
         let amount = Number(player.volume) - 10;
         await player.setVolume(amount);
         i.editReply({
-          embeds: [
-            embed
-              .setAuthor({
-                name: i.member.user.tag,
-                iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(
-                `${volumeEmoji} The current volume is: **${amount}**`
-              ),
-          ],
+          description: `${volumeEmoji} The current volume is: **${amount}**`,
         }).then((msg) => {
           setTimeout(() => {
             msg.delete();
@@ -110,14 +101,7 @@ module.exports = {
         await player.stop();
         await player.queue.clear();
         i.editReply({
-          embeds: [
-            embed
-              .setAuthor({
-                name: i.member.user.tag,
-                iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(`${emojistop} Stopped the music`),
-          ],
+          description: `${emojistop} Stopped the music`,
         }).then((msg) => {
           setTimeout(() => {
             msg.delete();
@@ -133,16 +117,7 @@ module.exports = {
           ? `${emojipause} **Paused**`
           : `${emojiresume} **Resume**`;
         i.editReply({
-          embeds: [
-            embed
-              .setAuthor({
-                name: i.member.user.tag,
-                iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(
-                `${Text} \n[${player.queue.current.title}](${player.queue.current.uri})`
-              ),
-          ],
+          description: `${Text} \n[${player.queue.current.title}](${player.queue.current.uri})`,
         }).then((msg) => {
           setTimeout(() => {
             msg.delete();
@@ -154,16 +129,7 @@ module.exports = {
         }
         await player.stop();
         i.editReply({
-          embeds: [
-            embed
-              .setAuthor({
-                name: i.member.user.tag,
-                iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(
-                `${emojiskip} **Skipped**\n[${player.queue.current.title}](${player.queue.current.uri})`
-              ),
-          ],
+          description: `${emojiskip} **Skipped**\n[${player.queue.current.title}](${player.queue.current.uri})`,
         }).then((msg) => {
           setTimeout(() => {
             msg.delete();
@@ -180,16 +146,7 @@ module.exports = {
         if (amount >= 150)
           return i
             .editReply({
-              embeds: [
-                embed
-                  .setAuthor({
-                    name: i.member.user.tag,
-                    iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-                  })
-                  .setDescription(
-                    `Cannot higher the player volume further more.`
-                  ),
-              ],
+              description: `Cannot higher the player volume further more.`,
             })
             .then((msg) => {
               setTimeout(() => {
@@ -198,16 +155,7 @@ module.exports = {
             });
         await player.setVolume(amount);
         i.editReply({
-          embeds: [
-            embed
-              .setAuthor({
-                name: i.member.user.tag,
-                iconURL: i.member.user.displayAvatarURL({ dynamic: true }),
-              })
-              .setDescription(
-                `${volumeEmoji} The current volume is: **${amount}**`
-              ),
-          ],
+          description: `${volumeEmoji} The current volume is: **${amount}**`,
         }).then((msg) => {
           setTimeout(() => {
             msg.delete();

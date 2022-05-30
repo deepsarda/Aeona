@@ -49,6 +49,5 @@ module.exports.run = () => {
     options = resources.error.embed(options);
     if (!this.channel) return Promise.reject(new Error("CHANNEL_NOT_CACHED"));
     return this.channel.messages.edit(this, options);
-  }
-  
+  };
 };

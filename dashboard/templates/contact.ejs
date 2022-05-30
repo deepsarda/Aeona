@@ -1,0 +1,62 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Contact" , url, image }) %>
+<div class="max-w-lg mx-auto glass2 p-3 text-center">
+  <% if (user) { %>
+  <script>
+    let userID = <%= user.id %>;
+  </script>
+  <form>
+    <div class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">Discord Name</span>
+      </label>
+      <input type="text" placeholder="Type here" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400 " name="name" placeholder="Discord Name" value="<%= user.username %>#<%= user.discriminator %>" />
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Your Email</span>
+      </label>
+      <label class="input-group">
+        <span>Email</span>
+        <input type="text" name="email" placeholder="Your Email" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" />
+      </label>
+    </div>
+
+    <div class="form-control no-prose">
+      <label class="label">
+        <h3 class="label-text">Your Message</h3>
+      </label>
+      <textarea class="textarea textarea-bordered textarea-ghost focus:textarea-bordered focus:textarea-ghost text-white border-gray-400 placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" required></textarea>
+    </div>
+    <br>
+    <button class="btn btn-secondary !bg-secondary" type="submit">Submit</button>
+  </form>
+  <% } else { %>
+  <form>
+    <div class="form-control w-full max-w-xs">
+      <label class="label">
+        <span class="label-text">Discord Name</span>
+      </label>
+      <input type="text" placeholder="Type here" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="name" placeholder="Discord Name" value="<%= user.username %>#<%= user.discriminator %>" />
+    </div>
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">Your Email</span>
+      </label>
+      <label class="input-group">
+        <span>Email</span>
+        <input type="text" name="email" placeholder="Your Email" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" />
+      </label>
+    </div>
+
+    <div class="form-control no-prose">
+      <label class="label">
+        <h3 class="label-text">Your Message</h3>
+      </label>
+      <textarea class="textarea textarea-bordered textarea-ghost focus:textarea-bordered focus:textarea-ghost text-white border-gray-400 placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" required></textarea>
+    </div>
+    <br>
+    <button class="btn btn-secondary" onclick="location.window.location.href='/login';">Login</button>
+  </form>
+  <% } %>
+</div>
+<%- include("./partials/footer") %>

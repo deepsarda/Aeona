@@ -32,7 +32,7 @@ class Resource {
   }
 
   embed = (options) => {
-    if(options.embeds) return options;
+    if (options.embeds) return options;
     const msg = options.msg;
     let title = "";
 
@@ -75,7 +75,7 @@ class Resource {
           text: `Requested by: ${msg.author.tag}`,
           iconURL: msg.member
             ? msg.member.displayAvatarURL({ dynamic: true })
-            : msg.author.displayAvatarURL({ dynamic: true })
+            : msg.author.displayAvatarURL({ dynamic: true }),
         });
       } else {
         embed.setAuthor({
@@ -128,11 +128,12 @@ class Resource {
     const messageOptions = {
       content: options.content,
       embeds: [embed],
-      reply:options.reply,
+      reply: options.reply,
       tts: cleanNull(options.tts, "boolean"),
       files: cleanNull(options.files, "array"),
       components: cleanNull(options.components, "array"),
       resources: true,
+      ephemeral: cleanNull(options.ephemeral, "boolean"),
     };
 
     return messageOptions;

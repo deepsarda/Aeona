@@ -1,0 +1,30 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Apply" , url, image }) %>
+<div class="w-full mt-16 text-center">
+  <h2 class="text-white">Select a server to Apply to</h1>
+</div>
+
+<div class="max-w-xl mt-16 mx-auto no-prose">
+  <% user.guilds.forEach(guild=> { %>
+
+  <% if (!bot.guilds.cache.get(guild.id)) { return } %>
+
+  <% if (guild.icon) { iconurl="https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
+            + ".png??size=512" ; } else {
+            iconurl="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404-dark.png?v=1602427904949" ;
+            } %>
+            
+
+
+  <div class="card card-compact card-side  shadow-xl rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 border border-gray-400 m-2 p-2 text-center items-center ">
+
+  <figure><img src="<%= iconurl %>" alt="<% guild.name %>" class="w-32 rounded-full"></figure>
+  <div class="card-body">
+    <h1 class="card-title"><%= guild.name %></h1>
+    <div class="card-actions justify-end">
+      <button class="btn btn-secondary"><a href="/apply/<%=guild.id%>" class="link link-hover">Apply</a></button>
+    </div>
+  </div>
+</div>
+  <% }); %>
+</div>
+<%- include("./partials/footer") %>

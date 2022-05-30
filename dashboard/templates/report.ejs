@@ -1,0 +1,61 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Contact" , url, image }) %>
+<div class="max-w-lg mx-auto text-center glass2 p-3">
+  <% if (user) { %>
+  <script>
+    let username = "<%= user.username %>#<%= user.discriminator %>";
+    let userID = "<%= user.id %>";
+  </script>
+
+  <form class="contact-form validate-form">
+    <span class="label text-center">Discord Name</span>
+    <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_name" placeholder="Discord Name" required />
+
+    <span class="label">Discord ID</span>
+    <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_id" placeholder="Discord ID" required />
+
+    <span class="label">Report Reason</span>
+    <textarea class="textarea textarea-bordered textarea-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="report" placeholder="Your Message" required></textarea>
+
+    <span class="label">Proof:</span>
+    <textarea class="textarea textarea-bordered textarea-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="proof" placeholder="Proof links" required></textarea>
+
+    <br>
+    <button class="btn btn-secondary !bg-secondary" type="submit">Submit</button>
+  </form>
+
+</div>
+</div>
+<% } else { %>
+
+<form class="contact-form validate-form">
+  <span class="label">Discord Name</span>
+  <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_name" placeholder="Discord Name" required disabled />
+
+
+  <span class="label">Discord ID</span>
+  <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_id" placeholder="Discord ID" required disabled />
+
+
+  <span class="label">Report Reason</span>
+  <textarea class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="report" placeholder="Your Message" required disabled></textarea>
+
+
+  <span class="label">Proof:</span>
+  <textarea class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="proof" placeholder="Proof links" required disabled></textarea>
+
+
+  <p>You must be logged in to report a user.</p>
+
+
+  <br>
+  <br>
+
+  <button onclick="window.location.href='/login';" type="button " class="btn btn-secondary !bg-secondary">Login</button>
+
+</form>
+
+</div>
+</div>
+<% } %>
+</div>
+<%- include("./partials/footer") %>

@@ -1,0 +1,40 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Apply" , url, image }) %>
+<div class="w-full mt-16 text-center">
+  <form class="contact-form validate-form" id="form" role="form" action="/apply/<%= guild.id %>/" method="POST">
+    <h2 class="text-white">Applying to <%= guild.name %></h1>
+
+
+      <% if (!app || !app.questions.length || app.questions.length===0 || app.questions.length < 1) { %>
+      <h3> The current guild does not have any application at the moment. </h3>
+      <% } else { %>
+
+      <% if (!bot.channels.cache.has(app.appLogs)) { %>
+      <h3> The app Log channel was deleted which is the reason you can't apply to the current form. Please
+        make sure to let an admin know. </h3>
+      <% } else if(app.appToggle===false) { %>
+
+      <h3> The current guild's application Status is closed. Come back later.</h3>
+
+
+      <% } else { %>
+      <% for (let i=0; app.questions.length> i; i++) {%>
+
+
+      <div class="form-control no-prose">
+        <label class="label">
+          <h3 class="label-text"><%= app.questions[i]%></h3>
+          <span class="label-text-alt">Question #<%= i + 1 %></span>
+        </label>
+        <textarea class="textarea textarea-bordered textarea-ghost focus:textarea-bordered focus:textarea-ghost text-white" name="<%= i + 1 %>" placeholder="Your Answer to question #<%= i + 1 %>" maxlength="1024" required></textarea>
+      </div>
+      <% } %>
+      <br>
+      <br>
+      <button class="btn btn-secondary" type="submit">Submit</button>
+
+      <% } %>
+      <% } %>
+  </form>
+</div>
+
+<%- include("./partials/footer") %>

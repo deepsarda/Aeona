@@ -2,6 +2,7 @@ const { Client, Collection, MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
+const Discord = require("discord.js");
 
 // This system from discord music bot https://github.com/SudhanPlayz
 
@@ -65,34 +66,39 @@ module.exports = class AeonaClient extends Client {
     this.catergories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
-    this.emojies={
-      "mute": "🔇",
-      "volumemiddle": "🔉",
-      "volumelow": "🔈",
-      "volumehigh": "🔊",
-      "stop": "⏹️",
-      "skip": "⏭️",
-      "shuffle": "🔀",
-      "rewind": "⏪",
-      "resume": "▶️",
-      "remove": "⏏️",
-      "queue": "🎶",
-      "playlist": "🎶",
-      "play": "▶️",
-      "pause": "⏸️",
-      "loop": "🔁",
-      "forward": "⏩",
-      "filter": "🎛️",
-      "autoplay": "🎵",
-      "addsong": "🎵",
-      "music": "🎵",
-      "warn": "⚠️",
-      "join": "📥",
-      "leave": "📤",
-      "about": "🔎",
-      "jump": "⏭️"
-    }
-    this.emoji=this.emojies;
+    this.emojies = {
+      mute: "🔇",
+      volumemiddle: "🔉",
+      volumelow: "🔈",
+      volumehigh: "🔊",
+      stop: "⏹️",
+      skip: "⏭️",
+      shuffle: "🔀",
+      rewind: "⏪",
+      resume: "▶️",
+      remove: "⏏️",
+      queue: "🎶",
+      playlist: "🎶",
+      play: "▶️",
+      pause: "⏸️",
+      loop: "🔁",
+      forward: "⏩",
+      filter: "🎛️",
+      autoplay: "🎵",
+      addsong: "🎵",
+      music: "🎵",
+      warn: "⚠️",
+      join: "📥",
+      leave: "📤",
+      about: "🔎",
+      jump: "⏭️",
+    };
+    this.emoji = this.emojies;
+
+    this.statcord = new Statcord.Client({
+      key: process.env.STATCORD,
+      client: this,
+    });
   }
 
   async start(token) {
@@ -140,7 +146,7 @@ module.exports = class AeonaClient extends Client {
         event = require("." + event);
 
         if (music) {
-          this.manager.on(event.name, event.execute.bind(null,this));
+          this.manager.on(event.name, event.execute.bind(null, this));
         } else {
           this.events.set(event.name, event.execute);
           this.on(event.name, (...args) => event.execute(this, ...args));

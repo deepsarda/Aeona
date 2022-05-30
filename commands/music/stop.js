@@ -1,43 +1,41 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  	name: "stop",
-    category: "music",
-    description: "Stops the music",
-    requiredArgs: 0,
-    usage: "",
-    permission: [],
-    dj: true,
-    
-    player: true,
-    inVoiceChannel: true,
-    sameVoiceChannel: true,
-	execute: async (message, args, client, prefix) => {
-  
-        const player = client.manager.get(message.guild.id);
+  name: "stop",
+  category: "music",
+  description: "Stops the music",
+  requiredArgs: 0,
+  usage: "",
+  permission: [],
+  dj: true,
 
-        if (!player.queue.current) {
-            let thing = new MessageEmbed()
-                .setColor("RED")
-                .setDescription("There is no music playing.");
-            return message.reply({embeds: [thing]});
-        }
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = client.manager.get(message.guild.id);
 
-        const autoplay = player.get("autoplay")
-        if (autoplay === true) {
-            player.set("autoplay", false);
-        }
+    if (!player.queue.current) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription("There is no music playing.");
+      return message.reply({ embeds: [thing] });
+    }
 
-        player.stop();
-        player.queue.clear();
+    const autoplay = player.get("autoplay");
+    if (autoplay === true) {
+      player.set("autoplay", false);
+    }
 
-        const emojistop = client.emoji.stop;
+    player.stop();
+    player.queue.clear();
 
-		    let thing = new MessageEmbed()
-            .setColor(client.embedColor)
-            .setTimestamp()
-            .setDescription(`${emojistop} Stopped the music`)
-        message.reply({embeds: [thing]});
-	
-  	}
+    const emojistop = client.emoji.stop;
+
+    let thing = new MessageEmbed()
+      .setColor(client.embedColor)
+      .setTimestamp()
+      .setDescription(`${emojistop} Stopped the music`);
+    message.reply({ embeds: [thing] });
+  },
 };

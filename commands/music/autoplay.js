@@ -8,7 +8,7 @@ module.exports = {
   requiredArgs: 0,
   usage: "",
   permission: [],
-  
+
   player: true,
   inVoiceChannel: true,
   sameVoiceChannel: true,
@@ -27,20 +27,16 @@ module.exports = {
       const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
       res = await player.search(search, message.author);
       player.queue.add(res.tracks[1]);
-      let thing = new MessageEmbed()
-        .setColor(client.embedColor)
-        .setTimestamp()
-        .setDescription(`${emojireplay} Autoplay is now **enabled**`);
-      return message.channel.send({ embeds: [thing] });
+      return message.channel.send({
+        description: `${emojireplay} Autoplay is now **enabled**`,
+      });
     } else {
       player.set("autoplay", false);
       player.queue.clear();
-      let thing = new MessageEmbed()
-        .setColor(client.embedColor)
-        .setTimestamp()
-        .setDescription(`${emojireplay} Autoplay is now **disabled**`);
 
-      return message.channel.send({ embeds: [thing] });
+      return message.channel.send({
+        description: `${emojireplay} Autoplay is now **disabled**`,
+      });
     }
   },
 };

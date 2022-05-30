@@ -1,37 +1,31 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    name: "clearqueue",
-    aliases: ["cq"],
-    category: "music",
-  	description: "Clear Queue",
-	requiredArgs: 0,
-    usage: "<Number of song in queue>",
-    permission: [],
-    dj: true,
-    
-    player: true,
-    inVoiceChannel: true,
-    sameVoiceChannel: true,
-	 execute: async (message, args, client, prefix) => {
-  
-		const player = message.client.manager.get(message.guild.id);
+  name: "clearqueue",
+  aliases: ["cq"],
+  category: "music",
+  description: "Clear Queue",
+  requiredArgs: 0,
+  usage: "<Number of song in queue>",
+  permission: [],
+  dj: true,
 
-        if (!player.queue.current) {
-            let thing = new MessageEmbed()
-                .setColor("RED")
-                .setDescription("There is no music playing.");
-            return message.reply({embeds: [thing]});
-        }
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = message.client.manager.get(message.guild.id);
 
-		player.queue.clear();
-
-		const emojieject = message.client.emoji.remove;
-
-		let thing = new MessageEmbed()
-			.setColor(message.client.embedColor)
-			.setTimestamp()
-			.setDescription(`${emojieject} Removed all songs from the queue`)
-			  return message.reply({embeds: [thing]});
+    if (!player.queue.current) {
+      return message.reply({ description: `There is no music playing.` });
     }
+
+    player.queue.clear();
+
+    const emojieject = message.client.emoji.remove;
+
+    return message.reply({
+      description: `${emojieject} Removed all songs from the queue`,
+    });
+  },
 };
