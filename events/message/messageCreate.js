@@ -147,7 +147,7 @@ module.exports = {
     let command = args.shift().toLowerCase();
 
     let cmd;
-    if (await customCommands(message)) return;
+    if (await customCommands(message,command)) return;
 
     const disabledCommands = settings.disabledCommands;
     if (typeof disabledCommands === "string")
@@ -562,7 +562,7 @@ async function afkCheck(settings, message, client) {
   }
 }
 
-async function customCommands(message) {
+async function customCommands(message,command) {
   const customCommandSettings = await customCommand.findOne({
     guildId: message.guild.id,
     name: command.toLowerCase(),
