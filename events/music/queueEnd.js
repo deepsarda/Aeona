@@ -7,7 +7,7 @@ module.exports = {
   async execute(client, player) {
     const channel = client.channels.cache.get(player.textChannel);
     let thing = new MessageEmbed()
-      .setColor(client.embedColor)
+      
       .setDescription(` **Music queue ended**`)
       .setFooter({
         text: client.user.username,

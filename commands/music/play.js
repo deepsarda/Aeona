@@ -86,10 +86,11 @@ module.exports = {
       case "NO_MATCHES":
         if (!player.queue.current) player.destroy();
         return message.channel.send({
-          embeds: [new MessageEmbed()]
+          embeds: [new MessageEmbed()
             
             .setTimestamp()
             .setDescription(`No matches found for - ${search}`),
+          ]
         });
       case "TRACK_LOADED":
         var track = res.tracks[0];
