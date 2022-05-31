@@ -521,7 +521,6 @@ function deleteLink(message) {
 
 async function afkCheck(settings, message, client) {
   if (message.mentions.members.first()) {
-    if (maintenance && maintenance.toggle == "true") return;
     const afklist = await afk.findOne({
       userID: message.mentions.members.first().id,
       serverID: message.guild.id,
@@ -546,7 +545,6 @@ async function afkCheck(settings, message, client) {
   });
 
   if (afklis) {
-    if (maintenance && maintenance.toggle == "true") return;
     let nickname = `${afklis.oldNickname}`;
     message.member.setNickname(nickname).catch(() => {});
     await afk.deleteOne({ userID: message.author.id });
@@ -654,18 +652,18 @@ function ratelimit(message, command) {
     if (message.author.permLevel > 4) return false;
     if (!command.cooldown) command.cooldown = 1;
     const cooldown = command.cooldown * 1000;
-    const ratelimits = ratelimits.get(message.author.id) || {}; // get the ENMAP first.
-    if (!ratelimits[command.name])
-      ratelimits[command.name] = Date.now() - cooldown; // see if the command has been run before if not, add the ratelimit
-    const difference = Date.now() - ratelimits[command.name]; // easier to see the difference
+    const ratelimit = ratelimits.get(message.author.id) || {}; // get the ENMAP first.
+    if (!ratelimit[command.name])
+      ratelimit[command.name] = Date.now() - cooldown; // see if the command has been run before if not, add the ratelimit
+    const difference = Date.now() - ratelimit[command.name]; // easier to see the difference
     if (difference < cooldown) {
       // check the if the duration the command was run, is more than the cooldown
       return moment
         .duration(cooldown - difference)
         .format("D [days], H [hours], m [minutes], s [seconds]", 1); // returns a string to send to a channel
     } else {
-      ratelimits[command.name] = Date.now(); // set the key to now, to mark the start of the cooldown
-      this.ratelimits.set(message.author.id, ratelimits); // set it
+      ratelimit[command.name] = Date.now(); // set the key to now, to mark the start of the cooldown
+      ratelimits.set(message.author.id, ratelimit); // set it
       return true;
     }
   } catch (e) {
