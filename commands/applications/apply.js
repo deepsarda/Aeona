@@ -53,8 +53,10 @@ module.exports = class extends Command {
     }
 
     if (db.questions.length === 0 || db.questions.length < 1)
-      return message.channel.send(closed);
-    const channel = await message.guild.channels.fetch(db.appLogs);
+      return message.channel.send({embeds:[closed]});
+
+    if(!db.appLogs) return message.channel.send({ embeds: [closed] });
+    let channel = await message.guild.channels.fetch(db.appLogs);
     if (!channel) return message.channel.send({ embeds: [closed] });
     await message.author
       .send({
