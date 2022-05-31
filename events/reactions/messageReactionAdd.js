@@ -504,14 +504,7 @@ module.exports = class extends Event {
 
                   if (db.ticketPing == "true") {
                     if (chan) {
-                      if (
-                        !chan.permissionsFor(chan.guild.me).has("SEND_MESSAGES")
-                      )
-                        return;
-                      if (
-                        !chan.permissionsFor(chan.guild.me).has("EMBED_LINKS")
-                      )
-                        return;
+                     
 
                       chan.send(`${member} ${ticketRole}`).catch(() => {});
                     }
