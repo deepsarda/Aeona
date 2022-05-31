@@ -19,7 +19,7 @@ module.exports = class extends Command {
       userPermission: ["MANAGE_GUILD"],
     });
   }
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -86,11 +86,13 @@ module.exports = class extends Command {
 
     if (array.length <= interval) {
       const range = array.length == 1 ? "[1]" : `[1 - ${array.length}]`;
-      message.channel.send(
-        embed
-          .setTitle(`Alt Detector - Account age < ${days} Days`)
-          .setDescription(array.join("\n\n"))
-      );
+      message.channel.send({
+        embeds: [
+          embed
+            .setTitle(`Alt Detector - Account age < ${days} Days`)
+            .setDescription(array.join("\n\n")),
+        ],
+      });
     } else {
       embed.setTitle(`Alt Detector - Account age < ${days} Days`).setFooter({
         text: message.author.tag,

@@ -22,7 +22,7 @@ module.exports = class extends Command {
     });
   }
 
-  async run(message, args, bot,prefix='+' ) {
+  async run(message, args, bot, prefix = "+") {
     let client = message.client;
     const settings = await Guild.findOne(
       {
@@ -157,7 +157,10 @@ module.exports = class extends Command {
         );
     };
 
-    if (count < 4) return message.channel.send(buildEmbed(0, embed));
+    if (count < 4)
+      return message.channel.send({
+        embeds: [buildEmbed(0, embed)],
+      });
     else {
       let n = 0;
       const json = embed
