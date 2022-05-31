@@ -49,7 +49,7 @@ module.exports = {
         if (stateChange.members.size === 1 && player.paused) {
           let emb = new MessageEmbed()
             .setAuthor({ name: `Resuming paused queue` })
-            .setColor(client.embedColor)
+            
             .setDescription(
               `Resuming playback because all of you left me with music to play all alone`
             );
@@ -75,7 +75,7 @@ module.exports = {
 
           let emb = new MessageEmbed()
             .setAuthor({ name: `Paused!` })
-            .setColor(client.embedColor)
+            
             .setDescription(
               `The player has been paused because everybody left`
             );

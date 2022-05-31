@@ -28,7 +28,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setDescription(
               `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
             ),
@@ -43,7 +43,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setDescription(
               `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
             ),
@@ -66,7 +66,7 @@ module.exports = {
     const msg = await message.channel.send({
       embeds: [
         new MessageEmbed()
-          .setColor(client.embedColor)
+          
           .setDescription(`? Searching ${query} song please wait`),
       ],
     });
@@ -113,7 +113,7 @@ module.exports = {
               s.tracks[0].requester
             }`
           )
-          .setColor(client.embedColor);
+          ;
 
         msg.edit({ embeds: [embed] });
         if (!player.playing) player.play();
@@ -132,11 +132,11 @@ module.exports = {
           .join("\n");
         const searched = new MessageEmbed()
           .setTitle("Select the track that you want")
-          .setColor(client.embedColor)
+          
           .setDescription(results);
 
         await msg.edit({ embeds: [searched], components: [row] });
-        const search = new MessageEmbed().setColor(client.embedColor);
+        const search = new MessageEmbed();
 
         const collector = msg.createMessageComponentCollector({
           filter: (f) =>

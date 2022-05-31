@@ -18,7 +18,7 @@ module.exports = {
       return await message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setDescription(
               `I'm already connected to <#${player.voiceChannel}> voice channel!`
             ),
@@ -34,7 +34,7 @@ module.exports = {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
-              .setColor(client.embedColor)
+              
               .setDescription(
                 `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
               ),
@@ -51,7 +51,7 @@ module.exports = {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
-              .setColor(client.embedColor)
+              
               .setDescription(
                 `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
               ),
@@ -70,7 +70,7 @@ module.exports = {
       if (player && player.state !== "CONNECTED") player.connect();
 
       let thing = new MessageEmbed()
-        .setColor(client.embedColor)
+        
         .setDescription(
           `${emojiJoin} **Join the voice channel**\nJoined <#${channel.id}> and bound to <#${message.channel.id}>`
         );

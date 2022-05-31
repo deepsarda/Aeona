@@ -40,7 +40,7 @@ module.exports = {
               time
             )} / ${convertTime(duration)}\``
           )
-          .setColor(client.embedColor)
+          
           .setTimestamp();
         return message.reply({ embeds: [thing] });
       } else {
@@ -51,7 +51,7 @@ module.exports = {
               time
             )} / ${convertTime(duration)}\``
           )
-          .setColor(client.embedColor)
+          
           .setTimestamp();
         return message.reply({ embeds: [thing] });
       }

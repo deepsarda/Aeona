@@ -40,7 +40,7 @@ module.exports = {
       .setDescription(
         `${emojiresume} **Resumed**\n[${song.title}](${song.uri})`
       )
-      .setColor(client.embedColor)
+      
       .setTimestamp();
     return message.reply({ embeds: [thing] });
   },

@@ -23,7 +23,7 @@ module.exports = {
     }
     const emojiequalizer = message.client.emoji.filter;
     const embed = new MessageEmbed()
-      .setColor(client.embedColor)
+      
       .setDescription(`Choose what filter you want in tha button`);
 
     const but = new MessageButton()
@@ -84,7 +84,7 @@ module.exports = {
 
     const m = await message.reply({ embeds: [embed], components: [row, row2] });
 
-    const embed1 = new MessageEmbed().setColor(client.embedColor);
+    const embed1 = new MessageEmbed();
     const collector = m.createMessageComponentCollector({
       filter: (f) =>
         f.user.id === message.author.id

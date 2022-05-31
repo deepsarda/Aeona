@@ -27,7 +27,7 @@ module.exports = {
 
     let thing = new MessageEmbed()
       .setDescription(`${emojishuffle} Shuffled the queue`)
-      .setColor(client.embedColor)
+      
       .setTimestamp();
     return message
       .reply({ embeds: [thing] })

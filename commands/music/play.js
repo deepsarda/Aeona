@@ -23,7 +23,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setDescription(
               `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
             ),
@@ -40,7 +40,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setDescription(
               `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
             ),
@@ -68,7 +68,7 @@ module.exports = {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
-              .setColor(client.embedColor)
+              
               .setTimestamp()
               .setDescription("Nothing is playing right now..."),
           ],
@@ -87,7 +87,7 @@ module.exports = {
         if (!player.queue.current) player.destroy();
         return message.channel.send({
           embeds: [new MessageEmbed()]
-            .setColor(client.embedColor)
+            
             .setTimestamp()
             .setDescription(`No matches found for - ${search}`),
         });
@@ -98,7 +98,7 @@ module.exports = {
           return player.play();
         } else {
           const thing = new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setTimestamp()
             .setThumbnail(track.displayThumbnail("hqdefault"))
             .setDescription(
@@ -117,7 +117,7 @@ module.exports = {
         )
           player.play();
         const thing = new MessageEmbed()
-          .setColor(client.embedColor)
+          
           .setTimestamp()
           .setDescription(
             `${emojiplaylist} **Added playlist to queue**\n${
@@ -134,7 +134,7 @@ module.exports = {
           return player.play();
         } else {
           const thing = new MessageEmbed()
-            .setColor(client.embedColor)
+            
             .setTimestamp()
             .setThumbnail(track.displayThumbnail("hqdefault"))
             .setDescription(

@@ -39,7 +39,7 @@ module.exports = {
         iconURL: message.author.avatarURL(),
       })
       .setDescription(`:mailbox_with_mail: \`Check Your Dms!\``)
-      .setColor(client.embedColor)
+      
       .setFooter({ text: `Requested By ${message.author.tag}` })
       .setTimestamp();
     message.reply({ embeds: [dm], components: [row] });
@@ -60,7 +60,7 @@ module.exports = {
         }>] \n > **__Song Saved By__**: [<@${message.author.id}>]`
       )
       .setThumbnail(song.displayThumbnail())
-      .setColor(client.embedColor)
+      
       .addField(
         "\u200b",
         `\`${convertTime(current)} / ${convertTime(total)}\``
