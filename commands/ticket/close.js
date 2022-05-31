@@ -141,7 +141,7 @@ module.exports = class extends Command {
           })
           .catch(() => {});
 
-        setTimeout(()=>channel.delete(),10000)
+        setTimeout(()=>message.channel.delete(),10000)
       }
     );
   }

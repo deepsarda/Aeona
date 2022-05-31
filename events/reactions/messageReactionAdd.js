@@ -562,12 +562,7 @@ module.exports = class extends Event {
                   }
                 })
                 .catch(() => {
-                  if (
-                    !message.channel
-                      .permissionsFor(message.guild.me)
-                      .has("SEND_MESSAGES")
-                  )
-                    return;
+
                   message.channel
                     .send({
                       embeds: [
