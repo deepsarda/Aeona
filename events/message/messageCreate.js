@@ -143,7 +143,7 @@ module.exports = class extends Event {
                       webhook.send({
                         username: message.member.displayName,
                         avatarURL: message.member.displayAvatarURL(),
-                        content: message.content,
+                        content: message.content!=""?message.content:null,
                         embeds: message.embeds,
 
                         allowedMentions: { parse: [] },
