@@ -517,7 +517,7 @@ module.exports = class extends Event {
                     }
                   }
 
-                  chan.send(
+                  chan.send({embeds:[
                     new discord.MessageEmbed()
                       .setAuthor(user.tag, user.displayAvatarURL())
 
@@ -532,6 +532,7 @@ module.exports = class extends Event {
                       )
 
                       .setColor(color)
+                  ]}
                   );
 
                   chan.send({
