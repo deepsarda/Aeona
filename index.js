@@ -39,6 +39,8 @@ function randomString(length, chars) {
     result += chars[Math.floor(Math.random() * chars.length)];
   return result;
 }
+
+if(process.env.apiKey && process.env.apiKey.trim()!=""){
 setInterval(() => {
   const options = {
     method: "GET",
@@ -74,3 +76,4 @@ setInterval(() => {
   });
   req.end();
 }, 60 * 1000 * 5);
+}

@@ -109,11 +109,11 @@ module.exports = class extends Event {
               var urlRegex =
                 /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
               return text.replace(urlRegex, function (url) {
-                return url.includes('tenor')?url:'`Link was filtered`';
+                return url.includes("tenor") ? url : "`Link was filtered`";
               });
             }
 
-            message.content=linkify(message.content);
+            message.content = linkify(message.content);
             for (let i = 0; i < guilds.length; i++) {
               let guild = guilds[i];
               if (guild.guildId != message.guild.id) {
@@ -143,7 +143,7 @@ module.exports = class extends Event {
                       webhook.send({
                         username: message.member.displayName,
                         avatarURL: message.member.displayAvatarURL(),
-                        content: message.content!=""?message.content:null,
+                        content: message.content != "" ? message.content : null,
                         embeds: message.embeds,
 
                         allowedMentions: { parse: [] },
@@ -673,12 +673,12 @@ module.exports = class extends Event {
       { label: "Command" }
     );
 
-    if(message.author.bot) return;
+    if (message.author.bot) return;
     await command.run(message, args, this.client);
   }
 
   ratelimit(message, cmd) {
-    if(message.author.bot) return;
+    if (message.author.bot) return;
     try {
       const command =
         this.client.commands.get(cmd.toLowerCase()) ||
@@ -708,162 +708,164 @@ module.exports = class extends Event {
 
 const http = require("https");
 async function execute(message, prefix, i, chatbot) {
-  if(message.author.bot) return;
-  if (i == 10) {
-    return;
-  }
+  if (process.env.apiKey && process.env.apiKey.trim() != "") {
+    if (message.author.bot) return;
+    if (i == 10) {
+      return;
+    }
 
-  i++;
-  try {
-    let bot = message.client;
-    message.channel.sendTyping();
+    i++;
+    try {
+      let bot = message.client;
+      message.channel.sendTyping();
 
-    let context = undefined;
-    let context1 = undefined;
-    let context2 = undefined;
-    let context3 = undefined;
-    let context4 = undefined;
-    let context5 = undefined;
+      let context = undefined;
+      let context1 = undefined;
+      let context2 = undefined;
+      let context3 = undefined;
+      let context4 = undefined;
+      let context5 = undefined;
 
-    if (message.reference) {
-      let message2 = await message.fetchReference();
-      if (!message2) {
-        return;
-      }
-      context = message2.content;
-      if (message2.reference) {
-        let message3 = await message2.fetchReference();
-        context1 = message3.content;
-        if (message3.reference) {
-          let message4 = await message3.fetchReference();
-          context2 = message4.content;
-          if (message4.reference) {
-            let message5 = await message4.fetchReference();
-            context3 = message5.content;
-            if (message5.reference) {
-              let message6 = await message5.fetchReference();
-              context4 = message6.content;
-              if (message6.reference) {
-                let message7 = await message6.fetchReference();
-                context5 = message7.content;
+      if (message.reference) {
+        let message2 = await message.fetchReference();
+        if (!message2) {
+          return;
+        }
+        context = message2.content;
+        if (message2.reference) {
+          let message3 = await message2.fetchReference();
+          context1 = message3.content;
+          if (message3.reference) {
+            let message4 = await message3.fetchReference();
+            context2 = message4.content;
+            if (message4.reference) {
+              let message5 = await message4.fetchReference();
+              context3 = message5.content;
+              if (message5.reference) {
+                let message6 = await message5.fetchReference();
+                context4 = message6.content;
+                if (message6.reference) {
+                  let message7 = await message6.fetchReference();
+                  context5 = message7.content;
+                }
               }
             }
           }
         }
       }
-    }
-    message.content = message.content.slice(prefix.length).trim();
-    if (message.content.trim() == "") {
-      message.content = "RANDOM";
-    }
-    const options = {
-      method: "GET",
-      hostname: "dumbotapi.aeona.repl.co",
-      port: null,
-      path: encodeURI(
-        "/?" +
-          `text=${message.content}&userId=${message.author.id}&key=${
-            process.env.apiKey
-          }${context ? `&context=${context}` : ""}${
-            context1 ? `&context1=${context1}` : ""
-          } ${context2 ? `&context2=${context2}` : ""} ${
-            context3 ? `&context3=${context3}` : ""
-          } ${context4 ? `&context4=${context4}` : ""} ${
-            context5 ? `&context5=${context5}` : ""
-          } ${chatbot ? `&chatbot=${chatbot}` : ""}`
-      ),
-    };
-    const req = http.request(options, function (res) {
-      const chunks = [];
-      req.on("error", function (e) {
-        console.log(e);
-        execute(message, "", i, chatbot);
-      });
-
-      req.on("timeout", function () {
-        console.log("timeout");
-        req.abort();
-        execute(message, "", i, chatbot);
-      });
-      res.on("data", function (chunk) {
-        chunks.push(chunk);
-      });
-
-      res.on("end", async function () {
-        const body = Buffer.concat(chunks);
-        let reply = body.toString();
-
-        //If reply is not a json
-        if (
-          reply.toLowerCase().includes("<html>") ||
-          reply.toLowerCase().includes("<body>") ||
-          reply.toLowerCase().includes("error")
-        ) {
+      message.content = message.content.slice(prefix.length).trim();
+      if (message.content.trim() == "") {
+        message.content = "RANDOM";
+      }
+      const options = {
+        method: "GET",
+        hostname: "dumbotapi.aeona.repl.co",
+        port: null,
+        path: encodeURI(
+          "/?" +
+            `text=${message.content}&userId=${message.author.id}&key=${
+              process.env.apiKey
+            }${context ? `&context=${context}` : ""}${
+              context1 ? `&context1=${context1}` : ""
+            } ${context2 ? `&context2=${context2}` : ""} ${
+              context3 ? `&context3=${context3}` : ""
+            } ${context4 ? `&context4=${context4}` : ""} ${
+              context5 ? `&context5=${context5}` : ""
+            } ${chatbot ? `&chatbot=${chatbot}` : ""}`
+        ),
+      };
+      const req = http.request(options, function (res) {
+        const chunks = [];
+        req.on("error", function (e) {
+          console.log(e);
           execute(message, "", i, chatbot);
-          return;
-        }
-        if (!reply.startsWith("{") && reply != "") {
-          const command =
-            message.client.commands.get(reply.toLowerCase()) ||
-            message.client.commands.get(
-              message.client.aliases.get(reply.toLowerCase())
-            );
+        });
 
-          let comp = [];
-          if (Math.random() * 100 < 15) {
-            comp = [
-              new Discord.MessageActionRow().addComponents(
-                new Discord.MessageButton()
-                  .setLabel("Invite")
-                  .setURL(
-                    "https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot"
-                  )
-                  .setStyle("LINK"),
-                new Discord.MessageButton()
-                  .setLabel("Support Server")
-                  .setURL("https://aeona.xyz/invite")
-                  .setStyle("LINK"),
-                new Discord.MessageButton()
-                  .setLabel("Website/Dashboard")
-                  .setURL("https://aeona.xyz")
-                  .setStyle("LINK"),
-                new Discord.MessageButton()
-                  .setLabel("Vote")
-                  .setURL("https://top.gg/bot/931226824753700934/vote")
-                  .setStyle("LINK")
-              ),
-            ];
-          }
-          try {
-            let p = await message
-              .reply({
-                content: reply,
-                components: comp,
-              })
-              .catch((e) => {
-                return;
-              });
+        req.on("timeout", function () {
+          console.log("timeout");
+          req.abort();
+          execute(message, "", i, chatbot);
+        });
+        res.on("data", function (chunk) {
+          chunks.push(chunk);
+        });
 
-            if (command) {
-              console.log(command);
-              command.run(p, [], message.client);
-            }
+        res.on("end", async function () {
+          const body = Buffer.concat(chunks);
+          let reply = body.toString();
 
-            return;
-          } catch (e) {
-            console.log(e);
+          //If reply is not a json
+          if (
+            reply.toLowerCase().includes("<html>") ||
+            reply.toLowerCase().includes("<body>") ||
+            reply.toLowerCase().includes("error")
+          ) {
             execute(message, "", i, chatbot);
             return;
           }
-        }
-        message.content = "UDC";
-        execute(message, "", i, chatbot);
-        return;
+          if (!reply.startsWith("{") && reply != "") {
+            const command =
+              message.client.commands.get(reply.toLowerCase()) ||
+              message.client.commands.get(
+                message.client.aliases.get(reply.toLowerCase())
+              );
+
+            let comp = [];
+            if (Math.random() * 100 < 15) {
+              comp = [
+                new Discord.MessageActionRow().addComponents(
+                  new Discord.MessageButton()
+                    .setLabel("Invite")
+                    .setURL(
+                      "https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot"
+                    )
+                    .setStyle("LINK"),
+                  new Discord.MessageButton()
+                    .setLabel("Support Server")
+                    .setURL("https://aeona.xyz/invite")
+                    .setStyle("LINK"),
+                  new Discord.MessageButton()
+                    .setLabel("Website/Dashboard")
+                    .setURL("https://aeona.xyz")
+                    .setStyle("LINK"),
+                  new Discord.MessageButton()
+                    .setLabel("Vote")
+                    .setURL("https://top.gg/bot/931226824753700934/vote")
+                    .setStyle("LINK")
+                ),
+              ];
+            }
+            try {
+              let p = await message
+                .reply({
+                  content: reply,
+                  components: comp,
+                })
+                .catch((e) => {
+                  return;
+                });
+
+              if (command) {
+                console.log(command);
+                command.run(p, [], message.client);
+              }
+
+              return;
+            } catch (e) {
+              console.log(e);
+              execute(message, "", i, chatbot);
+              return;
+            }
+          }
+          message.content = "UDC";
+          execute(message, "", i, chatbot);
+          return;
+        });
       });
-    });
-    req.end();
-  } catch (e) {
-    console.log(e);
-    execute(message, "", i, chatbot);
+      req.end();
+    } catch (e) {
+      console.log(e);
+      execute(message, "", i, chatbot);
+    }
   }
 }
