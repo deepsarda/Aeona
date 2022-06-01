@@ -759,7 +759,7 @@ async function execute(message, prefix, i, chatbot) {
       }
       const options = {
         method: "GET",
-        hostname: "dumbotapi.aeona.repl.co",
+        hostname: "aeona3.p.rapidapi.com",
         port: null,
         path: encodeURI(
           "/?" +
@@ -773,6 +773,11 @@ async function execute(message, prefix, i, chatbot) {
               context5 ? `&context5=${context5}` : ""
             } ${chatbot ? `&chatbot=${chatbot}` : ""}`
         ),
+        "headers": {
+          "X-RapidAPI-Host": "aeona3.p.rapidapi.com",
+          "X-RapidAPI-Key": process.env.apiKey,
+          "useQueryString": true
+        }
       };
       const req = http.request(options, function (res) {
         const chunks = [];

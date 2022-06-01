@@ -83,8 +83,7 @@ PORT=8000
 TOKEN=TOP.gg token
 SPOTIFY_CLIENT_SECRET=Spotify client deverloper Secert for music
 rateLimit=Webhook Url
-apiKey=Going public for everyone soon! Use discord-chatbot npm package (google it and replace the execute code in messagecreate and in index.js (or leave blank AI wont work)
-
+apiKey= get api key from https://rapidapi.com/multiii/api/aeona3/ look for X-RapidAPI-Key.
 errors=Webhook Url
 ID=Bot Client Id
 WEBHOOK_URL=Webhook Url
@@ -93,6 +92,8 @@ MONGO_CONNECTION=mongodb connection url
 BOTTOKEN=BOT Token
 
 ```
+# If you need help join [support server](https://www.aeeona.xyz/support)
+
 
 ### for dashboard set up read https://github.com/IgorKowalczyk/majobot
 

@@ -44,15 +44,21 @@ if(process.env.apiKey && process.env.apiKey.trim()!=""){
 setInterval(() => {
   const options = {
     method: "GET",
-    hostname: "dumbotapi.aeona.repl.co",
+    hostname: "aeona3.p.rapidapi.com",
     port: null,
     path: encodeURI(
       "/?" +
-        `test=i&text=${randomString(
+        `&text=${randomString(
           32,
           "0123456789abcdefghijklmnopqrstuvwxyz"
-        )}&userId=sfdsfsdf&key=${process.env.apiKey}`
+        )}&userId=sfdsfsdf`
+        
     ),
+    "headers": {
+      "X-RapidAPI-Host": "aeona3.p.rapidapi.com",
+      "X-RapidAPI-Key": process.env.apiKey,
+      "useQueryString": true
+    }
   };
   const req = http.request(options, (res) => {
     const chunks = [];
