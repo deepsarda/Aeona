@@ -83,7 +83,7 @@ PORT=8000
 TOKEN=TOP.gg token
 SPOTIFY_CLIENT_SECRET=Spotify client deverloper Secert for music
 rateLimit=Webhook Url
-apiKey=Going public for everyone soon! Use discord-chatbot npm package (google it and replace the execute code in messagecreate and in index.js 
+apiKey=Going public for everyone soon! Use discord-chatbot npm package (google it and replace the execute code in messagecreate and in index.js (or leave blank AI wont work)
 
 errors=Webhook Url
 ID=Bot Client Id
