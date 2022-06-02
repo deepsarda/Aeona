@@ -58,7 +58,8 @@ module.exports = class AeonaClient extends SapphireClient {
       typing:true,
       fetchPrefix:(message)=>{
         return "+"
-      }
+      },
+      loadMessageCommandListeners:true,
     });
 
     (this.partials = [
