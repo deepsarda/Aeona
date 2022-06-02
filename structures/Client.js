@@ -4,7 +4,7 @@ const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
-
+const { SapphireClient } = require("@sapphire/framework");
 // This system from discord music bot https://github.com/SudhanPlayz
 
 Structure.extend(
@@ -22,7 +22,7 @@ Structure.extend(
       }
     }
 );
-module.exports = class AeonaClient extends Client {
+module.exports = class AeonaClient extends SapphireClient {
   constructor(options = {}, sentry) {
     super({
       partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"],
@@ -36,7 +36,6 @@ module.exports = class AeonaClient extends Client {
       disableMentions: "everyone",
       messageCacheMaxSize: 25,
       messageCacheLifetime: 10000,
-      shardCount: 1,
       intents: [
         "GUILDS",
         "GUILD_MEMBERS",
@@ -53,6 +52,9 @@ module.exports = class AeonaClient extends Client {
         "DIRECT_MESSAGE_REACTIONS",
         "DIRECT_MESSAGE_TYPING",
       ],
+      defaultPrefix: "+",
+      caseInsensitiveCommands: true,
+      typing:true,
     });
 
     (this.partials = [
@@ -62,10 +64,7 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-    (this.commands = new Collection());
     this.manager = new MusicManager(this);
-    this.categories = new Collection();
-    this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
     this.emojies = {
       mute: "🔇",
@@ -103,55 +102,22 @@ module.exports = class AeonaClient extends Client {
   }
 
   async start(token) {
-    this.loadCommands();
-    if (!process.env.DEV) this.loadEvents();
+    this.loadMusic();
 
     this.mongoose.init();
     await this.login(token);
   }
 
-  loadCommands() {
-    let commands = this.loadFiles("./commands");
-    for (let command of commands) {
-      try {
-        command = require("." + command);
-        let category = command.category;
-        if (!this.categories.has(category)) {
-          this.categories.set(category, []);
-        }
-        this.categories.get(category).push(command);
-
-        this.commands.set(command.name, command);
-
-        if (command.aliases) {
-          for (let alias of command.aliases) {
-            this.commands.set(alias, command);
-          }
-        }
-
-        console.log(`Loaded command ${command.name}`);
-      } catch (e) {
-        console.error(e);
-        console.log(`${command} failed to load`);
-      }
-    }
-  }
-
-  loadEvents() {
-    let events = this.loadFiles("./events");
+  loadMusic() {
+    let events = this.loadFiles("./music");
 
     for (let event of events) {
       try {
-        let music = false;
-        if (event.includes("music")) music = true;
         event = require("." + event);
 
-        if (music) {
+        
           this.manager.on(event.name, event.execute.bind(null, this));
-        } else {
-          this.events.set(event.name, event.execute);
-          this.on(event.name, (...args) => event.execute(this, ...args));
-        }
+
         console.log(`Loaded event ${event.name}`);
       } catch (e) {
         console.error(e);
