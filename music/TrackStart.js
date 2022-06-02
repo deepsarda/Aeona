@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
-const { convertTime } = require("../../utils/convert.js");
+const { convertTime } = require("../utils/convert.js");
 module.exports = {
   name: "trackStart",
   async execute(client, player, track, playload) {
