@@ -1,8 +1,17 @@
 const { VoiceState, MessageEmbed } = require("discord.js");
 
-module.exports = {
-  name: "voiceStateUpdate",
-  execute: async (client, oldState, newState) => {
+const { Listener } = require('@sapphire/framework');
+class MusicListener extends Listener {
+  constructor(context, options) {
+    super(context, {
+      ...options,
+      once: true,
+      event: 'voiceStateUpdate'
+    });
+
+  }
+
+  async run(client, oldState, newState)  {
     // get guild and player
     let guildId = newState.guild.id;
     const player = client.manager.get(guildId);
@@ -85,5 +94,8 @@ module.exports = {
         }
         break;
     }
-  },
+  }
+}
+module.exports = {
+  MusicListener
 };

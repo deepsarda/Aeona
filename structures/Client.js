@@ -5,6 +5,7 @@ const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
 const { SapphireClient } = require("@sapphire/framework");
+const GuildSchema=require("../database/schemas/Guild");
 // This system from discord music bot https://github.com/SudhanPlayz
 
 Structure.extend(
@@ -55,6 +56,9 @@ module.exports = class AeonaClient extends SapphireClient {
       defaultPrefix: "+",
       caseInsensitiveCommands: true,
       typing:true,
+      fetchPrefix:(message)=>{
+        return "+"
+      }
     });
 
     (this.partials = [
