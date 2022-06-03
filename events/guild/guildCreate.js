@@ -4,9 +4,9 @@ const Logging = require("../../database/schemas/logging");
 const welcomeClient = new Discord.WebhookClient({
   url: process.env.importantLogs,
 });
-module.exports =  {
-  name:"guildCreate",
-  async execute(client,guild) {
+module.exports = {
+  name: "guildCreate",
+  async execute(client, guild) {
     console.log(`Joined to "${guild.name}" (${guild.id})`, { label: "Guilds" });
 
     const find = await Guild.findOne({
@@ -130,7 +130,5 @@ module.exports =  {
       embeds: [welcomeEmbed],
       content: "<@394320584089010179> <@794921502230577182>",
     });
-
-    
-  }
+  },
 };

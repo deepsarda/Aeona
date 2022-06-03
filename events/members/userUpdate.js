@@ -1,9 +1,8 @@
-
 const Username = require("../../database/schemas/usernames");
 const Maintenance = require("../../database/schemas/maintenance");
-module.exports=  {
-  name:"userUpdate",
-  async execute(client,oldUser, newUser) {
+module.exports = {
+  name: "userUpdate",
+  async execute(client, oldUser, newUser) {
     const maintenance = await Maintenance.findOne({
       maintenance: "maintenance",
     });
@@ -39,5 +38,5 @@ module.exports=  {
         user.save().catch(() => {});
       }
     }
-  }
+  },
 };

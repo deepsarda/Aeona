@@ -1,13 +1,12 @@
-
 const Discord = require("discord.js");
 const Guild = require("../../database/schemas/Guild");
 const Logging = require("../../database/schemas/logging");
 const webhookClient = new Discord.WebhookClient({
   url: process.env.importantLogs,
 });
-module.exports =  {
-  name:"guildDelete",
-  async execute(client,guild) {
+module.exports = {
+  name: "guildDelete",
+  async execute(client, guild) {
     Guild.findOneAndDelete(
       {
         guildId: guild.id,
@@ -19,7 +18,7 @@ module.exports =  {
         });
       }
     );
-    let owner=await guild.fetchOwner();
+    let owner = await guild.fetchOwner();
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`RED`)
       .setTitle("Leave Server")
@@ -32,7 +31,7 @@ module.exports =  {
         iconURL: "https://Aeona.xyz/logo.png",
       });
 
-      webhookClient.send({
+    webhookClient.send({
       username: "Aeona",
       avatarURL: "https://Aeona.xyz/logo.png",
       embeds: [welcomeEmbed],
@@ -42,6 +41,5 @@ module.exports =  {
     Logging.findOneAndDelete({
       guildId: guild.id,
     }).catch(() => {});
-
-  }
+  },
 };

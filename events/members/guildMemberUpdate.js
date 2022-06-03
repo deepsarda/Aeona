@@ -1,14 +1,12 @@
-
 const Nickname = require("../../database/schemas/nicknames");
 const discord = require("discord.js");
 const Logging = require("../../database/schemas/logging");
 const cooldown = new Set();
 
-module.exports =  {
-  name:"guildMemberUpdate",
-  async execute(client,oldMember, newMember) {
+module.exports = {
+  name: "guildMemberUpdate",
+  async execute(client, oldMember, newMember) {
     const logging = await Logging.findOne({ guildId: oldMember.guild.id });
-
 
     if (logging) {
       if (logging.member_events.toggle == "true") {
@@ -155,5 +153,5 @@ module.exports =  {
         }
       }
     }
-  }
+  },
 };

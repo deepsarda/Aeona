@@ -75,7 +75,7 @@ module.exports = {
 
         if (channelEmbed) {
           let color = logging.message_events.color;
-          if (color == "#000000") color ="RED";
+          if (color == "#000000") color = "RED";
 
           if (logging.message_events.deleted == "true") {
             const embed = new MessageEmbed()

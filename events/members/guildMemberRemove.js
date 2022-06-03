@@ -1,4 +1,3 @@
-
 const Guild = require("../../database/schemas/Guild");
 const discord = require("discord.js");
 const moment = require("moment");
@@ -6,9 +5,9 @@ const LeaveDB = require("../../database/schemas/leave");
 const StickyDB = require("../../database/schemas/stickyRole");
 const Logging = require("../../database/schemas/logging");
 const Maintenance = require("../../database/schemas/maintenance");
-module.exports =  {
-  name:"guildMemberRemove",
-  async execute(client,member) {
+module.exports = {
+  name: "guildMemberRemove",
+  async execute(client, member) {
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
     const maintenance = await Maintenance.findOne({
@@ -25,7 +24,7 @@ module.exports =  {
 
         if (channelEmbed) {
           let color = logging.server_events.color;
-          if (color == "#000000") color ="RED";
+          if (color == "#000000") color = "RED";
 
           if (logging.server_events.member_join == "true") {
             const embed = new discord.MessageEmbed()
@@ -324,7 +323,7 @@ module.exports =  {
         }
       }
     }
-  }
+  },
 };
 function removeA(arr) {
   let what,

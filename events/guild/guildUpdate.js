@@ -1,11 +1,8 @@
-
 const Logging = require("../../database/schemas/logging");
 const discord = require("discord.js");
-mmodule.exports =  {
-  name:"guildUpdate",
-  async execute(client,oldGuild, newGuild) {
-  
-
+mmodule.exports = {
+  name: "guildUpdate",
+  async execute(client, oldGuild, newGuild) {
     const logging = await Logging.findOne({ guildId: oldGuild.id });
 
     if (logging) {
@@ -110,5 +107,5 @@ mmodule.exports =  {
         }
       }
     }
-  }
+  },
 };

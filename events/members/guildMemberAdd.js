@@ -1,4 +1,3 @@
-
 const Guild = require("../../database/schemas/Guild");
 const WelcomeDB = require("../../database/schemas/welcome");
 const discord = require("discord.js");
@@ -7,10 +6,9 @@ const moment = require("moment");
 const alt = require("../../models/altdetector.js");
 const StickyDB = require("../../database/schemas/stickyRole");
 const Logging = require("../../database/schemas/logging");
-module.exports =  {
-  name:"guildMemberAdd",
-  async execute(client,member) {
-    
+module.exports = {
+  name: "guildMemberAdd",
+  async execute(client, member) {
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
     const muteDoc = await muteModel.findOne({
@@ -414,5 +412,5 @@ module.exports =  {
         }
       }
     }
-  }
+  },
 };

@@ -1,8 +1,7 @@
-
 const { MessageEmbed } = require("discord.js");
-module.exports =  {
-  name:"guildMemberAdd",
-  async execute(client,permissions, message) {
+module.exports = {
+  name: "guildMemberAdd",
+  async execute(client, permissions, message) {
     if (!message) return;
     const embed = new MessageEmbed()
       .setAuthor(
@@ -25,5 +24,5 @@ module.exports =  {
     ) {
       message.channel.send({ embeds: [embed] }).catch(() => {});
     }
-  }
+  },
 };
