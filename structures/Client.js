@@ -4,8 +4,7 @@ const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
-const { SapphireClient } = require("@sapphire/framework");
-const GuildSchema=require("../database/schemas/Guild");
+
 // This system from discord music bot https://github.com/SudhanPlayz
 
 Structure.extend(
@@ -23,7 +22,7 @@ Structure.extend(
       }
     }
 );
-module.exports = class AeonaClient extends SapphireClient {
+module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
       partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"],
@@ -37,6 +36,7 @@ module.exports = class AeonaClient extends SapphireClient {
       disableMentions: "everyone",
       messageCacheMaxSize: 25,
       messageCacheLifetime: 10000,
+      shardCount: 1,
       intents: [
         "GUILDS",
         "GUILD_MEMBERS",
@@ -53,12 +53,6 @@ module.exports = class AeonaClient extends SapphireClient {
         "DIRECT_MESSAGE_REACTIONS",
         "DIRECT_MESSAGE_TYPING",
       ],
-      defaultPrefix: "+",
-      caseInsensitiveCommands: true,
-      typing:true,
-      fetchPrefix:(message)=>{
-        return "+"
-      }
     });
 
     (this.partials = [
@@ -68,7 +62,10 @@ module.exports = class AeonaClient extends SapphireClient {
       "GUILD_MEMBER",
       "USER",
     ]),
+    (this.commands = new Collection());
     this.manager = new MusicManager(this);
+    this.categories = new Collection();
+    this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
     this.emojies = {
       mute: "🔇",
@@ -106,22 +103,55 @@ module.exports = class AeonaClient extends SapphireClient {
   }
 
   async start(token) {
-    this.loadMusic();
+    this.loadCommands();
+    if (!process.env.DEV) this.loadEvents();
 
     this.mongoose.init();
     await this.login(token);
   }
 
-  loadMusic() {
-    let events = this.loadFiles("./music");
+  loadCommands() {
+    let commands = this.loadFiles("./commands");
+    for (let command of commands) {
+      try {
+        command = require("." + command);
+        let category = command.category;
+        if (!this.categories.has(category)) {
+          this.categories.set(category, []);
+        }
+        this.categories.get(category).push(command);
+
+        this.commands.set(command.name, command);
+
+        if (command.aliases) {
+          for (let alias of command.aliases) {
+            this.commands.set(alias, command);
+          }
+        }
+
+        console.log(`Loaded command ${command.name}`);
+      } catch (e) {
+        console.error(e);
+        console.log(`${command} failed to load`);
+      }
+    }
+  }
+
+  loadEvents() {
+    let events = this.loadFiles("./events");
 
     for (let event of events) {
       try {
+        let music = false;
+        if (event.includes("music")) music = true;
         event = require("." + event);
 
-        
+        if (music) {
           this.manager.on(event.name, event.execute.bind(null, this));
-
+        } else {
+          this.events.set(event.name, event.execute);
+          this.on(event.name, (...args) => event.execute(this, ...args));
+        }
         console.log(`Loaded event ${event.name}`);
       } catch (e) {
         console.error(e);
