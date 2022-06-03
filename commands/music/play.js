@@ -22,11 +22,9 @@ module.exports = {
     )
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
-            
-            .setDescription(
-              `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
-            ),
+          new MessageEmbed().setDescription(
+            `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
+          ),
         ],
       });
 
@@ -39,11 +37,9 @@ module.exports = {
     )
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
-            
-            .setDescription(
-              `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
-            ),
+          new MessageEmbed().setDescription(
+            `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
+          ),
         ],
       });
 
@@ -68,7 +64,7 @@ module.exports = {
         return message.channel.send({
           embeds: [
             new MessageEmbed()
-              
+
               .setTimestamp()
               .setDescription("Nothing is playing right now..."),
           ],
@@ -86,11 +82,12 @@ module.exports = {
       case "NO_MATCHES":
         if (!player.queue.current) player.destroy();
         return message.channel.send({
-          embeds: [new MessageEmbed()
-            
-            .setTimestamp()
-            .setDescription(`No matches found for - ${search}`),
-          ]
+          embeds: [
+            new MessageEmbed()
+
+              .setTimestamp()
+              .setDescription(`No matches found for - ${search}`),
+          ],
         });
       case "TRACK_LOADED":
         var track = res.tracks[0];
@@ -99,7 +96,7 @@ module.exports = {
           return player.play();
         } else {
           const thing = new MessageEmbed()
-            
+
             .setTimestamp()
             .setThumbnail(track.displayThumbnail("hqdefault"))
             .setDescription(
@@ -118,7 +115,7 @@ module.exports = {
         )
           player.play();
         const thing = new MessageEmbed()
-          
+
           .setTimestamp()
           .setDescription(
             `${emojiplaylist} **Added playlist to queue**\n${
@@ -135,7 +132,7 @@ module.exports = {
           return player.play();
         } else {
           const thing = new MessageEmbed()
-            
+
             .setTimestamp()
             .setThumbnail(track.displayThumbnail("hqdefault"))
             .setDescription(

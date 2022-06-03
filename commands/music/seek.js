@@ -40,7 +40,7 @@ module.exports = {
               time
             )} / ${convertTime(duration)}\``
           )
-          
+
           .setTimestamp();
         return message.reply({ embeds: [thing] });
       } else {
@@ -51,7 +51,7 @@ module.exports = {
               time
             )} / ${convertTime(duration)}\``
           )
-          
+
           .setTimestamp();
         return message.reply({ embeds: [thing] });
       }

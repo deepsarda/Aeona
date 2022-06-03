@@ -17,11 +17,9 @@ module.exports = {
     if (player && player.voiceChannel && player.state === "CONNECTED") {
       return await message.channel.send({
         embeds: [
-          new MessageEmbed()
-            
-            .setDescription(
-              `I'm already connected to <#${player.voiceChannel}> voice channel!`
-            ),
+          new MessageEmbed().setDescription(
+            `I'm already connected to <#${player.voiceChannel}> voice channel!`
+          ),
         ],
       });
     } else {
@@ -33,11 +31,9 @@ module.exports = {
       )
         return message.channel.send({
           embeds: [
-            new MessageEmbed()
-              
-              .setDescription(
-                `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
-              ),
+            new MessageEmbed().setDescription(
+              `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
+            ),
           ],
         });
 
@@ -50,11 +46,9 @@ module.exports = {
       )
         return message.channel.send({
           embeds: [
-            new MessageEmbed()
-              
-              .setDescription(
-                `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
-              ),
+            new MessageEmbed().setDescription(
+              `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
+            ),
           ],
         });
 
@@ -69,11 +63,9 @@ module.exports = {
       });
       if (player && player.state !== "CONNECTED") player.connect();
 
-      let thing = new MessageEmbed()
-        
-        .setDescription(
-          `${emojiJoin} **Join the voice channel**\nJoined <#${channel.id}> and bound to <#${message.channel.id}>`
-        );
+      let thing = new MessageEmbed().setDescription(
+        `${emojiJoin} **Join the voice channel**\nJoined <#${channel.id}> and bound to <#${message.channel.id}>`
+      );
       return message.reply({ embeds: [thing] });
     }
   },

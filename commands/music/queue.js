@@ -27,7 +27,7 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            
+
             .setTimestamp()
             .setDescription(`Nothing is playing right now.`),
         ],
@@ -37,22 +37,20 @@ module.exports = {
       return message.channel.send({
         embeds: [
           new MessageEmbed()
-            
+
             .setTimestamp()
             .setDescription(`Nothing is playing right now.`),
         ],
       });
 
     if (player.queue.length === "0" || !player.queue.length) {
-      const embed = new MessageEmbed()
-        
-        .setDescription(
-          `Now playing [${player.queue.current.title}](${
-            player.queue.current.uri
-          }) • \`[${convertTime(queue.current.duration)}]\` • [${
-            player.queue.current.requester
-          }]`
-        );
+      const embed = new MessageEmbed().setDescription(
+        `Now playing [${player.queue.current.title}](${
+          player.queue.current.uri
+        }) • \`[${convertTime(queue.current.duration)}]\` • [${
+          player.queue.current.requester
+        }]`
+      );
 
       await message.channel
         .send({
@@ -73,7 +71,7 @@ module.exports = {
 
       if (player.queue.size < 11) {
         const embed = new MessageEmbed()
-          
+
           .setDescription(
             `**Now playing**\n > [${player.queue.current.title}](${
               player.queue.current.uri
@@ -94,7 +92,7 @@ module.exports = {
         });
       } else {
         const embed2 = new MessageEmbed()
-          
+
           .setDescription(
             `**Now playing**\n > [${player.queue.current.title}](${
               player.queue.current.uri
@@ -155,7 +153,7 @@ module.exports = {
             page = page + 1 < pages.length ? ++page : 0;
 
             const embed3 = new MessageEmbed()
-              
+
               .setDescription(
                 `**Now playing**\n[${player.queue.current.title}](${
                   player.queue.current.uri
@@ -186,7 +184,7 @@ module.exports = {
             page = page > 0 ? --page : pages.length - 1;
 
             const embed4 = new MessageEmbed()
-              
+
               .setDescription(
                 `**Now playing**\n[${player.queue.current.title}](${
                   player.queue.current.uri

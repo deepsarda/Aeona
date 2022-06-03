@@ -62,7 +62,7 @@ module.exports = class AeonaClient extends Client {
       "GUILD_MEMBER",
       "USER",
     ]),
-    (this.commands = new Collection());
+      (this.commands = new Collection());
     this.manager = new MusicManager(this);
     this.categories = new Collection();
     this.events = new Collection();

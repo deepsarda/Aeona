@@ -27,7 +27,7 @@ module.exports = {
 
     if (!args.length) {
       let thing = new MessageEmbed()
-        
+
         .setTimestamp()
         .setDescription(
           `${volumeEmoji} The current volume is: **${player.volume}%**`
@@ -51,20 +51,20 @@ module.exports = {
     if (volume > player.volume) {
       var emojivolume = client.emoji.volumehigh;
       let thing = new MessageEmbed()
-        
+
         .setTimestamp()
         .setDescription(`${emojivolume} Volume set to: **${volume}%**`);
       return message.reply({ embeds: [thing] });
     } else if (volume < player.volume) {
       var emojivolume = message.client.emoji.volumelow;
       let thing = new MessageEmbed()
-        
+
         .setTimestamp()
         .setDescription(`${emojivolume} Volume set to: **${volume}%**`);
       return message.reply({ embeds: [thing] });
     } else {
       let thing = new MessageEmbed()
-        
+
         .setTimestamp()
         .setDescription(`${volumeEmoji} Volume set to: **${volume}%**`);
       return message.reply({ embeds: [thing] });

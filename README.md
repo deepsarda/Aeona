@@ -39,16 +39,16 @@ Aeona also has **multiple** miscellaneous commands, such as:
 
 ### So that's about it for Aeona. This bot is still in its early stages after verification, so you can be sure to expect loads of new changes and updates very soon
 
-
 ## Setting Up
 
 Your `config.json` should look like this:
+
 ```
 {
-  "main_token": process.env.token, 
+  "main_token": process.env.token,
   "mongodb_url": "", //mongo db URL
   "developers": ["", ""], //developers ID
-  "dashboard":"true", 
+  "dashboard":"true",
   "prefix":"+", //prefix
   "webhook_id":"", //read config.json
   "webhook_url":"" //read config.json
@@ -57,6 +57,7 @@ Your `config.json` should look like this:
 ```
 
 Your `config.js` should look like this:
+
 ```
 module.exports = {
  "verification": "",
@@ -72,10 +73,12 @@ module.exports = {
 
 }
 ```
+
 Your `.env` file should be:
+
 ```
 importantLogs=Webhook Url
-ANALYTICS=Google anaylatics key 
+ANALYTICS=Google anaylatics key
 STATCORD=Statcord key
 SECERT=Client OAUTH2 Secert
 logs=Webhook Url
@@ -92,8 +95,8 @@ MONGO_CONNECTION=mongodb connection url
 BOTTOKEN=BOT Token
 
 ```
-# If you need help join [support server](https://www.aeeona.xyz/support)
 
+# If you need help join [support server](https://www.aeeona.xyz/support)
 
 ### for dashboard set up read https://github.com/IgorKowalczyk/majobot
 
@@ -104,24 +107,21 @@ BOTTOKEN=BOT Token
 
 Pease make sure you have enabled `Privileged Intents` on your Discord [developer portal](https://discordapp.com/developers/applications/). You can find these intents under the "Bot" section, and there are two ticks you have to switch on. For more information on Gateway Intents, check out [this](https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper) link.
 
-You can launch the bot with `node shard.js` 
+You can launch the bot with `node shard.js`
 
-**Important Note:** Pogy has so many bugs and requires a lot of js knowledge. You will have some difficulty running the bot if you have no experience in discord.js. 
+**Important Note:** Pogy has so many bugs and requires a lot of js knowledge. You will have some difficulty running the bot if you have no experience in discord.js.
 
-### Emojis 
+### Emojis
+
 - You can change the emojis in: <br>
-1- `assets/emojis.json` <br>
-2- `data/emoji.js`
+  1- `assets/emojis.json` <br>
+  2- `data/emoji.js`
 
 ### Colors
 
 - You can change the colors in `data/colors.js`
 
-
-
 Credits to <https://github.com/WLegit/Pogy> for base bot code
-
-
 
 ## Commits By User
 

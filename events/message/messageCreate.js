@@ -147,7 +147,7 @@ module.exports = {
     let command = args.shift().toLowerCase();
 
     let cmd;
-    if (await customCommands(message,command)) return;
+    if (await customCommands(message, command)) return;
 
     const disabledCommands = settings.disabledCommands;
     if (typeof disabledCommands === "string")
@@ -560,7 +560,7 @@ async function afkCheck(settings, message, client) {
   }
 }
 
-async function customCommands(message,command) {
+async function customCommands(message, command) {
   const customCommandSettings = await customCommand.findOne({
     guildId: message.guild.id,
     name: command.toLowerCase(),
@@ -667,7 +667,7 @@ function ratelimit(message, command) {
       return true;
     }
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
@@ -726,19 +726,21 @@ async function executeChatBot(message, prefix, i, chatbot) {
       port: null,
       path: encodeURI(
         "/?" +
-          `text=${message.content}&userId=${message.author.id}${context ? `&context=${context}` : ""}${
-            context1 ? `&context1=${context1}` : ""
-          } ${context2 ? `&context2=${context2}` : ""} ${
-            context3 ? `&context3=${context3}` : ""
-          } ${context4 ? `&context4=${context4}` : ""} ${
-            context5 ? `&context5=${context5}` : ""
-          } ${chatbot ? `&chatbot=${chatbot}` : ""}`
+          `text=${message.content}&userId=${message.author.id}${
+            context ? `&context=${context}` : ""
+          }${context1 ? `&context1=${context1}` : ""} ${
+            context2 ? `&context2=${context2}` : ""
+          } ${context3 ? `&context3=${context3}` : ""} ${
+            context4 ? `&context4=${context4}` : ""
+          } ${context5 ? `&context5=${context5}` : ""} ${
+            chatbot ? `&chatbot=${chatbot}` : ""
+          }`
       ),
-      "headers": {
+      headers: {
         "X-RapidAPI-Host": "aeona3.p.rapidapi.com",
         "X-RapidAPI-Key": process.env.apiKey,
-        "useQueryString": true
-      }
+        useQueryString: true,
+      },
     };
     const req = http.request(options, function (res) {
       const chunks = [];
@@ -801,6 +803,7 @@ async function executeChatBot(message, prefix, i, chatbot) {
               .reply({
                 content: reply,
                 components: comp,
+                embeds: [],
               })
               .catch((e) => {
                 return;

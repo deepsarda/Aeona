@@ -3,13 +3,13 @@ const axios = require("axios").default;
 const { emotes } = require("../../utils/resources.js");
 
 module.exports = {
-    name: "urban",
-    description: "Look up a definition on urban dictionary",
-    usage: "+urban <term>",
-    category: "utility",
-    requiredArgs: 1,
-    execute: async (message, args, bot, prefix) => {
-        const term = args.join(" ");
+  name: "urban",
+  description: "Look up a definition on urban dictionary",
+  usage: "+urban <term>",
+  category: "utility",
+  requiredArgs: 1,
+  execute: async (message, args, bot, prefix) => {
+    const term = args.join(" ");
 
     let options = {
       url: `https://api.urbandictionary.com/v0/define?term=${term}`,

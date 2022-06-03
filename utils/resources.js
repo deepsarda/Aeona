@@ -32,6 +32,10 @@ class Resource {
   }
 
   embed = (options) => {
+    //If options is a string, it's the content
+    if (typeof options === "string") {
+      return options;
+    }
     if (options.embeds) return options;
     const msg = options.msg;
     let title = "";

@@ -41,7 +41,7 @@ module.exports = {
 
     let thing = new MessageEmbed()
       .setDescription(`${emojijump} Forward **${position}** Songs`)
-      
+
       .setTimestamp();
 
     return message.reply({ embeds: [thing] });

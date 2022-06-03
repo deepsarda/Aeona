@@ -15,7 +15,7 @@ module.exports = {
       .setThumbnail(
         `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`
       )
-      
+
       .setTimestamp();
     const But1 = new MessageButton()
       .setCustomId("vdown")

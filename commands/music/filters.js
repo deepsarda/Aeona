@@ -22,9 +22,9 @@ module.exports = {
       return message.reply({ embeds: [thing] });
     }
     const emojiequalizer = message.client.emoji.filter;
-    const embed = new MessageEmbed()
-      
-      .setDescription(`Choose what filter you want in tha button`);
+    const embed = new MessageEmbed().setDescription(
+      `Choose what filter you want in tha button`
+    );
 
     const but = new MessageButton()
       .setCustomId("clear_but")

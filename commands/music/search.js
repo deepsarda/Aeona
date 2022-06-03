@@ -27,11 +27,9 @@ module.exports = {
     )
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
-            
-            .setDescription(
-              `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
-            ),
+          new MessageEmbed().setDescription(
+            `I don't have enough permissions connect your vc please give me permission \`CONNECT\` or \`SPEAK\`.`
+          ),
         ],
       });
     if (
@@ -42,11 +40,9 @@ module.exports = {
     )
       return message.channel.send({
         embeds: [
-          new MessageEmbed()
-            
-            .setDescription(
-              `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
-            ),
+          new MessageEmbed().setDescription(
+            `I don't have enough permissions to execute this command! please give me permission \`CONNECT\` or \`SPEAK\`.`
+          ),
         ],
       });
 
@@ -65,9 +61,9 @@ module.exports = {
 
     const msg = await message.channel.send({
       embeds: [
-        new MessageEmbed()
-          
-          .setDescription(`? Searching ${query} song please wait`),
+        new MessageEmbed().setDescription(
+          `? Searching ${query} song please wait`
+        ),
       ],
     });
 
@@ -105,16 +101,13 @@ module.exports = {
     switch (s.loadType) {
       case "TRACK_LOADED":
         player.queue.add(s.tracks[0]);
-        const embed = new MessageEmbed()
-          .setDescription(
-            `${emojiplaylist} **Added to queue** - [${s.tracks[0].title}](${
-              s.tracks[0].uri
-            }) \`${convertTime(s.tracks[0].duration, true)}\` • ${
-              s.tracks[0].requester
-            }`
-          )
-          ;
-
+        const embed = new MessageEmbed().setDescription(
+          `${emojiplaylist} **Added to queue** - [${s.tracks[0].title}](${
+            s.tracks[0].uri
+          }) \`${convertTime(s.tracks[0].duration, true)}\` • ${
+            s.tracks[0].requester
+          }`
+        );
         msg.edit({ embeds: [embed] });
         if (!player.playing) player.play();
         break;
@@ -132,7 +125,7 @@ module.exports = {
           .join("\n");
         const searched = new MessageEmbed()
           .setTitle("Select the track that you want")
-          
+
           .setDescription(results);
 
         await msg.edit({ embeds: [searched], components: [row] });

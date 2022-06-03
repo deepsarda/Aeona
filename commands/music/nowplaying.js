@@ -34,7 +34,7 @@ module.exports = {
         )}]\`- [${song.requester}] \n\n\`${progressbar(player)}\``
       )
       .setThumbnail(song.displayThumbnail("3"))
-      
+
       .addField(
         "\u200b",
         `\`${convertTime(current)} / ${convertTime(total)}\``
