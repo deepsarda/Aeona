@@ -55,12 +55,12 @@ module.exports = class extends Command {
       async (err, db) => {
         if (!db) return;
 
-        let channelReact = message.guild.channels.cache.get(db.ticketModlogID);
+        let channelReact =await message.guild.channels.fetch(db.ticketModlogID);
 
         let reason = args.slice(0).join(" ");
         if (!reason) reason = "No reason Was Provided";
 
-        const role = message.guild.roles.cache.get(db.supportRoleID);
+        const role =await message.guild.roles.fetch(db.supportRoleID);
         if (db.ticketClose == "false") {
           if (role) {
             if (
@@ -139,7 +139,7 @@ module.exports = class extends Command {
 
             await paste.save().catch(() => {});
           })
-          .catch(() => {});
+          .catch((e) => { console.log(e)});
 
         setTimeout(()=>message.channel.delete(),10000)
       }
