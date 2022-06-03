@@ -1,4 +1,4 @@
-module.exports = {
+giomodule.exports = {
     name: "coinflip",
     description: "Flip a coin!",
     aliases: ["flip", "cointoss"],
