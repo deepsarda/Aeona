@@ -114,13 +114,17 @@ module.exports = class AeonaClient extends Client {
     let commands = this.loadFiles("./commands");
     for (let command of commands) {
       try {
+        let info=false;
+        if(command.includes('_info.js')) info=true;
         command = require("." + command);
         let category = command.category;
         if (!this.categories.has(category)) {
-          this.categories.set(category, []);
+          this.categories.set(category, {info:null,commands:[]});
         }
-        this.categories.get(category).push(command);
 
+        if(!info){
+        this.categories.get(category).commands.push(command);
+        
         this.commands.set(command.name, command);
 
         if (command.aliases) {
@@ -130,6 +134,10 @@ module.exports = class AeonaClient extends Client {
         }
 
         console.log(`Loaded command ${command.name}`);
+        }else{
+          this.categories.get(category).info=command;
+          console.log(`Loaded info for ${category}`);
+        }
       } catch (e) {
         console.error(e);
         console.log(`${command} failed to load`);
