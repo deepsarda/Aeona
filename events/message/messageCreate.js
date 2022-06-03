@@ -257,7 +257,7 @@ module.exports = {
             }
           }
         }
-        client.statcord.postCommand(command.name, message.client.id);
+        client.statcord.postCommand(command, message.client.id);
         await cmd.execute(message, args, message.client, prefix);
         console.log(
           `${message.author.tag} ran command ${cmd.name} in ${

@@ -1,3 +1,5 @@
+import { success } = require("../../utils/resources.js");
+
 module.exports = {
   name: "help",
   description: "View a list of all commands",
@@ -9,10 +11,10 @@ module.exports = {
     for (const category of bot.categories.keys())
       modules += `\`${category.charAt(0).toUpperCase()}${category.slice(1)}\` `;
 
-    const m = await message.channel.send({
+    const embed = await message.channel.send({
       title: "Help menu",
       description:
-        "Select a module using the dropdown below, to view **it's tutorial** and **commands list**!\n",
+        `Select a module using the dropdown below, to view **it's tutorial** and **commands list**!\n{modules}`,
     });
   },
 };
