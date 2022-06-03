@@ -11,10 +11,13 @@ module.exports = {
     for (const category of bot.categories.keys())
       modules += `\`${category.charAt(0).toUpperCase()}${category.slice(1)}\` `;
 
-    const embed = await message.channel.send({
+    const embed = await success.embed({
+      embed: true,
       title: "Help menu",
       description:
         `Select a module using the dropdown below, to view **it's tutorial** and **commands list**!\n{modules}`,
     });
+
+    await message.channel.send()
   },
 };
