@@ -1,5 +1,5 @@
 const randint = require("./randint.js");
-const resources = require("../framework/util/resources");
+const resources = require("./resources");
 
 const array = [
   {
