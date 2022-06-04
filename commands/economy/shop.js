@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const numberparse = require("../../utils/numberParse");
+const numberParse = require("../../utils/numberParse");
 const randint = require("../../utils/randint");
 const { success, emotes } = require("../../utils/resources.js");
 
