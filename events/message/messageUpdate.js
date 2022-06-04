@@ -6,7 +6,6 @@ const Snipe = require("../../database/schemas/editsnipe");
 module.exports = {
   name: "messageUpdate",
   async execute(client, oldMessage, newMessage) {
-    const message = messages.first();
     if (newMessage.webhookID) return;
 
     if (
@@ -135,5 +134,5 @@ module.exports = {
         }
       }
     }
-  },
+  }
 };

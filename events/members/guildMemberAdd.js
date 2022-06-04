@@ -1,9 +1,9 @@
 const Guild = require("../../database/schemas/Guild");
 const WelcomeDB = require("../../database/schemas/welcome");
 const discord = require("discord.js");
-const muteModel = require("../../models/mute");
+const muteModel = require("../../database/schemas/mute");
 const moment = require("moment");
-const alt = require("../../models/altdetector.js");
+const alt = require("../../database/schemas/altdetector.js");
 const StickyDB = require("../../database/schemas/stickyRole");
 const Logging = require("../../database/schemas/logging");
 module.exports = {

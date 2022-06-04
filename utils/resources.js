@@ -158,6 +158,7 @@ module.exports = {
     right: "<:right:907828453859028992>",
     alert: "<:alert:935890334003658793>",
     pencil: "<a:LGA_pencil2:980361549979988019>",
+    dot: "<:LGA_dot9:982573029307600946>"
   },
   success: new Resource({ emote: defaultE }),
   error: new Resource({ color: errorC, emote: errorE }),

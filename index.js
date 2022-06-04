@@ -24,6 +24,7 @@ async function start() {
       await client.start(config.token);
       console.log("Aeona is ready!");
       console.log("Launching dashboard...");
+      console.log(client.categories)
       dashboard(client);
 
       //let channel=await client.channels.fetch("785776583502856193");
