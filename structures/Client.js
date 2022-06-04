@@ -100,6 +100,11 @@ module.exports = class AeonaClient extends Client {
       key: process.env.STATCORD,
       client: this,
     });
+    this.emotes = {
+      left: "<:left:907825540927471627>",
+      right: "<:right:907828453859028992>",
+    };
+    require("../handlers/economy").runt(this);
   }
 
   async start(token) {

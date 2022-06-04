@@ -1,64 +1,18 @@
 const mongoose = require("mongoose");
 
-const EconomySchema = mongoose.Schema({
-  userId: {
-    type: mongoose.SchemaTypes.String,
-    required: true,
-    unique: true,
+const EconomySchema = new mongoose.Schema({
+  userId: { type: String, required: false, unique: true },
+  coinsInWallet: { type: Number, required: false, default: 100000 },
+  coinsInBank: { type: Number, required: false, default: 500 },
+  bankSpace: { type: Number, required: false, default: 2500 },
+  items: { type: Array, required: false, default: [] },
+  dailyStreak: {
+    type: Date,
+    required: false,
+    default: new Date(Date.now() - 86400000),
   },
-  money: {
-    wallet: {
-      type: mongoose.SchemaTypes.Number,
-      default: 10000,
-    },
-    bank: {
-      type: mongoose.SchemaTypes.Number,
-      default: 0,
-    },
-    maxBank: {
-      type: mongoose.SchemaTypes.Number,
-      default: 100000,
-    },
-  },
-  items: {
-    type: mongoose.SchemaTypes.Array,
-    default: [],
-  },
-
-  kills: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-
-  wins: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-
-  gameplayed: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-  deaths: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-  donations: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-  heals: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-  moves: {
-    type: mongoose.SchemaTypes.Number,
-    default: 0,
-  },
-  rank: {
-    type: mongoose.SchemaTypes.String,
-    default: "Noob",
-  },
+  passive: { type: Boolean, required: false, default: false },
+  visiblePublic: { type: Boolean, required: false, default: true },
 });
 
-module.exports = mongoose.model("Economy", EconomySchema);
+module.exports = mongoose.model("economy", EconomySchema);
