@@ -281,7 +281,7 @@ module.exports = {
     }
   },
 };
-
+const fetch=require("node-fetch")
 async function globalchat(settings, message, client) {
   if (
     settings.globalChatChannel &&
