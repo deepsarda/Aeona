@@ -104,7 +104,7 @@ module.exports = class AeonaClient extends Client {
       left: "<:left:907825540927471627>",
       right: "<:right:907828453859028992>",
     };
-    require("../handlers/economy").runt(this);
+    require("../handlers/economy").run(this);
   }
 
   async start(token) {
