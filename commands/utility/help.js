@@ -35,12 +35,12 @@ module.exports = {
 
     for (const category of bot.categories.keys()) {
       let c = bot.categories.get(category);
-
       options.push({
-        label: category,
+        value: category,
+        label: caps(category),
+        emoji: c.info.emoji,
         description: c.info.label,
-        emoji: c.info.emoji
-      });
+      });      
 
       modules += `\n→**${caps(category)}**\n\`${prefix}help ${category}\`\n`;
     }
@@ -86,7 +86,7 @@ module.exports = {
           return;
         }
 
-        if(i.customId=="help"){
+        if(i.customId == "help"){
           let option = i.values[0];
           
           const embed1 = await getPage(bot, option, 0);

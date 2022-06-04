@@ -15,4 +15,4 @@ const EconomySchema = new mongoose.Schema({
   visiblePublic: { type: Boolean, required: false, default: true },
 });
 
-module.exports = mongoose.model("economy", EconomySchema);
+module.exports = mongoose.model("economy-aeona", EconomySchema);

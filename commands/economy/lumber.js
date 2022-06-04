@@ -4,7 +4,7 @@ const randint = require("../../utils/randint");
 
 module.exports = {
   name: "lumber",
-  category: "Economy",
+  category: "economy",
   description: "Gathers lumber from trees.",
   usage: "+lumber",
   requiredArgs: 0,

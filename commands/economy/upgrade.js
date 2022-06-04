@@ -49,21 +49,21 @@ module.exports = {
     if (typeof amount === "string") {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
         let level = itemUser.level ? itemUser.level : 1;
-        let m = false;
+        console.log("EEEE")
         while(true){
-            let cost = await getUpgradeCost(level);
+            let cost =  getUpgradeCost(level);
+           
             if (cost > profile.coinsInWallet) {
+
                 break;
             }
             if (cost > 0) {
-                profile.coinsInWallet -= cost;
-                itemUser.level = level;
-                itemUser.level += 1;
-                m = true;
+              profile.coinsInWallet = profile.coinsInWallet-cost;
+              level += 1;
+              itemUser.level = level;
             } else {
                 break;
             }
-            level += 1;
         }
 
 
@@ -84,7 +84,7 @@ module.exports = {
 
     let level = itemUser.level ? itemUser.level : 1;
     while(true){
-        let cost = await getUpgradeCost(level);
+        let cost =  getUpgradeCost(level);
         if (cost > profile.coinsInWallet) {
             message.replyError({
             msg: message,
@@ -96,14 +96,13 @@ module.exports = {
             return;
         }
         if (cost > 0) {
-            profile.coinsInWallet -= cost;
+            profile.coinsInWallet = profile.coinsInWallet-cost;
+            level += 1;
             itemUser.level = level;
-            itemUser.level += 1;
-            m = true;
         } else {
             break;
         }
-        level += 1;
+        
     }
 
     //Save itemUser
@@ -123,7 +122,7 @@ module.exports = {
 };
 
 
-async function getUpgradeCost(level) {
+ function getUpgradeCost(level) {
     //**Cost** \n Upto to level 20 - 10,000 credits \n Upto level 50 - 20,000 credits \n Up to level 100 - 50,000 credits \n Upto level 200 - 100,000 credits \n Upto level 300 - 200,000 credits \n Upto level 400 - 300,000 credits \n Upto level 500 - 400,000 credits \n Upto level 600 - 500,000 credits \n Upto level 700 - 600,000 credits \n Upto level 800 - 700,000 credits \n Upto level 900 - 800,000 credits \n Upto level 1,000 - 900,000 credits \n Upto level 1,100 - 1,000,000 credits \n Upto level 1,200 - 1,100,000 credits \n Upto level 1,300 - 1,200,000 credits \n Upto level 1,400 - 1,300,000 credits \n Upto level 1,500 - 1,400,000 credits \n Upto level 1,600 - 1,500,000 credits \n Upto level 1,700 - 1,600,000 credits \n Upto level 1,800 - 1,700,000 credits \n Upto level 1,900 - 1,800,000 credits \n Upto level 2,000 - 1,900,000 credits \n Upto level 2,100 - 2,000,000 credits \n Upto level 2,200 - 2,100,000 credits \n Upto level 2,300 - 2,200,000 credits \n Upto level 2,400 - 2,300,000 credits \n Upto level 2,500 - 2,400,000 credits \n Above that - 2,500,000 credits
 
     if(level < 20)
