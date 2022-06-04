@@ -1,4 +1,5 @@
 module.exports = {
   category: "music",
-  label: "🎶 Let's enjoy some music together!"
+  label: "Let's enjoy some music together!",
+  emoji: "🎶"
 }
