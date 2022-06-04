@@ -66,9 +66,7 @@ module.exports = {
             level += 1;
         }
 
-        profile.coinsInWallet -= totalCost;
-        itemUser.level += totalLevels;
-        level += totalLevels;
+
         profile.items.splice(profile.items.indexOf(copy), 1);
         profile.items.push(itemUser);
         await profile.save();
