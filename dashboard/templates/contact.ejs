@@ -36,7 +36,7 @@
       <label class="label">
         <span class="label-text">Discord Name</span>
       </label>
-      <input type="text" placeholder="Type here" class="input glass2 w-full max-w-xs" name="name" placeholder="Discord Name" value="<%= user.username %>#<%= user.discriminator %>" />
+      <input type="text" placeholder="Type here" class="input glass2 w-full max-w-xs" name="name" placeholder="Discord Name" disabled/>
     </div>
     <div class="form-control">
       <label class="label">
@@ -44,7 +44,7 @@
       </label>
       <label class="input-group">
         <span>Email</span>
-        <input type="text" name="email" placeholder="Your Email" class="input glass2 w-full max-w-xs" />
+        <input type="text" name="email" placeholder="Your Email" class="input glass2 w-full max-w-xs" disabled/>
       </label>
     </div>
 
@@ -52,9 +52,10 @@
       <label class="label">
         <h3 class="label-text">Your Message</h3>
       </label>
-      <textarea class="textarea glass2  text-white  placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" required></textarea>
+      <textarea class="textarea glass2  text-white  placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" disabled></textarea>
     </div>
     <br>
+    <h3>You need to login to contact us!</h3>
     <button class="btn btn-secondary" onclick="location.window.location.href='/login';">Login</button>
   </form>
   <% } %>
