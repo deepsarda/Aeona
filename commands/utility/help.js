@@ -98,3 +98,17 @@ module.exports = {
     });
   },
 };
+
+//█░█ █▀█ █░░ █▄█   █▀▀ █▀█ ▄▀█ █ █░░   █▀█ █▀▀   █▀▄ █▀▀ █░█ █▀▀ █░░ █▀█ █▀█ █▀▀ █▀▄▀█ █▀▀ █▄░█ ▀█▀
+//█▀█ █▄█ █▄▄ ░█░   █▄█ █▀▄ █▀█ █ █▄▄   █▄█ █▀░   █▄▀ ██▄ ▀▄▀ ██▄ █▄▄ █▄█ █▀▀ ██▄ █░▀░█ ██▄ █░▀█ ░█░
+
+// This Comment is Si6gma's ENTIRE contribution to Aeona
+
+
+// and this commend id brought to you by raycon earbuds, The best earbuds made from copying airpords.
+//This comment is brought to you by Raid shadow lengends, the free online mobline rpg game.
+
+//time to commit this
+// DEW IT
+
+//Aeona's Developement https://media.discordapp.net/attachments/982536937996959784/983060356001828925/dev_chat.gif
