@@ -17,7 +17,9 @@ const getPage = async (bot, category, page) => {
     embed: true,
     title: `${caps(category)} Commands`,
     description: description,
-    footerText: `Page ${page + 1} of ${Math.ceil(bot.categories.get(category).commands.length / 7)}`,
+    footerText: `Page ${page + 1} of ${Math.ceil(
+      bot.categories.get(category).commands.length / 7
+    )}`,
   });
   return embed;
 };
@@ -40,7 +42,7 @@ module.exports = {
         label: caps(category),
         emoji: c.info.emoji,
         description: c.info.label,
-      });      
+      });
 
       modules += `\n→**${caps(category)}**\n\`${prefix}help ${category}\`\n`;
     }
@@ -69,7 +71,7 @@ module.exports = {
     );
     let m = await message.channel.send({
       embeds: [embed],
-      components: [row,row2],
+      components: [row, row2],
     });
 
     const collector = message.channel.createMessageComponentCollector({
@@ -86,14 +88,13 @@ module.exports = {
           return;
         }
 
-        if(i.customId == "help"){
+        if (i.customId == "help") {
           let option = i.values[0];
-          
+
           const embed1 = await getPage(bot, option, 0);
           await i.update({ embeds: [embed1] });
         }
       }
-      
     });
   },
 };

@@ -6,13 +6,13 @@ module.exports = {
   name: "use",
   description: "Use an item.",
   category: "economy",
-  usage: "+use [item] [amount](optional)", 
+  usage: "+use [item] [amount](optional)",
   requiredArgs: 1,
   aliases: [],
   execute: async (message, args, bot, prefix) => {
     let item = args[0];
     let amount = numberParse(args[1]);
-    if(!amount) amount=1;
+    if (!amount) amount = 1;
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let itemData = await bot.economy.getItem(item);
@@ -48,7 +48,7 @@ module.exports = {
         amount = itemUser.amount;
       }
     }
-    
+
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
       return message.replyError({ msg: message, title: "Invalid amount!" });
 

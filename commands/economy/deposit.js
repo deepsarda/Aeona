@@ -32,8 +32,7 @@ module.exports = {
 
           data.coinsInWallet = max_deposit;
 
-          data.coinsInBank =
-            data.coinsInWallet + data.bankSpace - max_deposit;
+          data.coinsInBank = data.coinsInWallet + data.bankSpace - max_deposit;
 
           message.reply({
             msg: message,
@@ -43,8 +42,7 @@ module.exports = {
           await data.save();
         } else {
           if (data.coinsInWallet + data.coinsInBank > data.bankSpace) {
-            const left =
-              data.coinsInWallet + data.coinsInBank - data.bankSpace;
+            const left = data.coinsInWallet + data.coinsInBank - data.bankSpace;
             message.reply({
               msg: message,
               description: `**${user.displayName}** : Deposited **${(

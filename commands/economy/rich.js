@@ -16,7 +16,8 @@ module.exports = {
       return message.guild.members.cache.get(x.userId);
     });
     let sortedUsers = users.sort(
-      (a, b) => b.coinsInWallet + b.coinsInBank - (a.coinsInWallet + a.coinsInBank)
+      (a, b) =>
+        b.coinsInWallet + b.coinsInBank - (a.coinsInWallet + a.coinsInBank)
     );
 
     let richUsers = sortedUsers.slice(0, 10);

@@ -6,13 +6,13 @@ module.exports = {
         mytheme: {
           primary: "#E96D7B",
 
-          secondary: "#88DCDD",
+          secondary: "#057aff",
 
-          accent: "#88DCDD",
+          accent: "#057aff",
 
-          neutral: "#f9a8d4",
+          neutral: "#ffffff",
 
-          "base-100": "#f0d6e8",
+          "base-100": "#057aff",
 
           info: "#53C0F3",
 
@@ -21,6 +21,12 @@ module.exports = {
           warning: "#F3CC30",
 
           error: "#E24056",
+
+          "base-content": "#ffffff",
+
+          "neutral-content": "#ffffff",
+
+          "secondary-content": "#ffffff",
         },
       },
     ],

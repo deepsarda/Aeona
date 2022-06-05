@@ -119,28 +119,28 @@ module.exports = class AeonaClient extends Client {
     let commands = this.loadFiles("./commands");
     for (let command of commands) {
       try {
-        let info=false;
-        if(command.includes('_info.js')) info=true;
+        let info = false;
+        if (command.includes("_info.js")) info = true;
         command = require("." + command);
         let category = command.category;
         if (!this.categories.has(category)) {
-          this.categories.set(category, {info:null,commands:[]});
+          this.categories.set(category, { info: null, commands: [] });
         }
 
-        if(!info){
-        this.categories.get(category).commands.push(command);
-        
-        this.commands.set(command.name, command);
+        if (!info) {
+          this.categories.get(category).commands.push(command);
 
-        if (command.aliases) {
-          for (let alias of command.aliases) {
-            this.commands.set(alias, command);
+          this.commands.set(command.name, command);
+
+          if (command.aliases) {
+            for (let alias of command.aliases) {
+              this.commands.set(alias, command);
+            }
           }
-        }
 
-        console.log(`Loaded command ${command.name}`);
-        }else{
-          this.categories.get(category).info=command;
+          console.log(`Loaded command ${command.name}`);
+        } else {
+          this.categories.get(category).info = command;
           console.log(`Loaded info for ${category}`);
         }
       } catch (e) {

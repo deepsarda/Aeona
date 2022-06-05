@@ -10,7 +10,8 @@ module.exports = {
   usage: "+shop",
   requiredArgs: 0,
   aliases: [],
-  execute: async (message, args, bot, prefix) => {let items = bot.economy.getItems();
+  execute: async (message, args, bot, prefix) => {
+    let items = bot.economy.getItems();
 
     //Filter out items that can't be used
     items = items.filter((item) => {
@@ -75,12 +76,7 @@ module.exports = {
         page++;
 
         //Send the next page
-        embed = await generateEmbed(
-          message,
-          page,
-          pages[page],
-          pages.length
-        );
+        embed = await generateEmbed(message, page, pages[page], pages.length);
         i.update({ embeds: [embed] });
       }
 
@@ -95,16 +91,11 @@ module.exports = {
         page--;
 
         //Send the last page
-        embed = await generateEmbed(
-          message,
-          page,
-          pages[page],
-          pages.length
-        );
+        embed = await generateEmbed(message, page, pages[page], pages.length);
         i.update({ embeds: [embed] });
       }
     });
-  }
+  },
 };
 
 async function generateEmbed(message, page, items, totalPages) {

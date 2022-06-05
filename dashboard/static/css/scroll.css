@@ -1,9 +1,3 @@
-.glass {
-  background: rgb(255 255 255 / 7%);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
 }
@@ -21,12 +15,91 @@
 }
 
 .glass2 {
-  background: rgba(255 255 255/4%);
+  background-color: rgba(255 255 255/4%) !important;
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.glass2 ::focus {
+  outline: none !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+}
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.custom-select {
+  position: relative;
+  width: 50%;
+}
+.select-selected {
+  background-color: rgba(255 255 255/4%) !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,
+.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: rgba(255 255 255/4%) !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.glass2::placeholder {
+  color: #fff;
 }
 
 .scroll {
@@ -77,14 +150,27 @@ li {
   margin: 5px;
 }
 
-.drawer-side::-webkit-scrollbar {
+::-webkit-scrollbar {
   background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255 255 255/4%);
+  background: rgba(255 255 255/24%);
 }
 
-:root {
-  --bc: 318 46% 89%;
+input:not([type="checkbox"]),
+textarea {
+  background-color: transparent !important;
+}
+
+select {
+  background-color: transparent !important;
+}
+
+select:focus {
+  background-color: #b35aec !important;
+}
+
+textarea ::placeholder {
+  color: #ffffff !important;
 }

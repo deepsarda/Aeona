@@ -36,7 +36,7 @@
       <label class="label">
         <span class="label-text">Discord Name</span>
       </label>
-      <input type="text" placeholder="Type here" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="name" placeholder="Discord Name" value="<%= user.username %>#<%= user.discriminator %>" />
+      <input type="text" placeholder="Type here" class="input glass2 w-full max-w-xs" name="name" placeholder="Discord Name" value="<%= user.username %>#<%= user.discriminator %>" />
     </div>
     <div class="form-control">
       <label class="label">
@@ -44,7 +44,7 @@
       </label>
       <label class="input-group">
         <span>Email</span>
-        <input type="text" name="email" placeholder="Your Email" class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" />
+        <input type="text" name="email" placeholder="Your Email" class="input glass2 w-full max-w-xs" />
       </label>
     </div>
 
@@ -52,7 +52,7 @@
       <label class="label">
         <h3 class="label-text">Your Message</h3>
       </label>
-      <textarea class="textarea textarea-bordered textarea-ghost focus:textarea-bordered focus:textarea-ghost text-white border-gray-400 placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" required></textarea>
+      <textarea class="textarea glass2  text-white  placeholder:text-gray-400" name="message" placeholder="Your Message" maxlength="1024" required></textarea>
     </div>
     <br>
     <button class="btn btn-secondary" onclick="location.window.location.href='/login';">Login</button>

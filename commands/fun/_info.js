@@ -1,5 +1,5 @@
-module.exports= {
+module.exports = {
   category: "fun",
   label: "Some fun commands",
-  emoji: "👻"
-}
+  emoji: "👻",
+};
