@@ -222,6 +222,9 @@ module.exports = async (client) => {
     renderTemplate(res, req, "faq.ejs");
   });
 
+  app.get("/phone", (req, res) => {
+    renderTemplate(res, req, "phone.ejs");
+  });
   app.get("/stats", (req, res) => {
     renderTemplate(res, req, "stats.ejs");
   });
