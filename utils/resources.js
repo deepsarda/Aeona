@@ -135,7 +135,7 @@ class Resource {
       reply: options.reply,
       tts: cleanNull(options.tts, "boolean"),
       files: cleanNull(options.files, "array"),
-      components: cleanNull(options.components, "array"),
+      components: options.components,
       resources: true,
       ephemeral: cleanNull(options.ephemeral, "boolean"),
     };

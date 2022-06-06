@@ -8,6 +8,8 @@ const dashboard = require("./dashboard");
 //Override prototype
 require("./structures/TextChannel").run();
 require("./structures/Message").run();
+require("./structures/InteractionResponses").run();
+
 const logger = require("./utils/logger");
 logger("Aeona", config.logs_webhook_url);
 console.log("Launching Aeona...");
