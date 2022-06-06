@@ -53,54 +53,50 @@ module.exports = class extends Command {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
         let level = itemUser.level ? itemUser.level : 1;
         console.log("EEEE");
-        let totalCost=0;
         while (true) {
           let cost = getUpgradeCost(level);
-          totalCost+=cost;
-          if (totalCost > profile.coinsInWallet) {
-            totalCost-=cost;
+
+          if (cost > profile.money.wallet) {
             break;
           }
           if (cost > 0) {
-            
+            profile.money.wallet = profile.money.wallet - cost;
             level += 1;
-           
+            itemUser.level = level;
           } else {
             break;
           }
         }
-        console.log("Okay");
-        profile.coinsInWallet = profile.coinsInWallet - totalcost;
-        itemUser.level = level;
+        console.log("Okay")
         profile.items.splice(profile.items.indexOf(copy), 1);
         profile.items.push(itemUser);
         await profile.save();
         util.success({
           msg: message,
           title: `You upgraded ${itemData.name} to level ${level}!`,
-          description: `You now have ${profile.coinsInWallet.toLocaleString()} credits.`,
+          description: `You now have ${profile.money.wallet.toLocaleString()} credits.`,
         });
       }
       return;
     }
 
     let level = itemUser.level ? itemUser.level : 1;
-    let totalCost=0;
     while (true) {
       let cost = getUpgradeCost(level);
-      if (totalCost > profile.coinsInWallet) {
-        totalCost-=cost;
+      if (cost > profile.money.wallet) {
         util.error({
           msg: message,
           title: "You don't have enough money.",
           description: `You need ${(
-            cost - profile.coinsInWallet
+            cost - profile.money.wallet
           ).toLocaleString()} more credits.`,
         });
         return;
       }
       if (cost > 0) {
+        profile.money.wallet = profile.money.wallet - cost;
         level += 1;
+        itemUser.level = level;
       } else {
         break;
       }
@@ -108,9 +104,7 @@ module.exports = class extends Command {
 
     //Save itemUser
     //remove item from profile
-    profile.coinsInWallet = profile.coinsInWallet - totalCost;
 
-    itemUser.level = level;
     profile.items.splice(profile.items.indexOf(copy), 1);
     profile.items.push(itemUser);
     await profile.save();
@@ -118,7 +112,7 @@ module.exports = class extends Command {
     util.success({
       msg: message,
       title: `You upgraded ${itemData.name} to level ${level}!`,
-      description: `You now have ${profile.coinsInWallet.toLocaleString()} credits.`,
+      description: `You now have ${profile.money.wallet.toLocaleString()} credits.`,
     });
   }
 };

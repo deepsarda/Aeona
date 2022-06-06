@@ -1054,3 +1054,55 @@ components[1].components[3].emoji.name: Invalid emoji
     at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
     at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
 2022-06-06 21:52:00 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:53:26 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:53:27 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:53:37 [[32minfo[39m] [[36mCommand[39m] "+help upgrade" (help) ran by "Kevin Previous Era#4400" (347942191399698432) on guild "Mấy thằng bạn" (865107101827465268) channel "#trà-chanh-tán-dóc" (865107102572478465)
+2022-06-06 21:53:39 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:54:27 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:54:27 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:54:34 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:55:31 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:55:31 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:55:37 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:56:17 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:56:18 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:56:22 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:56:26 [[32minfo[39m] [[36mCommand[39m] "+help upgrade" (help) ran by "dreamswalker#5632" (758762534156632105) on guild "Morbidden's World" (962564960515424306) channel "#the-pit" (962564960515424309)
+2022-06-06 21:56:29 [[32minfo[39m] [[36mCommand[39m] "+hug <@715105785549684736>" (hug) ran by "AikoSugar#6133" (828113686898933772) on guild "𝑚𝑖𝑘𝑜𝑐𝑎𝑣𝑒" (959474296164610188) channel "#𝑔𝑒𝑛𝑒𝑟𝑎𝑙" (959474296164610191)
+2022-06-06 21:56:31 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
