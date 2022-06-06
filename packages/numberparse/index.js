@@ -7,7 +7,7 @@ const validGrouping = (integerPart, sep) =>
     return acc && group.length;
   }, true);
 
-module.exports = (number, standardDecSep = ".") => {
+module.exports.e = (number, standardDecSep = ".") => {
   // if it's a number already, this is going to be easy...
   if (typeof number === "number") {
     return number;
@@ -95,7 +95,7 @@ module.exports = (number, standardDecSep = ".") => {
 
     // ok, we got here! let's handle it
     return (
-      parseFloat(stripped.split(sep1.sep).join("").replace(sep2.sep, ".")) *
+      Number(stripped.split(sep1.sep).join("").replace(sep2.sep, ".")) *
       (negative ? -1 : 1)
     );
   }
@@ -111,7 +111,7 @@ module.exports = (number, standardDecSep = ".") => {
     }
 
     // it's valid, let's return an integer
-    return parseInt(stripped.split(sep.sep).join(""), 10) * (negative ? -1 : 1);
+    return Number(stripped.split(sep.sep).join("")) * (negative ? -1 : 1);
   }
 
   // just one separator, let's check last group
@@ -122,12 +122,23 @@ module.exports = (number, standardDecSep = ".") => {
 
     if (sep.sep !== standardDecSep) {
       // it's an integer
-      return (
-        parseInt(stripped.split(sep.sep).join(""), 10) * (negative ? -1 : 1)
-      );
+      return Number(stripped.split(sep.sep).join("")) * (negative ? -1 : 1);
     }
   }
 
   // well, it looks like it's a simple float
-  return parseFloat(stripped.replace(sep.sep, ".")) * (negative ? -1 : 1);
+  return Number(stripped.replace(sep.sep, ".")) * (negative ? -1 : 1);
 };
+
+
+module.export = (number, standardDecSep = ".") => {
+  let n= module.exports.e(number, standardDecSep);
+  if(typeof n == "string"){
+    return n;
+  }
+
+  //if n is NaN or Infinity, return 10000
+  if(isNaN(n) || n == Infinity){
+    return 10000;
+  }
+}
