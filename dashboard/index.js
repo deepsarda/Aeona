@@ -26,6 +26,8 @@ const webhook = new DBL.Webhook("");
 const fetch = require("node-fetch");
 const Paste = require("../database/schemas/transcript.js");
 const moment = require("moment");
+let momentDurationFormatSetup = require("moment-duration-format");
+momentDurationFormatSetup(moment);  
 const cooldownEmbed = new Set();
 const Application = require("../database/schemas/application.js");
 const customCommand = require("../database/schemas/customCommand.js");
