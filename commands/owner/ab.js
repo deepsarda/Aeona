@@ -23,7 +23,7 @@ module.exports = class extends Command {
       try {
         let u = await bot.users.fetch(user.userId);
         await u.send(
-          `Hello ${u.username}, your wallet has been reset to ${user.money.wallet} because you have more than 1000000 or you have a non-finite number.`
+          `Hello ${u.username}, your wallet has been reset to ${user.money.wallet} because you have more than 1000000 or you have a non-finite number. Also your items have been reset.  But you have been given **1 million** extra credits compared to otheer players!  Also there is a new upgrade cost system use \`+help upgrade\``
         );
       } catch (e) {}
 
