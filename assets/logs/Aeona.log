@@ -932,3 +932,125 @@ components[1].components[3].emoji.name: Invalid emoji
 
  **AI response**  Uhh
 2022-05-24 13:13:11 [[32minfo[39m] [[36mRate Limit[39m] Time out: 619ms. Limit: 5
+2022-06-06 21:36:32 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:36:32 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:36:43 [[32minfo[39m] [[36mCommand[39m] "+buy padlock 9999" (buy) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:36:56 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:37:05 [[32minfo[39m] [[36mundefined[39m] Multiii sent i dont think you can do that cuz tenor gifs are considered to be embeds in Æther Realm • Legends II 394320584089010179
+2022-06-06 21:37:21 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:37:21 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:37:36 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:37:44 [[32minfo[39m] [[36mundefined[39m] LoneWolf sent dc changed something in Æther Realm • Legends II 794921502230577182
+2022-06-06 21:37:46 [[32minfo[39m] [[36mundefined[39m] LoneWolf sent its wird in Æther Realm • Legends II 794921502230577182
+2022-06-06 21:37:52 [[32minfo[39m] [[36mCommand[39m] "+buy padlock 9999" (buy) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:38:24 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:38:25 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:38:35 [[32minfo[39m] [[36mCommand[39m] "+buy padlock 9999" (buy) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:38:38 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:39:10 [[32minfo[39m] [[36mCommand[39m] "+exadadaec" (exadadaec) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:39:36 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:39:37 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:39:51 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:40:40 [[32minfo[39m] [[36mCommand[39m] "+exadadaec" (exadadaec) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:40:59 [[32minfo[39m] [[36mCommand[39m] "+rich" (rich) ran by "LoneWolf#0022" (794921502230577182) on guild "Aeona's Server" (942062344840822824) channel "#💬・general" (970641144293781525)
+2022-06-06 21:42:40 [[32minfo[39m] [[36mCommand[39m] "aeona bal" (balance) ran by "techtodade#5291" (900221675096903682) on guild "Clan UNICORNS" (717118561817985034) channel "#⌥clan-channel-1" (929998961832509441)
+2022-06-06 21:43:30 [[32minfo[39m] [[36mCommand[39m] "+help upgrade" (help) ran by "🖤Last Life☮#9743" (717118306401648712) on guild "Clan UNICORNS" (717118561817985034) channel "#🦕pv-grind" (932889881145909249)
+2022-06-06 21:43:33 [[32minfo[39m] [[36mCommand[39m] "+p dancin" (play) ran by "Saifo#7471" (414065845778776066) on guild "OverKill" (723544218081034303) channel "#⬛／bots" (724346273217642538)
+2022-06-06 21:43:36 [[32minfo[39m] [[36mCommand[39m] "+p <@!792227592279162886> 4" (play) ran by "NeverThinkAI#6131" (862390751345901598) on guild "OverKill" (723544218081034303) channel "#⬛／bots" (724346273217642538)
+2022-06-06 21:43:55 [[32minfo[39m] [[36mCommand[39m] "+rich" (rich) ran by "Celibistrial#9541" (481749951613763626) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:44:01 [[32minfo[39m] [[36mCommand[39m] "+help upgrade" (help) ran by "techtodade#5291" (900221675096903682) on guild "Clan UNICORNS" (717118561817985034) channel "#🦕pv-grind" (932889881145909249)
+2022-06-06 21:44:11 [[32minfo[39m] [[36mCommand[39m] "+lumber" (lumber) ran by "Celibistrial#9541" (481749951613763626) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:44:27 [[32minfo[39m] [[36mCommand[39m] "+buy axe" (buy) ran by "Celibistrial#9541" (481749951613763626) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:44:33 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "Celibistrial#9541" (481749951613763626) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:46:56 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:46:56 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:47:07 [[32minfo[39m] [[36mCommand[39m] "+buy axe" (buy) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:47:09 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:47:19 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:48:45 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:48:47 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:48:53 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)
+2022-06-06 21:51:30 [[32minfo[39m] [[36mShard[39m] Shard 1/1 is connected
+2022-06-06 21:51:31 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.updateGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:655:27)
+    at async TankTacticsHandler.handleEvent (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:219:7)
+2022-06-06 21:51:44 [[31merror[39m] [[36mundefined[39m] DiscordAPIError: Unknown Channel
+    at RequestHandler.execute (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:350:13)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async RequestHandler.push (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\rest\RequestHandler.js:51:14)
+    at async ChannelManager.fetch (C:\Users\deepp\Downloads\backups-bot\Aeona\node_modules\discord.js\src\managers\ChannelManager.js:115:18)
+    at async TankTacticsHandler.deleteGame (C:\Users\deepp\Downloads\backups-bot\Aeona\handlers\TankTacticsHandler.js:703:27)
+2022-06-06 21:52:00 [[32minfo[39m] [[36mCommand[39m] "+upgrade axe max" (upgrade) ran by "LoneWolf#0022" (794921502230577182) on guild "Allen Peeps" (962745632194461706) channel "#spam" (974886888198504478)

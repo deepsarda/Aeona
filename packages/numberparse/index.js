@@ -7,7 +7,7 @@ const validGrouping = (integerPart, sep) =>
     return acc && group.length;
   }, true);
 
-module.exports.e = (number, standardDecSep = ".") => {
+let e = (number, standardDecSep = ".") => {
   // if it's a number already, this is going to be easy...
   if (typeof number === "number") {
     return number;
@@ -131,8 +131,8 @@ module.exports.e = (number, standardDecSep = ".") => {
 };
 
 
-module.export = (number, standardDecSep = ".") => {
-  let n= module.exports.e(number, standardDecSep);
+module.exports = (number, standardDecSep = ".") => {
+  let n=e(number, standardDecSep);
   if(typeof n == "string"){
     return n;
   }

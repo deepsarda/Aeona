@@ -53,21 +53,25 @@ module.exports = class extends Command {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
         let level = itemUser.level ? itemUser.level : 1;
         console.log("EEEE");
+        let totalCost=0;
         while (true) {
           let cost = getUpgradeCost(level);
-
-          if (cost > profile.coinsInWallet) {
+          totalCost+=cost;
+          if (totalCost > profile.coinsInWallet) {
+            totalCost-=cost;
             break;
           }
           if (cost > 0) {
-            profile.coinsInWallet = profile.coinsInWallet - cost;
+            
             level += 1;
-            itemUser.level = level;
+           
           } else {
             break;
           }
         }
-
+        console.log("Okay");
+        profile.coinsInWallet = profile.coinsInWallet - totalcost;
+        itemUser.level = level;
         profile.items.splice(profile.items.indexOf(copy), 1);
         profile.items.push(itemUser);
         await profile.save();
@@ -81,9 +85,11 @@ module.exports = class extends Command {
     }
 
     let level = itemUser.level ? itemUser.level : 1;
+    let totalCost=0;
     while (true) {
       let cost = getUpgradeCost(level);
-      if (cost > profile.coinsInWallet) {
+      if (totalCost > profile.coinsInWallet) {
+        totalCost-=cost;
         util.error({
           msg: message,
           title: "You don't have enough money.",
@@ -94,9 +100,7 @@ module.exports = class extends Command {
         return;
       }
       if (cost > 0) {
-        profile.coinsInWallet = profile.coinsInWallet - cost;
         level += 1;
-        itemUser.level = level;
       } else {
         break;
       }
@@ -104,7 +108,9 @@ module.exports = class extends Command {
 
     //Save itemUser
     //remove item from profile
+    profile.coinsInWallet = profile.coinsInWallet - totalCost;
 
+    itemUser.level = level;
     profile.items.splice(profile.items.indexOf(copy), 1);
     profile.items.push(itemUser);
     await profile.save();
