@@ -45,6 +45,8 @@ module.exports = class extends Event {
   }
 
   async run(message) {
+
+    if(message.content.includes("MANAGE_WEBHOOKS")) return;
     let client = message.client;
     try {
       if (!message.guild) return;
@@ -140,7 +142,7 @@ module.exports = class extends Event {
                         );
                       }
 
-                      webhook.send({
+                      await webhook.send({
                         username: message.member.displayName,
                         avatarURL: message.member.displayAvatarURL(),
                         content: message.content != "" ? message.content : null,
@@ -151,10 +153,10 @@ module.exports = class extends Event {
 
                       if (message.attachments.size > 0) {
                         for (const [key, value] of message.attachments) {
-                          webhook.send({
+                          await webhook.send({
                             username: message.member.displayName,
                             avatarURL: message.member.displayAvatarURL(),
-                            files: [value.url],
+                            files: [value.proxyURL],
                           });
                         }
                       }
