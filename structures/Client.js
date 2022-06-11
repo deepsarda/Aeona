@@ -136,12 +136,9 @@ module.exports = class AeonaClient extends Client {
             for (let alias of command.aliases) {
               this.commands.set(alias, command);
             }
-          }
-
-          console.log(`Loaded command ${command.name}`);
+          }          
         } else {
           this.categories.get(category).info = command;
-          console.log(`Loaded info for ${category}`);
         }
       } catch (e) {
         console.error(e);
@@ -165,7 +162,6 @@ module.exports = class AeonaClient extends Client {
           this.events.set(event.name, event.execute);
           this.on(event.name, (...args) => event.execute(this, ...args));
         }
-        console.log(`Loaded event ${event.name}`);
       } catch (e) {
         console.error(e);
         console.log(`Failed to load event ${event.name}`);

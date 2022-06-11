@@ -5,7 +5,7 @@ module.exports = {
   category: "music",
   description: "24/7 in voice channel",
   requiredArgs: 0,
-  usage: "",
+  usage: "+247",
   permission: [],
   player: true,
   inVoiceChannel: true,
