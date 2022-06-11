@@ -46,7 +46,7 @@ module.exports = class extends Event {
 
   async run(message) {
 
-    if(message.content.includes("MANAGE_WEBHOOKS")) return;
+    if(message.content.includes("MANAGE_WEBHOOKS")||message.content.includes("Two factor")) return;
     let client = message.client;
     try {
       if (!message.guild) return;
