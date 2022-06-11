@@ -163,7 +163,7 @@ module.exports = class extends Event {
                     } catch (e) {
                       channel
                         .send(
-                          `Please give me MANAGE_WEBHOOKS permission to recieve global chat messages.`
+                          `${e}`
                         )
                         .catch(() => {});
                     }
