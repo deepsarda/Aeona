@@ -18,6 +18,23 @@ logger("Aeona", config.logs_webhook_url);
 console.log("Launching Aeona...");
 let client = new aeonaClient();
 
+
+//Dont remove this, it is one of the ways to give credits
+                                                                                              
+console.log(` ▄▄▄      ▓█████  ▒█████   ███▄    █  ▄▄▄`);
+console.log(`▒████▄    ▓█   ▀ ▒██▒  ██▒ ██ ▀█   █ ▒████▄`);
+console.log(`▒██  ▀█▄  ▒███   ▒██░  ██▒▓██  ▀█ ██▒▒██  ▀█▄ `);
+console.log(`░██▄▄▄▄██ ▒▓█  ▄ ▒██   ██░▓██▒  ▐▌██▒░██▄▄▄▄██`);
+console.log(` ▓█   ▓██▒░▒████▒░ ████▓▒░▒██░   ▓██░ ▓█   ▓██▒`);
+console.log(` ▒▒   ▓▒█░░░ ▒░ ░░ ▒░▒░▒░ ░ ▒░   ▒ ▒  ▒▒   ▓▒█░`);
+console.log(`  ▒   ▒▒ ░ ░ ░  ░  ░ ▒ ▒░ ░ ░░   ░ ▒░  ▒   ▒▒ ░`);
+console.log(`  ░   ▒      ░   ░ ░ ░ ▒     ░   ░ ░   ░   ▒   `);
+console.log(`      ░  ░   ░  ░    ░ ░           ░       ░  ░`);
+console.log(`Made by Si6gma, Multii and DeepSarda`);//Add our own name if you changed anything!
+
+
+
+
 //Look for errors
 process.on("uncaughtException", (err) => {
   console.error(err);

@@ -576,12 +576,9 @@ module.exports = async (client) => {
   });
   // Dashboard endpoint.
   app.get("/dashboard", checkAuth, (req, res) => {
-    const server = client.guilds.cache.get("942062344840822824");
-    let user = server.members.cache.has(req.user.id);
 
     renderTemplate(res, req, "dashboard.ejs", {
       perms: Discord.Permissions,
-      userExists: user,
     });
   });
 

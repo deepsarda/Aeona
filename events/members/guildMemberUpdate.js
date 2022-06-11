@@ -18,7 +18,7 @@ module.exports = {
           if (logging.member_events.role_update == "true") {
             let colorGreen = logging.member_events.color;
             if (colorGreen == "#000000")
-              colorGreen = oldMember.client.color.green;
+              colorGreen = "GREEN";
             let colorRed = logging.member_events.color;
             if (colorRed == "#000000") colorRed = "RED";
             const role = oldMember.roles.cache
@@ -85,7 +85,7 @@ module.exports = {
             if (oldMember.nickname != newMember.nickname) {
               let colorYellow = logging.member_events.color;
               if (colorYellow == "#000000")
-                colorYellow = oldMember.client.color.yellow;
+                colorYellow = "YELLOW";
 
               const oldNickname = oldMember.nickname || "`None`";
               const newNickname = newMember.nickname || "`None`";
