@@ -34,7 +34,7 @@
 
 <body class="text-white h-screen w-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500  text-lg">
   <div class="bg-[url('https://www.aeona.xyz/svg/background-1.svg')] bg-repeat h-screen w-screen      scroll-smooth overflow-y-auto ">
-    <article class="prose  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5">
+    <article class="prose  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5 ">
     
       <% if(user){ %>
       <% if (user.avatar) { avatar="https://cdn.discordapp.com/avatars/" + user.id + "/" +
@@ -133,7 +133,9 @@
               <li>
                 <a href="/" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-200 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white ">Home</a>
               </li>
-
+              <li>
+                <a href="/dashboard" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-200 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Dashboard</a>
+              </li>
               <li>
                 <a href="/invite" class="block py-2 pr-4 pl-3  border-b border-gray-100   md:border-0  md:p-0 text-gray-200 md:hover:text-white ease-in duration-300 hover:scale-110 hover:text-white  ">Invite</a>
               </li>

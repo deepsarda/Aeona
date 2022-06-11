@@ -48,7 +48,8 @@
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
     "randostrings": "^0.1.6",
-    "statcord.js": "^3.4.2"
+    "statcord.js": "^3.4.2",
+    "topgg-autoposter": "^2.0.1"
   },
   "engines": {
     "node": "18.x"

@@ -21,6 +21,8 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  padding: 10px;
+  padding-left: 15px;
 }
 
 .glass2 ::focus {
@@ -173,4 +175,21 @@ select:focus {
 
 textarea ::placeholder {
   color: #ffffff !important;
+  
 }
+
+
+input[type="checkbox"]{
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+textarea{
+  border: 1px solid #ffffff !important;
+}
+select{
+  width: 50%;
+  border: 1px solid #ffffff !important;
+}
+

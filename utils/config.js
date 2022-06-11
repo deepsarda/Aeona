@@ -7,7 +7,7 @@ module.exports = {
   token: process.env.BOTTOKEN,
   https: "https://", // leave as is
   port: process.env.PORT || 5000,
-
+  top_gg_autoposter: process.env.TOKEN,
   client_id: process.env.ID, // bot client ID
   secret: process.env.SECERT, // bot client secret for auth
   main_token: process.env.BOTTOKEN,
