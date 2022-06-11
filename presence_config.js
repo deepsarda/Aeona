@@ -91,6 +91,30 @@ module.exports = {
       type: "WATCHING",
     },
     {
+      message: `minecraft IP:aeona.minehut.gg 🎮`,
+      type: "PLAYING",
+    },
+    {
+      message: `minecraft IP:aeona.minehut.gg 🎮`,
+      type: "PLAYING",
+    },
+    {
+      message: `minecraft IP:aeona.minehut.gg 🎮`,
+      type: "PLAYING",
+    },
+    {
+      message: `minecraft IP:aeona.minehut.gg 🎮`,
+      type: "PLAYING",
+    },
+    {
+      message: `minecraft IP:aeona.minehut.gg 🎮`,
+      type: "PLAYING",
+    },
+    {
+      message: `over {{ servers }} servers {{ emoji }}`,
+      type: "WATCHING",
+    },
+    {
       message: `your conversations {{ emoji }}`,
       type: "LISTENING",
     },
