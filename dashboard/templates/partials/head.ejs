@@ -16,11 +16,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    body{
+    body {
       font-family: 'Dela Gothic One', cursive;
     }
 
-    *{
+    * {
       font-weight: 400 !important;
     }
   </style>
@@ -33,9 +33,33 @@
 </head>
 
 <body class="text-white h-screen w-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500  text-lg">
+
+  <div class="loader-cover">
+    <div class="loader">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+    </div>
+  </div>
+  <script>
+
+    let loader = document.querySelector('.loader-cover');
+    
+
+    //Wait for the page to load
+    window.addEventListener('load', () => {
+      //Remove the loader
+      loader.classList.add('loader-hide');
+      setTimeout(() => {
+        loader.remove();
+      }, 1000);
+    });
+  </script>
+
+
   <div class="bg-[url('https://www.aeona.xyz/svg/background-1.svg')] bg-repeat h-screen w-screen      scroll-smooth overflow-y-auto ">
     <article class="prose  max-w-none text-white break-words overflow-x-hidden box-border pt-10 p-5 ">
-    
+
       <% if(user){ %>
       <% if (user.avatar) { avatar="https://cdn.discordapp.com/avatars/" + user.id + "/" +
                     user.avatar+".png?size=128" ; } else {
@@ -43,7 +67,7 @@
                     ; } %>
       <nav class="w-full mb-20 not-prose">
         <div class="container flex flex-wrap justify-between items-center mx-auto">
-          
+
           <a href="https://www.aeona.xyz/" class="flex items-center  md:pr-2">
             <img src="https://www.aeona.xyz/logo.png" class="mr-3 h-6 sm:h-9 rounded-full" alt="Aeona Logo" />
             <span class="self-center text-3xl font-semibold whitespace-nowrap ease-in duration-300 hover:scale-110 ">Aeona</span>

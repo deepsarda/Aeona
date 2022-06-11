@@ -15,7 +15,6 @@ const { AutoPoster } = require('topgg-autoposter')
 
 
 logger("Aeona", config.logs_webhook_url);
-console.log("Launching Aeona...");
 let client = new aeonaClient();
 
 
