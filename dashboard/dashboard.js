@@ -4751,7 +4751,7 @@ In the mean time, please explain your issue below`;
           Premium.create({
             code: code,
             expiresAt: expiresAt,
-            plan: args[0],
+            plan: "month",
           });
 
           array.push(`${code}`);
