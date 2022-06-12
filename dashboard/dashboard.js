@@ -4724,7 +4724,7 @@ In the mean time, please explain your issue below`;
   app.get("/dblwebhook", async (req, res) => {
     res.send(`Top.gg API is currently working!`);
   });
-  const Premium = require("../../database/schemas/GuildPremium");
+  const Premium = require("../database/schemas/GuildPremium");
   let voucher_codes = require("voucher-code-generator");
   app.post("/dblwebhook", webhook.middleware(), async (req) => {
     try {
