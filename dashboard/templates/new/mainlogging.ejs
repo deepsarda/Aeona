@@ -37,18 +37,18 @@
       <ul>
         <li>
           <% if(log.moderation.ban=="true" ) {%>
-          <input id="c1" name="ban" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c1" name="ban" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c1" name="ban" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c1" name="ban" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c1">Ban / Unban / Softban</label>
         </li>
 
         <li>
           <% if(log.moderation.kick=="true" ) {%>
-          <input id="c2" name="kick" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c2" name="kick" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c2" name="kick" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c2" name="kick" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c2">Kick </label>
         </li>
@@ -56,57 +56,57 @@
 
         <li>
           <% if(log.moderation.role=="true" ) {%>
-          <input id="c3" name="role-a" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c3" name="role-a" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c3" name="role-a" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c3" name="role-a" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c3">Role add / remove</label>
         </li>
         <li>
           <% if(log.moderation.purge=="true" ) {%>
-          <input id="c4" name="purge" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c4" name="purge" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c4" name="purge" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c4" name="purge" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c4">Purge</label>
         </li>
         <li>
           <% if(log.moderation.lock=="true" ) {%>
-          <input id="c5" name="lock" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c5" name="lock" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input name="lock" id="c5" type="checkbox" class="float-right mr-5 checkbox">
+          <input name="lock" id="c5" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c5">Lock / unlock</label>
         </li>
         <li>
           <% if(log.moderation.warns=="true" ) {%>
-          <input id="c6" name="warns" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c6" name="warns" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c6" name="warns" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c6" name="warns" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c6">Warn / Warn Purge</label>
         </li>
         <li>
           <% if(log.moderation.mute=="true" ) {%>
-          <input id="c7" name="mute" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c7" name="mute" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input name="mute" id="c7" type="checkbox" class="float-right mr-5 checkbox">
+          <input name="mute" id="c7" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c7">Mute</label>
         </li>
         <li>
           <% if(log.moderation.slowmode=="true" ) {%>
-          <input id="c8" name="slowmode" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c8" name="slowmode" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c8" name="slowmode" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c8" name="slowmode" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c8">Slowmode</label>
         </li>
         <li>
           <% if(log.moderation.nicknames=="true" ) {%>
-          <input id="c9" name="nicknames" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c9" name="nicknames" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c9" name="nicknames" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c9" name="nicknames" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c9">Nicknames</label>
         </li>
@@ -189,9 +189,9 @@
       Enable
       &nbsp;
       <% if(log.moderation.toggle=="true" ){%>
-      <input id="s1" name="toggle" type="checkbox" checked class="checkbox">
+      <input id="s1" name="toggle" type="checkbox" checked class="toggle toggle-primary">
       <% } else { %>
-      <input id="s1" name="toggle" type="checkbox" class="checkbox">
+      <input id="s1" name="toggle" type="checkbox" class="toggle toggle-primary">
       <% } %>
       <br>
       <br>
@@ -203,7 +203,7 @@
       <ul>
         <li>
           <% if(log.message_events.deleted=="true" ) { %>
-          <input id="c25" name="deleted" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c25" name="deleted" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
           <input id="c25" name="deleted" type="checkbox">
           <% } %>
@@ -211,7 +211,7 @@
         </li>
         <li>
           <% if(log.message_events.edited=="true" ) { %>
-          <input id="c26" name="edited" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c26" name="edited" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
           <input id="c26" name="edited" type="checkbox">
           <% } %>
@@ -219,7 +219,7 @@
         </li>
         <li>
           <% if(log.message_events.purged=="true" ) { %>
-          <input id="c27" name="purged" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c27" name="purged" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
           <input id="c27" name="purged" type="checkbox">
           <% } %>
@@ -227,9 +227,9 @@
         </li>
         <li>
           <% if(log.message_events.ignore=="true" ) { %>
-          <input id="s121" type="checkbox" name="ignore" checked class="float-right mr-5 checkbox">
+          <input id="s121" type="checkbox" name="ignore" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="s121" type="checkbox" name="ignore" class="float-right mr-5 checkbox">
+          <input id="s121" type="checkbox" name="ignore" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c299">Ignore others bots</label>
         </li>
@@ -267,9 +267,9 @@
       Enable
       &nbsp;
       <% if(log.moderation.toggle=="true" ){%>
-      <input id="s1" name="message_events_toggle" type="checkbox" checked class="checkbox">
+      <input id="s1" name="message_events_toggle" type="checkbox" checked class="toggle toggle-primary">
       <% } else { %>
-      <input id="s1" name="message_events_toggle" type="checkbox" class="checkbox">
+      <input id="s1" name="message_events_toggle" type="checkbox" class="toggle toggle-primary">
       <% } %>
       <br>
       <br>
@@ -282,57 +282,57 @@
       <ul>
         <li>
           <% if(log.server_events.channel_created=="true" ) { %>
-          <input id="c11" name="channel_created" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c11" name="channel_created" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c11" name="channel_created" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c11" name="channel_created" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c11">Channel Creation</label>
         </li>
         <li>
           <% if(log.server_events.channel_update=="true" ) { %>
-          <input id="c12" name="channel_update" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c12" name="channel_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c12" name="channel_update" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c12" name="channel_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c12">Channel Updated </label>
         </li>
         <li>
           <% if(log.server_events.channel_delete=="true" ) { %>
-          <input id="c13" name="channel_delete" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c13" name="channel_delete" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c13" name="channel_delete" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c13" name="channel_delete" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c13">Channel Deleted</label>
         </li>
         <li>
           <% if(log.server_events.role_create=="true" ) { %>
-          <input id="c14" type="checkbox" name="role_create" checked class="float-right mr-5 checkbox">
+          <input id="c14" type="checkbox" name="role_create" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c14" name="role_create" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c14" name="role_create" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c14">Role created / deleted</label>
         </li>
         <li>
           <% if(log.server_events.role_update=="true" ) { %>
-          <input id="c15" name="role_update" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c15" name="role_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c15" name="role_update" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c15" name="role_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c15">Role Updated</label>
         </li>
         <li>
           <% if(log.server_events.guild_update=="true" ) { %>
-          <input id="c16" name="guild_update" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c16" name="guild_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c16" name="guild_update" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c16" name="guild_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c16">Guild Updated</label>
         </li>
         <li>
           <% if(log.server_events.emoji_update=="true" ) { %>
-          <input id="c17" name="emoji_update" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c17" name="emoji_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c17" name="emoji_update" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c17" name="emoji_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c17">Emoji Changes</label>
         </li>
@@ -342,25 +342,25 @@
         <p>Voice Events</p>
         <li>
           <% if(log.server_events.voice.join=="true" ) { %>
-          <input id="c190" name="join" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c190" name="join" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c190" name="join" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c190" name="join" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c190">Join voice channel</label>
         </li>
         <li>
           <% if(log.server_events.voice.move=="true" ) { %>
-          <input id="c199" name="move" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c199" name="move" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c199" name="move" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c199" name="move" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c199">Move between voice channels</label>
         </li>
         <li>
           <% if(log.server_events.voice.leave=="true" ) { %>
-          <input id="c192" name="leave" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c192" name="leave" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c192" name="leave" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c192" name="leave" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c192">Leave voice channel</label>
         </li>
@@ -369,17 +369,17 @@
         <p>Member movement</p>
         <li>
           <% if(log.server_events.member_join=="true" ) { %>
-          <input id="c18" name="member_join" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c18" name="member_join" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c18" name="member_join" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c18" name="member_join" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c18">Members joining</label>
         </li>
         <li>
           <% if(log.server_events.member_leave=="true" ) { %>
-          <input id="c19" name="member_leave" type="checkbox" checked class="float-right mr-5 checkbox">
+          <input id="c19" name="member_leave" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
           <% } else { %>
-          <input id="c19" name="member_leave" type="checkbox" class="float-right mr-5 checkbox">
+          <input id="c19" name="member_leave" type="checkbox" class="float-right mr-5 toggle toggle-primary">
           <% } %>
           <label for="c19">Members Leaving</label>
         </li>
@@ -414,9 +414,9 @@
       Enable
       &nbsp;
       <% if(log.server_events.toggle=="true" ){%>
-      <input id="s1" name="toggle1" type="checkbox" checked class="checkbox">
+      <input id="s1" name="toggle1" type="checkbox" checked class="toggle toggle-primary">
       <% } else { %>
-      <input id="s1" name="toggle1" type="checkbox" class="checkbox">
+      <input id="s1" name="toggle1" type="checkbox" class="toggle toggle-primary">
       <% } %>
       <br>
       <br>
