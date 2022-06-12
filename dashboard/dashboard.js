@@ -4725,7 +4725,8 @@ In the mean time, please explain your issue below`;
   app.get("/dblwebhook", async (req, res) => {
     res.send(`Top.gg API is currently working!`);
   });
-
+  const Premium = require("../../database/schemas/GuildPremium");
+  let voucher_codes = require("voucher-code-generator");
   app.post("/dblwebhook", webhook.middleware(), async (req) => {
     let credits = req.vote.isWeekend ? 2000 : 1000;
 
@@ -4735,7 +4736,29 @@ In the mean time, please explain your issue below`;
         headers: { Authorization: `Bot ${process.env.BOTTOKEN}` },
       }
     ).then((res) => res.json());
+    let expiresAt = Date.now() + 2592000000;
+    const array = [];
+    for (let i = 0; i < 1; i++) {
+      const codePremium = voucher_codes.generate({
+        pattern: "####-####-####",
+      });
 
+      const code = codePremium.toString().toUpperCase();
+
+      const find = await Premium.findOne({
+        code: code,
+      });
+
+      if (!find) {
+        Premium.create({
+          code: code,
+          expiresAt: expiresAt,
+          plan: args[0],
+        });
+
+        array.push(`\`${i + 1}-\` ${code}`);
+      }
+    }
     const msg = new Discord.MessageEmbed()
       .setAuthor("Voting System", `${domain}/logo.png`)
       .setColor("#7289DA")
@@ -4766,7 +4789,7 @@ In the mean time, please explain your issue below`;
             .setDescription(
               `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
                 apiUser.id
-              }) for voting **aeona**! \n\nVote #${voteNumber + 1}`
+              }) for voting **aeona**! \n\nVote #${voteNumber + 1} \n\n Claim your free premium code below! \n Go to the server you wish to claim your code in and type \`aeona redeem ${array[0]}\` \n\n**Note:** You can only redeem your code once.`
             ),
         ],
       });
