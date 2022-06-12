@@ -43,7 +43,6 @@ const Application = require("../models/application/application.js");
 const customCommand = require("../database/schemas/customCommand.js");
 //dont touch here
 const Hook = new WebhookClient({
-  id: jsonconfig.webhook_id,
   url: jsonconfig.webhook_url,
 });
 //
@@ -4728,79 +4727,84 @@ In the mean time, please explain your issue below`;
   const Premium = require("../../database/schemas/GuildPremium");
   let voucher_codes = require("voucher-code-generator");
   app.post("/dblwebhook", webhook.middleware(), async (req) => {
-    let credits = req.vote.isWeekend ? 2000 : 1000;
-
-    const apiUser = await fetch(
-      `https://discord.com/api/v8/users/${req.vote.user}`,
-      {
-        headers: { Authorization: `Bot ${process.env.BOTTOKEN}` },
-      }
-    ).then((res) => res.json());
-    let expiresAt = Date.now() + 2592000000;
-    const array = [];
-    for (let i = 0; i < 1; i++) {
-      const codePremium = voucher_codes.generate({
-        pattern: "####-####-####",
-      });
-
-      const code = codePremium.toString().toUpperCase();
-
-      const find = await Premium.findOne({
-        code: code,
-      });
-
-      if (!find) {
-        Premium.create({
-          code: code,
-          expiresAt: expiresAt,
-          plan: args[0],
+    try {
+      const apiUser = await fetch(
+        `https://discord.com/api/v8/users/${req.vote.user}`,
+        {
+          headers: { Authorization: `Bot ${process.env.BOTTOKEN}` },
+        }
+      ).then((res) => res.json());
+      let expiresAt = Date.now() + 2592000000;
+      const array = [];
+      for (let i = 0; i < 1; i++) {
+        const codePremium = voucher_codes.generate({
+          pattern: "####-####-####",
         });
 
-        array.push(`\`${i + 1}-\` ${code}`);
-      }
-    }
-    const msg = new Discord.MessageEmbed()
-      .setAuthor("Voting System", `${domain}/logo.png`)
-      .setColor("#7289DA")
-      .setTitle(`${apiUser.username} Just Voted`)
-      .setDescription(
-        `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **aeona**!`
-      );
-    Hook.send({ embeds: [msg] });
+        const code = codePremium.toString().toUpperCase();
 
-    const userSettings = await User.findOne({ discordId: req.vote.user });
-    if (!userSettings)
-      return User.create({
-        discordId: req.vote.user,
-        votes: 1,
+        const find = await Premium.findOne({
+          code: code,
+        });
+
+        if (!find) {
+          Premium.create({
+            code: code,
+            expiresAt: expiresAt,
+            plan: args[0],
+          });
+
+          array.push(`${code}`);
+        }
+      }
+      const msg = new Discord.MessageEmbed()
+        .setAuthor("Voting System", `${domain}/logo.png`)
+        .setColor("#7289DA")
+        .setTitle(`${apiUser.username} Just Voted`)
+        .setDescription(
+          `Thank you **${apiUser.username}#${apiUser.discriminator}** (${apiUser.id}) for voting **aeona**!`
+        );
+        await Hook.send({ embeds: [msg] });
+
+      const userSettings = await User.findOne({ discordId: req.vote.user });
+      if (!userSettings)
+        return User.create({
+          discordId: req.vote.user,
+          votes: 1,
+          lastVoted: Date.now(),
+        });
+
+      let voteUser = await client.users.fetch(apiUser.id);
+
+      let voteNumber = userSettings.votes;
+      if (!voteNumber) voteNumber = 0;
+      if (voteUser) {
+        await voteUser.send({
+          embeds: [
+            new Discord.MessageEmbed()
+              .setColor("#7289DA")
+              .setTitle(`Thanks for Voting!`)
+              .setDescription(
+                `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
+                  apiUser.id
+                }) for voting **aeona**! \n\nVote #${
+                  voteNumber + 1
+                } \n\n Claim your free premium code below! \n Go to the server you wish to claim your code in and type \`aeona redeem ${
+                  array[0]
+                }\` \n\n**Note:** You can only redeem your code once.`
+              ),
+          ],
+        });
+      }
+
+      await userSettings.updateOne({
+        votes: userSettings.votes + 1 || 1,
         lastVoted: Date.now(),
       });
-
-    let voteUser = await client.users.fetch(apiUser.id);
-
-    let voteNumber = userSettings.votes;
-    if (!voteNumber) voteNumber = 0;
-    if (voteUser) {
-      voteUser.send({
-        embeds: [
-          new Discord.MessageEmbed()
-            .setColor("#7289DA")
-            .setTitle(`Thanks for Voting!`)
-            .setDescription(
-              `Thank you **${apiUser.username}#${apiUser.discriminator}** (${
-                apiUser.id
-              }) for voting **aeona**! \n\nVote #${voteNumber + 1} \n\n Claim your free premium code below! \n Go to the server you wish to claim your code in and type \`aeona redeem ${array[0]}\` \n\n**Note:** You can only redeem your code once.`
-            ),
-        ],
-      });
+    } catch (e) {
+      console.log(e);
     }
-
-    await userSettings.updateOne({
-      votes: userSettings.votes + 1 || 1,
-      lastVoted: Date.now(),
-    });
   });
-  
 
   app.get("*", (req, res) => {
     let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
