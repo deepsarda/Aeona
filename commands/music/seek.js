@@ -8,10 +8,9 @@ module.exports = {
   category: "music",
   description: "Seek the currently playing song",
   requiredArgs: 1,
-  usage: "<10s || 10m || 10h>",
+  usage: "+seek <10s || 10m || 10h>",
   permission: [],
   dj: true,
-
   player: true,
   inVoiceChannel: true,
   sameVoiceChannel: true,

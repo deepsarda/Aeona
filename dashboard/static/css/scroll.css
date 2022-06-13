@@ -97,6 +97,7 @@ li {
 input:not([type="checkbox"]),
 textarea {
   background-color: transparent !important;
+  border: 1px solid #ffffff !important;
 }
 
 select {
@@ -114,7 +115,7 @@ textarea ::placeholder {
 
 input[type="number"]{
   max-width: 100px;
-  border: 1px solid #ffffff !important;
+  
 }
 
 

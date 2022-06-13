@@ -86,9 +86,54 @@
 
       <br>
       <h4>Message Id</h4>
-      <input maxlength="25"  type="text" name="messageID" class="input"></input>
-    </div>
+      <input maxlength="25" type="text" name="messageID" class="input"></input>
 
+      <h4>Emoji</h4>
+      <select name="emoji" class="select">
+        <% emojiArray.forEach((e)=>{ %>
+        <option value=<%=e%>><%=e%>
+        </option>
+        <% }) %>
+      </select>
+
+      <h4> Role</h4>
+      <select name="role" class="select">
+        <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name !==
+                                "@everyone").first().id && r.name !== "@everyone" && !r.managed).forEach((r) => { %>
+        <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} : r.hexColor%>
+                                  ">@<%= r.name %>
+        </option>
+        <% }); %>
+      </select>
+
+
+      <h4>Type</h4>
+
+      <input type="radio" id="1" name="rr" value="1" class="radio radio-secondary">
+      <label for="1">Type 1 - React adds the role, unreacting removes the role</label><br>
+      <input type="radio" id="2" name="rr" value="2" class="radio radio-secondary">
+      <label for="2">Type 2 - Reacting will give the role but unreaction won't remove the
+        role</label><br>
+      <input type="radio" id="3" name="rr" value="3" class="radio radio-secondary">
+      <label for="3">Type 3 - Reacting will remove the role and unreacting won't give it
+        back</label><br>
+      <input type="radio" id="4" name="rr" value="4" class="radio radio-secondary">
+      <label for="4">Type 4 - When reacting it will remove the role, unreacting will add the
+        role</label><br>
+      <input type="radio" id="5" name="rr" value="5" class="radio radio-secondary">
+      <label for="5">Type 5 - Same concept as number 3 but removes the user's
+        reaction</label><br>
+      <input type="radio" id="6" name="rr" value="6" class="radio radio-secondary">
+      <label for="6">Type 6 - React to recieve the role and react again to remove the
+        role</label><br>
+
+
+      <br>
+      <br>
+
+      <button class="btn btn-secondary" type="submit" name="send">Save Changes</button>
+    </div>
+  </div>
 
 </form>
 <%- include("../partials/sidebar-end", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>

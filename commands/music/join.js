@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Join voice channel",
   requiredArgs: 0,
-  usage: "",
+  usage: "+join",
   permission: [],
 
   player: false,

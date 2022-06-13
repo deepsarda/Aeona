@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Clear Queue",
   requiredArgs: 0,
-  usage: "<Number of song in queue>",
+  usage: "+clearqueue <Number of song in queue>",
   permission: [],
   dj: true,
 

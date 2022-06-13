@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Forward song",
   requiredArgs: 1,
-  usage: "<Number of song in queue>",
+  usage: "+skipto <Number of song in queue>",
   permission: [],
   dj: true,
 

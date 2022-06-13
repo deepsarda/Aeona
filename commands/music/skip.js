@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Skip the currently playing song",
   requiredArgs: 0,
-  usage: "",
+  usage: "+skip",
   permission: [],
   dj: true,
 

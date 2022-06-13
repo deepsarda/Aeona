@@ -7,7 +7,7 @@ module.exports = {
   aliases: ["p"],
   description: "Plays audio from YouTube or Soundcloud",
   requiredArgs: 1,
-  usage: "<YouTube URL | Video Name | Spotify URL>",
+  usage: "+play <YouTube URL | Video Name | Spotify URL>",
   permission: [],
 
   player: false,

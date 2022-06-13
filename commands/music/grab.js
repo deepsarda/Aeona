@@ -7,7 +7,7 @@ module.exports = {
   category: "music",
   description: "Grabs And Sends You The Song That Is Playing At The Moment",
   requiredArgs: 0,
-  usage: "",
+  usage: "+grab",
   permission: [],
 
   player: true,

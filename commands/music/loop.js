@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Toggle music loop",
   requiredArgs: 0,
-  usage: "",
+  usage: "+loop",
   permission: [],
   dj: true,
 
