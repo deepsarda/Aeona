@@ -105,7 +105,7 @@ module.exports = class extends Command {
               expiresAt: new Date(Date.now() + 1036800000),
             });
 
-            for (const message of messages.values().reverse()) {
+            for (const message of messages.reverse().values()) {
               if (message && message.content && message.author.id) {
                 paste.paste.push(`${message.content}`);
                 paste.paste2.push(message.author.id);
