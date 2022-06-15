@@ -145,7 +145,7 @@ module.exports = class extends Event {
                       await webhook.send({
                         username: message.member.displayName,
                         avatarURL: message.member.displayAvatarURL(),
-                        content: message.content != "" ? message.content : null,
+                        content: message.content != "" ? message.content : "_ _",
                         embeds: message.embeds,
 
                         allowedMentions: { parse: [] },
@@ -163,7 +163,7 @@ module.exports = class extends Event {
                     } catch (e) {
                       channel
                         .send(
-                          `${e}`
+                          `Please give me MANAGE_WEBHOOK permission`
                         )
                         .catch(() => {});
                     }
