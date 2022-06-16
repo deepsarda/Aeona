@@ -50,7 +50,7 @@ module.exports = class extends Command {
       tanktactics: "<:tank:975793095792820284>",
     };
 
-    const green = "<:PurpleDot:971039873148522546>";
+    const green = "<:PurpleDot:987030245003640892>";
     const red = ":red_square:";
 
     const settings = await Guild.findOne({
