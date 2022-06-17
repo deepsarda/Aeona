@@ -5,7 +5,7 @@ module.exports = {
   category: "music",
   description: "Shuffle queue",
   requiredArgs: 0,
-  usage: "",
+  usage: "+shuffle",
   permission: [],
   dj: true,
 

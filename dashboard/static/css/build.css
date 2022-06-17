@@ -434,15 +434,15 @@ html {
 }
 
 :root {
-  --p: 353 74% 67%;
-  --pf: 353 74% 54%;
-  --sf: 212 100% 41%;
-  --af: 212 100% 41%;
-  --nf: 0 0% 80%;
-  --b2: 212 100% 46%;
-  --b3: 212 100% 41%;
-  --pc: 353 100% 13%;
-  --ac: 212 100% 90%;
+  --p: 292 95% 64%;
+  --pf: 292 95% 51%;
+  --sf: 330 81% 48%;
+  --af: 200 98% 32%;
+  --nf: 263 70% 40%;
+  --b2: 0 0% 72%;
+  --b3: 0 0% 65%;
+  --pc: 292 100% 93%;
+  --ac: 200 100% 88%;
   --inc: 199 100% 13%;
   --suc: 168 100% 14%;
   --wac: 48 100% 11%;
@@ -457,10 +457,10 @@ html {
   --border-btn: 1px;
   --tab-border: 1px;
   --tab-radius: 0.5rem;
-  --s: 212 100% 51%;
-  --a: 212 100% 51%;
-  --n: 0 0% 100%;
-  --b1: 212 100% 51%;
+  --s: 330 81% 60%;
+  --a: 200 98% 39%;
+  --n: 263 70% 50%;
+  --b1: 0 0% 80%;
   --in: 199 87% 64%;
   --su: 168 74% 68%;
   --wa: 48 89% 57%;
@@ -1782,6 +1782,22 @@ html {
   display: flex;
 }
 
+.radio {
+  flex-shrink: 0;
+  --chkbg: var(--bc);
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: hsl(var(--bc) / var(--tw-border-opacity));
+  --tw-border-opacity: 0.2;
+  transition: background, box-shadow var(--animation-input, 0.2s) ease-in-out;
+}
+
 .select {
   display: inline-flex;
   flex-shrink: 0;
@@ -1999,14 +2015,6 @@ html {
   background-color: transparent;
 }
 
-.btn-outline.btn-primary .badge-outline {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--p) / var(--tw-border-opacity));
-  background-color: transparent;
-  --tw-text-opacity: 1;
-  color: hsl(var(--p) / var(--tw-text-opacity));
-}
-
 .btn-outline.btn-secondary .badge-outline {
   --tw-border-opacity: 1;
   border-color: hsl(var(--s) / var(--tw-border-opacity));
@@ -2031,20 +2039,20 @@ html {
   color: hsl(var(--su) / var(--tw-text-opacity));
 }
 
-.btn-outline.\!btn-error .badge-outline {
-  --tw-border-opacity: 1 !important;
-  border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
-  background-color: transparent !important;
-  --tw-text-opacity: 1 !important;
-  color: hsl(var(--er) / var(--tw-text-opacity)) !important;
-}
-
 .btn-outline.btn-error .badge-outline {
   --tw-border-opacity: 1;
   border-color: hsl(var(--er) / var(--tw-border-opacity));
   background-color: transparent;
   --tw-text-opacity: 1;
   color: hsl(var(--er) / var(--tw-text-opacity));
+}
+
+.btn-outline.\!btn-error .badge-outline {
+  --tw-border-opacity: 1 !important;
+  border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
+  background-color: transparent !important;
+  --tw-text-opacity: 1 !important;
+  color: hsl(var(--er) / var(--tw-text-opacity)) !important;
 }
 
 .btn-outline:hover .badge {
@@ -2173,26 +2181,6 @@ html {
   outline-offset: 2px !important;
 }
 
-.btn-primary {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--p) / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--p) / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: hsl(var(--pc) / var(--tw-text-opacity));
-}
-
-.btn-primary:hover, .btn-primary.btn-active {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--pf, var(--p)) / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--pf, var(--p)) / var(--tw-bg-opacity));
-}
-
-.btn-primary:focus-visible {
-  outline: 2px solid hsl(var(--p));
-}
-
 .btn-secondary {
   --tw-border-opacity: 1;
   border-color: hsl(var(--s) / var(--tw-border-opacity));
@@ -2253,15 +2241,6 @@ html {
   outline: 2px solid hsl(var(--su));
 }
 
-.\!btn-error {
-  --tw-border-opacity: 1 !important;
-  border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
-  --tw-bg-opacity: 1 !important;
-  background-color: hsl(var(--er) / var(--tw-bg-opacity)) !important;
-  --tw-text-opacity: 1 !important;
-  color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity)) !important;
-}
-
 .btn-error {
   --tw-border-opacity: 1;
   border-color: hsl(var(--er) / var(--tw-border-opacity));
@@ -2271,11 +2250,13 @@ html {
   color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity));
 }
 
-.\!btn-error:hover, .\!btn-error.btn-active {
+.\!btn-error {
   --tw-border-opacity: 1 !important;
   border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
   --tw-bg-opacity: 1 !important;
   background-color: hsl(var(--er) / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 1 !important;
+  color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity)) !important;
 }
 
 .btn-error:hover, .btn-error.btn-active {
@@ -2292,12 +2273,12 @@ html {
   background-color: hsl(var(--er) / var(--tw-bg-opacity)) !important;
 }
 
-.\!btn-error:focus-visible {
-  outline: 2px solid hsl(var(--er)) !important;
-}
-
 .btn-error:focus-visible {
   outline: 2px solid hsl(var(--er));
+}
+
+.\!btn-error:focus-visible {
+  outline: 2px solid hsl(var(--er)) !important;
 }
 
 .btn.glass:hover,
@@ -2318,20 +2299,6 @@ html {
 
 .\!btn.glass:focus-visible {
   outline: 2px solid 0 0 2px currentColor !important;
-}
-
-.btn-outline.btn-primary {
-  --tw-text-opacity: 1;
-  color: hsl(var(--p) / var(--tw-text-opacity));
-}
-
-.btn-outline.btn-primary:hover {
-  --tw-border-opacity: 1;
-  border-color: hsl(var(--pf, var(--p)) / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--pf, var(--p)) / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: hsl(var(--pc) / var(--tw-text-opacity));
 }
 
 .btn-outline.btn-secondary {
@@ -2376,23 +2343,14 @@ html {
   color: hsl(var(--suc, var(--nc)) / var(--tw-text-opacity));
 }
 
-.btn-outline.\!btn-error {
-  --tw-text-opacity: 1 !important;
-  color: hsl(var(--er) / var(--tw-text-opacity)) !important;
-}
-
 .btn-outline.btn-error {
   --tw-text-opacity: 1;
   color: hsl(var(--er) / var(--tw-text-opacity));
 }
 
-.btn-outline.\!btn-error:hover {
-  --tw-border-opacity: 1 !important;
-  border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
-  --tw-bg-opacity: 1 !important;
-  background-color: hsl(var(--er) / var(--tw-bg-opacity)) !important;
+.btn-outline.\!btn-error {
   --tw-text-opacity: 1 !important;
-  color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity)) !important;
+  color: hsl(var(--er) / var(--tw-text-opacity)) !important;
 }
 
 .btn-outline.btn-error:hover {
@@ -2402,6 +2360,15 @@ html {
   background-color: hsl(var(--er) / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity));
+}
+
+.btn-outline.\!btn-error:hover {
+  --tw-border-opacity: 1 !important;
+  border-color: hsl(var(--er) / var(--tw-border-opacity)) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(var(--er) / var(--tw-bg-opacity)) !important;
+  --tw-text-opacity: 1 !important;
+  color: hsl(var(--erc, var(--nc)) / var(--tw-text-opacity)) !important;
 }
 
 .btn-disabled, .btn-disabled:hover, .btn[disabled], .btn[disabled]:hover {
@@ -3037,6 +3004,48 @@ body[dir="rtl"] .checkbox:checked,
   }
 }
 
+.radio:focus-visible {
+  outline: 2px solid hsl(var(--bc));
+  outline-offset: 2px;
+}
+
+.radio:checked {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--bc) / var(--tw-bg-opacity));
+  -webkit-animation: radiomark var(--animation-input, 0.2s) ease-in-out;
+          animation: radiomark var(--animation-input, 0.2s) ease-in-out;
+  box-shadow: 0 0 0 4px hsl(var(--b1)) inset, 0 0 0 4px hsl(var(--b1)) inset;
+}
+
+.radio-secondary {
+  --chkbg: var(--s);
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--s) / var(--tw-border-opacity));
+}
+
+.radio-secondary:hover {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--s) / var(--tw-border-opacity));
+}
+
+.radio-secondary:focus-visible {
+  outline: 2px solid hsl(var(--s));
+}
+
+.radio-secondary:checked {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--s) / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--s) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--sc) / var(--tw-text-opacity));
+}
+
+.radio:disabled {
+  cursor: not-allowed;
+  opacity: 0.2;
+}
+
 @-webkit-keyframes radiomark {
   0% {
     box-shadow: 0 0 0 12px hsl(var(--b1)) inset, 0 0 0 12px hsl(var(--b1)) inset;
@@ -3372,6 +3381,21 @@ body[dir="rtl"] .checkbox:checked,
 
 [dir="rtl"] .toggle:indeterminate {
   box-shadow: calc(var(--handleoffset) / 2) 0 0 2px hsl(var(--b1)) inset, calc(var(--handleoffset) / -2) 0 0 2px hsl(var(--b1)) inset, 0 0 0 2px hsl(var(--b1)) inset;
+}
+
+.toggle-primary:focus-visible {
+  outline: 2px solid hsl(var(--p));
+}
+
+.toggle-primary:checked,
+    .toggle-primary[checked="true"] {
+  --chkbg: hsl(var(--p));
+  border-color: hsl(var(--p) / var(--tw-border-opacity));
+  --tw-border-opacity: 0.1;
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--p) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--pc) / var(--tw-text-opacity));
 }
 
 .toggle:disabled {
@@ -3854,12 +3878,12 @@ body[dir="rtl"] .checkbox:checked,
   width: 2rem;
 }
 
-.w-1\/3 {
-  width: 33.333333%;
-}
-
 .w-1\/2 {
   width: 50%;
+}
+
+.w-1\/3 {
+  width: 33.333333%;
 }
 
 .w-2\/3 {

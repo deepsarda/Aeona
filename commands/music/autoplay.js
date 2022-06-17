@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Toggle music autoplay",
   requiredArgs: 0,
-  usage: "",
+  usage: "+autoplay",
   permission: [],
 
   player: true,

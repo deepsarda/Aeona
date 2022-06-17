@@ -5,7 +5,7 @@ module.exports = {
   category: "music",
   description: "Pause the currently playing music",
   requiredArgs: 0,
-  usage: "",
+  usage: "+pause",
   permission: [],
   dj: true,
 

@@ -6,7 +6,7 @@ module.exports = {
   aliases: ["eq", "equalizer"],
   description: "Set EqualizerBand",
   requiredArgs: 0,
-  usage: "",
+  usage: "+eq",
   permission: [],
   dj: true,
 

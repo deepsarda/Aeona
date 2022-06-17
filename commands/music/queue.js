@@ -14,7 +14,7 @@ module.exports = {
   aliases: ["q"],
   description: "Show the music queue and now playing.",
   requiredArgs: 0,
-  usage: "",
+  usage: "+queue ",
   permission: [],
 
   player: true,

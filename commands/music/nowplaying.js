@@ -8,7 +8,7 @@ module.exports = {
   category: "music",
   description: "Show now playing song",
   requiredArgs: 0,
-  usage: "",
+  usage: "+nowplaying",
   permission: [],
 
   player: true,

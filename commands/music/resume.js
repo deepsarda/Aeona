@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Resume currently playing music",
   requiredArgs: 0,
-  usage: "<Number of song in queue>",
+  usage: "+resume <Number of song in queue>",
   permission: [],
   dj: true,
 

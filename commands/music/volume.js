@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Change volume of currently playing music",
   requiredArgs: 0,
-  usage: "",
+  usage: "+volume",
   permission: [],
   dj: true,
 

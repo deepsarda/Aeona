@@ -5,7 +5,7 @@ module.exports = {
   category: "music",
   description: "Stops the music",
   requiredArgs: 0,
-  usage: "",
+  usage: "+stop",
   permission: [],
   dj: true,
 

@@ -6,7 +6,7 @@ module.exports = {
   category: "music",
   description: "Leave voice channel",
   requiredArgs: 0,
-  usage: "",
+  usage: "+leave",
   permission: [],
 
   dj: true,

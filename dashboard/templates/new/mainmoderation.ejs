@@ -32,34 +32,34 @@
       <h1>Moderation Settings</h1>
       <label for="c1">Delete command after executed
         <% if(mod.delete_after_executed==="true" ){ %>
-        <input id="c1" name="delete_after_executed" type="checkbox" checked class="float-right mr-5 checkbox">
+        <input id="c1" name="delete_after_executed" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
         <% } else { %>
-        <input id="c1" name="delete_after_executed" type="checkbox" class="float-right mr-5 checkbox">
+        <input id="c1" name="delete_after_executed" type="checkbox" class="float-right mr-5 toggle toggle-primary">
         <% } %>
       </label>
       <br>
       <label for="c7">delete bot's reply message after 5 seconds
         <% if(mod.delete_reply==="true" ){ %>
-        <input id="c7" name="delete_reply" type="checkbox" checked class="float-right mr-5 checkbox">
+        <input id="c7" name="delete_reply" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
         <% } else { %>
-        <input id="c7" name="delete_reply" type="checkbox" class="float-right mr-5 checkbox">
+        <input id="c7" name="delete_reply" type="checkbox" class="float-right mr-5 toggle toggle-primary">
         <% } %>
       </label>
       <br>
       <label for="c2">Include the Reason in Chat
         <% if(mod.include_reason==="true" ){ %>
-        <input id="c2" name="include_reason" type="checkbox" checked class="float-right mr-5 checkbox">
+        <input id="c2" name="include_reason" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
         <% } else { %>
 
-        <input id="c2" name="include_reason" type="checkbox" class="float-right mr-5 checkbox">
+        <input id="c2" name="include_reason" type="checkbox" class="float-right mr-5 toggle toggle-primary">
         <% } %>
       </label>
       <br>
       <label for="c3">Remove all roles on Mute + Give back when unmuted
         <% if(mod.remove_roles==="true" ){ %>
-        <input id="c3" name="remove_roles" type="checkbox" checked class="float-right mr-5 checkbox">
+        <input id="c3" name="remove_roles" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
         <% } else { %>
-        <input id="c3" name="remove_roles" type="checkbox" class="float-right mr-5 checkbox">
+        <input id="c3" name="remove_roles" type="checkbox" class="float-right mr-5 toggle toggle-primary">
         <% } %>
 
       </label>
