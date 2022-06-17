@@ -577,7 +577,7 @@ module.exports = async (client) => {
   // Dashboard endpoint.
   app.get("/dashboard", checkAuth, (req, res) => {
 
-    renderTemplate(res, req, "dashboard.ejs", {
+    renderTemplate(res,req, "dashboard.ejs", {
       perms: Discord.Permissions,
     });
   });
