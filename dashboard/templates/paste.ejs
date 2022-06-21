@@ -1,0 +1,60 @@
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Ticket Transcript" , url, image }) %>
+<div class="max-w-lg mx-auto">
+  <% if(type==="ticket" ) { %>
+  <% const closedby=bot.users.cache.get(db.by) %>
+  <h4><u>Created at:</u>
+    <%=created %><br><u>Expires &nbsp;&nbsp;at:</u>
+    <%= expires %><br><u>Closed by:</u>
+    <%= closedby.tag || 'Unknown' %>
+  </h4>
+
+  <% for (let i=0; db.paste.length> i; i++) { %>
+  <% const pogg=bot.users.cache.get(db.paste2[i]); let pog; if (pogg && pogg.avatar) {
+            pog="https://cdn.discordapp.com/avatars/" + pogg.id + "/" + pogg.avatar
+            + ".png?size=128" ; } else {
+            pog="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404.png?v=1602412158188"
+            ; } %>
+  <% if(pogg && pogg.tag && db.paste[i]) { %>
+  <div class="hover">
+    <img style="vertical-align:middle; width: 50px; height: 50px; border-radius: 50%" src="<%= pog %>">
+    <span>&nbsp;&nbsp;<%= pogg.tag + ': ' + db.paste[i]%></span>
+  </div>
+
+  <div style="padding-top: 5px"></div>
+  <% } %>
+
+  <% } %>
+  <br>
+  <p>ticket Ends here</p>
+  <% } else if(type==="noFind") { %>
+  <h4>It might have expired.</h4>
+  <h4>Or it might not exist.</h4>
+
+  <% } else if(type==="form") { %>
+  <% const closedby=bot.users.cache.get(db.by) %>
+  h4><u>Created at:</u>
+  <%= created %><br><u>Expires &nbsp;&nbsp;at:</u>
+  <%= expires %><br><u>Submitted by:</u>
+  <%=closedby.tag || 'Unknown' %><br><u>Status:</u>
+  <%= db.status || 'Not judged' %>
+  </h4>
+  <% for (let i=0; db.paste.length> i; i++) { %>
+  <div class="hover2">
+    <h3><u>
+        <%=db.paste[i]%>
+      </u></h3>
+    <h5 style="color: #A0A0A0">Answer: <%=db.paste2[i]%>
+    </h5>
+  </div>
+
+  <br>
+  <% } %>
+  <p>Application Ends here</p>
+
+  <% } else if(type==="noFindForm" ) { %>
+  <h4>It might have expired.</h4>
+  <h4>Or it might not exist.</h4>
+
+  <% }%>
+</div>
+<%- include("./partials/footer") %>

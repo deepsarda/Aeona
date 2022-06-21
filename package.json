@@ -8,7 +8,7 @@
   "main": "index.js.js",
   "scripts": {
     "start": "node index.js",
-    "tailwind": "npx tailwind build -o ./dashboard/static/css/build.css --watch ",
+    "tailwind": "npx tailwind build -o ./dashboard/static/css/build.css --watch --minify",
     "dev": "nodemon index.js",
     "lint": "ejslint **/*.ejs",
     "lavalink": "java -jar Lavalink.jar"

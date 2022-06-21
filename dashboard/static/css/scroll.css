@@ -203,3 +203,10 @@ select{
     transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
   }
 }
+.btn{
+  font-weight: normal!important;
+}
+
+.\!btn{
+  font-weight: normal!important;
+}
