@@ -36,7 +36,8 @@ module.exports = {
     let options = [];
 
     for (const category of bot.categories.keys()) {
-      let c = bot.categories.get(category);
+      let c = bot.categories.get(category.toLowerCase());
+      console.log(category)
       options.push({
         value: category,
         label: caps(category),
