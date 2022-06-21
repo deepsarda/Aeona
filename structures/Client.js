@@ -105,6 +105,8 @@ module.exports = class AeonaClient extends Client {
       right: "<:right:907828453859028992>",
     };
     require("../handlers/economy").run(this);
+
+    this.giveawaysManager=require("../utils/giveaways")();
   }
 
   async start(token) {
