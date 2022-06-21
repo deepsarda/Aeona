@@ -124,7 +124,12 @@ class Resource {
           new Discord.MessageButton()
             .setLabel("Vote")
             .setURL("https://top.gg/bot/931226824753700934/vote")
-            .setStyle("LINK")
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Premium")
+            .setURL("https://aeona.xyz/premium")
+            .setStyle("LINK"),
+            
         ),
       ];
     }
