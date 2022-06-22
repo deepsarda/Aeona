@@ -1,10 +1,8 @@
-
-
 module.exports = {
-  name: "giveaway-end",
-  description: "End a giveaway!",
-  aliases: ["gend", "end-giveaway"],
-  usage: "+giveaway-end <giveaway id/giveaway prize>",
+  name: "giveaway-pause",
+  description: "Pause a giveaway!",
+  aliases: ["gpause", "pause-giveaway"],
+  usage: "+giveaway-pause <giveaway id/giveaway prize>",
   category: "giveaways",
   requiredArgs: 1,
   execute: async (message, args, bot, prefix) => {
@@ -28,11 +26,11 @@ module.exports = {
         `${message.author}, I couldn't find a giveaway with that ID!`
       );
 
-    if (giveaway.ended)
+    if (giveaway.pauseOptions.isPaused)
       return message.channel.send(
-        `${message.author}, that giveaway has already ended!`
+        `${message.author}, that giveaway is already paused!`
       );
 
-    client.giveawaysManager.end(giveaway.messageId);
+    client.giveawaysManager.pause(giveaway.messageId);
   },
 };
