@@ -5,7 +5,7 @@ module.exports = {
   usage: "+giveaway-unpause <giveaway id/giveaway prize>",
   category: "giveaways",
   requiredArgs: 1,
-  execute: async (message, args, bot, prefix) => {
+  execute: async (message, args, client, prefix) => {
     const query = args.join(" ");
     if (!query)
       return message.channel.send(
