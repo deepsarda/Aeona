@@ -238,7 +238,10 @@ module.exports = async (client) => {
   app.get("/embeds", (req, res) => {
     renderTemplate(res, req, "embeds.ejs");
   });
-
+  
+  app.get("/bg", (req, res) => {
+    renderTemplate(res, req, "bg.ejs");
+  });
   app.get("/support", (req, res) => {
     res.redirect(`https://discord.gg/SPcmvDMRrP`);
   });

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="my-theme">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://www.aeona.xyz/logo.png">
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" type="text/css" href="<%=https%><%=hostname%>/css/build.css">
+  <link rel="stylesheet" type="text/css" href="<%=https%><%=hostname%>/css/scroll.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Dela Gothic One', cursive;
+    }
+
+    * {
+      font-weight: 400 !important;
+    }
+  </style>
+  <% if (analitics) { %>
+  <%- include('./analytics.ejs') %>
+  <% } %>
+  <%- include("./seo", { arc, bot, user, path, description, title, url,
+                    image:`${https}${hostname}/logo.png`}) %>
+
+</head>
+
+<body class="text-white h-screen w-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500  text-lg">
