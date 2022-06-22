@@ -1,4 +1,4 @@
-module.exports = () => {
+module.exports = (client) => {
   const mongoose = require("mongoose");
 
   const giveawaySchema = new mongoose.Schema(
