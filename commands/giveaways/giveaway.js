@@ -28,7 +28,18 @@ module.exports = {
       winnerCount,
       prize,
       hostedBy: message.author,
-      
+      messages: {
+        giveaway: " ",
+        giveawayEnded: " ",
+        inviteToParticipate: `> **React with ${client.bot_emojis.giveaway} to participate!**`,
+        winMessage: { content: "", embed: new MessageEmbed().setColor("GREEN").setDescription(`:tada: Congratulations, {winners}! You won **{this.prize}**!\n[Jump to giveaway!]({this.messageURL})`) },
+        embedFooter: { text: `{this.winnerCount} winner(s)`, iconURL: client.user.displayAvatarURL() },
+        noWinner: `> 💢 ** Giveaway cancelled, no valid participations!**\n`,
+        drawing: `\n• ⏳ Drawing winner {timestamp}`,
+        hostedBy: `• Hosted by ${message.author}`,
+        winners: "winner(s)",
+        endedAt: "Ended at",
+       },
     });
   },
 };
