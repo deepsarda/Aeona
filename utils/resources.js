@@ -33,7 +33,7 @@ class Resource {
 
   embed = (options) => {
     //If options is a string, it's the content
-    if (typeof options === "string") {
+    if (typeof options === "string"|| options instanceof String) {
       return options;
     }
     if (options.embeds) return options;

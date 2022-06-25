@@ -100,11 +100,14 @@ module.exports = (client) => {
 
   // Create a new instance of your new class
   const manager = new GiveawayManagerWithOwnDatabase(client, {
+    updateCountdownEvery: 10000,
+    hasGuildMembersIntent: true,
+    embedColorEnd: "15859772",
+    embedColor: "#ab4b52",
     default: {
-      botsCanWin: false,
-      embedColor: "#FF0000",
-      embedColorEnd: "#000000",
-      reaction: "🎉",
+     botsCanWin: false,
+     // exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+     reaction: "🎉",
     },
   });
 

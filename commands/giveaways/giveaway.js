@@ -1,5 +1,5 @@
 const ms = require('ms');
-
+const Discord=require("discord.js");
 module.exports = {
   name: "giveaway",
   description: "Start a giveaway!",
@@ -26,14 +26,14 @@ module.exports = {
     await bot.giveawaysManager.start(message.channel, {
       duration: ms(duration),
       winnerCount,
-      prize,
+      prize: `:tada: Giveaway: ${prize}!`,
       hostedBy: message.author,
+      embedColor: 5793266,
+      embedColorEnd: 16711680,
+      thumbnail: bot.user.displayAvatarURL(),
       messages: {
-        giveaway: " ",
-        giveawayEnded: " ",
-        inviteToParticipate: `> **React with ${client.bot_emojis.giveaway} to participate!**`,
-        winMessage: { content: "", embed: new MessageEmbed().setColor("GREEN").setDescription(`:tada: Congratulations, {winners}! You won **{this.prize}**!\n[Jump to giveaway!]({this.messageURL})`) },
-        embedFooter: { text: `{this.winnerCount} winner(s)`, iconURL: client.user.displayAvatarURL() },
+        winMessage: { content: `{winners} ${message.member}`, embed: new Discord.MessageEmbed().setColor("GREEN").setDescription(`:tada: Congratulations, {winners}! You won **{this.prize}**!\n[Jump to giveaway!]({this.messageURL})`) },
+        embedFooter: { text: `{this.winnerCount} winner(s)`, iconURL: bot.user.displayAvatarURL() },
         noWinner: `> 💢 ** Giveaway cancelled, no valid participations!**\n`,
         drawing: `\n• ⏳ Drawing winner {timestamp}`,
         hostedBy: `• Hosted by ${message.author}`,
