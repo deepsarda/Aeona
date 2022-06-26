@@ -29,6 +29,7 @@
     "@top-gg/sdk": "^3.1.3",
     "axios": "^0.27.2",
     "body-parser": "^1.20.0",
+    "canvas-senpai": "^2.0.3",
     "connect-mongo": "^4.6.0",
     "delay": "^5.0.0",
     "discord-giveaways": "^5.2.1",
