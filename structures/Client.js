@@ -106,7 +106,7 @@ module.exports = class AeonaClient extends Client {
     };
     require("../handlers/economy").run(this);
 
-    this.giveawaysManager=require("../utils/giveaways")(this);
+    this.giveawaysManager = require("../utils/giveaways")(this);
   }
 
   async start(token) {
@@ -138,7 +138,7 @@ module.exports = class AeonaClient extends Client {
             for (let alias of command.aliases) {
               this.commands.set(alias, command);
             }
-          }          
+          }
         } else {
           this.categories.get(category).info = command;
         }
@@ -147,6 +147,42 @@ module.exports = class AeonaClient extends Client {
         console.log(`${command} failed to load`);
       }
     }
+
+    //Watch for file changes
+    const watcher = require("chokidar").watch("./commands", {
+      ignored: /(^|[\/\\])\../,
+      persistent: true,
+    });
+
+    watcher.on("change", (path) => {
+      console.log(`${path} changed`);
+
+      let command = require("..\\" + path);
+
+      let info = false;
+      if (path.includes("_info.js")) info = true;
+
+      if (!info) {
+        let category = command.category;
+        if (!this.categories.has(category)) {
+          this.categories.set(category, { info: null, commands: [] });
+        }
+
+        this.categories.get(category).commands.push(command);
+
+        this.commands.set(command.name, command);
+
+        if (command.aliases) {
+          for (let alias of command.aliases) {
+            this.commands.set(alias, command);
+          }
+        }
+      } else {
+        this.categories.get(category).info = command;
+      }
+    });
+
+    console.log(`Loaded ${commands.length} commands`);
   }
 
   loadEvents() {

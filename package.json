@@ -30,6 +30,7 @@
     "axios": "^0.27.2",
     "body-parser": "^1.20.0",
     "canvas-senpai": "^2.0.3",
+    "chokidar": "^3.5.3",
     "connect-mongo": "^4.6.0",
     "delay": "^5.0.0",
     "discord-giveaways": "^5.2.1",
