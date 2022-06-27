@@ -24,6 +24,12 @@ const getPage = async (bot, category, page) => {
   return embed;
 };
 
+const getNumberOfPages= (bot, category) => {
+return Math.ceil(
+      bot.categories.get(category).commands.length / 7
+    );
+}
+
 module.exports = {
   name: "help",
   description: "View a list of all commands",
@@ -36,7 +42,7 @@ module.exports = {
     let options = [];
 
     for (const category of bot.categories.keys()) {
-      let c = bot.categories.get(category.toLowerCase());
+      let c = bot.categories.get(category);
       console.log(category)
       options.push({
         value: category,
@@ -78,20 +84,31 @@ module.exports = {
     const collector = message.channel.createMessageComponentCollector({
       idle: 60000,
     });
-
+    let page=0;
+    let option;
     collector.on("collect", async (i) => {
       if (i.customId) {
         if (i.customId == "last_page") {
-          return;
+          if(page==0)
+          page=getNumberOfPages(bot,option);
+
+          page--;
+          const embed1 = await getPage(bot, option, page);
+          await i.update({ embeds: [embed1] });
         }
 
         if (i.customId == "next_page") {
-          return;
+          if(page==getNumberOfPages(bot,option)-1)
+          page=-1;
+          page++;
+          const embed1 = await getPage(bot, option, page);
+          await i.update({ embeds: [embed1] });
+          
         }
 
         if (i.customId == "help") {
-          let option = i.values[0];
-
+          option = i.values[0];
+          page=0;
           const embed1 = await getPage(bot, option, 0);
           await i.update({ embeds: [embed1] });
         }

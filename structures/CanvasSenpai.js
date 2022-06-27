@@ -44,7 +44,7 @@ module.exports.run = () => {
     }
 
     ctx.fillStyle = cardLight ? cardLight : color.hex;
-    ctx.globalAlpha = 0.8;
+    ctx.globalAlpha = 0.4;
     ctx.fillRect(43, 0, 170, 300);
     ctx.globalAlpha = 1;
 
@@ -55,8 +55,8 @@ module.exports.run = () => {
     avatar = await Canvas.loadImage(raw);
     ctx.drawImage(avatar, 53, 15, 150, 150);
 
-    ctx.fillStyle = cardDark ? cardDark : "black";
-    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = color.hex;
+    ctx.globalAlpha = 0.4;
     ctx.fillRect(53, 180, 150, 30);
     ctx.fillRect(53, 220, 150, 30);
     ctx.fillRect(

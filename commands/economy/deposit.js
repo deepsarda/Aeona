@@ -4,8 +4,8 @@ const randint = require("../../utils/randint");
 
 module.exports = {
   name: "deposit",
-  description: "Deposit money into your bank account",
-  usage: "+deposit [amount](optional)",
+  description: "Deposit credits into your bank account",
+  usage: "+deposit [amount]",
   category: "economy",
   requiredArgs: 0,
   aliases: ["dep"],
@@ -13,6 +13,8 @@ module.exports = {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let data = profile;
+
+    const depositURL = "https://img.icons8.com/color-glass/344/deposit.png";
 
     let amount = numberParse(args[0]);
     if (!amount) amount = 1;
@@ -23,31 +25,36 @@ module.exports = {
           const max_deposit =
             data.coinsInWallet + data.coinsInBank - data.bankSpace;
 
-          if (data.coinsInBank - data.bankSpace === 0) {
-            return message.reply({
+          if (data.coinsInBank - data.bankSpace === 0)
+            return await message.replyError({
               msg: message,
-              description: `You don't have that much space in your bank. `,
+              title: `You don't have that much space in your bank!`,
             });
-          }
 
           data.coinsInWallet = max_deposit;
 
           data.coinsInBank = data.coinsInWallet + data.bankSpace - max_deposit;
 
-          message.reply({
+          await message.reply({
             msg: message,
-            description: `You now have **${data.coinsInBank.toLocaleString()}** credits in your bank out of ${data.bankSpace.toLocaleString()}`,
+            title: "Credits deposited successfully!",
+            // description: `You now have **⌭ ${data.coinsInBank.toLocaleString()}** in your bank out of ⌭ ${data.bankSpace.toLocaleString()}`,
+            description: `You deposited ⌭ ${max_deposit}`,
+            thumbnailURL: depositURL
           });
 
           await data.save();
         } else {
           if (data.coinsInWallet + data.coinsInBank > data.bankSpace) {
             const left = data.coinsInWallet + data.coinsInBank - data.bankSpace;
-            message.reply({
+            
+            await message.reply({
               msg: message,
-              description: `**${user.displayName}** : Deposited **${(
+              title: "Credits deposited successfully!",
+              description: `You deposited ⌭ ${(
                 data.coinsInWallet - left
-              ).toLocaleString()}** credits`,
+              ).toLocaleString()}`,
+              thumbnailURL: depositURL
             });
 
             data.coinsInBank += data.coinsInWallet - left;
@@ -55,11 +62,11 @@ module.exports = {
 
             await data.save();
           } else {
-            message.reply({
+            await message.reply({
               msg: message,
-              description: ` **${
-                user.displayName
-              }** : Deposited **${data.coinsInWallet.toLocaleString()}** coins`,
+              title: "Credits deposited successfully!",
+              description: `You deposited ⌭ ${data.coinsInWallet.toLocaleString()}`,
+              thumbnailURL: depositURL
             });
 
             data.coinsInBank += data.coinsInWallet;
@@ -76,31 +83,30 @@ module.exports = {
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
       return message.replyError({ msg: message, title: "Invalid amount!" });
 
-    if (amount > profile.coinsInWallet) {
-      message.replyError({
+    if (amount > profile.coinsInWallet)
+      return await message.replyError({
         msg: message,
-        title: "You don't have enough money.",
+        title: "You don't have enough credits!",
         description: `You need ${(
           amount - profile.coinsInWallet
         ).toLocaleString()} more credits.`,
       });
-      return;
-    }
 
-    if (amount > profile.bankSpace - profile.bankSpace) {
-      message.replyError({
+    if (amount > (profile.bankSpace - profile.coinsInBank))
+      return await message.replyError({
         msg: message,
-        title: "You don't have enough space.",
+        title: "You don't have enough space!",
       });
-      return;
-    }
+
     profile.coinsInWallet -= amount;
     profile.coinsInBank += amount;
     await profile.save();
-    message.reply({
+    
+    await message.reply({
       msg: message,
-      title: "Deposit",
-      description: `You deposited ${amount.toLocaleString()} credits into your bank.`,
-    });
+      title: "Credits deposited successfully!",
+      description: `You deposited ⌭ ${amount.toLocaleString()} into your bank.`,
+      thumbnailURL: depositURL
+    });    
   },
 };

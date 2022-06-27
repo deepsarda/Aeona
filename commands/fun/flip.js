@@ -1,8 +1,8 @@
 module.exports = {
-  name: "coinflip",
+  name: "flip",
   description: "Flip a coin!",
-  aliases: ["flip", "cointoss"],
-  usage: "+coinflip",
+  aliases: ["cointoss"],
+  usage: "+flip",
   category: "fun",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {

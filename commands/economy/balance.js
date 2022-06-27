@@ -1,39 +1,31 @@
 const Discord = require("discord.js");
 
+const { emotes } = require("../../utils/resources.js");
+const parseUser = require("../../utils/parseUser.js");
+
 module.exports = {
   name: "balance",
   description: "View your balance",
-  usage: "+balance [user](optional)",
+  usage: "+balance [@user]",
   category: "economy",
   requiredArgs: 0,
   aliases: ["bal", "money"],
   execute: async (message, args, bot, prefix) => {
-    const user =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
+    const user = parseUser(message, args);
 
     let profile = await bot.economy.getConfig(user);
-    message.reply({
+
+    const wallet = profile.coinsInWallet.toLocaleString();
+    const bank = profile.coinsInBank.toLocaleString();
+    const worth = (profile.coinsInWallet + profile.coinsInBank).toLocaleString();
+    
+    await message.reply({
       msg: message,
       userp: user,
       title: `${user.displayName}'s balance`,
-      description: ` \n **Wallet** \n   ${profile.coinsInWallet.toLocaleString()} \n \n**Bank** \n  ${profile.coinsInBank.toLocaleString()}/${profile.bankSpace.toLocaleString()}   \n \n **Worth** \n   ${(
-        profile.coinsInWallet + profile.coinsInBank
-      ).toLocaleString()}`,
+      description: `${emotes.divider} **Wallet** → ⌭  ${wallet}\n${emotes.divider} **Bank** → ⌭ ${bank}\n${emotes.divider} **Worth** → ⌭ ${worth}`,
+      thumbnailURL: "https://img.icons8.com/fluency/344/cash.png"
     });
+    
   },
 };

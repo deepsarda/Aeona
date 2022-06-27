@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+  const discord = require("discord.js");
 const Guild = require("../../database/schemas/Guild");
 const alt = require("../../database/schemas/altdetector.js");
 module.exports = {

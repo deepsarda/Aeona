@@ -11,19 +11,21 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const random = Math.round(Math.random() * 1000) + 10000;
     const randomMessage = [
-      `**Elon Musk** gave you ${random.toLocaleString()} credits.`,
-      `**Bill Gates** gave you ${random.toLocaleString()} credits.`,
-      `A **beggar** gave you ${random.toLocaleString()} credits.`,
-      `Barack Obama gave you ${random.toLocaleString()} credits.`,
+      `**Elon Musk** gave you ⌭ ${random.toLocaleString()}.`,
+      `**Bill Gates** gave you ⌭ ${random.toLocaleString()}.`,
+      `A **beggar** gave you ⌭ ${random.toLocaleString()}.`,
+      `Barack Obama gave you ⌭ ${random.toLocaleString()}.`,
     ];
     const response =
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
     bot.economy.giveUserCredits(message.member, random);
+    
     message.reply({
       msg: message,
-      title: `You got ${random.toLocaleString()} credits!`,
+      title: `You got ⌭ ${random.toLocaleString()}!`,
       description: `${response}`,
     });
+    
   },
 };

@@ -40,11 +40,11 @@ module.exports = {
     let row = new Discord.MessageActionRow().addComponents(
       new Discord.MessageButton()
         .setCustomId("last_page")
-        .setEmoji(util.emotes.left)
+        .setEmoji(bot.emotes.left)
         .setStyle("PRIMARY"),
       new Discord.MessageButton()
         .setCustomId("next_page")
-        .setEmoji(util.emotes.right)
+        .setEmoji(bot.emotes.right)
         .setStyle("PRIMARY")
     );
 
@@ -53,8 +53,7 @@ module.exports = {
       message,
       page,
       pages[page],
-      pages.length,
-      util
+      pages.length
     );
     let msg = await message.reply({
       embeds: [embed],
@@ -110,7 +109,7 @@ async function generateEmbed(message, page, items, totalPages) {
   }
 
   description += `\n Page ${page + 1} of ${totalPages}`;
-  return await success({
+  return await success.embed({
     msg: message,
     embed: true,
     title: "Shop",

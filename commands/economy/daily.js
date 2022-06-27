@@ -12,10 +12,11 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
-    if (Date.parse(profile.dailyStreak) + 86400000 > Date.now()) {
-      message.replyError({
+    
+    if (Date.parse(profile.dailyStreak) + 86400000 > Date.now())
+      return await message.replyError({
         msg: message,
-        title: "You already got your daily reward.",
+        title: "You already got your daily reward!",
         description: `You can get your daily reward again in ${
           (Date.parse(profile.dailyStreak) + 86400000 - Date.now()) /
           1000 /
@@ -23,16 +24,17 @@ module.exports = {
           60
         } hours.`,
       });
-      return;
-    }
+
     let amount = 100000;
+    
     profile.dailyStreak = new Date();
     profile.coinsInWallet += amount;
     await profile.save();
-    message.reply({
+    
+    await message.reply({
       msg: message,
       title: "Daily reward",
-      description: `You got your daily reward of ${amount.toLocaleString()} credits.`,
+      description: `You obtained ⌭ ${amount.toLocaleString()}!`,
     });
   },
 };
