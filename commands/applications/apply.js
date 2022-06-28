@@ -1,6 +1,5 @@
 const Guild = require("../../database/schemas/Guild");
 const Applications = require("../../database/schemas/application.js");
-const Discord = require("discord.js");
 
 module.exports = {
     name: "apply",

@@ -154,8 +154,7 @@ module.exports = {
       disabledCommands = disabledCommands.split(" ");
 
     if (message.author.bot) return;
-
-    if (message.client.commands.has(command)) {
+    if (message.client.commands.has(command.trim().toLowerCase())) {
       cmd = message.client.commands.get(command);
 
       const rateLimit = ratelimit(message, cmd);

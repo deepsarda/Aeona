@@ -10,7 +10,7 @@ module.exports = {
   usage: "+addquestions <question>",
   category: "Applications",
   requiredArgs: 1,
-  aliases: ["addquestions", "applicationquestions", "appquestions"],
+  aliases: ["addquestion", "applicationquestions", "appquestions"],
   execute: async (message, args, bot, prefix) => {
     const guild = await Guild.findOne({ guildId: message.guild.id });
     let maxQuestions = 10;
