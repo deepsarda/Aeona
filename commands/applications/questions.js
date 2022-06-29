@@ -8,6 +8,7 @@ module.exports = {
   usage: "+questions",
   category: "Applications",
   aliases: ["question"],
+  requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     let app = await Applications.findOne({ guildId: message.guild.id });
 

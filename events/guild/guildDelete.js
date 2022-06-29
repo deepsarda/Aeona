@@ -35,7 +35,7 @@ module.exports = {
       username: "Aeona",
       avatarURL: "https://Aeona.xyz/logo.png",
       embeds: [welcomeEmbed],
-      content: "<@394320584089010179> <@794921502230577182>",
+      content: "@everyone",
     });
 
     Logging.findOneAndDelete({
