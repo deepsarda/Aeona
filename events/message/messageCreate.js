@@ -167,6 +167,15 @@ module.exports = {
     let args = message.content.slice(prefix.length).trim().split(" ");
     let command = args.shift().toLowerCase();
 
+
+    if(command==""){
+
+      message.channel.send({
+        title:"Hello, I am Aeona",
+        description: "I am an Intellegent Multipurpose AI Chatbot, I am here to help you with your server.\n\nTo get started, type `+help` ", 
+        imageURL:"https://cdn.discordapp.com/attachments/982536937996959784/982560515052175370/chatbot.gif?size=4096"
+      });
+    }
     let cmd;
     if (await customCommands(message, command)) return;
 
