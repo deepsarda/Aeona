@@ -14,7 +14,7 @@ module.exports = {
   async execute(client, message) {
     // Searching for a command
 
-    if (!guild) {
+    if (!message.guild) {
       let prefixes = [
         "+",
         ">",
@@ -168,7 +168,7 @@ module.exports = {
     let command = args.shift().toLowerCase();
 
 
-    if(command==""){
+    if(!command||command==""){
 
       message.channel.send({
         title:"Hello, I am Aeona",
