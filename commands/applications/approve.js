@@ -93,13 +93,13 @@ module.exports = {
 
     message.channel.send({
       title: "Applications",
-      description: `${member} has been approved. \n **Approved by:** ${message.author} \n **Reason:** ${reason}`,
+      description: `${member} has been approved. \n **Approved by:** ${message.member} \n **Reason:** ${reason}`,
     });
 
     if (channel) {
       channel.send({
         title: "Applications",
-        description: `${member} has been approved. \n **Approved by:** ${message.author} \n **Reason:** ${reason}`,
+        description: `${member} has been approved. \n **Approved by:** ${message.member} \n **Reason:** ${reason}`,
       });
     }
 
@@ -109,7 +109,7 @@ module.exports = {
       member
         .send({
           title: "Applications",
-          description: `Your application has been approved. \n **Approved by:** ${message.author} \n **Reason:** ${reason}`,
+          description: `Your application has been approved. \n **Approved by:** ${message.member} \n **Reason:** ${reason}`,
         })
         .catch(console.error);
   },

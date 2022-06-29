@@ -13,13 +13,13 @@ module.exports = {
     const winnerCount = Number(args[1]);
     const prize = args.slice(2).join(" ");
     if(!duration)
-      return message.channel.send(`${message.author}, you need to specify a duration!`);
+      return message.channel.send(`${message.member}, you need to specify a duration!`);
     
     if(!winnerCount)
-      return message.channel.send(`${message.author}, you need to specify a winner count!`);
+      return message.channel.send(`${message.member}, you need to specify a winner count!`);
 
     if(!prize)
-      return message.channel.send(`${message.author}, you need to specify a prize!`);
+      return message.channel.send(`${message.member}, you need to specify a prize!`);
     
 
   
@@ -27,7 +27,7 @@ module.exports = {
       duration: ms(duration),
       winnerCount,
       prize: `:tada: Giveaway: ${prize}!`,
-      hostedBy: message.author,
+      hostedBy: message.member,
       embedColor: 5793266,
       embedColorEnd: 16711680,
       thumbnail: bot.user.displayAvatarURL(),
@@ -36,7 +36,7 @@ module.exports = {
         embedFooter: { text: `{this.winnerCount} winner(s)`, iconURL: bot.user.displayAvatarURL() },
         noWinner: `> 💢 ** Giveaway cancelled, no valid participations!**\n`,
         drawing: `\n• ⏳ Drawing winner {timestamp}`,
-        hostedBy: `• Hosted by ${message.author}`,
+        hostedBy: `• Hosted by ${message.member}`,
         winners: "winner(s)",
         endedAt: "Ended at",
        },

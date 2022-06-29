@@ -87,7 +87,7 @@ module.exports = {
     const embed1 = new MessageEmbed();
     const collector = m.createMessageComponentCollector({
       filter: (f) =>
-        f.user.id === message.author.id
+        f.user.id === message.member.id
           ? true
           : false && f.deferUpdate().catch(() => {}),
       time: 60000,

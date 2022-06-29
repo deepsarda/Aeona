@@ -82,7 +82,7 @@ module.exports = {
           .setTimestamp()
           .setFooter({
             text: `Page ${page + 1}/${pages.length}`,
-            iconURL: message.author.displayAvatarURL({ dynamic: true }),
+            iconURL: message.member.displayAvatarURL({ dynamic: true }),
           })
           .setThumbnail(player.queue.current.thumbnail)
           .setTitle(`${message.guild.name} Queue`);
@@ -102,8 +102,8 @@ module.exports = {
           )
           .setTimestamp()
           .setFooter({
-            text: `Requested By ${message.author.tag}`,
-            iconURL: message.author.displayAvatarURL({ dynamic: true }),
+            text: `Requested By ${message.member.tag}`,
+            iconURL: message.member.displayAvatarURL({ dynamic: true }),
           })
           .setThumbnail(player.queue.current.thumbnail)
           .setTitle(`${message.guild.name} Queue`);
@@ -134,11 +134,11 @@ module.exports = {
 
         const collector = message.channel.createMessageComponentCollector({
           filter: (b) => {
-            if (b.user.id === message.author.id) return true;
+            if (b.user.id === message.member.id) return true;
             else {
               b.reply({
                 ephemeral: true,
-                content: `Only **${message.author.tag}** can use this button, if you want then you've to run the command again.`,
+                content: `Only **${message.member.tag}** can use this button, if you want then you've to run the command again.`,
               });
               return false;
             }
@@ -163,8 +163,8 @@ module.exports = {
               )
               .setTimestamp()
               .setFooter({
-                text: `Requested By ${message.author.tag}`,
-                iconURL: message.author.displayAvatarURL({ dynamic: true }),
+                text: `Requested By ${message.member.tag}`,
+                iconURL: message.member.displayAvatarURL({ dynamic: true }),
               })
               .setThumbnail(player.queue.current.thumbnail)
               .setTitle(`${message.guild.name} Queue`);
@@ -194,8 +194,8 @@ module.exports = {
               )
               .setTimestamp()
               .setFooter({
-                text: `Requested By ${message.author.tag}`,
-                iconURL: message.author.displayAvatarURL({ dynamic: true }),
+                text: `Requested By ${message.member.tag}`,
+                iconURL: message.member.displayAvatarURL({ dynamic: true }),
               })
               .setThumbnail(player.queue.current.thumbnail)
               .setTitle(`${message.guild.name} Queue`);

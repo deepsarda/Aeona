@@ -13,6 +13,27 @@ module.exports = {
   name: "messageCreate",
   async execute(client, message) {
     // Searching for a command
+
+    if (!guild) {
+      let prefixes = [
+        "+",
+        ">",
+        "aeona",
+        `<@${message.client.user.id}>`,
+        `<@!${message.client.user.id}>`,
+      ];
+
+      let prefix = "";
+      for (let p of prefixes) {
+        if (message.content.toLowerCase().startsWith(p)) {
+          prefix = p;
+          break;
+        }
+      }
+
+      return executeChatBot(message, prefix, 0, "deepparag/Aeona");
+    }
+    
     let settings = await Guild.findOne({
       guildId: message.guild.id,
     });

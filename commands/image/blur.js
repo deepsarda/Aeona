@@ -21,7 +21,7 @@ module.exports = {
       files: [attach]
     }
 
-    if (member.id !== message.author.id)
+    if (member.id !== message.member.id)
       options.content = `${member}`;
 
     await message.channel.send(options);

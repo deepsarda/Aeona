@@ -5,8 +5,8 @@ module.exports = {
     if (!message) return;
     const embed = new MessageEmbed()
       .setAuthor(
-        `${message.author.tag}`,
-        message.author.displayAvatarURL({ dynamic: true })
+        `${message.member.tag}`,
+        message.member.displayAvatarURL({ dynamic: true })
       )
       .setTitle(`X Missing User Permissions`)
       .setDescription(

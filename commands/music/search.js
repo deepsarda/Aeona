@@ -97,7 +97,7 @@ module.exports = {
 
     const emojiplaylist = client.emoji.playlist;
 
-    let s = await player.search(query, message.author);
+    let s = await player.search(query, message.member);
     switch (s.loadType) {
       case "TRACK_LOADED":
         player.queue.add(s.tracks[0]);
@@ -133,7 +133,7 @@ module.exports = {
 
         const collector = msg.createMessageComponentCollector({
           filter: (f) =>
-            f.user.id === message.author.id ? true : false && f.deferUpdate(),
+            f.user.id === message.member.id ? true : false && f.deferUpdate(),
           max: 1,
           time: 60000,
           idle: 60000 / 2,

@@ -138,7 +138,7 @@ async function generateEmbed(message, page, items, totalPages, user) {
   }
 
   description += `\n Page ${page + 1} of ${totalPages}`;
-  return await success({
+  return await success.embed({
     msg: message,
     embed: true,
     title: `${user.displayName}'s Inventory`,

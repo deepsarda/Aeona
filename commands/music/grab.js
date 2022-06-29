@@ -35,12 +35,12 @@ module.exports = {
 
     let dm = new MessageEmbed()
       .setAuthor({
-        name: message.author.tag,
-        iconURL: message.author.avatarURL(),
+        name: message.member.tag,
+        iconURL: message.member.avatarURL(),
       })
       .setDescription(`:mailbox_with_mail: \`Check Your Dms!\``)
 
-      .setFooter({ text: `Requested By ${message.author.tag}` })
+      .setFooter({ text: `Requested By ${message.member.tag}` })
       .setTimestamp();
     message.reply({ embeds: [dm], components: [row] });
 
@@ -57,7 +57,7 @@ module.exports = {
           song.duration
         )}]\` \n > **__Song Played By__**: [<@${
           song.requester.id
-        }>] \n > **__Song Saved By__**: [<@${message.author.id}>]`
+        }>] \n > **__Song Saved By__**: [<@${message.member.id}>]`
       )
       .setThumbnail(song.displayThumbnail())
 
@@ -65,6 +65,6 @@ module.exports = {
         "\u200b",
         `\`${convertTime(current)} / ${convertTime(total)}\``
       );
-    return message.author.send({ embeds: [embed], components: [row2] });
+    return message.member.send({ embeds: [embed], components: [row2] });
   },
 };
