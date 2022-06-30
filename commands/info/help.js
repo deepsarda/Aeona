@@ -51,7 +51,7 @@ module.exports = {
 
       modules += `\n→ **${bot.categories.get(category).info.emoji}・${caps(
         category
-      )}**\n`;
+      )}**\n${category.info.label}`;
     }
 
     const embed = await success.embed({

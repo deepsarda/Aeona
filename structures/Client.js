@@ -157,7 +157,7 @@ module.exports = class AeonaClient extends Client {
     watcher.on("change", (path) => {
       console.log(`${path} changed`);
 
-      let command = require("..\\" + path);
+      let command = require("../" + path.replace("\\", "/"));
 
       let info = false;
       if (path.includes("_info.js")) info = true;
