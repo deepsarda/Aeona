@@ -11,18 +11,18 @@ module.exports = {
   aliases: [],
   execute: async (message, args, bot, prefix) => {
     let item = args[0];
-    
+
     let user = message.member;
-    
+
     let profile = await bot.economy.getConfig(user);
     let itemData = await bot.economy.getItem(item);
-    
+
     if (!itemData)
       return await message.replyError({
         msg: message,
         title: "Item not found!",
       });
-    
+
     let amount = numberParse(args[1]);
     if (!amount) amount = 1;
 
@@ -51,7 +51,7 @@ module.exports = {
         msg: message,
         title: "You can't buy this item!",
       });
-      return
+    return;
 
     let itemUser = bot.economy.getItemFromArray(profile.items, item);
     if (itemUser) {

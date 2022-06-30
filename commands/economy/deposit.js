@@ -40,21 +40,21 @@ module.exports = {
             title: "Credits deposited successfully!",
             // description: `You now have **⌭ ${data.coinsInBank.toLocaleString()}** in your bank out of ⌭ ${data.bankSpace.toLocaleString()}`,
             description: `You deposited ⌭ ${max_deposit}`,
-            thumbnailURL: depositURL
+            thumbnailURL: depositURL,
           });
 
           await data.save();
         } else {
           if (data.coinsInWallet + data.coinsInBank > data.bankSpace) {
             const left = data.coinsInWallet + data.coinsInBank - data.bankSpace;
-            
+
             await message.reply({
               msg: message,
               title: "Credits deposited successfully!",
               description: `You deposited ⌭ ${(
                 data.coinsInWallet - left
               ).toLocaleString()}`,
-              thumbnailURL: depositURL
+              thumbnailURL: depositURL,
             });
 
             data.coinsInBank += data.coinsInWallet - left;
@@ -66,7 +66,7 @@ module.exports = {
               msg: message,
               title: "Credits deposited successfully!",
               description: `You deposited ⌭ ${data.coinsInWallet.toLocaleString()}`,
-              thumbnailURL: depositURL
+              thumbnailURL: depositURL,
             });
 
             data.coinsInBank += data.coinsInWallet;
@@ -92,7 +92,7 @@ module.exports = {
         ).toLocaleString()} more credits.`,
       });
 
-    if (amount > (profile.bankSpace - profile.coinsInBank))
+    if (amount > profile.bankSpace - profile.coinsInBank)
       return await message.replyError({
         msg: message,
         title: "You don't have enough space!",
@@ -101,12 +101,12 @@ module.exports = {
     profile.coinsInWallet -= amount;
     profile.coinsInBank += amount;
     await profile.save();
-    
+
     await message.reply({
       msg: message,
       title: "Credits deposited successfully!",
       description: `You deposited ⌭ ${amount.toLocaleString()} into your bank.`,
-      thumbnailURL: depositURL
-    });    
+      thumbnailURL: depositURL,
+    });
   },
 };

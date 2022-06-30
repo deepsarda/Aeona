@@ -49,12 +49,7 @@ module.exports = {
     );
 
     //Send the first page
-    let embed = await generateEmbed(
-      message,
-      page,
-      pages[page],
-      pages.length
-    );
+    let embed = await generateEmbed(message, page, pages[page], pages.length);
     let msg = await message.reply({
       embeds: [embed],
       components: [row],

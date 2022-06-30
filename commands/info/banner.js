@@ -9,15 +9,15 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const member = parseUser(message, args);
     const user = await member.user.fetch();
-      
+
     await message.channel.send({
       title: `${member.displayName}'s banner`,
       imageURL: user.bannerURL({
         dynamic: true,
-        size: 2048
+        size: 2048,
       }),
       footerText: `Requested by ${message.member.displayName}`,
-      footerIconURL: message.member.displayAvatarURL({ dynamic: true })
-    });   
+      footerIconURL: message.member.displayAvatarURL({ dynamic: true }),
+    });
   },
 };

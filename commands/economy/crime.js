@@ -14,7 +14,7 @@ module.exports = {
   aliases: [],
   execute: async (message, args, bot, prefix) => {
     const random = Math.round(Math.random() * 1000) + 10000;
-    
+
     const randomMessage = [
       `You assassinated **Bill Gates** to be paid ⌭ ${random.toLocaleString()}.`,
       `You stole from a poor old granny, but she only had ⌭ ${random.toLocaleString()}.`,
@@ -28,7 +28,7 @@ module.exports = {
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
     bot.economy.giveUserCredits(message.member, random);
-    
+
     await message.reply({
       msg: message,
       emote: emotes.alert,

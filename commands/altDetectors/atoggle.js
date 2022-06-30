@@ -32,8 +32,8 @@ module.exports = {
         await newGuild.save();
 
         return message.channel.send({
-            title: "Alt Detector",
-            description: `Alt Detector will now automatically block accounts younger than 7 days.`,
+          title: "Alt Detector",
+          description: `Alt Detector will now automatically block accounts younger than 7 days.`,
         });
       }
 
@@ -51,7 +51,6 @@ module.exports = {
       return message.channel.send({
         title: "Alt Detector",
         description: `Alt Detector is now ${choice}.`,
-
       });
     });
   },

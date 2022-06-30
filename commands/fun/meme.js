@@ -23,7 +23,7 @@ module.exports = {
     var msg = await message.reply({ embeds: [embed], components: [row] });
     var collector = msg.createMessageComponentCollector({
       componentType: "BUTTON",
-      idle:  60 * 1000,
+      idle: 60 * 1000,
     });
     collector.on("collect", async (i) => {
       if (i.customId == "next_page") {

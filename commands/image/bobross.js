@@ -12,17 +12,18 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const member = parseUser(message, args);
 
-    const url = await new Bobross().getImage(member.displayAvatarURL({ dynamic: false, format: 'png', size: 2048 }));
+    const url = await new Bobross().getImage(
+      member.displayAvatarURL({ dynamic: false, format: "png", size: 2048 })
+    );
     const attach = new MessageAttachment(url, "image.png");
 
     options = {
       title: `If it isn't Bob Ross himself, painting ${member.displayName}'s avatar!`,
       imageURL: "attachment://image.png",
-      files: [attach]
+      files: [attach],
     };
 
-    if (member.id !== message.member.id)
-      options.content = `${member}`;
+    if (member.id !== message.member.id) options.content = `${member}`;
 
     await message.channel.send(options);
   },

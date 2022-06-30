@@ -33,7 +33,7 @@ module.exports = {
 
       return executeChatBot(message, prefix, 0, "deepparag/Aeona");
     }
-    
+
     let settings = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -167,13 +167,13 @@ module.exports = {
     let args = message.content.slice(prefix.length).trim().split(" ");
     let command = args.shift().toLowerCase();
 
-
-    if(!command||command==""){
-
+    if (!command || command == "") {
       message.channel.send({
-        title:"Hello, I am Aeona",
-        description: "I am an Intellegent Multipurpose AI Chatbot, I am here to help you with your server.\n\nTo get started, type `+help` ", 
-        imageURL:"https://cdn.discordapp.com/attachments/982536937996959784/982560515052175370/chatbot.gif?size=4096"
+        title: "Hello, I am Aeona",
+        description:
+          "I am an Intellegent Multipurpose AI Chatbot, I am here to help you with your server.\n\nTo get started, type `+help` ",
+        imageURL:
+          "https://cdn.discordapp.com/attachments/982536937996959784/982560515052175370/chatbot.gif?size=4096",
       });
     }
     let cmd;

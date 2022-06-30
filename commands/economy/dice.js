@@ -13,20 +13,20 @@ module.exports = {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let amount = numberParse(args[0]);
-    if (!amount) amount = 10000;  
-    
+    if (!amount) amount = 10000;
+
     if (typeof amount == "string") {
       if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all") {
         amount = profile.coinsInWallet;
       }
     }
-    
+
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
       return await message.replyError({
         msg: message,
-        title: "Invalid amount!"
+        title: "Invalid amount!",
       });
-    
+
     if (amount > profile.coinsInWallet) {
       return await message.replyError({
         msg: message,
@@ -47,7 +47,7 @@ module.exports = {
 
     const botRoll = Math.floor(Math.random() * 7) + 1;
     const userChoice = Math.floor(Math.random() * 7) + 1;
-    
+
     if (botRoll < userChoice) {
       let winnings = amount + Math.floor(amount * 0.5);
       profile.coinsInWallet += winnings;
@@ -55,26 +55,24 @@ module.exports = {
         msg: message,
         title: "You won the game!",
         description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}.\nYou won ⌭ ${winnings.toLocaleString()}!`,
-        thumbnailURL: diceURL
+        thumbnailURL: diceURL,
       });
-    } 
-    else if (botRoll == userChoice) {
+    } else if (botRoll == userChoice) {
       let winnings = amount / 2;
       profile.coinsInWallet += winnings;
       message.reply({
         msg: message,
         title: "You won the game!",
         description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}.\nYou won ⌭ ${winnings.toLocaleString()}!`,
-        thumbnailURL: diceURL
+        thumbnailURL: diceURL,
       });
-    } 
-    else {
+    } else {
       profile.coinsInWallet -= amount;
       message.replyError({
         msg: message,
         title: "You lost the game!",
         description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}.\nYou lost ⌭ ${amount.toLocaleString()}!`,
-        thumbnailURL: diceURL
+        thumbnailURL: diceURL,
       });
     }
 

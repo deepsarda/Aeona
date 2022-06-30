@@ -12,17 +12,18 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const member = parseUser(message, args);
 
-    const url = await new Triggered().getImage(member.displayAvatarURL({ dynamic: false, format: 'png', size: 2048 }));
+    const url = await new Triggered().getImage(
+      member.displayAvatarURL({ dynamic: false, format: "png", size: 2048 })
+    );
     const attach = new MessageAttachment(url, "image.gif");
 
     options = {
       title: `${member.displayName} was triggered!`,
       imageURL: "attachment://image.gif",
-      files: [attach]
+      files: [attach],
     };
 
-    if (member.id !== message.member.id)
-      options.content = `${member}`;
+    if (member.id !== message.member.id) options.content = `${member}`;
 
     await message.channel.send(options);
   },

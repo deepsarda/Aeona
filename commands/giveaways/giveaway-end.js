@@ -1,5 +1,3 @@
-
-
 module.exports = {
   name: "giveaway-end",
   description: "End a giveaway!",

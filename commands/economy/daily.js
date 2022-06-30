@@ -12,7 +12,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
-    
+
     if (Date.parse(profile.dailyStreak) + 86400000 > Date.now())
       return await message.replyError({
         msg: message,
@@ -26,11 +26,11 @@ module.exports = {
       });
 
     let amount = 100000;
-    
+
     profile.dailyStreak = new Date();
     profile.coinsInWallet += amount;
     await profile.save();
-    
+
     await message.reply({
       msg: message,
       title: "Daily reward",

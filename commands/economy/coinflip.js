@@ -4,8 +4,7 @@ const randint = require("../../utils/randint");
 
 module.exports = {
   name: "coinflip",
-  description:
-    "Flip a coin, and win double the money or lose all of it!",
+  description: "Flip a coin, and win double the money or lose all of it!",
   usage: "+coinflip",
   category: "economy",
   requiredArgs: 0,
@@ -14,7 +13,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     var user = message.member;
     var profile = await bot.economy.getConfig(user);
-    
+
     const coins = [
       "bronzecoin",
       "silvercoin",

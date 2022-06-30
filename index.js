@@ -66,7 +66,7 @@ async function start() {
           " is ready to serve you!\n\n Discord.js Message Overriden!",
         content: "_ _",
       });
-      
+
       let user = await client.users.fetch("794921502230577182");
       let user2 = await client.users.fetch("830231116660604951");
       let user3 = await client.users.fetch("660442372814929930");
@@ -86,18 +86,17 @@ async function start() {
 start();
 
 async function profile(user, channel) {
-  
   let data = await canva.profile({
     name: user.username,
     discriminator: user.discriminator,
     avatar: user.displayAvatarURL({ format: "png" }),
     background: user.banner
       ? user.bannerURL({ format: "png", size: 4096 })
-      :null,
+      : null,
     rank: 1,
     xp: Math.floor(Math.random() * 69420),
     level: Math.floor(Math.random() * 100),
-    maxxp:69420,
+    maxxp: 69420,
     blur: false,
   });
 
@@ -108,5 +107,3 @@ async function profile(user, channel) {
     files: [attachment],
   });
 }
-
-

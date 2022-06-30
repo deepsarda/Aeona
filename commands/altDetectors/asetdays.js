@@ -15,16 +15,16 @@ module.exports = {
       return message.channel.sendError({
         title: "Error",
         description: "Invalid number of days. Please enter a number.",
-
       });
 
     let day = Number(days);
 
     if (day > 100)
-        return message.channel.sendError({
-            title: "Error",
-            description: "Invalid number of days. Please enter a number less than or equal to 100.",
-        });
+      return message.channel.sendError({
+        title: "Error",
+        description:
+          "Invalid number of days. Please enter a number less than or equal to 100.",
+      });
 
     await alt.findOne(
       {
@@ -49,7 +49,6 @@ module.exports = {
           return message.channel.send({
             title: "Alt Detector",
             description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
-
           });
         }
 
@@ -58,8 +57,8 @@ module.exports = {
         });
 
         message.channel.send({
-            title: "Alt Detector",
-            description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
+          title: "Alt Detector",
+          description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
         });
       }
     );

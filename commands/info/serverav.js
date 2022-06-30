@@ -14,10 +14,10 @@ module.exports = {
       title: `${user.displayName}'s avatar`,
       imageURL: user.displayAvatarURL({
         dynamic: true,
-        size: 2048
+        size: 2048,
       }),
       footerText: `Requested by ${message.member.displayName}`,
-      footerIconURL: message.member.displayAvatarURL({ dynamic: true })
-    });   
+      footerIconURL: message.member.displayAvatarURL({ dynamic: true }),
+    });
   },
 };

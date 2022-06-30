@@ -27,7 +27,7 @@ const fetch = require("node-fetch");
 const Paste = require("../database/schemas/transcript.js");
 const moment = require("moment");
 let momentDurationFormatSetup = require("moment-duration-format");
-momentDurationFormatSetup(moment);  
+momentDurationFormatSetup(moment);
 const cooldownEmbed = new Set();
 const Application = require("../database/schemas/application.js");
 const customCommand = require("../database/schemas/customCommand.js");
@@ -238,7 +238,7 @@ module.exports = async (client) => {
   app.get("/embeds", (req, res) => {
     renderTemplate(res, req, "embeds.ejs");
   });
-  
+
   app.get("/bg", (req, res) => {
     renderTemplate(res, req, "bg.ejs");
   });
@@ -579,8 +579,7 @@ module.exports = async (client) => {
   });
   // Dashboard endpoint.
   app.get("/dashboard", checkAuth, (req, res) => {
-
-    renderTemplate(res,req, "dashboard.ejs", {
+    renderTemplate(res, req, "dashboard.ejs", {
       perms: Discord.Permissions,
     });
   });

@@ -17,15 +17,16 @@ module.exports = {
 
     const wallet = profile.coinsInWallet.toLocaleString();
     const bank = profile.coinsInBank.toLocaleString();
-    const worth = (profile.coinsInWallet + profile.coinsInBank).toLocaleString();
-    
+    const worth = (
+      profile.coinsInWallet + profile.coinsInBank
+    ).toLocaleString();
+
     await message.reply({
       msg: message,
       userp: user,
       title: `${user.displayName}'s balance`,
       description: `${emotes.divider} **Wallet** → ⌭  ${wallet}\n${emotes.divider} **Bank** → ⌭ ${bank}\n${emotes.divider} **Worth** → ⌭ ${worth}`,
-      thumbnailURL: "https://img.icons8.com/fluency/344/cash.png"
+      thumbnailURL: "https://img.icons8.com/fluency/344/cash.png",
     });
-    
   },
 };

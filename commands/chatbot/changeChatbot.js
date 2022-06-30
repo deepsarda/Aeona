@@ -7,6 +7,7 @@ module.exports = {
   usage: "+changechatbot",
   category: "Chatbot",
   requiredArgs: 0,
+  aliases: [],
   execute: async (message, args, bot, prefix) => {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 

@@ -17,8 +17,7 @@ module.exports = {
         if (channelEmbed) {
           if (logging.member_events.role_update == "true") {
             let colorGreen = logging.member_events.color;
-            if (colorGreen == "#000000")
-              colorGreen = "GREEN";
+            if (colorGreen == "#000000") colorGreen = "GREEN";
             let colorRed = logging.member_events.color;
             if (colorRed == "#000000") colorRed = "RED";
             const role = oldMember.roles.cache
@@ -84,8 +83,7 @@ module.exports = {
           if (logging.member_events.name_change == "true") {
             if (oldMember.nickname != newMember.nickname) {
               let colorYellow = logging.member_events.color;
-              if (colorYellow == "#000000")
-                colorYellow = "YELLOW";
+              if (colorYellow == "#000000") colorYellow = "YELLOW";
 
               const oldNickname = oldMember.nickname || "`None`";
               const newNickname = newMember.nickname || "`None`";

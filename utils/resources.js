@@ -33,7 +33,7 @@ class Resource {
 
   embed = (options) => {
     //If options is a string, it's the content
-    if (typeof options === "string"|| options instanceof String) {
+    if (typeof options === "string" || options instanceof String) {
       return options;
     }
     if (options.embeds) return options;
@@ -128,8 +128,7 @@ class Resource {
           new Discord.MessageButton()
             .setLabel("Premium")
             .setURL("https://aeona.xyz/premium")
-            .setStyle("LINK"),
-            
+            .setStyle("LINK")
         ),
       ];
     }

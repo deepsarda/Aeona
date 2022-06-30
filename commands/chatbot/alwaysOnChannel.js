@@ -6,6 +6,7 @@ module.exports = {
   usage: "+alwaysonchannel <channel>",
   category: "Chatbot",
   requiredArgs: 1,
+  aliases: [],
   execute: async (message, args, bot, prefix) => {
     const channel =
       message.mentions.channels.first() ||
@@ -24,9 +25,8 @@ module.exports = {
     await guild.save();
 
     return message.channel.send({
-        title: "Chatbot",
-        description: `Always on channel set to ${channel}`,
+      title: "Chatbot",
+      description: `Always on channel set to ${channel}`,
     });
-    
   },
 };

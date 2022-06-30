@@ -1,5 +1,5 @@
-module.exports={
-    category: "Applications",
-    label: "See and manage applications",
-    emoji: "📝"
-}
+module.exports = {
+  category: "Applications",
+  label: "See and manage applications",
+  emoji: "📝",
+};

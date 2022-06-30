@@ -1,4 +1,4 @@
-const client = require('nekos.life');
+const client = require("nekos.life");
 const neko = new client();
 
 const parseUser = require("../../utils/parseUser.js");
@@ -20,8 +20,7 @@ module.exports = {
     if (user.id === message.author.id) {
       author = message.guild.members.cache.get(bot.user.id);
       member = message.member;
-    }
-    else {
+    } else {
       author = message.member;
       member = user;
     }
@@ -29,7 +28,7 @@ module.exports = {
     await message.channel.send({
       title: `${author.displayName} just hugged ${member.displayName}!`,
       imageURL: res,
-      content: author.id === bot.user.id ? "" : member
+      content: author.id === bot.user.id ? "" : member,
     });
   },
 };

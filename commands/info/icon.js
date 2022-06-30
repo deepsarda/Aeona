@@ -12,10 +12,10 @@ module.exports = {
       title: `${server.name}'s icon`,
       imageURL: server.iconURL({
         dynamic: true,
-        size: 2048
+        size: 2048,
       }),
       footerText: `Requested by ${message.member.displayName}`,
-      footerIconURL: message.member.displayAvatarURL({ dynamic: true })
-    });   
+      footerIconURL: message.member.displayAvatarURL({ dynamic: true }),
+    });
   },
 };

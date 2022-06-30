@@ -20,12 +20,11 @@ module.exports = {
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
     bot.economy.giveUserCredits(message.member, random);
-    
+
     message.reply({
       msg: message,
       title: `You got ⌭ ${random.toLocaleString()}!`,
       description: `${response}`,
     });
-    
   },
 };

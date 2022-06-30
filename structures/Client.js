@@ -124,7 +124,7 @@ module.exports = class AeonaClient extends Client {
         let info = false;
         if (command.includes("_info.js")) info = true;
         command = require("." + command);
-        let category = command.category;
+        let category = command.category.toLowerCase();
         if (!this.categories.has(category)) {
           this.categories.set(category, { info: null, commands: [] });
         }
@@ -163,7 +163,7 @@ module.exports = class AeonaClient extends Client {
       if (path.includes("_info.js")) info = true;
 
       if (!info) {
-        let category = command.category;
+        let category = command.category.toLowerCase();
         if (!this.categories.has(category)) {
           this.categories.set(category, { info: null, commands: [] });
         }
@@ -178,6 +178,7 @@ module.exports = class AeonaClient extends Client {
           }
         }
       } else {
+        let category = command.category.toLowerCase();
         this.categories.get(category).info = command;
       }
     });

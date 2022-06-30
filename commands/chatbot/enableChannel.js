@@ -1,38 +1,40 @@
 const Guild = require("../../database/schemas/Guild");
 
 module.exports = {
-    name: "enablechannel",
-    description: "Enable a channel for the chatbot to use",
-    usage: "+enablechannel <channel>",
-    category: "Chatbot",
-    requiredArgs: 1,
-    execute: async (message, args, bot, prefix) => {
-        const channel =
-          message.mentions.channels.first() ||
-          message.guild.channels.cache.get(args[0]);
+  name: "enablechannel",
+  description: "Enable a channel for the chatbot to use",
+  usage: "+enablechannel <channel>",
+  category: "Chatbot",
+  requiredArgs: 1,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
+    const channel =
+      message.mentions.channels.first() ||
+      message.guild.channels.cache.get(args[0]);
 
-        if (!channel)
-          return message.channel.sendError({
-            title: "Chatbot",
-            description: `Please provide a valid channel.`,
-          });
+    if (!channel)
+      return message.channel.sendError({
+        title: "Chatbot",
+        description: `Please provide a valid channel.`,
+      });
 
-        const guild = await Guild.findOne({ guildId: message.guild.id });
+    const guild = await Guild.findOne({ guildId: message.guild.id });
 
-        if (!guild.chatbot.disabledChannels.includes(channel.id)) return message.channel.sendError({
-            title: "Chatbot",
-            description: `That channel is already enabled.`,
-        });
+    if (!guild.chatbot.disabledChannels.includes(channel.id))
+      return message.channel.sendError({
+        title: "Chatbot",
+        description: `That channel is already enabled.`,
+      });
 
-        guild.chatbot.disabledChannels = guild.chatbot.disabledChannels.filter(
-          (c) => c !== channel.id
-        );
+    guild.chatbot.disabledChannels = guild.chatbot.disabledChannels.filter(
+      (c) => c !== channel.id
+    );
 
-        await guild.save();
+    await guild.save();
 
-        return message.channel.send({
-            title: "Chatbot",
-            description: `Channel ${channel} has been enabled.`,
-        });
-    }
+    return message.channel.send({
+      title: "Chatbot",
+      description: `Channel ${channel} has been enabled.`,
+    });
+  },
 };

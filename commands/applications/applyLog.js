@@ -49,24 +49,21 @@ module.exports = {
         description: `All set! The channel is now set to ${channel} for applications. To disable it, use \`+applyLog disable\`. \n You can also add questions to the list by using \`+addquestions <question>\`.`,
       });
     } else if (option === "disable") {
+      let app = await Applications.findOne({ guildId: message.guild.id });
 
-        let app = await Applications.findOne({ guildId: message.guild.id });
-    
-        if (!app) {
-            return message.channel.sendError({
-            title: "Applications",
-            description: `There are no applications to disable.`,
-            });
-        }
-    
-        app.appLogs = " ";
-        await app.save();
-        return message.channel.send({
-            title: "Applications",
-            description: `All set! The channel is now set to disabled. To enable it, use \`+applyLog enable <channel> \`. `,
+      if (!app) {
+        return message.channel.sendError({
+          title: "Applications",
+          description: `There are no applications to disable.`,
         });
+      }
 
-
+      app.appLogs = " ";
+      await app.save();
+      return message.channel.send({
+        title: "Applications",
+        description: `All set! The channel is now set to disabled. To enable it, use \`+applyLog enable <channel> \`. `,
+      });
     } else {
       return message.channel.sendError({
         title: "Applications",

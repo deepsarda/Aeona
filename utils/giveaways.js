@@ -105,9 +105,9 @@ module.exports = (client) => {
     embedColorEnd: "15859772",
     embedColor: "#ab4b52",
     default: {
-     botsCanWin: false,
-     // exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-     reaction: "🎉",
+      botsCanWin: false,
+      // exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+      reaction: "🎉",
     },
   });
 
