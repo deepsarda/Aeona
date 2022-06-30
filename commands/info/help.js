@@ -32,7 +32,7 @@ module.exports = {
   name: "help",
   description: "View a list of all commands",
   usage: "+help",
-  category: "information",
+  category: "info",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     let modules = "";
