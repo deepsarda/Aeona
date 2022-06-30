@@ -168,6 +168,13 @@ module.exports = class AeonaClient extends Client {
           this.categories.set(category, { info: null, commands: [] });
         }
 
+        for(let i = 0; i < this.categories.get(category).commands.length; i++) {
+          if(this.categories.get(category).commands[i].name === command.name) {
+            this.categories.get(category).commands.splice(i, 1);
+            break;
+          }
+        }
+
         this.categories.get(category).commands.push(command);
 
         this.commands.set(command.name, command);
