@@ -49,7 +49,7 @@ module.exports = {
         description: c.info.label,
       });
 
-      modules += `\n→ **${bot.categories.get(category).emoji}. ${caps(
+      modules += `\n→ **${bot.categories.get(category).info.emoji}・${caps(
         category
       )}**\n`;
     }
