@@ -153,7 +153,7 @@ module.exports = class AeonaClient extends Client {
       ignored: /(^|[\/\\])\../,
       persistent: true,
     });
-    let client=this;
+    let client = this;
     watcher.on("change", (path) => {
       console.log(`${path} changed`);
       delete require.cache[require.resolve("../" + path.replace("\\", "/"))];
@@ -167,9 +167,15 @@ module.exports = class AeonaClient extends Client {
         if (!client.categories.has(category)) {
           client.categories.set(category, { info: null, commands: [] });
         }
-      
-        for(let i = 0; i < client.categories.get(category).commands.length; i++) {
-          if(client.categories.get(category).commands[i].name === command.name) {
+
+        for (
+          let i = 0;
+          i < client.categories.get(category).commands.length;
+          i++
+        ) {
+          if (
+            client.categories.get(category).commands[i].name === command.name
+          ) {
             client.categories.get(category).commands.splice(i, 1);
             break;
           }

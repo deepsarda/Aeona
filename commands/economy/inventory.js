@@ -1,4 +1,4 @@
-    const Discord = require("discord.js");
+const Discord = require("discord.js");
 
 const numberParse = require("../../utils/numberParse");
 const randint = require("../../utils/randint");
@@ -63,7 +63,7 @@ module.exports = {
       componentType: "BUTTON",
       time: 10 * 60 * 1000,
     });
-    
+
     collector.on("collect", async (i) => {
       //If the user clicks the next button
       if (i.customId == "next_page") {
@@ -122,10 +122,8 @@ module.exports = {
 //     } \n`;
 //   }
 
-
-
 //   description += `\n Page ${page + 1} of ${totalPages}`;
-  
+
 //   return await success.embed({
 //     msg: message,
 //     title: `${user.displayName}'s Inventory`,
@@ -135,7 +133,7 @@ module.exports = {
 
 const generateEmbed = async (message, page, items, totalPages, user) => {
   let embedDescription = "";
-  
+
   for (let [index, item] of items.entries()) {
     item = message.client.economy.getItem(item.name);
 
@@ -143,15 +141,15 @@ const generateEmbed = async (message, page, items, totalPages, user) => {
     const emote = item.emote;
     const amount = items[index].amount;
 
-    embedDescription += `${emote} ${name} → ${amount}\n${emotes.downRightArrow} ${description}\n\n`
+    embedDescription += `${emote} ${name} → ${amount}\n${emotes.downRightArrow} ${description}\n\n`;
   }
 
-  embedDescription += `${emotes.divider} Page ${page + 1} of ${totalPages}`
+  embedDescription += `${emotes.divider} Page ${page + 1} of ${totalPages}`;
 
   return await success.embed({
     embed: true,
     title: `${user.displayName}'s Inventory`,
     description: embedDescription,
-    thumbnailURL: "https://img.icons8.com/dusk/344/in-inventory.png"
+    thumbnailURL: "https://img.icons8.com/dusk/344/in-inventory.png",
   });
 };

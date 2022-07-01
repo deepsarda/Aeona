@@ -35,18 +35,15 @@ class Resource {
     let ti = "";
 
     for (let i = 0; i < t.length; i++) {
-      
-       if (t[i] == " ") ti += data.blank;
-        else if(!data[t[i] + "_"])ti+=t[i];
-        else ti += data[t[i] + "_"];
+      if (t[i] == " ") ti += data.blank;
+      else if (!data[t[i] + "_"]) ti += t[i];
+      else ti += data[t[i] + "_"];
     }
 
     title += ti + "꒱✦┊✧";
     if (title.length < 256) {
-      
       if (options.title === undefined) title = "";
     } else {
-     
       options.description = cleanNull(title + `\n\n` + options.description);
       title = "";
     }

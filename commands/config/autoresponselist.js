@@ -14,21 +14,20 @@ module.exports = {
     });
 
     if (autoResponses.length === 0)
-        return message.channel.sendError({
-            title: "Auto Responses",
-            description: "There are no auto responses.",
-        });
-    
-    let data="";
+      return message.channel.sendError({
+        title: "Auto Responses",
+        description: "There are no auto responses.",
+      });
+
+    let data = "";
 
     for (let i = 0; i < autoResponses.length; i++) {
-        data += `${i}. **${autoResponses[i].name}** \n`;
+      data += `${i}. **${autoResponses[i].name}** \n`;
     }
 
     return message.channel.send({
-        title: "Auto Responses",
-        description: data,
+      title: "Auto Responses",
+      description: data,
     });
-    
   },
 };

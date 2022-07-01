@@ -18,15 +18,16 @@ module.exports = {
     let founditem = profile.items.find(
       (x) => x.name.toLowerCase() === "fishingrod"
     );
-    
+
     if (!founditem)
-     return await message.replyError({
+      return await message.replyError({
         msg: message,
         title: "Oops!",
         description: `You don't own a fishing rod yet!\nUse \`${prefix}buy fishingrod\` to buy one, before using this command.`,
       });
 
-    const fishingURL = "https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/344/external-fishing-winter-photo3ideastudio-lineal-color-photo3ideastudio.png";
+    const fishingURL =
+      "https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/344/external-fishing-winter-photo3ideastudio-lineal-color-photo3ideastudio.png";
 
     let level = founditem.level ? founditem.level : 1;
     // let level = 1;
@@ -57,62 +58,73 @@ module.exports = {
         description: "You didn't catch anything!",
         thumbnailURL: fishingURL,
       });
-      
     else if (random == "junk") {
       await message.reply({
         msg: message,
         title: "This doesn't look like fish...",
-        description: `You caught ${amount} ${amount > 1 ? "Pieces of Junk" : "Piece of Junk"}\n\nUse \`${prefix}sell junk ${amount}\` to sell your catch.`,
+        description: `You caught ${amount} ${
+          amount > 1 ? "Pieces of Junk" : "Piece of Junk"
+        }\n\nUse \`${prefix}sell junk ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "junk", amount);
-    } 
-    
-    else if (random == "common") {
+    } else if (random == "common") {
       await message.reply({
         msg: message,
-        title: `You caught ${amount} ${amount > 1 ? "Common Fishes" : "Commmon Fish"}!`,
-        description: `You caught ${amount}${amount > 1 ? "Common Fishes" : "Commmon Fish"}!\n\nUse \`+sell common ${amount}\` to sell your catch.`,
+        title: `You caught ${amount} ${
+          amount > 1 ? "Common Fishes" : "Commmon Fish"
+        }!`,
+        description: `You caught ${amount}${
+          amount > 1 ? "Common Fishes" : "Commmon Fish"
+        }!\n\nUse \`+sell common ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "common", amount);
-    } 
-    
-    else if (random == "uncommon") {
+    } else if (random == "uncommon") {
       await message.reply({
         msg: message,
-        title: `You caught ${amount} ${amount > 1 ? "Uncommon Fishes" : "Uncommmon Fish"}!`,
-        description: `You caught ${amount} ${amount > 1 ? "Uncommon Fishes" : "Uncommmon Fish"}!\n\nUse \`${prefix}sell uncommon ${amount}\` to sell your catch.`,
+        title: `You caught ${amount} ${
+          amount > 1 ? "Uncommon Fishes" : "Uncommmon Fish"
+        }!`,
+        description: `You caught ${amount} ${
+          amount > 1 ? "Uncommon Fishes" : "Uncommmon Fish"
+        }!\n\nUse \`${prefix}sell uncommon ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "uncommon", amount);
-    } 
-    
-    else if (random == "rare") {
+    } else if (random == "rare") {
       await message.reply({
         msg: message,
-        title: `You caught ${amount} ${amount > 1 ? "Rare Fishes" : "Rare Fish"}!`,
-        description: `You caught ${amount} ${amount > 1 ? "Rare Fishes" : "Rare Fish"}!\n\nUse \`${prefix}sell rare ${amount}\` to sell your catch.`,
+        title: `You caught ${amount} ${
+          amount > 1 ? "Rare Fishes" : "Rare Fish"
+        }!`,
+        description: `You caught ${amount} ${
+          amount > 1 ? "Rare Fishes" : "Rare Fish"
+        }!\n\nUse \`${prefix}sell rare ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "rare", amount);
-    } 
-    
-    else if (random == "veryrare") {
+    } else if (random == "veryrare") {
       await message.reply({
         msg: message,
-        title: `You caught ${amount} ${amount > 1 ? "Very Rare Fishes" : "Very Rare Fish"}!`,
-        description: `You caught ${amount} ${amount > 1 ? "Very Rare Fishes" : "Very Rare Fish"}!\n\nUse \`${prefix}sell veryrare ${amount}\` to sell your catch.`,
+        title: `You caught ${amount} ${
+          amount > 1 ? "Very Rare Fishes" : "Very Rare Fish"
+        }!`,
+        description: `You caught ${amount} ${
+          amount > 1 ? "Very Rare Fishes" : "Very Rare Fish"
+        }!\n\nUse \`${prefix}sell veryrare ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "veryrare", amount);
-    } 
-    
-    else if (random == "legendary") {
+    } else if (random == "legendary") {
       await message.reply({
         msg: message,
-        title: `You caught ${amount} ${amount > 1 ? "Legendary Fishes" : "Legendary Fish"}!`,
-        description: `You caught ${amount} ${amount > 1 ? "Legendary Fishes" : "Legendary Fish"}!\n\nUse \`${prefix}sell legendary ${amount}\` to sell your catch.`,
+        title: `You caught ${amount} ${
+          amount > 1 ? "Legendary Fishes" : "Legendary Fish"
+        }!`,
+        description: `You caught ${amount} ${
+          amount > 1 ? "Legendary Fishes" : "Legendary Fish"
+        }!\n\nUse \`${prefix}sell legendary ${amount}\` to sell your catch.`,
         thumbnailURL: fishingURL,
       });
       return bot.economy.giveUserItem(user, "legendary", amount);

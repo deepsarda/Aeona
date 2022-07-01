@@ -20,11 +20,11 @@ module.exports = {
         description: `You don't own an axe yet!\nUse \`${prefix}buy axe\` to buy one, before using this command.`,
       });
 
-    const lumberingURL = "https://img.icons8.com/external-color-line-collection-vinzence-studio/344/external-wood-construction-color-line-collection-vinzence-studio.png";
-    
+    const lumberingURL =
+      "https://img.icons8.com/external-color-line-collection-vinzence-studio/344/external-wood-construction-color-line-collection-vinzence-studio.png";
+
     let itemLevel = founditem.level;
-    if (!itemLevel)
-      itemLevel = 0;
+    if (!itemLevel) itemLevel = 0;
 
     const randomMessage = [
       "o",
@@ -60,11 +60,9 @@ module.exports = {
     else Amount = randint(1, 2) + itemLevel;
 
     let logName =
-      Amount > 1
-        ? logs[response]["plural"]
-        : logs[response]["singular"];
+      Amount > 1 ? logs[response]["plural"] : logs[response]["singular"];
 
-    logName =                                
+    logName =
       Amount > 1 ? logs[response]["plural"] : logs[response]["singular"];
 
     await message.reply({
@@ -93,9 +91,7 @@ module.exports = {
 
       data.items = userInv;
       await data.save();
-    } 
-    
-    else {
+    } else {
       userInv.push({
         name: item.name,
         amount: Amount,
