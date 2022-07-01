@@ -1,7 +1,5 @@
 # Aeona | Chatbot
 
-
-
 <div align=center>
   <a href="https://github.com/mongodb/mongo">
     <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?&style=for-the-badge&logo=mongodb&logoColor=white" alt="mongo">
@@ -15,6 +13,7 @@
   </a>
 
 </div>
+
 ## About
 Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_
 
@@ -28,7 +27,10 @@ If you liked this repository, feel free to leave a star ⭐ and follow me, it ac
 
 Aeona offers a _fun, interactive chatbot_, which is triggered everytime the **bot is mentioned**, or when a messages starts with the word **aeona**.
 
-The Chatbot AI is constantly being updated and _learns from the messages you send, to make it more lifelike_ using a new technology that combines **Generative AI** & **Search Fist AI**.
+The Chatbot AI is constantly being updated and _learns from the messages you send, to make it more lifelike_ using a new technology that combines **Generative AI** & **Search First AI**.
+
+
+<img src="https://cdn.discordapp.com/attachments/982536937996959784/982560515052175370/chatbot.gif" alt="chatbot">
 
 ## Server Utilities
 
