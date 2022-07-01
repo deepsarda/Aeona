@@ -97,8 +97,8 @@ module.exports = {
       }
     }
 
-    if(guild.chatbot.alwaysOnChannel)
-      if(guild.chatbot.alwaysOnChannel==message.channel.id) prefix ="";
+    if(settings.chatbot.alwaysOnChannel)
+      if(settings.chatbot.alwaysOnChannel==message.channel.id) prefix ="";
   
     for (let p of prefixes) {
       if (message.content.toLowerCase().startsWith(p)) {
