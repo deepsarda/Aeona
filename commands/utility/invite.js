@@ -8,7 +8,7 @@ module.exports = {
     await message.channel.send({
       title: "Invite aeona",
       description:
-        "Invite me to your servers by clicking [here](https://aeona.xyz)!",
+        `Invite me to your servers by clicking [here](${process.env.domain}/invite)!`,
     });
   },
 };

@@ -11,6 +11,16 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
+    if (guild.isPremium === "false") {
+      const results = await autoResponse.find({ guildId: message.guild.id });
+      if (results.length >= 5) {
+        return message.channel.sendError({
+          title: "Error",
+          description:
+            `Non premium guilds can only have 5 auto responses! Get [premium to add more!](${process.env.domain}/premium)`,
+        });
+      }
+    }
     let name = args[0].toLowerCase();
     let reply = args.slice(1).join(" ");
 

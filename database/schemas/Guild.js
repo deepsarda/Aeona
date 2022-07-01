@@ -6,10 +6,6 @@ const guildConfigSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  disabledCommands: {
-    type: mongoose.SchemaTypes.Array,
-    default: [],
-  },
   prefix: {
     type: mongoose.SchemaTypes.String,
     required: true,
@@ -149,54 +145,6 @@ const guildConfigSchema = mongoose.Schema({
       required: false,
       default: `1`,
     },
-  },
-  report: {
-    reportChannelID: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: null,
-    },
-    reportcolor: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: "#000000",
-    },
-    disableUser: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    disableIssue: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    upvote: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    reaction: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: `1`,
-    },
-    reportCase: {
-      type: mongoose.SchemaTypes.Number,
-      default: "1",
-    },
-  },
-  dashboardLogID: {
-    type: mongoose.SchemaTypes.String,
-    required: false,
-    default: null,
-  },
-  cases: {
-    type: mongoose.SchemaTypes.Number,
-  },
-  language: {
-    type: mongoose.SchemaTypes.String,
-    default: "english",
   },
   reactionDM: {
     type: Boolean,

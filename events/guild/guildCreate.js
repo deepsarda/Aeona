@@ -98,13 +98,13 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor("PURPLE")
         .setDescription(
-          `Hey Discorders! I'm **Aeona**.\n\nThank you for inviting me to your server as it means a lot to us! You can get started with [\`+help\`](https://Aeona.xyz) & customise your server settings by accessing the Dashboard [\`here\`](https://Aeona.xyz/dashboard/${guild.id}).\n\n__**Current News**__\n\`\\n\nAgain, thank you for inviting me! \n**- Aeona**`
+          `Hey Discorders! I'm **Aeona**.\n\nThank you for inviting me to your server as it means a lot to us! You can get started with [\`+help\`](${process.env.domain}) & customise your server settings by accessing the Dashboard [\`here\`](https://Aeona.xyz/dashboard/${guild.id}).\n\n__**Current News**__\n\`\\n\nAgain, thank you for inviting me! \n**- Aeona**`
         )
         .addField(
           "\u200b",
-          "**[Invite](https://Aeona.xyz/invite) | " +
-            "[Support Server](https://Aeona.xyz/support) | " +
-            "[Dashboard](https://Aeona.xyz/dashboard)**"
+          `**[Invite](${process.env.domain}/invite) | ` +
+            `[Support Server](${process.env.domain}/support) | ` +
+            `[Dashboard](${process.env.domain}/dashboard)**`
         );
 
       textChats.send({ embeds: [embed] }).catch(() => {});
@@ -113,7 +113,7 @@ module.exports = {
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`PURPLE`)
       .setTitle("New Server")
-      .setThumbnail(`https://Aeona.xyz/logo`)
+      .setThumbnail(`${process.env.domain}/logo`)
       .setDescription(`Aeona was added to a new Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
@@ -121,12 +121,12 @@ module.exports = {
       .addField(`Server Owner ID`, `\`${owner.user.id}\``, true)
       .setFooter({
         text: `${this.client.guilds.cache.size} guilds `,
-        iconURL: "https://Aeona.xyz/logo.png",
+        iconURL: `${process.env.domain}/logo.png`,
       });
 
     welcomeClient.send({
       username: "Aeona",
-      avatarURL: "https://Aeona.xyz/logo.png",
+      avatarURL: `${process.env.domain}/logo.png`,
       embeds: [welcomeEmbed],
       content: "@everyone",
     });

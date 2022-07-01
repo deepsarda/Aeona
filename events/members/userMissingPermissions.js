@@ -13,7 +13,7 @@ module.exports = {
         `Required Permission: \`${permissions.replace("_", " ")}\``
       )
       .setTimestamp()
-      .setFooter({ text: "https://Aeona.xyz/" })
+      .setFooter({ text: `${process.env.domain}` })
       .setColor(message.guild.me.displayHexColor);
     if (
       message.channel &&

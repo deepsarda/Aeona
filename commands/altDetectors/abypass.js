@@ -46,7 +46,7 @@ module.exports = {
               if (oldAllowedAlts.length === 10)
                 return message.channel.sendError({
                   title: "Error",
-                  description: `You have reached the maximum number of allowed alts. Please upgrade to [premium](https://www.aeona.xyz/premium) to add more.`,
+                  description: `You have reached the maximum number of allowed alts. Please upgrade to [premium](${process.env.domain}/premium) to add more.`,
                 });
 
             if (guildDB.isPremium === "true") {

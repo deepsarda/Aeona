@@ -46,7 +46,7 @@ module.exports = {
 
     return message.channel.send({
       title: "Applications",
-      description: `You can now apply to this server [by clicking here](https://www.aeona.xyz/apply/${message.guild.id}).`,
+      description: `You can now apply to this server [by clicking here](${process.env.domain}/apply/${message.guild.id}).`,
     });
   },
 };

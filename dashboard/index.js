@@ -512,7 +512,7 @@ module.exports = async (client) => {
                 "dddd, MMMM Do YYYY HH:mm:ss"
               )}`
             )
-            .setFooter({ text: "https://aeona.xyz/" })
+            .setFooter({ text: `${process.env.domain}` })
             .setColor("GREEN");
         } else {
           form.paste.push(`Question #${i + 1} - ${db.questions[i]}`);
@@ -527,7 +527,7 @@ module.exports = async (client) => {
                 "dddd, MMMM Do YYYY HH:mm:ss"
               )}`
             )
-            .setFooter({ text: "https://aeona.xyz/" })
+            .setFooter({ text: `${process.env.domain}` })
             .setColor("GREEN");
         }
       }
@@ -536,7 +536,7 @@ module.exports = async (client) => {
           embeds: [
             new MessageEmbed()
               .setColor("GREEN")
-              .setFooter({ text: `Powered by https://aeona.xyz` })
+              .setFooter({ text: `Powered by ${process.env.domain}` })
               .setTitle(`Application #${ticketID}`)
               .setDescription(
                 `Hey ${

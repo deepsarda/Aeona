@@ -22,18 +22,18 @@ module.exports = {
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`RED`)
       .setTitle("Leave Server")
-      .setThumbnail(`https://Aeona.xyz/logo`)
+      .setThumbnail(`${process.env.domain}/logo`)
       .setDescription(`Aeona left a Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
       .setFooter({
         text: `${this.client.guilds.cache.size} guilds `,
-        iconURL: "https://Aeona.xyz/logo.png",
+        iconURL: `${process.env.domain}/logo.png`,
       });
 
     webhookClient.send({
       username: "Aeona",
-      avatarURL: "https://Aeona.xyz/logo.png",
+      avatarURL: `${process.env.domain}/logo.png`,
       embeds: [welcomeEmbed],
       content: "@everyone",
     });

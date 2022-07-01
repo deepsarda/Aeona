@@ -17,7 +17,7 @@ module.exports = {
     if (guild.isPremium === "false") {
       return message.channel.sendError({
         title: "Applications",
-        description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](https://www.aeona.xyz/premium).`,
+        description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](${process.env.domain}/premium).`,
       });
     }
 
