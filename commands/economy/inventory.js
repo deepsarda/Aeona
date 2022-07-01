@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+    const Discord = require("discord.js");
 
 const numberParse = require("../../utils/numberParse");
 const randint = require("../../utils/randint");
@@ -109,24 +109,49 @@ module.exports = {
   },
 };
 
-async function generateEmbed(message, page, items, totalPages, user) {
-  let description = "";
-  //Loop through the items
-  for (let i = 0; i < items.length; i++) {
-    let item = message.client.economy.getItem(items[i].name);
+// async function generateEmbed(message, page, items, totalPages, user) {
+//   let description = "";
+//   //Loop through the items
+//   for (let i = 0; i < items.length; i++) {
+//     let item = message.client.economy.getItem(items[i].name);
 
-    description += ` \n  ${item.emote} **${item.name}** x  ${
-      items[i].amount
-    }  \n ${item.description} ${
-      items[i].level ? "level: " + items[i].level : ""
-    } \n`;
+//     description += ` \n  ${item.emote} **${item.name}** x  ${
+//       items[i].amount
+//     }  \n ${item.description} ${
+//       items[i].level ? "level: " + items[i].level : ""
+//     } \n`;
+//   }
+
+
+
+//   description += `\n Page ${page + 1} of ${totalPages}`;
+  
+//   return await success.embed({
+//     msg: message,
+//     title: `${user.displayName}'s Inventory`,
+//     description: description,
+//   });
+// }
+
+const generateEmbed = async (message, page, items, totalPages, user) => {
+  let embedDescription = "";
+  
+  for (let [index, item] of items.entries()) {
+    item = message.client.economy.getItem(item.name);
+
+    const [name, description] = item.description.split("\n");
+    const emote = item.emote;
+    const amount = items[index].amount;
+
+    embedDescription += `${emote} ${name} → ${amount}\n${emotes.downRightArrow} ${description}\n\n`
   }
 
-  description += `\n Page ${page + 1} of ${totalPages}`;
+  embedDescription += `${emotes.divider} Page ${page + 1} of ${totalPages}`
+
   return await success.embed({
-    msg: message,
     embed: true,
     title: `${user.displayName}'s Inventory`,
-    description: description,
+    description: embedDescription,
+    thumbnailURL: "https://img.icons8.com/dusk/344/in-inventory.png"
   });
-}
+};

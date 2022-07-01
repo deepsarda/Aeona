@@ -19,11 +19,11 @@ module.exports = {
     let founditem = profile.items.find((x) => x.name.toLowerCase() === "rifle");
     
     if (!founditem) {
-      await message.replyError({
-        title: "You don't own a rifle!",
-        description: `Use \`${prefix}buy rifle\` to buy a rifle.`,
+      return await message.replyError({
+        msg: message,
+        title: "Oops!",
+        description: `You don't own an rifle yet!\nUse \`${prefix}buy rifle\` to buy one, before using this command.`,
       });
-      return;
     }
 
     const huntingURL = "https://img.icons8.com/color/344/duck-hunt.png"

@@ -20,10 +20,10 @@ module.exports = {
     );
     
     if (!founditem)
-      return await message.replyError({
+     return await message.replyError({
         msg: message,
-        title: "You don't own a fishing rod.",
-        description: `Use \`${prefix}buy fishingrod\` to buy a fishing rod.`,
+        title: "Oops!",
+        description: `You don't own a fishing rod yet!\nUse \`${prefix}buy fishingrod\` to buy one, before using this command.`,
       });
 
     const fishingURL = "https://img.icons8.com/external-photo3ideastudio-lineal-color-photo3ideastudio/344/external-fishing-winter-photo3ideastudio-lineal-color-photo3ideastudio.png";
