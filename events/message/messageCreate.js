@@ -96,9 +96,8 @@ module.exports = {
         prefix = "";
       }
     }
-
-    if(settings.chatbot.alwaysOnChannel)
-      if(settings.chatbot.alwaysOnChannel==message.channel.id) prefix ="";
+   
+    if (settings.chatbot.alwaysOnChannel == message.channel.id) prefix = "";
   
     for (let p of prefixes) {
       if (message.content.toLowerCase().startsWith(p)) {
@@ -107,7 +106,7 @@ module.exports = {
       }
     }
 
-    if (!prefix) return;
+    if (prefix===undefined) return;
 
     const moderation = await Moderation.findOne({
       guildId: message.guild.id,
