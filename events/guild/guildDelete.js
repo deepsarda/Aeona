@@ -7,17 +7,6 @@ const webhookClient = new Discord.WebhookClient({
 module.exports = {
   name: "guildDelete",
   async execute(client, guild) {
-    Guild.findOneAndDelete(
-      {
-        guildId: guild.id,
-      },
-      (err, res) => {
-        if (err) console.log(err);
-        logger.info(`Left from "${guild.name}" (${guild.id})`, {
-          label: "Guilds",
-        });
-      }
-    );
     let owner = await guild.fetchOwner();
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`RED`)
