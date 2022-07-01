@@ -118,14 +118,6 @@ class Resource {
             )
             .setStyle("LINK"),
           new Discord.MessageButton()
-            .setLabel("Support Server")
-            .setURL("https://www.aeona.xyz/support")
-            .setStyle("LINK"),
-          new Discord.MessageButton()
-            .setLabel("Website/Dashboard")
-            .setURL("https://aeona.xyz")
-            .setStyle("LINK"),
-          new Discord.MessageButton()
             .setLabel("Vote")
             .setURL("https://top.gg/bot/931226824753700934/vote")
             .setStyle("LINK"),

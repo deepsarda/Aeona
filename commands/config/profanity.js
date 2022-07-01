@@ -13,7 +13,7 @@ module.exports = {
 
     if (guild.isPremium === "false")
       return message.channel.sendError({
-        title: "Config",
+        title: "Profanity",
         description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](https://www.aeona.xyz/premium).`,
       });
 
@@ -21,7 +21,7 @@ module.exports = {
       guild.aiAutoMod = true;
       await guild.save();
       return message.channel.send({
-        title: "Config",
+        title: "Profanity",
         description: `Profanity has been enabled.`,
       });
     }
@@ -30,13 +30,13 @@ module.exports = {
       guild.aiAutoMod = false;
       await guild.save();
       return message.channel.send({
-        title: "Config",
+        title: "Profanity",
         description: `Profanity has been disabled.`,
       });
     }
 
     return message.channel.sendError({
-      title: "Config",
+      title: "Profanity",
       description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
     });
   },

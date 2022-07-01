@@ -16,7 +16,7 @@ module.exports = {
       guild.antiInvites = true;
       await guild.save();
       return message.channel.send({
-        title: "Config",
+        title: "Anti Invites",
         description: `Anti-invites has been enabled.`,
       });
     }
@@ -25,13 +25,13 @@ module.exports = {
       guild.antiInvites = false;
       await guild.save();
       return message.channel.send({
-        title: "Config",
+        title: "Anti Invites",
         description: `Anti-invites has been disabled.`,
       });
     }
 
     return message.channel.sendError({
-      title: "Config",
+      title: "Anti Invites",
       description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
     });
   },
