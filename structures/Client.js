@@ -4,7 +4,7 @@ const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
-const { config } = require("dotenv");
+const config= require("../utils/config")
 
 // This system from discord music bot https://github.com/SudhanPlayz
 
