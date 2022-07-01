@@ -15,7 +15,8 @@ module.exports = {
   name: "messageCreate",
   async execute(client, message) {
 
-    if (!message.guild) {
+    if (!message.guild) { 
+      if(message.author.bot) return;
       let prefixes = [
         "+",
         ">",
@@ -96,6 +97,9 @@ module.exports = {
       }
     }
 
+    if(guild.chatbot.alwaysOnChannel)
+      if(guild.chatbot.alwaysOnChannel==message.channel.id) prefix ="";
+  
     for (let p of prefixes) {
       if (message.content.toLowerCase().startsWith(p)) {
         prefix = p;
