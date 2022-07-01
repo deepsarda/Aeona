@@ -3,7 +3,7 @@ let ratelimits = new Discord.Collection();
 const Guild = require("../../database/schemas/Guild");
 const Moderation = require("../../database/schemas/logging");
 const Blacklist = require("../../database/schemas/blacklist");
-const autoResponseCooldown = new Set();
+let autoResponseCooldown = new Set();
 
 const executeChatBot = require("../../utils/chatbot");
 const customCommands = require("../../utils/customCommands");
