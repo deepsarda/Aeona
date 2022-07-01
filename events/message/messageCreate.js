@@ -183,8 +183,8 @@ module.exports = {
           });
         }
         if (
-          cmd.permission &&
-          !message.member.permissions.has(command.permission)
+          cmd.permission && !message.client.developers.includes(message.author.id) &&
+          !message.member.permissions.has(command.permission[0])
         ) {
           return message.channel.sendError({
             description: ` You can't use this command.`,
