@@ -108,6 +108,7 @@ module.exports = {
 
     if (prefix===undefined) return;
 
+    if (message.author.bot) return;
     const moderation = await Moderation.findOne({
       guildId: message.guild.id,
     });
@@ -123,6 +124,8 @@ module.exports = {
     });
     if (userBlacklistSettings && userBlacklistSettings.isBlacklisted) return;
 
+
+    
     let args = message.content.slice(prefix.length).trim().split(" ");
     let command = args.shift().toLowerCase();
 
@@ -142,7 +145,6 @@ module.exports = {
     if (typeof disabledCommands === "string")
       disabledCommands = disabledCommands.split(" ");
 
-    if (message.author.bot) return;
     if (message.client.commands.has(command.trim().toLowerCase())) {
       cmd = message.client.commands.get(command);
 
