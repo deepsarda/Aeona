@@ -53,14 +53,14 @@ async function start() {
       });
       let channel = await client.channels.fetch("960053538115952685");
       let msg = await channel.send({
-        title: client.user.username + " is ready!",
+        title: client.user.username,
         description:
           client.user.username +
           " is ready to serve you!\n\n Discord.js Text Channel Overriden!",
         content: "_ _",
       });
       msg.reply({
-        title: client.user.username + " is ready!",
+        title: client.user.username,
         description:
           client.user.username +
           " is ready to serve you!\n\n Discord.js Message Overriden!",

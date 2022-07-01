@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
 const { cleanNull } = require("./cleanNull.js");
+const data = require("../data.js");
 
 class Resource {
   constructor(options) {
@@ -9,20 +10,7 @@ class Resource {
   }
 
   get color() {
-    const colors = [
-      "#F5E0DC",
-      "#F2CDCD",
-      "#C6AAE8",
-      "#E5B4E2",
-      "#E49CB3",
-      "#E38C8F",
-      "#F7BE95",
-      "#ECDDAA",
-      "#B1E1A6",
-      "#B7E5E6",
-      "#2D2E8",
-      "#C9CBFF",
-    ];
+    const colors = data.colors;
 
     return colors[Math.floor(Math.random() * colors.length)];
   }
@@ -43,9 +31,30 @@ class Resource {
     if ("emote" in options) title = `${options.emote}・`;
     else if (this.emote !== undefined) title = `${this.emote}・`;
 
-    title += cleanNull(options.title);
+    let t = cleanNull(options.title).toLowerCase().split("");
 
-    if (options.title === undefined) title = "";
+    if (t.length < 15) {
+      let ti = "";
+
+      for (let i = 0; i < t.length; i++) {
+        if (ti == " ") ti += "  ";
+        else ti += data[t[i] + "_"];
+      }
+
+      title += ti + "・";
+
+      if (options.title === undefined) title = "";
+    } else {
+      let ti = "";
+
+      for (let i = 0; i < t.length; i++) {
+        if (ti == " ") ti += "  ";
+        else ti += data[t[i] + "_"];
+      }
+      title += ti + "・";
+      options.description = cleanNull(title + `\n\n` + options.description);
+      title = "";
+    }
 
     const embed = new MessageEmbed()
       .setTitle(title)
@@ -148,25 +157,8 @@ class Resource {
   };
 }
 
-const errorC = "#F28FAD";
-
-const defaultE = "<:purpletick:928982802425323520>";
-const errorE = "<:error_cross:924177258623692840>";
-
 module.exports = {
-  emotes: {
-    errorC: errorC,
-    defaultE: defaultE,
-    errorE: errorE,
-    left: "<:left:907825540927471627>",
-    right: "<:right:907828453859028992>",
-    alert: "<:alert:935890334003658793>",
-    pencil: "<a:LGA_pencil2:980361549979988019>",
-    dot: "<:LGA_dot9:982573029307600946>",
-    divider: "<:divider:990498239608418325>",
-    downRightArrow: "<:DRarrow:992302963253051422>",
-    pages: "<:pages:992303224201678848>"
-  },
-  success: new Resource({ emote: defaultE }),
-  error: new Resource({ color: errorC, emote: errorE }),
+  emotes: data,
+  success: new Resource({ emote: data.defaultE }),
+  error: new Resource({ color: data.errorC, emote: data.errorE }),
 };
