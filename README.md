@@ -13,11 +13,9 @@
   <a href="https://github.com/deepsarda/Aeona/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/license-Apache%202-blue" alt="license">
   </a>
-<a href="https://top.gg/bot/931226824753700934">
-  <img src="https://top.gg/api/widget/931226824753700934.svg">
-</a>
+
 </div>
-##About
+## About
 Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_
 
 You can click [this](https://aeona.xyz/invite) link to invite the official Bot! Also, you can join the official [Aeona's Support Server](https://aeona.xyz/support) for assistance.
