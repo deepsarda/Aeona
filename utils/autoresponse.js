@@ -1,4 +1,4 @@
-const autoResponse = require("../../database/schemas/autoResponse");
+const autoResponse = require("../database/schemas/autoResponse");
 
 module.exports = async function (message, autoResponseCooldown) {
   const autoResponseSettings = await autoResponse.find({

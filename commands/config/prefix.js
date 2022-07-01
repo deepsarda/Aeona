@@ -8,9 +8,9 @@ module.exports = {
   aliases: [],
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
-    let prefix = args[0];
+    let p = args[0];
 
-    if (prefix.length > 5)
+    if (p.length > 5)
       return message.channel.sendError({
         title: "Prefix",
         description: "The prefix cannot be longer than 5 characters.",
@@ -20,7 +20,7 @@ module.exports = {
       guildId: message.guild.id,
     });
 
-    guild.prefix = prefix;
+    guild.prefix = p;
 
     await guild.save();
 

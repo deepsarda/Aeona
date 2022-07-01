@@ -1,4 +1,4 @@
-const afk = require("../../database/schemas/afk");
+const afk = require("../database/schemas/afk");
 
 module.exports = async function (settings, message, client) {
   if (message.mentions.members.first()) {

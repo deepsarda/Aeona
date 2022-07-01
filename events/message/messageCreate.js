@@ -5,11 +5,11 @@ const Moderation = require("../../database/schemas/logging");
 const Blacklist = require("../../database/schemas/blacklist");
 const autoResponseCooldown = new Set();
 
-const executeChatBot = require("../../util/chatbot");
-const customCommands = require("../../util/customCommands");
-const globalchat = require("../../util/globalchat");
-const afkCheck = require("../../util/afkCheck");
-const autoresponse = require("../../util/autoresponse");
+const executeChatBot = require("../../utils/chatbot");
+const customCommands = require("../../utils/customCommands");
+const globalchat = require("../../utils/globalchat");
+const afkCheck = require("../../utils/afkCheck");
+const autoresponse = require("../../utils/autoresponse");
 
 module.exports = {
   name: "messageCreate",

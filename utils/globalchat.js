@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 
-const Guild = require("../../database/schemas/Guild");
-const Blacklist = require("../../database/schemas/blacklist");
+const Guild = require("../database/schemas/Guild");
+const Blacklist = require("../database/schemas/blacklist");
 module.exports = async function (settings, message, client) {
   if (
     settings.globalChatChannel &&

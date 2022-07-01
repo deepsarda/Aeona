@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const customCommand = require("../../database/schemas/customCommand");
+const customCommand = require("../database/schemas/customCommand");
 
 module.exports = async function (message, command) {
   const customCommandSettings = await customCommand.findOne({
