@@ -3,7 +3,7 @@ const discord = require("discord.js");
 
 module.exports = {
   name: "roleCreate",
-  async execute(client, data) {
+  async execute(client, role) {
     const logging = await Logging.findOne({ guildId: role.guild.id });
 
     if (!role) return;

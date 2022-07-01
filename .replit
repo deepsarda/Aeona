@@ -1,3 +1,10 @@
-language = "nodejs"
+
 run = "while true; do npm start; sleep 0; done"
-packageSearch = false
+
+[packager]
+language = "nodejs"
+
+  [packager.features]
+  packageSearch = false
+  guessImports = false
+  enabledForHosting = false
