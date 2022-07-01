@@ -8,7 +8,7 @@ module.exports = {
     ],
 
     //Emotes
-    defaultE: "<:purpletick:928982802425323520>",//Emote to use on success
+    defaultE: "<a:bluestar:992311661652365312>",//Emote to use on success
     errorE: "<:error_cross:924177258623692840>", //Emote to use on error
     left: "<:left:907825540927471627>",
     right: "<:right:907828453859028992>",
@@ -18,7 +18,7 @@ module.exports = {
     divider: "<:divider:990498239608418325>",
     downRightArrow: "<:DRarrow:992302963253051422>",
     pages: "<:pages:992303224201678848>",
-
+    blank:"<:blank:992312885105664060>",
     i_: '<a:i_:992115865128554628>',
     m_: '<a:m_:992115871159963668>',
     k_: '<a:k_:992115874800619590>',
@@ -45,7 +45,6 @@ module.exports = {
     y_: '<a:y_:992115990596960296>',
     r_: '<a:r_:992115996229902418>',
     s_: '<a:s_:992116002370355410>',
-    j_: '<a:j_:992116009538424852>',
-    ' _':' '
+    j_: '<a:j_:992116009538424852>'
 
 }

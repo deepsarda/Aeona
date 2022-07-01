@@ -297,7 +297,7 @@ module.exports = {
         );
       } catch (e) {
         console.error(e);
-        message.reply({
+        message.replyError({
           title: "Error",
           description: `Hey, ${message.author}! Something went wrong! \n \`\`\`js ${e} \`\`\``,
         });

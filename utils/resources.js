@@ -28,30 +28,25 @@ class Resource {
     const msg = options.msg;
     let title = "";
 
-    if ("emote" in options) title = `${options.emote}・`;
-    else if (this.emote !== undefined) title = `${this.emote}・`;
+    if ("emote" in options) title = `${options.emote} ✦┊✧꒰`;
+    else if (this.emote !== undefined) title = `${this.emote} ✦┊✧꒰`;
 
     let t = cleanNull(options.title).toLowerCase().split("");
+    let ti = "";
 
-    if (t.length < 15) {
-      let ti = "";
-
-      for (let i = 0; i < t.length; i++) {
-        if (ti == " ") ti += "  ";
+    for (let i = 0; i < t.length; i++) {
+      
+       if (t[i] == " ") ti += data.blank;
+        else if(!data[t[i] + "_"])ti+=t[i];
         else ti += data[t[i] + "_"];
-      }
+    }
 
-      title += ti + "・";
-
+    title += ti + "꒱✦┊✧";
+    if (title.length < 256) {
+      
       if (options.title === undefined) title = "";
     } else {
-      let ti = "";
-
-      for (let i = 0; i < t.length; i++) {
-        if (ti == " ") ti += "  ";
-        else ti += data[t[i] + "_"];
-      }
-      title += ti + "・";
+     
       options.description = cleanNull(title + `\n\n` + options.description);
       title = "";
     }
