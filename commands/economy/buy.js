@@ -51,7 +51,6 @@ module.exports = {
         msg: message,
         title: "You can't buy this item!",
       });
-    return;
 
     let itemUser = bot.economy.getItemFromArray(profile.items, item);
     if (itemUser) {

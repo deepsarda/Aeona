@@ -1,7 +1,10 @@
 const Discord = require("discord.js");
+
 const numberParse = require("../../utils/numberParse");
 const randint = require("../../utils/randint");
+const parseUser = require("../../utils/parseUser.js");
 const { success, emotes } = require("../../utils/resources.js");
+
 module.exports = {
   name: "inventory",
   description: "See all your inventory",
@@ -10,23 +13,7 @@ module.exports = {
   requiredArgs: 0,
   aliases: ["inv"],
   execute: async (message, args, bot, prefix) => {
-    const user =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
+    const user = parseUser(message, args);
 
     let profile = await bot.economy.getConfig(user);
     let page = 0;
@@ -41,23 +28,21 @@ module.exports = {
     }
 
     //If there are no items, return an error
-    if (items.length == 0) {
-      message.replyError({
+    if (items.length == 0)
+      return await message.replyError({
         msg: message,
-        title: "You don't have any items.",
-        description: "You can buy items with `" + prefix + "shop`.",
+        title: "You don't have any items!",
+        description: `You can buy items from the shop, by using \`${prefix}shop\``,
       });
-      return;
-    }
 
     let row = new Discord.MessageActionRow().addComponents(
       new Discord.MessageButton()
         .setCustomId("last_page")
-        .setEmoji(util.emotes.left)
+        .setEmoji(bot.emotes.left)
         .setStyle("PRIMARY"),
       new Discord.MessageButton()
         .setCustomId("next_page")
-        .setEmoji(util.emotes.right)
+        .setEmoji(bot.emotes.right)
         .setStyle("PRIMARY")
     );
 
@@ -78,6 +63,7 @@ module.exports = {
       componentType: "BUTTON",
       time: 10 * 60 * 1000,
     });
+    
     collector.on("collect", async (i) => {
       //If the user clicks the next button
       if (i.customId == "next_page") {
@@ -85,7 +71,6 @@ module.exports = {
         if (page == items.length - 1) {
           return;
         }
-
         //Increment the page
         page++;
 

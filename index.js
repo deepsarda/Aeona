@@ -8,7 +8,7 @@ const dashboard = require("./dashboard");
 //Override prototype
 require("./structures/TextChannel").run();
 require("./structures/Message").run();
-require("./structures/InteractionResponses").run();
+require("./structures/MessageComponentInteraction").run();
 require("./structures/CanvasSenpai").run();
 const logger = require("./utils/logger");
 const { AutoPoster } = require("topgg-autoposter");

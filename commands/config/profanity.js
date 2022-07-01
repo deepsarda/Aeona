@@ -7,6 +7,7 @@ module.exports = {
   category: "config",
   requiredArgs: 1,
   aliases: [],
+  permission:["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 

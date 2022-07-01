@@ -96,7 +96,7 @@ module.exports = {
       message.reply({
         msg: message,
         title: "You won!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ${winnings.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ⌭ ${winnings.toLocaleString()}!`,
       });
     } else if (botRoll == userChoice) {
       let winnings = amount / 2;
@@ -104,14 +104,14 @@ module.exports = {
       message.reply({
         msg: message,
         title: "You won!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ${winnings.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ⌭ ${winnings.toLocaleString()}!`,
       });
     } else {
       profile.coinsInWallet -= amount;
       message.replyError({
         msg: message,
         title: "You lost!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You lost ${amount.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You lost ⌭ ${amount.toLocaleString()}!`,
       });
     }
 

@@ -132,11 +132,11 @@ module.exports = class AeonaClient extends Client {
         if (!info) {
           this.categories.get(category).commands.push(command);
 
-          this.commands.set(command.name, command);
+          this.commands.set(command.name.toLowerCase(), command);
 
           if (command.aliases) {
             for (let alias of command.aliases) {
-              this.commands.set(alias, command);
+              this.commands.set(alias.toLowerCase(), command);
             }
           }
         } else {
@@ -153,10 +153,10 @@ module.exports = class AeonaClient extends Client {
       ignored: /(^|[\/\\])\../,
       persistent: true,
     });
-
+    let client=this;
     watcher.on("change", (path) => {
       console.log(`${path} changed`);
-
+      delete require.cache[require.resolve("../" + path.replace("\\", "/"))];
       let command = require("../" + path.replace("\\", "/"));
 
       let info = false;
@@ -164,29 +164,26 @@ module.exports = class AeonaClient extends Client {
 
       if (!info) {
         let category = command.category.toLowerCase();
-        if (!this.categories.has(category)) {
-          this.categories.set(category, { info: null, commands: [] });
+        if (!client.categories.has(category)) {
+          client.categories.set(category, { info: null, commands: [] });
         }
-
-        for(let i = 0; i < this.categories.get(category).commands.length; i++) {
-          if(this.categories.get(category).commands[i].name === command.name) {
-            this.categories.get(category).commands.splice(i, 1);
+      
+        for(let i = 0; i < client.categories.get(category).commands.length; i++) {
+          if(client.categories.get(category).commands[i].name === command.name) {
+            client.categories.get(category).commands.splice(i, 1);
             break;
           }
         }
-
-        this.categories.get(category).commands.push(command);
-
-        this.commands.set(command.name, command);
-
+        client.categories.get(category).commands.push(command);
+        client.commands.set(command.name.toLowerCase(), command);
         if (command.aliases) {
           for (let alias of command.aliases) {
-            this.commands.set(alias, command);
+            client.commands.set(alias.toLowerCase(), command);
           }
         }
       } else {
         let category = command.category.toLowerCase();
-        this.categories.get(category).info = command;
+        client.categories.get(category).info = command;
       }
     });
 

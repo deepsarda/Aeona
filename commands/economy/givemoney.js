@@ -1,76 +1,79 @@
 const Discord = require("discord.js");
+
 const numberParse = require("../../utils/numberParse");
 const randint = require("../../utils/randint");
+const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {
   name: "givemoney",
-  description: "Give money to another user",
-  usage: "+givemoney [user] [amount]",
+  description: "Give credits to another user",
+  usage: "+givemoney <@user> <amount>",
   category: "economy",
   requiredArgs: 2,
-  aliases: [],
+  aliases: ["donate", "givecredits", "give-money", "give-credits"],
   execute: async (message, args, bot, prefix) => {
-    var user = message.member;
-    var user2 =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
-    var profile = await bot.economy.getConfig(user);
-    var amount = args[1];
-    if (!amount) amount = 1000;
+    const user = message.member;
+    const user2 = parseUser(message, args);
+    
+    let profile = await bot.economy.getConfig(user);
+    let amount = Number(args[1]);
+    
     if (typeof amount == "string") {
-      if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all") {
+      if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all")
         amount = profile.coinsInWallet;
-      }
     }
+    
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
-      return message.replyError({ msg: message, title: "Invalid amount!" });
-    if (amount > profile.coinsInWallet) {
-      message.replyError({
-        msg: message,
-        title: "You don't have enough money.",
+      return await message.replyError({ title: "Invalid amount!" });
+    
+    if (amount > profile.coinsInWallet)
+      return await message.replyError({
+        title: "You don't have those many credits.",
         description: `You need ${(
           amount - profile.coinsInWallet
         ).toLocaleString()} more credits.`,
       });
-      return;
-    }
 
-    if (profile.passive) {
-      message.replyError({
-        msg: message,
+    if (profile.passive)
+      return await message.replyError({
         title: "You can't use this command while passive.",
       });
-      return;
-    }
 
-    var profile2 = await bot.economy.getConfig(user2);
+    const row = new Discord.MessageActionRow()
+			.addComponents(
+				new Discord.MessageButton()
+					.setCustomId('confirm')
+					.setLabel('Confirm')
+					.setStyle('SUCCESS'),
+			);
 
-    profile.coinsInWallet -= amount;
-    profile2.coinsInWallet += amount;
+    const m = await message.reply({
+      title: "Confirm this action to proceed",
+      description: `Are you sure you want to give ⌭ ${amount} to ${user2}?\n\nClick on the **Confirm** button to confirm your decision.`,
+      components: [row]
+    })
 
-    await profile2.save();
-    await profile.save();
+    const collector = m.createMessageComponentCollector({
+      time: 15000,
+      max: 1
+    });
 
-    message.reply({
-      msg: message,
-      title: "Give",
-      description: `You gave ${amount.toLocaleString()} credits to ${
-        user2.user.tag
-      }.`,
+    collector.on('collect', async i => {
+    	if (i.customId === 'confirm') {
+        let profile2 = await bot.economy.getConfig(user2);
+
+        profile.coinsInWallet -= amount;
+        profile2.coinsInWallet += amount;
+    
+        await profile2.save();
+        await profile.save();
+    
+        await i.reply({
+          title: `You gave credits to ${user2.displayName}!`,
+          description: `You successfully sent ⌭ ${amount.toLocaleString()} to ${user2}!\nThank you for your kind offer ^^`,
+          thumbnailURL: "https://img.icons8.com/fluency/344/tip.png"
+        });
+      }
     });
   },
 };
