@@ -26,7 +26,7 @@ module.exports = {
 
     return message.channel.send({
       title: "Prefix",
-      description: "The prefix has been changed to `" + prefix + "`.",
+      description: "The prefix has been changed to `" + p + "`.",
     });
   },
 };
