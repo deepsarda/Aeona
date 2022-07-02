@@ -28,7 +28,7 @@ module.exports = {
 
     let questions = app.questions;
 
-    console.log(questions)
+    console.log(questions);
     let text = "";
 
     for (let i = 0; i < questions.length; i++) {

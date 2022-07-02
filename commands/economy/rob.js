@@ -23,7 +23,7 @@ module.exports = {
       });
 
     let author = await bot.economy.getConfig(message.member);
-    
+
     if (author.passive)
       return await message.reply({
         msg: message,
@@ -37,7 +37,7 @@ module.exports = {
       return await message.replyError({
         msg: message,
         title: `Welp, we can't rob that user!`,
-        description: `${user.displayName} has no money on hand to rob...`,  
+        description: `${user.displayName} has no money on hand to rob...`,
       });
 
     //Check for padlock

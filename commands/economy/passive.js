@@ -12,7 +12,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
-    
+
     if (profile.passive) {
       profile.passive = false;
       message.reply({
@@ -20,9 +20,7 @@ module.exports = {
         title: "You are no longer passive!",
         description: `**PASSIVE Mode** was successfully disabled for ${user.displayName}!`,
       });
-    } 
-    
-    else {
+    } else {
       profile.passive = true;
       message.reply({
         msg: message,

@@ -4,7 +4,7 @@ const MusicManager = require("./MusicManager");
 const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
-const config= require("../utils/config")
+const config = require("../utils/config");
 
 // This system from discord music bot https://github.com/SudhanPlayz
 
@@ -106,7 +106,7 @@ module.exports = class AeonaClient extends Client {
       right: "<:right:907828453859028992>",
     };
     require("../handlers/economy").run(this);
-    this.developers=config.developers;
+    this.developers = config.developers;
     this.giveawaysManager = require("../utils/giveaways")(this);
   }
 

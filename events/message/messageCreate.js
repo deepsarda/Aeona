@@ -14,9 +14,8 @@ const autoresponse = require("../../utils/autoresponse");
 module.exports = {
   name: "messageCreate",
   async execute(client, message) {
-
-    if (!message.guild) { 
-      if(message.author.bot) return;
+    if (!message.guild) {
+      if (message.author.bot) return;
       let prefixes = [
         "+",
         ">",
@@ -96,9 +95,9 @@ module.exports = {
         prefix = "";
       }
     }
-   
+
     if (settings.chatbot.alwaysOnChannel == message.channel.id) prefix = "";
-  
+
     for (let p of prefixes) {
       if (message.content.toLowerCase().startsWith(p)) {
         prefix = p;
@@ -106,7 +105,7 @@ module.exports = {
       }
     }
 
-    if (prefix===undefined) return;
+    if (prefix === undefined) return;
 
     if (message.author.bot) return;
     const moderation = await Moderation.findOne({
@@ -124,8 +123,6 @@ module.exports = {
     });
     if (userBlacklistSettings && userBlacklistSettings.isBlacklisted) return;
 
-
-    
     let args = message.content.slice(prefix.length).trim().split(" ");
     let command = args.shift().toLowerCase();
 
@@ -188,7 +185,8 @@ module.exports = {
           });
         }
         if (
-          cmd.permission && !message.client.developers.includes(message.author.id) &&
+          cmd.permission &&
+          !message.client.developers.includes(message.author.id) &&
           !message.member.permissions.has(command.permission[0])
         ) {
           return message.channel.sendError({

@@ -7,8 +7,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     await message.channel.send({
       title: "Invite aeona",
-      description:
-        `Invite me to your servers by clicking [here](${process.env.domain}/invite)!`,
+      description: `Invite me to your servers by clicking [here](${process.env.domain}/invite)!`,
     });
   },
 };

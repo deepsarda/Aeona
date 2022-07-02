@@ -21,8 +21,8 @@ module.exports = {
       fieldNames: ["Wallet", "Bank"],
       fieldValues: [
         `⌭ ${user.coinsInWallet.toLocaleString()}`,
-        `⌭ ${user.coinsInBank.toLocaleString()} / ${user.bankSpace.toLocaleString()}`
-      ]
-    })
+        `⌭ ${user.coinsInBank.toLocaleString()} / ${user.bankSpace.toLocaleString()}`,
+      ],
+    });
   },
 };

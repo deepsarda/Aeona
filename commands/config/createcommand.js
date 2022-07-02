@@ -18,8 +18,7 @@ module.exports = {
       if (results.length >= 5) {
         return message.channel.sendError({
           title: "Error",
-          description:
-            `Non premium guilds can only have 5 custom commands! Get [premium to add more!](${process.env.domain}/premium)`,
+          description: `Non premium guilds can only have 5 custom commands! Get [premium to add more!](${process.env.domain}/premium)`,
         });
       }
     }
