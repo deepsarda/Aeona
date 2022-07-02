@@ -28,13 +28,7 @@ module.exports = {
 
     let questions = app.questions;
 
-    if (questions.length === 0) {
-      return message.channel.sendError({
-        title: "Applications",
-        description: `It seems that this server has no questions in thier application.`,
-      });
-    }
-
+    console.log(questions)
     let text = "";
 
     for (let i = 0; i < questions.length; i++) {

@@ -17,18 +17,18 @@ module.exports = {
     if (guild.isPremium === true) maxQuestions = 25;
 
     let app = await Applications.findOne({ guildId: message.guild.id });
-
+    let question =args.join(" ");
     if (!app) {
       app = new Applications({
         guildID: message.guild.id,
-        questions: [args[0]],
+        questions: [question],
         appToggle: false,
         appLogs: " ",
       });
       await app.save();
       return message.channel.send({
         title: "Applications",
-        description: `Question added: ${args[0]}`,
+        description: `Question added: ${question}`,
       });
     }
 
@@ -39,11 +39,11 @@ module.exports = {
       });
     }
 
-    app.questions.push(args[0]);
+    app.questions.push(question);
     await app.save();
     return message.channel.send({
       title: "Applications",
-      description: `Question added: ${args[0]}`,
+      description: `Question added: ${question}`,
     });
   },
 };

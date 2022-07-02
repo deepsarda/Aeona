@@ -21,7 +21,6 @@ const ReactionRole = require("../packages/reactionrole/models/schema");
 const ReactionRoles = require("../packages/reactionrole/index.js");
 const reactP = new ReactionRoles();
 const EmojiArray = require("../assets/json/emojiarray.json");
-const Maintenance = require("../database/schemas/maintenance");
 const webhook = new DBL.Webhook("");
 const fetch = require("node-fetch");
 const Paste = require("../database/schemas/transcript.js");
@@ -394,14 +393,6 @@ module.exports = async (client) => {
     const member = await guild.members.fetch(req.user.id);
     if (!member) return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
-
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -442,14 +433,6 @@ module.exports = async (client) => {
     if (!guild) return res.redirect("/dashboard");
     const member = await guild.members.fetch(req.user.id);
     if (!member) return res.redirect("/dashboard");
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -593,13 +576,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -668,13 +644,7 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -791,14 +761,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
-
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -833,13 +795,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
     const data = req.body;
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
@@ -929,14 +884,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
-
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -960,14 +907,6 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -993,14 +932,6 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -1045,14 +976,6 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -1222,13 +1145,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
     await guild.members.fetch();
     let members = [];
     guild.members.cache.forEach((member) => members.push(member));
@@ -1301,13 +1217,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1331,13 +1241,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1363,13 +1267,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1403,13 +1301,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1626,13 +1518,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
 
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1666,13 +1552,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     const data = req.body;
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
@@ -2114,13 +1994,7 @@ module.exports = async (client) => {
       res.redirect("/dashboard");
       return;
     });
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+  
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
@@ -2160,13 +2034,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2274,13 +2142,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2307,13 +2169,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2542,13 +2398,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2572,13 +2422,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2604,13 +2448,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2634,13 +2472,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2776,13 +2608,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     const data = req.body;
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -2819,13 +2645,7 @@ send
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
     const data = req.body;
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3502,13 +3322,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3533,13 +3347,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3683,13 +3491,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3725,13 +3527,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3858,13 +3654,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+   
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3890,13 +3680,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") {
-      return renderTemplate(res, req, "maintenance.ejs");
-    }
+    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
