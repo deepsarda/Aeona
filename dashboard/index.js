@@ -576,7 +576,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -644,7 +643,6 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -977,7 +975,7 @@ module.exports = async (client) => {
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
 
-    var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
+    let storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new WelcomeSchema({
         guildId: guild.id,
@@ -985,7 +983,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     }
-    var welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
+    let welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     if (!welcomeSettings) {
       const newSettings = new GuildSettings({
         guildId: guild.id,
@@ -993,7 +991,7 @@ module.exports = async (client) => {
       await newSettings.save().catch(() => {});
       welcomeSettings = await WelcomeSchema.findOne({ guildId: guild.id });
     }
-    var leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
+    let leaveSettings = await LeaveSchema.findOne({ guildId: guild.id });
     if (!leaveSettings) {
       const newSettings = new LeaveSchema({
         guildId: guild.id,
@@ -1117,6 +1115,585 @@ module.exports = async (client) => {
       }
     }
 
+    if (
+      Object.prototype.hasOwnProperty.call(data, "leaveEnableEmbed") ||
+      Object.prototype.hasOwnProperty.call(data, "leaveUpdateEmbed")
+    ) {
+      let data = req.body;
+
+      let checkDM = req.body["leaveDM"];
+      if (checkDM) {
+        leaveSettings.leaveDM = true;
+      } else {
+        leaveSettings.leaveDM = false;
+      }
+
+      let checkIfEmbed = req.body["leaveEmbed"];
+
+      if (checkIfEmbed) {
+        // author
+
+        // author name
+        if (data.leave_author_name) {
+          if (data.leave_author_name.length > 256) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure the author length is below 200❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+
+          leaveSettings.embed.author.name = data.leave_author_name;
+        } else {
+          leaveSettings.embed.author.name = ``;
+        }
+
+        // author URL
+
+        if (data.leave_author_url) {
+          if (
+            rgx.test(data.leave_author_url) ||
+            data.leave_author_url.toLowerCase() == "{useravatar}"
+          ) {
+            leaveSettings.embed.author.url = data.leave_author_url;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure this is a valid URL❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          leaveSettings.embed.author.url = ``;
+        }
+
+        // icon
+        if (data.leave_author_icon) {
+          if (
+            rgx.test(data.leave_author_icon) ||
+            data.leave_author_icon.toLowerCase() == "{useravatar}"
+          ) {
+            leaveSettings.embed.author.icon = data.leave_author_icon;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure this is a valid URL❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          leaveSettings.embed.author.icon = ``;
+        }
+
+        // embed Title
+
+        if (data.leave_embedTitle) {
+          if (data.leave_embedTitle.length > 200) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure your title is under 200 characters long❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+
+          leaveSettings.embed.title = data.leave_embedTitle;
+        } else {
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please make sure to include a title❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+          return;
+        }
+
+        // welcome embed title url
+
+        if (data.leave_embedTitleURL) {
+          if (rgx.test(data.leave_embedTitleURL)) {
+            leaveSettings.embed.titleURL = data.leave_embedTitleURL;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Invalid Link Provided ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          leaveSettings.embed.titleURL = ``;
+        }
+
+        // description
+
+        if (data.leave_embedDescription) {
+          if (data.leave_embedDescription.length > 2000) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Make sure the description is below 2000 characters long ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+
+          leaveSettings.embed.description = data.leave_embedDescription;
+        } else {
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please provide a description ❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+
+          return;
+        }
+
+        // thumbnail URL
+
+        if (data.leave_embedThumbnail) {
+          if (rgx.test(data.leave_embedThumbnail)) {
+            leaveSettings.embed.thumbnail = data.leave_embedThumbnail;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please provide a valid thumbnail❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+        } else {
+          leaveSettings.embed.thumbnail = ``;
+        }
+
+        // footer
+
+        if (data.leave_embedFooter) {
+          if (data.leave_embedFooter.length > 1048) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Make sure the footer is under 1000 characters long ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+          leaveSettings.embed.footer = data.leave_embedFooter;
+        } else {
+          leaveSettings.embed.footer = "";
+        }
+
+        // footer icon
+
+        if (data.leave_embedFooterIcon) {
+          if (rgx.test(data.leave_embedFooterIcon)) {
+            leaveSettings.embed.footerIcon = data.leave_embedFooterIcon;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Invalid Footer Icon ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+        } else {
+          leaveSettings.embed.footerIcon = "";
+        }
+
+        // Timestamp
+
+        let timestamp = req.body["leave_timestamp"];
+        if (timestamp) {
+          leaveSettings.embed.timestamp = true;
+        } else {
+          leaveSettings.embed.timestamp = false;
+        }
+
+        //color
+        if (data.leave_embedColor) {
+          leaveSettings.embed.color = data.leave_embedColor;
+        } else {
+          leaveSettings.embed.color = `#000000`;
+        }
+
+        leaveSettings.leaveEmbed = true;
+
+        //end
+      } else {
+        leaveSettings.leaveEmbed = false;
+      }
+
+      leaveSettings.leaveToggle = true;
+    }
+
+    // leave end
+
+    if (
+      Object.prototype.hasOwnProperty.call(data, "welcomeEnable") ||
+      Object.prototype.hasOwnProperty.call(data, "welcomeUpdate")
+    ) {
+      let checkDM = req.body["dmUser"];
+      if (checkDM) {
+        welcomeSettings.welcomeDM = true;
+      } else {
+        welcomeSettings.welcomeDM = false;
+      }
+
+      let checkIfEmbed = req.body["isEmbed"];
+
+      if (checkIfEmbed) {
+        let database = await guild.channels.cache.get(
+          welcomeSettings.welcomeChannel
+        );
+
+        if (!database) {
+          welcomeSettings.welcomeToggle = false;
+          await welcomeSettings.save().catch(() => {});
+
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please make sure to save the welcome Channel first ❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+          return;
+        }
+        welcomeSettings.welcomeEmbed = true;
+      } else {
+        let database = await guild.channels.cache.get(
+          welcomeSettings.welcomeChannel
+        );
+
+        if (!database) {
+          welcomeSettings.welcomeToggle = false;
+          await welcomeSettings.save().catch(() => {});
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please make sure to save the welcome Channel first ❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+          return;
+        }
+
+        if (data.welcomeMessage) {
+          if (data.welcomeMessage.length > 2000) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure text length is below 2000❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+
+          welcomeSettings.welcomeMessage = data.welcomeMessage;
+        } else {
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please Provide me with a text ❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+
+          return;
+        }
+
+        welcomeSettings.welcomeToggle = true;
+        welcomeSettings.welcomeChannel = database.id;
+        welcomeSettings.welcomeEmbed = false;
+      }
+    }
+
+    if (
+      Object.prototype.hasOwnProperty.call(data, "welcomeEnableEmbed") ||
+      Object.prototype.hasOwnProperty.call(data, "welcomeUpdateEmbed")
+    ) {
+      let checkDM = req.body["dmUser"];
+      if (checkDM) {
+        welcomeSettings.welcomeDM = true;
+      } else {
+        welcomeSettings.welcomeDM = false;
+      }
+
+      let checkIfEmbed = req.body["isEmbed"];
+
+      let data = req.body;
+
+      if (checkIfEmbed) {
+        // author
+
+        // author name
+        if (data.author_name) {
+          if (data.author_name.length > 256) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure the author length is below 200❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+
+          welcomeSettings.embed.author.name = data.author_name;
+        } else {
+          welcomeSettings.embed.author.name = ``;
+        }
+
+        // author URL
+
+        if (data.author_url) {
+          if (
+            rgx.test(data.author_url) ||
+            data.author_url.toLowerCase() == "{useravatar}"
+          ) {
+            welcomeSettings.embed.author.url = data.author_url;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure this is a valid URL❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          welcomeSettings.embed.author.url = ``;
+        }
+
+        // icon
+        if (data.author_icon) {
+          if (
+            rgx.test(data.author_icon) ||
+            data.author_icon.toLowerCase() == "{useravatar}"
+          ) {
+            welcomeSettings.embed.author.icon = data.author_icon;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure this is a valid URL❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          welcomeSettings.embed.author.icon = ``;
+        }
+
+        // embed Title
+        if (data.embedTitle) {
+          if (data.embedTitle.length > 200) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please make sure your title is under 200 characters long❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+
+          welcomeSettings.embed.title = data.embedTitle;
+        } else {
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please make sure to include a title❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+          return;
+        }
+
+        // welcome embed title url
+
+        if (data.embedTitleURL) {
+          if (rgx.test(data.embedTitleURL)) {
+            welcomeSettings.embed.titleURL = data.embedTitleURL;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Invalid Link Provided ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+            return;
+          }
+        } else {
+          welcomeSettings.embed.titleURL = ``;
+        }
+
+        // description
+
+        if (data.embedDescription) {
+          if (data.embedDescription.length > 2000) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Make sure the description is below 2000 characters long ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+
+          welcomeSettings.embed.description = data.embedDescription;
+        } else {
+          renderTemplate(res, req, "./new/mainwelcome.ejs", {
+            guild: guild,
+            alert: `Please provide a description ❌`,
+            settings: storedSettings,
+            welcome: welcomeSettings,
+            leave: leaveSettings,
+          });
+
+          return;
+        }
+
+        // thumbnail URL
+
+        if (data.embedThumbnail) {
+          if (
+            rgx.test(data.embedThumbnail) ||
+            data.embedThumbnail.toLowerCase() == "{useravatar}"
+          ) {
+            welcomeSettings.embed.thumbnail = data.embedThumbnail;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please provide a valid thumbnail❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+        } else {
+          welcomeSettings.embed.thumbnail = ``;
+        }
+
+        if (data.embedImage) {
+          if (
+            rgx.test(data.embedImage) ||
+            data.embedImage.toLowerCase() == "{useravatar}"
+          ) {
+            welcomeSettings.embed.image = data.embedImage;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Please provide a valid image❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+        } else {
+          welcomeSettings.embed.image = ``;
+        }
+
+        // footer
+
+        if (data.embedFooter) {
+          if (data.embedFooter.length > 1048) {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Make sure the footer is under 1000 characters long ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+          welcomeSettings.embed.footer = data.embedFooter;
+        } else {
+          welcomeSettings.embed.footer = "";
+        }
+
+        // footer icon
+
+        if (data.embedFooterIcon) {
+          if (rgx.test(data.embedFooterIcon)) {
+            welcomeSettings.embed.footerIcon = data.embedFooterIcon;
+          } else {
+            renderTemplate(res, req, "./new/mainwelcome.ejs", {
+              guild: guild,
+              alert: `Invalid Footer Icon ❌`,
+              settings: storedSettings,
+              welcome: welcomeSettings,
+              leave: leaveSettings,
+            });
+
+            return;
+          }
+        } else {
+          welcomeSettings.embed.footerIcon = "";
+        }
+
+        // Timestamp
+
+        let timestamp = req.body["timestamp"];
+        if (timestamp) {
+          welcomeSettings.embed.timestamp = true;
+        } else {
+          welcomeSettings.embed.timestamp = false;
+        }
+
+        //color
+        if (data.embedColor) {
+          welcomeSettings.embed.color = data.embedColor;
+        } else {
+          welcomeSettings.embed.color = `#000000`;
+        }
+
+        welcomeSettings.welcomeEmbed = true;
+
+        //end
+      } else {
+        welcomeSettings.welcomeEmbed = false;
+      }
+
+      welcomeSettings.welcomeToggle = true;
+    }
     if (Object.prototype.hasOwnProperty.call(data, "welcomeDisable")) {
       welcomeSettings.welcomeToggle = false;
     }
@@ -1217,7 +1794,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1241,7 +1818,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1267,7 +1844,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1301,7 +1878,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -1552,7 +2129,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     const data = req.body;
 
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
@@ -1994,7 +2571,7 @@ module.exports = async (client) => {
       res.redirect("/dashboard");
       return;
     });
-  
+
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
@@ -2034,7 +2611,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2142,7 +2719,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2169,7 +2746,7 @@ module.exports = async (client) => {
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2398,7 +2975,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2422,7 +2999,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2448,7 +3025,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2472,7 +3049,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -2608,7 +3185,7 @@ send
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     const data = req.body;
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
@@ -2645,7 +3222,7 @@ send
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
     const data = req.body;
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3322,7 +3899,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3347,7 +3924,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3491,7 +4068,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3527,7 +4104,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3654,7 +4231,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-   
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
@@ -3680,7 +4257,7 @@ In the mean time, please explain your issue below`;
     if (!member) return res.redirect("/dashboard");
     if (!member.permissions.has("MANAGE_GUILD"))
       return res.redirect("/dashboard");
-    
+
     var storedSettings = await GuildSettings.findOne({ guildId: guild.id });
     if (!storedSettings) {
       const newSettings = new GuildSettings({
