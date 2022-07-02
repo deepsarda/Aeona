@@ -23,7 +23,7 @@ module.exports = {
 
     message.reply({
       msg: message,
-      title: `You got ⌭ ${random.toLocaleString()}!`,
+      title: `You begged on and the streets and got`,
       description: `${response}`,
     });
   },

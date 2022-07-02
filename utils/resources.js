@@ -1,10 +1,6 @@
-const {
-    MessageEmbed
-} = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
-const {
-    cleanNull
-} = require("./cleanNull.js");
+const { cleanNull } = require("./cleanNull.js");
 const data = require("../data.js");
 
 class Resource {
@@ -31,6 +27,7 @@ class Resource {
         if (options.embeds) return options;
         const msg = options.msg;
         let title = "";
+      
         if (!options.normalTitle) {
             if ("emote" in options) title = `${options.emote} ✦┊✧꒰`;
             else if (this.emote !== undefined) title = `${this.emote} ✦┊✧꒰`;
@@ -40,8 +37,10 @@ class Resource {
 
             for (let i = 0; i < t.length; i++) {
                 if (t[i] == " ") ti += data.blank;
-                else if (!data[t[i] + "_"]) ti += t[i];
-                else ti += data[t[i] + "_"];
+                else if (!data[t[i] + "_"]){
+                  options.normalTitle=true;
+                  return this.embed(options);
+                }else ti += data[t[i] + "_"];
             }
 
             title += ti + "꒱✦┊✧";
@@ -51,16 +50,15 @@ class Resource {
                 options.description = cleanNull(title + `\n\n` + options.description);
                 title = "";
             }
-        } else {
+        }else{
 
-
-            if ("emote" in options) title = `${options.emote}・`;
-            else if (this.emote !== undefined) title = `${this.emote}・`;
-
-            title += cleanNull(options.title);
-
-            if (options.title === undefined) title = "";
+          if ("emote" in options) title = `${options.emote}`;
+          else if (this.emote !== undefined) title = `${this.emote}`;
+            title += `  ⌑ ⌈ ${cleanNull(options.title)} ⌋ ⌑`;
         }
+
+
+        if (options.title === undefined) title = "";
         const embed = new MessageEmbed()
             .setTitle(title)
             .setURL(cleanNull(options.url))

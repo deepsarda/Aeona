@@ -15,16 +15,20 @@ module.exports = {
         user.user.username
       }\n**Discriminator:** ${
         user.user.discriminator
-      }\n**Created at:** ${user.user.createdAt.toUTCString()}\n**Joined at:** ${user.user.joinedAt.toUTCString()}\n**Bot:** ${
+      }\n**Created at:** <t:${user.user.createdTimestamp/ 1000 | 0}:R>\n**Joined at:** <t:${user.joinedTimestamp/ 1000 | 0}:R>\n**Bot:** ${
         user.user.bot
-      } \n**Highest role:** ${user.highestRole.name}\n **Roles:** ${user.roles
-        .map((role) => role.name)
+      } \n**Highest role:** ${user.roles.highest}\n **Roles:** ${user.roles.cache
+        .map((role) => role)
         .join(", ")}\n **Permissions:** ${user.permissions
         .toArray()
         .join(", ")}\n**Avatar:** [Link](${user.user.avatarURL({
         dynamic: true,
         size: 2048,
       })})`,
+      thumbnailURL:user.user.avatarURL({
+        dynamic: true,
+        size: 2048,
+      })
     });
   },
 };

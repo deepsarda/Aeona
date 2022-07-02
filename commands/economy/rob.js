@@ -1,62 +1,44 @@
 const Discord = require("discord.js");
+
 const numberParse = require("../../utils/numberParse");
+const parseUser = require("../../utils/parseUser.js");
 const randint = require("../../utils/randint");
+
 module.exports = {
   name: "rob",
-  description: "Rob a user.",
+  description: "Rob a user",
   category: "economy",
-  usage: "+rob [user]",
+  usage: "+rob <@user>",
   requiredArgs: 1,
   aliases: [],
   execute: async (message, args, bot, prefix) => {
-    let user =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
-
-    user = message.guild.members.cache.get(user.id);
+    let user = parseUser(message, args);
 
     let config = await bot.economy.getConfig(user);
-    if (config.passive) {
-      message.replyError({
+    if (config.passive)
+      return await message.replyError({
         msg: message,
-        title: "User is passive",
-        description: "This user is passive and cannot be robbed.",
+        title: "Oops, that user is passive!",
+        description: `Ah! Looks like ${user.displayName} is passive, which means he cannot be robbed...`,
       });
-      return;
-    }
 
     let author = await bot.economy.getConfig(message.member);
-    if (author.passive) {
-      message.reply({
+    
+    if (author.passive)
+      return await message.reply({
         msg: message,
-        title: "You are passive",
-        description: "You are passive and cannot rob.",
+        title: "Oops, you are passive!",
+        description: `You're passive, which means you can't rob anyone...\n\nDisable PASSIVE Mode using \`${prefix}passive\` before using this command.`,
       });
-      return;
-    }
+
     let money = config.coinsInWallet;
-    if (money <= 0) {
-      message.replyError({
+    //meow
+    if (money <= 0)
+      return await message.replyError({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: "That user doesn't have any money.",
+        title: `Welp, we can't rob that user!`,
+        description: `${user.displayName} has no money on hand to rob...`,  
       });
-      return;
-    }
 
     //Check for padlock
 
