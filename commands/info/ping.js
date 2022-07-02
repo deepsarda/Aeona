@@ -6,7 +6,7 @@ module.exports = {
   category: "info",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    let ping = Math.round(this.client.ws.ping);
+    let ping = Math.round(message.client.ws.ping);
     let msg = await message.channel.send(`Pong! \`${ping}ms\``);
     msg.delete();
 
