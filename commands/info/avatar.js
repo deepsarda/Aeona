@@ -12,7 +12,7 @@ module.exports = {
 
     await message.channel.send({
       title: `${user.displayName}'s avatar`,
-      imageURL: user.avatarURL({
+      imageURL: user.user.avatarURL({
         dynamic: true,
         size: 2048,
       }),
