@@ -26,7 +26,7 @@ module.exports = {
         });
       }
 
-      let app = await Applications.findOne({ guildId: message.guild.id });
+      let app = await Applications.findOne({ guildID: message.guild.id });
 
       if (!app) {
         app = new Applications({

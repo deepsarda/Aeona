@@ -10,7 +10,7 @@ module.exports = {
   aliases: ["question"],
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    let app = await Applications.findOne({ guildId: message.guild.id });
+    let app = await Applications.findOne({ guildID: message.guild.id });
 
     if (!app) {
       app = new Applications({

@@ -16,7 +16,7 @@ module.exports = {
     let maxQuestions = 10;
     if (guild.isPremium === true) maxQuestions = 25;
 
-    let app = await Applications.findOne({ guildId: message.guild.id });
+    let app = await Applications.findOne({ guildID: message.guild.id });
     let question =args.join(" ");
     if (!app) {
       app = new Applications({
