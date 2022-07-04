@@ -56,28 +56,30 @@ module.exports = {
           await config.save();
           message.reply({
             msg: message,
-            title: `Robbing ${user.displayName}`,
+            title: `Oof! You couldn't rob ${user.displayName}`,
             description:
               "They have a padlock and which you break! Only to find one more!",
           });
           return;
-        } else {
+        } 
+        
+        else {
           config.items = array;
           await config.save();
 
-          message.reply({
+          await message.reply({
             msg: message,
-            title: `Robbing ${user.displayName}`,
-            description: "They lost all their padlocks!",
+            title: `Oof! You couldn't rob ${user.displayName}`,
+            description: "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
           });
         }
       } else {
         config.items = array;
         await config.save();
-        message.reply({
+        await message.reply({
           msg: message,
-          title: `Robbing ${user.displayName}`,
-          description: "You broke all their padlocks!",
+          title: `Oof! You couldn't rob ${user.displayName}`,
+          description: "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
         });
       }
     }
@@ -118,13 +120,13 @@ module.exports = {
       author.coinsInWallet += robbedAmount;
       await config.save();
       await author.save();
-      message.reply({
+      
+      await message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
-          user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was ${percentage}% of their money.`,
+        title: `Ha, You robbed ${user.displayName}!`,
+        description: `You robbed ${percentage}% of ${user.displayName}'s money, which amounts to ${robbedAmount.toLocaleString()}`
       });
+      
     } else if (lootIndex == "half") {
       //Get half of the money
       let robbedAmount = Math.floor(money / 2);
