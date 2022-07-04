@@ -42,6 +42,12 @@ module.exports = {
       });
     }
 
+    if (!mentionedMember.moderatable)
+      return message.replyError({
+        title: "Mute",
+        description: "I cannot mute this user.",
+      });
+
     let reason = args.slice(1).join(" ");
     if (!reason) reason = `No reason provided.`;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";

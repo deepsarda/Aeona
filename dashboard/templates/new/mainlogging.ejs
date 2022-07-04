@@ -260,13 +260,13 @@
       <br>
       Color
       &nbsp;
-      <input name="message_events_color" value="<%= log.moderation.color %>" type="color" id="logging-color-1" class="color">
+      <input name="message_events_color" value="<%= log.message_events.color %>" type="color" id="logging-color-1" class="color">
       <br>
       <br>
 
       Enable
       &nbsp;
-      <% if(log.moderation.toggle=="true" ){%>
+      <% if(log.message_events.toggle=="true" ){%>
       <input id="s1" name="message_events_toggle" type="checkbox" checked class="toggle toggle-primary">
       <% } else { %>
       <input id="s1" name="message_events_toggle" type="checkbox" class="toggle toggle-primary">
