@@ -11,10 +11,10 @@ module.exports = {
     let user = parseUser(message, args);
     const memberPermissions = user.permissions.toArray();
     const finalPermissions = [];
-    for (const permission in permissions) {
+    for (const permission in memberPermissions) {
       if (memberPermissions.includes(permission))
-        finalPermissions.push(`+ ${permissions[permission]}`);
-      else finalPermissions.push(`- ${permissions[permission]}`);
+        finalPermissions.push(`+ ${memberPermissions[permission]}`);
+      else finalPermissions.push(`- ${memberPermissions[permission]}`);
     }
 
     return message.channel.send({
