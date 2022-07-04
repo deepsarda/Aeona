@@ -8,8 +8,8 @@ module.exports = {
   usage: "+mute <user> [time] [reason]",
   category: "moderation",
   requiredArgs: 1,
-  permissions: ["MANAGE_ROLES"],
-  botPermissions: ["MANAGE_ROLES"],
+  permissions: ["MODERATE_MEMBERS"],
+  botPermissions: ["MODERATE_MEMBERS"],
   execute: async (message, args, bot, prefix) => {
     let logging = await Logging.findOne({ guildID: message.guild.id });
     let mentionedMember =
