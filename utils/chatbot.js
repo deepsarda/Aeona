@@ -1,7 +1,6 @@
 const http = require("https");
 const Discord = require("discord.js");
-
-module.exports = async function (message, prefix, i, chatbot) {
+async function executeChatBot(message, prefix, i, chatbot) {
   if (i == 5) {
     return;
   }
@@ -152,4 +151,6 @@ module.exports = async function (message, prefix, i, chatbot) {
     console.log(e);
     executeChatBot(message, "", i, chatbot);
   }
-};
+}
+
+module.exports = executeChatBot;

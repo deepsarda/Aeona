@@ -26,14 +26,14 @@ module.exports = {
         appLogs: " ",
       });
       await app.save();
-      return message.channel.send({
+      return message.channel.reply({
         title: "Applications",
         description: `Question added: ${question}`,
       });
     }
 
     if (app.questions.length >= maxQuestions) {
-      return message.channel.sendError({
+      return message.channel.replyError({
         title: "Applications",
         description: `You can only have ${maxQuestions} questions.`,
       });
@@ -41,7 +41,7 @@ module.exports = {
 
     app.questions.push(question);
     await app.save();
-    return message.channel.send({
+    return message.channel.reply({
       title: "Applications",
       description: `Question added: ${question}`,
     });

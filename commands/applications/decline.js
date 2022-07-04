@@ -15,7 +15,7 @@ module.exports = {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
     if (guild.isPremium === "false") {
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](${process.env.domain}/premium).`,
       });
@@ -31,7 +31,7 @@ module.exports = {
         appLogs: " ",
       });
       await app.save();
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `It seems that this server has no applications.`,
       });
@@ -48,7 +48,7 @@ module.exports = {
     }
 
     if (!member)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: "You need to mention a user or provide a user ID.",
       });
@@ -60,7 +60,7 @@ module.exports = {
     });
 
     if (!paste)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: "I am unable to find that user's application",
       });
@@ -71,13 +71,13 @@ module.exports = {
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
     if (paste.status === "approved")
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `That user's application has already been approved.`,
       });
 
     if (paste.status === "declined")
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `That user's application has already been denied.`,
       });
@@ -91,7 +91,7 @@ module.exports = {
 
     paste.status = "declined";
 
-    message.channel.send({
+    message.reply({
       title: "Applications",
       description: `${member} has been Declined. \n **Declined by:** ${message.member} \n **Reason:** ${reason}`,
     });

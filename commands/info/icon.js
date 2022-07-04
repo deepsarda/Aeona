@@ -8,7 +8,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const server = bot.guilds.cache.get(args[0]) ?? message.guild;
 
-    await message.channel.send({
+    await message.reply({
       title: `${server.name}'s icon`,
       imageURL: server.iconURL({
         dynamic: true,

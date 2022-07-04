@@ -7,11 +7,11 @@ module.exports = {
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     let ping = Math.round(message.client.ws.ping);
-    let msg = await message.channel.send(`Pong! \`${ping}ms\``);
+    let msg = await message.reply(`Pong! \`${ping}ms\``);
     msg.delete();
 
     const latency = msg.createdTimestamp - message.createdTimestamp;
-    message.channel.send({
+    message.reply({
       title: "Pong",
       description: `**Discord API:** ${ping}ms \n**Bot Latency:** ${latency}ms`,
     });

@@ -15,7 +15,7 @@ module.exports = {
     if (option === "enable") {
       guild.antiInvites = true;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Anti Invites",
         description: `Anti-invites has been enabled.`,
       });
@@ -24,13 +24,13 @@ module.exports = {
     if (option === "disable") {
       guild.antiInvites = false;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Anti Invites",
         description: `Anti-invites has been disabled.`,
       });
     }
 
-    return message.channel.sendError({
+    return message.replyError({
       title: "Anti Invites",
       description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
     });

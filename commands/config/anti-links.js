@@ -15,7 +15,7 @@ module.exports = {
     if (option === "enable") {
       guild.antiLinks = true;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Anti Links",
         description: `Anti-links has been enabled.`,
       });
@@ -24,13 +24,13 @@ module.exports = {
     if (option === "disable") {
       guild.antiLinks = false;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Anti Links",
         description: `Anti-links has been disabled.`,
       });
     }
 
-    return message.channel.sendError({
+    return message.replyError({
       title: "Anti Links",
       description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
     });

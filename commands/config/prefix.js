@@ -11,7 +11,7 @@ module.exports = {
     let p = args[0];
 
     if (p.length > 5)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Prefix",
         description: "The prefix cannot be longer than 5 characters.",
       });
@@ -24,7 +24,7 @@ module.exports = {
 
     await guild.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "Prefix",
       description: "The prefix has been changed to `" + p + "`.",
     });

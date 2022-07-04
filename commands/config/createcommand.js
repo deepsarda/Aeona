@@ -16,7 +16,7 @@ module.exports = {
     if (guild.isPremium === "false") {
       const results = await customCommand.find({ guildId: message.guild.id });
       if (results.length >= 5) {
-        return message.channel.sendError({
+        return message.replyError({
           title: "Error",
           description: `Non premium guilds can only have 5 custom commands! Get [premium to add more!](${process.env.domain}/premium)`,
         });
@@ -24,7 +24,7 @@ module.exports = {
     }
 
     if (name.length > 30) {
-      return message.channel.sendError({
+      return message.replyError({
         title: "Custom Command",
         description:
           "The name of the custom command cannot be longer than 30 characters.",
@@ -32,7 +32,7 @@ module.exports = {
     }
 
     if (content.length > 2000) {
-      return message.channel.sendError({
+      return message.replyError({
         title: "Custom Command",
         description:
           "The content of the custom command cannot be longer than 2000 characters.",
@@ -45,7 +45,7 @@ module.exports = {
     });
 
     if (customCommand)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Custom Command",
         description: "A custom command with this name already exists.",
       });
@@ -56,7 +56,7 @@ module.exports = {
       content: content,
     });
 
-    return message.channel.send({
+    return message.reply({
       title: "Custom Command",
       description: `Custom command \`${name}\` has been created. \n\n Delete it with \`${prefix}deletecommand  ${name}\`.`,
     });

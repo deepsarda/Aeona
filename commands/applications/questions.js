@@ -20,7 +20,7 @@ module.exports = {
         appLogs: " ",
       });
       await app.save();
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `It seems that this server has no applications.`,
       });
@@ -35,7 +35,7 @@ module.exports = {
       text += `${i + 1}. ${questions[i]}\n`;
     }
 
-    return message.channel.send({
+    return message.reply({
       title: "Questions",
       description: text,
     });

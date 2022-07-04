@@ -6,7 +6,7 @@ module.exports = {
   category: "fun",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    const m = await message.channel.send({
+    const m = await message.reply({
       title: "Flipping a coin...",
     });
 

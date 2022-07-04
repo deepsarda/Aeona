@@ -4,6 +4,7 @@ module.exports.run = () => {
   Message.prototype.reply = function (options) {
     if (!this.channel) return Promise.reject(new Error("CHANNEL_NOT_CACHED"));
     options.msg = this;
+    options.member = this.member;
     options = resources.success.embed(options);
     let data;
 
@@ -23,6 +24,7 @@ module.exports.run = () => {
   Message.prototype.replyError = function (options) {
     if (!this.channel) return Promise.reject(new Error("CHANNEL_NOT_CACHED"));
     options.msg = this;
+    options.member = this.member;
     options = resources.error.embed(options);
     let data;
 

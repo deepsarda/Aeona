@@ -8,7 +8,7 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
     const query = args.join(" ");
     if (!query)
-      return message.channel.send(
+      return message.reply(
         `${message.member}, you need to specify a giveaway ID or prize!`
       );
 
@@ -22,14 +22,12 @@ module.exports = {
       );
 
     if (!giveaway)
-      return message.channel.send(
+      return message.reply(
         `${message.member}, I couldn't find a giveaway with that ID!`
       );
 
     if (!giveaway.pauseOptions.isPaused)
-      return message.channel.send(
-        `${message.member}, that giveaway is not paused!`
-      );
+      return message.reply(`${message.member}, that giveaway is not paused!`);
 
     client.giveawaysManager.unpause(giveaway.messageId);
   },

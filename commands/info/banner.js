@@ -10,7 +10,7 @@ module.exports = {
     const member = parseUser(message, args);
     const user = await member.user.fetch();
 
-    await message.channel.send({
+    await message.reply({
       title: `${member.displayName}'s banner`,
       imageURL: user.bannerURL({
         dynamic: true,

@@ -13,7 +13,7 @@ module.exports = {
       message.guild.channels.cache.get(args[0]);
 
     if (!channel)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Chatbot",
         description: `Please provide a valid channel.`,
       });
@@ -24,7 +24,7 @@ module.exports = {
 
     await guild.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "Chatbot",
       description: `Always on channel set to ${channel}`,
     });

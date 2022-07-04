@@ -13,7 +13,7 @@ module.exports = {
       message.guild.channels.cache.get(args[0]);
 
     if (!channel)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Chatbot",
         description: `Please provide a valid channel.`,
       });
@@ -21,7 +21,7 @@ module.exports = {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
     if (!guild.chatbot.disabledChannels.includes(channel.id))
-      return message.channel.sendError({
+      return message.replyError({
         title: "Chatbot",
         description: `That channel is already enabled.`,
       });
@@ -32,7 +32,7 @@ module.exports = {
 
     await guild.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "Chatbot",
       description: `Channel ${channel} has been enabled.`,
     });

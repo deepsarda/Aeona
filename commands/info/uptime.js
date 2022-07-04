@@ -29,7 +29,7 @@ module.exports = {
       uptime = `${seconds} seconds`;
     }
 
-    return message.channel.send({
+    return message.reply({
       title: "Uptime",
       description: `${message.guild.me.displayName}'s uptime is ${uptime}.`,
     });

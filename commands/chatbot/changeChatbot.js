@@ -12,7 +12,7 @@ module.exports = {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
     if (guild.isPremium === "false")
-      return message.channel.sendError({
+      return message.replyError({
         title: "Chatbot",
         description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](${process.env.domain}/premium).`,
       });
@@ -90,7 +90,7 @@ module.exports = {
       .setColor("#0099ff")
       .setFooter({ text: "Aeona Bot" });
 
-    let m = await message.channel.send({ embeds: [embed], components: [row3] });
+    let m = await message.reply({ embeds: [embed], components: [row3] });
     const filter = (i) =>
       i.user.id === message.author.id && i.message.id === m.id;
     const collector = message.channel.createMessageComponentCollector({

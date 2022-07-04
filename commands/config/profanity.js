@@ -12,7 +12,7 @@ module.exports = {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
     if (guild.isPremium === "false")
-      return message.channel.sendError({
+      return message.replyError({
         title: "Profanity",
         description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](${process.env.domain}/premium).`,
       });
@@ -20,7 +20,7 @@ module.exports = {
     if (args[0] === "enable") {
       guild.aiAutoMod = true;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Profanity",
         description: `Profanity has been enabled.`,
       });
@@ -29,13 +29,13 @@ module.exports = {
     if (args[0] === "disable") {
       guild.aiAutoMod = false;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Profanity",
         description: `Profanity has been disabled.`,
       });
     }
 
-    return message.channel.sendError({
+    return message.replyError({
       title: "Profanity",
       description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
     });

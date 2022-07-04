@@ -15,7 +15,7 @@ module.exports = {
       message.guild.channels.cache.find((ch) => ch.name === args[0]) ||
       message.guild.channels.cache.get(args[0]);
     if (!channel)
-      return message.channel.send({
+      return message.reply({
         title: "Error",
         description: `Could not find channel ${args[0]}.`,
       });
@@ -34,7 +34,7 @@ module.exports = {
 
         await newGuild.save();
 
-        return message.channel.send({
+        return message.reply({
           title: "Alt Account Modlog Set",
           description: `The alt account modlog has been set to ${channel}.`,
         });
@@ -44,7 +44,7 @@ module.exports = {
         altModlog: channel.id,
       });
 
-      return message.channel.send({
+      return message.reply({
         title: "Alt Account Modlog Set",
         description: `The alt account modlog has been set to ${channel}.`,
       });

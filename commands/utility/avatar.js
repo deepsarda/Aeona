@@ -8,7 +8,7 @@ module.exports = {
     const member = message.mentions.members.first() ?? message.member;
     const avatar = member.displayAvatarURL({ dynamic: true });
 
-    await message.channel.send({
+    await message.reply({
       title: `${member.displayName}'s Avatar`,
       url: avatar,
       imageURL: avatar,

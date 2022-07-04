@@ -16,7 +16,7 @@ module.exports = {
     });
 
     if (!autoResponse)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Auto Response",
         description: "An auto response with this name does not exist.",
       });
@@ -26,7 +26,7 @@ module.exports = {
       name: name,
     });
 
-    return message.channel.send({
+    return message.reply({
       title: "Auto Response",
       description: "The auto response has been deleted.",
     });

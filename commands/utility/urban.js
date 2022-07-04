@@ -20,12 +20,12 @@ module.exports = {
     response = response.data.list[0];
 
     if (!response)
-      return await message.channel.sendError({
+      return await message.replyError({
         title: "Oops!",
         description: "We were unable to fetch a definition for your term!",
       });
 
-    await message.channel.send({
+    await message.reply({
       title: `Definition for: ${term}`,
       description: response.definition,
       thumbnailURL: message.member.displayAvatarURL({ dynamic: true }),

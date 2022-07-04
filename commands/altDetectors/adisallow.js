@@ -24,13 +24,13 @@ module.exports = {
 
         await newGuild.save();
 
-        return message.channel.sendError({
+        return message.replyError({
           title: "Error",
           description: `There are no alt accounts whitelisted.`,
         });
       }
       if (!db.allowedAlts.includes(args[0]))
-        return message.channel.sendError({
+        return message.replyError({
           title: "Error",
           description: `That user is not whitelisted.`,
         });
@@ -42,7 +42,7 @@ module.exports = {
         allowedAlts: newArr,
       });
 
-      message.channel.send({
+      message.reply({
         title: "Alt Account Removed",
         description: `${args[0]} has been removed from the whitelist.`,
       });

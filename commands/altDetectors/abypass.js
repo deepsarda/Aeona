@@ -35,7 +35,7 @@ module.exports = {
               await newGuild.save().catch((err) => {
                 console.log(err);
               });
-              return message.channel.send({
+              return message.reply({
                 title: "Alt Account Whitelisted",
                 description: `${u.tag} has been whitelisted.`,
               });
@@ -44,14 +44,14 @@ module.exports = {
             let oldAllowedAlts = db.allowedAlts; //[]
             if (guildDB.isPremium === "false")
               if (oldAllowedAlts.length === 10)
-                return message.channel.sendError({
+                return message.replyError({
                   title: "Error",
                   description: `You have reached the maximum number of allowed alts. Please upgrade to [premium](${process.env.domain}/premium) to add more.`,
                 });
 
             if (guildDB.isPremium === "true") {
               if (oldAllowedAlts.length === 50)
-                return message.channel.sendError({
+                return message.replyError({
                   title: "Error",
                   description: `You have reached the maximum number of allowed alts.`,
                 });
@@ -62,7 +62,7 @@ module.exports = {
               allowedAlts: oldAllowedAlts,
             });
 
-            message.channel.send({
+            message.reply({
               title: "Alt Account Whitelisted",
               description: `${u.tag} has been whitelisted.`,
             });
@@ -70,7 +70,7 @@ module.exports = {
         );
       })
       .catch((err) => {
-        message.channel.sendError({
+        message.replyError({
           title: "Error",
           description: `${args[0]} is not a valid user id.`,
         });

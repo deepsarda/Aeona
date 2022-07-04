@@ -19,27 +19,27 @@ module.exports = {
         : null;
 
       if (!channel)
-        return message.channel.sendError({
+        return message.replyError({
           title: "Global Chat",
           description: `Please provide a valid channel. \n Valid arguments: \n setup #channel`,
         });
 
       guild.globalChatChannel = channel.id;
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Global Chat",
         description: `Global chat has been enabled.`,
       });
     } else if (args[0] === "disable") {
       guild.globalChatChannel = "";
       await guild.save();
-      return message.channel.send({
+      return message.reply({
         title: "Global Chat",
         description: `Global chat has been disabled.`,
       });
     }
 
-    return message.channel.sendError({
+    return message.replyError({
       title: "Global Chat",
       description: `Please provide a valid argument. \n Valid arguments: \n setup #channel \n disable`,
     });

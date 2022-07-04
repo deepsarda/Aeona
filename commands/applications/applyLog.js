@@ -20,7 +20,7 @@ module.exports = {
         : message.guild.channels.cache.find((c) => c.id === args[1]);
 
       if (!channel) {
-        return message.channel.sendError({
+        return message.channel.replyError({
           title: "Applications",
           description: `Could not find the channel. Please make sure you have the right channel name or ID. \`+applyLog enable #channel\``,
         });
@@ -36,7 +36,7 @@ module.exports = {
           appLogs: channel.id,
         });
         await app.save();
-        return message.channel.send({
+        return message.channel.reply({
           title: "Applications",
           description: `All set! The channel is now set to ${channel} for applications. To disable it, use \`+applyLog disable\`. \n You can also add questions to the list by using \`+addquestions <question>\`.`,
         });
@@ -44,7 +44,7 @@ module.exports = {
 
       app.appLogs = channel.id;
       await app.save();
-      return message.channel.send({
+      return message.channel.reply({
         title: "Applications",
         description: `All set! The channel is now set to ${channel} for applications. To disable it, use \`+applyLog disable\`. \n You can also add questions to the list by using \`+addquestions <question>\`.`,
       });
@@ -52,7 +52,7 @@ module.exports = {
       let app = await Applications.findOne({ guildId: message.guild.id });
 
       if (!app) {
-        return message.channel.sendError({
+        return message.channel.replyError({
           title: "Applications",
           description: `There are no applications to disable.`,
         });
@@ -60,12 +60,12 @@ module.exports = {
 
       app.appLogs = " ";
       await app.save();
-      return message.channel.send({
+      return message.channel.reply({
         title: "Applications",
         description: `All set! The channel is now set to disabled. To enable it, use \`+applyLog enable <channel> \`. `,
       });
     } else {
-      return message.channel.sendError({
+      return message.channel.replyError({
         title: "Applications",
         description: `Invalid option. Valid options are: enable, disable`,
       });

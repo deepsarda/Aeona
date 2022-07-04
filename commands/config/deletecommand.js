@@ -16,7 +16,7 @@ module.exports = {
     });
 
     if (!customCommand)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Custom Command",
         description: "A custom command with this name does not exist.",
       });
@@ -26,7 +26,7 @@ module.exports = {
       name: name,
     });
 
-    return message.channel.send({
+    return message.reply({
       title: "Custom Command",
       description: "The custom command has been deleted.",
     });

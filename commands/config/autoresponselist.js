@@ -14,7 +14,7 @@ module.exports = {
     });
 
     if (autoResponses.length === 0)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Auto Responses",
         description: "There are no auto responses.",
       });
@@ -25,7 +25,7 @@ module.exports = {
       data += `${i}. **${autoResponses[i].name}** \n`;
     }
 
-    return message.channel.send({
+    return message.reply({
       title: "Auto Responses",
       description: data,
     });

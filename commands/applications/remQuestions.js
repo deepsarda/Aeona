@@ -19,7 +19,7 @@ module.exports = {
         appLogs: " ",
       });
       await app.save();
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `It seems that this server has no applications.`,
       });
@@ -28,7 +28,7 @@ module.exports = {
     let number = Number(args[0]);
 
     if (!number || number < 1 || number > app.questions.length) {
-      return message.channel.sendError({
+      return message.replyError({
         title: "Applications",
         description: `Please provide a valid question ID.`,
       });
@@ -42,7 +42,7 @@ module.exports = {
 
     await app.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "Applications",
       description: `Question ${number} has been removed.`,
     });

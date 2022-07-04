@@ -26,6 +26,6 @@ module.exports = {
 
     if (member.id !== message.member.id) options.content = `${member}`;
 
-    await message.channel.send(options);
+    await message.reply(options);
   },
 };

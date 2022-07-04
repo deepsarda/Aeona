@@ -14,7 +14,7 @@ module.exports = {
     });
 
     if (customcommandlist.length === 0) {
-      return message.channel.sendError({
+      return message.replyError({
         title: "Custom Command",
         description: "There are no custom commands to list.",
       });
@@ -26,7 +26,7 @@ module.exports = {
       description += `**${i + 1}.** ${customcommandlist[i].name}\n`;
     }
 
-    return message.channel.send({
+    return message.reply({
       title: "Custom Command List",
       description: description,
     });

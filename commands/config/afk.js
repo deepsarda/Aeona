@@ -12,18 +12,16 @@ module.exports = {
     const oldNickname = message.member.nickname || message.author.username;
     const nickname = `[AFK] ${oldNickname}`;
     const userr = message.mentions.users.first();
-    if (userr) return message.channel.send(`Please do not mention users.`);
+    if (userr) return message.reply(`Please do not mention users.`);
 
     let everyoneping = args.indexOf("@everyone") > -1;
     let hereping = args.indexOf("@here") > -1;
 
     if (everyoneping || hereping)
-      return message.channel.send(`Please do not ping everyone or here.`);
+      return message.reply(`Please do not ping everyone or here.`);
 
     if (args.length > 100) {
-      return message.channel.send(
-        `Please keep your AFK message under 100 words.`
-      );
+      return message.reply(`Please keep your AFK message under 100 words.`);
     }
 
     let content = args.join(" ") || "AFK";
@@ -40,7 +38,7 @@ module.exports = {
     });
     await newafk.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "AFK",
       description: `You are now AFK.`,
       thumbnailURL: message.member.displayAvatarURL({ dynamic: true }),

@@ -22,29 +22,34 @@ module.exports = {
         appLogs: " ",
       });
       await app.save();
-      return message.channel.sendError({
+      return message.channel.replyError({
         title: "Applications",
         description: `It seems that this server has no applications.`,
       });
     }
 
     if (!app.appLogs)
-      return message.channel.sendError({
+      return message.channel.replyError({
         title: "Applications",
         description:
           "It seems that this server has no channel setup for applications.",
       });
 
-    let channel = await bot.channels.fetch(app.appLogs);
+    let channel = await bot.channels.fetch(app.appLogs).catch(() => {
+      return message.channel.replyError({
+        title: "Applications",
+        description: `It seems that this server has no channel setup for applications.`,
+      });
+    });
 
     if (!channel)
-      return message.channel.sendError({
+      return message.channel.replyError({
         title: "Applications",
         description:
           "It seems that this server application log channel does not exist anymore.",
       });
 
-    return message.channel.send({
+    return message.channel.reply({
       title: "Applications",
       description: `You can now apply to this server [by clicking here](${process.env.domain}/apply/${message.guild.id}).`,
     });

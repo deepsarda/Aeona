@@ -12,7 +12,7 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
     let choices = ["true", "false"];
     if (!choices.includes(args[0].toLowerCase()))
-      return message.channel.sendError({
+      return message.replyError({
         title: "Error",
         description: "Invalid choice. Valid choices are: `true`, `false`",
       });
@@ -31,7 +31,7 @@ module.exports = {
 
         await newGuild.save();
 
-        return message.channel.send({
+        return message.reply({
           title: "Alt Detector",
           description: `Alt Detector will now automatically block accounts younger than 7 days.`,
         });
@@ -48,7 +48,7 @@ module.exports = {
         choice = "off";
       }
 
-      return message.channel.send({
+      return message.reply({
         title: "Alt Detector",
         description: `Alt Detector is now ${choice}.`,
       });

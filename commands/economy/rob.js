@@ -61,16 +61,15 @@ module.exports = {
               "They have a padlock and which you break! Only to find one more!",
           });
           return;
-        } 
-        
-        else {
+        } else {
           config.items = array;
           await config.save();
 
           await message.reply({
             msg: message,
             title: `Oof! You couldn't rob ${user.displayName}`,
-            description: "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
+            description:
+              "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
           });
         }
       } else {
@@ -79,7 +78,8 @@ module.exports = {
         await message.reply({
           msg: message,
           title: `Oof! You couldn't rob ${user.displayName}`,
-          description: "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
+          description:
+            "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
         });
       }
     }
@@ -120,13 +120,14 @@ module.exports = {
       author.coinsInWallet += robbedAmount;
       await config.save();
       await author.save();
-      
+
       await message.reply({
         msg: message,
         title: `Ha, You robbed ${user.displayName}!`,
-        description: `You robbed ${percentage}% of ${user.displayName}'s money, which amounts to ${robbedAmount.toLocaleString()}`
+        description: `You robbed ${percentage}% of ${
+          user.displayName
+        }'s money, which amounts to ${robbedAmount.toLocaleString()}`,
       });
-      
     } else if (lootIndex == "half") {
       //Get half of the money
       let robbedAmount = Math.floor(money / 2);

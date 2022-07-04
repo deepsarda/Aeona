@@ -13,7 +13,7 @@ module.exports = {
     let choices = ["none", "kick", "ban"];
 
     if (!choices.includes(args[0].toLowerCase()))
-      return message.channel.sendError({
+      return message.replyError({
         title: "Error",
         description: "Invalid action. Valid actions are: `none`, `kick`, `ban`",
       });
@@ -33,7 +33,7 @@ module.exports = {
 
       await a.save();
 
-      return message.channel.send({
+      return message.reply({
         title: "Alt Detector",
         description: `Action set to ${args[0].toLowerCase()}`,
       });
@@ -42,7 +42,7 @@ module.exports = {
     a.altAction = args[0].toLowerCase();
     await a.save();
 
-    return message.channel.send({
+    return message.reply({
       title: "Alt Detector",
       description: `Action set to ${args[0].toLowerCase()}`,
     });

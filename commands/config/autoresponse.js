@@ -14,7 +14,7 @@ module.exports = {
     if (guild.isPremium === "false") {
       const results = await autoResponse.find({ guildId: message.guild.id });
       if (results.length >= 5) {
-        return message.channel.sendError({
+        return message.replyError({
           title: "Error",
           description: `Non premium guilds can only have 5 auto responses! Get [premium to add more!](${process.env.domain}/premium)`,
         });
@@ -24,14 +24,14 @@ module.exports = {
     let reply = args.slice(1).join(" ");
 
     if (name.length > 30)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Auto Response",
         description:
           "The name of the auto response cannot be longer than 30 characters.",
       });
 
     if (reply.length > 2000)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Auto Response",
         description:
           "The reply of the auto response cannot be longer than 2000 characters.",
@@ -43,7 +43,7 @@ module.exports = {
     });
 
     if (autoResponse)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Auto Response",
         description: "An auto response with this name already exists.",
       });
@@ -54,7 +54,7 @@ module.exports = {
       content: reply,
     });
 
-    return message.channel.send({
+    return message.reply({
       title: "Auto Response",
       description: `Auto response \`${name}\` has been created. \n\n Delete it with \`${prefix}delete-autoresponse ${name}\`.`,
     });

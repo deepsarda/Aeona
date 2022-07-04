@@ -12,7 +12,7 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
     let days = Number(args[0]);
     if (isNaN(days))
-      return message.channel.sendError({
+      return message.replyError({
         title: "Error",
         description: "Invalid number of days. Please enter a number.",
       });
@@ -20,7 +20,7 @@ module.exports = {
     let day = Number(days);
 
     if (day > 100)
-      return message.channel.sendError({
+      return message.replyError({
         title: "Error",
         description:
           "Invalid number of days. Please enter a number less than or equal to 100.",
@@ -46,7 +46,7 @@ module.exports = {
             console.log(err);
           });
 
-          return message.channel.send({
+          return message.reply({
             title: "Alt Detector",
             description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
           });
@@ -56,7 +56,7 @@ module.exports = {
           altDays: day,
         });
 
-        message.channel.send({
+        message.reply({
           title: "Alt Detector",
           description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
         });
