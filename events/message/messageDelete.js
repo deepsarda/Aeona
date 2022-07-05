@@ -66,7 +66,7 @@ module.exports = {
     if (logging) {
       if (logging.message_events.toggle == "true") {
         if (logging.message_events.ignore == "true") {
-          if (message.author.bot) return;
+          
         }
 
         const channelEmbed = await message.guild.channels.cache.get(
@@ -101,7 +101,8 @@ module.exports = {
                 `${message.member} deleted an **embed** in ${message.channel}`
               );
             }
-
+            let embeds=[embed];
+            embeds=embeds.concat(message.embeds);
             if (
               channelEmbed &&
               channelEmbed.viewable &&
@@ -110,10 +111,7 @@ module.exports = {
                 .has(["SEND_MESSAGES", "EMBED_LINKS"])
             ) {
               channelEmbed.send({
-                embeds: [
-                  embed,
-                  message.embeds.length > 0 ? message.embeds[0] : null,
-                ],
+                embeds
               });
             }
           }

@@ -103,7 +103,7 @@ module.exports = {
       const channel = message.guild.channels.cache.get(
         logging.moderation.channel
       );
-
+    
       if (logging.moderation.toggle == "true") {
         if (channel) {
           if (message.channel.id !== logging.moderation.ignore_channel) {
