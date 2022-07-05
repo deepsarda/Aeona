@@ -2256,14 +2256,7 @@ module.exports = async (client) => {
       }
 
       //Color
-      const color = data.color[0];
-
-      if (color) {
-        logSettings.moderation.color = data.color;
-      } else {
-        logSettings.moderation.color = `#000000`;
-      }
-
+      
       //Toggle
 
       const toggle = req.body["toggle"];
