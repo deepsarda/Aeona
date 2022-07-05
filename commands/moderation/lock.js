@@ -10,7 +10,7 @@ module.exports = {
   permissions: ["MANAGE_CHANNELS"],
   botPermissions: ["MANAGE_CHANNELS"],
   execute: async (message, args, bot, prefix) => {
-    const logging = await Logging.findOne({ guildID: message.guild.id });
+    const logging = await Logging.findOne({ guildId: message.guild.id });
 
     let channel = message.mentions.channels.first();
     let reason = args.join(" ") || "`none`";

@@ -10,7 +10,7 @@ module.exports = {
   permissions: ["KICK_MEMBERS"],
   botPermissions: ["KICK_MEMBERS"],
   execute: async (message, args, bot, prefix) => {
-    let logging = await Logging.findOne({ guildID: message.guild.id });
+    let logging = await Logging.findOne({ guildId: message.guild.id });
 
     let member =
       message.mentions.members.first() &&

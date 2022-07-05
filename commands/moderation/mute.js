@@ -11,7 +11,7 @@ module.exports = {
   permissions: ["MODERATE_MEMBERS"],
   botPermissions: ["MODERATE_MEMBERS"],
   execute: async (message, args, bot, prefix) => {
-    let logging = await Logging.findOne({ guildID: message.guild.id });
+    let logging = await Logging.findOne({ guildId: message.guild.id });
     let mentionedMember =
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
@@ -103,6 +103,7 @@ module.exports = {
       const channel = message.guild.channels.cache.get(
         logging.moderation.channel
       );
+
       if (logging.moderation.toggle == "true") {
         if (channel) {
           if (message.channel.id !== logging.moderation.ignore_channel) {
