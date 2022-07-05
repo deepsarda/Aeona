@@ -1,13 +1,12 @@
-const { TextChannel, MessagePayload } = require("discord.js");
+const TextBasedChannel = require("discord.js/src/structures/interfaces/TextBasedChannel.js");
+const { User, GuildMember } = require("discord.js");
 const resources = require("../utils/resources");
-const { GuildMember, User } = require("discord.js");
-
 module.exports.run = () => {
-  TextChannel.prototype.send = async function (options) {
-
+  TextBasedChannel.prototype.send = async function (options) {
+    
     if (!options.resources) options = resources.success.embed(options);
 
-
+    
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
 
@@ -30,8 +29,9 @@ module.exports.run = () => {
 
     return this.messages.cache.get(d.id) ?? this.messages._add(d);
   };
-  TextChannel.prototype.sendError = async function (options) {
 
+  TextChannel.prototype.sendError = async function (options) {
+    
     if (!options.resources) options = resources.error.embed(options);
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
