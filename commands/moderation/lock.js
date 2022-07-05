@@ -32,7 +32,7 @@ module.exports = {
       channel.permissionsFor(message.guild.id).has("SEND_MESSAGES") === false
     ) {
       const lockchannelError2 = new MessageEmbed()
-        .setDescription(`${fail} | ${channel} is already locked`)
+        .setDescription(` ${channel} is already locked`)
         .setColor(client.color.red);
 
       return message.reply(lockchannelError2);
@@ -102,7 +102,7 @@ module.exports = {
             ) {
               if (logging.moderation.lock == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.red;
+                if (color == "#000000") color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
