@@ -6,7 +6,7 @@ module.exports = {
   name: "withdraw",
   description: "Withdraw money from your bank account",
   category: "economy",
-  usage: "+withdraw [amount](optional)",
+  usage: "+withdraw [amount]",
   requiredArgs: 0,
   aliases: ["with"],
   execute: async (message, args, bot, prefix) => {
@@ -20,16 +20,13 @@ module.exports = {
       }
     }
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
-      return message.replyError({ msg: message, title: "Invalid amount!" });
+      return message.replyError({ title: "Invalid amount!" });
     if (profile.coinsInBank < amount) {
-      message.replyError({
-        msg: message,
-        title: "You don't have enough money.",
-        description: `You need ${(
-          amount - profile.coinsInBank
-        ).toLocaleString()} more coins.`,
+      
+      return await message.replyError({
+        title: "Oops!",
+        description: `Looks like you don't have enough money... you need ⌭ ${(amount - profile.coinsInBank).toLocaleString()} more to withdraw!\nPlease retry this command.`,
       });
-      return;
     }
 
     profile.coinsInBank -= amount;
@@ -38,8 +35,9 @@ module.exports = {
 
     message.reply({
       msg: message,
-      title: "Withdraw successful.",
-      description: `You have withdrawn ${amount.toLocaleString()} credits.`,
+      title: "Credits withdrawn successfully!",
+      description: `You withdrew ⌭ ${amount.toLocaleString()} from your bank.`,
+      thumbnailURL: "https://img.icons8.com/fluency/344/withdrawal.png"
     });
   },
 };

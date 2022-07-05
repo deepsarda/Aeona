@@ -126,7 +126,7 @@ module.exports = {
         title: `Ha, You robbed ${user.displayName}!`,
         description: `You robbed ${percentage}% of ${
           user.displayName
-        }'s money, which amounts to ${robbedAmount.toLocaleString()}`,
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
       });
     } else if (lootIndex == "half") {
       //Get half of the money
@@ -138,10 +138,8 @@ module.exports = {
       await author.save();
       message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
-          user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was half of their money.`,
+        title: `Ha, You robbed ${user.displayName}!`,
+        description: `You robbed half of ${user.displayName}'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
       });
     } else if (lootIndex == "all") {
       //Get all the money
@@ -153,10 +151,8 @@ module.exports = {
       await author.save();
       message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
-          user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was all of their money.`,
+        title: `Ha, You robbed ${user.displayName}!`,
+       description: `You robbed all of ${user.displayName}'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}. RIP!`,
       });
     }
   },

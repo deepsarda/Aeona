@@ -32,7 +32,7 @@ module.exports = {
 
     await message.reply({
       msg: message,
-      title: `Richest users in ${message.guild.name}`,
+      title: `Richest users`,
       description: description,
       thumbnailURL:
         "https://img.icons8.com/external-creatype-flat-colourcreatype/344/external-podium-office-and-business-creatype-flat-colourcreatype.png",

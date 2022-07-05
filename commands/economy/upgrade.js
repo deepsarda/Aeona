@@ -7,7 +7,7 @@ module.exports = {
   description:
     "Upgrade your items. \n **Cost** \n Upto to level 20 - 10,000 credits \n Upto level 50 - 20,000 credits \n Up to level 100 - 50,000 credits \n Upto level 200 - 100,000 credits \n Upto level 300 - 200,000 credits \n Upto level 400 - 300,000 credits \n Upto level 500 - 400,000 credits \n Upto level 600 - 500,000 credits \n Upto level 700 - 600,000 credits \n Upto level 800 - 700,000 credits \n Upto level 900 - 800,000 credits \n Upto level 1,000 - 900,000 credits \n Upto level 1,100 - 1,000,000 credits \n Upto level 1,200 - 1,100,000 credits \n Upto level 1,300 - 1,200,000 credits \n Upto level 1,400 - 1,300,000 credits \n Upto level 1,500 - 1,400,000 credits \n Upto level 1,600 - 1,500,000 credits \n Upto level 1,700 - 1,600,000 credits \n Upto level 1,800 - 1,700,000 credits \n Upto level 1,900 - 1,800,000 credits \n Upto level 2,000 - 1,900,000 credits \n Upto level 2,100 - 2,000,000 credits \n Upto level 2,200 - 2,100,000 credits \n Upto level 2,300 - 2,200,000 credits \n Upto level 2,400 - 2,300,000 credits \n Upto level 2,500 - 2,400,000 credits \n Above that - 2,500,000 credits",
   category: "economy",
-  usage: "+upgrade [item] [amount](optional)",
+  usage: "+upgrade <item> [amount]",
   requiredArgs: 1,
   aliases: [],
   execute: async (message, args, bot, prefix) => {
@@ -17,33 +17,33 @@ module.exports = {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let itemData = await bot.economy.getItem(item);
-    if (!itemData) {
-      message.replyError({
+
+    const upgradeURL = "https://img.icons8.com/dusk/344/upgrade.png";
+    
+    if (!itemData)
+      return await message.replyError({
         msg: message,
-        title: "Item not found.",
+        title: "Oops!",
+        description: "That item could not be found!\nPlease retry this command."
       });
-      return;
-    }
 
     //find if user has item.
     let itemUser = bot.economy.getItemFromArray(profile.items, itemData.name);
-    if (!itemUser) {
-      message.replyError({
-        msg: message,
-        title: "You don't have this item.",
+    
+    if (!itemUser)
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like you don't have this item!\nPlease retry this command.",
       });
-      return;
-    }
 
     itemUser = itemUser.item;
     let copy = itemUser;
-    if (!itemData.upgradeAble) {
-      message.replyError({
-        msg: message,
-        title: "This item cannot be upgraded.",
+    
+    if (!itemData.upgradeAble)
+      return await message.replyError({
+        title: "Oops!",
+        description: "This item cannot be upgraded!\nPlease retry this command.",
       });
-      return;
-    }
 
     //If amount is string
     if (typeof amount === "string") {
@@ -67,30 +67,29 @@ module.exports = {
 
         profile.items.splice(profile.items.indexOf(copy), 1);
         profile.items.push(itemUser);
+        
         await profile.save();
-        message.reply({
-          msg: message,
-          title: `You upgraded ${itemData.name} to level ${level}!`,
-          description: `You now have ${profile.coinsInWallet.toLocaleString()} credits.`,
+        
+        await message.reply({
+          title: "You upgraded an item!",
+          description: `You upgraded ${itemData.name} to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
+          thumbnailURL: upgradeURL
         });
       }
       return;
     }
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
-      return message.replyError({ msg: message, title: "Invalid amount!" });
+      return message.replyError({ title: "Invalid amount!" });
 
     let level = itemUser.level ? itemUser.level : 1;
     while (true) {
       let cost = getUpgradeCost(level);
       if (cost > profile.coinsInWallet) {
-        message.replyError({
+        return await message.replyError({
           msg: message,
-          title: "You don't have enough money.",
-          description: `You need ${(
-            cost - profile.coinsInWallet
-          ).toLocaleString()} more credits.`,
+          title: "Oops!",
+          description: `Looks like you don't have enough money... you need ⌭ ${(cost - profile.coinsInWallet).toLocaleString()} more to upgrade your item!\nPlease retry this command.`,
         });
-        return;
       }
       if (cost > 0) {
         profile.coinsInWallet = profile.coinsInWallet - cost;
@@ -108,10 +107,10 @@ module.exports = {
     profile.items.push(itemUser);
     await profile.save();
 
-    message.reply({
-      msg: message,
-      title: `You upgraded ${itemData.name} to level ${level}!`,
-      description: `You now have ${profile.coinsInWallet.toLocaleString()} credits.`,
+    await message.reply({
+      title: "You upgraded an item!",
+      description: `You upgraded ${itemData.name} to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
+      thumbnailURL: upgradeURL
     });
   },
 };

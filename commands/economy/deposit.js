@@ -39,7 +39,7 @@ module.exports = {
             msg: message,
             title: "Credits deposited successfully!",
             // description: `You now have **⌭ ${data.coinsInBank.toLocaleString()}** in your bank out of ⌭ ${data.bankSpace.toLocaleString()}`,
-            description: `You deposited ⌭ ${max_deposit}`,
+            description: `You deposited ⌭ ${max_deposit}.`,
             thumbnailURL: depositURL,
           });
 
@@ -53,7 +53,7 @@ module.exports = {
               title: "Credits deposited successfully!",
               description: `You deposited ⌭ ${(
                 data.coinsInWallet - left
-              ).toLocaleString()}`,
+              ).toLocaleString()}.`,
               thumbnailURL: depositURL,
             });
 
@@ -65,7 +65,7 @@ module.exports = {
             await message.reply({
               msg: message,
               title: "Credits deposited successfully!",
-              description: `You deposited ⌭ ${data.coinsInWallet.toLocaleString()}`,
+              description: `You deposited ⌭ ${data.coinsInWallet.toLocaleString()}.`,
               thumbnailURL: depositURL,
             });
 

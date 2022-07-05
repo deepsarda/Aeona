@@ -5,7 +5,7 @@ module.exports = {
   name: "sell",
   description: "Sell your items.",
   category: "economy",
-  usage: "+sell <item> <amount>",
+  usage: "+sell [item] [amount]",
   requiredArgs: 0,
   aliases: [],
   execute: async (message, args, bot, prefix) => {
@@ -21,7 +21,9 @@ module.exports = {
       }
     }
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
-      return message.replyError({ msg: message, title: "Invalid amount!" });
+      return message.replyError({ title: "Invalid amount!" });
+
+    const sellURL = "https://img.icons8.com/fluency/344/paid.png";
 
     if (!item1) {
       let moneyEarned = 0;
@@ -34,50 +36,61 @@ module.exports = {
         let itemData = bot.economy.getItem(item.name);
         if (itemData.autosell) {
           moneyEarned += itemData.sellAmount * item.amount;
-          description +=
-            itemData.emote +
-            item.name +
-            " x " +
-            item.amount.toLocaleString() +
-            "\n";
+          description += `${itemData.emote} ${item.name.charAt(0).toUpperCase()}${item.name.slice(1)} **x${item.amount.toLocaleString()}**\n`
           itemsSold += item.amount;
           profile.items.splice(i, 1);
           i--;
         }
       }
       profile.coinsInWallet += moneyEarned;
-      await profile.save();
-      message.reply({
-        msg: message,
-        title: "Sold Items",
-        description:
-          "You sold " +
-          itemsSold.toLocaleString() +
-          " items for " +
-          moneyEarned.toLocaleString() +
-          " coins.\n" +
-          description,
+
+      const row = new Discord.MessageActionRow().addComponents(
+        new Discord.MessageButton()
+          .setCustomId("confirm")
+          .setLabel("Confirm")
+          .setStyle("SUCCESS")
+      );
+
+      const m = await message.reply({
+        title: "Confirm this action to proceed",
+        description: `Are you sure you want to sell the following items?\nClick on the **Confirm** button to confirm your decision.\n\n${description}`,
+        components: [row],
+      });
+  
+      const collector = m.createMessageComponentCollector({
+        time: 15000,
+        max: 1,
+      });
+  
+      collector.on("collect", async (i) => {
+        if (i.customId === "confirm") {
+          await profile.save();
+          await i.reply({
+            title: "You sold items!",
+            description: `You sold the following ${itemsSold.toLocaleString()} items for ⌭ ${moneyEarned.toLocaleString()}\n\n${description}`,
+            thumbnailURL: sellURL
+          });          
+        }
       });
       return;
     }
     let itemData = await bot.economy.getItem(item1);
-    if (!itemData) {
-      message.replyError({
+    
+    if (!itemData)
+      return await message.replyError({
         msg: message,
-        title: "Item not found.",
+        title: "Oops!",
+        description: "That item could not be found!\nPlease retry this command."
       });
-      return;
-    }
 
     //find if user has item.
     let itemUser = bot.economy.getItemFromArray(profile.items, itemData.name);
-    if (!itemUser) {
-      message.replyError({
-        msg: message,
-        title: "You don't have this item.",
+    if (!itemUser)
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like you don't have this item!\nPlease retry this command.",
       });
-      return;
-    }
+
     itemUser = itemUser.item;
     //If amount is string
     if (typeof amount === "string") {
@@ -86,28 +99,22 @@ module.exports = {
       }
     }
 
-    if (itemUser.amount < amount) {
-      message.replyError({
-        msg: message,
-        title: "You don't have enough of this item.",
-        description: `You need ${(
-          amount - itemUser.amount
-        ).toLocaleString()} more of this item.`,
+    if (itemUser.amount < amount) 
+      return await message.replyError({
+        title: "Oops!",
+        description: `You don't have enough of this item... you need ${(amount - itemUser.amount).toLocaleString()} more of it to be able to sell the amount you mentioned!\nPlease retry this command.`,
       });
-      return;
-    }
+
 
     let sell = itemData.sellAmount * amount;
     profile.coinsInWallet += sell;
     await profile.save();
     bot.economy.takeUserItem(message.member, itemData.name, amount);
 
-    message.reply({
-      msg: message,
-      title: "Success!",
-      description: `You sold ${amount} ${
-        itemData.name
-      } for ${sell.toLocaleString()} credits.`,
+    await message.reply({
+      title: "You sold some items!",
+      description: `You sold ${itemData.name} **x${amount}** for ⌭ ${sell.toLocaleString()}.`,
+      thumbnailURL: sellURL
     });
   },
 };
