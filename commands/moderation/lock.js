@@ -117,9 +117,7 @@ module.exports = {
                     `Action: \`Lock\` | ${message.author.tag} | Case #${logcase}`,
                     message.author.displayAvatarURL({ format: "png" })
                   )
-                  .addField("Channel", channel, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Reason", reason, true)
+                  .setDescription(`**Channel:** ${channel} \n**Reason:** ${reason} \n **Responsible Moderator:** ${message.author}`)
                   .setFooter({ text: `ID: ${message.author.id}` })
                   .setTimestamp()
                   .setColor(color);

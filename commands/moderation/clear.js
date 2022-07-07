@@ -127,7 +127,7 @@ module.exports = {
                       `Action: \`Purge\` | Case #${logcase}`,
                       message.author.displayAvatarURL({ format: "png" })
                     )
-                    .addField("Moderator", message.member, true)
+                    .setDescription( `**Member:** ${member} \n **Channel:** ${channel} \n **Messages:** ${messages.size} \n **Reason:** ${reason} \n **Responsible Moderator:** ${message.author}`)
                     .setTimestamp()
                     .setFooter({ text: `Responsible ID: ${message.author.id}` })
                     .setColor(color);

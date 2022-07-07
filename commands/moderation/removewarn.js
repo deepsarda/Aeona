@@ -131,9 +131,7 @@ module.exports = {
                     `Action: \`Remove Warn\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", mentionedMember, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Reason", reason, true)
+                  .setDescription(`**User:** ${mentionedMember} \n **Responsible Moderator:** ${message.author} \n **Reason:** ${reason}`)
                   .setFooter({
                     text: `ID: ${mentionedMember.id} | Warn ID: ${warningID}`,
                   })

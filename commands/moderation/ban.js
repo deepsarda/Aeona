@@ -175,13 +175,7 @@ module.exports = {
                     `Action: \`Ban\` | ${u.tag} | Case #${logcase}`,
                     member.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", member, true)
-                  .addField("Moderator", message.member, true)
-                  .addField(
-                    "Reason",
-                    reason ? reason : "no reason given!",
-                    true
-                  )
+                  .setDescription(`**User:** ${member} \n**Reason:** ${reason} \n**Responsible Moderator:** ${message.author}`)
                   .setFooter({ text: `ID: ${u.id}` })
                   .setTimestamp()
                   .setColor(color);

@@ -119,8 +119,7 @@ module.exports = {
                     `Action: \`Add Role\` | ${member.user.tag} | Case #${logcase}`,
                     member.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", member, true)
-                  .addField("Moderator", message.member, true)
+                  .setDescription(`**User:** ${member.user}\n**Role:** ${role} \n **Responsible Moderator:** ${message.author}`)
                   .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);

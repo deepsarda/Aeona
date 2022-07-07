@@ -126,9 +126,7 @@ module.exports = {
                     `Action: \`Mute\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", mentionedMember, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Length", time, true)
+                  .setDescription(`**User:** ${mentionedMember}\n **Time:** ${time}\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`)
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
