@@ -117,11 +117,11 @@ module.exports = {
 
                 const logEmbed = new MessageEmbed()
                   .setAuthor(
-                    `Action: \`Kick\` | ${u.tag} | Case #${logcase}`,
+                    `Action: \`Kick\` | ${member.tag} | Case #${logcase}`,
                     member.displayAvatarURL({ format: "png" })
                   )
                   .setDescription(`**User:** ${member}\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author.tag}`)
-                  .setFooter({ text: `ID: ${u.id}` })
+                  .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
 
