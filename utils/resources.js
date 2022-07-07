@@ -29,8 +29,8 @@ class Resource {
     let title = "";
 
     if (!options.normalTitle) {
-      if ("emote" in options) title = `${options.emote} ✦┊✧꒰`;
-      else if (this.emote !== undefined) title = `${this.emote} ✦┊✧꒰`;
+      if ("emote" in options) title = `${options.emote} ✦┊✧꒰ `;
+      else if (this.emote !== undefined) title = `${this.emote} ✦┊✧꒰ `;
 
       let t = cleanNull(options.title).toLowerCase().split("");
       let ti = "";
@@ -43,7 +43,7 @@ class Resource {
         } else ti += data[t[i] + "_"];
       }
 
-      title += ti + "꒱✦┊✧";
+      title += ti + " ꒱✦┊✧";
       if (title.length < 256) {
         if (options.title === undefined) title = "";
       } else {

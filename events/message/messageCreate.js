@@ -174,7 +174,7 @@ module.exports = {
       try {
         if (args.length < cmd.requiredArgs)
           return await message.channel.sendError({
-            title: "Invalid Usage!",
+            title: "Invalid Usage",
             description: `Correct Usage: \`${cmd.usage}\`\nPlease retry this command.`,
           });
         const player = message.client.manager.get(message.guild.id);

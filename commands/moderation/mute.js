@@ -5,9 +5,9 @@ const ms = require("ms");
 module.exports = {
   name: "mute",
   description: "Mute the specified user",
-  usage: "+mute <user> [time] [reason]",
+  usage: "+mute <user> <time> [reason]",
   category: "moderation",
-  requiredArgs: 1,
+  requiredArgs: 2,
   permissions: ["MODERATE_MEMBERS"],
   botPermissions: ["MODERATE_MEMBERS"],
   execute: async (message, args, bot, prefix) => {
@@ -16,21 +16,24 @@ module.exports = {
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
 
-    const msRegex = RegExp(/(\d+(s|m|h|w))/);
 
     if (!mentionedMember)
       return message.replyError({
         title: "Mute",
         description: "Please provide a user to mute.",
       });
-    if (!msRegex.test(args[1]))
-      return message.replyError({
+
+
+    let time = args[1];
+    if (!time) return message.replyError({
         title: "Mute",
         description: "Please provide a valid time.",
-      });
-
-    let time = msRegex.exec(args[1])[1];
-
+      })
+    if (time >= ms("4w")||time<=ms("5s"))
+      return message.replyError({
+        title: "Mute",
+        description: "Please provide a time between 4 weeks and 5 seconds!",
+      })
     if (
       mentionedMember.roles.highest.position >=
       message.guild.me.roles.highest.position
@@ -48,7 +51,7 @@ module.exports = {
         description: "I cannot mute this user.",
       });
 
-    let reason = args.slice(1).join(" ");
+    let reason = args.slice(2).join(" ");
     if (!reason) reason = `No reason provided.`;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
@@ -59,11 +62,11 @@ module.exports = {
       logging.moderation.mute_action !== "1"
     ) {
       if (logging.moderation.mute_action === "2") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **${time}**`;
+        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**`;
       } else if (logging.moderation.mute_action === "3") {
-        dmEmbed = `You've been muted in **${message.guild.name} ** for **${time}**\n\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been muted in **${message.guild.name} ** for **<t:${time}:R>**\n\n__**Reason:**__ ${reason}`;
       } else if (logging.moderation.mute_action === "4") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **${time}**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
       }
 
       mentionedMember
@@ -74,15 +77,15 @@ module.exports = {
         .catch(() => {});
     }
 
-    mentionedMember.timeout(
-      ms(time),
+    await mentionedMember.timeout(
+      time,
       reason + `/Responsible: ${message.author.tag}`
     );
 
     message.channel
       .send({
         title: "Mute",
-        description: `${mentionedMember} has been muted for ${time}. (${reason})`,
+        description: `${mentionedMember} has been muted for <t:${time}:R>. (${reason})`,
       })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
@@ -126,7 +129,7 @@ module.exports = {
                     `Action: \`Mute\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .setDescription(`**User:** ${mentionedMember}\n **Time:** ${time}\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`)
+                  .setDescription(`**User:** ${mentionedMember}\n **Time:** <t:${time}:R>\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`)
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);

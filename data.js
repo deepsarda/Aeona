@@ -9,7 +9,7 @@ module.exports = {
 
   //Emotes
   defaultE: "<a:bluestar:992311661652365312>", //Emote to use on success
-  errorE: "<:error_cross:924177258623692840>", //Emote to use on error
+  errorE: "<a:error:994637890673971241>", //Emote to use on error
   left: "<:left:907825540927471627>",
   right: "<:right:907828453859028992>",
   alert: "<:alert:935890334003658793>",
