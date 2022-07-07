@@ -180,7 +180,7 @@ module.exports = {
                   .setTimestamp()
                   .setColor(color);
 
-                channel.send({ embed: [logEmbed] }).catch((e) => {
+                channel.send({ embeds: [logEmbed] }).catch((e) => {
                   console.log(e);
                 });
 

@@ -125,7 +125,7 @@ module.exports = {
                   .setTimestamp()
                   .setColor(color);
 
-                channel.send({ embed: [logEmbed] }).catch(() => {});
+                channel.send({ embeds: [logEmbed] }).catch(() => {});
 
                 logging.moderation.caseN = logcase + 1;
                 await logging.save().catch(() => {});

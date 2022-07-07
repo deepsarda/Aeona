@@ -136,7 +136,7 @@ module.exports = {
                     logEmbed.addField(field, fields[field], true);
                   }
 
-                  channel.send({ embed: [logEmbed] }).catch(() => {});
+                  channel.send({ embeds: [logEmbed] }).catch(() => {});
 
                   logging.moderation.caseN = logcase + 1;
                   logging.save().catch(() => {});
