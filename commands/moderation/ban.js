@@ -165,7 +165,7 @@ module.exports = {
             ) {
               if (logging.moderation.ban == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.red;
+                if (color == "#000000") color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;

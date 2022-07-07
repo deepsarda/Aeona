@@ -108,6 +108,7 @@ module.exports = async (client) => {
   const renderTemplate = (res, req, template, data = {}) => {
     var hostname = req.headers.host;
     var pathname = url.parse(req.url).pathname;
+    
     const baseData = {
       https: hostname.includes("localhost") ? "http://" : "https://",
       domain: domain,
@@ -2113,7 +2114,6 @@ module.exports = async (client) => {
       await newSettings1.save().catch(() => {});
       logSettings = await Logging.findOne({ guildId: guild.id });
     }
-
     renderTemplate(res, req, "./new/mainlogging.ejs", {
       guild: guild,
       alert: null,
@@ -2220,7 +2220,6 @@ module.exports = async (client) => {
       let channelValid = await guild.channels.cache.find(
         (ch) => `#${ch.name}` === data.moderation_channel
       );
-
       if (channelValid) {
         logSettings.moderation.channel = guild.channels.cache.find(
           (ch) => `#${ch.name}` === data.moderation_channel
@@ -2228,7 +2227,6 @@ module.exports = async (client) => {
       } else {
         logSettings.moderation.channel = null;
       }
-
       // ignore channel
 
       let channelValid2 = await guild.channels.cache.find(
@@ -2242,7 +2240,7 @@ module.exports = async (client) => {
       } else {
         logSettings.moderation.ignore_channel = null;
       }
-
+      
       //ignore role
 
       let roleValid = await guild.roles.cache.find(
@@ -2258,13 +2256,7 @@ module.exports = async (client) => {
       }
 
       //Color
-      const color = data.color;
-      if (color) {
-        logSettings.moderation.color = data.color;
-      } else {
-        logSettings.moderation.color = `#000000`;
-      }
-
+      
       //Toggle
 
       const toggle = req.body["toggle"];
@@ -2273,10 +2265,11 @@ module.exports = async (client) => {
       } else {
         logSettings.moderation.toggle = false;
       }
-
+     
       await storedSettings.save().catch(() => {});
-      await logSettings.save().catch(() => {});
+      await logSettings.save().catch((e) => {console.log(e)});
 
+      logSettings = await Logging.findOne({ guildId: guild.id });
       renderTemplate(res, req, "./new/mainlogging.ejs", {
         guild: guild,
         log: logSettings,

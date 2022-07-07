@@ -8,6 +8,7 @@ const Maintenance = require("../../database/schemas/maintenance");
 module.exports = {
   name: "guildMemberRemove",
   async execute(client, member) {
+    console.log(member);
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
     const maintenance = await Maintenance.findOne({

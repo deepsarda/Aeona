@@ -103,7 +103,7 @@ module.exports = {
       const channel = message.guild.channels.cache.get(
         logging.moderation.channel
       );
-
+      
       if (logging.moderation.toggle == "true") {
         if (channel) {
           if (message.channel.id !== logging.moderation.ignore_channel) {
@@ -116,7 +116,7 @@ module.exports = {
             ) {
               if (logging.moderation.mute == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.red;
+                if (color == "#000000") color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -130,7 +130,7 @@ module.exports = {
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
-
+               
                 channel.send({ embed: [logEmbed] }).catch(() => {});
 
                 logging.moderation.caseN = logcase + 1;
