@@ -4,9 +4,7 @@ const { GuildMember, User } = require("discord.js");
 
 module.exports.run = () => {
   TextChannel.prototype.send = async function (options) {
-
     if (!options.resources) options = resources.success.embed(options);
-
 
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
@@ -31,7 +29,6 @@ module.exports.run = () => {
     return this.messages.cache.get(d.id) ?? this.messages._add(d);
   };
   TextChannel.prototype.sendError = async function (options) {
-
     if (!options.resources) options = resources.error.embed(options);
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();

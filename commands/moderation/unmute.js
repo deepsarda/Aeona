@@ -1,13 +1,12 @@
 const Logging = require("../../database/schemas/logging.js");
 const { MessageEmbed } = require("discord.js");
-const ms = require("ms");
 
 module.exports = {
-  name: "mute",
-  description: "Mute the specified user",
-  usage: "+mute <user> <time> [reason]",
+  name: "unmute",
+  description: "Unmutes the specified user",
+  usage: "+unmute <user> [reason]",
   category: "moderation",
-  requiredArgs: 2,
+  requiredArgs: 1,
   permissions: ["MODERATE_MEMBERS"],
   botPermissions: ["MODERATE_MEMBERS"],
   execute: async (message, args, bot, prefix) => {
@@ -22,17 +21,6 @@ module.exports = {
         description: "Please provide a user to mute.",
       });
 
-    let time = args[1];
-    if (!time)
-      return message.replyError({
-        title: "Mute",
-        description: "Please provide a valid time.",
-      });
-    if (time >= ms("4w") || time <= ms("5s"))
-      return message.replyError({
-        title: "Mute",
-        description: "Please provide a time between 4 weeks and 5 seconds!",
-      });
     if (
       mentionedMember.roles.highest.position >=
       message.guild.me.roles.highest.position
@@ -50,7 +38,7 @@ module.exports = {
         description: "I cannot mute this user.",
       });
 
-    let reason = args.slice(2).join(" ");
+    let reason = args.slice(1).join(" ");
     if (!reason) reason = `No reason provided.`;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
@@ -77,7 +65,7 @@ module.exports = {
     }
 
     await mentionedMember.timeout(
-      time,
+      undefined,
       reason + `/Responsible: ${message.author.tag}`
     );
 
@@ -126,11 +114,11 @@ module.exports = {
 
                 const logEmbed = new MessageEmbed()
                   .setAuthor(
-                    `Action: \`Mute\` | ${mentionedMember.user.tag} | Case #${logcase}`,
+                    `Action: \`UnMute\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
                   .setDescription(
-                    `**User:** ${mentionedMember}\n **Time:** <t:${time}:R>\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
+                    `**User:** ${mentionedMember}\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
                   )
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()

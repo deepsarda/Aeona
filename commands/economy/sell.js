@@ -36,7 +36,11 @@ module.exports = {
         let itemData = bot.economy.getItem(item.name);
         if (itemData.autosell) {
           moneyEarned += itemData.sellAmount * item.amount;
-          description += `${itemData.emote} ${item.name.charAt(0).toUpperCase()}${item.name.slice(1)} **x${item.amount.toLocaleString()}**\n`
+          description += `${itemData.emote} ${item.name
+            .charAt(0)
+            .toUpperCase()}${item.name.slice(
+            1
+          )} **x${item.amount.toLocaleString()}**\n`;
           itemsSold += item.amount;
           profile.items.splice(i, 1);
           i--;
@@ -56,31 +60,32 @@ module.exports = {
         description: `Are you sure you want to sell the following items?\nClick on the **Confirm** button to confirm your decision.\n\n${description}`,
         components: [row],
       });
-  
+
       const collector = m.createMessageComponentCollector({
         time: 15000,
         max: 1,
       });
-  
+
       collector.on("collect", async (i) => {
         if (i.customId === "confirm") {
           await profile.save();
           await i.reply({
             title: "You sold items!",
             description: `You sold the following ${itemsSold.toLocaleString()} items for ⌭ ${moneyEarned.toLocaleString()}\n\n${description}`,
-            thumbnailURL: sellURL
-          });          
+            thumbnailURL: sellURL,
+          });
         }
       });
       return;
     }
     let itemData = await bot.economy.getItem(item1);
-    
+
     if (!itemData)
       return await message.replyError({
         msg: message,
         title: "Oops!",
-        description: "That item could not be found!\nPlease retry this command."
+        description:
+          "That item could not be found!\nPlease retry this command.",
       });
 
     //find if user has item.
@@ -88,7 +93,8 @@ module.exports = {
     if (!itemUser)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like you don't have this item!\nPlease retry this command.",
+        description:
+          "Looks like you don't have this item!\nPlease retry this command.",
       });
 
     itemUser = itemUser.item;
@@ -99,12 +105,13 @@ module.exports = {
       }
     }
 
-    if (itemUser.amount < amount) 
+    if (itemUser.amount < amount)
       return await message.replyError({
         title: "Oops!",
-        description: `You don't have enough of this item... you need ${(amount - itemUser.amount).toLocaleString()} more of it to be able to sell the amount you mentioned!\nPlease retry this command.`,
+        description: `You don't have enough of this item... you need ${(
+          amount - itemUser.amount
+        ).toLocaleString()} more of it to be able to sell the amount you mentioned!\nPlease retry this command.`,
       });
-
 
     let sell = itemData.sellAmount * amount;
     profile.coinsInWallet += sell;
@@ -113,8 +120,10 @@ module.exports = {
 
     await message.reply({
       title: "You sold some items!",
-      description: `You sold ${itemData.name} **x${amount}** for ⌭ ${sell.toLocaleString()}.`,
-      thumbnailURL: sellURL
+      description: `You sold ${
+        itemData.name
+      } **x${amount}** for ⌭ ${sell.toLocaleString()}.`,
+      thumbnailURL: sellURL,
     });
   },
 };

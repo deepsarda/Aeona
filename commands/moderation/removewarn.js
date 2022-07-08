@@ -121,7 +121,8 @@ module.exports = {
             ) {
               if (logging.moderation.warns == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.guild.me.displayHexColor;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -131,7 +132,9 @@ module.exports = {
                     `Action: \`Remove Warn\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .setDescription(`**User:** ${mentionedMember} \n **Responsible Moderator:** ${message.author} \n **Reason:** ${reason}`)
+                  .setDescription(
+                    `**User:** ${mentionedMember} \n **Responsible Moderator:** ${message.author} \n **Reason:** ${reason}`
+                  )
                   .setFooter({
                     text: `ID: ${mentionedMember.id} | Warn ID: ${warningID}`,
                   })

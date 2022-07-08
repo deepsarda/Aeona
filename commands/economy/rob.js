@@ -139,7 +139,9 @@ module.exports = {
       message.reply({
         msg: message,
         title: `Ha, You robbed ${user.displayName}!`,
-        description: `You robbed half of ${user.displayName}'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
+        description: `You robbed half of ${
+          user.displayName
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
       });
     } else if (lootIndex == "all") {
       //Get all the money
@@ -152,7 +154,9 @@ module.exports = {
       message.reply({
         msg: message,
         title: `Ha, You robbed ${user.displayName}!`,
-       description: `You robbed all of ${user.displayName}'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}. RIP!`,
+        description: `You robbed all of ${
+          user.displayName
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}. RIP!`,
       });
     }
   },

@@ -49,6 +49,10 @@ module.exports = {
               )
               .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
               .setDescription(`${member} (**${member.user.tag}**)`)
+              .addField("Member ID", member.id)
+              .addField("Member Tag", member.user.tag)
+              .addField("Member Created At", member.user.createdAt)
+              .addField("Member Joined At", member.joinedAt)
               .addField(
                 "Account created on",
                 moment(member.user.createdAt).format("dddd, MMMM Do YYYY")

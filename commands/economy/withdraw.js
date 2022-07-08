@@ -22,10 +22,11 @@ module.exports = {
     if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
       return message.replyError({ title: "Invalid amount!" });
     if (profile.coinsInBank < amount) {
-      
       return await message.replyError({
         title: "Oops!",
-        description: `Looks like you don't have enough money... you need ⌭ ${(amount - profile.coinsInBank).toLocaleString()} more to withdraw!\nPlease retry this command.`,
+        description: `Looks like you don't have enough money... you need ⌭ ${(
+          amount - profile.coinsInBank
+        ).toLocaleString()} more to withdraw!\nPlease retry this command.`,
       });
     }
 
@@ -37,7 +38,7 @@ module.exports = {
       msg: message,
       title: "Credits withdrawn successfully!",
       description: `You withdrew ⌭ ${amount.toLocaleString()} from your bank.`,
-      thumbnailURL: "https://img.icons8.com/fluency/344/withdrawal.png"
+      thumbnailURL: "https://img.icons8.com/fluency/344/withdrawal.png",
     });
   },
 };

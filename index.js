@@ -6,7 +6,6 @@ const config = require("./utils/config");
 const dashboard = require("./dashboard");
 const { AutoPoster } = require("topgg-autoposter");
 
-
 //Override prototype
 require("./structures/TextBasedChannel").run();
 require("./structures/TextChannel").run();
@@ -15,9 +14,6 @@ require("./structures/MessageComponentInteraction").run();
 require("./structures/CanvasSenpai").run();
 require("./structures/CanvasSenpai").run();
 const logger = require("./utils/logger");
-
-
-
 
 logger("Aeona", config.logs_webhook_url);
 let client = new aeonaClient();

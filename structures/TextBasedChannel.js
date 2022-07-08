@@ -3,10 +3,8 @@ const { User, GuildMember } = require("discord.js");
 const resources = require("../utils/resources");
 module.exports.run = () => {
   TextBasedChannel.prototype.send = async function (options) {
-    
     if (!options.resources) options = resources.success.embed(options);
 
-    
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
 
@@ -31,7 +29,6 @@ module.exports.run = () => {
   };
 
   TextBasedChannel.prototype.sendError = async function (options) {
-    
     if (!options.resources) options = resources.error.embed(options);
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
@@ -56,12 +53,9 @@ module.exports.run = () => {
     return this.messages.cache.get(d.id) ?? this.messages._add(d);
   };
 
-
   GuildMember.prototype.send = async function (options) {
-    
     if (!options.resources) options = resources.success.embed(options);
 
-    
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
 
@@ -86,7 +80,6 @@ module.exports.run = () => {
   };
 
   GuildMember.prototype.sendError = async function (options) {
-    
     if (!options.resources) options = resources.error.embed(options);
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
@@ -112,10 +105,8 @@ module.exports.run = () => {
   };
 
   User.prototype.send = async function (options) {
-    
     if (!options.resources) options = resources.success.embed(options);
 
-    
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
 
@@ -140,7 +131,6 @@ module.exports.run = () => {
   };
 
   User.prototype.sendError = async function (options) {
-    
     if (!options.resources) options = resources.error.embed(options);
     if (this instanceof User || this instanceof GuildMember) {
       const dm = await this.createDM();
@@ -164,5 +154,4 @@ module.exports.run = () => {
 
     return this.messages.cache.get(d.id) ?? this.messages._add(d);
   };
-  
 };

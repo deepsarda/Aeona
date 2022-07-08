@@ -117,7 +117,8 @@ module.exports = {
               ) {
                 if (logging.moderation.purge == "true") {
                   let color = logging.moderation.color;
-                  if (color == "#000000") color = message.guild.me.displayHexColor;
+                  if (color == "#000000")
+                    color = message.guild.me.displayHexColor;
 
                   let logcase = logging.moderation.caseN;
                   if (!logcase) logcase = `1`;
@@ -127,7 +128,9 @@ module.exports = {
                       `Action: \`Purge\` | Case #${logcase}`,
                       message.author.displayAvatarURL({ format: "png" })
                     )
-                    .setDescription( `**Member:** ${member} \n **Channel:** ${channel} \n **Messages:** ${messages.size} \n **Reason:** ${reason} \n **Responsible Moderator:** ${message.author}`)
+                    .setDescription(
+                      `**Member:** ${member} \n **Channel:** ${channel} \n **Messages:** ${messages.size} \n **Reason:** ${reason} \n **Responsible Moderator:** ${message.author}`
+                    )
                     .setTimestamp()
                     .setFooter({ text: `Responsible ID: ${message.author.id}` })
                     .setColor(color);

@@ -108,7 +108,7 @@ module.exports = async (client) => {
   const renderTemplate = (res, req, template, data = {}) => {
     var hostname = req.headers.host;
     var pathname = url.parse(req.url).pathname;
-    
+
     const baseData = {
       https: hostname.includes("localhost") ? "http://" : "https://",
       domain: domain,
@@ -2240,7 +2240,7 @@ module.exports = async (client) => {
       } else {
         logSettings.moderation.ignore_channel = null;
       }
-      
+
       //ignore role
 
       let roleValid = await guild.roles.cache.find(
@@ -2256,7 +2256,7 @@ module.exports = async (client) => {
       }
 
       //Color
-      
+
       //Toggle
 
       const toggle = req.body["toggle"];
@@ -2265,9 +2265,11 @@ module.exports = async (client) => {
       } else {
         logSettings.moderation.toggle = false;
       }
-     
+
       await storedSettings.save().catch(() => {});
-      await logSettings.save().catch((e) => {console.log(e)});
+      await logSettings.save().catch((e) => {
+        console.log(e);
+      });
 
       logSettings = await Logging.findOne({ guildId: guild.id });
       renderTemplate(res, req, "./new/mainlogging.ejs", {

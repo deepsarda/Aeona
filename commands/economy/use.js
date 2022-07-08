@@ -16,19 +16,20 @@ module.exports = {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     let itemData = await bot.economy.getItem(item);
-    
+
     if (!itemData)
       return await message.replyError({
         msg: message,
         title: "Oops!",
-        description: "That item could not be found!\nPlease retry this command."
+        description:
+          "That item could not be found!\nPlease retry this command.",
       });
 
     if (!itemData.canUse)
       return await message.replyError({
         msg: message,
         title: "Oops!",
-        description: "You can't use that item!\nPlease retry this command."
+        description: "You can't use that item!\nPlease retry this command.",
       });
 
     //find if user has item.
@@ -36,9 +37,10 @@ module.exports = {
     if (!itemUser)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like you don't have this item!\nPlease retry this command.",
+        description:
+          "Looks like you don't have this item!\nPlease retry this command.",
       });
-      
+
     itemUser = itemUser.item;
 
     //If amount is string

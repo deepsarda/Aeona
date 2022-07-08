@@ -19,30 +19,33 @@ module.exports = {
     let itemData = await bot.economy.getItem(item);
 
     const upgradeURL = "https://img.icons8.com/dusk/344/upgrade.png";
-    
+
     if (!itemData)
       return await message.replyError({
         msg: message,
         title: "Oops!",
-        description: "That item could not be found!\nPlease retry this command."
+        description:
+          "That item could not be found!\nPlease retry this command.",
       });
 
     //find if user has item.
     let itemUser = bot.economy.getItemFromArray(profile.items, itemData.name);
-    
+
     if (!itemUser)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like you don't have this item!\nPlease retry this command.",
+        description:
+          "Looks like you don't have this item!\nPlease retry this command.",
       });
 
     itemUser = itemUser.item;
     let copy = itemUser;
-    
+
     if (!itemData.upgradeAble)
       return await message.replyError({
         title: "Oops!",
-        description: "This item cannot be upgraded!\nPlease retry this command.",
+        description:
+          "This item cannot be upgraded!\nPlease retry this command.",
       });
 
     //If amount is string
@@ -67,13 +70,15 @@ module.exports = {
 
         profile.items.splice(profile.items.indexOf(copy), 1);
         profile.items.push(itemUser);
-        
+
         await profile.save();
-        
+
         await message.reply({
           title: "You upgraded an item!",
-          description: `You upgraded ${itemData.name} to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
-          thumbnailURL: upgradeURL
+          description: `You upgraded ${
+            itemData.name
+          } to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
+          thumbnailURL: upgradeURL,
         });
       }
       return;
@@ -88,7 +93,9 @@ module.exports = {
         return await message.replyError({
           msg: message,
           title: "Oops!",
-          description: `Looks like you don't have enough money... you need ⌭ ${(cost - profile.coinsInWallet).toLocaleString()} more to upgrade your item!\nPlease retry this command.`,
+          description: `Looks like you don't have enough money... you need ⌭ ${(
+            cost - profile.coinsInWallet
+          ).toLocaleString()} more to upgrade your item!\nPlease retry this command.`,
         });
       }
       if (cost > 0) {
@@ -109,8 +116,10 @@ module.exports = {
 
     await message.reply({
       title: "You upgraded an item!",
-      description: `You upgraded ${itemData.name} to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
-      thumbnailURL: upgradeURL
+      description: `You upgraded ${
+        itemData.name
+      } to level ${level}!\nYou now have ⌭ ${profile.coinsInWallet.toLocaleString()} remaining in your wallet.`,
+      thumbnailURL: upgradeURL,
     });
   },
 };

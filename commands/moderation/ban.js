@@ -165,7 +165,8 @@ module.exports = {
             ) {
               if (logging.moderation.ban == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.guild.me.displayHexColor;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -175,7 +176,9 @@ module.exports = {
                     `Action: \`Ban\` | ${member.tag} | Case #${logcase}`,
                     member.displayAvatarURL({ format: "png" })
                   )
-                  .setDescription(`**User:** ${member} \n**Reason:** ${reason} \n**Responsible Moderator:** ${message.author}`)
+                  .setDescription(
+                    `**User:** ${member} \n**Reason:** ${reason} \n**Responsible Moderator:** ${message.author}`
+                  )
                   .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
