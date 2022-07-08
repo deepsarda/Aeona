@@ -22,7 +22,8 @@ module.exports = {
         description: "Please provide a user to mute.",
       });
 
-    let time = args[1];
+    let time = ms(args[1]);
+    let timeParsed=Math.floor((Date.now()+time)/1000);
     if (!time)
       return message.replyError({
         title: "Mute",
@@ -61,11 +62,11 @@ module.exports = {
       logging.moderation.mute_action !== "1"
     ) {
       if (logging.moderation.mute_action === "2") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**`;
+        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${timeParsed}:R>**`;
       } else if (logging.moderation.mute_action === "3") {
-        dmEmbed = `You've been muted in **${message.guild.name} ** for **<t:${time}:R>**\n\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been muted in **${message.guild.name} ** for **<t:${timeParsed}:R>**\n\n__**Reason:**__ ${reason}`;
       } else if (logging.moderation.mute_action === "4") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${timeParsed}:R>**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
       }
 
       mentionedMember
@@ -84,7 +85,7 @@ module.exports = {
     message.channel
       .send({
         title: "Mute",
-        description: `${mentionedMember} has been muted for <t:${time}:R>. (${reason})`,
+        description: `${mentionedMember} has been muted for <t:${timeParsed}:R>. (${reason})`,
       })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
@@ -130,7 +131,7 @@ module.exports = {
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
                   .setDescription(
-                    `**User:** ${mentionedMember}\n **Time:** <t:${time}:R>\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
+                    `**User:** ${mentionedMember}\n **Time:** <t:${timeParsed}:R>\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
                   )
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()

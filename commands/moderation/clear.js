@@ -19,19 +19,13 @@ module.exports = {
     if (channel) args.shift();
     else channel = message.channel;
 
-    if (!channel.isText() || channel.viewable)
-      return message.replyError({
-        title: `PURGE`,
-        description: `Either I cannot see that channel or it is not a text channel`,
-      });
-
     const member =
       message.mentions.members.first() ||
       message.guild.members.cache.get(args[0]);
 
     if (member) args.shift();
 
-    let count = parseInt(args[0]);
+    let amount = parseInt(args[0]);
 
     if (isNaN(amount) === true || !amount || amount < 0 || amount > 100)
       return message.replyError({

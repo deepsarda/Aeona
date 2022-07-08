@@ -42,37 +42,17 @@ module.exports = {
     if (!reason) reason = `No reason provided.`;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
-    let dmEmbed;
-    if (
-      logging &&
-      logging.moderation.mute_action &&
-      logging.moderation.mute_action !== "1"
-    ) {
-      if (logging.moderation.mute_action === "2") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**`;
-      } else if (logging.moderation.mute_action === "3") {
-        dmEmbed = `You've been muted in **${message.guild.name} ** for **<t:${time}:R>**\n\n__**Reason:**__ ${reason}`;
-      } else if (logging.moderation.mute_action === "4") {
-        dmEmbed = `You've been muted in **${message.guild.name}** for **<t:${time}:R>**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
-      }
-
-      mentionedMember
-        .sendError({
-          title: "OH NO",
-          description: dmEmbed,
-        })
-        .catch(() => {});
-    }
+    
 
     await mentionedMember.timeout(
-      undefined,
+      null,
       reason + `/Responsible: ${message.author.tag}`
     );
 
     message.channel
       .send({
-        title: "Mute",
-        description: `${mentionedMember} has been muted for <t:${time}:R>. (${reason})`,
+        title: "Unmute",
+        description: `${mentionedMember} has been unmuted. (${reason})`,
       })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {

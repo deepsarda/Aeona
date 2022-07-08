@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const warnModel = require("../../database/schemas/moderation.js");
 const Logging = require("../../database/schemas/logging.js");
 const randoStrings = require("randostrings");
-
+let random=new randoStrings();
 module.exports = {
   name: "warn",
   description: "Warn a specific user from your server",
@@ -93,7 +93,7 @@ module.exports = {
         .catch((err) => console.log(err));
 
       message
-        .replySuccess({
+        .reply({
           title: "Warn",
           description: `Successfully warned ${mentionedMember}`,
         })

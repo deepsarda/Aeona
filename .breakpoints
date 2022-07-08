@@ -3,9 +3,9 @@
     "commands/moderation/mute.js": [
       {
         "id": "2ac29cd3-cc65-47c1-9449-2a0c062a113d",
-        "line": 102,
-        "version": 98,
-        "index": 3126
+        "line": 105,
+        "version": 305,
+        "index": 3250
       }
     ]
   }
