@@ -24,15 +24,15 @@ module.exports = {
 
         await newGuild.save();
 
-        return message.replyError({
-          title: "Error",
-          description: `There are no alt accounts whitelisted.`,
+        return await message.replyError({
+          title: "Oops!",
+          description: `There aren't any whitelisted alt accounts!`,
         });
       }
       if (!db.allowedAlts.includes(args[0]))
-        return message.replyError({
-          title: "Error",
-          description: `That user is not whitelisted.`,
+        return await message.replyError({
+          title: "Oops!",
+          description: "Looks like that user isn't whitelisted!",
         });
 
       let arr = db.allowedAlts;
@@ -42,9 +42,9 @@ module.exports = {
         allowedAlts: newArr,
       });
 
-      message.reply({
-        title: "Alt Account Removed",
-        description: `${args[0]} has been removed from the whitelist.`,
+      await message.reply({
+        title: "Alt account removed!",
+        description: `${args[0]} was successfully removed from the whitelist.`,
       });
 
       function removeA(arr) {

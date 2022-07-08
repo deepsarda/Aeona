@@ -35,25 +35,25 @@ module.exports = {
               await newGuild.save().catch((err) => {
                 console.log(err);
               });
-              return message.reply({
-                title: "Alt Account Whitelisted",
-                description: `${u.tag} has been whitelisted.`,
+              return await message.reply({
+                title: "Alt account whitelisted!",
+                description: `${u.tag} was successfully whitelisted.`,
               });
             }
 
             let oldAllowedAlts = db.allowedAlts; //[]
             if (guildDB.isPremium === "false")
               if (oldAllowedAlts.length === 10)
-                return message.replyError({
-                  title: "Error",
-                  description: `You have reached the maximum number of allowed alts. Please upgrade to [premium](${process.env.domain}/premium) to add more.`,
+                return await message.replyError({
+                  title: "Oops!",
+                  description: `Looks like you've reached the maximum number of allowed alts! Please upgrade to [premium](${process.env.domain}/premium) to add more.`,
                 });
 
             if (guildDB.isPremium === "true") {
               if (oldAllowedAlts.length === 50)
-                return message.replyError({
-                  title: "Error",
-                  description: `You have reached the maximum number of allowed alts.`,
+                return await message.replyError({
+                  title: "Oops!",
+                  description: "Looks like you've reached the maximum number of allowed alts!",
                 });
             }
             oldAllowedAlts.push(u.id);
@@ -62,17 +62,17 @@ module.exports = {
               allowedAlts: oldAllowedAlts,
             });
 
-            message.reply({
-              title: "Alt Account Whitelisted",
-              description: `${u.tag} has been whitelisted.`,
+            await message.reply({
+              title: "Alt account whitelisted!",
+              description: `${u.tag} was successfully whitelisted.`,
             });
           }
         );
       })
       .catch((err) => {
-        message.replyError({
-          title: "Error",
-          description: `${args[0]} is not a valid user id.`,
+        await message.replyError({
+          title: "Oops!",
+          description: `${args[0]} is not a valid user ID.\nPlease retry this command.`,
         });
       });
   },

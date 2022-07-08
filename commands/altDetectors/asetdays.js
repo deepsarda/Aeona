@@ -12,18 +12,17 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
     let days = Number(args[0]);
     if (isNaN(days))
-      return message.replyError({
-        title: "Error",
-        description: "Invalid number of days. Please enter a number.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "The number of days you entered was invalid.\nPlease retry this command... entering a number.",
       });
 
     let day = Number(days);
 
     if (day > 100)
-      return message.replyError({
-        title: "Error",
-        description:
-          "Invalid number of days. Please enter a number less than or equal to 100.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "The number of days you entered was invalid.\nPlease retry this command... entering a number less than or equal to 100.",
       });
 
     await alt.findOne(
@@ -46,9 +45,9 @@ module.exports = {
             console.log(err);
           });
 
-          return message.reply({
-            title: "Alt Detector",
-            description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
+          return await message.reply({
+            title: "Alt age blocker set!",
+            description: `The alt-detector will now automatically block accounts younger than ${days} days.`,
           });
         }
 
@@ -56,9 +55,9 @@ module.exports = {
           altDays: day,
         });
 
-        message.reply({
-          title: "Alt Detector",
-          description: `Alt Detector will now automatically block accounts younger than ${days} days.`,
+        await message.reply({
+          title: "Alt age blocker set!",
+          description: `The alt-detector will now automatically block accounts younger than ${days} days.`,
         });
       }
     );

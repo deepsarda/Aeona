@@ -12,9 +12,9 @@ module.exports = {
   execute: async (message, args, client, prefix) => {
     let choices = ["true", "false"];
     if (!choices.includes(args[0].toLowerCase()))
-      return message.replyError({
-        title: "Error",
-        description: "Invalid choice. Valid choices are: `true`, `false`",
+      return await message.replyError({
+        title: "Oops! Invalid choice!",
+        description: `Please retry this command... using the correct command format.\n\n\`${prefix}atoggle <true|false>\``
       });
 
     await alt.findOne({ guildID: message.guild.id }, async (err, db) => {
@@ -31,9 +31,9 @@ module.exports = {
 
         await newGuild.save();
 
-        return message.reply({
-          title: "Alt Detector",
-          description: `Alt Detector will now automatically block accounts younger than 7 days.`,
+        return await message.reply({
+          title: "Alt-detector enabled!",
+          description: `The alt-Detector was successfully enabled!\nIt will now automatically block accounts younger than 7 days.`,
         });
       }
 
@@ -43,14 +43,14 @@ module.exports = {
 
       let choice;
       if (args[0].toLowerCase() === "true") {
-        choice = "on";
+        choice = "enabled";
       } else if (args[0].toLowerCase() === "false") {
-        choice = "off";
+        choice = "disabled";
       }
 
-      return message.reply({
-        title: "Alt Detector",
-        description: `Alt Detector is now ${choice}.`,
+      return await message.reply({
+        title: `Alt-detector ${choice}!`,
+        description: `The alt-detector was successfully ${choice}.`,
       });
     });
   },
