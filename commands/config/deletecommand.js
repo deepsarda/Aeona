@@ -16,9 +16,9 @@ module.exports = {
     });
 
     if (!customCommand)
-      return message.replyError({
-        title: "Custom Command",
-        description: "A custom command with this name does not exist.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like there's no custom command with this name!\nPlease retry this command.",
       });
 
     await customCommand.deleteOne({
@@ -26,9 +26,9 @@ module.exports = {
       name: name,
     });
 
-    return message.reply({
-      title: "Custom Command",
-      description: "The custom command has been deleted.",
+    await message.reply({
+      title: "Custom command successfully deleted!",
+      description: `The custom command \`${name}\` has been deleted!\n\nYou can create a new one using \`${prefix}cc <name> <response>\`.`,
     });
   },
 };

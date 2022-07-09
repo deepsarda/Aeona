@@ -4,7 +4,7 @@ module.exports = {
   name: "globalchat",
   description: "Toggle global chat",
   permissions: ["MANAGE_GUILD"],
-  usage: "+globalchat setup/disable",
+  usage: "+globalchat <enable|disable> [#channel]",
   category: "Config",
   requiredArgs: 1,
   aliases: ["gc"],
@@ -20,28 +20,28 @@ module.exports = {
 
       if (!channel)
         return message.replyError({
-          title: "Global Chat",
-          description: `Please provide a valid channel. \n Valid arguments: \n setup #channel`,
+          title: "Oops! You didn't provide a valid channel!",
+          description: `Please retry this command... using the correct syntax!\n\n\`${prefix}globalchat <enable|disable> [#channel]\``,
         });
 
       guild.globalChatChannel = channel.id;
       await guild.save();
-      return message.reply({
-        title: "Global Chat",
-        description: `Global chat has been enabled.`,
+      return await message.reply({
+        title: "Global chat enabled!",
+        description: `Global chat has successfully been enabled in ${channel}.`,
       });
     } else if (args[0] === "disable") {
       guild.globalChatChannel = "";
       await guild.save();
       return message.reply({
-        title: "Global Chat",
-        description: `Global chat has been disabled.`,
+        title: "Global chat disabled!",
+        description: `Global chat has successfully been disabled.`,
       });
     }
 
     return message.replyError({
-      title: "Global Chat",
-      description: `Please provide a valid argument. \n Valid arguments: \n setup #channel \n disable`,
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax!\n\n\`${prefix}globalchat <enable|disable> [#channel]\``,
     });
   },
 };

@@ -2,9 +2,9 @@ const Guild = require("../../database/schemas/Guild");
 const autoResponse = require("../../database/schemas/autoResponse.js");
 module.exports = {
   name: "autoresponse",
-  description: "Create a auto Response which gets triggered without prefix!",
-  usage: "+autoresponse <command> <reply>",
-  aliases: ["ar", "aresponse"],
+  description: "Create a auto-response which gets triggered without prefix!",
+  usage: "+autoresponse <message> <response>",
+  aliases: ["ar", "aresponse", "aresponder", "autoresponder"],
   category: "config",
   requiredArgs: 2,
   permission: ["MANAGE_GUILD"],
@@ -14,9 +14,9 @@ module.exports = {
     if (guild.isPremium === "false") {
       const results = await autoResponse.find({ guildId: message.guild.id });
       if (results.length >= 5) {
-        return message.replyError({
-          title: "Error",
-          description: `Non premium guilds can only have 5 auto responses! Get [premium to add more!](${process.env.domain}/premium)`,
+        return await message.replyError({
+          title: "Oops!",
+          description: `Non-premium guilds can only have upto 5 auto-responders! Get [premium to add more!](${process.env.domain}/premium)`,
         });
       }
     }
@@ -24,17 +24,17 @@ module.exports = {
     let reply = args.slice(1).join(" ");
 
     if (name.length > 30)
-      return message.replyError({
-        title: "Auto Response",
+      return await message.replyError({
+        title: "Oops!",
         description:
-          "The name of the auto response cannot be longer than 30 characters.",
+          "The message to respond to, cannot be longer than 30 characters!\nPlease retry this command.",
       });
 
     if (reply.length > 2000)
-      return message.replyError({
-        title: "Auto Response",
+      return await message.replyError({
+        title: "Oops!",
         description:
-          "The reply of the auto response cannot be longer than 2000 characters.",
+          "The auto-response cannot be longer than 2000 characters!\nPlease retry this command.",
       });
 
     let autoResponse = await autoResponse.findOne({
@@ -43,9 +43,9 @@ module.exports = {
     });
 
     if (autoResponse)
-      return message.replyError({
-        title: "Auto Response",
-        description: "An auto response with this name already exists.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like an auto-response for this message already exists!\nPlease retry this command.",
       });
 
     await autoResponse.create({
@@ -54,9 +54,9 @@ module.exports = {
       content: reply,
     });
 
-    return message.reply({
-      title: "Auto Response",
-      description: `Auto response \`${name}\` has been created. \n\n Delete it with \`${prefix}delete-autoresponse ${name}\`.`,
+    await message.reply({
+      title: "Auto-responder successfully created!",
+      description: `An auto-response for the message \`${name}\` has been created!\n\nYou can delete it using \`${prefix}delete-autoresponse ${name}\`.`,
     });
   },
 };

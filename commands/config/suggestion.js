@@ -2,9 +2,9 @@ const Guild = require("../../database/schemas/Guild");
 
 module.exports = {
   name: "suggestion",
-  description: "Enable suggestions for the server",
+  description: "Enable suggestions for the server, or approve/decline a suggestion",
   usage:
-    "+suggestion <enable #channel | disable> / suggestion approve/decline <message ID>",
+    "+suggestion <enable|disable> [#channel] OR +suggestion <approve|decline> <messageID>",
   category: "config",
   requiredArgs: 1,
   aliases: [],
@@ -20,23 +20,23 @@ module.exports = {
         message.guild.channels.cache.get(args[1]);
 
       if (!channel)
-        return message.replyError({
-          title: "Suggestion",
-          description: `Please provide a valid channel. \n Valid arguments: \n enable #channel`,
+        return await message.replyError({
+          title: "Oops!",
+          description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}suggestion <enable|disable> [#channel]\``,
         });
 
       guild.suggestion.suggestionChannelID = channel.id;
       await guild.save();
       return message.reply({
-        title: "Suggestion",
-        description: `Suggestion has been enabled.`,
+        title: "Suggestions enabled!",
+        description: `Server suggestions were successfully enabled!`,
       });
     } else if (option === "disable") {
       guild.suggestion.suggestionChannelID = "";
       await guild.save();
       return message.reply({
-        title: "Suggestion",
-        description: `Suggestion has been disabled.`,
+        title: "Suggestions disabled!",
+        description: `Server suggestions were successfully disabled!`,
       });
     } else if (option === "approve" || option === "accept") {
       let channel = await message.guild.channels
@@ -44,20 +44,20 @@ module.exports = {
         .catch();
       if (!channel)
         return message.replyError({
-          title: "Suggestion",
+          title: "Server suggestions",
           description: `I can't find the suggestion channel.`,
         });
 
       if (!args[1])
         return message.replyError({
-          title: "Suggestion",
+          title: "Server suggestions",
           description: `Please provide a valid message ID.`,
         });
 
       let msg = await channel.messages.fetch(args[1]);
       if (!msg)
         return message.replyError({
-          title: "Suggestion",
+          title: "Server Suggestions",
           description: `Please provide a valid message ID.`,
         });
 
@@ -65,8 +65,8 @@ module.exports = {
 
       if (acceptReason.length > 600)
         return message.replyError({
-          title: "Suggestion",
-          description: `The reason must be under 600 characters.`,
+          title: "Oops!",
+          description: `The reason must be under 600 characters!\nPlease retry this command.`,
         });
 
       msg.edit({
@@ -78,20 +78,20 @@ module.exports = {
         .catch();
       if (!channel)
         return message.replyError({
-          title: "Suggestion",
+          title: 'Server Suggestions',
           description: `I can't find the suggestion channel.`,
         });
 
       if (!args[1])
         return message.replyError({
-          title: "Suggestion",
+          title: "Server suggestions",
           description: `Please provide a valid message ID.`,
         });
 
       let msg = await channel.messages.fetch(args[1]);
       if (!msg)
         return message.replyError({
-          title: "Suggestion",
+          title: "Server suggestions",
           description: `Please provide a valid message ID.`,
         });
 
@@ -99,18 +99,18 @@ module.exports = {
 
       if (acceptReason.length > 600)
         return message.replyError({
-          title: "Suggestion",
-          description: `The reason must be under 600 characters.`,
+          title: "Oops!",
+          description: `The reason must be under 600 characters!\nPlease retry this command`,
         });
 
       msg.edit({
         content: `**Declined: ** \`${acceptReason}\` \n **Denied by: ** \`${message.author.tag}\``,
       });
     } else {
-      return message.replyError({
-        title: "Suggestion",
-        description: `Please provide a valid option. \n Valid arguments: \n enable #channel \n disable \n approve/accept <message ID> \n decline/reject <message ID>`,
-      });
+      return await message.replyError({
+          title: "Oops!",
+          description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}suggestion <accept|decline> <messageID>\``,
+        });
     }
   },
 };

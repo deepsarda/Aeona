@@ -11,23 +11,34 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const oldNickname = message.member.nickname || message.author.username;
     const nickname = `[AFK] ${oldNickname}`;
+    
     const userr = message.mentions.users.first();
-    if (userr) return message.reply(`Please do not mention users.`);
-
     let everyoneping = args.indexOf("@everyone") > -1;
     let hereping = args.indexOf("@here") > -1;
 
-    if (everyoneping || hereping)
-      return message.reply(`Please do not ping everyone or here.`);
+    if (everyoneping || hereping || userr)
+      return await message.replyError({
+        title: `Oops!`,
+        description: "AFK messages cannot not contain mentions.\nPlease retry this command."
+      });
 
     if (args.length > 100) {
-      return message.reply(`Please keep your AFK message under 100 words.`);
+      return await message.replyError({
+        title: `Oops!`,
+        description: "AFK messages cannot not exceed 100 words.\nPlease retry this command."
+      });
     }
 
     let content = args.join(" ") || "AFK";
 
     const afklist = await Afk.findOne({ userID: message.member.id });
     await message.member.setNickname(nickname).catch(() => {});
+
+    await message.reply({
+      title: "You went AFK!",
+      description: `${message.member.displayName} is now AFK!\nMessage: ${content}`,
+      thumbnailURL: message.member.displayAvatarURL({ dynamic: true }),
+    });
 
     const newafk = new Afk({
       userID: message.author.id,
@@ -37,11 +48,5 @@ module.exports = {
       time: new Date(),
     });
     await newafk.save();
-
-    return message.reply({
-      title: "AFK",
-      description: `You are now AFK.`,
-      thumbnailURL: message.member.displayAvatarURL({ dynamic: true }),
-    });
   },
 };

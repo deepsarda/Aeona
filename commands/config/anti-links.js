@@ -30,9 +30,9 @@ module.exports = {
       });
     }
 
-    return message.replyError({
-      title: "Anti Links",
-      description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
+    await message.replyError({
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}anti-links <enable|disable>\``,
     });
   },
 };

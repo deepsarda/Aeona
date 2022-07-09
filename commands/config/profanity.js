@@ -1,9 +1,9 @@
 const Guild = require("../../database/schemas/Guild");
 
 module.exports = {
-  name: "profanity",
-  description: "Stop user's from using profanity",
-  usage: "+profanity <enable | disable>",
+  name: "profanity-check",
+  description: "Auto-deletes all messages deemed as profanity by an AI checker",
+  usage: "+profanity-check <enable|disable>",
   category: "config",
   requiredArgs: 1,
   aliases: [],
@@ -21,8 +21,8 @@ module.exports = {
       guild.aiAutoMod = true;
       await guild.save();
       return message.reply({
-        title: "Profanity",
-        description: `Profanity has been enabled.`,
+        title: "Profanity Checker",
+        description: `Profanity-checker has been enabled.`,
       });
     }
 
@@ -30,14 +30,14 @@ module.exports = {
       guild.aiAutoMod = false;
       await guild.save();
       return message.reply({
-        title: "Profanity",
-        description: `Profanity has been disabled.`,
+        title: "Profanity Checker",
+        description: `Profanity-checker has been disabled.`,
       });
     }
 
-    return message.replyError({
-      title: "Profanity",
-      description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
+    await message.replyError({
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}profanity-check <enable|disable>\``,
     });
   },
 };

@@ -15,20 +15,20 @@ module.exports = {
 
     if (customcommandlist.length === 0) {
       return message.replyError({
-        title: "Custom Command",
-        description: "There are no custom commands to list.",
+        title: "Custom command List",
+        description: `Welp, you haven't added any custom commands yet!\n\nCreate a custom command using \`${prefix}cc <name> <response>\``,
       });
     }
 
-    let description = "";
+    let data = "";
 
-    for (let i = 0; i < customcommandlist.length; i++) {
-      description += `**${i + 1}.** ${customcommandlist[i].name}\n`;
+    for (const [i, c] of customcommandlist.entries()) {
+      data += `\`${i + 1}.\` **${c.name}**\n`;
     }
 
     return message.reply({
-      title: "Custom Command List",
-      description: description,
+      title: "Auto-responder List",
+      description: data,
     });
   },
 };

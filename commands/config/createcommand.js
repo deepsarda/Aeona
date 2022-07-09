@@ -4,8 +4,9 @@ const Guild = require("../../database/schemas/Guild");
 module.exports = {
   name: "createcommand",
   description: "Create a custom command",
-  usage: "+createcommand <command name> <command description>",
+  usage: "+createcommand <name> <response>",
   category: "config",
+  requiredArgs: 2,
   aliases: ["cc", "customcommand"],
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
@@ -16,26 +17,26 @@ module.exports = {
     if (guild.isPremium === "false") {
       const results = await customCommand.find({ guildId: message.guild.id });
       if (results.length >= 5) {
-        return message.replyError({
-          title: "Error",
-          description: `Non premium guilds can only have 5 custom commands! Get [premium to add more!](${process.env.domain}/premium)`,
+        return await message.replyError({
+          title: "Oops!",
+          description: `Non-premium guilds can only have upto 5 custom commands! Get [premium to add more!](${process.env.domain}/premium)`,
         });
       }
     }
 
     if (name.length > 30) {
-      return message.replyError({
-        title: "Custom Command",
+       return await message.replyError({
+        title: "Oops!",
         description:
-          "The name of the custom command cannot be longer than 30 characters.",
+          "The name of the custom command cannot be longer than 30 characters!\nPlease retry this command.",
       });
     }
 
     if (content.length > 2000) {
-      return message.replyError({
-        title: "Custom Command",
+      return await message.replyError({
+        title: "Oops!",
         description:
-          "The content of the custom command cannot be longer than 2000 characters.",
+          "The response to the custom command cannot be longer than 2000 characters!\nPlease retry this command.",
       });
     }
 
@@ -45,9 +46,9 @@ module.exports = {
     });
 
     if (customCommand)
-      return message.replyError({
-        title: "Custom Command",
-        description: "A custom command with this name already exists.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like an custom command with this name already exists!\nPlease retry this command.",
       });
 
     await customCommand.create({
@@ -59,6 +60,10 @@ module.exports = {
     return message.reply({
       title: "Custom Command",
       description: `Custom command \`${name}\` has been created. \n\n Delete it with \`${prefix}deletecommand  ${name}\`.`,
+    });
+    await message.reply({
+      title: "Custom command successfully created!",
+      description: `A custom comand \`${name}\` has been created!\n\nYou can delete it using \`${prefix}deletecommand ${name}\`.`,
     });
   },
 };

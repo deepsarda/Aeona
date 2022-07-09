@@ -16,9 +16,9 @@ module.exports = {
     });
 
     if (!autoResponse)
-      return message.replyError({
-        title: "Auto Response",
-        description: "An auto response with this name does not exist.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "Looks like there's no auto-responder for this message!\nPlease retry this command.",
       });
 
     await autoResponse.deleteOne({
@@ -29,6 +29,10 @@ module.exports = {
     return message.reply({
       title: "Auto Response",
       description: "The auto response has been deleted.",
+    });
+    await message.reply({
+      title: "Auto-responder successfully deleted!",
+      description: `The auto-responder for the message \`${name}\` has been deleted!\n\nYou can create a new one using \`${prefix}ar <message> <response>\`.`,
     });
   },
 };

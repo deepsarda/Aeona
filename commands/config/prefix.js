@@ -11,9 +11,9 @@ module.exports = {
     let p = args[0];
 
     if (p.length > 5)
-      return message.replyError({
-        title: "Prefix",
-        description: "The prefix cannot be longer than 5 characters.",
+      return await message.replyError({
+        title: "Oops!",
+        description: "The prefix cannot be longer than 5 characters!\nPlease retry this command.",
       });
 
     let guild = await Guild.findOne({
@@ -24,9 +24,9 @@ module.exports = {
 
     await guild.save();
 
-    return message.reply({
-      title: "Prefix",
-      description: "The prefix has been changed to `" + p + "`.",
+    await message.reply({
+      title: "Prefix updated!",
+      description: `The prefix has successfully been changed to \`${p}\`.`,
     });
   },
 };

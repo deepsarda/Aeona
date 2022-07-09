@@ -15,7 +15,7 @@ module.exports = {
     if (option === "enable") {
       guild.antiInvites = true;
       await guild.save();
-      return message.reply({
+      return await message.reply({
         title: "Anti Invites",
         description: `Anti-invites has been enabled.`,
       });
@@ -24,15 +24,15 @@ module.exports = {
     if (option === "disable") {
       guild.antiInvites = false;
       await guild.save();
-      return message.reply({
+      return await message.reply({
         title: "Anti Invites",
         description: `Anti-invites has been disabled.`,
       });
     }
 
-    return message.replyError({
-      title: "Anti Invites",
-      description: `Please provide a valid argument. \n Valid arguments: \n enable \n disable`,
+    await message.replyError({
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}anti-invite <enable|disable>\``,
     });
   },
 };

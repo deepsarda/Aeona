@@ -69,7 +69,7 @@ module.exports = {
           }
         );
       })
-      .catch((err) => {
+      .catch(async err => {
         await message.replyError({
           title: "Oops!",
           description: `${args[0]} is not a valid user ID.\nPlease retry this command.`,

@@ -14,19 +14,19 @@ module.exports = {
     });
 
     if (autoResponses.length === 0)
-      return message.replyError({
-        title: "Auto Responses",
-        description: "There are no auto responses.",
+      return await message.replyError({
+        title: "Auto-responder List",
+        description: `Welp, you haven't added any auto-responders yet!\n\nCreate an auto-responder using \`${prefix}ar <message> <response>\``,
       });
 
     let data = "";
 
-    for (let i = 0; i < autoResponses.length; i++) {
-      data += `${i}. **${autoResponses[i].name}** \n`;
+    for (const [i, ar] of autoResponses.entries()) {
+      data += `\`${i + 1}.\` **${ar.name}** → ${ar.content}\n`;
     }
 
     return message.reply({
-      title: "Auto Responses",
+      title: "Auto-responder List",
       description: data,
     });
   },
