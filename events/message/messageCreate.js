@@ -227,7 +227,6 @@ module.exports = {
         }
 
         if (cmd.inVoiceChannel && !message.member.voice.channelId) {
-          embed.setDescription("You must be in a voice channel!");
           return message.channel.sendError({
             description: ` You must be in a voice channel.`,
           });

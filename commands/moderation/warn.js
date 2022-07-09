@@ -201,9 +201,9 @@ module.exports = {
                       `Action: \`Warn\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                       mentionedMember.user.displayAvatarURL({ format: "png" })
                     )
-                    .addField("User", mentionedMember, true)
-                    .addField("Moderator", message.member, true)
-                    .addField("Reason", reason, true)
+                    .setDescription(
+                    `**User:** ${mentionedMember}\n**Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
+                  )
                     .setFooter({
                       text: `ID: ${mentionedMember.id} | Warn ID: ${warnID}`,
                     })
