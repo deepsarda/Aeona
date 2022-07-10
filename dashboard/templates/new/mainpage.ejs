@@ -49,24 +49,7 @@
         <input type="text" name="prefix" class="!input glass2 text-white" placeholder="Prefix" value="<%= settings.prefix %>">
     </div>
 
-  
-        <select class="select select-bordered select-ghost w-1/2 focus:select-ghost" name="language">
-        <% if(settings.language=="english" ) {%>
-        <option value="english" selected>English ( EN )</option>
-        <option value="french">Francais ( FR )</option>
-        <option value="spanish">Español ( ES )</option>
-        <% } else if(settings.language=="french" ) {%>
-        <option value="english">English ( EN )</option>
-        <option value="french" selected>French ( FR )</option>
-        <option value="spanish">Español ( ES )</option>
-        <% } else if(settings.language=="spanish" ) {%>
-        <option value="english">English ( EN )</option>
-        <option value="french">French ( FR )</option>
-        <option value="spanish" selected>Español ( ES )</option>
-        <% } %>
-        </select>
-    <div>
-        <button type="submit" class="!btn !btn-secondary">Save Changes</button>
+        <button type="submit" class="!btn !btn-primary">Save Changes</button>
     </div>
     </div>
     

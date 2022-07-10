@@ -140,12 +140,12 @@
 <% if(ticket.ticketToggle=="true" ){ %>
 <button type="submit" name="ticketDisable" class="!btn !btn-error w-1/3 m-2">Disable</button>
 <% if(ticket.ticketType=="message" ){ %>
-<button type="submit" name="switchReaction" class="!btn !btn-secondary w-1/3 m-2">Use Reaction</button>
+<button type="submit" name="switchReaction" class="!btn !btn-primary w-1/3 m-2">Use Reaction</button>
 <% } else if(ticket.ticketType=="reaction" ){ %>
-<button type="submit" name="switchReaction2" class="!btn !btn-secondary w-1/3 m-2">Use Message</button>
+<button type="submit" name="switchReaction2" class="!btn !btn-primary w-1/3 m-2">Use Message</button>
 <% } %>
-<button type="submit" name="ticketUpdate" class="!btn !btn-secondary w-1/3 m-2">Update</button>
-<button type="submit" name="resetDatabase" class="!btn !btn-secondary w-1/3 m-2">Reset
+<button type="submit" name="ticketUpdate" class="!btn !btn-primary w-1/3 m-2">Update</button>
+<button type="submit" name="resetDatabase" class="!btn !btn-primary w-1/3 m-2">Reset
   Database</button>
 <% } else { %>
 <button type="submit" name="ticketEnable" class="save">Enable</button>

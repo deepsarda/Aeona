@@ -24,9 +24,9 @@
       <h1 class="card-title"><%= guild.name %></h1>
       <div class="card-actions justify-end">
         <% if (bot.guilds.cache.get(guild.id)) { %>
-        <button class="btn btn-secondary"><a href="/dashboard/<%= guild.id %>" class="link link-hover">Dashboard</a></button>
+        <button class="btn btn-primary"><a href="/dashboard/<%= guild.id %>" class="link link-hover">Dashboard</a></button>
         <% } else { %>
-        <button class="btn btn-secondary"><a href="${https}discordapp.com/oauth2/authorize?client_id=931226824753700934&scope=bot&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(`${domain}/window`)}&permissions=8" class="link link-hover">Invite</a></button>
+        <button class="btn btn-primary"><a href="${https}discordapp.com/oauth2/authorize?client_id=931226824753700934&scope=bot&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(`${domain}/window`)}&permissions=8" class="link link-hover">Invite</a></button>
         <% } %>
       </div>
     </div>
