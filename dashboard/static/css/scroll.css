@@ -94,35 +94,6 @@ li {
   opacity: 0;
   transition: visibility 0s 0.5s, opacity 0.5s linear;
 }
-input:not([type="checkbox"]),
-textarea {
-  background-color: transparent !important;
-  border: 1px solid #ffffff !important;
-}
-
-select {
-  background-color: transparent !important;
-}
-
-select:focus {
-  background-color: #b35aec !important;
-}
-
-textarea ::placeholder {
-  color: #ffffff !important;
-}
-
-input[type="number"] {
-  max-width: 100px;
-}
-
-textarea {
-  border: 1px solid #ffffff !important;
-}
-select {
-  width: 50%;
-  border: 1px solid #ffffff !important;
-}
 .loader-cover {
   position: fixed;
   top: 0;
