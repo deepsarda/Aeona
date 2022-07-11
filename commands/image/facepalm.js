@@ -1,26 +1,25 @@
 const { MessageAttachment } = require("discord.js");
-const { Delete } = require("discord-image-generation");
+const { Facepalm } = require("discord-image-generation");
 
 const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {
-  name: "delete",
-  aliases: ["del"],
-  description: "Delete someone",
-  usage: "+delete [@user]",
+  name: "facepalm",
+  description: "Make someone facepalm",
+  usage: "+facepalm [@user]",
   category: "image",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     const member = parseUser(message, args);
 
-    const url = await new Delete().getImage(
+    const url = await new Facepalm().getImage(
       member.displayAvatarURL({ dynamic: false, format: "png", size: 2048 })
     );
-    const attach = new MessageAttachment(url, "image.png");
+    const attach = new MessageAttachment(url, "image.gif");
 
     options = {
-      title: `*Haha yes die trash*`,
-      imageURL: "attachment://image.png",
+      title: `${member.displayName} !`,
+      imageURL: "attachment://image.gif",
       files: [attach],
     };
 

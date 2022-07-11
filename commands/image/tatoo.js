@@ -1,25 +1,24 @@
 const { MessageAttachment } = require("discord.js");
-const { Delete } = require("discord-image-generation");
+const { Tatoo } = require("discord-image-generation");
 
 const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {
-  name: "delete",
-  aliases: ["del"],
-  description: "Delete someone",
-  usage: "+delete [@user]",
+  name: "tatoo",
+  description: "Turn someone's avatar into a tatoo",
+  usage: "+tatoo [@user]",
   category: "image",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     const member = parseUser(message, args);
 
-    const url = await new Delete().getImage(
+    const url = await new Tatoo().getImage(
       member.displayAvatarURL({ dynamic: false, format: "png", size: 2048 })
     );
     const attach = new MessageAttachment(url, "image.png");
 
     options = {
-      title: `*Haha yes die trash*`,
+      title: `${member.displayName}'s now a tatoo!`,
       imageURL: "attachment://image.png",
       files: [attach],
     };
