@@ -1,5 +1,3 @@
-const client = require("nekos.life");
-const neko = new client();
 
 const parseUser = require("../../utils/parseUser.js");
 
@@ -10,8 +8,7 @@ module.exports = {
   category: "emote",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    res = await neko.poke();
-    res = res["url"];
+    res = await bot.getReaction("poke");
 
     const user = parseUser(message, args);
 

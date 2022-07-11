@@ -402,6 +402,13 @@ module.exports = {
                     .has("EMBED_LINKS")
                 )
                   return;
+
+                let row = new discord.MessageActionRow();
+                row.addComponents([
+                  new discord.MessageButton().setLabel("Close").setStyle("SECONDARY").setCustomId("close"),
+                  new discord.MessageButton().setLabel("Claim (Staff)").setStyle("SECONDARY").setCustomId("claim"),
+                ])
+
                 message.channel
                   .send({
                     embeds: [
@@ -413,6 +420,7 @@ module.exports = {
                         .setAuthor(user.tag, user.displayAvatarURL())
                         .setFooter({ text: "https://Aeona.xyz/" }),
                     ],
+                    components: [row],
                   })
                   .then((m) => m.delete({ timeout: 5000 }));
                 ticketCooldownLol.add(user.id);

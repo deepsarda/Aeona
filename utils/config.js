@@ -1,7 +1,7 @@
 module.exports = {
   verification: "",
   description:
-    "Aeona is a multi-purpose chatbot powered by GPT-2 with moderation, AI based chat filtering, Images, Utilities, Reddit, Games, and much more!",
+    "Aeona is a friendly neighbourhood multi-purpose chatbot. ",
   domain: process.env.DEV ? "http://localhost:8000" : process.env.domain, // domain
   google_analitics: process.env.ANALYTICS, // google analitics
   token: process.env.BOTTOKEN,
