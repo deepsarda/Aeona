@@ -8,11 +8,11 @@ module.exports = {
     requiredArgs: 0,
     premissions: ["MANAGE_ROLES"],
     execute: async (message, args, bot, prefix) => {
-        let ticket = await ticketSchema.findOne({
+        let db = await ticketSchema.findOne({
             guildID: message.guild.id,
         });
 
-        if (!ticket)
+        if (!db)
             return message.replyError({
                 title: "Ticket",
                 description: "Tickets are not enabled on this server.",

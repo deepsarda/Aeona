@@ -18,11 +18,11 @@ module.exports = {
                 description: "Please provide a valid user.",
             });
 
-        let ticket = await ticketSchema.findOne({
+        let db = await ticketSchema.findOne({
             guildID: message.guild.id,
         });
 
-        if (!ticket)
+        if (!db)
             return message.replyError({
                 title: "Ticket",
                 description: "Tickets are not enabled on this server.",
