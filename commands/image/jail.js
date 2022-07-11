@@ -16,11 +16,11 @@ module.exports = {
     const url = await new Jail().getImage(
       member.displayAvatarURL({ dynamic: false, format: "png", size: 2048 })
     );
-    const attach = new MessageAttachment(url, "image.gif");
+    const attach = new MessageAttachment(url, "image.png");
 
     options = {
-      title: `${member.displayName} is i facepalming!`,
-      imageURL: "attachment://image.gif",
+      title: `${member.displayName} is in jail!`,
+      imageURL: "attachment://image.png",
       files: [attach],
     };
 

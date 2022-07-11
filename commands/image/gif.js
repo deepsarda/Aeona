@@ -14,12 +14,12 @@ module.exports = {
     const member = parseUser(message, args);
 
     const url = await new Blink().getImage(...args.split(", "));
-    const attach = new MessageAttachment(url, "image.png");
+    const attach = new MessageAttachment(url, "image.gif");
 
     await message.reply({
       title: `Here is your GIF!`,
-      imageURL: "attachment://image.png",
+      imageURL: "attachment://image.gif",
       files: [attach],
-    };;
+    });
   },
 };

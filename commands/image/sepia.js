@@ -5,7 +5,7 @@ const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {
   name: "sepia",
-  description: "Turn someone's avatar sepia!",
+  description: "Turn someone's avatar sepia",
   usage: "+sepia [@user]",
   category: "image",
   requiredArgs: 0,

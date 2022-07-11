@@ -1,4 +1,4 @@
-gitrun = "while true; do npm start; sleep 0; done"
+run = "while true; do npm start; sleep 0; done"
 
 [packager]
 language = "nodejs"
