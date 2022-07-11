@@ -24,7 +24,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: `${author} just patted ${member}. There There :3`,
+      title: `${author.displayName} just patted ${member.displayName}. There There :3`,
       imageURL: res,
     });
   },

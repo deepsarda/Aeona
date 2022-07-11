@@ -11,7 +11,7 @@ module.exports = {
     res = await bot.getReaction("sad");
 
     await message.reply({
-      title: `${message.member} is very sad! <(＿　＿)>`,
+      title: `${message.member.displayName} is very sad! <(＿　＿)>`,
       imageURL: res,
     });
   },

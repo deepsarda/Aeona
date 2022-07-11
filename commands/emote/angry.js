@@ -9,9 +9,9 @@ module.exports = {
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     res = await bot.getReaction("angry");
-    
+
     await message.reply({
-      title: `My my, ${message.member} is angry! (╬▔皿▔)╯`,
+      title: `My my, ${message.member.displayName} is angry! (╬▔皿▔)╯`,
       imageURL: res,
     });
   },

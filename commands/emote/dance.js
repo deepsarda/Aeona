@@ -11,7 +11,7 @@ module.exports = {
     res = await bot.getReaction("dance");
 
     await message.reply({
-      title: `${message.member} is dancing! Lets join the dance! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧`,
+      title: `${message.member.displayName} is dancing! Lets join the dance! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧`,
       imageURL: res,
     });
   },

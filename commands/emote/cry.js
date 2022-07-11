@@ -11,7 +11,7 @@ module.exports = {
     res = await bot.getReaction("cry");
 
     await message.reply({
-      title: `${message.member} is crying! 〒▽〒ﾞ`,
+      title: `${message.member.displayName} is crying! 〒▽〒ﾞ`,
       imageURL: res,
     });
   },

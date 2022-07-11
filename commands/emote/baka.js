@@ -23,7 +23,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: ` ${member.displayName} is a baka! ＞﹏＜`,
+      title: ` ${member.displayName.displayName} is a baka! ＞﹏＜`,
       imageURL: res,
     });
   },

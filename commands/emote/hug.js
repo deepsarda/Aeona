@@ -24,7 +24,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: `Aww, ${author} just hugged ${member}! (っ^◒^)っ`,
+      title: `Aww, ${author.displayName} just hugged ${member.displayName}! (っ^◒^)っ`,
       imageURL: res,
     });
   },

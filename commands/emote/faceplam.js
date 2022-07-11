@@ -11,7 +11,7 @@ module.exports = {
     res = await bot.getReaction("faceplam");
 
     await message.reply({
-      title: `${message.member} is faceplamming! ARGH you are so stupid! (ノ_<。)`,
+      title: `${message.member.displayName} is faceplamming! ARGH you are so stupid! (ノ_<。)`,
       imageURL: res,
     });
   },

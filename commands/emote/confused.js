@@ -11,7 +11,7 @@ module.exports = {
     res = await bot.getReaction("confused");
 
     await message.reply({
-      title: `${message.member} is confused! 「(°ヘ°)`,
+      title: `${message.member.displayName} is confused! 「(°ヘ°)`,
       imageURL: res,
     });
   },
