@@ -1,15 +1,14 @@
 
-
 const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {
-  name: "hug",
-  description: "Hug someone!",
-  usage: "+hug [@user]",
+  name: "cheer",
+  description: "cheer for someone!",
+  usage: "+cheer [@user]",
   category: "emote",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    res = await bot.getReaction("hug");
+    res = await bot.getReaction("cheer");
 
     const user = parseUser(message, args);
 
@@ -24,7 +23,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: `Aww, ${author} just hugged ${member}! (っ^◒^)っ`,
+      title: `${author.displayName} just cheered for ${member.displayName}! Hip Hip Hooray! ✺◟(＾∇＾)◞✺`,
       imageURL: res,
     });
   },

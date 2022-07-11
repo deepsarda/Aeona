@@ -23,7 +23,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: `${author.displayName} just slapped ${member.displayName}!`,
+      title: `${author} just slapped ${member}! :raised_hand:`,
       imageURL: res,
     });
   },
