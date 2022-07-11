@@ -26,7 +26,6 @@ module.exports = {
     await message.reply({
       title: `${author.displayName} just hugged ${member.displayName}!`,
       imageURL: res,
-      content: author.id === bot.user.id ? "" : member,
     });
   },
 };

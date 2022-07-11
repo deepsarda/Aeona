@@ -25,7 +25,6 @@ module.exports = {
     await message.reply({
       title: `${author.displayName} just tickled ${member.displayName}!`,
       imageURL: res,
-      content: author.id === bot.user.id ? "" : member,
     });
   },
 };
