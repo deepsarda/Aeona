@@ -32,6 +32,7 @@
     "canvas-senpai": "^2.0.3",
     "chokidar": "^3.5.3",
     "connect-mongo": "^4.6.0",
+    "crypto": "^1.0.1",
     "date-and-time": "^2.4.0",
     "delay": "^5.0.0",
     "discord-giveaways": "^5.2.1",

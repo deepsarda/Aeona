@@ -23,7 +23,7 @@ module.exports = {
     }
 
     await message.reply({
-      title: `${author.displayName} is chase ${member.displayName}! They better run like the wind. ☁ ✧༺`,
+      title: `${author.displayName} is chasing ${member.displayName}! They better run like the wind. ☁ ✧༺`,
       imageURL: res,
     });
   },

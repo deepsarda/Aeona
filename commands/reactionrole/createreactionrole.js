@@ -43,12 +43,6 @@ module.exports = {
         description: "Please do not use a integration  role.",
       });
     let emoji = args[3];
-    if (!(emoji.split(":").length == 1 ? false : true))
-      return message.replyError({
-        title: "Reaction Role",
-        description: "Please don't use a custom emoji.",
-      });
-
     try {
       await messageID.react(emoji);
     } catch (err) {

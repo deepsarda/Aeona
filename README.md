@@ -93,7 +93,7 @@ WEBHOOK_URL=Webhook Url
 SPOTIFY_CLIENT_ID=Spotify client deverloper ID for music
 MONGO_CONNECTION=mongodb connection url
 BOTTOKEN=BOT Token
-
+reports=Webhook Url for bug reports etc
 ```
 
 # If you need help join [support server](https://www.aeeona.xyz/support)
