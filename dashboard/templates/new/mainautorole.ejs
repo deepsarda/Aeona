@@ -88,7 +88,7 @@
                                         "@everyone" && !r.managed).first().name %></option>
         <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name
                                       !== "@everyone" && !r.managed).first().id && r.name !== "@everyone" &&
-                                      !r.managed).forEach((r) => { %>
+                                      !r.managed).sort(sort).forEach((r) => { %>
         <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} :
                                         r.hexColor%>">@<%= r.name %>
         </option>

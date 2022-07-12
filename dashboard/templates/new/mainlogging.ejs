@@ -117,14 +117,14 @@
         <option selected="selected">#<%= bot.channels.cache.get(log.moderation.channel).name %>
         </option>
         <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                                log.moderation.channel).forEach((ch) => { %>
+                                log.moderation.channel).sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
         <option>None</option>
         <% } else { %>
         <option selected="selected">None</option>
-        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
@@ -139,14 +139,14 @@
                                   bot.channels.cache.get(log.moderation.ignore_channel).name %>
         </option>
         <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                                log.moderation.ignore_channel).forEach((ch) => { %>
+                                log.moderation.ignore_channel).sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
         <option>None</option>
         <% } else { %>
         <option selected="selected">None</option>
-        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
@@ -161,7 +161,7 @@
                                   guild.roles.cache.get(log.moderation.ignore_role).name %>
         </option>
         <% guild.roles.cache.filter((r)=> r.id !== log.moderation.ignore_role && r.name !==
-                                "@everyone" && !r.managed).forEach((r) => { %>
+                                "@everyone" && !r.managed).sort(sort).forEach((r) => { %>
         <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} : r.hexColor%>
                                   ">@<%= r.name %>
         </option>
@@ -170,7 +170,7 @@
         <% } else { %>
         <option selected="selected">None</option>
         <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name
-                                      !== "@everyone").first().id && r.name !== "@everyone" && !r.managed).forEach((r)=> { %>
+                                      !== "@everyone").first().id && r.name !== "@everyone" && !r.managed).sort(sort).forEach((r)=> { %>
         <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} :
                                         r.hexColor%>">@<%= r.name %>
         </option>
@@ -241,14 +241,14 @@
         <option selected="selected">#<%= bot.channels.cache.get(log.message_events.channel).name %>
         </option>
         <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                              log.message_events.channel).forEach((ch) => { %>
+                              log.message_events.channel).sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
         <option>None</option>
         <% } else { %>
         <option selected="selected">None</option>
-        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
@@ -390,14 +390,14 @@
         <option selected="selected">#<%= bot.channels.cache.get(log.server_events.channel).name %>
         </option>
         <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                                log.server_events.channel).forEach((ch) => { %>
+                                log.server_events.channel).sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>
         <option>None</option>
         <% } else { %>
         <option selected="selected">None</option>
-        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
         <option>#<%= ch.name %>
         </option>
         <% }); %>

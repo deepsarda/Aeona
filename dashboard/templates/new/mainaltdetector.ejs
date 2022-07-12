@@ -34,14 +34,14 @@
   <option selected="selected">#<%= bot.channels.cache.get(alt.altModlog).name %>
   </option>
   <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                          alt.altModlog).forEach((ch) => { %>
+                          alt.altModlog).sort(sortChannels).forEach((ch) => { %>
   <option>#<%= ch.name %>
   </option>
   <% }); %>
   <option>None</option>
   <% } else { %>
   <option selected="selected">None</option>
-  <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+  <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
   <option>#<%= ch.name %>
   </option>
   <% }); %>

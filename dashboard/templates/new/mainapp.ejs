@@ -34,14 +34,14 @@
   <option selected="selected">#<%= bot.channels.cache.get(app.appLogs).name %>
   </option>
   <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
-                              app.appLogs).forEach((ch) => { %>
+                              app.appLogs).sort(sortChannels).forEach((ch) => { %>
   <option>#<%= ch.name %>
   </option>
   <% }); %>
   <option>Disabled</option>
   <% } else { %>
   <option selected="selected">Disabled</option>
-  <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
+  <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
   <option>#<%= ch.name %>
   </option>
   <% }); %>
@@ -55,7 +55,7 @@
                               {r:255,g:255,b:255} : guild.roles.cache.get(app.add_role).hexColor%>" selected="selected">@<%= guild.roles.cache.get(app.add_role).name %>
   </option>
   <% guild.roles.cache.filter((r)=> r.id !== app.add_role && r.name !== "@everyone" &&
-                              !r.managed).forEach((r) => { %>
+                              !r.managed).sort(sort).forEach((r) => { %>
   <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} : r.hexColor%>
                                 ">@<%= r.name %>
   </option>
@@ -64,7 +64,7 @@
   <% } else { %>
   <option selected="selected">Disabled</option>
   <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name !==
-                                    "@everyone").first().id && r.name !== "@everyone" && !r.managed).forEach((r) => { %>
+                                    "@everyone").first().id && r.name !== "@everyone" && !r.managed).sort(sort).forEach((r) => { %>
   <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} :
                                       r.hexColor%>">@<%= r.name %>
   </option>

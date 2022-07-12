@@ -1,5 +1,6 @@
 
 const transcriptSchema = require("../../database/schemas/transcript.js");
+const ticketSchema = require("../../database/schemas/tickets.js");
 const randoStrings = require("randostrings");
 const random = new randoStrings();
 const moment = require("moment");
@@ -11,6 +12,7 @@ module.exports = {
     category: "tickets",
     requiredArgs: 0,
     execute: async (message, args, bot, prefix) => {
+
         let db = await ticketSchema.findOne({
             guildID: message.guild.id,
         });
@@ -76,6 +78,6 @@ module.exports = {
             })
             .catch((e) => { console.log(e) });
 
-        setTimeout(() => message.channel.delete(), 10000)
+        setTimeout(() => message.channel.delete(), 10000);
     }
 }

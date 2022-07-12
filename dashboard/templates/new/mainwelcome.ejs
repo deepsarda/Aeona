@@ -43,7 +43,7 @@
         <% if(bot.channels.cache.has(welcome.welcomeChannel)){ %>
         <option selected="selected">#<%= bot.channels.cache.get(welcome.welcomeChannel).name %>
         </option>
-        <% guild.channels.cache.filter((ch)=> ch.id !== welcome.welcomeChannel).forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.id !== welcome.welcomeChannel).sort(sortChannels).forEach((ch) => { %>
         <% if (ch.type==="GUILD_TEXT" ) { %>
         <option><b style="color: grey">#</b>
           <%= ch.name %>
@@ -54,7 +54,7 @@
         <option>None</option>
         <% } else { %>
         <% guild.channels.cache.filter((ch)=> ch.id !==
-                                    guild.channels.cache.first().id).forEach((ch) => { %>
+                                    guild.channels.cache.first().id).sort(sortChannels).forEach((ch) => { %>
         <% if (ch.type==="GUILD_TEXT" ) { %>
         <option><b style="color: grey">#</b>
           <%= ch.name %>
@@ -99,7 +99,7 @@
         <% if(bot.channels.cache.has(leave.leaveChannel)){ %>
         <option selected="selected">#<%= bot.channels.cache.get(leave.leaveChannel).name %>
         </option>
-        <% guild.channels.cache.filter((ch)=> ch.id !== leave.leaveChannel).forEach((ch) => { %>
+        <% guild.channels.cache.filter((ch)=> ch.id !== leave.leaveChannel).sort(sortChannels).forEach((ch) => { %>
         <% if (ch.type==="GUILD_TEXT" ) { %>
         <option><b style="color: grey">#</b>
           <%= ch.name %>
@@ -110,7 +110,7 @@
         <option>None</option>
         <% } else { %>
         <% guild.channels.cache.filter((ch)=> ch.id !==
-                                      guild.channels.cache.first().id).forEach((ch) => { %>
+                                      guild.channels.cache.first().id).sort(sortChannels).forEach((ch) => { %>
         <% if (ch.type==="GUILD_TEXT" ) { %>
         <option><b style="color: grey">#</b>
           <%= ch.name %>
