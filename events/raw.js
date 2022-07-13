@@ -1,6 +1,6 @@
 module.exports = {
   name: "raw",
-  execute(client, data) {
+  async execute(client, data) {
     client.manager.updateVoiceState(data);
   },
 };

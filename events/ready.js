@@ -11,7 +11,7 @@ const emojiArray = require("../../structures/optionArray");
 const pollModel = require("../../database/schemas/poll");
 module.exports = {
   name: "ready",
-  execute(client) {
+  async execute(client) {
     client.manager.init(client.user.id);
     client.statcord.autopost();
 
