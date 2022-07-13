@@ -18,12 +18,15 @@ module.exports = {
                 description: "Tickets are not enabled on this server.",
             });
 
-
+        if(!message.channel.name.startsWith("ticket-"))return message.replyError({
+                title: "Ticket",
+                description: "This channel is not a ticket",
+            });
 
         let ticketRole = message.guild.roles.cache.get(db.supportRoleID);
         let ticketCategory = message.guild.channels.cache.get(db.categoryID);
         let ticketLog = message.guild.channels.cache.get(db.ticketModlogID);
-
+    
         message.channel.permissionOverwrites
             .edit(message.member, {
                 VIEW_CHANNEL: true,
@@ -51,22 +54,23 @@ module.exports = {
         let everyone = message.guild.roles.everyone;
 
         message.channel.permissionOverwrites
-            .edit(Aeona, {
+            .edit(Aeona.id, {
                 VIEW_CHANNEL: true,
-                READ_MESSAGES: true,
                 SEND_MESSAGES: true,
                 READ_MESSAGE_HISTORY: true,
                 ATTACH_FILES: true,
             })
             .catch((err) => {
+                console.log(err)
                 message.channel.sendError({
                     title: "Ticket",
                     description: "I don't have permission to do this.",
                 });
             });
         message.channel.permissionOverwrites
-            .edit(everyone, { VIEW_CHANNEL: false })
+            .edit(everyone.id, { VIEW_CHANNEL: false })
             .catch((err) => {
+                console.log(err)
                 message.channel.sendError({
                     title: "Ticket",
                     description: "I don't have permission to do this.",

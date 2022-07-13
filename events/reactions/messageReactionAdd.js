@@ -403,24 +403,19 @@ module.exports = {
                 )
                   return;
 
-                let row = new discord.MessageActionRow();
-                row.addComponents([
-                  new discord.MessageButton().setLabel("Close").setStyle("SECONDARY").setCustomId("close"),
-                  new discord.MessageButton().setLabel("Claim (Staff)").setStyle("SECONDARY").setCustomId("claim"),
-                ])
+               
 
                 message.channel
                   .send({
                     embeds: [
                       new discord.MessageEmbed()
-                        .setColor(message.client.color.red)
                         .setDescription(
                           `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
                         )
                         .setAuthor(user.tag, user.displayAvatarURL())
                         .setFooter({ text: "https://Aeona.xyz/" }),
                     ],
-                    components: [row],
+                    
                   })
                   .then((m) => m.delete({ timeout: 5000 }));
                 ticketCooldownLol.add(user.id);
@@ -500,7 +495,12 @@ module.exports = {
                         .catch(() => {});
                     }
                   }
-
+                  let row = new discord.MessageActionRow();
+                  row.addComponents([
+                     new discord.MessageButton().setLabel("Close").setStyle("SECONDARY").setCustomId("close"),
+                     new discord.MessageButton().setLabel("Claim (Staff)").setStyle("SECONDARY").setCustomId("claim"),
+                  ])
+                  
                   chan.send({
                     embeds: [
                       new discord.MessageEmbed()
@@ -521,6 +521,7 @@ module.exports = {
                   });
 
                   chan.send({
+                    content:"@everyone",
                     embeds: [
                       new MessageEmbed()
                         .setDescription(
@@ -530,6 +531,7 @@ module.exports = {
                         .setFooter({ text: "https://Aeona.xyz/" })
                         .setTimestamp(),
                     ],
+                    components: [row],
                   });
 
                   let color2 = db.ticketLogColor;

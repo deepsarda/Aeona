@@ -8,6 +8,12 @@ module.exports = {
     requiredArgs: 1,
     premissions: ["MANAGE_ROLES"],
     execute: async (message, args, bot, prefix) => {
+        if(!message.channel.name.startsWith("ticket-"))return message.replyError({
+                title: "Ticket",
+                description: "This channel is not a ticket",
+            });
+
+      
         let userToMention =
             message.mentions.members.first() ||
             message.guild.members.cache.get(args[0]);

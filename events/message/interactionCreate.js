@@ -4,10 +4,10 @@ module.exports = {
 
         if(interaction.customId){
             if(interaction.customId=="close"){
-                cmd = message.client.commands.get("close");
+                cmd = client.commands.get("close");
                 cmd.execute(interaction, [], client, "");
             }else if(interaction.customId=="claim"){
-                cmd = message.client.commands.get("claim");
+                cmd = client.commands.get("claim");
                 cmd.execute(interaction, [], client, "");
             }
         }

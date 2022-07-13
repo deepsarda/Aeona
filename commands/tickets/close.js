@@ -12,6 +12,10 @@ module.exports = {
     category: "tickets",
     requiredArgs: 0,
     execute: async (message, args, bot, prefix) => {
+        if(!message.channel.name.startsWith("ticket-"))return message.replyError({
+                title: "Ticket",
+                description: "This channel is not a ticket",
+            });
 
         let db = await ticketSchema.findOne({
             guildID: message.guild.id,
