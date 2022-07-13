@@ -2,7 +2,7 @@ const { WebhookClient, MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
 const ms = require("ms");
 const premiumrip = new WebhookClient({
-  url: process.env.webhook_url,
+  url: process.env.WEBHOOK_URL,
 });
 const Guild = require("../../database/schemas/Guild");
 const moment = require(`moment`);
