@@ -4,11 +4,11 @@ const ms = require("ms");
 const premiumrip = new WebhookClient({
   url: process.env.WEBHOOK_URL,
 });
-const Guild = require("../../database/schemas/Guild");
+const Guild = require("../database/schemas/Guild");
 const moment = require(`moment`);
-const fetchAll = require("../../structures/fetchAll");
-const emojiArray = require("../../structures/optionArray");
-const pollModel = require("../../database/schemas/poll");
+const fetchAll = require("../structures/fetchAll");
+const emojiArray = require("../structures/optionArray");
+const pollModel = require("../database/schemas/poll");
 module.exports = {
   name: "ready",
   async execute(client) {
