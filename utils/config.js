@@ -1,7 +1,6 @@
 module.exports = {
   verification: "",
-  description:
-    "Aeona is a friendly neighbourhood multi-purpose chatbot. ",
+  description: "Aeona is a friendly neighbourhood multi-purpose chatbot. ",
   domain: process.env.DEV ? "http://localhost:8000" : process.env.domain, // domain
   google_analitics: process.env.ANALYTICS, // google analitics
   token: process.env.BOTTOKEN,

@@ -45,7 +45,8 @@ module.exports = {
     if (autoResponse)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like an auto-response for this message already exists!\nPlease retry this command.",
+        description:
+          "Looks like an auto-response for this message already exists!\nPlease retry this command.",
       });
 
     await autoResponse.create({

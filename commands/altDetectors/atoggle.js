@@ -14,7 +14,7 @@ module.exports = {
     if (!choices.includes(args[0].toLowerCase()))
       return await message.replyError({
         title: "Oops! Invalid choice!",
-        description: `Please retry this command... using the correct command format.\n\n\`${prefix}atoggle <true|false>\``
+        description: `Please retry this command... using the correct command format.\n\n\`${prefix}atoggle <true|false>\``,
       });
 
     await alt.findOne({ guildID: message.guild.id }, async (err, db) => {

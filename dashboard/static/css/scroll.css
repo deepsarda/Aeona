@@ -40,7 +40,7 @@
   border: 2px solid #fff;
   border-radius: 50%;
   position: relative;
-  color:white;
+  color: white;
   animation: down 1.5s infinite;
   -webkit-animation: down 1.5s infinite;
 }

@@ -53,7 +53,8 @@ module.exports = {
               if (oldAllowedAlts.length === 50)
                 return await message.replyError({
                   title: "Oops!",
-                  description: "Looks like you've reached the maximum number of allowed alts!",
+                  description:
+                    "Looks like you've reached the maximum number of allowed alts!",
                 });
             }
             oldAllowedAlts.push(u.id);
@@ -69,7 +70,7 @@ module.exports = {
           }
         );
       })
-      .catch(async err => {
+      .catch(async (err) => {
         await message.replyError({
           title: "Oops!",
           description: `${args[0]} is not a valid user ID.\nPlease retry this command.`,

@@ -403,8 +403,6 @@ module.exports = {
                 )
                   return;
 
-               
-
                 message.channel
                   .send({
                     embeds: [
@@ -415,7 +413,6 @@ module.exports = {
                         .setAuthor(user.tag, user.displayAvatarURL())
                         .setFooter({ text: "https://Aeona.xyz/" }),
                     ],
-                    
                   })
                   .then((m) => m.delete({ timeout: 5000 }));
                 ticketCooldownLol.add(user.id);
@@ -497,10 +494,16 @@ module.exports = {
                   }
                   let row = new discord.MessageActionRow();
                   row.addComponents([
-                     new discord.MessageButton().setLabel("Close").setStyle("SECONDARY").setCustomId("close"),
-                     new discord.MessageButton().setLabel("Claim (Staff)").setStyle("SECONDARY").setCustomId("claim"),
-                  ])
-                  
+                    new discord.MessageButton()
+                      .setLabel("Close")
+                      .setStyle("SECONDARY")
+                      .setCustomId("close"),
+                    new discord.MessageButton()
+                      .setLabel("Claim (Staff)")
+                      .setStyle("SECONDARY")
+                      .setCustomId("claim"),
+                  ]);
+
                   chan.send({
                     embeds: [
                       new discord.MessageEmbed()
@@ -521,7 +524,7 @@ module.exports = {
                   });
 
                   chan.send({
-                    content:"@everyone",
+                    content: "@everyone",
                     embeds: [
                       new MessageEmbed()
                         .setDescription(

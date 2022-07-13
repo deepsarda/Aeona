@@ -42,8 +42,6 @@ module.exports = {
     if (!reason) reason = `No reason provided.`;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
-    
-
     await mentionedMember.timeout(
       null,
       reason + `/Responsible: ${message.author.tag}`

@@ -13,7 +13,8 @@ module.exports = {
     if (p.length > 5)
       return await message.replyError({
         title: "Oops!",
-        description: "The prefix cannot be longer than 5 characters!\nPlease retry this command.",
+        description:
+          "The prefix cannot be longer than 5 characters!\nPlease retry this command.",
       });
 
     let guild = await Guild.findOne({

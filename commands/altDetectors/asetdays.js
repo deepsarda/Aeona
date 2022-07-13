@@ -14,7 +14,8 @@ module.exports = {
     if (isNaN(days))
       return await message.replyError({
         title: "Oops!",
-        description: "The number of days you entered was invalid.\nPlease retry this command... entering a number.",
+        description:
+          "The number of days you entered was invalid.\nPlease retry this command... entering a number.",
       });
 
     let day = Number(days);
@@ -22,7 +23,8 @@ module.exports = {
     if (day > 100)
       return await message.replyError({
         title: "Oops!",
-        description: "The number of days you entered was invalid.\nPlease retry this command... entering a number less than or equal to 100.",
+        description:
+          "The number of days you entered was invalid.\nPlease retry this command... entering a number less than or equal to 100.",
       });
 
     await alt.findOne(

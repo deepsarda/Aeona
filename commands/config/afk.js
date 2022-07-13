@@ -11,7 +11,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     const oldNickname = message.member.nickname || message.author.username;
     const nickname = `[AFK] ${oldNickname}`;
-    
+
     const userr = message.mentions.users.first();
     let everyoneping = args.indexOf("@everyone") > -1;
     let hereping = args.indexOf("@here") > -1;
@@ -19,13 +19,15 @@ module.exports = {
     if (everyoneping || hereping || userr)
       return await message.replyError({
         title: `Oops!`,
-        description: "AFK messages cannot not contain mentions.\nPlease retry this command."
+        description:
+          "AFK messages cannot not contain mentions.\nPlease retry this command.",
       });
 
     if (args.length > 100) {
       return await message.replyError({
         title: `Oops!`,
-        description: "AFK messages cannot not exceed 100 words.\nPlease retry this command."
+        description:
+          "AFK messages cannot not exceed 100 words.\nPlease retry this command.",
       });
     }
 

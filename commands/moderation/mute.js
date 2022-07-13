@@ -23,7 +23,7 @@ module.exports = {
       });
 
     let time = ms(args[1]);
-    let timeParsed=Math.floor((Date.now()+time)/1000);
+    let timeParsed = Math.floor((Date.now() + time) / 1000);
     if (!time)
       return message.replyError({
         title: "Mute",

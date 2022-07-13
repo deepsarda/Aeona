@@ -2,7 +2,8 @@ const Guild = require("../../database/schemas/Guild");
 
 module.exports = {
   name: "suggestion",
-  description: "Enable suggestions for the server, or approve/decline a suggestion",
+  description:
+    "Enable suggestions for the server, or approve/decline a suggestion",
   usage:
     "+suggestion <enable|disable> [#channel] OR +suggestion <approve|decline> <messageID>",
   category: "config",
@@ -78,7 +79,7 @@ module.exports = {
         .catch();
       if (!channel)
         return message.replyError({
-          title: 'Server Suggestions',
+          title: "Server Suggestions",
           description: `I can't find the suggestion channel.`,
         });
 
@@ -108,9 +109,9 @@ module.exports = {
       });
     } else {
       return await message.replyError({
-          title: "Oops!",
-          description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}suggestion <accept|decline> <messageID>\``,
-        });
+        title: "Oops!",
+        description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}suggestion <accept|decline> <messageID>\``,
+      });
     }
   },
 };

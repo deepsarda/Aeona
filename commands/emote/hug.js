@@ -1,5 +1,3 @@
-
-
 const parseUser = require("../../utils/parseUser.js");
 
 module.exports = {

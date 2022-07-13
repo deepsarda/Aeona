@@ -18,7 +18,8 @@ module.exports = {
     if (!customCommand)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like there's no custom command with this name!\nPlease retry this command.",
+        description:
+          "Looks like there's no custom command with this name!\nPlease retry this command.",
       });
 
     await customCommand.deleteOne({

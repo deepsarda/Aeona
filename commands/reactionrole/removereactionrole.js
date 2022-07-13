@@ -3,13 +3,17 @@ const react = new ReactionRole();
 
 module.exports = {
   name: "removereactionrole",
-  aliases: ["removerr", "removereaction", "rreactionrole",
+  aliases: [
+    "removerr",
+    "removereaction",
+    "rreactionrole",
     "deletereactionrole",
     "delreactionrole",
     "remrr",
     "delrr",
     "delreaction",
-    "deletereaction"],
+    "deletereaction",
+  ],
   description: "Remove a reaction role",
   usage: "+removereactionrole <channel> <messageID> <emoji>",
   category: "reactionrole",
@@ -40,6 +44,5 @@ module.exports = {
       title: "Reaction Role",
       description: "Reaction role removed.",
     });
-  }
-}
-
+  },
+};

@@ -7,13 +7,12 @@ const Statcord = require("statcord.js");
 const config = require("../utils/config");
 
 const Tenor = require("tenorjs").client({
-  "Key": "LIVDSRZULELA", // https://tenor.com/developer/keyregistration
-  "Filter": "low", // "off", "low", "medium", "high", not case sensitive
-  "Locale": "en_US", // Your locale here, case-sensitivity depends on input
-  "MediaFilter": "minimal", // either minimal or basic, not case sensitive
-  "DateFormat": "D/MM/YYYY - H:mm:ss A" // Change this accordingly
+  Key: "LIVDSRZULELA", // https://tenor.com/developer/keyregistration
+  Filter: "low", // "off", "low", "medium", "high", not case sensitive
+  Locale: "en_US", // Your locale here, case-sensitivity depends on input
+  MediaFilter: "minimal", // either minimal or basic, not case sensitive
+  DateFormat: "D/MM/YYYY - H:mm:ss A", // Change this accordingly
 });
-
 
 // This system from discord music bot https://github.com/SudhanPlayz
 
@@ -206,9 +205,8 @@ module.exports = class AeonaClient extends Client {
     console.log(`Loaded ${commands.length} commands`);
   }
 
-
-  async getReaction(category){
-    let results=await Tenor.Search.Random("anime "+category, "1");
+  async getReaction(category) {
+    let results = await Tenor.Search.Random("anime " + category, "1");
     return results[0].media[0].gif.url;
   }
   loadEvents() {

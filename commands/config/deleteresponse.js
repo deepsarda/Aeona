@@ -18,7 +18,8 @@ module.exports = {
     if (!autoResponse)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like there's no auto-responder for this message!\nPlease retry this command.",
+        description:
+          "Looks like there's no auto-responder for this message!\nPlease retry this command.",
       });
 
     await autoResponse.deleteOne({

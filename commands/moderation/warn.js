@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const warnModel = require("../../database/schemas/moderation.js");
 const Logging = require("../../database/schemas/logging.js");
 const randoStrings = require("randostrings");
-let random=new randoStrings();
+let random = new randoStrings();
 module.exports = {
   name: "warn",
   description: "Warn a specific user from your server",
@@ -202,8 +202,8 @@ module.exports = {
                       mentionedMember.user.displayAvatarURL({ format: "png" })
                     )
                     .setDescription(
-                    `**User:** ${mentionedMember}\n**Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
-                  )
+                      `**User:** ${mentionedMember}\n**Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
+                    )
                     .setFooter({
                       text: `ID: ${mentionedMember.id} | Warn ID: ${warnID}`,
                     })

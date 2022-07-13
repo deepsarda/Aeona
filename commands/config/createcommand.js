@@ -25,7 +25,7 @@ module.exports = {
     }
 
     if (name.length > 30) {
-       return await message.replyError({
+      return await message.replyError({
         title: "Oops!",
         description:
           "The name of the custom command cannot be longer than 30 characters!\nPlease retry this command.",
@@ -48,7 +48,8 @@ module.exports = {
     if (customCommand)
       return await message.replyError({
         title: "Oops!",
-        description: "Looks like an custom command with this name already exists!\nPlease retry this command.",
+        description:
+          "Looks like an custom command with this name already exists!\nPlease retry this command.",
       });
 
     await customCommand.create({
