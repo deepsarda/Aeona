@@ -21,14 +21,6 @@ module.exports = {
             **Verified:** ${message.guild.verified}\n
             **Boost Tier:** ${message.guild.premiumTier}\n
             **Nitro Boosts:** ${message.guild.premiumSubscriptionCount}\n
-            **Public Update Channel:** ${message.guide.publicUpdateChannel}\n
-            **Public Update Channel ID:** ${
-              message.guide.publicUpdateChannelId
-            }\n
-            **Rules Channel:** ${message.guide.rulesChannel}\n
-            **Rules Channel ID:** ${message.guide.rulesChannelId}\n
-            **System Channel:** ${message.guide.systemChannel}\n
-            **System Channel ID:** ${message.guide.systemChannelId}\n
             **Banner Url:** ${message.guild.bannerURL({ dynamic: true })}\n
             `,
       thumbnailURL: message.guild.iconURL({ dynamic: true }),
