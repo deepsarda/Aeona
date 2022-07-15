@@ -34,18 +34,19 @@ module.exports = {
               );
 
               if (user) {
-                const embed = new Discord.MessageEmbed()
-                  .setDescription(
-                    `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired :(\n\n__You can you re-new your server here! [https://Aeona.xyz/premium](https://Aeona.xyz/premium)__\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.\n\n**- Aeona**`
-                  );
+                const embed = new Discord.MessageEmbed().setDescription(
+                  `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired :(\n\n__You can you re-new your server here! [https://Aeona.xyz/premium](https://Aeona.xyz/premium)__\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.\n\n**- Aeona**`
+                );
 
-                user.send({ embeds: [embed] }).catch(() => { });
+                user.send({ embeds: [embed] }).catch(() => {});
               }
 
               const rip = new Discord.MessageEmbed()
                 .setDescription(
-                  `**Premium Subscription**\n\n**Guild:** ${guildPremium.name
-                  } | **${guildPremium.id}**\nRedeemed by: ${user.tag || "Unknown"
+                  `**Premium Subscription**\n\n**Guild:** ${
+                    guildPremium.name
+                  } | **${guildPremium.id}**\nRedeemed by: ${
+                    user.tag || "Unknown"
                   }\n**Plan:** ${result.premium.plan}`
                 )
                 .setColor("RED")
@@ -57,7 +58,7 @@ module.exports = {
                   avatarURL: `${process.env.domain}/logo.png`,
                   embeds: [rip],
                 })
-                .catch(() => { });
+                .catch(() => {});
 
               result.isPremium = "false";
               result.premium.redeemedBy.id = null;
@@ -66,7 +67,7 @@ module.exports = {
               result.premium.expiresAt = null;
               result.premium.plan = null;
 
-              await result.save().catch(() => { });
+              await result.save().catch(() => {});
             }
           }
         }
@@ -88,7 +89,7 @@ module.exports = {
             const channel = client.channels.cache.get(poll.textChannel);
             const msg = await channel.messages
               .fetch(poll.message)
-              .catch(() => { });
+              .catch(() => {});
 
             const resultsArr = [];
 
@@ -120,13 +121,13 @@ module.exports = {
                   .setFooter({
                     text: `Ended at ${moment(new Date()).format("LLLL")}`,
                   });
-                msg.edit({ embeds: [embed] }).catch(() => { });
-                msg.reactions.removeAll().catch(() => { });
+                msg.edit({ embeds: [embed] }).catch(() => {});
+                msg.reactions.removeAll().catch(() => {});
                 if (
                   !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES")
                 )
                   return;
-                await poll.deleteOne().catch(() => { });
+                await poll.deleteOne().catch(() => {});
                 channel.send(
                   `It was a tie! \nhttps://discordapp.com/channels/${msg.guild.id}/${channel.id}/${msg.id}`
                 );
@@ -135,10 +136,10 @@ module.exports = {
                   !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES")
                 )
                   return;
-                await poll.deleteOne().catch(() => { });
+                await poll.deleteOne().catch(() => {});
                 channel
                   .send(`The Poll was a Tie!  \n**(Poll was Deleted)** `)
-                  .catch(() => { });
+                  .catch(() => {});
               }
               return;
             } else {
@@ -146,23 +147,26 @@ module.exports = {
                 let embed = new MessageEmbed()
                   .setTitle(poll.title)
                   .setDescription(
-                    `The winner of the poll was option ${resultsArr[0][0]
+                    `The winner of the poll was option ${
+                      resultsArr[0][0]
                     } with ${resultsArr[0][1] - 1} vote(s) `
                   )
                   .setColor(`GREEN`)
                   .setFooter({
                     text: `Ended at ${moment(new Date()).format("LLLL")}`,
                   });
-                msg.edit({ embeds: [embed] }).catch(() => { });
-                msg.reactions.removeAll().catch(() => { });
+                msg.edit({ embeds: [embed] }).catch(() => {});
+                msg.reactions.removeAll().catch(() => {});
                 if (
                   !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES")
                 )
                   return;
-                await poll.deleteOne().catch(() => { });
+                await poll.deleteOne().catch(() => {});
                 channel.send(
-                  `The winner of the poll was option ${resultsArr[0][0]}  - ${resultsArr[0][1] - 1
-                  } vote(s) \nhttps://discordapp.com/channels/${msg.guild.id}/${channel.id
+                  `The winner of the poll was option ${resultsArr[0][0]}  - ${
+                    resultsArr[0][1] - 1
+                  } vote(s) \nhttps://discordapp.com/channels/${msg.guild.id}/${
+                    channel.id
                   }/${msg.id}`
                 );
               } else {
@@ -170,9 +174,10 @@ module.exports = {
                   !channel.permissionsFor(channel.guild.me).has("SEND_MESSAGES")
                 )
                   return;
-                await poll.deleteOne().catch(() => { });
+                await poll.deleteOne().catch(() => {});
                 channel.send(
-                  `The winner of the poll was option ${resultsArr[0][0]} - ${resultsArr[0][1] - 1
+                  `The winner of the poll was option ${resultsArr[0][0]} - ${
+                    resultsArr[0][1] - 1
                   } vote(s)  \n**(Poll was Deleted)**`
                 );
               }
@@ -184,13 +189,12 @@ module.exports = {
       }
     }, 60000);
 
-
     setInterval(async () => {
       let conditional = {
         bump: {
           enabled: true,
-        }
-      }
+        },
+      };
 
       const results = await Guild.find(conditional);
 
@@ -205,7 +209,7 @@ module.exports = {
             }
 
             result.reminded = true;
-            await result.save().catch(() => { });
+            await result.save().catch(() => {});
           }
         }
       }
@@ -214,7 +218,7 @@ module.exports = {
     setInterval(() => {
       const emoji =
         client.status.emojis[
-        Math.floor(Math.random() * client.status.emojis.length)
+          Math.floor(Math.random() * client.status.emojis.length)
         ];
       if (client.status.options.type == "dynamic") {
         const today = moment().format("MM-DD");
@@ -230,7 +234,7 @@ module.exports = {
         } else {
           const dynamic_message =
             client.status.dynamic[
-            Math.floor(Math.random() * client.status.dynamic.length)
+              Math.floor(Math.random() * client.status.dynamic.length)
             ];
           const message = dynamic_message.message
             .replaceAll("{{ emoji }}", emoji)

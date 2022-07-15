@@ -75,7 +75,7 @@ const guildConfigSchema = mongoose.Schema({
       },
     ],
   },
-  bump:{
+  bump: {
     enabled: {
       type: mongoose.SchemaTypes.Boolean,
       required: false,
@@ -100,8 +100,7 @@ const guildConfigSchema = mongoose.Schema({
       type: mongoose.SchemaTypes.String,
       required: false,
       default: null,
-    }
-
+    },
   },
   premium: {
     redeemedBy: {

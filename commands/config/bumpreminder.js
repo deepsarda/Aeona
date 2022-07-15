@@ -13,7 +13,7 @@ module.exports = {
     if (guild.isPremium === "false")
       return message.replyError({
         title: "Bump Reminder",
-        description: `This command is premium only. Get [premium.](${process.env.domain}/premium)`
+        description: `This command is premium only. Get [premium.](${process.env.domain}/premium)`,
       });
 
     if (args[0] === "enable") {
@@ -47,6 +47,5 @@ module.exports = {
         description: `Bump reminder was successfully disabled!`,
       });
     }
-  }
-
+  },
 };

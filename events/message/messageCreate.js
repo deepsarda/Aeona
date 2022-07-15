@@ -35,7 +35,6 @@ module.exports = {
       return executeChatBot(message, prefix, 0, "deepparag/Aeona");
     }
 
-
     let settings = await Guild.findOne({
       guildId: message.guild.id,
     });
@@ -52,12 +51,14 @@ module.exports = {
       if (message.embeds[0]) {
         if (message.embeds[0].description.includes("Bump done")) {
           if (guild.bump.enabled) {
-            message.channel.send(`<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`);
+            message.channel.send(
+              `<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`
+            );
             guild.bump.lastBump = Date.now();
           }
         }
       }
-    };
+    }
     globalchat(settings, message, client);
     afkCheck(settings, message, client);
 
@@ -80,10 +81,10 @@ module.exports = {
           )
           .then(async (s) => {
             setTimeout(() => {
-              s.delete().catch(() => { });
+              s.delete().catch(() => {});
             }, 5000);
           })
-          .catch(() => { });
+          .catch(() => {});
       }
     }
     if (settings && (await inviteFilter(settings, message, client))) return;
@@ -161,23 +162,26 @@ module.exports = {
       if (typeof rateLimit === "string")
         return message.channel
           .send(
-            `Please wait **${rateLimit}** before running the **${cmd}** command again - ${message.author
-            }\n\n${number === 1
-              ? `*Did You know that Aeona has its own dashboard? ${process.env.domain}/dashboard*`
-              : ""
-            }${number === 2
-              ? `*You can check our top.gg page at ${process.env.domain}*`
-              : ""
+            `Please wait **${rateLimit}** before running the **${cmd}** command again - ${
+              message.author
+            }\n\n${
+              number === 1
+                ? `*Did You know that Aeona has its own dashboard? ${process.env.domain}/dashboard*`
+                : ""
+            }${
+              number === 2
+                ? `*You can check our top.gg page at ${process.env.domain}*`
+                : ""
             }`
           )
           .then((s) => {
-            message.delete().catch(() => { });
+            message.delete().catch(() => {});
 
             setTimeout(() => {
-              s.delete().catch(() => { });
+              s.delete().catch(() => {});
             }, 10000);
           })
-          .catch(() => { });
+          .catch(() => {});
 
       try {
         if (args.length < cmd.requiredArgs)
@@ -213,12 +217,13 @@ module.exports = {
               .sendError({
                 msg: message,
                 title: `Missing Bot Permissions`,
-                description: `Command Name: **${command.name
-                  }**\nRequired Permission: **${missingPermissions
-                    .map((p) => `${p}`)
-                    .join(" - ")}**`,
+                description: `Command Name: **${
+                  command.name
+                }**\nRequired Permission: **${missingPermissions
+                  .map((p) => `${p}`)
+                  .join(" - ")}**`,
               })
-              .catch(() => { });
+              .catch(() => {});
           }
         }
 
@@ -254,8 +259,10 @@ module.exports = {
         client.statcord.postCommand(command, message.author.id);
         await cmd.execute(message, args, message.client, prefix);
         console.log(
-          `${message.author.tag} ran command ${cmd.name} in ${message.guild.name
-          } (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id
+          `${message.author.tag} ran command ${cmd.name} in ${
+            message.guild.name
+          } (${message.guild.id}) in channel ${message.channel.name} (${
+            message.channel.id
           }) with args ${args.join(" ")} userId: ${message.author.id}`
         );
       } catch (e) {
@@ -292,7 +299,7 @@ async function inviteFilter(settings, message, client) {
       .then((res) => res.json())
       .then((json) => {
         if (json.message !== "Unknown Invite") {
-          message.delete().catch(() => { });
+          message.delete().catch(() => {});
           message.channel.send({
             embeds: [
               {
@@ -321,7 +328,7 @@ async function inviteFilter(settings, message, client) {
       /(https:\/\/)?(www\.)?(discord\.gg|discord\.me|discordapp\.com\/invite|discord\.com\/invite)\/([a-z0-9-.]+)?/i
     );
     if (links) {
-      message.delete().catch(() => { });
+      message.delete().catch(() => {});
       message.channel.send({
         embeds: [
           {
@@ -366,7 +373,7 @@ function hasLink(string) {
 
 function deleteLink(message) {
   if (message.deletable) {
-    message.delete().catch(() => { });
+    message.delete().catch(() => {});
   }
 
   message.channel.send({
