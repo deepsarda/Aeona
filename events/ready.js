@@ -27,15 +27,14 @@ module.exports = {
             Number(result.premium.redeemedAt) >=
             Number(result.premium.expiresAt)
           ) {
-            const guildPremium = this.client.guilds.cache.get(result.guildId);
+            const guildPremium = client.guilds.cache.get(result.guildId);
             if (guildPremium) {
-              const user = await this.client.users.cache.get(
+              const user = await client.users.cache.get(
                 result.premium.redeemedBy.id
               );
 
               if (user) {
                 const embed = new Discord.MessageEmbed()
-                  .setColor(this.client.color.red)
                   .setDescription(
                     `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired :(\n\n__You can you re-new your server here! [https://Aeona.xyz/premium](https://Aeona.xyz/premium)__\n\nThank you for purchasing premium Previously! We hope you enjoyed what you purchased.\n\n**- Aeona**`
                   );
@@ -55,7 +54,7 @@ module.exports = {
               await premiumrip
                 .send({
                   username: "Aeona Loose Premium",
-                  avatarURL: `${this.client.domain}/logo.png`,
+                  avatarURL: `${process.env.domain}/logo.png`,
                   embeds: [rip],
                 })
                 .catch(() => { });
@@ -74,10 +73,8 @@ module.exports = {
       }
     }, 500000);
 
-
-
     setInterval(async () => {
-      for (const guild of this.client.guilds.cache) {
+      for (const guild of client.guilds.cache) {
         const pollArray = await pollModel
           .find({
             guild: guild[0],
@@ -88,7 +85,7 @@ module.exports = {
           if (Date.now() >= Number(poll.expiryDate)) {
             if (!poll.textChannel) return;
 
-            const channel = this.client.channels.cache.get(poll.textChannel);
+            const channel = client.channels.cache.get(poll.textChannel);
             const msg = await channel.messages
               .fetch(poll.message)
               .catch(() => { });
@@ -117,8 +114,7 @@ module.exports = {
                 let embed = new MessageEmbed()
                   .setTitle(poll.title)
                   .setDescription(
-                    `It was a tie! Tied on **${resultsArr[0][1] - 1
-                    }** ${votes}`
+                    `It was a tie! Tied on **${resultsArr[0][1] - 1}** ${votes}`
                   )
                   .setColor("YELLOW")
                   .setFooter({
@@ -150,8 +146,8 @@ module.exports = {
                 let embed = new MessageEmbed()
                   .setTitle(poll.title)
                   .setDescription(
-                    `The winner of the poll was option ${resultsArr[0][0]} with ${resultsArr[0][1] - 1
-                    } vote(s) `
+                    `The winner of the poll was option ${resultsArr[0][0]
+                    } with ${resultsArr[0][1] - 1} vote(s) `
                   )
                   .setColor(`GREEN`)
                   .setFooter({
@@ -166,8 +162,8 @@ module.exports = {
                 await poll.deleteOne().catch(() => { });
                 channel.send(
                   `The winner of the poll was option ${resultsArr[0][0]}  - ${resultsArr[0][1] - 1
-                  } vote(s) \nhttps://discordapp.com/channels/${msg.guild.id
-                  }/${channel.id}/${msg.id}`
+                  } vote(s) \nhttps://discordapp.com/channels/${msg.guild.id}/${channel.id
+                  }/${msg.id}`
                 );
               } else {
                 if (
@@ -188,6 +184,32 @@ module.exports = {
       }
     }, 60000);
 
+
+    setInterval(async () => {
+      let conditional = {
+        bump: {
+          enabled: true,
+        }
+      }
+
+      const results = await Guild.find(conditional);
+
+      if (results && results.length) {
+        for (const result of results) {
+          if (result.channel && !result.reminded) {
+            if (result.bump.lastBump + 2 * 60 * 60 * 10000 < Date.now()) {
+              const channel = client.channels.cache.get(result.channel);
+              if (channel) {
+                channel.send(result.bumpMessage);
+              }
+            }
+
+            result.reminded = true;
+            await result.save().catch(() => { });
+          }
+        }
+      }
+    }, 60000);
     client.status = await require("../presence_config");
     setInterval(() => {
       const emoji =
@@ -199,9 +221,7 @@ module.exports = {
         const special_message = client.status.dates[today];
         if (special_message) {
           const motd =
-            special_message[
-            Math.floor(Math.random() * special_message.length)
-            ];
+            special_message[Math.floor(Math.random() * special_message.length)];
           if (motd.message && motd.type) {
             client.user.setActivity(motd.message, {
               type: motd.type,

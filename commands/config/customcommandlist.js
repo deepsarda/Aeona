@@ -6,6 +6,7 @@ module.exports = {
   description: "List all custom commands",
   usage: "+customcommandlist",
   category: "config",
+  requiredArgs: 0,
   aliases: ["ccl"],
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {

@@ -1,3 +1,4 @@
+const { channel } = require("diagnostics_channel");
 const mongoose = require("mongoose");
 
 const guildConfigSchema = mongoose.Schema({
@@ -59,6 +60,48 @@ const guildConfigSchema = mongoose.Schema({
       required: false,
       default: null,
     },
+    roles: [
+      {
+        roleId: {
+          type: mongoose.SchemaTypes.String,
+          required: false,
+          default: null,
+        },
+        level: {
+          type: mongoose.SchemaTypes.Number,
+          required: false,
+          default: 0,
+        },
+      },
+    ],
+  },
+  bump:{
+    enabled: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: false,
+    },
+    bumpMessage: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: "Hello! Please bump us!",
+    },
+    lastBump: {
+      type: mongoose.SchemaTypes.Date,
+      required: false,
+      default: null,
+    },
+    reminded: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: false,
+    },
+    channel: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    }
+
   },
   premium: {
     redeemedBy: {

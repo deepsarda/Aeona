@@ -6,6 +6,7 @@ module.exports = {
   description: "Delete an auto response",
   usage: "+deleteautoresponse <command name>",
   category: "config",
+  requiredArgs: 1,
   aliases: ["dar"],
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {

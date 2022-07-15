@@ -12,7 +12,7 @@ module.exports = {
       description: `**ID:** ${message.guild.id}\n
             **Name:** ${message.guild.name}\n
             **Owner:** ${owner}\n
-            **Created at:** <t:${message.guild.createdAtTimes()}:R>\n
+            **Created at:** <t:${message.guild.createdTimestamp}:R>\n
             **Members:** ${message.guild.memberCount}\n
             **Channels:** ${message.guild.channels.cache.size}\n
             **Roles:** ${message.guild.roles.cache.size}\n

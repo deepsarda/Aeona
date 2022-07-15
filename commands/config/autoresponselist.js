@@ -4,9 +4,10 @@ const autoResponse = require("../../database/schemas/autoResponse.js");
 module.exports = {
   name: "autoresponselist",
   description: "List of all the auto responses",
-  usage: "+autoresponse",
+  usage: "+autoresponselist",
   category: "config",
   aliases: ["ars", "autoresponseslist", "autoresponses"],
+  requiredArgs: 0,
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
     let autoResponses = await autoResponse.find({

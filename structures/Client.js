@@ -34,7 +34,7 @@ Structure.extend(
 module.exports = class AeonaClient extends Client {
   constructor(options = {}, sentry) {
     super({
-      ws: { properties: { $browser: "Discord iOS" }},
+      ws: { properties: { $browser: "Discord iOS" } },
       partials: ["MESSAGE", "CHANNEL", "REACTION", "GUILD_MEMBER", "USER"],
       cacheGuilds: true,
       cacheChannels: true,

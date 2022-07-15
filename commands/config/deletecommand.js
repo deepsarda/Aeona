@@ -7,6 +7,7 @@ module.exports = {
   usage: "+deletecommand <command name>",
   category: "config",
   aliases: [],
+  requiredArgs: 1,
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
     let name = args[0].toLowerCase();

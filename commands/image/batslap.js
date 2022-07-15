@@ -16,7 +16,7 @@ module.exports = {
     if (member.id === message.author.id)
       return await message.replyError({
         title: "Oops!",
-        description: `You need to ping someone else as well!\nCorrect Usage \`${prefix}batslap <@user>\``
+        description: `You need to ping someone else as well!\nCorrect Usage \`${prefix}batslap <@user>\``,
       });
 
     const url = await new Batslap().getImage(

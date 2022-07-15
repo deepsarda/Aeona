@@ -60,7 +60,8 @@
     "randostrings": "^0.1.6",
     "statcord.js": "^3.4.2",
     "tenorjs": "^1.0.8",
-    "topgg-autoposter": "^2.0.1"
+    "topgg-autoposter": "^2.0.1",
+    "uniqid": "^5.4.0"
   },
   "engines": {
     "node": "18.x"

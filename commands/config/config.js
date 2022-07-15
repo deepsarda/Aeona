@@ -17,6 +17,7 @@ module.exports = {
     "automod",
   ],
   permission: ["MANAGE_GUILD"],
+  requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
     return message.reply({
       title: "Config",

@@ -5,6 +5,7 @@ module.exports = {
   description: "Change the bot's prefix",
   usage: "+prefix <new prefix>",
   category: "config",
+  requiredArgs: 1,
   aliases: [],
   permission: ["MANAGE_GUILD"],
   execute: async (message, args, bot, prefix) => {
