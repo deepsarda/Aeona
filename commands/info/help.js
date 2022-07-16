@@ -35,12 +35,16 @@ module.exports = {
   category: "info",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
+    
     let modules = "";
-
+    let description="**Use the dropdown to select the category to learn more about a command.**"
     let options = [];
-
+    let fieldNames=[];
+    let fieldValues=[];
+    let inlines=[];
     for (const category of bot.categories.keys()) {
       let c = bot.categories.get(category);
+
       console.log(category);
       options.push({
         value: category,
@@ -48,16 +52,21 @@ module.exports = {
         emoji: c.info.emoji,
         description: c.info.label,
       });
-
-      modules += `\n→ **${bot.categories.get(category).info.emoji}・${caps(
+      fieldNames.push(`${bot.categories.get(category).info.emoji}・${caps(
         category
-      )}**\n *${bot.categories.get(category).info.label}*  \n`;
+      )}`);
+      fieldValues.push(`\`${bot.categories.get(category).info.label}\``);
+      inlines.push(true);
+     
     }
 
     const embed = await success.embed({
       embed: true,
       title: "Help menu",
       description: `Select a module using the dropdown below, to view **it's tutorial** and **commands list**!\n${modules}`,
+      fieldNames,
+      fieldValues,
+      inlines
     });
 
     const row = new Discord.MessageActionRow().addComponents(
