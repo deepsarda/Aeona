@@ -87,7 +87,7 @@ const guildConfigSchema = mongoose.Schema({
       default: "Hello! Please bump us!",
     },
     lastBump: {
-      type: mongoose.SchemaTypes.Date,
+      type: mongoose.SchemaTypes.Number,
       required: false,
       default: 0,
     },
