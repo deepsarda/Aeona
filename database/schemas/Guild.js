@@ -89,12 +89,12 @@ const guildConfigSchema = mongoose.Schema({
     lastBump: {
       type: mongoose.SchemaTypes.Date,
       required: false,
-      default: null,
+      default: 0,
     },
     reminded: {
       type: mongoose.SchemaTypes.Boolean,
       required: false,
-      default: false,
+      default: true,
     },
     channel: {
       type: mongoose.SchemaTypes.String,
