@@ -1,24 +1,14 @@
-const Event = require("../../structures/Event");
-const logger = require("../../utils/logger");
 const Guild = require("../../database/schemas/Guild");
 const WelcomeDB = require("../../database/schemas/welcome");
-const Canvas = require("canvas");
-const { MessageAttachment } = require("discord.js");
 const discord = require("discord.js");
-const muteModel = require("../../models/mute");
+const muteModel = require("../../database/schemas/mute");
 const moment = require("moment");
-const alt = require("../../models/altdetector.js");
+const alt = require("../../database/schemas/altdetector.js");
 const StickyDB = require("../../database/schemas/stickyRole");
 const Logging = require("../../database/schemas/logging");
-const Maintenance = require("../../database/schemas/maintenance");
-module.exports = class extends Event {
-  async run(member) {
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
-
+module.exports = {
+  name: "guildMemberAdd",
+  async execute(client, member) {
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
     const muteDoc = await muteModel.findOne({
@@ -47,7 +37,7 @@ module.exports = class extends Event {
 
         if (channelEmbed) {
           let color = logging.server_events.color;
-          if (color == "#000000") color = member.client.color.green;
+          if (color == "#000000") color = "GREEN";
 
           if (logging.server_events.member_join == "true") {
             const embed = new discord.MessageEmbed()
@@ -58,6 +48,10 @@ module.exports = class extends Event {
               )
               .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
               .setDescription(`${member} (**${member.user.tag}**)`)
+              .addField("Member ID", member.id)
+              .addField("Member Tag", member.user.tag)
+              .addField("Member Created At", member.user.createdAt)
+              .addField("Member Joined At", member.joinedAt)
               .addField(
                 "Account created on",
                 moment(member.user.createdAt).format("dddd, MMMM Do YYYY")
@@ -422,5 +416,5 @@ module.exports = class extends Event {
         }
       }
     }
-  }
+  },
 };

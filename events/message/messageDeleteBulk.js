@@ -1,17 +1,11 @@
-const Event = require("../../structures/Event");
 const { MessageEmbed } = require("discord.js");
 require("moment-duration-format");
 const Logging = require("../../database/schemas/logging");
-const Maintenance = require("../../database/schemas/maintenance");
-module.exports = class extends Event {
-  async run(messages) {
+
+module.exports = {
+  name: "messageDeleteBulk",
+  async execute(client, messages) {
     const message = messages.first();
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
 
     const logging = await Logging.findOne({ guildId: message.guild.id });
 
@@ -23,7 +17,7 @@ module.exports = class extends Event {
 
         if (channelEmbed) {
           let color = logging.message_events.color;
-          if (color == "#000000") color = this.client.color.red;
+          if (color == "#000000") color = "RED";
 
           if (logging.message_events.deleted == "true") {
             const embed = new MessageEmbed()
@@ -51,5 +45,5 @@ module.exports = class extends Event {
         }
       }
     }
-  }
+  },
 };

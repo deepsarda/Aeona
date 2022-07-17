@@ -1,86 +1,40 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
 const autoResponse = require("../../database/schemas/autoResponse.js");
 const Guild = require("../../database/schemas/Guild");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "deleteresponse",
-      description: "Deletes an auto Response",
-      category: "Config",
-      userPermission: "MANAGE_MESSAGES",
-      aliases: ["deleteautoresponse", "delresponse", "deleteautoresponse"],
-      usage: ["<command>"],
-      examples: ["deleteresponse Pog"],
-      cooldown: 3,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
+module.exports = {
+  name: "deleteautoresponse",
+  description: "Delete an auto response",
+  usage: "+deleteautoresponse <command name>",
+  category: "config",
+  requiredArgs: 1,
+  aliases: ["dar"],
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    let name = args[0].toLowerCase();
+    let autoResponse = await autoResponse.findOne({
       guildId: message.guild.id,
+      name: name,
     });
 
-    
+    if (!autoResponse)
+      return await message.replyError({
+        title: "Oops!",
+        description:
+          "Looks like there's no auto-responder for this message!\nPlease retry this command.",
+      });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    await autoResponse.deleteOne({
+      guildId: message.guild.id,
+      name: name,
+    });
 
-    const name = args[0].toLowerCase();
-
-    if (!name)
-      return message.channel
-        .send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setDescription(
-                `${language.properusage} \`${prefix}deleteresponse <command-name>\`\n\n${language.example} \`${prefix}deleteresponse pog\``
-              )
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" }),
-          ],
-        })
-        .setColor(message.guild.me.displayHexColor);
-
-    if (name.length > 30)
-      return message.channel.send(
-        `${message.client.emoji.fail} ${language.cc1}`
-      );
-
-    autoResponse.findOne(
-      {
-        guildId: message.guild.id,
-        name,
-      },
-      async (err, data) => {
-        if (data) {
-          data.delete({ guildId: message.guild.id, name });
-          message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setAuthor(
-                  `${message.author.tag}`,
-                  message.author.displayAvatarURL({ dynamic: true })
-                )
-                .setTitle(
-                  `${message.client.emoji.success} Delete Auto Response`
-                )
-                .setDescription(`${language.deletecmd1} **${name}**`)
-                .setTimestamp()
-                .setFooter({ text: "https://Aeona.xyz/" }),
-            ],
-          });
-        } else {
-          message.channel.send(
-            `${message.client.emoji.fail} ${language.deletecmd2}`
-          );
-        }
-      }
-    );
-  }
+    return message.reply({
+      title: "Auto Response",
+      description: "The auto response has been deleted.",
+    });
+    await message.reply({
+      title: "Auto-responder successfully deleted!",
+      description: `The auto-responder for the message \`${name}\` has been deleted!\n\nYou can create a new one using \`${prefix}ar <message> <response>\`.`,
+    });
+  },
 };

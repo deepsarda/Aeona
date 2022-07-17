@@ -1,98 +1,34 @@
-const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
-const warnModel = require("../../models/moderation.js");
-const mongoose = require("mongoose");
+const warnModel = require("../../database/schemas/moderation.js");
 const Logging = require("../../database/schemas/logging.js");
-const discord = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "removewarn",
-      aliases: ["rw", "removewarns"],
-      description: "Remove a certain users warn",
-      category: "Moderation",
-      usage: "<user> [ID]",
-      examples: ["rw @peter iasdjas"],
-      guildOnly: true,
-      userPermission: ["MANAGE_ROLES"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    let client = message.client;
-
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-          const newGuild = new Guild({
-            _id: mongoose.Types.ObjectId(),
-            guildId: message.guild.id,
-            guildName: message.guild.name,
-            prefix: client.config.prefix,
-            language: "english",
-          });
-
-          newGuild
-            .save()
-            .then((result) => console.log(result))
-            .catch((err) => console.error(err));
-
-          return message.channel
-            .send(
-              "This server was not in our database! We have added it, please retype this command."
-            )
-            .then((m) => m.delete({ timeout: 10000 }));
-        }
-      }
-    );
-    const logging = await Logging.findOne({ guildId: message.guild.id });
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
+module.exports = {
+  name: "removewarn",
+  description: "Remove a warning from a user",
+  usage: "+removewarn [@user] [id]",
+  category: "moderation",
+  requiredArgs: 2,
+  permission: ["MANAGE_ROLES"],
+  async execute(message, args, bot, prefix) {
+    let logging = await Logging.findOne({ guildID: message.guild.id });
 
     const mentionedMember =
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
-
-    if (!mentionedMember) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (!mentionedMember)
+      return message.replyError({
+        title: "Remove Warning",
+        description: "Please provide a user to remove the warning from.",
       });
-    }
+    const mentionedPosition = mentionedMember.roles.highest.position;
+    const memberPosition = message.member.roles.highest.position;
 
-    const mentionedPotision = mentionedMember.roles.highest.position;
-    const memberPotision = message.member.roles.highest.position;
-
-    if (memberPotision <= mentionedPotision) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (memberPosition <= mentionedPosition)
+      return message.replyError({
+        title: "Remove Warning",
+        description:
+          "You cannot remove a warning from someone with a higher role.",
       });
-    }
-
     let reason = args.slice(2).join(" ");
     if (!reason) reason = language.softbanNoReason;
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
@@ -104,84 +40,41 @@ module.exports = class extends Command {
       })
       .catch((err) => console.log(err));
 
-    if (!warnDoc || !warnDoc.warnings.length) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (!warnDoc || !warnDoc.warnings.length)
+      return message.replyError({
+        title: "Remove Warning",
+        description: "That user does not have any warnings.",
       });
-    }
 
     let warningID = args[1];
     if (!warningID)
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+      return message.replyError({
+        title: "Remove Warning",
+        description: "Please provide an warning ID to remove.",
       });
 
     let check = warnDoc.warningID.filter((word) => args[1] === word);
 
     if (!warnDoc.warningID.includes(warningID))
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+      return message.replyError({
+        title: "Remove Warning",
+        description: "That warning ID does not exist.",
       });
 
     if (!check)
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+      return message.replyError({
+        title: "Remove Warning",
+        description: "That warning ID does not exist.",
       });
 
-    if (check.length < 0) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmWarnInvalid} `)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (check.length < 0)
+      return message.replyError({
+        title: "Remove Warning",
+        description: "That warning ID does not exist.",
       });
-    }
+
     let toReset = warnDoc.warningID.length;
 
-    //warnDoc.memberID.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1)
-    //warnDoc.guildID.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1)
     warnDoc.warnings.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1);
     warnDoc.warningID.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1);
     warnDoc.modType.splice(toReset - 1, toReset !== 1 ? toReset - 1 : 1);
@@ -190,22 +83,11 @@ module.exports = class extends Command {
 
     await warnDoc.save().catch((err) => console.log(err));
 
-    const removeEmbed = new discord.MessageEmbed()
-      .setDescription(
-        `${
-          message.client.emoji.success
-        } | Cleared Warn **#${warningID}** from **${
-          mentionedMember.user.tag
-        }** ${
-          logging && logging.moderation.include_reason === "true"
-            ? `\n\n**Reason:** ${reason}`
-            : ``
-        }`
-      )
-      .setColor(message.client.color.green);
-
-    message.channel
-      .send(removeEmbed)
+    message
+      .reply({
+        title: "Remove Warning",
+        description: `Successfully removed warning ${warningID} from ${mentionedMember.user.tag}`,
+      })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -239,7 +121,8 @@ module.exports = class extends Command {
             ) {
               if (logging.moderation.warns == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.green;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -249,16 +132,16 @@ module.exports = class extends Command {
                     `Action: \`Remove Warn\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", mentionedMember, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Reason", reason, true)
+                  .setDescription(
+                    `**User:** ${mentionedMember} \n **Responsible Moderator:** ${message.author} \n **Reason:** ${reason}`
+                  )
                   .setFooter({
                     text: `ID: ${mentionedMember.id} | Warn ID: ${warningID}`,
                   })
                   .setTimestamp()
                   .setColor(color);
 
-                channel.send(logEmbed).catch((e) => {
+                channel.send({ embeds: [logEmbed] }).catch((e) => {
                   console.log(e);
                 });
 
@@ -270,5 +153,5 @@ module.exports = class extends Command {
         }
       }
     }
-  }
+  },
 };

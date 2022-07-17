@@ -1,34 +1,30 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "lumber",
-      description: "Chop Wood",
-      category: "economy",
-      cooldown: 1,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
-    var data = await bot.economy.getConfig(message.member);
+module.exports = {
+  name: "lumber",
+  category: "economy",
+  description: "Gathers lumber from trees.",
+  usage: "+lumber",
+  requiredArgs: 0,
+  aliases: ["tree", "wood", "tree-cutting", "wood-cutting", "chop"],
+  execute: async (message, args, bot, prefix) => {
+    let data = await bot.economy.getConfig(message.member);
     let founditem = data.items.find((x) => x.name.toLowerCase() === "axe");
 
-    if (!founditem) {
-      return util.error({
+    if (!founditem)
+      return await message.replyError({
         msg: message,
         title: "Oops!",
         description: `You don't own an axe yet!\nUse \`${prefix}buy axe\` to buy one, before using this command.`,
       });
-    }
+
+    const lumberingURL =
+      "https://img.icons8.com/external-color-line-collection-vinzence-studio/344/external-wood-construction-color-line-collection-vinzence-studio.png";
+
     let itemLevel = founditem.level;
-    if (!itemLevel) {
-      itemLevel = 0;
-    }
-    
+    if (!itemLevel) itemLevel = 0;
 
     const randomMessage = [
       "o",
@@ -60,27 +56,20 @@ module.exports = class extends Command {
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
     let Amount = 0;
 
-    
-  
     if (randint(0, 100) > 90) Amount = randint(3, 5) + itemLevel;
     else Amount = randint(1, 2) + itemLevel;
 
     let logName =
-      Amount > 1
-        ? logs[response]["plural"]
-        : `a(n) ${logs[response]["singular"]}`;
-
-    const title = `${message.member.displayName} lumbered ${logName}!`;
+      Amount > 1 ? logs[response]["plural"] : logs[response]["singular"];
 
     logName =
       Amount > 1 ? logs[response]["plural"] : logs[response]["singular"];
 
-    util.success({
+    await message.reply({
       msg: message,
-      title: title,
-      description: `You went lumbering... and came back with **${Amount}** ${logName}!\nUse \`${prefix}sell ${
-        logs[response]["name"]
-      } ${Amount}\` to sell the lumbered ${Amount > 1 ? "logs" : "log"}.`,
+      title: `You lumbered ${Amount} ${logName}!`,
+      description: `You lumbered ${Amount} ${logName}!\n\nUse \`${prefix}sell ${logs[response]["name"]} ${Amount}\` to sell your wood.`,
+      thumbnailURL: lumberingURL,
     });
 
     const findItem = data.items.find(
@@ -105,14 +94,11 @@ module.exports = class extends Command {
     } else {
       userInv.push({
         name: item.name,
-        amount:Amount,
+        amount: Amount,
         description: item.description,
       });
       data.items = userInv;
       await data.save();
     }
-  }
+  },
 };
-function randint(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}

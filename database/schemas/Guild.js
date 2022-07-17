@@ -1,5 +1,5 @@
+const { channel } = require("diagnostics_channel");
 const mongoose = require("mongoose");
-const config = require("../../config.json.js");
 
 const guildConfigSchema = mongoose.Schema({
   guildId: {
@@ -7,14 +7,10 @@ const guildConfigSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  disabledCommands: {
-    type: mongoose.SchemaTypes.Array,
-    default: [],
-  },
   prefix: {
     type: mongoose.SchemaTypes.String,
     required: true,
-    default: config.prefix || "+",
+    default: "+",
   },
   isPremium: {
     type: mongoose.SchemaTypes.String,
@@ -60,6 +56,65 @@ const guildConfigSchema = mongoose.Schema({
       default: "{user} has leveled up to level {level}! :tada:",
     },
     levelUpChannel: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    },
+    roles: [
+      {
+        role: {
+          type: mongoose.SchemaTypes.String,
+          required: false,
+          default: "0",
+        },
+        level: {
+          type: mongoose.SchemaTypes.Number,
+          required: false,
+          default: 0,
+        },
+      },
+    ],
+  },
+  verification: {
+    enabled: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: false,
+    },
+    verificationChannel: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    },
+    verificationRole: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    }
+  },
+
+  bump: {
+    enabled: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: false,
+    },
+    bumpMessage: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: "Hello! Please bump us!",
+    },
+    lastBump: {
+      type: mongoose.SchemaTypes.Number,
+      required: false,
+      default: 0,
+    },
+    reminded: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: true,
+    },
+    channel: {
       type: mongoose.SchemaTypes.String,
       required: false,
       default: null,
@@ -150,54 +205,6 @@ const guildConfigSchema = mongoose.Schema({
       required: false,
       default: `1`,
     },
-  },
-  report: {
-    reportChannelID: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: null,
-    },
-    reportcolor: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: "#000000",
-    },
-    disableUser: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    disableIssue: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    upvote: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: false,
-    },
-    reaction: {
-      type: mongoose.SchemaTypes.String,
-      required: false,
-      default: `1`,
-    },
-    reportCase: {
-      type: mongoose.SchemaTypes.Number,
-      default: "1",
-    },
-  },
-  dashboardLogID: {
-    type: mongoose.SchemaTypes.String,
-    required: false,
-    default: null,
-  },
-  cases: {
-    type: mongoose.SchemaTypes.Number,
-  },
-  language: {
-    type: mongoose.SchemaTypes.String,
-    default: "english",
   },
   reactionDM: {
     type: Boolean,

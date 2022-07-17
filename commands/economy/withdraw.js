@@ -1,48 +1,44 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-const numberParse = require("../../packages/numberparse");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "withdraw",
-      description: "withdraw money from your bank",
-      category: "economy",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
+
+module.exports = {
+  name: "withdraw",
+  description: "Withdraw money from your bank account",
+  category: "economy",
+  usage: "+withdraw [amount]",
+  requiredArgs: 0,
+  aliases: ["with"],
+  execute: async (message, args, bot, prefix) => {
     let amount = numberParse(args[0]);
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
 
     if (typeof amount === "string") {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
-        amount = profile.money.bank;
+        amount = profile.coinsInBank;
       }
     }
-
-    if (profile.money.bank < amount) {
-      util.error({
-        msg: message,
-        title: "You don't have enough money.",
-        description: `You need ${(
-          amount - profile.money.bank
-        ).toLocaleString()} more coins.`,
+    if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
+      return message.replyError({ title: "Invalid amount!" });
+    if (profile.coinsInBank < amount) {
+      return await message.replyError({
+        title: "Oops!",
+        description: `Looks like you don't have enough money... you need ⌭ ${(
+          amount - profile.coinsInBank
+        ).toLocaleString()} more to withdraw!\nPlease retry this command.`,
       });
-      return;
     }
 
-    profile.money.bank -= amount;
-    profile.money.wallet += amount;
+    profile.coinsInBank -= amount;
+    profile.coinsInWallet += amount;
     profile.save();
 
-    util.success({
+    message.reply({
       msg: message,
-      title: "Withdraw successful.",
-      description: `You have withdrawn ${amount.toLocaleString()} credits.`,
+      title: "Credits withdrawn successfully!",
+      description: `You withdrew ⌭ ${amount.toLocaleString()} from your bank.`,
+      thumbnailURL: "https://img.icons8.com/fluency/344/withdrawal.png",
     });
-  }
+  },
 };

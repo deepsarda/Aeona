@@ -1,27 +1,19 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
-function randint(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+module.exports = {
+  name: "coinflip",
+  description: "Flip a coin, and win double the money or lose all of it!",
+  usage: "+coinflip",
+  category: "economy",
+  requiredArgs: 0,
+  cooldown: 10 * 60,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
+    var user = message.member;
+    var profile = await bot.economy.getConfig(user);
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "coinflip",
-      description:
-        "Flip a coin, If you win gain double the money or lose all the money.",
-      category: "economy",
-      cooldown: 60 * 5,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
-
-    let user = message.member;
-    let profile = await bot.economy.getConfig(user);
     const coins = [
       "bronzecoin",
       "silvercoin",
@@ -34,13 +26,11 @@ module.exports = class extends Command {
       coins.includes(i.name.toLowerCase())
     );
 
-    if (!foundItem) {
-      util.error({
+    if (!foundItem)
+      return await message.replyError({
         msg: message,
-        title: "You don't have any coins.",
+        title: "You don't have any coins!",
       });
-      return;
-    }
 
     const rand = randint(0, 100);
 
@@ -59,28 +49,28 @@ module.exports = class extends Command {
       : 0;
 
     if (rand < winAmount) {
-      let amount = profile.money.wallet;
+      var amount = profile.coinsInWallet;
 
-      util.success({
+      message.reply({
         msg: message,
         userp: user,
         title: `${user.displayName} won ${amount.toLocaleString()} credits!`,
         description: `You now have ${(
-          profile.money.wallet + amount
+          profile.coinsInWallet + amount
         ).toLocaleString()} credits.`,
       });
       bot.economy.giveUserCredits(user, amount);
     } else {
-      let amount = Math.floor(profile.money.wallet * 1);
-      util.success({
+      var amount = Math.floor(profile.coinsInWallet * 1);
+      message.reply({
         msg: message,
         userp: user,
         title: `${user.displayName} lost ${amount.toLocaleString()} credits!`,
         description: `You now have ${(
-          profile.money.wallet - amount
+          profile.coinsInWallet - amount
         ).toLocaleString()} credits.`,
       });
       bot.economy.takeUserCredits(user, amount);
     }
-  }
+  },
 };

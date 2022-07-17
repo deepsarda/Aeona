@@ -1,30 +1,9 @@
-<%- include("partials/head", { bot, user, path, title: "Aeona - Redeem" }) %>
-  <div class="content">
-
-    <h2>SELECT A SERVER</h2>
-
-
-    <div class="servers">
-      <h1> Offer has ended!</h1>
-    </div>
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Redeem" , url, image }) %>
+<div class="w-full mt-16 text-center">
+  <h2 class="text-white">The offer has ended!</h1>
+  <a href="/premium" class="text-white">Go to premium page</a>
+</div>
 
 
-
-    <%- include("partials/footer") %>
-      <script>
-        function PopupCenter(e, n, t, i) {
-          let o = void 0 != window.screenLeft ? window.screenLeft : screen.left,
-            d = void 0 != window.screenTop ? window.screenTop : screen.top,
-            c = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width,
-            w = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height,
-            r = c / 2 - t / 2 + o, h = w / 2 - i / 2 + d,
-            s = window.open(e, n, "scrollbars=yes, width=" + t + ", height=" + i + ", top=" + h + ", left=" + r);
-          window.focus && s.focus()
-        }
-      </script>
-      <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;
-600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;
-600&display=swap');
-      </style>
+</div>
+<%- include("./partials/footer") %>

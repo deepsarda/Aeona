@@ -1,90 +1,76 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-const numberParse = require("../../packages/numberparse");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "buy",
-      aliases: [],
-      description: "Buy an item",
-      category: "economy",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
+module.exports = {
+  name: "buy",
+  description: "Buy an item",
+  usage: "+buy <item> [amount]",
+  category: "economy",
+  requiredArgs: 1,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
     let item = args[0];
-    if (!item)
-      return util.error({
+
+    let user = message.member;
+
+    let profile = await bot.economy.getConfig(user);
+    let itemData = await bot.economy.getItem(item);
+
+    if (!itemData)
+      return await message.replyError({
         msg: message,
-        title: "You need to specify an item!",
-        description: "Use `+buy <item>` to buy an item.",
+        title: "Item not found!",
       });
 
     let amount = numberParse(args[1]);
     if (!amount) amount = 1;
 
-    let user = message.member;
-    let profile = await bot.economy.getConfig(user);
-    let itemData = await bot.economy.getItem(item);
-    if (!itemData) {
-      util.error({
-        msg: message,
-        title: "Item not found.",
-      });
-      return;
-    }
-
     if (typeof amount === "string") {
       if (amount.toLowerCase() == "all" || amount.toLowerCase() == "max") {
-        amount = Math.floor(profile.money.wallet / itemData.price);
+        amount = Math.floor(profile.coinsInWallet / itemData.price);
       }
     }
+
+    if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
+      return message.replyError({ msg: message, title: "Invalid amount!" });
+
     let cost = itemData.price * amount;
 
-    if (profile.money.wallet < cost) {
-      util.error({
+    if (profile.coinsInWallet < cost)
+      return await message.replyError({
         msg: message,
-        title: "You don't have enough money.",
-        description: `You need ${(
-          cost - profile.money.wallet
-        ).toLocaleString()} more coins.`,
+        title: "Oops! You're missing some credits!",
+        description: `You don't have enough money!\nYou need ${(
+          cost - profile.coinsInWallet
+        ).toLocaleString()} more credits to buy this item.`,
       });
-      return;
-    }
 
-    if (!itemData.canBuy) {
-      util.error({
+    if (!itemData.canBuy)
+      return await message.replyError({
         msg: message,
-        title: "You can't buy this item.",
+        title: "You can't buy this item!",
       });
-      return;
-    }
 
     let itemUser = bot.economy.getItemFromArray(profile.items, item);
     if (itemUser) {
-      if (itemUser.item.name == itemData.name && itemUser.item.upgradeAble) {
-        util.error({
+      if (itemUser.item.name == itemData.name && itemUser.item.upgradeAble)
+        return await message.replyError({
           msg: message,
-          title: "You can't buy this item.",
+          title: "You can't buy this item!",
           description: `You already have this item.`,
         });
-        return;
-      }
     }
 
     await bot.economy.takeUserCredits(user, cost);
     await bot.economy.giveUserItem(user, itemData.name, amount);
 
-    util.success({
+    await message.reply({
       msg: message,
       title: `You bought ${amount} ${itemData.name}!`,
-      description: `You now have ${(
-        profile.money.wallet - cost
-      ).toLocaleString()} coins.`,
+      description: `You now have ⌭ ${(
+        profile.coinsInWallet - cost
+      ).toLocaleString()}.`,
     });
-  }
+  },
 };

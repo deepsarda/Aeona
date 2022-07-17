@@ -1,52 +1,34 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const autoResponse = require("../../database/schemas/autoResponse.js");
 const Guild = require("../../database/schemas/Guild");
-const { prototype } = require("../../structures/Command");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "autoresponses",
-      description: "Gives a list of auto Responses in a guild",
-      category: "Config",
-      aliases: ["ars", "autoresponselist"],
-      cooldown: 5,
-    });
-  }
+const autoResponse = require("../../database/schemas/autoResponse.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
+module.exports = {
+  name: "autoresponselist",
+  description: "List of all the auto responses",
+  usage: "+autoresponselist",
+  category: "config",
+  aliases: ["ars", "autoresponseslist", "autoresponses"],
+  requiredArgs: 0,
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    let autoResponses = await autoResponse.find({
       guildId: message.guild.id,
     });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    if (autoResponses.length === 0)
+      return await message.replyError({
+        title: "Auto-responder List",
+        description: `Welp, you haven't added any auto-responders yet!\n\nCreate an auto-responder using \`${prefix}ar <message> <response>\``,
+      });
 
-    await autoResponse.find(
-      {
-        guildId: message.guild.id,
-      },
-      (err, data) => {
-        if (!data && !data.name)
-          return message.channel.send(
-            `${message.client.emoji.fail} ${language.cc5}`
-          );
-        let array = [];
-        data.map((d, i) => array.push(d.name));
+    let data = "";
 
-        let embed = new MessageEmbed()
-          .setColor("PURPLE")
-          .setTitle(`${language.cc6}`)
-          .setDescription(array.join(" - "))
-          .setFooter({ text: message.guild.name });
+    for (const [i, ar] of autoResponses.entries()) {
+      data += `\`${i + 1}.\` **${ar.name}** → ${ar.content}\n`;
+    }
 
-        if (!Array.isArray(array) || !array.length) {
-          embed.setDescription(`${language.cc5}`);
-        } else {
-          embed.setDescription(array.join(" - "));
-        }
-
-        message.channel.send({ embeds: [embed] });
-      }
-    );
-  }
+    return message.reply({
+      title: "Auto-responder List",
+      description: data,
+    });
+  },
 };

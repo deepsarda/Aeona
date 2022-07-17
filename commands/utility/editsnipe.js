@@ -1,30 +1,14 @@
-const Command = require("../../structures/Command");
-const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const Snipe = require("../../database/schemas/editsnipe");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "editsnipe",
-      description: "Snipe Edited Messages in the channel",
-      category: "Utility",
-      usage: ["editsnipe"],
-      cooldown: 10,
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    
-    let fail = message.client.emoji.fail;
-    let client = message.client;
-
+module.exports = {
+  name: "editsnipe",
+  description: "See the edited messages of this channel",
+  usage: "+editsnipe",
+  category: "utility",
+  requiredArgs: 0,
+  botPermissions: ["MANAGE_WEBHOOKS"],
+  execute: async (message, args, bot, prefix) => {
     let channel = message.mentions.channels.first();
     if (!channel) channel = message.channel;
 
@@ -32,61 +16,43 @@ module.exports = class extends Command {
       guildId: message.guild.id,
       channel: channel.id,
     });
-
-    const no = new MessageEmbed()
-      .setAuthor(
-        `#${channel.name} | ${message.guild.name}`,
-        message.guild.iconURL()
-      )
-      .setFooter({ text: message.guild.name })
-      .setTimestamp()
-      .setColor(message.guild.me.displayHexColor)
-      .setDescription(
-        `${message.client.emoji.fail} | Couldn't find any edited message in **${channel.name}**`
-      );
-
     if (!snipe) {
-      return message.channel.send(no);
+      return message.replyError({
+        title: "Editsnipe",
+        description: "No editsnipe found for this channel.",
+      });
     }
 
-    if (snipe.oldmessage.length < 1) {
-      return message.channel.send(no);
+    if (snipe.oldmessage.length < 1)
+      return message.replyError({
+        title: "Editsnipe",
+        description: "No editsnipe found for this channel.",
+      });
+
+    let webhooks = await message.channel.fetchWebhooks();
+    let webhook = webhooks.find((webhook) => webhook.token);
+
+    if (!webhook) {
+      webhook = await message.channel.createWebhook(
+        `${client.user.username} Sniping`,
+        {
+          avatar: client.user.displayAvatarURL(),
+        }
+      );
     }
-    if (snipe.newmessage.length < 1) {
-      return message.channel.send(no);
-    }
-
-    const data = [];
-
-    const embed = new MessageEmbed()
-      .setAuthor(
-        `#${channel.name} | ${message.guild.name}`,
-        message.guild.iconURL()
-      )
-      .setFooter({ text: message.guild.name })
-      .setTimestamp()
-      .setColor(message.guild.me.displayHexColor);
-
     for (let i = 0; snipe.oldmessage.length > i; i++) {
-      data.push(`**${i + 1}**`);
+      let member = await message.guild.members.fetch(snipe.id[i]).catch();
+      if (!member) await MessageEvent.client.users.fetch(snipe.id[i]).catch();
 
-      embed.addField(
-        `Message #${i + 1}`,
-        `**User:** ${
-          (await message.client.users.fetch(snipe.id[i])) || "Unknown"
-        }\n**Message:** ${snipe.oldmessage[i] || "None"} ➜ ${
+      webhook.send({
+        username: member ? member.user.username : "Unkown",
+        avatarURL: member ? member.user.displayAvatarURL() : undefined,
+        content: `${snipe.oldmessage[i] || "None"} ➜ ${
           snipe.newmessage[i]
-        }\n[Jump To Message](${snipe.url[i]})\n`
-      );
+        }\n[Jump To Message](${snipe.url[i]})\n`,
+
+        allowedMentions: { parse: [] },
+      });
     }
-
-    if (data.length < 1) return message.channel.send(no);
-
-    message.channel.send({ embeds: [embed] }).catch(async (err) => {
-      await snipe.deleteOne().catch(() => {});
-      message.channel.send(
-        `The embed contained a huge field that couldn't fit as this is the reason i failed to send the embed. I have resetted the database as you can try rerunning the command again.`
-      );
-    });
-  }
+  },
 };

@@ -1,126 +1,38 @@
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "anti-links",
-      aliases: ["anti-link", "antilink", "antilink"],
-      description: "Sets anti-invite if the message contains a link",
-      category: "Config",
-      usage: ["<enable | disable>"],
-      examples: ["anti-links enable", "anti-links disable"],
-      cooldown: 3,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
+module.exports = {
+  name: "anti-links",
+  description: "Stop user's from using links",
+  usage: "+anti-links <enable | disable>",
+  category: "config",
+  requiredArgs: 1,
+  aliases: ["anti-link", "antilink", "antilink"],
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    const guild = await Guild.findOne({ guildId: message.guild.id });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    if (args.length < 1) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.antiinvites1}`
-            ),
-        ],
+    let option = args[0].toLowerCase();
+    if (option === "enable") {
+      guild.antiLinks = true;
+      await guild.save();
+      return message.reply({
+        title: "Anti Links",
+        description: `Anti-links has been enabled.`,
       });
     }
 
-    if (
-      !message.content.includes("enable") &&
-      !message.content.includes("disable")
-    ) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.antiinvites1}`
-            ),
-        ],
+    if (option === "disable") {
+      guild.antiLinks = false;
+      await guild.save();
+      return message.reply({
+        title: "Anti Links",
+        description: `Anti-links has been disabled.`,
       });
     }
 
-    if (args.includes("disable")) {
-      if (guildDB.antiLinks === false)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.fail} ${language.moduleDisabled}`
-              ),
-          ],
-        });
-
-      await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-        async (err, guild) => {
-          guild
-            .updateOne({
-              antiLinks: false,
-            })
-            .catch((err) => console.error(err));
-
-          return message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setDescription(
-                  `${message.client.emoji.success} ${language.antilinks3}`
-                ),
-            ],
-          });
-        }
-      );
-      return;
-    }
-
-    if (args.includes("enable")) {
-      if (guildDB.antiLinks === true)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.fail} ${language.moduleEnabled}`
-              ),
-          ],
-        });
-
-      await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-        async (err, guild) => {
-          guild
-            .updateOne({
-              antiLinks: true,
-            })
-            .catch((err) => console.error(err));
-
-          return message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setDescription(
-                  `${message.client.emoji.success} ${language.antilinks4}`
-                ),
-            ],
-          });
-        }
-      );
-      return;
-    }
-  }
+    await message.replyError({
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}anti-links <enable|disable>\``,
+    });
+  },
 };

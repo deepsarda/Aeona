@@ -1,46 +1,54 @@
-const { createLogger, format, transports } = require("winston");
-const { combine, timestamp, label, printf } = format;
 const Discord = require("discord.js");
-const config = require("../config.json.js");
-const webhookClient = new Discord.WebhookClient({
-  url:process.env.logs,
-});
+function timestamp() {
+  let now = new Date();
+  let hour = now.getHours();
+  let minute = now.getMinutes();
+  let stringHour = hour > 9 ? hour : `0${hour}`;
+  let stringMinute = minute > 9 ? minute : `0${minute}`;
+  return `[${stringHour}:${stringMinute}]`;
+}
 
-const errorWebhookClient = new Discord.WebhookClient({
-  urls: process.env.errors,
-});
-const chalk = require("chalk");
+function Webhook(url) {
+  let webhook = new Discord.WebhookClient({ url });
 
-const myFormat = printf(({ level, message, label, timestamp }) => {
-  if(level ==0)
-    errorWebhookClient.send(`${timestamp} [${label}] ${message}`);
-  else webhookClient.send(`${timestamp} [${label}] ${message}`);
-  return `${timestamp} [${level}] [${chalk.cyan(label)}] ${message}`;
-});
+  return (message) => {
+    webhook.send(message);
+  };
+}
 
-const myCustomLevels = {
-  levels: {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    verbose: 4,
-    debug: 5,
-    silly: 6,
-  },
-};
+/**
+ * Wrap Console Functions
+ * @param {string} [appName] Identifer to use in the logs
+ * @param {string} [webhookURL] The URL for the Webhook
+ * @return {void} `void`
+ */
+function DiscordLogger(appName, webhookURL) {
+  let webhook = webhookURL ? Webhook(webhookURL) : null;
 
-const logger = createLogger({
-  levels: myCustomLevels.levels,
-  format: combine(
-    format.colorize(),
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-    myFormat
-  ),
-  transports: [
-    new transports.Console(),
-    new transports.File({ filename: "./assets/logs/Aeona.log" }),
-  ],
-});
+  let builtins = {
+    log: console.log,
+    warn: console.warn,
+    error: console.error,
+  };
 
-module.exports = logger;
+  for (let printFunction in builtins) {
+    console[printFunction] = function () {
+      let prefix =
+        timestamp() +
+        (appName ? `[${appName}]` : "") +
+        `[${printFunction.toUpperCase()}]`;
+      builtins[printFunction].apply(console, [prefix, ...arguments]);
+      if (webhook) {
+        let message = [...arguments]
+          .reduce((accumulator, current) => {
+            return accumulator + current.toString() + "      ";
+          }, "")
+          .trim();
+
+        webhook(`${prefix} ${message}`);
+      }
+    };
+  }
+}
+
+module.exports = DiscordLogger;

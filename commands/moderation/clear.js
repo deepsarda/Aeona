@@ -1,207 +1,82 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
 const Logging = require("../../database/schemas/logging.js");
-const mongoose = require("mongoose");
-const discord = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "clear",
-      aliases: ["clear", "c", "purge"],
-      description: "  Delete the specified amount of messages",
-      category: "Moderation",
-      usage: "purge [channel] [user] <message-count> [reason]",
-      examples: [
-        "purge 20",
-        "purge #general 10",
-        "purge @peter 50",
-        "purge #general @peter 5",
-      ],
-      guildOnly: true,
-      botPermission: ["MANAGE_MESSAGES"],
-      userPermission: ["MANAGE_MESSAGES"],
-    });
-  }
+const { MessageEmbed } = require("discord.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    try {
-      const logging = await Logging.findOne({ guildId: message.guild.id });
+module.exports = {
+  name: "clear",
+  description: "Delete the specified amount of messages",
+  usage: "+clear [channel(optional)] [user(optional)] <message-count> [reason]",
+  category: "moderation",
+  requiredArgs: 1,
+  permissions: ["MANAGE_MESSAGES"],
+  botPermission: ["MANAGE_MESSAGES"],
+  aliases: ["purge"],
+  execute: async (message, args, bot, prefix) => {
+    const logging = await Logging.findOne({ guildId: message.guild.id });
+    let channel =
+      message.mentions.channels.first() ||
+      message.guild.channels.cache.get(args[0]);
 
-      /*------ Guild Data ------*/
-      const client = message.client;
-      const fail = client.emoji.fail;
-      const success = client.emoji.success;
+    if (channel) args.shift();
+    else channel = message.channel;
 
-      const settings = await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-        (err, guild) => {
-          if (err) console.error(err);
-          if (!guild) {
-            const newGuild = new Guild({
-              _id: mongoose.Types.ObjectId(),
-              guildId: message.guild.id,
-              guildName: message.guild.name,
-              prefix: client.config.prefix,
-              language: "english",
-            });
+    const member =
+      message.mentions.members.first() ||
+      message.guild.members.cache.get(args[0]);
 
-            newGuild
-              .save()
-              .then((result) => console.log(result))
-              .catch((err) => console.error(err));
+    if (member) args.shift();
 
-            return message.channel
-              .send(
-                "This server was not in our database! We have added it, please retype this command."
-              )
-              .then((m) => m.delete({ timeout: 10000 }));
-          }
-        }
-      );
+    let amount = parseInt(args[0]);
 
-      const guildDB = await Guild.findOne({
-        guildId: message.guild.id,
+    if (isNaN(amount) === true || !amount || amount < 0 || amount > 100)
+      return message.replyError({
+        title: `PURGE`,
+        description: `The provided amount is not valid. The amount must be between 0 and 100`,
       });
-      const language = require(`../../data/language/${guildDB.language}.json`);
 
-      let channel =
-        getChannelFromMention(message, args[0]) ||
-        message.guild.channels.cache.get(args[0]);
-      if (channel) {
-        args.shift();
-      } else channel = message.channel;
+    if (!channel.permissionsFor(message.guild.me).has(["MANAGE_MESSAGES"]))
+      return message.replyError({
+        title: `PURGE`,
+        description: `I do not have permission to delete messages in this channel`,
+      });
 
-      if (channel.type != "GUILD_TEXT" || !channel.viewable)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`${fail} Clear Error`)
-              .setDescription(`Please make sure I can view that channel`)
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" })
-              .setColor(message.guild.me.displayHexColor),
-          ],
-        });
+    let reason = args.slice(1).join(" ");
+    if (!reason) reason = "None";
+    if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
-      const member =
-        message.mentions.members.first() ||
-        getMemberFromMention(message, args[0]) ||
-        message.guild.members.cache.get(args[0]);
+    await message.delete();
 
-      if (member) {
-        args.shift();
-      }
+    let messages;
+    if (member) {
+      messages = (await channel.messages.fetch({ limit: amount })).filter(
+        (m) => m.member.id === member.id
+      );
+    } else messages = amount;
 
-      const amount = parseInt(args[0]);
-      if (isNaN(amount) === true || !amount || amount < 0 || amount > 100)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`${fail} Clear Error`)
-              .setDescription(`I can only purge between 1 - 100 messages.`)
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" })
-              .setColor(message.guild.me.displayHexColor),
-          ],
-        });
+    if (messages.size === 0)
+      return message.replyError({
+        title: `PURGE`,
+        description: `There are no messages to delete from ${member} in ${channel}`,
+      });
 
-      if (!channel.permissionsFor(message.guild.me).has(["MANAGE_MESSAGES"]))
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`${fail} Clear Error`)
-              .setDescription(
-                `Please make sure I have the **Manage Messages** Permission!`
-              )
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" })
-              .setColor(message.guild.me.displayHexColor),
-          ],
-        });
-
-      let reason = args.slice(1).join(" ");
-      if (!reason) reason = "None";
-      if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
-
-      await message.delete();
-
-      let messages;
-      if (member) {
-        messages = (await channel.messages.fetch({ limit: amount })).filter(
-          (m) => m.member.id === member.id
-        );
-      } else messages = amount;
-
-      if (messages.size === 0) {
-        message.channel
-          .send(
-            new MessageEmbed()
-              .setDescription(
-                `
-            ${fail} Unable to find any messages from ${member}. 
-          `
-              )
-              .setColor(message.guild.me.displayHexColor)
-          )
-          .then((msg) => msg.delete({ timeout: 10000 }))
-          .catch(() => {});
-      } else {
-        channel.bulkDelete(messages, true).then((messages) => {
-          const embed = new MessageEmbed()
-
-            .setDescription(
-              `
-            ${success} Successfully deleted **${messages.size}** message(s) ${
-                logging && logging.moderation.include_reason === "true"
-                  ? `\n\n**Reason:** ${reason}`
-                  : ``
-              }
-          `
-            )
-
-            .setColor(message.guild.me.displayHexColor);
-
-          if (member) {
-            embed
-              .spliceFields(1, 1, {
-                name: "Found Messages",
-                value: `\`${messages.size}\``,
-                inline: true,
-              })
-              .spliceFields(1, 0, {
-                name: "Member",
-                value: member,
-                inline: true,
-              });
+    channel.bulkDelete(messages, true).then((messages) => {
+      message.channel
+        .send({
+          title: `PURGE`,
+          description: `Successfully deleted ${
+            messages.size
+          } messages in ${channel}. \n ${
+            logging && logging.moderation.include_reason === "true"
+              ? `\n\n**Reason:** ${reason}`
+              : ``
+          }`,
+        })
+        .then((s) => {
+          if (logging && logging.moderation.delete_reply === "true") {
+            setTimeout(() => {
+              s.delete().catch(() => {});
+            }, 5000);
           }
-
-          message.channel
-            .send({ embeds: [embed] })
-            .then(async (s) => {
-              if (logging && logging.moderation.delete_reply === "true") {
-                setTimeout(() => {
-                  s.delete().catch(() => {});
-                }, 5000);
-              }
-            })
-            .catch(() => {});
         });
-      }
 
       const fields = {
         Channel: channel,
@@ -236,7 +111,8 @@ module.exports = class extends Command {
               ) {
                 if (logging.moderation.purge == "true") {
                   let color = logging.moderation.color;
-                  if (color == "#000000") color = message.client.color.red;
+                  if (color == "#000000")
+                    color = message.guild.me.displayHexColor;
 
                   let logcase = logging.moderation.caseN;
                   if (!logcase) logcase = `1`;
@@ -246,45 +122,25 @@ module.exports = class extends Command {
                       `Action: \`Purge\` | Case #${logcase}`,
                       message.author.displayAvatarURL({ format: "png" })
                     )
-                    .addField("Moderator", message.member, true)
+                    .setDescription(
+                      `**Member:** ${member} \n **Channel:** ${channel} \n **Messages:** ${messages.size} \n **Reason:** ${reason} \n **Responsible Moderator:** ${message.author}`
+                    )
                     .setTimestamp()
                     .setFooter({ text: `Responsible ID: ${message.author.id}` })
                     .setColor(color);
 
-                  for (const field in fields) {
-                    logEmbed.addField(field, fields[field], true);
-                  }
 
-                  channel.send(logEmbed).catch(() => {});
+
+                  channel.send({ embeds: [logEmbed] }).catch(() => {});
 
                   logging.moderation.caseN = logcase + 1;
-                  await logging.save().catch(() => {});
+                  logging.save().catch(() => {});
                 }
               }
             }
           }
         }
       }
-    } catch {
-      return message.channel.send(
-        `${message.client.emoji.fail} | Could not purge messages`
-      );
-    }
-  }
+    });
+  },
 };
-
-function getMemberFromMention(message, mention) {
-  if (!mention) return;
-  const matches = mention.match(/^<@!?(\d+)>$/);
-  if (!matches) return;
-  const id = matches[1];
-  return message.guild.members.cache.get(id);
-}
-
-function getChannelFromMention(message, mention) {
-  if (!mention) return;
-  const matches = mention.match(/^<#(\d+)>$/);
-  if (!matches) return;
-  const id = matches[1];
-  return message.guild.channels.cache.get(id);
-}

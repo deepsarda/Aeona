@@ -1,225 +1,74 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
 const Logging = require("../../database/schemas/logging.js");
-const mongoose = require("mongoose");
-const discord = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "ban",
-      aliases: [],
-      description: "Bans the specified user from your Discord server.",
-      category: "Moderation",
-      usage: "<user> [reason]",
-      examples: ["ban @Peter Breaking the rules!"],
-      guildOnly: true,
-      botPermission: ["BAN_MEMBERS"],
-      userPermission: ["BAN_MEMBERS"],
-    });
-  }
+const { MessageEmbed } = require("discord.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    const logging = await Logging.findOne({ guildId: message.guild.id });
-
-    /*------ Guild Data ------*/
-    const client = message.client;
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-          const newGuild = new Guild({
-            _id: mongoose.Types.ObjectId(),
-            guildId: message.guild.id,
-            guildName: message.guild.name,
-            prefix: client.config.prefix,
-            language: "english",
-          });
-
-          newGuild
-            .save()
-            .then((result) => console.log(result))
-            .catch((err) => console.error(err));
-
-          return message.channel
-            .send(
-              "This server was not in our database! We have added it, please retype this command."
-            )
-            .then((m) => m.delete({ timeout: 10000 }));
-        }
-      }
-    );
-
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
+module.exports = {
+  name: "ban",
+  description: "Ban a user from the server",
+  usage: "+ban [@user] [reason]",
+  category: "moderation",
+  requiredArgs: 1,
+  permissions: ["BAN_MEMBERS"],
+  botPermissions: ["BAN_MEMBERS"],
+  execute: async (message, args, bot, prefix) => {
+    let logging = await Logging.findOne({ guildId: message.guild.id });
 
     let member =
-      message.mentions.members.last() ||
-      message.guild.members.cache.get(args[0]);
+      message.mentions.members.first() &&
+      message.mentions.members.filter(
+        (m) => args[0] && args[0].includes(m.user.id)
+      ).size >= 1
+        ? message.mentions.members
+            .filter((m) => args[0] && args[0].includes(m.user.id))
+            .first()
+        : false ||
+          message.guild.members.cache.get(args[0]) ||
+          (args.length > 0 &&
+            message.guild.members.cache.find((m) =>
+              m.user.username
+                .toLowerCase()
+                .includes(args.join(" ").toLowerCase())
+            )) ||
+          undefined;
 
-    if (!member) {
-      await client.users
-        .fetch(args[0])
-        .then(async (u) => {
-          let reason = args.slice(1).join(" ");
-          if (!reason) reason = `${language.noReasonProvided}`;
-          if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
+    let reason = args.slice(1).join(" ");
+    if (!reason) reason = "No reason provided.";
+    if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
-          await message.guild.members.ban(u.id, {
-            reason: `${reason} / Responsible user: ${message.author.tag}`,
-          });
-
-          const embed = new MessageEmbed()
-            .setDescription(
-              `${client.emoji.success} | **${u.tag}** ${language.banBan} ${
-                logging && logging.moderation.include_reason === "true"
-                  ? `\n\n**Reason:** ${reason}`
-                  : ``
-              }`
-            )
-            .setColor(client.color.green);
-
-          message.channel
-            .send({ embeds: [embed] })
-            .then(async (s) => {
-              if (logging && logging.moderation.delete_reply === "true") {
-                setTimeout(() => {
-                  s.delete().catch(() => {});
-                }, 5000);
-              }
-            })
-            .catch(() => {});
-
-          //LOGGING HERE
-          if (logging) {
-            if (logging.moderation.delete_after_executed === "true") {
-              message.delete().catch(() => {});
-            }
-
-            const role = message.guild.roles.cache.get(
-              logging.moderation.ignore_role
-            );
-            const channel = message.guild.channels.cache.get(
-              logging.moderation.channel
-            );
-
-            if (logging.moderation.toggle == "true") {
-              if (channel) {
-                if (message.channel.id !== logging.moderation.ignore_channel) {
-                  if (
-                    !role ||
-                    (role &&
-                      !message.member.roles.cache.find(
-                        (r) => r.name.toLowerCase() === role.name
-                      ))
-                  ) {
-                    if (logging.moderation.ban == "true") {
-                      let color = logging.moderation.color;
-                      if (color == "#000000") color = message.client.color.red;
-
-                      let logcase = logging.moderation.caseN;
-                      if (!logcase) logcase = `1`;
-
-                      let reason = args.slice(1).join(" ");
-                      if (!reason) reason = `${language.noReasonProvided}`;
-                      if (reason.length > 1024)
-                        reason = reason.slice(0, 1021) + "...";
-
-                      const logEmbed = new MessageEmbed()
-                        .setAuthor(
-                          `Action: \`Ban\` | ${u.tag} | Case #${logcase}`,
-                          u.displayAvatarURL({ format: "png" })
-                        )
-                        .addField("User", u, true)
-                        .addField("Moderator", message.member, true)
-                        .addField(
-                          "Reason",
-                          reason ? reason : "no reason given!",
-                          true
-                        )
-                        .setFooter({ text: `ID: ${u.id}` })
-                        .setTimestamp()
-                        .setColor(color);
-
-                      channel.send(logEmbed).catch((e) => {
-                        console.log(e);
-                      });
-
-                      logging.moderation.caseN = logcase + 1;
-                      await logging.save().catch(() => {});
-                    }
-                  }
-                }
-              }
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          return message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setDescription(
-                  `${client.emoji.fail} | ${language.banUserValid}`
-                )
-                .setColor(client.color.red),
-            ],
-          });
-        });
-      return;
-    }
-
-    if (member.id === message.author.id)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setDescription(
-              `${client.emoji.fail} | ${language.banYourselfError}`
-            )
-            .setColor(client.color.red),
-        ],
+    if (!member)
+      return message.channel.sendError({
+        title: "Ban",
+        description: "Please provide a user to ban.",
       });
-
-    if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setDescription(`${client.emoji.fail} | ${language.banHigherRole}`)
-            .setColor(client.color.red),
-        ],
+    if (member.id === message.author.id)
+      return message.channel.sendError({
+        title: "Ban",
+        description: "You cannot ban yourself.",
+      });
+    if (member.id === message.guild.ownerID)
+      return message.channel.sendError({
+        title: "Ban",
+        description: "You cannot ban the server owner.",
+      });
+    if (message.member.roles.highest.position <= member.roles.highest.position)
+      return message.channel.sendError({
+        title: "Ban",
+        description:
+          "You cannot ban a user that has a role higher than your highest role.",
+      });
+    if (
+      message.guild.me.roles.highest.position <= member.roles.highest.position
+    )
+      return message.channel.sendError({
+        title: "Ban",
+        description:
+          "I cannot ban a user that has a role higher than my highest role.",
       });
 
     if (!member.bannable)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setDescription(`${client.emoji.fail} | ${language.banBannable}`)
-            .setColor(client.color.red),
-        ],
+      return message.channel.sendError({
+        title: "Ban",
+        description: "I cannot ban this user.",
       });
-
-    let reason = args.slice(1).join(" ");
-    if (!reason) reason = `${language.noReasonProvided}`;
-    if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
-
-    await member
-      .ban({ reason: `${reason} / Responsible user: ${message.author.tag}` })
-      .catch((err) =>
-        message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(client.color.red)
-              .setDescription(
-                `${client.emoji.fail} | An error occured: ${err}`
-              ),
-          ],
-        })
-      );
 
     let dmEmbed;
     if (
@@ -229,20 +78,17 @@ module.exports = class extends Command {
       logging.moderation.ban_action !== "1"
     ) {
       if (logging.moderation.ban_action === "2") {
-        dmEmbed = `${message.client.emoji.fail} You've been banned in **${message.guild.name}**`;
+        dmEmbed = `You've been banned in **${message.guild.name}**`;
       } else if (logging.moderation.ban_action === "3") {
-        dmEmbed = `${message.client.emoji.fail} You've been banned in **${message.guild.name}**\n\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been banned in **${message.guild.name}**\n\n__**Reason:**__ ${reason}`;
       } else if (logging.moderation.ban_action === "4") {
-        dmEmbed = `${message.client.emoji.fail} You've been banned in **${message.guild.name}**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
+        dmEmbed = `You've been banned in **${message.guild.name}**\n\n__**Moderator:**__ ${message.author} **(${message.author.tag})**\n__**Reason:**__ ${reason}`;
       }
 
       member
-        .send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(message.client.color.red)
-              .setDescription(dmEmbed),
-          ],
+        .sendError({
+          title: "Ban",
+          description: dmEmbed,
         })
         .catch(() => {});
     }
@@ -277,18 +123,15 @@ module.exports = class extends Command {
         )
         .catch(() => {});
     }
-    const embed = new MessageEmbed()
-      .setDescription(
-        `${client.emoji.success} | **${member.user.tag}** ${language.banBan} ${
-          logging && logging.moderation.include_reason === "true"
-            ? `\n\n**Reason:** ${reason}`
-            : ``
-        }`
-      )
-      .setColor(client.color.green);
+    await member.ban({
+      reason: `${reason} / Responsible user: ${message.author.tag}`,
+    });
 
     message.channel
-      .send({ embeds: [embed] })
+      .send({
+        title: "Ban",
+        description: `${member} has been banned. (${reason})`,
+      })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
@@ -298,7 +141,6 @@ module.exports = class extends Command {
       })
       .catch(() => {});
 
-    // Update mod log
     if (logging) {
       if (logging.moderation.delete_after_executed === "true") {
         message.delete().catch(() => {});
@@ -323,19 +165,20 @@ module.exports = class extends Command {
             ) {
               if (logging.moderation.ban == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.red;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
 
                 const logEmbed = new MessageEmbed()
                   .setAuthor(
-                    `Action: \`Ban\` | ${member.user.tag} | Case #${logcase}`,
-                    member.user.displayAvatarURL({ format: "png" })
+                    `Action: \`Ban\` | ${member.tag} | Case #${logcase}`,
+                    member.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", member, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Reason", reason ? reason : "no reason given", true)
+                  .setDescription(
+                    `**User:** ${member} \n**Reason:** ${reason} \n**Responsible Moderator:** ${message.author}`
+                  )
                   .setFooter({ text: `ID: ${member.id}` })
                   .setTimestamp()
                   .setColor(color);
@@ -352,5 +195,5 @@ module.exports = class extends Command {
         }
       }
     }
-  }
+  },
 };

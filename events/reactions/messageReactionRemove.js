@@ -1,33 +1,19 @@
-const Event = require("../../structures/Event");
-const { MessageReaction, User, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const Db = require("../../packages/reactionrole/models/schema.js");
 const reactionCooldown = new Set();
 const GuildDB = require("../../database/schemas/Guild");
-const Maintenance = require("../../database/schemas/maintenance");
 const botCooldown = new Set();
-/**
- *
- * @param {MessageReaction} reaction
- * @param {User} user
- */
 
-module.exports = class extends Event {
-  async run(messageReaction, user) {
+module.exports = {
+  name: "messageReactionRemove",
+  async execute(client, messageReaction, user) {
     const { message, emoji } = messageReaction;
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
 
     const member = message.guild.members.cache.get(user.id);
 
     const guildDB = await GuildDB.findOne({
       guildId: message.guild.id,
     });
-
-    
 
     await Db.findOne(
       {
@@ -41,7 +27,7 @@ module.exports = class extends Event {
 
         if (message.id != db.msgid) return;
 
-        let guild = this.client.guilds.cache.get(db.guildid);
+        let guild = client.guilds.cache.get(db.guildid);
         let guildName = guild.name;
 
         const rrRole = message.guild.roles.cache.get(db.roleid);
@@ -57,7 +43,7 @@ module.exports = class extends Event {
             `You have recieved the **${rrRole.name}** Role by reacting in ${guildName}`
           )
           .setFooter({ text: "https://Aeona.xyz/" })
-          .setColor(message.client.color.green);
+          .setColor("GREEN");
 
         let remEmbed = new MessageEmbed()
           .setAuthor(
@@ -69,7 +55,7 @@ module.exports = class extends Event {
             `You have removed the **${rrRole.name}** Role by reacting in ${guildName}`
           )
           .setFooter({ text: "https://Aeona.xyz/" })
-          .setColor(message.client.color.green);
+          .setColor("GREEN");
 
         if (reactionCooldown.has(user.id)) return;
 
@@ -145,5 +131,5 @@ module.exports = class extends Event {
         }
       }
     );
-  }
+  },
 };

@@ -1,127 +1,38 @@
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "anti-invites",
-      aliases: ["anti-invite", "antiinvite", "antiinvites"],
-      description: "Block Invites from the current server!",
-      category: "Config",
-      usage: ["<enable | disable>"],
-      examples: ["anti-invites enable", "anti-invites disable"],
-      cooldown: 3,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
+module.exports = {
+  name: "anti-invites",
+  description: "Block Invites from the current server!",
+  usage: "+anti-invites <enable | disable>",
+  aliases: ["anti-invite", "antiinvite", "antiinvites"],
+  category: "config",
+  requiredArgs: 1,
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    const guild = await Guild.findOne({ guildId: message.guild.id });
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    if (args.length < 1) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.antiinvites1}`
-            ),
-        ],
+    let option = args[0].toLowerCase();
+    if (option === "enable") {
+      guild.antiInvites = true;
+      await guild.save();
+      return await message.reply({
+        title: "Anti Invites",
+        description: `Anti-invites has been enabled.`,
       });
     }
 
-    if (
-      !message.content.includes("enable") &&
-      !message.content.includes("disable")
-    ) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.antiinvites1}`
-            ),
-        ],
+    if (option === "disable") {
+      guild.antiInvites = false;
+      await guild.save();
+      return await message.reply({
+        title: "Anti Invites",
+        description: `Anti-invites has been disabled.`,
       });
     }
 
-    if (args.includes("disable")) {
-      if (guildDB.antiInvites === true)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.fail} ${language.moduleDisabled}`
-              ),
-          ],
-        });
-
-      await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-        async (err, guild) => {
-          guild
-            .updateOne({
-              antiInvites: false,
-            })
-            .catch((err) => console.error(err));
-
-          return message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setDescription(
-                  `${message.client.emoji.success} ${language.antiinvites3}`
-                ),
-            ],
-          });
-        }
-      );
-      return;
-    }
-
-    if (args.includes("enable")) {
-      if (guildDB.antiInvites === true)
-        return message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.fail} ${language.moduleEnabled}`
-              ),
-          ],
-        });
-
-      await Guild.findOne(
-        {
-          guildId: message.guild.id,
-        },
-        async (err, guild) => {
-          guild
-            .updateOne({
-              antiInvites: true,
-            })
-            .catch((err) => console.error(err));
-
-          return message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setDescription(
-                  `${message.client.emoji.success} ${language.antiinvites4}`
-                ),
-            ],
-          });
-        }
-      );
-      return;
-    }
-  }
+    await message.replyError({
+      title: "Oops!",
+      description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}anti-invite <enable|disable>\``,
+    });
+  },
 };

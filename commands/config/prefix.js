@@ -1,73 +1,34 @@
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
-const discord = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "setprefix",
-      description: "Sets the prefix for this server",
-      category: "Config",
-      usage: ["<prefix>"],
-      examples: ["setprefix !"],
-      cooldown: 3,
-      guildOnly: true,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
+module.exports = {
+  name: "prefix",
+  description: "Change the bot's prefix",
+  usage: "+prefix <new prefix>",
+  category: "config",
+  requiredArgs: 1,
+  aliases: [],
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    let p = args[0];
 
-  async run(message, args, bot,prefix='+' ) {
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.log(err);
-      }
-    );
+    if (p.length > 5) 
+      return await message.replyError({
+        title: "Oops!",
+        description:
+          "The prefix cannot be longer than 5 characters!\nPlease retry this command.",
+      });
 
-    const guildDB = await Guild.findOne({
+    let guild = await Guild.findOne({
       guildId: message.guild.id,
     });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    guild.prefix = p;
 
-    if (!args[0])
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.client.color.red)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.setPrefixMissingArgument}`
-            ),
-        ],
-      });
+    await guild.save();
 
-    if (args[0].length > 5)
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.client.color.red)
-            .setDescription(
-              `${message.client.emoji.fail} ${language.setPrefixLongLength}`
-            ),
-        ],
-      });
-
-    message.channel.send({
-      embeds: [
-        new discord.MessageEmbed()
-          .setColor(message.client.color.green)
-          .setDescription(
-            `${message.client.emoji.success} ${language.setPrefixChange.replace(
-              "{prefix}",
-              args[0]
-            )}`
-          ),
-      ],
+    await message.reply({
+      title: "Prefix updated!",
+      description: `The prefix has successfully been changed to \`${p}\`.`,
     });
-    await settings.updateOne({
-      prefix: args[0],
-    });
-  }
+  },
 };

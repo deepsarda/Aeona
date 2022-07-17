@@ -16,6 +16,10 @@ const userSchema = mongoose.Schema({
   },
   lastVoted: { type: Number },
   votes: { type: Number },
+  version: {
+    type: String,
+    default: "v6.0.0",
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

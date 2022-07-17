@@ -1,94 +1,27 @@
-const Command = require("../../structures/Command");
-const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
-
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "settings",
-      aliases: [
-        "config",
-        "settings",
-        "welcome",
-        "leave",
-        "logging",
-        "modlog",
-        "autorole",
-        "altdetector",
-        "tickets",
-        "suggestions",
-        "reports",
-        "automod",
-      ],
-      description: "Show's the current settings for this guild",
-      category: "Config",
-      guildOnly: true,
-      userPermission: ["MANAGE_GUILD"],
+module.exports = {
+  name: "config",
+  description: "Configure the bot to your liking",
+  usage: "+config",
+  category: "config",
+  aliases: [
+    "settings",
+    "welcome",
+    "leave",
+    "logging",
+    "modlog",
+    "autorole",
+    "altdetector",
+    "tickets",
+    "suggestions",
+    "reports",
+    "automod",
+  ],
+  permission: ["MANAGE_GUILD"],
+  requiredArgs: 0,
+  execute: async (message, args, bot, prefix) => {
+    return message.reply({
+      title: "Config",
+      description: `This is a list of all the commands that can be used to configure the bot. \n **Main Settings**  \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}) \n **Welcome & Leave** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/welcome) \n **Logging** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/logging) \n **Autorole** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/autorole)\n **Alt Detector** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/altdetector) \n **Tickets** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/tickets)\n **Suggestions** \[Click here\]\(${process.env.domain}/dashboard/${message.guild.id}/Suggestions) \n **Automod** [Click here](${process.env.domain}/dashboard/${message.guild.id}/automod)`,
     });
-  }
-
-  async run(message, args, bot,prefix='+' ) {
-    const settings = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    await message.channel.send({
-      embeds: [
-        new MessageEmbed()
-          .setColor(message.guild.me.displayHexColor)
-          .setTitle(`${language.serversettings1}`)
-          .addField(
-            `Main Settings`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id})`,
-            true
-          )
-          .addField(
-            `Welcome & Leave`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/welcome)`,
-            true
-          )
-          .addField(
-            `Logging`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/logging)`,
-            true
-          )
-          .addField(
-            `Autorole`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/autorole)`,
-            true
-          )
-          .addField(
-            `Alt Detector`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/altdetector)`,
-            true
-          )
-          .addField(
-            `Tickets`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/tickets)`,
-            true
-          )
-          .addField(
-            `Suggestions`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/Suggestions)`,
-            true
-          )
-          .addField(
-            `Server Reports`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/reports)`,
-            true
-          )
-          .addField(
-            `Automod`,
-            `[\`Click here\`](https://Aeona.xyz/dashboard/${message.guild.id}/automod)`,
-            true
-          )
-
-          .setFooter({ text: `${message.guild.name}` }),
-      ],
-    });
-  }
+  },
 };

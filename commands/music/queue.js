@@ -1,60 +1,226 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed, Message, CommandInteraction } = require("discord.js");
+const {
+  Client,
+  Message,
+  MessageEmbed,
+  MessageButton,
+  MessageActionRow,
+} = require("discord.js");
+const load = require("lodash");
+const { convertTime } = require("../../utils/convert.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "queue",
-      aliases: ["playlist"],
-      description: "View the queue.",
-      category: "Music",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    const page = args.length && Number(args[0]) ? Number(args[0]) : 1;
-    const response = getQueue(message, page);
-    await message.reply(response);
-  }
+module.exports = {
+  name: "queue",
+  category: "music",
+  aliases: ["q"],
+  description: "Show the music queue and now playing.",
+  requiredArgs: 0,
+  usage: "+queue ",
+  permission: [],
+
+  player: true,
+  inVoiceChannel: false,
+  sameVoiceChannel: false,
+  execute: async (message, args, client, prefix) => {
+    const player = client.manager.get(message.guild.id);
+    const queue = player.queue;
+    if (!player)
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+
+            .setTimestamp()
+            .setDescription(`Nothing is playing right now.`),
+        ],
+      });
+
+    if (!player.queue)
+      return message.channel.send({
+        embeds: [
+          new MessageEmbed()
+
+            .setTimestamp()
+            .setDescription(`Nothing is playing right now.`),
+        ],
+      });
+
+    if (player.queue.length === "0" || !player.queue.length) {
+      const embed = new MessageEmbed().setDescription(
+        `Now playing [${player.queue.current.title}](${
+          player.queue.current.uri
+        }) • \`[${convertTime(queue.current.duration)}]\` • [${
+          player.queue.current.requester
+        }]`
+      );
+
+      await message.channel
+        .send({
+          embeds: [embed],
+        })
+        .catch(() => {});
+    } else {
+      const queuedSongs = player.queue.map(
+        (t, i) =>
+          `\`${++i}\` • ${t.title} • \`[${convertTime(t.duration)}]\` • [${
+            t.requester
+          }]`
+      );
+
+      const mapping = load.chunk(queuedSongs, 10);
+      const pages = mapping.map((s) => s.join("\n"));
+      let page = 0;
+
+      if (player.queue.size < 11) {
+        const embed = new MessageEmbed()
+
+          .setDescription(
+            `**Now playing**\n > [${player.queue.current.title}](${
+              player.queue.current.uri
+            }) • \`[${convertTime(queue.current.duration)}]\`  • [${
+              player.queue.current.requester
+            }]\n\n**Queued Songs**\n${pages[page]}`
+          )
+          .setTimestamp()
+          .setFooter({
+            text: `Page ${page + 1}/${pages.length}`,
+            iconURL: message.member.displayAvatarURL({ dynamic: true }),
+          })
+          .setThumbnail(player.queue.current.thumbnail)
+          .setTitle(`${message.guild.name} Queue`);
+
+        await message.channel.send({
+          embeds: [embed],
+        });
+      } else {
+        const embed2 = new MessageEmbed()
+
+          .setDescription(
+            `**Now playing**\n > [${player.queue.current.title}](${
+              player.queue.current.uri
+            }) • \`[${convertTime(queue.current.duration)}]\` • [${
+              player.queue.current.requester
+            }]\n\n**Queued Songs**\n${pages[page]}`
+          )
+          .setTimestamp()
+          .setFooter({
+            text: `Requested By ${message.member.tag}`,
+            iconURL: message.member.displayAvatarURL({ dynamic: true }),
+          })
+          .setThumbnail(player.queue.current.thumbnail)
+          .setTitle(`${message.guild.name} Queue`);
+
+        const but1 = new MessageButton()
+          .setCustomId("queue_cmd_but_1")
+
+          .setEmoji("⏭")
+          .setStyle("PRIMARY");
+
+        const but2 = new MessageButton()
+          .setCustomId("queue_cmd_but_2")
+          .setEmoji("⏮")
+          .setStyle("PRIMARY");
+
+        const but3 = new MessageButton()
+          .setCustomId("queue_cmd_but_3")
+          .setLabel(`${page + 1}/${pages.length}`)
+          .setStyle("SECONDARY")
+          .setDisabled(true);
+
+        const row1 = new MessageActionRow().addComponents([but2, but3, but1]);
+
+        const msg = await message.channel.send({
+          embeds: [embed2],
+          components: [row1],
+        });
+
+        const collector = message.channel.createMessageComponentCollector({
+          filter: (b) => {
+            if (b.user.id === message.member.id) return true;
+            else {
+              b.reply({
+                ephemeral: true,
+                content: `Only **${message.member.tag}** can use this button, if you want then you've to run the command again.`,
+              });
+              return false;
+            }
+          },
+          time: 60000 * 5,
+          idle: 30e3,
+        });
+
+        collector.on("collect", async (button) => {
+          if (button.customId === "queue_cmd_but_1") {
+            await button.deferUpdate().catch(() => {});
+            page = page + 1 < pages.length ? ++page : 0;
+
+            const embed3 = new MessageEmbed()
+
+              .setDescription(
+                `**Now playing**\n[${player.queue.current.title}](${
+                  player.queue.current.uri
+                }) • \`[${convertTime(queue.current.duration)}]\` • [${
+                  player.queue.current.requester
+                }]\n\n**Queued Songs**\n${pages[page]}`
+              )
+              .setTimestamp()
+              .setFooter({
+                text: `Requested By ${message.member.tag}`,
+                iconURL: message.member.displayAvatarURL({ dynamic: true }),
+              })
+              .setThumbnail(player.queue.current.thumbnail)
+              .setTitle(`${message.guild.name} Queue`);
+
+            await msg.edit({
+              embeds: [embed3],
+              components: [
+                new MessageActionRow().addComponents(
+                  but2,
+                  but3.setLabel(`${page + 1}/${pages.length}`),
+                  but1
+                ),
+              ],
+            });
+          } else if (button.customId === "queue_cmd_but_2") {
+            await button.deferUpdate().catch(() => {});
+            page = page > 0 ? --page : pages.length - 1;
+
+            const embed4 = new MessageEmbed()
+
+              .setDescription(
+                `**Now playing**\n[${player.queue.current.title}](${
+                  player.queue.current.uri
+                }) • \`[${convertTime(queue.current.duration)}]\` • [${
+                  player.queue.current.requester
+                }]\n\n**Queued Songs**\n${pages[page]}`
+              )
+              .setTimestamp()
+              .setFooter({
+                text: `Requested By ${message.member.tag}`,
+                iconURL: message.member.displayAvatarURL({ dynamic: true }),
+              })
+              .setThumbnail(player.queue.current.thumbnail)
+              .setTitle(`${message.guild.name} Queue`);
+
+            await msg
+              .edit({
+                embeds: [embed4],
+                components: [
+                  new MessageActionRow().addComponents(
+                    but2,
+                    but3.setLabel(`Page ${page + 1}/${pages.length}`),
+                    but1
+                  ),
+                ],
+              })
+              .catch(() => {});
+          } else return;
+        });
+
+        collector.on("end", async () => {
+          await msg.edit({
+            components: [],
+          });
+        });
+      }
+    }
+  },
 };
-
-function getQueue({ client, guild }, pgNo) {
-  const player = client.musicManager.get(guild.id);
-  if (!player) return "🚫 There is no music playing in this guild.";
-
-  const queue = player.queue;
-  const embed = new MessageEmbed().setAuthor({
-    name: `Queue for ${guild.name}, use +queue [page number] to change pages`,
-  });
-
-  // change for the amount of tracks per page
-  const multiple = 10;
-  const page = pgNo || 1;
-
-  const end = page * multiple;
-  const start = end - multiple;
-
-  const tracks = queue.slice(start, end);
-
-  if (queue.current)
-    embed.addField("Current", `[${queue.current.title}](${queue.current.uri})`);
-  if (!tracks.length)
-    embed.setDescription(
-      `No tracks in ${page > 1 ? `page ${page}` : "the queue"}.`
-    );
-  else
-    embed.setDescription(
-      tracks
-        .map((track, i) => `${start + ++i} - [${track.title}](${track.uri})`)
-        .join("\n")
-    );
-
-  const maxPages = Math.ceil(queue.length / multiple);
-
-  embed.setFooter({
-    text: `Page ${page > maxPages ? maxPages : page} of ${maxPages}`,
-  });
-
-  return { embeds: [embed] };
-}

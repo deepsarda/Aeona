@@ -1,24 +1,20 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "mine",
-      description: "Mine ores",
-      category: "economy",
-      cooldown: 1,
-      usage: "",
-    });
-  }
-  async run(message, args, bot, prefix = "+") {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
+module.exports = {
+  name: "mine",
+  description: "Mine some ores.",
+  category: "economy",
+  usage: "+mine",
+  requiredArgs: 0,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
     var data = await bot.economy.getConfig(message.member);
     let founditem = data.items.find((x) => x.name.toLowerCase() === "pickaxe");
 
     if (!founditem) {
-      return util.error({
+      return message.replyError({
         msg: message,
         title: "Oops!",
         description: `You don't own a pickaxe yet!\nUse \`${prefix}buy pickaxe\` to buy one, before using this command.`,
@@ -66,35 +62,32 @@ module.exports = class extends Command {
     const response =
       randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-    console.log(itemLevel);
     let Amount;
     if (randint(0, 100) > 90) Amount = parseInt(randint(3, 5)) + itemLevel;
     else Amount = parseInt(randint(1, 2)) + itemLevel;
 
+    const miningURL =
+      "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/344/external-mining-cryptocurrency-vitaliy-gorbachev-lineal-color-vitaly-gorbachev-3.png";
+
     if (response == "missed") {
-      return util.success({
+      return message.reply({
         msg: message,
-        title: `${message.member.displayName} didn't find any gems..`,
+        title: `${message.member.displayName} didn't find any gems!`,
         description: `You went mining... but didn't find any gems.`,
+        thumbnailURL: miningURL,
       });
     }
 
     let gemName =
-      Amount > 1
-        ? gems[response]["plural"]
-        : `a(n) ${gems[response]["singular"]}`;
-
-    const title = `${message.member.displayName} mined ${gemName}!`;
+      Amount > 1 ? gems[response]["plural"] : gems[response]["singular"];
 
     gemName =
       Amount > 1 ? gems[response]["plural"] : gems[response]["singular"];
 
-    util.success({
-      msg: message,
-      title: title,
-      description: `You went mining... and came back with **${Amount}** ${gemName}!\nUse \`${prefix}sell ${
-        gems[response]["name"]
-      } ${Amount}\` to sell the mined ${Amount > 1 ? "gems" : "gem"}.`,
+    await message.reply({
+      title: `You mined ${Amount} ${gemName}!`,
+      description: `You mined ${Amount} ${gemName}!\n\nUse \`${prefix}sell ${gems[response]["name"]} ${Amount}\` to sell your gems.`,
+      thumbnailURL: miningURL,
     });
 
     const findItem = data.items.find(
@@ -126,9 +119,5 @@ module.exports = class extends Command {
       data.items = userInv;
       await data.save();
     }
-  }
+  },
 };
-
-function randint(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}

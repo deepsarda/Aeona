@@ -1,51 +1,35 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const customCommand = require("../../database/schemas/customCommand.js");
 const Guild = require("../../database/schemas/Guild");
-const { prototype } = require("../../structures/Command");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "customcommands",
-      description: "Gives a list of custom commands",
-      category: "Config",
-      aliases: ["ccs"],
-      cooldown: 5,
-    });
-  }
+const customCommand = require("../../database/schemas/customCommand.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
+module.exports = {
+  name: "customcommandlist",
+  description: "List all custom commands",
+  usage: "+customcommandlist",
+  category: "config",
+  requiredArgs: 0,
+  aliases: ["ccl"],
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    let customcommandlist = await customCommand.find({
       guildId: message.guild.id,
     });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    if (customcommandlist.length === 0) {
+      return message.replyError({
+        title: "Custom command List",
+        description: `Welp, you haven't added any custom commands yet!\n\nCreate a custom command using \`${prefix}cc <name> <response>\``,
+      });
+    }
 
-    await customCommand.find(
-      {
-        guildId: message.guild.id,
-      },
-      (err, data) => {
-        if (!data && !data.name)
-          return message.channel.send(
-            `${message.client.emoji.fail} ${language.cc5}`
-          );
-        let array = [];
-        data.map((d, i) => array.push(d.name));
+    let data = "";
 
-        let embed = new MessageEmbed()
-          .setColor("PURPLE")
-          .setTitle(`${language.cc6}`)
+    for (const [i, c] of customcommandlist.entries()) {
+      data += `\`${i + 1}.\` **${c.name}**\n`;
+    }
 
-          .setFooter({ text: message.guild.name });
-
-        if (!Array.isArray(array) || !array.length) {
-          embed.setDescription(`${language.cc5}`);
-        } else {
-          embed.setDescription(array.join(" - "));
-        }
-        message.channel.send({ embeds: [embed] });
-      }
-    );
-  }
+    return message.reply({
+      title: "Auto-responder List",
+      description: data,
+    });
+  },
 };

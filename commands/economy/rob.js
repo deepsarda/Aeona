@@ -1,66 +1,44 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "rob",
-      description: "Rob a user.",
-      category: "economy",
-      cooldown: 10 * 60,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
-    let user =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
 
-    user = message.guild.members.cache.get(user.id);
+const numberParse = require("../../utils/numberParse");
+const parseUser = require("../../utils/parseUser.js");
+const randint = require("../../utils/randint");
+
+module.exports = {
+  name: "rob",
+  description: "Rob a user",
+  category: "economy",
+  usage: "+rob <@user>",
+  requiredArgs: 1,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
+    let user = parseUser(message, args);
 
     let config = await bot.economy.getConfig(user);
-    if (config.passive) {
-      util.error({
+    if (config.passive)
+      return await message.replyError({
         msg: message,
-        title: "User is passive",
-        description: "This user is passive and cannot be robbed.",
+        title: "Oops, that user is passive!",
+        description: `Ah! Looks like ${user.displayName} is passive, which means he cannot be robbed...`,
       });
-      return;
-    }
 
     let author = await bot.economy.getConfig(message.member);
-    if (author.passive) {
-      util.success({
+
+    if (author.passive)
+      return await message.reply({
         msg: message,
-        title: "You are passive",
-        description: "You are passive and cannot rob.",
+        title: "Oops, you are passive!",
+        description: `You're passive, which means you can't rob anyone...\n\nDisable PASSIVE Mode using \`${prefix}passive\` before using this command.`,
       });
-      return;
-    }
-    let money = config.money.wallet;
-    if (money <= 0) {
-      util.error({
+
+    let money = config.coinsInWallet;
+    //meow
+    if (money <= 0)
+      return await message.replyError({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: "That user doesn't have any money.",
+        title: `Welp, we can't rob that user!`,
+        description: `${user.displayName} has no money on hand to rob...`,
       });
-      return;
-    }
 
     //Check for padlock
 
@@ -76,9 +54,9 @@ module.exports = class extends Command {
           array.push(padlock);
           config.items = array;
           await config.save();
-          util.success({
+          message.reply({
             msg: message,
-            title: `Robbing ${user.displayName}`,
+            title: `Oof! You couldn't rob ${user.displayName}`,
             description:
               "They have a padlock and which you break! Only to find one more!",
           });
@@ -87,19 +65,21 @@ module.exports = class extends Command {
           config.items = array;
           await config.save();
 
-          util.success({
+          await message.reply({
             msg: message,
-            title: `Robbing ${user.displayName}`,
-            description: "They lost all their padlocks!",
+            title: `Oof! You couldn't rob ${user.displayName}`,
+            description:
+              "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
           });
         }
       } else {
         config.items = array;
         await config.save();
-        util.success({
+        await message.reply({
           msg: message,
-          title: `Robbing ${user.displayName}`,
-          description: "You broke all their padlocks!",
+          title: `Oof! You couldn't rob ${user.displayName}`,
+          description:
+            "You tried robbing them, to find a padlock!\nYou broke the padlock... but had to get away.",
         });
       }
     }
@@ -125,7 +105,7 @@ module.exports = class extends Command {
       loot[lootTable[Math.floor(Math.random() * lootTable.length)]];
 
     if (lootIndex == "nothing") {
-      util.error({
+      message.replyError({
         msg: message,
         title: "LMAO! You failed!",
         description: "You failed to rob the user.",
@@ -136,47 +116,48 @@ module.exports = class extends Command {
       let percentage = Math.floor(Math.random() * 50);
       let robbedAmount = Math.floor(money * (percentage / 100));
 
-      config.money.wallet -= robbedAmount;
-      author.money.wallet += robbedAmount;
+      config.coinsInWallet -= robbedAmount;
+      author.coinsInWallet += robbedAmount;
       await config.save();
       await author.save();
-      util.success({
+
+      await message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
+        title: `Ha, You robbed ${user.displayName}!`,
+        description: `You robbed ${percentage}% of ${
           user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was ${percentage}% of their money.`,
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
       });
     } else if (lootIndex == "half") {
       //Get half of the money
       let robbedAmount = Math.floor(money / 2);
 
-      config.money.wallet -= robbedAmount;
-      author.money.wallet += robbedAmount;
+      config.coinsInWallet -= robbedAmount;
+      author.coinsInWallet += robbedAmount;
       await config.save();
       await author.save();
-      util.success({
+      message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
+        title: `Ha, You robbed ${user.displayName}!`,
+        description: `You robbed half of ${
           user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was half of their money.`,
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}.`,
       });
     } else if (lootIndex == "all") {
       //Get all the money
       let robbedAmount = money;
 
-      config.money.wallet -= robbedAmount;
-      author.money.wallet += robbedAmount;
+      config.coinsInWallet -= robbedAmount;
+      author.coinsInWallet += robbedAmount;
       await config.save();
       await author.save();
-      util.success({
+      message.reply({
         msg: message,
-        title: `Robbing ${user.displayName}`,
-        description: `You robbed ${
+        title: `Ha, You robbed ${user.displayName}!`,
+        description: `You robbed all of ${
           user.displayName
-        } and got ${robbedAmount.toLocaleString()} coins. It was all of their money.`,
+        }'s money, which amounts to ⌭ ${robbedAmount.toLocaleString()}. RIP!`,
       });
     }
-  }
+  },
 };

@@ -1,19 +1,19 @@
-const Event = require("../../structures/Event");
 const { MessageEmbed } = require("discord.js");
-module.exports = class extends Event {
-  async run(permissions, message) {
+module.exports = {
+  name: "guildMemberAdd",
+  async execute(client, permissions, message) {
     if (!message) return;
     const embed = new MessageEmbed()
       .setAuthor(
-        `${message.author.tag}`,
-        message.author.displayAvatarURL({ dynamic: true })
+        `${message.member.tag}`,
+        message.member.displayAvatarURL({ dynamic: true })
       )
       .setTitle(`X Missing User Permissions`)
       .setDescription(
         `Required Permission: \`${permissions.replace("_", " ")}\``
       )
       .setTimestamp()
-      .setFooter({ text: "https://Aeona.xyz/" })
+      .setFooter({ text: `${process.env.domain}` })
       .setColor(message.guild.me.displayHexColor);
     if (
       message.channel &&
@@ -24,5 +24,5 @@ module.exports = class extends Event {
     ) {
       message.channel.send({ embeds: [embed] }).catch(() => {});
     }
-  }
+  },
 };

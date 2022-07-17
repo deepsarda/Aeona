@@ -1,21 +1,12 @@
-const Event = require("../../structures/Event");
-const logger = require("../../utils/logger");
 const Nickname = require("../../database/schemas/nicknames");
 const discord = require("discord.js");
-const moment = require("moment");
 const Logging = require("../../database/schemas/logging");
-const Maintenance = require("../../database/schemas/maintenance");
 const cooldown = new Set();
 
-module.exports = class extends Event {
-  async run(oldMember, newMember) {
+module.exports = {
+  name: "guildMemberUpdate",
+  async execute(client, oldMember, newMember) {
     const logging = await Logging.findOne({ guildId: oldMember.guild.id });
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
 
     if (logging) {
       if (logging.member_events.toggle == "true") {
@@ -26,10 +17,9 @@ module.exports = class extends Event {
         if (channelEmbed) {
           if (logging.member_events.role_update == "true") {
             let colorGreen = logging.member_events.color;
-            if (colorGreen == "#000000")
-              colorGreen = oldMember.client.color.green;
+            if (colorGreen == "#000000") colorGreen = "GREEN";
             let colorRed = logging.member_events.color;
-            if (colorRed == "#000000") colorRed = oldMember.client.color.red;
+            if (colorRed == "#000000") colorRed = "RED";
             const role = oldMember.roles.cache
               .difference(newMember.roles.cache)
               .first();
@@ -93,8 +83,7 @@ module.exports = class extends Event {
           if (logging.member_events.name_change == "true") {
             if (oldMember.nickname != newMember.nickname) {
               let colorYellow = logging.member_events.color;
-              if (colorYellow == "#000000")
-                colorYellow = oldMember.client.color.yellow;
+              if (colorYellow == "#000000") colorYellow = "YELLOW";
 
               const oldNickname = oldMember.nickname || "`None`";
               const newNickname = newMember.nickname || "`None`";
@@ -162,5 +151,5 @@ module.exports = class extends Event {
         }
       }
     }
-  }
+  },
 };

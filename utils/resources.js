@@ -1,6 +1,7 @@
 const { MessageEmbed } = require("discord.js");
-
+const Discord = require("discord.js");
 const { cleanNull } = require("./cleanNull.js");
+const data = require("../data.js");
 
 class Resource {
   constructor(options) {
@@ -9,20 +10,7 @@ class Resource {
   }
 
   get color() {
-    const colors = [
-      "#F5E0DC",
-      "#F2CDCD",
-      "#C6AAE8",
-      "#E5B4E2",
-      "#E49CB3",
-      "#E38C8F",
-      "#F7BE95",
-      "#ECDDAA",
-      "#B1E1A6",
-      "#B7E5E6",
-      "#2D2E8",
-      "#C9CBFF",
-    ];
+    const colors = data.colors;
 
     return colors[Math.floor(Math.random() * colors.length)];
   }
@@ -31,18 +19,22 @@ class Resource {
     return color;
   }
 
-  embed = async (options) => {
+  embed = (options) => {
+    //If options is a string, it's the content
+    if (typeof options === "string" || options instanceof String) {
+      return options;
+    }
+    if (options.embeds) return options;
     const msg = options.msg;
-
     let title = "";
 
-    if ("emote" in options) title = `${options.emote}・`;
-    else if (this.emote !== undefined) title = `${this.emote}・`;
-
-    title += cleanNull(options.title);
+    if(!options.description) return options;
+    if ("emote" in options) title = `${options.emote}`;
+    else if (this.emote !== undefined) title = `${this.emote}`;
+    title += `  ⌑ ⌈ ${cleanNull(options.title).toUpperCase()} ⌋ ⌑`;
+    
 
     if (options.title === undefined) title = "";
-
     const embed = new MessageEmbed()
       .setTitle(title)
       .setURL(cleanNull(options.url))
@@ -57,23 +49,35 @@ class Resource {
         name: options.authorName ?? msg.author.tag,
         iconURL:
           options.authorIconURL ??
-          msg.member.displayAvatarURL({ dynamic: true }),
+          msg.member.displayAvatarURL({
+            dynamic: true,
+          })
+            ? msg.member.displayAvatarURL({
+                dynamic: true,
+              })
+            : null,
         url: cleanNull(options.authorURL),
       });
     } else if (options.author === "footer") {
       embed.setFooter({
-        namtext: options.footerText ?? msg.author.tag,
+        text: options.footerText ?? msg.author.tag,
         iconURL:
           options.footerIconURL ??
-          msg.member.displayAvatarURL({ dynamic: true }),
+          msg.member.displayAvatarURL({
+            dynamic: true,
+          }),
       });
     } else {
-      if (!options.footerText) {
+      if (!options.footerText && msg) {
         embed.setFooter({
           text: `Requested by: ${msg.author.tag}`,
-          iconURL:
-            msg.member.displayAvatarURL({ dynamic: true }) ??
-            msg.author.avatarURL({ dynamic: true }),
+          iconURL: msg.member
+            ? msg.member.displayAvatarURL({
+                dynamic: true,
+              })
+            : msg.author.displayAvatarURL({
+                dynamic: true,
+              }),
         });
       } else {
         embed.setAuthor({
@@ -98,51 +102,49 @@ class Resource {
 
     if (options.embed === true) return embed;
 
+    if (!options.components && Math.floor(Math.random() * 100) < -1) {
+      options.components = [
+        new Discord.MessageActionRow().addComponents(
+          new Discord.MessageButton()
+            .setLabel("Invite")
+            .setURL(
+              "https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot"
+            )
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Vote")
+            .setURL("https://top.gg/bot/931226824753700934/vote")
+            .setStyle("LINK"),
+          new Discord.MessageButton()
+            .setLabel("Premium")
+            .setURL("https://aeona.xyz/premium")
+            .setStyle("LINK")
+        ),
+      ];
+    }
+
     const messageOptions = {
       content: options.content,
       embeds: [embed],
+      reply: options.reply,
       tts: cleanNull(options.tts, "boolean"),
       files: cleanNull(options.files, "array"),
-      components: cleanNull(options.components, "array"),
+      components: options.components,
+      resources: true,
+      ephemeral: cleanNull(options.ephemeral, "boolean"),
     };
 
-    if (cleanNull(options.content) !== "")
-      messageOptions.content = cleanNull(options.content);
-
-    if (options.channel) {
-      return await options.channel.send(messageOptions);
-    }
-    if (options.user !== undefined)
-      return await options.user.send(messageOptions);
-
-    if (options.reply === true) {
-      if (msg.commandName) {
-        return await msg.editReply(messageOptions);
-      }
-      return await msg.reply(messageOptions);
-    }
-
-    if (msg.commandName) {
-      return await msg.editReply(messageOptions);
-    }
-    return await msg.reply(messageOptions);
+    return messageOptions;
   };
 }
 
-const errorC = "#F28FAD";
-
-const defaultE = "<:purpletick:928982802425323520>";
-const errorE = "<:error_cross:924177258623692840>";
-
 module.exports = {
-  emotes: {
-    errorC: errorC,
-    defaultE: defaultE,
-    errorE: errorE,
-    left: "<:left:907825540927471627>",
-    right: "<:right:907828453859028992>",
-    alert: "<:alert:935890334003658793>",
-  },
-  success: new Resource({ emote: defaultE }),
-  error: new Resource({ color: errorC, emote: errorE }),
+  emotes: data,
+  success: new Resource({
+    emote: data.defaultE,
+  }),
+  error: new Resource({
+    color: data.errorC,
+    emote: data.errorE,
+  }),
 };

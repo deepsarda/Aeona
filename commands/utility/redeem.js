@@ -1,57 +1,29 @@
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
 const Premium = require("../../database/schemas/GuildPremium");
 const moment = require("moment");
-const config = require("../../config.json");
-const discord = require("discord.js");
 const Discord = require("discord.js");
-const webhookClient = new discord.WebhookClient({
+const webhookClient = new Discord.WebhookClient({
   url: process.env.WEBHOOK_URL,
 });
 let uniqid = require("uniqid");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "redeem",
-      description: `Redeem a Premium code!`,
-      category: "Utility",
-      cooldown: 3,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
+module.exports = {
+  name: "redeem",
+  description: "Redeem a premium code",
+  usage: "+redeem <code>",
+  category: "utility",
+  requiredArgs: 1,
+  execute: async (message, args, bot, prefix) => {
+    let code = args[0];
     const guildDB = await Guild.findOne({
       guildId: message.guild.id,
     });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    let code = args[0];
-
-    if (!code)
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor("RED")
-            .setDescription(
-              `${message.client.emoji.fail} Please Specify a code to redeem`
-            ),
-        ],
+    if (guildDB.isPremium === "true")
+      return message.replyError({
+        title: "REDEEM",
+        description: "This server is already premium!",
       });
-
-    if (guildDB.isPremium === "true") {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor("RED")
-            .setDescription(
-              `${message.client.emoji.fail} the current guild is already premium`
-            ),
-        ],
-      });
-    }
-
     const premium = await Premium.findOne({
       code: code,
     });
@@ -78,19 +50,21 @@ module.exports = class extends Command {
       let DDate = date.format(now, "YYYY/MM/DD HH:mm:ss");
 
       try {
-        await message.author.send(
-          new discord.MessageEmbed()
-            .setDescription(
-              `**Premium Subscription**\n\nYou've recently redeemed a code in **${message.guild.name}** and here is your receipt:\n\n **Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}`
-            )
-            .setColor(message.guild.me.displayHexColor)
-            .setFooter({ text: message.guild.name })
-        );
+        await message.author.send({
+          embeds: [
+            new Discord.MessageEmbed()
+              .setDescription(
+                `**Premium Subscription**\n\nYou've recently redeemed a code in **${message.guild.name}** and here is your receipt:\n\n **Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}`
+              )
+              .setColor(message.guild.me.displayHexColor)
+              .setFooter({ text: message.guild.name }),
+          ],
+        });
       } catch (err) {
         console.log(err);
         message.channel.send({
           embeds: [
-            new discord.MessageEmbed()
+            new Discord.MessageEmbed()
               .setDescription(
                 `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/SPcmvDMRrP)\n\n**Could not send your Reciept via dms so here it is:**\n**Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}\n\n**Please make sure to keep this information safe, you might need it if you ever wanna refund / transfer servers.**\n\n**Expires At:** ${expires}`
               )
@@ -104,7 +78,7 @@ module.exports = class extends Command {
 
       message.channel.send({
         embeds: [
-          new discord.MessageEmbed()
+          new Discord.MessageEmbed()
             .setDescription(
               `**Congratulations!**\n\n**${message.guild.name}** Is now a premium guild! Thanks a ton!\n\nIf you have any questions please contact me [here](https://discord.gg/SPcmvDMRrP)\n**your receipt has been sent via dms**\n\n**Expires At:** ${expires}`
             )
@@ -113,7 +87,7 @@ module.exports = class extends Command {
         ],
       });
 
-      const embedPremium = new discord.MessageEmbed()
+      const embedPremium = new Discord.MessageEmbed()
         .setDescription(
           `**Premium Subscription**\n\n**${message.author.tag}** Redeemed a code in **${message.guild.name}**\n\n **Reciept ID:** ${ID}\n**Redeem Date:** ${DDate}\n**Guild Name:** ${message.guild.name}\n**Guild ID:** ${message.guild.id}\n**Redeemer Tag:** ${message.author.tag}\n**Redeemer ID:** ${message.author.id}\n\n**Expires At:** ${expires}`
         )
@@ -121,19 +95,16 @@ module.exports = class extends Command {
 
       webhookClient.send({
         username: "Aeona Premium",
-        avatarURL: `${message.client.domain}/logo.png`,
+        avatarURL: `${process.env.domain}/logo.png`,
         embeds: [embedPremium],
       });
+
+      return;
     } else {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor("RED")
-            .setDescription(
-              `${message.client.emoji.fail} I could not the following Code.`
-            ),
-        ],
+      message.replyError({
+        title: "REDEEM",
+        description: "This code is invalid!",
       });
     }
-  }
+  },
 };

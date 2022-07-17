@@ -1,19 +1,16 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "shop",
-      description: "See the shop",
-      category: "economy",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
+const { success, emotes } = require("../../utils/resources.js");
 
+module.exports = {
+  name: "shop",
+  description: "See aeona's shop.",
+  category: "economy",
+  usage: "+shop",
+  requiredArgs: 0,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
     let items = bot.economy.getItems();
 
     //Filter out items that can't be used
@@ -31,7 +28,7 @@ module.exports = class extends Command {
 
     //If there are no items, return an error
     if (pages.length == 0) {
-      util.error({
+      message.replyError({
         msg: message,
         title: "There are no items.",
         description: "You can buy items with `" + prefix + "shop`.",
@@ -43,22 +40,16 @@ module.exports = class extends Command {
     let row = new Discord.MessageActionRow().addComponents(
       new Discord.MessageButton()
         .setCustomId("last_page")
-        .setEmoji(util.emotes.left)
+        .setEmoji(bot.emotes.left)
         .setStyle("PRIMARY"),
       new Discord.MessageButton()
         .setCustomId("next_page")
-        .setEmoji(util.emotes.right)
+        .setEmoji(bot.emotes.right)
         .setStyle("PRIMARY")
     );
 
     //Send the first page
-    let embed = await generateEmbed(
-      message,
-      page,
-      pages[page],
-      pages.length,
-      util
-    );
+    let embed = await generateEmbed(message, page, pages[page], pages.length);
     let msg = await message.reply({
       embeds: [embed],
       components: [row],
@@ -79,13 +70,7 @@ module.exports = class extends Command {
         page++;
 
         //Send the next page
-        embed = await generateEmbed(
-          message,
-          page,
-          pages[page],
-          pages.length,
-          util
-        );
+        embed = await generateEmbed(message, page, pages[page], pages.length);
         i.update({ embeds: [embed] });
       }
 
@@ -100,20 +85,14 @@ module.exports = class extends Command {
         page--;
 
         //Send the last page
-        embed = await generateEmbed(
-          message,
-          page,
-          pages[page],
-          pages.length,
-          util
-        );
+        embed = await generateEmbed(message, page, pages[page], pages.length);
         i.update({ embeds: [embed] });
       }
     });
-  }
+  },
 };
 
-async function generateEmbed(message, page, items, totalPages, util) {
+async function generateEmbed(message, page, items, totalPages) {
   let description = "";
   //Loop through the items
   for (let i = 0; i < items.length; i++) {
@@ -125,7 +104,7 @@ async function generateEmbed(message, page, items, totalPages, util) {
   }
 
   description += `\n Page ${page + 1} of ${totalPages}`;
-  return await util.success({
+  return await success.embed({
     msg: message,
     embed: true,
     title: "Shop",

@@ -1,34 +1,47 @@
-const Command = require("../../structures/Command");
+const { MessageEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "resume",
-      aliases: ["unpause", "unstop"],
-      description: "Resume the current song.",
-      category: "Music",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    if (!message.client.musicManager.get(message.guild.id))
-      return message.channel.send("🚫 No music is being played!");
-    if (!message.member.voice?.channelId)
-      return message.channel.send("🚫 You need to be in my voice channel!");
-    if (
-      message.member.voice.channelId !==
-      message.client.musicManager.get(message.guild.id).voiceChannel
-    )
-      return message.channel.send("🚫 You're not in the same voice channel!");
+module.exports = {
+  name: "resume",
+  aliases: ["r"],
+  category: "music",
+  description: "Resume currently playing music",
+  requiredArgs: 0,
+  usage: "+resume <Number of song in queue>",
+  permission: [],
+  dj: true,
 
-    const response = resumePlayer(message);
-    message.reply(response);
-  }
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = client.manager.get(message.guild.id);
+    const song = player.queue.current;
+
+    if (!player.queue.current) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription("There is no music playing.");
+      return message.reply({ embeds: [thing] });
+    }
+
+    const emojiresume = client.emoji.resume;
+
+    if (!player.paused) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription(`${emojiresume} The player is already **resumed**.`)
+        .setTimestamp();
+      return message.reply({ embeds: [thing] });
+    }
+
+    player.pause(false);
+
+    let thing = new MessageEmbed()
+      .setDescription(
+        `${emojiresume} **Resumed**\n[${song.title}](${song.uri})`
+      )
+
+      .setTimestamp();
+    return message.reply({ embeds: [thing] });
+  },
 };
-function resumePlayer({ client, guildId }) {
-  const player = client.musicManager.get(guildId);
-  if (!player.paused) return "The player is already resumed";
-  player.pause(false);
-  return "▶️ Resumed the music player";
-}

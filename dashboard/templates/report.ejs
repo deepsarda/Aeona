@@ -1,143 +1,61 @@
-<%- include("partials/head", { bot, user, path, description, title: "Aeona - report" }) %>
-
-  <link rel="stylesheet" href="<%domain%>/css/report.css" />
-  <script src="<%domain%>/js/report.js"></script>
-
-  <body>
-    <% if (user) { %>
-      <script>
-        let username = "<%= user.username %>#<%= user.discriminator %>";
-        let userID = "<%= user.id %>";
-      </script>
-      <div class="container-contact">
-        <div class="wrap-contact">
-          <form class="contact-form validate-form">
-            <span class="contact-form-title"></span>
-            <div class="wrap-input rs1-wrap-input">
-              <span class="label">Discord Name</span>
-              <input class="input" type="text" name="reported_name" placeholder="Discord Name" required />
-
-              <span class="input-line"></span>
-            </div>
-            <div class="wrap-input rs1-wrap-input">
-              <span class="label">Discord ID</span>
-              <input class="input" type="text" name="reported_id" placeholder="Discord ID" required />
-
-
-              <span class="input-line"></span>
-            </div>
-
-            <div class="wrap-input">
-              <span class="label">Report Reason</span>
-              <textarea class="input" name="report" placeholder="Your Message" required></textarea>
-              <span class="input-line"></span>
-
-
-
-            </div>
-            <div class="wrap-input">
-              <span class="label">Proof:</span>
-              <textarea class="input" name="proof" placeholder="Proof links" required></textarea>
-              <span class="input-line"></span>
-            </div>
-            <div>
-              <span id="iunderstand" style="color:red"></span><br>
-              <div class="checkbox">
-
-                <label><input type="checkbox" name="understand" id="checkboxL"> I understand that Aeona's team will be
-                  able to see my discord Tag & ID to contact me later for further investigations. </label>
-              </div>
-              <span id="captcha" style="color:red"></span>
-              <br>
-              <div id="example1"></div>
-              <br>
-              <br>
-
-
-              <div class="box-footer">
-
-                <button type="submit">Send</button>
-              </div>
-          </form>
-
-        </div>
-      </div>
-      <% } else { %>
-        <div class="container-contact">
-          <div class="wrap-contact">
-            <form class="contact-form validate-form">
-              <span class="contact-form-title"></span>
-              <div class="wrap-input rs1-wrap-input">
-                <span class="label">Discord Name</span>
-                <input class="input" type="text" name="reported_name" placeholder="Discord Name" required disabled />
-
-                <span class="input-line"></span>
-              </div>
-              <div class="wrap-input rs1-wrap-input">
-                <span class="label">Discord ID</span>
-                <input class="input" type="text" name="reported_id" placeholder="Discord ID" required disabled />
-
-
-                <span class="input-line"></span>
-              </div>
-
-              <div class="wrap-input">
-                <span class="label">Report Reason</span>
-                <textarea class="input" name="report" placeholder="Your Message" required disabled></textarea>
-                <span class="input-line"></span>
-
-
-
-              </div>
-              <div class="wrap-input">
-                <span class="label">Proof:</span>
-                <textarea class="input" name="proof" placeholder="Proof links" required disabled></textarea>
-                <span class="input-line"></span>
-              </div>
-              <div>
-                <div class="container-contact-form-btn">
-                  <p>You must be logged in to report a user.</p>
-
-                </div>
-                <br>
-                <br>
-
-                <div class="container-contact-form-btn">
-                  <button onclick="window.location.href='/login';" type="button">Login</button>
-                </div>
-            </form>
-
-          </div>
-        </div>
-        <% } %>
-  </body>
-
-  </html>
-  <script type="text/javascript">
-    let verifyCallback = function (response) {
-      alert(response);
-    };
-    let widgetId1;
-    let widgetId2;
-    let onloadCallback = function () {
-      // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
-      // The id of the reCAPTCHA widget is assigned to 'widgetId1'.
-      widgetId1 = grecaptcha.render('example1', {
-        'sitekey': '6LfG_H8aAAAAAKFRc2P0w5-slk2yz--FCuhQhS4O',
-        'theme': 'dark'
-      });
-      widgetId2 = grecaptcha.render(document.getElementById('example2'), {
-        'sitekey': '6LfG_H8aAAAAAKFRc2P0w5-slk2yz--FCuhQhS4O'
-      });
-      grecaptcha.render('example3', {
-        'sitekey': '6LfG_H8aAAAAAKFRc2P0w5-slk2yz--FCuhQhS4O',
-        'callback': verifyCallback,
-        'theme': 'dark'
-      });
-    };
+<%- include("./partials/head", { arc, bot, user, path, description, title: "Aeona - Contact" , url, image }) %>
+<div class="max-w-lg mx-auto text-center glass2 p-3">
+  <% if (user) { %>
+  <script>
+    let username = "<%= user.username %>#<%= user.discriminator %>";
+    let userID = "<%= user.id %>";
   </script>
 
-  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
-  </script>
+  <form class="contact-form validate-form">
+    <span class="label text-center">Discord Name</span>
+    <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_name" placeholder="Discord Name" required />
 
-  <%- include("partials/footer") %>
+    <span class="label">Discord ID</span>
+    <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_id" placeholder="Discord ID" required />
+
+    <span class="label">Report Reason</span>
+    <textarea class="textarea textarea-bordered textarea-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="report" placeholder="Your Message" required></textarea>
+
+    <span class="label">Proof:</span>
+    <textarea class="textarea textarea-bordered textarea-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="proof" placeholder="Proof links" required></textarea>
+
+    <br>
+    <button class="btn btn-primary !bg-primary" type="submit">Submit</button>
+  </form>
+
+</div>
+</div>
+<% } else { %>
+
+<form class="contact-form validate-form">
+  <span class="label">Discord Name</span>
+  <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_name" placeholder="Discord Name" required disabled />
+
+
+  <span class="label">Discord ID</span>
+  <input class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" type="text" name="reported_id" placeholder="Discord ID" required disabled />
+
+
+  <span class="label">Report Reason</span>
+  <textarea class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="report" placeholder="Your Message" required disabled></textarea>
+
+
+  <span class="label">Proof:</span>
+  <textarea class="input input-bordered input-ghost w-full max-w-xs bg-transparent border-gray-400 placeholder:text-gray-400" name="proof" placeholder="Proof links" required disabled></textarea>
+
+
+  <p>You must be logged in to report a user.</p>
+
+
+  <br>
+  <br>
+
+  <button onclick="window.location.href='/login';" type="button " class="btn btn-primary !bg-primary">Login</button>
+
+</form>
+
+</div>
+</div>
+<% } %>
+</div>
+<%- include("./partials/footer") %>

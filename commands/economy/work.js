@@ -1,19 +1,15 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "work",
-      description: "Do a job",
-      category: "economy",
-      cooldown: 1,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
+module.exports = {
+  name: "work",
+  description: "Go to work and earn money",
+  category: "economy",
+  usage: "+work",
+  requiredArgs: 0,
+  aliases: [],
+  execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
 
@@ -24,15 +20,38 @@ module.exports = class extends Command {
       "Busboy",
       "Chief",
       "Mechanic",
+      "Janitor",
+      "Security Guard",
+      "Security Officer",
+      "Accountant",
+      "Banker",
+      "Taxi Driver",
+      "Delivery Driver",
+      "Courier",
+      "Teacher",
+      "Librarian",
+      "Nurse",
+      "Doctor",
+      "Lawyer",
+      "Psychologist",
+      "Psychiatrist",
+      "Dentist",
+      "Surgeon",
+      "Veterinarian",
+      "Physician",
+      "Pharmacist",
+      "Chiropractor",
+      "Optometrist",
+      "Optician",
     ];
     let result = Math.floor(Math.random() * replies.length);
     let amount = Math.floor(Math.random() * 15000) + 100000;
-    util.success({
+    message.reply({
       msg: message,
       description: ` You worked as a ${replies[result]} and earned ${amount} credits`,
     });
 
-    profile.money.wallet += amount;
+    profile.coinsInWallet += amount;
     profile.save();
-  }
+  },
 };

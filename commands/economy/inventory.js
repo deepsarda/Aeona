@@ -1,35 +1,19 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "inventory",
-      description: "View your inventory",
-      category: "economy",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
-    const user =
-      message.mentions.members.first() &&
-      message.mentions.members.filter(
-        (m) => args[0] && args[0].includes(m.user.id)
-      ).size >= 1
-        ? message.mentions.members
-            .filter((m) => args[0] && args[0].includes(m.user.id))
-            .first()
-        : false ||
-          message.guild.members.cache.get(args[0]) ||
-          (args.length > 0 &&
-            message.guild.members.cache.find((m) =>
-              m.user.username
-                .toLowerCase()
-                .includes(args.join(" ").toLowerCase())
-            )) ||
-          message.member;
+
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
+const parseUser = require("../../utils/parseUser.js");
+const { success, emotes } = require("../../utils/resources.js");
+
+module.exports = {
+  name: "inventory",
+  description: "See all your inventory",
+  usage: "+inventory",
+  category: "economy",
+  requiredArgs: 0,
+  aliases: ["inv"],
+  execute: async (message, args, bot, prefix) => {
+    const user = parseUser(message, args);
 
     let profile = await bot.economy.getConfig(user);
     let page = 0;
@@ -44,23 +28,21 @@ module.exports = class extends Command {
     }
 
     //If there are no items, return an error
-    if (items.length == 0) {
-      util.error({
+    if (items.length == 0)
+      return await message.replyError({
         msg: message,
-        title: "You don't have any items.",
-        description: "You can buy items with `" + prefix + "shop`.",
+        title: "You don't have any items!",
+        description: `You can buy items from the shop, by using \`${prefix}shop\``,
       });
-      return;
-    }
 
     let row = new Discord.MessageActionRow().addComponents(
       new Discord.MessageButton()
         .setCustomId("last_page")
-        .setEmoji(util.emotes.left)
+        .setEmoji(bot.emotes.left)
         .setStyle("PRIMARY"),
       new Discord.MessageButton()
         .setCustomId("next_page")
-        .setEmoji(util.emotes.right)
+        .setEmoji(bot.emotes.right)
         .setStyle("PRIMARY")
     );
 
@@ -70,7 +52,7 @@ module.exports = class extends Command {
       page,
       items[page],
       items.length,
-      util
+      user
     );
 
     let msg = await message.reply({
@@ -81,6 +63,7 @@ module.exports = class extends Command {
       componentType: "BUTTON",
       time: 10 * 60 * 1000,
     });
+
     collector.on("collect", async (i) => {
       //If the user clicks the next button
       if (i.customId == "next_page") {
@@ -88,7 +71,6 @@ module.exports = class extends Command {
         if (page == items.length - 1) {
           return;
         }
-
         //Increment the page
         page++;
 
@@ -98,7 +80,7 @@ module.exports = class extends Command {
           page,
           items[page],
           items.length,
-          util
+          user
         );
         i.update({ embeds: [embed] });
       }
@@ -119,32 +101,55 @@ module.exports = class extends Command {
           page,
           items[page],
           items.length,
-          util
+          user
         );
         i.update({ embeds: [embed] });
       }
     });
-  }
+  },
 };
 
-async function generateEmbed(message, page, items, totalPages, util) {
-  let description = "";
-  //Loop through the items
-  for (let i = 0; i < items.length; i++) {
-    let item = message.client.economy.getItem(items[i].name);
+// async function generateEmbed(message, page, items, totalPages, user) {
+//   let description = "";
+//   //Loop through the items
+//   for (let i = 0; i < items.length; i++) {
+//     let item = message.client.economy.getItem(items[i].name);
 
-    description += ` \n  ${item.emote} **${item.name}** x  ${
-      items[i].amount
-    }  \n ${item.description} ${
-      items[i].level ? "level: " + items[i].level : ""
-    } \n`;
+//     description += ` \n  ${item.emote} **${item.name}** x  ${
+//       items[i].amount
+//     }  \n ${item.description} ${
+//       items[i].level ? "level: " + items[i].level : ""
+//     } \n`;
+//   }
+
+//   description += `\n Page ${page + 1} of ${totalPages}`;
+
+//   return await success.embed({
+//     msg: message,
+//     title: `${user.displayName}'s Inventory`,
+//     description: description,
+//   });
+// }
+
+const generateEmbed = async (message, page, items, totalPages, user) => {
+  let embedDescription = "";
+
+  for (let [index, item] of items.entries()) {
+    item = message.client.economy.getItem(item.name);
+
+    const [name, description] = item.description.split("\n");
+    const emote = item.emote;
+    const amount = items[index].amount;
+
+    embedDescription += `${emote} ${name} → ${amount}\n${emotes.downRightArrow} ${description}\n\n`;
   }
 
-  description += `\n Page ${page + 1} of ${totalPages}`;
-  return await util.success({
-    msg: message,
+  embedDescription += `${emotes.divider} Page ${page + 1} of ${totalPages}`;
+
+  return await success.embed({
     embed: true,
-    title: "Your inventory",
-    description: description,
+    title: `${user.displayName}'s Inventory`,
+    description: embedDescription,
+    thumbnailURL: "https://img.icons8.com/dusk/344/in-inventory.png",
   });
-}
+};

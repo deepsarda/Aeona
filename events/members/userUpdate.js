@@ -1,11 +1,8 @@
-const Event = require("../../structures/Event");
-const logger = require("../../utils/logger");
 const Username = require("../../database/schemas/usernames");
-const discord = require("discord.js");
-const moment = require("moment");
 const Maintenance = require("../../database/schemas/maintenance");
-module.exports = class extends Event {
-  async run(oldUser, newUser) {
+module.exports = {
+  name: "userUpdate",
+  async execute(client, oldUser, newUser) {
     const maintenance = await Maintenance.findOne({
       maintenance: "maintenance",
     });
@@ -41,5 +38,5 @@ module.exports = class extends Event {
         user.save().catch(() => {});
       }
     }
-  }
+  },
 };

@@ -1,30 +1,13 @@
-const Command = require("../../structures/Command");
-const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "invite",
-      aliases: ["inv"],
-      description: "Sends you Aeonas invite link",
-      category: "Utility",
-      cooldown: 3,
+module.exports = {
+  name: "invite",
+  description: "Invite aeona to your servers",
+  usage: "+invite",
+  category: "utility",
+  requiredArgs: 0,
+  execute: async (message, args, bot, prefix) => {
+    await message.reply({
+      title: "Invite aeona",
+      description: `Invite me to your servers by clicking [here](${process.env.domain}/invite)!`,
     });
-  }
-
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    const embed = new MessageEmbed()
-      .setColor(message.guild.me.displayHexColor)
-      .setDescription(
-        `${language.invite}(https://Aeona.xyz/invite) ${message.client.emoji.success}`
-      );
-
-    await message.channel.send({ embeds: [embed] });
-  }
+  },
 };

@@ -1,56 +1,30 @@
-const Command = require("../../structures/Command");
 const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild");
 const PROTOCOL_REGEX = /^[a-zA-Z]+:\/\//;
 const PATH_REGEX = /(\/(.+)?)/g;
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "isitup",
-      aliases: ["isitonline"],
-      description: "Checks whether a website is up or down",
-      category: "Utility",
-      usage: "<url>",
-      cooldown: 3,
-    });
-  }
-
-  async run(message, args, bot,prefix='+' ) {
+module.exports = {
+  name: "isitup",
+  description: "Check if a website is up",
+  usage: "+isitup <url>",
+  category: "utility",
+  requiredArgs: 1,
+  execute: async (message, args, bot, prefix) => {
     let url = args[0];
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    if (url.length < 1) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.client.color.blue)
-            .setDescription(`${message.client.emoji.fail} ${language.isitup2}`),
-        ],
-      });
-    }
-
     url = url.toString().replace(PROTOCOL_REGEX, "").replace(PATH_REGEX, "");
-    const embed = new MessageEmbed();
-
     const body = await fetch(`https://isitup.org/${url}.json`).then((res) =>
       res.json()
     );
     if (body.response_code) {
       body.response_time *= 1000;
-      embed
-        .setColor("BLURPLE")
-        .setDescription(
-          `${language.isitup0}\n\n**${body.response_ip}**\n**${body.response_time}ms**\n**${body.response_code}**`
-        );
+      return message.reply({
+        title: "Is it up?",
+        description: `Is ${url} up? \n**${body.response_ip}**\n**${body.response_time}ms**\n**${body.response_code}**`,
+      });
     } else {
-      embed.setColor(message.client.color.blue);
-      embed.setDescription(`${message.client.emoji.fail} ${language.isitup3}`);
+      return message.replyError({
+        title: "Is it up?",
+        description: `${url} is down!`,
+      });
     }
-    message.channel.send({ embeds: [embed] });
-  }
+  },
 };

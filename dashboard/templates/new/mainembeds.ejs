@@ -1,10 +1,10 @@
 <!-- Taken from https://github.com/Glitchii/embedbuilder
 all credit goes to Ace.
 https://github.com/Glitchii  -->
+
+
 <% if(guild.channels.cache.filter(m=> m.type === 'GUILD_TEXT').size > 0) { %>
-
     <html lang="en">
-
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,7 +48,6 @@ https://github.com/Glitchii  -->
             To view the page please enable javascript in your browser
         </div>
     </noscript>
-
     <body class="gui empty">
         <div class="mainBuilder">
             <section class="side1">
@@ -144,7 +143,6 @@ https://github.com/Glitchii  -->
                         </svg>
                     </div>
                 </div>
-
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
                 <div class="dropdown" style="float: right;">
                     <button class="dropbtn">Go back</button>
@@ -154,7 +152,6 @@ https://github.com/Glitchii  -->
                         <a style="color: #ff5151;" href="/logout">Logout</a>
                     </div>
                 </div>
-
                 <div class="top item">
                     <div class="gui"></div>
                     <div class="editorHolder"></div>
@@ -263,13 +260,11 @@ https://github.com/Glitchii  -->
                 <div class="bottomSide">
                     <div class="notification">There is an error</div>
                 </div>
-
                 <div class="done">
                     <div>
                         <div class="channels">
                             <div class="selectOptions">
                                 <h5>Select a channel</h5>
-
                                 <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").forEach((ch) => { %>
                                     <div type="submit" class="channel">
                                         <img src="data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 200 200' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xml:space='preserve' xmlns:serif='http://www.serif.com/' style='fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;'%3E%3Cg transform='matrix(1.20847,0,0,1.20847,-20.1189,-17.9459)'%3E%3Cpath d='M49.055,175C46.462,175 44.499,172.658 44.952,170.105L50,141.667L21.626,141.667C19.037,141.667 17.075,139.332 17.522,136.782L18.98,128.448C19.329,126.455 21.06,125 23.084,125L52.917,125L61.75,75L33.376,75C30.787,75 28.825,72.665 29.272,70.115L30.73,61.782C31.079,59.788 32.81,58.333 34.834,58.333L64.667,58.333L69.973,28.439C70.326,26.449 72.055,25 74.076,25L82.279,25C84.871,25 86.834,27.342 86.381,29.895L81.333,58.333L131.333,58.333L136.64,28.439C136.993,26.449 138.722,25 140.743,25L148.945,25C151.538,25 153.501,27.342 153.048,29.895L148,58.333L176.374,58.333C178.963,58.333 180.925,60.669 180.478,63.218L179.02,71.552C178.672,73.545 176.94,75 174.916,75L145.083,75L136.25,125L164.624,125C167.213,125 169.175,127.335 168.728,129.885L167.27,138.218C166.922,140.212 165.19,141.667 163.166,141.667L133.333,141.667L128.027,171.562C127.674,173.551 125.945,175 123.924,175L115.722,175C113.129,175 111.166,172.658 111.619,170.105L116.667,141.667L66.667,141.667L61.36,171.562C61.007,173.551 59.278,175 57.258,175L49.055,175ZM78.42,75L69.587,125L119.587,125L128.42,75L78.42,75Z' style='fill:white;'/%3E%3C/g%3E%3C/svg%3E"
@@ -331,7 +326,6 @@ https://github.com/Glitchii  -->
             </section>
         </div>
     </body>
-
     </html>
     <title>Aeona - Embed</title>
     <% } else { %>

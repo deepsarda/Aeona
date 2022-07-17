@@ -1,125 +1,50 @@
-const Command = require("../../structures/Command");
 const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
-const warnModel = require("../../models/moderation.js");
-const mongoose = require("mongoose");
-const discord = require("discord.js");
+const warnModel = require("../../database/schemas/moderation.js");
 const Logging = require("../../database/schemas/logging.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "resetwarn",
-      aliases: ["clearwarn", "resetwarns", "clearwarns", "cw"],
-      description: "Clear all the users warns",
-      category: "Moderation",
-      usage: "<user> [reason]",
-      examples: ["kick @Peter Breaking the rules"],
-      guildOnly: true,
-      userPermission: ["MANAGE_ROLES"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    let client = message.client;
-    /*------ Guild Data ------*/
-
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-          const newGuild = new Guild({
-            _id: mongoose.Types.ObjectId(),
-            guildId: message.guild.id,
-            guildName: message.guild.name,
-            prefix: client.config.prefix,
-            language: "english",
-          });
-
-          newGuild
-            .save()
-            .then((result) => console.log(result))
-            .catch((err) => console.error(err));
-
-          return message.channel
-            .send(
-              "This server was not in our database! We have added it, please retype this command."
-            )
-            .then((m) => m.delete({ timeout: 10000 }));
-        }
-      }
-    );
-
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    const logging = await Logging.findOne({ guildId: message.guild.id });
-
+module.exports = {
+  name: "resetwarn",
+  description: "Reset all the warnings from a specific user",
+  usage: "+resetwarn [@user] [Reason]",
+  category: "moderation",
+  requiredArgs: 1,
+  permissions: ["MANAGE_MESSAGES"],
+  botPermissions: ["MANAGE_MESSAGES"],
+  execute: async (message, args, bot, prefix) => {
+    let logging = await Logging.findOne({ guildId: message.guild.id });
     const mentionedMember =
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
-
-    if (!mentionedMember) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.banUserValid}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (!mentionedMember)
+      return message.replyError({
+        title: "Reset Warnings",
+        description: "Please provide a user to reset warnings.",
       });
-    }
 
     const mentionedPotision = mentionedMember.roles.highest.position;
     const memberPotision = message.member.roles.highest.position;
 
-    if (memberPotision <= mentionedPotision) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmPosition}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (memberPotision <= mentionedPotision)
+      return message.replyError({
+        title: "Reset Warnings",
+        description:
+          "You cannot reset warnings of a user with a role higher than your highest role.",
       });
-    }
 
     let reason = args.slice(1).join(" ");
-    if (!reason) reason = language.softbanNoReason;
+    if (!reason) reason = "No reason provided.";
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
+    const warnDoc = await warnModel.findOne({
+      guildID: message.guild.id,
+      memberID: mentionedMember.id,
+    });
 
-    const warnDoc = await warnModel
-      .findOne({
-        guildID: message.guild.id,
-        memberID: mentionedMember.id,
-      })
-      .catch((err) => console.log(err));
-
-    if (!warnDoc || !warnDoc.warnings.length) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setDescription(`${client.emoji.fail} | ${language.rmNoWarning}`)
-            .setTimestamp(message.createdAt)
-            .setColor(client.color.red),
-        ],
+    if (!warnDoc || !warnDoc.warnings.length)
+      return message.replyError({
+        title: "Reset Warnings",
+        description: "That user does not have any warnings.",
       });
-    }
+
     await warnDoc.updateOne({
       modType: [],
       warnings: [],
@@ -128,28 +53,18 @@ module.exports = class extends Command {
       date: [],
     });
 
-    const removeEmbed = new discord.MessageEmbed()
-      .setDescription(
-        `${message.client.emoji.success} | Cleared all Warn of **${
-          mentionedMember.user.tag
-        }** ${
-          logging && logging.moderation.include_reason === "true"
-            ? `\n\n**Reason:** ${reason}`
-            : ``
-        }`
-      )
-      .setColor(message.client.color.green);
-
-    message.channel
-      .send(removeEmbed)
+    message
+      .reply({
+        title: "Reset Warnings",
+        description: `Successfully reset all warnings from ${mentionedMember}.`,
+      })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
           setTimeout(() => {
             s.delete().catch(() => {});
           }, 5000);
         }
-      })
-      .catch(() => {});
+      });
 
     if (logging) {
       if (logging.moderation.delete_after_executed === "true") {
@@ -175,7 +90,8 @@ module.exports = class extends Command {
             ) {
               if (logging.moderation.warns == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.yellow;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -185,14 +101,14 @@ module.exports = class extends Command {
                     `Action: \`Clear Warn\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", mentionedMember, true)
-                  .addField("Moderator", message.member, true)
-                  .addField("Reason", reason, true)
+                  .setDescription(
+                    `**User:** ${mentionedMember.user}\n **Responsible Moderator:** ${message.author}\n **Reason:** ${reason}`
+                  )
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
 
-                channel.send(logEmbed).catch(() => {});
+                channel.send({ embeds: [logEmbed] }).catch(() => {});
 
                 logging.moderation.caseN = logcase + 1;
                 await logging.save().catch(() => {});
@@ -202,5 +118,5 @@ module.exports = class extends Command {
         }
       }
     }
-  }
+  },
 };

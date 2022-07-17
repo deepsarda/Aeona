@@ -1,30 +1,14 @@
-const Command = require("../../structures/Command");
-const Guild = require("../../database/schemas/Guild");
-const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const Snipe = require("../../database/schemas/snipe");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "snipe",
-      description: "Snipe Messages in the channel",
-      category: "Utility",
-      usage: ["snipe"],
-      cooldown: 5,
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
-    
-    let fail = message.client.emoji.fail;
-    let client = message.client;
-
+module.exports = {
+  name: "snipe",
+  description: "See the deleted messages of this channel",
+  usage: "+snipe",
+  category: "utility",
+  requiredArgs: 0,
+  botPermissions: ["MANAGE_WEBHOOKS"],
+  execute: async (message, args, bot, prefix) => {
     let channel = message.mentions.channels.first();
     if (!channel) channel = message.channel;
 
@@ -32,65 +16,43 @@ module.exports = class extends Command {
       guildId: message.guild.id,
       channel: channel.id,
     });
-
-    const no = new MessageEmbed()
-      .setAuthor(
-        `#${channel.name} | ${message.guild.name}`,
-        message.guild.iconURL()
-      )
-      .setFooter({ text: message.guild.name })
-      .setTimestamp()
-      .setColor(message.guild.me.displayHexColor)
-      .setDescription(
-        `${message.client.emoji.fail} | Couldn't find any deleted message in **${channel.name}**`
-      );
-
     if (!snipe) {
-      return message.channel.send(no);
+      return message.replyError({
+        title: "snipe",
+        description: "No deleted message found for this channel.",
+      });
     }
 
-    if (snipe.message.length < 1) {
-      return message.channel.send(no);
-    }
+    if (snipe.oldmessage.length < 1)
+      return message.replyError({
+        title: "Editsnipe",
+        description: "No deleted message found for this channel.",
+      });
 
-    const data = [];
+    let webhooks = await message.channel.fetchWebhooks();
+    let webhook = webhooks.find((webhook) => webhook.token);
 
-    const embed = new MessageEmbed()
-      .setAuthor(
-        `#${channel.name} | ${message.guild.name}`,
-        message.guild.iconURL()
-      )
-      .setFooter({ text: message.guild.name })
-      .setTimestamp()
-      .setColor(message.guild.me.displayHexColor);
-
-    for (let i = 0; snipe.message.length > i; i++) {
-      data.push(
-        `**${i + 1}-**\n**User:** ${
-          (await message.client.users.fetch(snipe.tag[i])) || "Unknown"
-        }\n**Message:** ${snipe.message[i] || "None"}\n**image:** \`${
-          snipe.image[i] || "none"
-        }\``
+    if (!webhook) {
+      webhook = await message.channel.createWebhook(
+        `${client.user.username} Sniping`,
+        {
+          avatar: client.user.displayAvatarURL(),
+        }
       );
+    }
+    for (let i = 0; snipe.message.length > i; i++) {
+      let member = await message.guild.members.fetch(snipe.tag[i]).catch();
+      if (!member) await MessageEvent.client.users.fetch(snipe.tag[i]).catch();
 
-      embed.addField(
-        `Message ${i + 1}`,
-        `**User:** ${
-          (await message.client.users.fetch(snipe.tag[i])) || "Unknown"
-        }\n**Message:** ${snipe.message[i] || "None"}\n**image:** \`${
+      webhook.send({
+        username: member ? member.user.username : "Unkown",
+        avatarURL: member ? member.user.displayAvatarURL() : undefined,
+        content: `${snipe.message[i] || "None"} \n**image:** \`${
           snipe.image[i] || "none"
         }\``,
-        true
-      );
+
+        allowedMentions: { parse: [] },
+      });
     }
-
-    if (data.length < 1) return message.channel.send(no);
-
-    message.channel.send({ embeds: [embed] }).catch(async (err) => {
-      await snipe.deleteOne().catch(() => {});
-      message.channel.send(
-        `The embed contained a huge field that couldn't fit as this is the reason i failed to send the embed. I have resetted the database as you can try rerunning the command again.`
-      );
-    });
-  }
+  },
 };

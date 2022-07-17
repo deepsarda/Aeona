@@ -1,44 +1,45 @@
-const Command = require("../../structures/Command");
+const { MessageEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "loop",
-      aliases: ["repeat"],
-      description: "Loop the current song.",
-      category: "Music",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    if (!message.client.musicManager.get(message.guild.id))
-      return message.channel.send("🚫 No music is being played!");
-    if (!message.member.voice?.channelId)
-      return message.channel.send("🚫 You need to be in my voice channel!");
-    if (
-      message.member.voice.channelId !==
-      message.client.musicManager.get(message.guild.id).voiceChannel
-    )
-      return message.channel.send("🚫 You're not in the same voice channel!");
-    const input = args[0].toLowerCase();
-    const type = input === "queue" ? "queue" : "track";
-    const response = toggleLoop(message, type);
-    message.reply(response);
-  }
-};
-function toggleLoop({ client, guildId }, type) {
-  const player = client.musicManager.get(guildId);
+module.exports = {
+  name: "loop",
+  aliases: ["l"],
+  category: "music",
+  description: "Toggle music loop",
+  requiredArgs: 0,
+  usage: "+loop",
+  permission: [],
+  dj: true,
 
-  // track
-  if (type === "track") {
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = message.client.manager.get(message.guild.id);
+
+    if (!player.queue.current) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription("There is no music playing.");
+      return message.reply({ embeds: [thing] });
+    }
+    const emojiloop = message.client.emoji.loop;
+
+    if (args.length && /queue/i.test(args[0])) {
+      player.setQueueRepeat(!player.queueRepeat);
+      const queueRepeat = player.queueRepeat ? "enabled" : "disabled";
+      let thing = new MessageEmbed()
+        .setColor(message.client.embedColor)
+        .setTimestamp()
+        .setDescription(`${emojiloop} Loop queue is now **${queueRepeat}**`);
+      return message.reply({ embeds: [thing] });
+    }
+
     player.setTrackRepeat(!player.trackRepeat);
-    return `Track loop ${player.trackRepeat ? "enabled" : "disabled"}`;
-  }
-
-  // queue
-  else if (type === "queue") {
-    player.setQueueRepeat(!player.queueRepeat);
-    return `Queue loop ${player.queueRepeat ? "enabled" : "disabled"}`;
-  }
-}
+    const trackRepeat = player.trackRepeat ? "enabled" : "disabled";
+    let thing = new MessageEmbed()
+      .setColor(message.client.embedColor)
+      .setTimestamp()
+      .setDescription(`${emojiloop} Loop track is now **${trackRepeat}**`);
+    return message.reply({ embeds: [thing] });
+  },
+};

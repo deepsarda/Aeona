@@ -1,7 +1,6 @@
-const Event = require("../structures/Event");
-
-module.exports = class extends Event {
-  async run(data) {
-    this.client.musicManager.updateVoiceState(data);
-  }
+module.exports = {
+  name: "raw",
+  async execute(client, data) {
+    client.manager.updateVoiceState(data);
+  },
 };

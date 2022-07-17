@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const SlayBotSchema = mongoose.Schema({
+const AeonaSchema = mongoose.Schema({
   news: {
     type: mongoose.SchemaTypes.String,
     required: true,
@@ -13,6 +13,10 @@ const SlayBotSchema = mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     required: true,
   },
+  version: {
+    type: mongoose.SchemaTypes.String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model("AeonaNews", SlayBotSchema);
+module.exports = mongoose.model("AeonaNews", AeonaSchema);

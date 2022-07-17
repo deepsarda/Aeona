@@ -1,102 +1,74 @@
-const discord = require("discord.js");
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
-const app = require("../../models/application/application.js");
-const MessageEmbed = require("discord.js");
+const Applications = require("../../database/schemas/application.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "applylog",
-      aliases: ["applychannel", "applylogs"],
-      usage: "enable #channel | disable",
-      category: "Applications",
-      examples: ["apply"],
-      description: "Set's the guild's apply Logs",
-      cooldown: 5,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
+module.exports = {
+  name: "applyLog",
+  description: "Set's the guild's apply Logs",
+  permissions: ["MANAGE_GUILD"],
+  usage: "+applyLog enable #channel | disable",
+  category: "Applications",
+  requiredArgs: 1,
+  aliases: ["applychannel", "applylogs"],
+  execute: async (message, args, bot, prefix) => {
+    let option = args[0];
 
-  async run(message, args, bot,prefix='+' ) {
-    const client = message.client;
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    if (option === "enable") {
+      let channel = message.mentions.channels.first()
+        ? message.mentions.channels.first()
+        : message.guild.channels.cache.find((c) => c.name === args[1])
+        ? message.guild.channels.cache.find((c) => c.name === args[1])
+        : message.guild.channels.cache.find((c) => c.id === args[1]);
 
-    if (args.length < 1) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} | ${language.applylogerrorchannel}`
-            ),
-        ],
-      });
-    }
-
-    if (args.includes("disable")) {
-      await app.findOne(
-        {
-          guildID: message.guild.id,
-        },
-        async (err, guild) => {
-          guild
-            .updateOne({
-              appLogs: null,
-            })
-            .catch((err) => console.error(err));
-
-          return message.channel.send({
-            embeds: [
-              new discord.MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setDescription(
-                  `${message.client.emoji.fail} | ${language.applylogdisabled}`
-                ),
-            ],
-          });
-        }
-      );
-      return;
-    }
-
-    const channel = await message.mentions.channels.first();
-
-    if (!channel)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} | ${language.applylogvalidchannel}`
-            ),
-        ],
-      });
-
-    await app.findOne(
-      {
-        guildID: message.guild.id,
-      },
-      async (err, guild) => {
-        guild
-          .updateOne({
-            appLogs: channel.id,
-          })
-          .catch((err) => console.error(err));
-
-        return message.channel.send({
-          embeds: [
-            new discord.MessageEmbed()
-              .setColor(message.guild.me.displayHexColor)
-              .setDescription(
-                `${message.client.emoji.success} | ${language.applylogSuccess} ${channel}`
-              ),
-          ],
+      if (!channel) {
+        return message.channel.replyError({
+          title: "Applications",
+          description: `Could not find the channel. Please make sure you have the right channel name or ID. \`+applyLog enable #channel\``,
         });
       }
-    );
-  }
+
+      let app = await Applications.findOne({ guildID: message.guild.id });
+
+      if (!app) {
+        app = new Applications({
+          guildID: message.guild.id,
+          questions: [],
+          appToggle: false,
+          appLogs: channel.id,
+        });
+        await app.save();
+        return message.channel.reply({
+          title: "Applications",
+          description: `All set! The channel is now set to ${channel} for applications. To disable it, use \`+applyLog disable\`. \n You can also add questions to the list by using \`+addquestions <question>\`.`,
+        });
+      }
+
+      app.appLogs = channel.id;
+      await app.save();
+      return message.channel.reply({
+        title: "Applications",
+        description: `All set! The channel is now set to ${channel} for applications. To disable it, use \`+applyLog disable\`. \n You can also add questions to the list by using \`+addquestions <question>\`.`,
+      });
+    } else if (option === "disable") {
+      let app = await Applications.findOne({ guildId: message.guild.id });
+
+      if (!app) {
+        return message.channel.replyError({
+          title: "Applications",
+          description: `There are no applications to disable.`,
+        });
+      }
+
+      app.appLogs = " ";
+      await app.save();
+      return message.channel.reply({
+        title: "Applications",
+        description: `All set! The channel is now set to disabled. To enable it, use \`+applyLog enable <channel> \`. `,
+      });
+    } else {
+      return message.channel.replyError({
+        title: "Applications",
+        description: `Invalid option. Valid options are: enable, disable`,
+      });
+    }
+  },
 };

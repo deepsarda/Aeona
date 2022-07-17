@@ -1,19 +1,13 @@
-const Event = require("../../structures/Event");
 const Discord = require("discord.js");
-const logger = require("../../utils/logger");
 const Guild = require("../../database/schemas/Guild");
 const Logging = require("../../database/schemas/logging");
-const config = require("../../config.json");
 const welcomeClient = new Discord.WebhookClient({
   url: process.env.importantLogs,
 });
-const webhookClient = new Discord.WebhookClient({
-  url: process.env.importantLogs,
-});
-
-module.exports = class extends Event {
-  async run(guild) {
-    logger.info(`Joined to "${guild.name}" (${guild.id})`, { label: "Guilds" });
+module.exports = {
+  name: "guildCreate",
+  async execute(client, guild) {
+    console.log(`Joined to "${guild.name}" (${guild.id})`, { label: "Guilds" });
 
     const find = await Guild.findOne({
       guildId: guild.id,
@@ -104,67 +98,37 @@ module.exports = class extends Event {
       const embed = new Discord.MessageEmbed()
         .setColor("PURPLE")
         .setDescription(
-          `Hey Poggers! I'm **Aeona**.\n\nThank you for inviting me to your server as it means a lot to us! You can get started with [\`+help\`](https://Aeona.xyz) & customise your server settings by accessing the Dashboard [\`here\`](https://Aeona.xyz/dashboard/${guild.id}).\n\n__**Current News**__\n\`\`\`\nWe are currently giving premium to all servers until 1000 guilds! If interested Please visit https://Aeona.xyz/redeem\`\`\`\n\nAgain, thank you for inviting me! (this server is now very pog)\n**- Aeona**`
+          `Hey Discorders! I'm **Aeona**.\n\nThank you for inviting me to your server as it means a lot to us! You can get started with [\`+help\`](${process.env.domain}) & customise your server settings by accessing the Dashboard [\`here\`](https://Aeona.xyz/dashboard/${guild.id}).\n\n__**Current News**__\n\`\\n\nAgain, thank you for inviting me! \n**- Aeona**`
         )
         .addField(
           "\u200b",
-          "**[Invite](https://invite.Aeona.xyz) | " +
-            "[Support Server](https://Aeona.xyz/support) | " +
-            "[Dashboard](https://Aeona.xyz/dashboard)**"
+          `**[Invite](${process.env.domain}/invite) | ` +
+            `[Support Server](${process.env.domain}/support) | ` +
+            `[Dashboard](${process.env.domain}/dashboard)**`
         );
 
       textChats.send({ embeds: [embed] }).catch(() => {});
     }
-
+    let owner = await guild.fetchOwner();
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`PURPLE`)
       .setTitle("New Server")
-      .setThumbnail(`https://Aeona.xyz/logo`)
+      .setThumbnail(`${process.env.domain}/logo.png`)
       .setDescription(`Aeona was added to a new Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
+      .addField(`Server Owner`, `\`${owner.user.tag}\``, true)
+      .addField(`Server Owner ID`, `\`${owner.user.id}\``, true)
       .setFooter({
-        text: `${this.client.guilds.cache.size} guilds `,
-        iconURL: "https://Aeona.xyz/logo.png",
+        text: `${client.guilds.cache.size} guilds `,
+        iconURL: `${process.env.domain}/logo.png`,
       });
 
     welcomeClient.send({
       username: "Aeona",
-      avatarURL: "https://Aeona.xyz/logo.png",
+      avatarURL: `${process.env.domain}/logo.png`,
       embeds: [welcomeEmbed],
-      content: "<@394320584089010179> <@794921502230577182>",
+      content: "@everyone",
     });
-
-    if (config.datadogApiKey) {
-      metrics.init({
-        apiKey: this.client.config.datadogApiKey,
-        host: "Aeona",
-        prefix: "Aeona.",
-      });
-      metrics.increment("guildCreate");
-    }
-    const embed = new Discord.MessageEmbed()
-      .setColor("GREEN")
-      .setDescription(
-        `I have joined the ${guild.name} server.\n\nID: ${guild.id}`
-      )
-      .setFooter({
-        text: `Gained ${guild.members.cache.size - 1} members • I'm now in ${
-          this.client.guilds.cache.size
-        } servers!`,
-      })
-      .setThumbnail(
-        guild.iconURL({ dynamic: true })
-          ? guild.iconURL({ dynamic: true })
-          : `https://guild-default-icon.herokuapp.com/${encodeURIComponent(
-              guild.nameAcronym
-            )}`
-      );
-
-    webhookClient.send({
-      username: "Aeona",
-      avatarURL: "https://Aeona.xyz/logo.png",
-      embeds: [embed],
-    });
-  }
+  },
 };

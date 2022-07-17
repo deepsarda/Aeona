@@ -1,17 +1,8 @@
-const Event = require("../../structures/Event");
-const logger = require("../../utils/logger");
 const Logging = require("../../database/schemas/logging");
 const discord = require("discord.js");
-const moment = require("moment");
-const Maintenance = require("../../database/schemas/maintenance");
-module.exports = class extends Event {
-  async run(oldGuild, newGuild) {
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
-
+module.exports = {
+  name: "guildUpdate",
+  async execute(client, oldGuild, newGuild) {
     const logging = await Logging.findOne({ guildId: oldGuild.id });
 
     if (logging) {
@@ -22,7 +13,7 @@ module.exports = class extends Event {
 
         if (channelEmbed) {
           let color = logging.server_events.color;
-          if (color == "#000000") color = oldGuild.client.color.yellow;
+          if (color == "#000000") color = "YELLOW";
 
           if (logging.server_events.channel_created == "true") {
             const embed = new discord.MessageEmbed()
@@ -116,5 +107,5 @@ module.exports = class extends Event {
         }
       }
     }
-  }
+  },
 };

@@ -1,54 +1,17 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
 const Discord = require("discord.js");
-const config = require("../../config.json");
 const webhookClient = new Discord.WebhookClient({
-  url: process.env.importantLogs,
+  url: process.env.reports,
 });
-const Guild = require("../../database/schemas/Guild");
 const crypto = require("crypto");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "reportbug",
-      aliases: ["bugreport", "bug"],
-      description: "Report bugs to Aeona!",
-      category: "Utility",
-      usage: ["<text>"],
-      cooldown: 60,
-    });
-  }
-
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
+module.exports = {
+  name: "bug",
+  description: "Report a bug",
+  usage: "+bug [message]",
+  category: "utility",
+  requiredArgs: 1,
+  execute: async (message, args, bot, prefix) => {
     let id = crypto.randomBytes(4).toString("hex");
-
-    if (args.length < 1) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.client.color.blue)
-            .setDescription(`${message.client.emoji.fail} ${language.report1}`),
-        ],
-      });
-    }
-
-    if (args.length < 3) {
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setColor(message.client.color.blue)
-            .setDescription(`${message.client.emoji.fail} ${language.report2}`),
-        ],
-      });
-    }
-
     let invite = await message.channel
       .createInvite({
         maxAge: 0,
@@ -57,7 +20,7 @@ module.exports = class extends Command {
       .catch(() => {});
 
     let report = args.join(" ").split("").join("");
-    const embed = new MessageEmbed()
+    const embed = new Discord.MessageEmbed()
       .setTitle("Bug Report")
       .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
       .setDescription(report)
@@ -74,26 +37,12 @@ module.exports = class extends Command {
       .setTimestamp()
       .setColor("GREEN");
 
-    const confirmation = new MessageEmbed()
-      .setTitle("Bug Report")
-      .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
-      .setDescription(
-        `${language.report3} Support [**Server**](https://discord.gg/SPcmvDMRrP)`
-      )
-      .addField("Member", message.member, true)
-      .addField("Message", report, true)
-      .addField("Bug Report ID:", `#${id}`, true)
-      .setFooter({ text: "https://Aeona.xyz/" })
-      .setTimestamp()
-      .setColor("GREEN");
-
     webhookClient.send({
       username: "Aeona Bug Report",
       avatarURL: `${message.client.domain}/logo.png`,
       embeds: [embed],
     });
 
-    message.author.send(confirmation).catch(() => {});
-    message.delete().catch(() => {});
-  }
+    message.author.send({ embeds: [embed] }).catch(() => {});
+  },
 };

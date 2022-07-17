@@ -1,35 +1,19 @@
-const Event = require("../../structures/Event"); ////("discord.js")
-const { MessageReaction, User, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const Db = require("../../packages/reactionrole/models/schema.js");
-const reactionTicket = require("../../models/tickets.js");
+const reactionTicket = require("../../database/schemas/tickets.js");
 const reactionCooldown = new Set();
-const optionAdd = new Set();
 const discord = require("discord.js");
-const Discord = require("discord.js");
 const moment = require("moment");
-const send = require(`../../packages/logs/index.js`);
 const GuildDB = require("../../database/schemas/Guild");
-const Maintenance = require("../../database/schemas/maintenance");
 const ticketCooldownLol = new Set();
 const botCooldown = new Set();
 
-/**
- *
- * @param {MessageReaction} reaction
- * @param {User} user
- */
-
-module.exports = class extends Event {
-  async run(messageReaction, user) {
-    if (this.client.user === user) return;
+module.exports = {
+  name: "messageReactionAdd",
+  async execute(client, messageReaction, user) {
+    if (client.user === user) return;
 
     const { message, emoji } = messageReaction;
-
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
-
-    if (maintenance && maintenance.toggle == "true") return;
 
     const member = message.guild.members.cache.get(user.id);
     let guildDB = await GuildDB.findOne({
@@ -53,14 +37,14 @@ module.exports = class extends Event {
 
         if (botCooldown.has(message.guild.id)) return;
 
-        let guild = this.client.guilds.cache.get(db.guildid);
+        let guild = client.guilds.cache.get(db.guildid);
         let guildName = guild.name;
 
         let slowDownEmbed = new MessageEmbed()
           .setDescription(
             `${message.client.emoji.fail} Slow Down There, You're on a cooldown\n\n**Role Name:** ${rrRole.name}\n**Guild Name:** ${guildName}`
           )
-          .setColor(message.client.color.red);
+          .setColor("RED");
 
         let addEmbed = new MessageEmbed()
           .setAuthor(
@@ -72,7 +56,7 @@ module.exports = class extends Event {
             `You have recieved the **${rrRole.name}** Role by reacting in ${guildName}`
           )
           .setFooter({ text: "https://Aeona.xyz/" })
-          .setColor(message.client.color.green);
+          .setColor("GREEN");
 
         let remEmbed = new MessageEmbed()
           .setAuthor(
@@ -84,7 +68,7 @@ module.exports = class extends Event {
             `You have removed the **${rrRole.name}** Role by reacting in ${guildName}`
           )
           .setFooter({ text: "https://Aeona.xyz/" })
-          .setColor(message.client.color.green);
+          .setColor("GREEN");
 
         let errorReaction = new MessageEmbed()
           .setAuthor(
@@ -96,7 +80,7 @@ module.exports = class extends Event {
             `${message.client.emoji.fail} Failed to Add the role, since I'm Missing the Manage Roles Permission.\n\nPlease let an admin Know.`
           )
           .setFooter({ text: "https://Aeona.xyz/" })
-          .setColor(message.client.color.green);
+          .setColor("GREEN");
 
         if (reactionCooldown.has(user.id)) {
           if (
@@ -418,11 +402,11 @@ module.exports = class extends Event {
                     .has("EMBED_LINKS")
                 )
                   return;
+
                 message.channel
                   .send({
                     embeds: [
                       new discord.MessageEmbed()
-                        .setColor(message.client.color.red)
                         .setDescription(
                           `You already have ${arraylength} open tickets, as the current guild's ticket limit is ${ticketlimit} `
                         )
@@ -503,40 +487,54 @@ module.exports = class extends Event {
 
                   if (db.ticketPing == "true") {
                     if (chan) {
-                     
-
-                      chan.send(`${member} ${ticketRole}`).catch(() => {});
+                      chan
+                        .send({ content: `${member} ${ticketRole}` })
+                        .catch(() => {});
                     }
                   }
-
-                  chan.send({embeds:[
-                    new discord.MessageEmbed()
-                      .setAuthor(user.tag, user.displayAvatarURL())
-
-                      .setDescription(
-                        db.ticketWelcomeMessage
-                          .replace(/{user}/g, `${member}`)
-                          .replace(/{user_tag}/g, `${member.tag}`)
-                          .replace(/{user_name}/g, `${member.username}`)
-                          .replace(/{reason}/g, `${member.username}`)
-                          .replace(/{user_ID}/g, `${member.id}`) ||
-                          language.ticketNewTicketWaitForAssistant
-                      )
-
-                      .setColor(color)
-                  ]}
-                  );
+                  let row = new discord.MessageActionRow();
+                  row.addComponents([
+                    new discord.MessageButton()
+                      .setLabel("Close")
+                      .setStyle("SECONDARY")
+                      .setCustomId("close"),
+                    new discord.MessageButton()
+                      .setLabel("Claim (Staff)")
+                      .setStyle("SECONDARY")
+                      .setCustomId("claim"),
+                  ]);
 
                   chan.send({
+                    embeds: [
+                      new discord.MessageEmbed()
+                        .setAuthor(user.tag, user.displayAvatarURL())
+
+                        .setDescription(
+                          db.ticketWelcomeMessage
+                            .replace(/{user}/g, `${member}`)
+                            .replace(/{user_tag}/g, `${member.tag}`)
+                            .replace(/{user_name}/g, `${member.username}`)
+                            .replace(/{reason}/g, `${member.username}`)
+                            .replace(/{user_ID}/g, `${member.id}`) ||
+                            language.ticketNewTicketWaitForAssistant
+                        )
+
+                        .setColor(color),
+                    ],
+                  });
+
+                  chan.send({
+                    content: "@everyone",
                     embeds: [
                       new MessageEmbed()
                         .setDescription(
                           `Please use \`aeona close\` to close the ticket.`
                         )
-                        .setColor(message.client.color.red)
+                        .setColor("RED")
                         .setFooter({ text: "https://Aeona.xyz/" })
                         .setTimestamp(),
                     ],
+                    components: [row],
                   });
 
                   let color2 = db.ticketLogColor;
@@ -557,16 +555,16 @@ module.exports = class extends Event {
                     );
 
                   if (ticketLog) {
-                    ticketLog.send({embeds:[embedLog]})
+                    ticketLog.send({ embeds: [embedLog] });
                   }
                 })
-                .catch(() => {
-
+                .catch((e) => {
+                  console.error(e);
                   message.channel
                     .send({
                       embeds: [
                         new discord.MessageEmbed()
-                          .setColor(message.client.color.red)
+                          .setColor("RED")
                           .setDescription(
                             "There was an error creating the ticket, please check my permissions or contact support."
                           ),
@@ -580,5 +578,5 @@ module.exports = class extends Event {
         }
       }
     );
-  }
+  },
 };

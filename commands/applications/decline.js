@@ -1,41 +1,42 @@
-const discord = require("discord.js");
-const Command = require("../../structures/Command");
 const Guild = require("../../database/schemas/Guild");
-const App = require("../../models/application/application.js");
-const Paste = require("../../models/transcript.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "declineapp",
-      aliases: ["declineapplication", "declineappliction", "declineform"],
-      usage: "<user> <app ID> <reason>",
-      category: "Applications",
-      examples: ["decline @peter OERKSOAE underage"],
-      description: "Decline an application in the guild.",
-      cooldown: 5,
-      userPermission: ["MANAGE_GUILD"],
-      botPermission: ["MANAGE_ROLES"],
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    const client = message.client;
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    if (guildDB.isPremium === "false") {
-      message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.guild.me.displayHexColor)
-            .setDescription(
-              `${message.client.emoji.fail} | ${language.approvepremium}.\n\n[Check Premium Here](https://Aeona.xyz/premium)`
-            ),
-        ],
-      });
+const Applications = require("../../database/schemas/application.js");
+const Paste = require("../../database/schemas/transcript.js");
 
-      return;
+module.exports = {
+  name: "decline",
+  description: "Decline a user's application",
+  permissions: ["MANAGE_GUILD"],
+  usage: "+decline <user> <app ID> <reason>",
+  category: "Applications",
+  requiredArgs: 3,
+  aliases: ["declineapplication", "declineapplication", "declineform"],
+
+  execute: async (message, args, bot, prefix) => {
+    const guild = await Guild.findOne({ guildId: message.guild.id });
+
+    if (guild.isPremium === "false") {
+      return message.replyError({
+        title: "Applications",
+        description: `This server is not premium. You can't use this command. \n Check out aeona premium [here](${process.env.domain}/premium).`,
+      });
     }
+
+    let app = await Applications.findOne({ guildID: message.guild.id });
+
+    if (!app) {
+      app = new Applications({
+        guildID: message.guild.id,
+        questions: [],
+        appToggle: false,
+        appLogs: " ",
+      });
+      await app.save();
+      return message.replyError({
+        title: "Applications",
+        description: `It seems that this server has no applications.`,
+      });
+    }
+
     let member = message.mentions.members.last();
 
     if (!member) {
@@ -46,27 +47,12 @@ module.exports = class extends Command {
       }
     }
 
-    let app = await App.findOne({
-      guildID: message.guild.id,
-    });
-
-    if (!app) {
-      app = new App({
-        guildID: message.guild.id,
-      });
-
-      await app.save();
-      app = await App.findOne({
-        guildID: message.guild.id,
-      });
-    }
-
     if (!member)
-      return message.channel.send(
-        `${client.emoji.fail} | ${language.approveerrormember}.`
-      );
+      return message.replyError({
+        title: "Applications",
+        description: "You need to mention a user or provide a user ID.",
+      });
 
-    const id = args[1];
     const paste = await Paste.findOne({
       type: "form",
       by: member.id,
@@ -74,57 +60,57 @@ module.exports = class extends Command {
     });
 
     if (!paste)
-      return message.channel.send(
-        `${client.emoji.fail} | | ${language.approvenotfound}.`
-      );
+      return message.replyError({
+        title: "Applications",
+        description: "I am unable to find that user's application",
+      });
 
     let reason = args.slice(2).join(" ");
-    if (!reason) reason = `${language.noReasonProvided}`;
+
+    if (!reason) reason = "No reason provided";
     if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
     if (paste.status === "approved")
-      return message.channel.send(
-        `${client.emoji.fail} | ${language.approveapplicationapproved}`
-      );
+      return message.replyError({
+        title: "Applications",
+        description: `That user's application has already been approved.`,
+      });
+
     if (paste.status === "declined")
-      return message.channel.send(
-        `${client.emoji.fail} | ${language.approveapplicationdeclined}`
-      );
+      return message.replyError({
+        title: "Applications",
+        description: `That user's application has already been denied.`,
+      });
 
-    (paste.status = "declined"), await paste.save().catch(() => {});
+    let channel = await bot.channels.fetch(app.appLogs).catch();
+    const add_role = message.guild.roles.cache.get(app.add_role);
 
-    const rem_role = message.guild.roles.cache.get(app.remove_role);
-    if (rem_role) {
-      await member.roles.remove(rem_role).catch(() => {});
+    if (add_role) {
+      await member.roles.add(add_role).catch(console.error);
     }
-    message.channel.send({
-      embeds: [
-        new discord.MessageEmbed()
-          .setColor(message.client.color.green)
-          .setTitle(language.declinedeclined)
-          .setDescription(
-            `${client.emoji.success} | ${language.declinedeclineddescription} ${id}\n**Declined by:** ${message.author.tag}\n**Reason:** ${reason}`
-          ),
-      ],
+
+    paste.status = "declined";
+
+    message.reply({
+      title: "Applications",
+      description: `${member} has been Declined. \n **Declined by:** ${message.member} \n **Reason:** ${reason}`,
     });
 
-    if (app.dm === true) {
+    if (channel) {
+      channel.send({
+        title: "Applications",
+        description: `${member} has been Declined. \n **Declined by:** ${message.member} \n **Reason:** ${reason}`,
+      });
+    }
+
+    await paste.save();
+
+    if (app.dm === true)
       member
         .send({
-          embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.client.color.red)
-            .setTitle(language.declinedeclined)
-            .setDescription(
-              `${client.emoji.fail} Hey ${member.user.tag}, ${language.declinedeclineddescriptionmember} ${id}\n**Declined by:** ${message.author.tag}\n**Reason:** ${reason}`
-            )
-          ]}
-        )
-        .catch(() => {
-          message.channel.send(
-            `Never Mind... I was able to decline the application but couldn't dm ${member.user.tag} since their DMs are closed.'`
-          );
-        });
-    }
-  }
+          title: "Applications",
+          description: `Your application has been Declined. \n **Approved by:** ${message.member} \n **Reason:** ${reason}`,
+        })
+        .catch(console.error);
+  },
 };

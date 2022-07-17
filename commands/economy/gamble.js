@@ -1,24 +1,19 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-const numberParse = require("../../packages/numberparse");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "gamble",
-      description: "Gamble your money and try winning big!",
-      category: "economy",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
 
+module.exports = {
+  name: "gamble",
+  description: "Gamble your money",
+  usage: "+gamble [amount](optional)",
+  category: "economy",
+  requiredArgs: 0,
+  aliases: ["bj", "blackjack"],
+  execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
     if (profile.passive) {
-      util.error({
+      message.replyError({
         msg: message,
         title: "You can't use this command while passive.",
       });
@@ -29,29 +24,32 @@ module.exports = class extends Command {
     if (!amount) amount = 10000;
     if (typeof amount == "string") {
       if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all") {
-        amount = profile.money.wallet;
+        amount = profile.coinsInWallet;
       }
     }
+
+    if (!Number.isFinite(amount) || Number.isNaN(amount) || amount < 1)
+      return message.replyError({ msg: message, title: "Invalid amount!" });
     if (isNaN(amount)) {
-      util.error({
+      message.replyError({
         msg: message,
         title: "Invalid amount.",
       });
       return;
     }
-    if (amount > profile.money.wallet) {
-      util.error({
+    if (amount > profile.coinsInWallet) {
+      message.replyError({
         msg: message,
         title: "You don't have enough money.",
         description: `You need ${(
-          amount - profile.money.wallet
+          amount - profile.coinsInWallet
         ).toLocaleString()} more credits.`,
       });
       return;
     }
 
     if (profile.passive) {
-      util.error({
+      message.replyError({
         msg: message,
         title: "You can't use this command while passive.",
       });
@@ -94,30 +92,29 @@ module.exports = class extends Command {
 
     if (botRoll < userChoice) {
       let winnings = amount + Math.floor(amount * 0.5);
-      profile.money.wallet += winnings;
-      util.success({
+      profile.coinsInWallet += winnings;
+      message.reply({
         msg: message,
         title: "You won!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ${winnings.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ⌭ ${winnings.toLocaleString()}!`,
       });
     } else if (botRoll == userChoice) {
       let winnings = amount / 2;
-      profile.money.wallet += winnings;
-      util.success({
+      profile.coinsInWallet += winnings;
+      message.reply({
         msg: message,
         title: "You won!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ${winnings.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You won ⌭ ${winnings.toLocaleString()}!`,
       });
     } else {
-      profile.money.wallet -= amount;
-      util.error({
+      profile.coinsInWallet -= amount;
+      message.replyError({
         msg: message,
         title: "You lost!",
-        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You lost ${amount.toLocaleString()} credits!`,
+        description: `You rolled a ${userChoice} and the bot rolled a ${botRoll}. You lost ⌭ ${amount.toLocaleString()}!`,
       });
     }
 
-
     await profile.save();
-  }
+  },
 };

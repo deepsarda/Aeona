@@ -1,33 +1,33 @@
-const Command = require("../../structures/Command");
 const Discord = require("discord.js");
-const Utils = require("../../structures/Utils");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "passive",
-      description: "Toggle your passive.",
-      category: "economy",
-      cooldown: 60 * 15,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    let util = new Utils(message, this);
+const numberParse = require("../../utils/numberParse");
+const randint = require("../../utils/randint");
+module.exports = {
+  name: "passive",
+  description: "toggle passive mode",
+  category: "economy",
+  usage: "+passive",
+  requiredArgs: 0,
+  aliases: [],
+  cooldown: 10 * 60,
+  execute: async (message, args, bot, prefix) => {
     let user = message.member;
     let profile = await bot.economy.getConfig(user);
+
     if (profile.passive) {
       profile.passive = false;
-      util.success({
+      message.reply({
         msg: message,
-        title: "You are no longer passive.",
+        title: "You are no longer passive!",
+        description: `**PASSIVE Mode** was successfully disabled for ${user.displayName}!`,
       });
     } else {
       profile.passive = true;
-      util.success({
+      message.reply({
         msg: message,
-        title: "You are now passive.",
+        title: "You are now passive!",
+        description: `**PASSIVE Mode** was successfully enabled for ${user.displayName}!`,
       });
     }
     await profile.save();
-  }
+  },
 };

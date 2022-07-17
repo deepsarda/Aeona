@@ -1,52 +1,34 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild");
 const customCommand = require("../../database/schemas/customCommand.js");
 let rgx =
   /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
 let embedstarted = new Set();
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "embed",
-      aliases: ["embedify", "embedbuilder"],
-      description: `Make a custom embed builder with Aeona!`,
-      category: "Utility",
-      guildOnly: true,
-      cooldown: 5,
-      userPermission: ["MANAGE_MESSAGES"],
-    });
-  }
-
-  async run(message, args, bot,prefix='+' ) {
-    let channel = message.mentions.channels.first();
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    
+const { MessageEmbed } = require("discord.js");
+module.exports = {
+  name: "embed",
+  description: "Create an embed",
+  usage: "+embed ",
+  category: "utility",
+  requiredArgs: 0,
+  execute: async (message, args, bot, prefix) => {
     if (embedstarted.has(message.author.id))
-      return message.channel
-        .send(
-          new MessageEmbed()
-            .setDescription(`${message.client.emoji.fail} ${language.embedd1} `)
-            .setColor(message.guild.me.displayHexColor)
-        )
+      return message
+        .replyError({
+          title: "EMBEDS",
+          description: "You already have an Embed Builder running.",
+        })
         .catch(() => {});
-    message.channel
-      .send(
-        new MessageEmbed()
-          .setDescription(
-            `${message.client.emoji.success} ${language.embedd2} `
-          )
-          .setColor(message.guild.me.displayHexColor)
-      )
+    message
+      .replyError({
+        title: "EMBEDS",
+        description:
+          "Starting Embed Builder. \n Type `start` to start the Embed Builder.",
+      })
       .catch(() => {});
 
     message.channel
-      .awaitMessages((m) => m.author.id == message.author.id, {
+      .awaitMessages({
+        filter: (m) => m.author.id == message.author.id,
         max: 1,
         time: 30000,
       })
@@ -54,9 +36,14 @@ module.exports = class extends Command {
         if (collected.first().content.toLowerCase() == "start") {
           embedstarted.add(message.author.id);
           message.delete();
-          message.channel.send(`${language.embedd3}`).catch(() => {});
           message.channel
-            .awaitMessages((m) => m.author.id == message.author.id, {
+            .send(
+              "Enter a **title** `limit: 256 characters` **[type cancel to cancel the process]**"
+            )
+            .catch(() => {});
+          message.channel
+            .awaitMessages({
+              filter: (m) => m.author.id == message.author.id,
               max: 1,
               time: 30000,
             })
@@ -65,17 +52,21 @@ module.exports = class extends Command {
               if (collected.first().content.length < 255) {
                 if (collected.first().content == "cancel")
                   return (
-                    message.channel.send(
-                      new MessageEmbed()
-                        .setDescription(
-                          `${message.client.emoji.fail} ${language.embed15} `
-                        )
-                        .setColor(message.guild.me.displayHexColor)
-                    ) + embedstarted.delete(message.author.id)
+                    message
+                      .replyError({
+                        title: "EMBEDS",
+                        description: "Embed Builder cancelled.",
+                      })
+                      .catch(() => {}) + embedstarted.delete(message.author.id)
                   );
-                message.channel.send(`${language.embedd4}`).catch(() => {});
                 message.channel
-                  .awaitMessages((m) => m.author.id == message.author.id, {
+                  .send(
+                    "Enter a **description** `limit: 2048 characters`  **[type cancel to cancel the process]**"
+                  )
+                  .catch(() => {});
+                message.channel
+                  .awaitMessages({
+                    filter: (m) => m.author.id == message.author.id,
                     max: 1,
                     time: 30000,
                   })
@@ -83,27 +74,27 @@ module.exports = class extends Command {
                     if (collected.first().content.length < 2048) {
                       if (collected.first().content == "cancel")
                         return (
-                          message.channel.send(
-                            new MessageEmbed()
-                              .setDescription(
-                                `${message.client.emoji.fail} ${language.embed15} `
-                              )
-                              .setColor(message.guild.me.displayHexColor)
-                          ) + embedstarted.delete(message.author.id)
+                          message
+                            .replyError({
+                              title: "EMBEDS",
+                              description: "Embed Builder cancelled.",
+                            })
+                            .catch(() => {}) +
+                          embedstarted.delete(message.author.id)
                         );
 
                       let description = collected.first().content;
                       message.channel
-                        .send(`${language.embedd5}`)
+                        .send(
+                          "Enter a **color hex** `format: #000000`.\nType `Default` to use the bot's default color!\n\n**[type cancel to cancel the process]**"
+                        )
                         .catch(() => {});
                       message.channel
-                        .awaitMessages(
-                          (m) => m.author.id == message.author.id,
-                          {
-                            max: 1,
-                            time: 30000,
-                          }
-                        )
+                        .awaitMessages({
+                          filter: (m) => m.author.id == message.author.id,
+                          max: 1,
+                          time: 30000,
+                        })
                         .then((collected) => {
                           if (
                             collected.first().content.length < 8 ||
@@ -111,13 +102,13 @@ module.exports = class extends Command {
                           ) {
                             if (collected.first().content == "cancel")
                               return (
-                                message.channel.send(
-                                  new MessageEmbed()
-                                    .setDescription(
-                                      `${message.client.emoji.fail} ${language.embed15} `
-                                    )
-                                    .setColor(message.guild.me.displayHexColor)
-                                ) + embedstarted.delete(message.author.id)
+                                message
+                                  .replyError({
+                                    title: "EMBEDS",
+                                    description: "Embed Builder cancelled.",
+                                  })
+                                  .catch(() => {}) +
+                                embedstarted.delete(message.author.id)
                               );
 
                             let color = collected.first().content;
@@ -128,14 +119,17 @@ module.exports = class extends Command {
                               color = `default`;
 
                             message.channel
-                              .send(`${language.embedd6}`)
+                              .send(
+                                "Enter a `thumbnail URL` for your embed **(OPTIONAL)**. Type `none` to skip this step.\n**[type cancel to cancel the process]**"
+                              )
                               .catch(() => {});
 
                             message.channel
-                              .awaitMessages(
-                                (m) => m.author.id == message.author.id,
-                                { max: 1, time: 30000 }
-                              )
+                              .awaitMessages({
+                                filter: (m) => m.author.id == message.author.id,
+                                max: 1,
+                                time: 30000,
+                              })
                               .then((collected) => {
                                 if (
                                   rgx.test(collected.first().content) ||
@@ -146,14 +140,18 @@ module.exports = class extends Command {
                                     .first()
                                     .content.toLowerCase();
                                   message.channel
-                                    .send(`${language.embedd7}`)
+                                    .send(
+                                      "Enter a image URL for your embed **(OPTIONAL)**. Type `none` to skip this step. \n*Only valid image URLs will work*\n\n**[type cancel to cancel the process]**"
+                                    )
                                     .catch(() => {});
 
                                   message.channel
-                                    .awaitMessages(
-                                      (m) => m.author.id == message.author.id,
-                                      { max: 1, time: 30000 }
-                                    )
+                                    .awaitMessages({
+                                      filter: (m) =>
+                                        m.author.id == message.author.id,
+                                      max: 1,
+                                      time: 30000,
+                                    })
                                     .then((collected) => {
                                       if (
                                         rgx.test(collected.first().content) ||
@@ -166,15 +164,18 @@ module.exports = class extends Command {
                                           .content.toLowerCase();
 
                                         message.channel
-                                          .send(`${language.embedd8}`)
+                                          .send(
+                                            "Enter a footer for your embed **(OPTIONAL)**. Type `none` to skip this step.  \n**[type cancel to cancel the process]**"
+                                          )
                                           .catch(() => {});
 
                                         message.channel
-                                          .awaitMessages(
-                                            (m) =>
+                                          .awaitMessages({
+                                            filter: (m) =>
                                               m.author.id == message.author.id,
-                                            { max: 1, time: 30000 }
-                                          )
+                                            max: 1,
+                                            time: 30000,
+                                          })
                                           .then((collected) => {
                                             if (
                                               collected.first().content.length <
@@ -188,16 +189,13 @@ module.exports = class extends Command {
                                                 "cancel"
                                               )
                                                 return (
-                                                  message.channel.send(
-                                                    new MessageEmbed()
-                                                      .setDescription(
-                                                        `${message.client.emoji.fail} ${language.embed15} `
-                                                      )
-                                                      .setColor(
-                                                        message.guild.me
-                                                          .displayHexColor
-                                                      )
-                                                  ) +
+                                                  message
+                                                    .replyError({
+                                                      title: "EMBEDS",
+                                                      description:
+                                                        "Embed Builder cancelled.",
+                                                    })
+                                                    .catch(() => {}) +
                                                   embedstarted.delete(
                                                     message.author.id
                                                   )
@@ -217,15 +215,16 @@ module.exports = class extends Command {
                                                 footer = `none`;
 
                                               message.channel.send(
-                                                `${language.embedd9}`
+                                                "Would you like to have a timestamp in the embed? <yes / no>  \n**[type cancel to cancel the process]**"
                                               );
                                               message.channel
-                                                .awaitMessages(
-                                                  (m) =>
+                                                .awaitMessages({
+                                                  filter: (m) =>
                                                     m.author.id ==
                                                     message.author.id,
-                                                  { max: 1, time: 30000 }
-                                                )
+                                                  max: 1,
+                                                  time: 30000,
+                                                })
                                                 .then((collected) => {
                                                   if (
                                                     collected
@@ -242,16 +241,13 @@ module.exports = class extends Command {
                                                         .content == "cancel"
                                                     )
                                                       return (
-                                                        message.channel.send(
-                                                          new MessageEmbed()
-                                                            .setDescription(
-                                                              `${message.client.emoji.fail} ${language.embed15} `
-                                                            )
-                                                            .setColor(
-                                                              message.guild.me
-                                                                .displayHexColor
-                                                            )
-                                                        ) +
+                                                        message
+                                                          .replyError({
+                                                            title: "EMBEDS",
+                                                            description:
+                                                              "Embed Builder cancelled.",
+                                                          })
+                                                          .catch(() => {}) +
                                                         embedstarted.delete(
                                                           message.author.id
                                                         )
@@ -269,16 +265,17 @@ module.exports = class extends Command {
                                                     //here
                                                     message.channel
                                                       .send(
-                                                        `${language.embedd10}`
+                                                        "Would you like to save the embed as a `Custom Command?` <yes / no>  \n**[type cancel to cancel the process]**"
                                                       )
                                                       .catch(() => {});
                                                     message.channel
-                                                      .awaitMessages(
-                                                        (m) =>
+                                                      .awaitMessages({
+                                                        filter: (m) =>
                                                           m.author.id ==
                                                           message.author.id,
-                                                        { max: 1, time: 30000 }
-                                                      )
+                                                        max: 1,
+                                                        time: 30000,
+                                                      })
                                                       .then((collected) => {
                                                         if (
                                                           collected
@@ -295,23 +292,17 @@ module.exports = class extends Command {
                                                               .content ==
                                                             "cancel"
                                                           )
-                                                            return (
-                                                              message.channel.send(
-                                                                new MessageEmbed()
-                                                                  .setDescription(
-                                                                    `${message.client.emoji.fail} ${language.embed15} `
-                                                                  )
-                                                                  .setColor(
-                                                                    message
-                                                                      .guild.me
-                                                                      .displayHexColor
-                                                                  )
-                                                              ) +
+                                                            message
+                                                              .replyError({
+                                                                title: "EMBEDS",
+                                                                description:
+                                                                  "Embed Builder cancelled.",
+                                                              })
+                                                              .catch(() => {}) +
                                                               embedstarted.delete(
                                                                 message.author
                                                                   .id
-                                                              )
-                                                            );
+                                                              );
 
                                                           if (
                                                             collected
@@ -321,22 +312,20 @@ module.exports = class extends Command {
                                                           ) {
                                                             message.channel
                                                               .send(
-                                                                `${language.embedd11}`
+                                                                "What would you like to name your custom command?  `[Max: 30 characters / 1 word]`\n  **[type cancel to cancel the process]**"
                                                               )
                                                               .catch(() => {});
                                                             //   do stuff
 
                                                             message.channel
-                                                              .awaitMessages(
-                                                                (m) =>
+                                                              .awaitMessages({
+                                                                filter: (m) =>
                                                                   m.author.id ==
                                                                   message.author
                                                                     .id,
-                                                                {
-                                                                  max: 1,
-                                                                  time: 30000,
-                                                                }
-                                                              )
+                                                                max: 1,
+                                                                time: 30000,
+                                                              })
                                                               .then(
                                                                 (collected) => {
                                                                   let argword =
@@ -352,18 +341,18 @@ module.exports = class extends Command {
                                                                     1
                                                                   )
                                                                     return (
-                                                                      message.channel.send(
-                                                                        new MessageEmbed()
-                                                                          .setDescription(
-                                                                            `${message.client.emoji.fail} ${language.embed15} `
-                                                                          )
-                                                                          .setColor(
-                                                                            message
-                                                                              .guild
-                                                                              .me
-                                                                              .displayHexColor
-                                                                          )
-                                                                      ) +
+                                                                      message
+                                                                        .replyError(
+                                                                          {
+                                                                            title:
+                                                                              "EMBEDS",
+                                                                            description:
+                                                                              "Embed Builder cancelled.",
+                                                                          }
+                                                                        )
+                                                                        .catch(
+                                                                          () => {}
+                                                                        ) +
                                                                       embedstarted.delete(
                                                                         message
                                                                           .author
@@ -373,14 +362,11 @@ module.exports = class extends Command {
                                                                   if (
                                                                     this.client.commands.get(
                                                                       argword.toLowerCase()
-                                                                    ) ||
-                                                                    this.client.aliases.get(
-                                                                      argword.toLowerCase()
                                                                     )
                                                                   )
                                                                     return (
                                                                       message.channel.send(
-                                                                        `${language.embedd12}`
+                                                                        `That command is already an existing bot command!`
                                                                       ) +
                                                                       embedstarted.delete(
                                                                         message
@@ -444,34 +430,28 @@ module.exports = class extends Command {
                                                                               .id
                                                                           );
                                                                           message.channel.send(
-                                                                            new MessageEmbed()
-                                                                              .setAuthor(
-                                                                                `${message.author.tag}`,
-                                                                                message.author.displayAvatarURL(
-                                                                                  {
-                                                                                    dynamic: true,
-                                                                                  }
-                                                                                )
-                                                                              )
-                                                                              .setDescription(
-                                                                                `${language.embedd13} \`${prefix}${name}\``
-                                                                              )
-                                                                              .setTimestamp()
-                                                                              .setFooter(
-                                                                                "https://Aeona.xyz"
-                                                                              )
-                                                                              .setColor(
-                                                                                message
-                                                                                  .guild
-                                                                                  .me
-                                                                                  .displayHexColor
-                                                                              )
+                                                                            {
+                                                                              title:
+                                                                                "EMBEDS",
+                                                                              description:
+                                                                                "I have created your custom command! Usage:" +
+                                                                                `\`${prefix}${name}\``,
+                                                                            }
                                                                           );
                                                                         } else {
                                                                           return (
-                                                                            message.channel.send(
-                                                                              `${message.client.emoji.fail} ${language.embedd14}`
-                                                                            ) +
+                                                                            message
+                                                                              .replyError(
+                                                                                {
+                                                                                  title:
+                                                                                    "EMBEDS",
+                                                                                  description:
+                                                                                    "It is already a custom command!",
+                                                                                }
+                                                                              )
+                                                                              .catch(
+                                                                                () => {}
+                                                                              ) +
                                                                             embedstarted.delete(
                                                                               message
                                                                                 .author
@@ -484,18 +464,18 @@ module.exports = class extends Command {
 
                                                                     return;
                                                                   } else
-                                                                    message.channel.send(
-                                                                      new MessageEmbed()
-                                                                        .setDescription(
-                                                                          `${message.client.emoji.fail} ${language.embed15} `
-                                                                        )
-                                                                        .setColor(
-                                                                          message
-                                                                            .guild
-                                                                            .me
-                                                                            .displayHexColor
-                                                                        )
-                                                                    ) +
+                                                                    message
+                                                                      .replyError(
+                                                                        {
+                                                                          title:
+                                                                            "EMBEDS",
+                                                                          description:
+                                                                            "Embed Builder cancelled.",
+                                                                        }
+                                                                      )
+                                                                      .catch(
+                                                                        () => {}
+                                                                      ) +
                                                                       embedstarted.delete(
                                                                         message
                                                                           .author
@@ -504,18 +484,16 @@ module.exports = class extends Command {
                                                                 }
                                                               )
                                                               .catch(() => {
-                                                                message.channel.send(
-                                                                  new MessageEmbed()
-                                                                    .setDescription(
-                                                                      `${message.client.emoji.fail} ${language.embedd16} `
-                                                                    )
-                                                                    .setColor(
-                                                                      message
-                                                                        .guild
-                                                                        .me
-                                                                        .displayHexColor
-                                                                    )
-                                                                ) +
+                                                                message
+                                                                  .replyError({
+                                                                    title:
+                                                                      "EMBEDS",
+                                                                    description:
+                                                                      "30 seconds have passed, Embed Builder cancelled.",
+                                                                  })
+                                                                  .catch(
+                                                                    () => {}
+                                                                  ) +
                                                                   embedstarted.delete(
                                                                     message
                                                                       .author.id
@@ -524,21 +502,19 @@ module.exports = class extends Command {
                                                           } else {
                                                             message.channel
                                                               .send(
-                                                                `${language.embedd17}`
+                                                                "Finally, please **mention** the channel you would like to send the embed to!  \n**[type cancel to cancel the process]**"
                                                               )
                                                               .catch(() => {});
 
                                                             message.channel
-                                                              .awaitMessages(
-                                                                (m) =>
+                                                              .awaitMessages({
+                                                                filter: (m) =>
                                                                   m.author.id ==
                                                                   message.author
                                                                     .id,
-                                                                {
-                                                                  max: 1,
-                                                                  time: 30000,
-                                                                }
-                                                              )
+                                                                max: 1,
+                                                                time: 30000,
+                                                              })
                                                               .then(
                                                                 (collected) => {
                                                                   let channel =
@@ -601,7 +577,12 @@ module.exports = class extends Command {
                                                                         `${color}`
                                                                       );
                                                                     channel.send(
-                                                                      embed
+                                                                      {
+                                                                        embeds:
+                                                                          [
+                                                                            embed,
+                                                                          ],
+                                                                      }
                                                                     );
                                                                     embedstarted.delete(
                                                                       message
@@ -611,18 +592,14 @@ module.exports = class extends Command {
 
                                                                     return;
                                                                   } else
-                                                                    message.channel
-                                                                      .send(
-                                                                        new MessageEmbed()
-                                                                          .setDescription(
-                                                                            `${message.client.emoji.fail} ${language.embed15} `
-                                                                          )
-                                                                          .setColor(
-                                                                            message
-                                                                              .guild
-                                                                              .me
-                                                                              .displayHexColor
-                                                                          )
+                                                                    message
+                                                                      .replyError(
+                                                                        {
+                                                                          title:
+                                                                            "EMBEDS",
+                                                                          description:
+                                                                            "Embed Builder cancelled.",
+                                                                        }
                                                                       )
                                                                       .catch(
                                                                         () => {}
@@ -634,19 +611,13 @@ module.exports = class extends Command {
                                                                 }
                                                               )
                                                               .catch(() => {
-                                                                message.channel
-                                                                  .send(
-                                                                    new MessageEmbed()
-                                                                      .setDescription(
-                                                                        `${message.client.emoji.fail} ${language.embedd16} `
-                                                                      )
-                                                                      .setColor(
-                                                                        message
-                                                                          .guild
-                                                                          .me
-                                                                          .displayHexColor
-                                                                      )
-                                                                  )
+                                                                message
+                                                                  .replyError({
+                                                                    title:
+                                                                      "EMBEDS",
+                                                                    description:
+                                                                      "30 seconds have passed, Embed Builder cancelled.",
+                                                                  })
                                                                   .catch(
                                                                     () => {}
                                                                   );
@@ -657,58 +628,40 @@ module.exports = class extends Command {
                                                               });
                                                           }
                                                         } else
-                                                          message.channel
-                                                            .send(
-                                                              new MessageEmbed()
-                                                                .setDescription(
-                                                                  `${message.client.emoji.fail} ${language.embed15} `
-                                                                )
-                                                                .setColor(
-                                                                  message.guild
-                                                                    .me
-                                                                    .displayHexColor
-                                                                )
-                                                            )
+                                                          message
+                                                            .replyError({
+                                                              title: "EMBEDS",
+                                                              description:
+                                                                "Embed Builder cancelled.",
+                                                            })
+                                                            .catch(() => {})
                                                             .catch(() => {});
                                                       })
                                                       .catch(() => {
-                                                        message.channel.send(
-                                                          new MessageEmbed()
-                                                            .setDescription(
-                                                              `${message.client.emoji.fail} ${language.embedd16} `
-                                                            )
-                                                            .setColor(
-                                                              message.guild.me
-                                                                .displayHexColor
-                                                            )
-                                                        );
+                                                        message
+                                                          .replyError({
+                                                            title: "EMBEDS",
+                                                            description:
+                                                              "30 seconds have passed, Embed Builder cancelled.",
+                                                          })
+                                                          .catch(() => {});
                                                       });
                                                   } else
-                                                    message.channel
-                                                      .send(
-                                                        new MessageEmbed()
-                                                          .setDescription(
-                                                            `${message.client.emoji.fail} ${language.embed15} `
-                                                          )
-                                                          .setColor(
-                                                            message.guild.me
-                                                              .displayHexColor
-                                                          )
-                                                      )
+                                                    message
+                                                      .replyError({
+                                                        title: "EMBEDS",
+                                                        description:
+                                                          "Embed Builder cancelled.",
+                                                      })
                                                       .catch(() => {});
                                                 })
                                                 .catch(() => {
-                                                  message.channel
-                                                    .send(
-                                                      new MessageEmbed()
-                                                        .setDescription(
-                                                          `${message.client.emoji.fail} ${language.embedd16} `
-                                                        )
-                                                        .setColor(
-                                                          message.guild.me
-                                                            .displayHexColor
-                                                        )
-                                                    )
+                                                  message
+                                                    .replyError({
+                                                      title: "EMBEDS",
+                                                      description:
+                                                        "30 seconds have passed, Embed Builder cancelled.",
+                                                    })
                                                     .catch(() => {});
                                                   embedstarted.delete(
                                                     message.author.id
@@ -717,34 +670,24 @@ module.exports = class extends Command {
 
                                               return;
                                             } else
-                                              message.channel
-                                                .send(
-                                                  new MessageEmbed()
-                                                    .setDescription(
-                                                      `${message.client.emoji.fail} ${language.embed15}`
-                                                    )
-                                                    .setColor(
-                                                      message.guild.me
-                                                        .displayHexColor
-                                                    )
-                                                )
+                                              message
+                                                .replyError({
+                                                  title: "EMBEDS",
+                                                  description:
+                                                    "Embed Builder cancelled.",
+                                                })
                                                 .catch(() => {});
                                             embedstarted.delete(
                                               message.author.id
                                             );
                                           })
                                           .catch(() => {
-                                            message.channel
-                                              .send(
-                                                new MessageEmbed()
-                                                  .setDescription(
-                                                    `${message.client.emoji.fail} ${language.embedd16} `
-                                                  )
-                                                  .setColor(
-                                                    message.guild.me
-                                                      .displayHexColor
-                                                  )
-                                              )
+                                            message
+                                              .replyError({
+                                                title: "EMBEDS",
+                                                description:
+                                                  "30 seconds have passed, Embed Builder cancelled.",
+                                              })
                                               .catch(() => {});
                                             embedstarted.delete(
                                               message.author.id
@@ -752,112 +695,85 @@ module.exports = class extends Command {
                                           });
                                         return;
                                       } else
-                                        message.channel
-                                          .send(
-                                            new MessageEmbed()
-                                              .setDescription(
-                                                `${message.client.emoji.fail} ${language.embed15} `
-                                              )
-                                              .setColor(
-                                                message.guild.me.displayHexColor
-                                              )
-                                          )
+                                        message
+                                          .replyError({
+                                            title: "EMBEDS",
+                                            description:
+                                              "Embed Builder cancelled.",
+                                          })
                                           .catch(() => {});
                                       embedstarted.delete(message.author.id);
                                     })
                                     .catch(() => {
-                                      message.channel
-                                        .send(
-                                          new MessageEmbed()
-                                            .setDescription(
-                                              `${message.client.emoji.fail} ${language.embedd16} `
-                                            )
-                                            .setColor(
-                                              message.guild.me.displayHexColor
-                                            )
-                                        )
+                                      message
+                                        .replyError({
+                                          title: "EMBEDS",
+                                          description:
+                                            "30 seconds have passed, Embed Builder cancelled.",
+                                        })
                                         .catch(() => {});
                                       embedstarted.delete(message.author.id);
                                     });
 
                                   return;
                                 } else
-                                  message.channel
-                                    .send(
-                                      new MessageEmbed()
-                                        .setDescription(
-                                          `${message.client.emoji.fail} ${language.embed15} `
-                                        )
-                                        .setColor(
-                                          message.guild.me.displayHexColor
-                                        )
-                                    )
+                                  message
+                                    .replyError({
+                                      title: "EMBEDS",
+                                      description: "Embed Builder cancelled.",
+                                    })
                                     .catch(() => {});
                                 embedstarted.delete(message.author.id);
                               })
                               .catch(() => {
-                                message.channel
-                                  .send(
-                                    new MessageEmbed()
-                                      .setDescription(
-                                        `${message.client.emoji.fail} ${language.embedd16}`
-                                      )
-                                      .setColor(
-                                        message.guild.me.displayHexColor
-                                      )
-                                  )
+                                message
+                                  .replyError({
+                                    title: "EMBEDS",
+                                    description:
+                                      "30 seconds have passed, Embed Builder cancelled.",
+                                  })
                                   .catch(() => {});
                                 embedstarted.delete(message.author.id);
                               });
 
                             return;
                           } else
-                            message.channel
-                              .send(
-                                new MessageEmbed()
-                                  .setDescription(
-                                    `${message.client.emoji.fail} ${language.embed15} `
-                                  )
-                                  .setColor(message.guild.me.displayHexColor)
-                              )
+                            message
+                              .replyError({
+                                title: "EMBEDS",
+                                description: "Embed Builder cancelled.",
+                              })
                               .catch(() => {});
                           embedstarted.delete(message.author.id);
                         })
                         .catch(() => {
-                          message.channel
-                            .send(
-                              new MessageEmbed()
-                                .setDescription(
-                                  `${message.client.emoji.fail} ${language.embedd16} `
-                                )
-                                .setColor(message.guild.me.displayHexColor)
-                            )
+                          message
+                            .replyError({
+                              title: "EMBEDS",
+                              description:
+                                "30 seconds have passed, Embed Builder cancelled.",
+                            })
                             .catch(() => {});
                           embedstarted.delete(message.author.id);
                         });
 
                       return;
                     } else
-                      message.channel
-                        .send(
-                          new MessageEmbed()
-                            .setDescription(
-                              `${message.client.emoji.fail} ${language.embed15} `
-                            )
-                            .setColor(message.guild.me.displayHexColor)
-                        )
+                      message
+                        .replyError({
+                          title: "EMBEDS",
+                          description: "Embed Builder cancelled.",
+                        })
                         .catch(() => {});
                     embedstarted.delete(message.author.id);
                   })
                   .catch(() => {
-                    message.channel
-                      .send(
-                        new MessageEmbed()
-                          .setDescription(
-                            `${message.client.emoji.fail} ${language.embedd16}d `
-                          )
-                          .setColor(message.guild.me.displayHexColor)
-                      )
+                    message
+                      .replyError({
+                        title: "EMBEDS",
+                        description:
+                          "30 seconds have passed, Embed Builder cancelled.",
+                      })
                       .catch(() => {});
                     embedstarted.delete(message.author.id);
                   });
@@ -867,40 +783,34 @@ module.exports = class extends Command {
               embedstarted.delete(message.author.id);
             })
             .catch(() => {
-              message.channel
-                .send(
-                  new MessageEmbed()
-                    .setDescription(
-                      `${message.client.emoji.fail} ${language.embedd16} `
-                    )
-                    .setColor(message.guild.me.displayHexColor)
-                )
+              message
+                .replyError({
+                  title: "EMBEDS",
+                  description:
+                    "30 seconds have passed, Embed Builder cancelled.",
+                })
                 .catch(() => {});
               embedstarted.delete(message.author.id);
             });
 
           return;
         } else message.delete();
-        message.channel
-          .send(
-            new MessageEmbed()
-              .setDescription(
-                `${message.client.emoji.fail} ${language.embed15} `
-              )
-              .setColor(message.guild.me.displayHexColor)
-          )
+        message
+          .replyError({
+            title: "EMBEDS",
+            description: "Embed Builder cancelled.",
+          })
           .catch(() => {});
         embedstarted.delete(message.author.id);
       })
       .catch(() => {
-        message.channel.send(
-          new MessageEmbed()
-            .setDescription(
-              `${message.client.emoji.fail} ${language.embedd16} `
-            )
-            .setColor(message.guild.me.displayHexColor)
-        );
+        message
+          .replyError({
+            title: "EMBEDS",
+            description: "30 seconds have passed, Embed Builder cancelled.",
+          })
+          .catch(() => {});
         embedstarted.delete(message.author.id);
       });
-  }
+  },
 };

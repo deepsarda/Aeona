@@ -1,175 +1,56 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
-const mongoose = require("mongoose");
-const ms = require("ms");
-const muteModel = require("../../models/mute");
-const discord = require("discord.js");
 const Logging = require("../../database/schemas/logging.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "unmute",
-      aliases: ["unm", "um"],
-      description: "UnMute the specified user from the guild",
-      category: "Moderation",
-      usage: "<user> [reason]",
-      examples: ["unmute @Peter "],
-      guildOnly: true,
-      botPermission: ["MANAGE_ROLES"],
-      userPermission: ["MANAGE_ROLES"],
-    });
-  }
+const { MessageEmbed } = require("discord.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    let client = message.client;
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-          const newGuild = new Guild({
-            _id: mongoose.Types.ObjectId(),
-            guildId: message.guild.id,
-            guildName: message.guild.name,
-            prefix: client.config.prefix,
-            language: "english",
-          });
-
-          newGuild
-            .save()
-            .then((result) => console.log(result))
-            .catch((err) => console.error(err));
-
-          return message.channel
-            .send(
-              "This server was not in our database! We have added it, please retype this command."
-            )
-            .then((m) => m.delete({ timeout: 10000 }));
-        }
-      }
-    );
-
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
-    const logging = await Logging.findOne({ guildId: message.guild.id });
-    const mentionedMember =
+module.exports = {
+  name: "unmute",
+  description: "Unmutes the specified user",
+  usage: "+unmute <user> [reason]",
+  category: "moderation",
+  requiredArgs: 1,
+  permissions: ["MODERATE_MEMBERS"],
+  botPermissions: ["MODERATE_MEMBERS"],
+  execute: async (message, args, bot, prefix) => {
+    let logging = await Logging.findOne({ guildId: message.guild.id });
+    let mentionedMember =
       message.mentions.members.last() ||
       message.guild.members.cache.get(args[0]);
 
-    const muteRole = message.guild.roles.cache.find((r) => r.name == "Muted");
-
-    if (!mentionedMember) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setDescription(`${client.emoji.fail} | ${language.unmuteNoUser}`)
-            .setColor(client.color.red),
-        ],
+    if (!mentionedMember)
+      return message.replyError({
+        title: "Mute",
+        description: "Please provide a user to mute.",
       });
-    } else if (!muteRole) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setDescription(
-              `${client.emoji.fail} | ${language.unmuteNoMutedRole}`
-            )
-            .setColor(client.color.red),
-        ],
-      });
-    }
 
-    const muteDoc = await muteModel.findOne({
-      guildID: message.guild.id,
-      memberID: mentionedMember.user.id,
-    });
-
-    if (!muteDoc) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setDescription(`${client.emoji.fail} | ${language.unmuteNotMuted}`)
-            .setColor(client.color.red),
-        ],
-      });
-    } else if (
-      mentionedMember.roles.highest.potision >=
-      message.guild.me.roles.highest.potision
+    if (
+      mentionedMember.roles.highest.position >=
+      message.guild.me.roles.highest.position
     ) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setDescription(
-              `${client.emoji.fail} | ${language.unmuteUserRoleHigher}`
-            )
-            .setColor(client.color.red),
-        ],
-      });
-    } else if (muteRole.potision >= message.guild.me.roles.highest.potision) {
-      return message.channel.send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setDescription(
-              `${client.emoji.fail} | ${language.unmuteRolePosition}`
-            )
-            .setColor(client.color.red),
-        ],
+      return message.replyError({
+        title: "Mute",
+        description:
+          "I cannot mute a user with a role higher than my highest role.",
       });
     }
 
-    mentionedMember.roles
-      .remove(muteRole.id, [
-        `UnMute Command / Responsible User: ${message.author.tag}`,
-      ])
-      .catch(() => {});
+    if (!mentionedMember.moderatable)
+      return message.replyError({
+        title: "Mute",
+        description: "I cannot mute this user.",
+      });
 
-    /*for (const role of muteDoc.memberRoles) {
-  mentionedMember.roles.add(role).catch(err => console.log(err))
-}*/
-    let delaynumber = 2000;
-    if (muteDoc.memberRoles.length > 10) delaynumber = 4000;
-    if (muteDoc.memberRoles.length > 20) delaynumber = 8000;
-    if (muteDoc.memberRoles.length > 30) delaynumber = 10000;
-    if (muteDoc.memberRoles.length > 40) delaynumber = 12000;
+    let reason = args.slice(1).join(" ");
+    if (!reason) reason = `No reason provided.`;
+    if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
 
-    if (logging && logging.moderation.remove_roles === "true") {
-      for (const role of muteDoc.memberRoles) {
-        const roleM = await message.guild.roles.cache.get(role);
-        if (roleM) {
-          await mentionedMember.roles
-            .add(roleM, [
-              `Unmute Command / Responsible user: ${message.author.tag}`,
-            ])
-            .catch(() => {});
-
-          await delay(delaynumber);
-        }
-      }
-    }
-
-    await muteDoc.deleteOne();
-
-    const reason = args.slice(1).join(" ") || language.unbanNoReason;
+    await mentionedMember.timeout(
+      null,
+      reason + `/Responsible: ${message.author.tag}`
+    );
 
     message.channel
       .send({
-        embeds: [
-          new discord.MessageEmbed()
-            .setColor(message.client.color.green)
-            .setDescription(
-              `${message.client.emoji.success} | Unmuted **${
-                mentionedMember.user.tag
-              }** ${
-                logging && logging.moderation.include_reason === "true"
-                  ? `\n\n**Reason:** ${reason}`
-                  : ``
-              }`
-            ),
-        ],
+        title: "Unmute",
+        description: `${mentionedMember} has been unmuted. (${reason})`,
       })
       .then(async (s) => {
         if (logging && logging.moderation.delete_reply === "true") {
@@ -177,8 +58,7 @@ module.exports = class extends Command {
             s.delete().catch(() => {});
           }, 5000);
         }
-      })
-      .catch(() => {});
+      });
 
     if (logging) {
       if (logging.moderation.delete_after_executed === "true") {
@@ -204,7 +84,8 @@ module.exports = class extends Command {
             ) {
               if (logging.moderation.mute == "true") {
                 let color = logging.moderation.color;
-                if (color == "#000000") color = message.client.color.green;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
                 let logcase = logging.moderation.caseN;
                 if (!logcase) logcase = `1`;
@@ -214,13 +95,14 @@ module.exports = class extends Command {
                     `Action: \`UnMute\` | ${mentionedMember.user.tag} | Case #${logcase}`,
                     mentionedMember.user.displayAvatarURL({ format: "png" })
                   )
-                  .addField("User", mentionedMember, true)
-                  .addField("Moderator", message.member, true)
+                  .setDescription(
+                    `**User:** ${mentionedMember}\n **Reason:** ${reason}\n **Responsible Moderator:** ${message.author}`
+                  )
                   .setFooter({ text: `ID: ${mentionedMember.id}` })
                   .setTimestamp()
                   .setColor(color);
 
-                channel.send(logEmbed).catch(() => {});
+                channel.send({ embeds: [logEmbed] }).catch(() => {});
 
                 logging.moderation.caseN = logcase + 1;
                 await logging.save().catch(() => {});
@@ -230,9 +112,5 @@ module.exports = class extends Command {
         }
       }
     }
-  }
+  },
 };
-
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

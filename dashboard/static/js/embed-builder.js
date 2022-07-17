@@ -1,7 +1,7 @@
 // Want to use or contribute to this? https://github.com/Glitchii/embedbuilder
 // If you found an issue, please report it, make a P.R, or use the discussion page. Thanks
 
-let activeFields,
+var activeFields,
   colNum = 1,
   num = 0;
 window.onload = () => {
@@ -1089,7 +1089,7 @@ window.onload = () => {
   update(json);
 
   $(document).on("click", "#save-custom", function (e) {
-    let command = document.getElementById("custom-command").value;
+    var command = document.getElementById("custom-command").value;
     if (!command) return error("provide a custom command!", 4000);
     if (command.length > 30)
       return error("Command length exceeds 30 characters.", 4000);
@@ -1117,7 +1117,7 @@ window.onload = () => {
   });
 
   function Clipboard_CopyTo(value) {
-    let tempInput = document.createElement("input");
+    var tempInput = document.createElement("input");
     tempInput.value = value;
     document.body.appendChild(tempInput);
     tempInput.select();
@@ -1127,18 +1127,18 @@ window.onload = () => {
 
   $(document).ready(function () {
     $(document).on("click", "#copy", function () {
-      let toCopy = JSON.stringify(json);
+      var toCopy = JSON.stringify(json);
       Clipboard_CopyTo(toCopy);
       error("Copied Json!", 4000);
     });
 
     $(document).on("click", "#sendWebhook", function (e) {
-      let webhook = document.getElementById("webhook").value;
+      var webhook = document.getElementById("webhook").value;
       if (!webhook) return error("Provide a valid Webhook", 4000);
       if (document.querySelector(".messageContent.empty+.container.empty"))
         return error(`There's nothing to send.`, 2500);
 
-      let params = {
+      var params = {
         content: json.content,
         embeds: [json.embed],
       };

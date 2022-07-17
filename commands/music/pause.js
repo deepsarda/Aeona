@@ -1,35 +1,45 @@
-const Command = require("../../structures/Command");
+const { MessageEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "pause",
-      aliases: ["stop"],
-      description: "Pause the current song.",
-      category: "Music",
-      cooldown: 3,
-      usage: "",
-    });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    if (!message.client.musicManager.get(message.guild.id))
-      return message.channel.send("🚫 No music is being played!");
-    if (!message.member.voice?.channelId)
-      return message.channel.send("🚫 You need to be in my voice channel!");
-    if (
-      message.member.voice.channelId !==
-      message.client.musicManager.get(message.guild.id).voiceChannel
-    )
-      return message.channel.send("🚫 You're not in the same voice channel!");
+module.exports = {
+  name: "pause",
+  category: "music",
+  description: "Pause the currently playing music",
+  requiredArgs: 0,
+  usage: "+pause",
+  permission: [],
+  dj: true,
 
-    const response = pause(message);
-    message.reply(response);
-  }
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = message.client.manager.get(message.guild.id);
+
+    if (!player.queue.current) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription("There is no music playing.");
+      return message.reply({ embeds: [thing] });
+    }
+
+    const emojipause = client.emoji.pause;
+
+    if (player.paused) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription(`${emojipause} The player is already paused.`)
+        .setTimestamp();
+      return message.reply({ embeds: [thing] });
+    }
+
+    player.pause(true);
+
+    const song = player.queue.current;
+
+    let thing = new MessageEmbed()
+
+      .setTimestamp()
+      .setDescription(`${emojipause} **Paused**\n[${song.title}](${song.uri})`);
+    return message.reply({ embeds: [thing] });
+  },
 };
-function pause({ client, guildId }) {
-  const player = client.musicManager.get(guildId);
-  if (player.paused) return "The player is already paused.";
-
-  player.pause(true);
-  return "⏸️ Paused the music player.";
-}

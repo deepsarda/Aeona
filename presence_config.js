@@ -1,6 +1,6 @@
 module.exports = {
   // Stauts config
-  display_status: "idle", // online | idle | invisible | dnd
+  display_status: "online", // online | idle | invisible | dnd
   options: {
     type: "dynamic", // dynamic | static
   },
@@ -163,5 +163,5 @@ module.exports = {
     "🤕",
     "😴",
     "( ͡° ͜ʖ ͡°)",
-  ], // Smirk is here ;D. Idea by Luna_CatArt#4514. Pls don't ask XD
+  ],
 };

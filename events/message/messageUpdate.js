@@ -1,17 +1,11 @@
-const Event = require("../../structures/Event");
 const { MessageEmbed } = require("discord.js");
 require("moment-duration-format");
 const Logging = require("../../database/schemas/logging");
 const Snipe = require("../../database/schemas/editsnipe");
-const Maintenance = require("../../database/schemas/maintenance");
-module.exports = class extends Event {
-  async run(oldMessage, newMessage) {
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
 
-    if (maintenance && maintenance.toggle == "true") return;
-
+module.exports = {
+  name: "messageUpdate",
+  async execute(client, oldMessage, newMessage) {
     if (newMessage.webhookID) return;
 
     if (
@@ -95,7 +89,7 @@ module.exports = class extends Event {
 
         if (channelEmbed) {
           let color = logging.message_events.color;
-          if (color == "#000000") color = newMessage.client.color.yellow;
+          if (color == "#000000") color = "YELLOW";
 
           if (logging.message_events.deleted == "true") {
             if (oldMessage.content && newMessage.content) {
@@ -140,5 +134,5 @@ module.exports = class extends Event {
         }
       }
     }
-  }
+  },
 };

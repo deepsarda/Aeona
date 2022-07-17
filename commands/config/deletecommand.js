@@ -1,84 +1,36 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
 const customCommand = require("../../database/schemas/customCommand.js");
 const Guild = require("../../database/schemas/Guild");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "deletecommand",
-      description: "Deletes a custom command",
-      category: "Config",
-      userPermission: "MANAGE_MESSAGES",
-      aliases: ["delcommand", "removecommand"],
-      usage: ["<command>"],
-      examples: ["deletecommand Pog"],
-      cooldown: 3,
-      userPermission: ["MANAGE_GUILD"],
-    });
-  }
 
-  async run(message, args, bot,prefix='+' ) {
-    const guildDB = await Guild.findOne({
+module.exports = {
+  name: "deletecommand",
+  description: "Delete a custom command",
+  usage: "+deletecommand <command name>",
+  category: "config",
+  aliases: [],
+  requiredArgs: 1,
+  permission: ["MANAGE_GUILD"],
+  execute: async (message, args, bot, prefix) => {
+    let name = args[0].toLowerCase();
+    let customCommand = await customCommand.findOne({
       guildId: message.guild.id,
+      name: name,
     });
 
-    
+    if (!customCommand)
+      return await message.replyError({
+        title: "Oops!",
+        description:
+          "Looks like there's no custom command with this name!\nPlease retry this command.",
+      });
 
-    const language = require(`../../data/language/${guildDB.language}.json`);
+    await customCommand.deleteOne({
+      guildId: message.guild.id,
+      name: name,
+    });
 
-    const name = args[0].toLowerCase();
-
-    if (!name)
-      return message.channel
-        .send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setDescription(
-                `${language.properusage} \`${prefix}deletecommand <command-name>\`\n\n${language.example} \`${prefix}deletecommand pog\``
-              )
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" }),
-          ],
-        })
-        .setColor(message.guild.me.displayHexColor);
-
-    if (name.length > 30)
-      return message.channel.send(
-        `${message.client.emoji.fail} ${language.cc1}`
-      );
-
-    customCommand.findOne(
-      {
-        guildId: message.guild.id,
-        name,
-      },
-      async (err, data) => {
-        if (data) {
-          data.delete({ guildId: message.guild.id, name });
-          message.channel.send({
-            embeds: [
-              new MessageEmbed()
-                .setColor(message.guild.me.displayHexColor)
-                .setAuthor(
-                  `${message.author.tag}`,
-                  message.author.displayAvatarURL({ dynamic: true })
-                )
-                .setTitle(`${message.client.emoji.success} Delete Command`)
-                .setDescription(`${language.deletecmd1} **${name}**`)
-                .setTimestamp()
-                .setFooter({ text: "https://Aeona.xyz/" }),
-            ],
-          });
-        } else {
-          message.channel.send(
-            `${message.client.emoji.fail} ${language.deletecmd2}`
-          );
-        }
-      }
-    );
-  }
+    await message.reply({
+      title: "Custom command successfully deleted!",
+      description: `The custom command \`${name}\` has been deleted!\n\nYou can create a new one using \`${prefix}cc <name> <response>\`.`,
+    });
+  },
 };

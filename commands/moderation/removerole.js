@@ -1,237 +1,147 @@
-const Command = require("../../structures/Command");
-const { MessageEmbed } = require("discord.js");
-const Guild = require("../../database/schemas/Guild.js");
-const mongoose = require("mongoose");
 const Logging = require("../../database/schemas/logging.js");
-const discord = require("discord.js");
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "removerole",
-      aliases: ["remrole"],
-      description: "Removes the specified role from the mentioned user",
-      category: "Moderation",
-      usage: "<user>",
-      examples: ["removerole @peter"],
-      guildOnly: true,
-      botPermission: ["MANAGE_ROLES"],
-      userPermission: ["MANAGE_ROLES"],
-    });
-  }
+const { MessageEmbed } = require("discord.js");
 
-  async run(message, args, bot,prefix='+' ) {
-    /*------ Guild Data ------*/
-    const client = message.client;
-    const fail = client.emoji.fail;
-    const success = client.emoji.success;
-
-    const settings = await Guild.findOne(
-      {
-        guildId: message.guild.id,
-      },
-      (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-          const newGuild = new Guild({
-            _id: mongoose.Types.ObjectId(),
-            guildId: message.guild.id,
-            guildName: message.guild.name,
-            prefix: client.config.prefix,
-            language: "english",
-          });
-
-          newGuild
-            .save()
-            .then((result) => console.log(result))
-            .catch((err) => console.error(err));
-
-          return message.channel
-            .send(
-              "This server was not in our database! We have added it, please retype this command."
-            )
-            .then((m) => m.delete({ timeout: 10000 }));
-        }
-      }
-    );
-    const logging = await Logging.findOne({ guildId: message.guild.id });
-    const guildDB = await Guild.findOne({
-      guildId: message.guild.id,
-    });
-    const language = require(`../../data/language/${guildDB.language}.json`);
-
+module.exports = {
+  name: "removerole",
+  description: "Remove a role from the user",
+  usage: "+removerole [@user] [role]",
+  category: "moderation",
+  requiredArgs: 2,
+  permission: ["MANAGE_ROLES"],
+  botPermission: ["MANAGE_ROLES"],
+  execute: async (message, args, bot, prefix) => {
     let member =
-      message.mentions.members.last() ||
-      message.guild.members.cache.get(args[0]);
+      message.mentions.members.first() &&
+      message.mentions.members.filter(
+        (m) => args[0] && args[0].includes(m.user.id)
+      ).size >= 1
+        ? message.mentions.members
+            .filter((m) => args[0] && args[0].includes(m.user.id))
+            .first()
+        : false ||
+          message.guild.members.cache.get(args[0]) ||
+          (args.length > 0 &&
+            message.guild.members.cache.find((m) =>
+              m.user.username
+                .toLowerCase()
+                .includes(args.join(" ").toLowerCase())
+            )) ||
+          undefined;
+    let role =
+      message.mentions.roles.first() ||
+      (await message.guild.roles.fetch(args[1]));
+    if (!role)
+      return message.replyError({
+        title: "Remove Role",
+        description: "Please provide a role to remove from the user.",
+      });
 
     if (!member)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Remove Role Error`)
-            .setDescription("Please provide a valid role")
-            .setTimestamp()
-            .setFooter({ text: "https://Aeona.xyz/" })
-            .setColor(message.guild.me.displayHexColor),
-        ],
-      });
-    if (member.roles.highest.position >= message.member.roles.highest.position)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Remove Role Error`)
-            .setDescription("The Provided user has an equal or higher role.")
-            .setTimestamp()
-            .setFooter({ text: "https://Aeona.xyz/" })
-            .setColor(message.guild.me.displayHexColor),
-        ],
+      return message.replyError({
+        title: "Remove Role",
+        description: "Please provide a user to remmove the role from.",
       });
 
-    const role =
-      getRoleFromMention(message, args[1]) ||
-      message.guild.roles.cache.get(args[1]) ||
-      message.guild.roles.cache.find(
-        (rl) => rl.name.toLowerCase() === args.slice(1).join(" ").toLowerCase()
+    if (member.id === message.author.id)
+      return message.replyError({
+        title: "Remove Role",
+        description: "You cannot remove a role from yourself.",
+      });
+
+    if (member.id === message.guild.ownerID)
+      return message.replyError({
+        title: "Remove Role",
+        description: "You cannot remove a role from the server owner.",
+      });
+
+    if (message.member.roles.highest.position <= role.position)
+      return message.replyError({
+        title: "Remove Role",
+        description:
+          "You cannot remove a role that is higher than your highest role.",
+      });
+
+    if (message.guild.me.roles.highest.position <= role.position)
+      return message.replyError({
+        title: "Remove Role",
+        description:
+          "I cannot remove a role that is higher than my highest role.",
+      });
+
+    if (
+      message.guild.me.roles.highest.position <= member.roles.highest.position
+    )
+      return message.replyError({
+        title: "Remove Role",
+        description:
+          "I cannot remove a role to that user as he has a role higher than my highest role.",
+      });
+    if (!member.roles.cache.has(role.id))
+      return message.replyError({
+        title: "Remove Role",
+        description: "That user does not have that role.",
+      });
+
+    await member.roles.remove(role);
+    let logging = await Logging.findOne({
+      guildId: message.guild.id,
+    });
+
+    if (logging) {
+      let ignorerole = message.guild.roles.cache.get(
+        logging.moderation.ignore_role
+      );
+      const channel = message.guild.channels.cache.get(
+        logging.moderation.channel
       );
 
-    let reason = `The current feature doesn't need reasons`;
-    if (!reason) reason = "No Reason Provided";
-    if (reason.length > 1024) reason = reason.slice(0, 1021) + "...";
+      if (logging.moderation.delete_after_executed === "true") {
+        message.delete().catch(() => {});
+      }
+      if (logging.moderation.toggle == "true") {
+        if (channel) {
+          if (message.channel.id !== logging.moderation.ignore_channel) {
+            if (
+              !ignorerole ||
+              (ignorerole &&
+                !message.member.roles.cache.find(
+                  (r) => r.name.toLowerCase() === ignorerole.name
+                ))
+            ) {
+              if (logging.moderation.role == "true") {
+                let color = logging.moderation.color;
+                if (color == "#000000")
+                  color = message.guild.me.displayHexColor;
 
-    if (!role)
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Remove Role Error`)
-            .setDescription("Please provide a valid role")
-            .setTimestamp()
-            .setFooter({ text: "https://Aeona.xyz/" })
-            .setColor(message.guild.me.displayHexColor),
-        ],
-      });
-    else if (!member.roles.cache.has(role.id))
-      return message.channel.send({
-        embeds: [
-          new MessageEmbed()
-            .setAuthor(
-              `${message.author.tag}`,
-              message.author.displayAvatarURL({ dynamic: true })
-            )
-            .setTitle(`${fail} Remove Role Error`)
-            .setDescription(`The provided user does not have the role.`)
-            .setTimestamp()
-            .setFooter({ text: "https://Aeona.xyz/" })
-            .setColor(message.guild.me.displayHexColor),
-        ],
-      });
-    else {
-      try {
-        await member.roles.remove(role, [
-          `Role Remove / Responsible User: ${message.author.tag}`,
-        ]);
-        const embed = new MessageEmbed()
+                let logcase = logging.moderation.caseN;
+                if (!logcase) logcase = `1`;
 
-          .setDescription(
-            ` ${success} | Removed **${role.name}** from **${member.user.tag}**`
-          )
-          .setColor(message.guild.me.displayHexColor);
-        message.channel
-          .send({ embeds: [embed] })
-          .then(async (s) => {
-            if (logging && logging.moderation.delete_reply === "true") {
-              setTimeout(() => {
-                s.delete().catch(() => {});
-              }, 5000);
-            }
-          })
-          .catch(() => {});
+                const logEmbed = new MessageEmbed()
+                  .setAuthor(
+                    `Action: \`Remove Role\` | ${member.user.tag} | Case #${logcase}`,
+                    member.user.displayAvatarURL({ format: "png" })
+                  )
+                  .setDescription(
+                    `**User:** ${member.user}\n**Role:** ${role}\n **Responsible Moderator:** ${message.author}`
+                  )
+                  .setFooter({ text: `ID: ${member.id}` })
+                  .setTimestamp()
+                  .setColor(color);
 
-        if (logging) {
-          if (logging.moderation.delete_after_executed === "true") {
-            message.delete().catch(() => {});
-          }
+                channel.send({ embeds: [logEmbed] }).catch(() => {});
 
-          const role = message.guild.roles.cache.get(
-            logging.moderation.ignore_role
-          );
-          const channel = message.guild.channels.cache.get(
-            logging.moderation.channel
-          );
-
-          if (logging.moderation.toggle == "true") {
-            if (channel) {
-              if (message.channel.id !== logging.moderation.ignore_channel) {
-                if (
-                  !role ||
-                  (role &&
-                    !message.member.roles.cache.find(
-                      (r) => r.name.toLowerCase() === role.name
-                    ))
-                ) {
-                  if (logging.moderation.role == "true") {
-                    let color = logging.moderation.color;
-                    if (color == "#000000") color = message.client.c;
-
-                    let logcase = logging.moderation.caseN;
-                    if (!logcase) logcase = `1`;
-
-                    const logEmbed = new MessageEmbed()
-                      .setAuthor(
-                        `Action: \`Remove Role\` | ${member.user.tag} | Case #${logcase}`,
-                        member.user.displayAvatarURL({ format: "png" })
-                      )
-                      .addField("User", member, true)
-                      .addField("Moderator", message.member, true)
-                      .setFooter({ text: `ID: ${member.id}` })
-                      .setTimestamp()
-                      .setColor(color);
-
-                    channel.send(logEmbed).catch(() => {});
-
-                    logging.moderation.caseN = logcase + 1;
-                    await logging.save().catch(() => {});
-                  }
-                }
+                logging.moderation.caseN = logcase + 1;
+                await logging.save().catch(() => {});
               }
             }
           }
         }
-      } catch (err) {
-        message.channel.send({
-          embeds: [
-            new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`${fail} Remove Role Error`)
-              .setDescription(
-                `Unable to remove the User's Role, please check the role hiarchy and make sure My role is above the provided user.`
-              )
-              .setTimestamp()
-              .setFooter({ text: "https://Aeona.xyz/" })
-              .setColor(message.guild.me.displayHexColor),
-          ],
-        });
       }
     }
-  }
+
+    return message.reply({
+      title: "Remove Role",
+      description: `Successfully added the role ${role} to ${member}.`,
+    });
+  },
 };
-function getRoleFromMention(message, mention) {
-  if (!mention) return;
-  const matches = mention.match(/^<@&(\d+)>$/);
-  if (!matches) return;
-  const id = matches[1];
-  return message.guild.roles.cache.get(id);
-}

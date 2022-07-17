@@ -1,33 +1,41 @@
-const Command = require("../../structures/Command");
+const { MessageEmbed } = require("discord.js");
 
-module.exports = class extends Command {
-  constructor(...args) {
-    super(...args, {
-      name: "skip",
-      description: "Skip the current song.",
-      category: "Music",
-      cooldown: 3,
+module.exports = {
+  name: "skip",
+  aliases: ["s"],
+  category: "music",
+  description: "Skip the currently playing song",
+  requiredArgs: 0,
+  usage: "+skip",
+  permission: [],
+  dj: true,
+
+  player: true,
+  inVoiceChannel: true,
+  sameVoiceChannel: true,
+  execute: async (message, args, client, prefix) => {
+    const player = message.client.manager.get(message.guild.id);
+
+    if (!player.queue.current) {
+      let thing = new MessageEmbed()
+        .setColor("RED")
+        .setDescription("There is no music playing.");
+      return message.reply({ embeds: [thing] });
+    }
+    const song = player.queue.current;
+
+    player.stop();
+
+    const emojiskip = message.client.emoji.skip;
+
+    let thing = new MessageEmbed()
+      .setDescription(`${emojiskip} **Skipped**\n[${song.title}](${song.uri})`)
+      .setColor(message.client.embedColor)
+      .setTimestamp();
+    return message.reply({ embeds: [thing] }).then((msg) => {
+      setTimeout(() => {
+        msg.delete();
+      }, 3000);
     });
-  }
-  async run(message, args, bot,prefix='+' ) {
-    if (!message.client.musicManager.get(message.guild.id))
-      return message.channel.send("🚫 No music is being played!");
-    if (!message.member.voice?.channelId)
-      return message.channel.send("🚫 You need to be in my voice channel!");
-    if (
-      message.member.voice.channelId !==
-      message.client.musicManager.get(message.guild.id).voiceChannel
-    )
-      return message.channel.send("🚫 You're not in the same voice channel!");
-
-    const response = skip(message);
-    message.reply(response);
-  }
+  },
 };
-
-function skip({ client, guildId }) {
-  const player = client.musicManager.get(guildId);
-  const { title } = player.queue.current;
-  player.stop();
-  return `⏯️ ${title} was skipped.`;
-}

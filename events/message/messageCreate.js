@@ -1,876 +1,508 @@
-const Event = require("../../structures/Event");
-const { Permissions, Collection } = require("discord.js");
-const afk = require("../../models/afk");
-const moment = require("moment");
-const discord = require("discord.js");
-const config = require("../../config.json.js");
-const { MessageEmbed, WebhookClient } = require("discord.js");
-const logger = require("../../utils/logger");
-const mongoose = require("mongoose");
+const Discord = require("discord.js");
+let ratelimits = new Discord.Collection();
 const Guild = require("../../database/schemas/Guild");
 const User = require("../../database/schemas/User");
 const Moderation = require("../../database/schemas/logging");
 const Blacklist = require("../../database/schemas/blacklist");
-const customCommand = require("../../database/schemas/customCommand");
-const autoResponse = require("../../database/schemas/autoResponse");
-const autoResponseCooldown = new Set();
-const inviteFilter = require("../../filters/inviteFilter");
-const linkFilter = require("../../filters/linkFilter");
-const maintenanceCooldown = new Set();
+let autoResponseCooldown = new Set();
 
-const permissions = require("../../assets/json/permissions.json");
-const Maintenance = require("../../database/schemas/maintenance");
-const fetch = require("node-fetch");
-require("moment-duration-format");
-const Statcord = require("statcord.js");
-const Discord = require("discord.js");
-module.exports = class extends Event {
-  constructor(...args) {
-    super(...args);
+const executeChatBot = require("../../utils/chatbot");
+const customCommands = require("../../utils/customCommands");
+const globalchat = require("../../utils/globalchat");
+const afkCheck = require("../../utils/afkCheck");
+const autoresponse = require("../../utils/autoresponse");
+const Levels = require("discord-xp");
+let xpCooldown = new Set();
+const { CanvasSenpai } = require("canvas-senpai");
+const { channel } = require("diagnostics_channel");
+const canva = new CanvasSenpai();
+const fetch=require("node-fetch")
 
-    this.impliedPermissions = new Permissions([
-      "VIEW_CHANNEL",
-      "SEND_MESSAGES",
-      "SEND_TTS_MESSAGES",
-      "EMBED_LINKS",
-      "ATTACH_FILES",
-      "READ_MESSAGE_HISTORY",
-      "MENTION_EVERYONE",
-      "USE_EXTERNAL_EMOJIS",
-      "ADD_REACTIONS",
-    ]);
+module.exports = {
+  name: "messageCreate",
+  async execute(client, message) {
+    if (!message.guild) {
+      if (message.author.bot) return;
+      let prefixes = [
+        "+",
+        ">",
+        "aeona",
+        `<@${message.client.user.id}>`,
+        `<@!${message.client.user.id}>`,
+      ];
 
-    this.client.ratelimits = new Collection();
-    this.ratelimits = this.client.ratelimits;
-  }
-
-  async run(message) {
-
-    if(message.content.includes("MANAGE_WEBHOOKS")||message.content.includes("Two factor")) return;
-    let client = message.client;
-    try {
-      if (!message.guild) return;
-
-      const mentionRegex = RegExp(`^<@!?${this.client.user.id}>$`);
-
-      if (!message.guild || message.webhookId) return;
-
-      let settings = await Guild.findOne({
-        guildId: message.guild.id,
-      });
-
-      if (!settings) {
-        settings = new Guild({
-          guildId: message.guild.id,
-          prefix: "+",
-        });
-        await settings.save();
+      let prefix = "";
+      for (let p of prefixes) {
+        if (message.content.toLowerCase().startsWith(p)) {
+          prefix = p;
+          break;
+        }
       }
 
-      if (
-        settings.globalChatChannel &&
-        message.channel.id == settings.globalChatChannel
-      ) {
-        //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
-        let toxicity = await fetch(
-          `https://Toxicity.aeona.repl.co/?sentence=${message.content}`
-        );
-        let toxicityText = await toxicity.text();
+      return executeChatBot(message, prefix, 0, "deepparag/Aeona");
+    }
 
-        if (!toxicityText.includes("No")) {
-          message.delete();
-          message.channel
-            .send(
-              `<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`
-            )
-            .then(async (s) => {
-              setTimeout(() => {
-                s.delete().catch(() => {});
-              }, 5000);
-            })
-            .catch(() => {});
-        } else {
-          async function globalChat() {
-            const userBlacklistSettings = await Blacklist.findOne({
-              discordId: message.author.id,
-            });
-            if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
-              return;
-            console.log("globalChat");
-            let guilds = await Guild.find({ globalChatChannel: { $ne: null } });
-            Statcord.ShardingClient.postCommand(
-              "globalChat",
-              message.author.id,
-              message.client
+    let settings = await Guild.findOne({
+      guildId: message.guild.id,
+    });
+
+    if (!settings) {
+      settings = new Guild({
+        guildId: message.guild.id,
+        prefix: "+",
+      });
+      await settings.save();
+    }
+
+    if (message.author.bot) {
+      if (message.embeds.length &&
+        message.author.username == 'DISBOARD' &&
+        message.embeds[ 0 ].description.indexOf("Bump done") > -1) {
+          if (settings.bump.enabled) {
+            message.channel.send(
+              `<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`
             );
-            logger.info(
-              `${message.member.displayName} sent ${message.content} in ${message.guild.name} ${message.author.id}`
-            );
+            settings.bump.lastBump = Date.now();
+          }
+      }
+    }
 
-            function linkify(text) {
-              var urlRegex =
-                /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-              return text.replace(urlRegex, function (url) {
-                return url.includes("tenor") ? url : "`Link was filtered`";
-              });
-            }
+    if (settings.leveling.enabled) {
+      if (!xpCooldown.has(message.author.id)) {
+        const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
+        const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
+        let user = await Levels.fetch(message.member.id, message.guild.id, true); // Selects the target from the database.
+        let channel = message.channel;
+        if (settings.leveling.levelUpChannel) {
+          channel = await message.guild.channels.fetch(settings.leveling.levelUpChannel).catch(() => { });
+          if (!channel) {
+            channel = message.channel;
+          }
+        }
 
-            message.content = linkify(message.content);
-            for (let i = 0; i < guilds.length; i++) {
-              let guild = guilds[i];
-              if (guild.guildId != message.guild.id) {
-                let channel = null;
-                try {
-                  channel = await client.channels.fetch(
-                    guild.globalChatChannel
-                  );
-                } catch (e) {}
-                if (channel) {
-                  async function send() {
-                    try {
-                      //Create a webhook for the channel if it doesn't exist
+        if (hasLeveledUp) {
 
-                      let webhooks = await channel.fetchWebhooks();
-                      let webhook = webhooks.find((webhook) => webhook.token);
 
-                      if (!webhook) {
-                        webhook = await channel.createWebhook(
-                          `${client.user.username} Global Chat`,
-                          {
-                            avatar: client.user.displayAvatarURL(),
-                          }
-                        );
-                      }
 
-                      await webhook.send({
-                        username: message.member.displayName,
-                        avatarURL: message.member.displayAvatarURL(),
-                        content: message.content != "" ? message.content : "_ _",
-                        embeds: message.embeds,
+          let levelUpMessage = settings.leveling.levelUpMessage;
+          levelUpMessage = levelUpMessage.replace("{user}", message.member);
+          levelUpMessage = levelUpMessage.replace("{level}", user.level);
+          levelUpMessage = levelUpMessage.replace("{xp}", user.cleanXp);
+          levelUpMessage = levelUpMessage.replace("{requiredXp}", user.cleanNextLevelXp);
+          levelUpMessage = levelUpMessage.replace("{rank}", user.position);
 
-                        allowedMentions: { parse: [] },
-                      });
+          let data = await canva.profile({
+            name: message.author.username,
+            discriminator: message.author.discriminator,
+            avatar: message.member.displayAvatarURL({ format: "png" }),
+            background: message.member.banner
+              ? message.member.bannerURL({ format: "png", size: 4096 })
+              : null,
+            rank: 1,
+            xp: user.cleanXp,
+            level: user.level,
+            maxxp: user.cleanNextLevelXp,
+            blur: false,
+          });
 
-                      if (message.attachments.size > 0) {
-                        for (const [key, value] of message.attachments) {
-                          await webhook.send({
-                            username: message.member.displayName,
-                            avatarURL: message.member.displayAvatarURL(),
-                            files: [value.proxyURL],
-                          });
-                        }
-                      }
-                    } catch (e) {
-                      channel
-                        .send(
-                          `Please give me MANAGE_WEBHOOK permission`
-                        )
-                        .catch(() => {});
-                    }
-                  }
-                  send();
-                }
+          const attachment = new Discord.MessageAttachment(data, "profile.png");
+          channel.send({ content: levelUpMessage, embeds:[],files: [attachment] });
+        }
+
+        for (let i = 0; i < settings.leveling.roles.length; i++) {
+          if (user.level == settings.leveling.roles[i].level) {
+            try {
+              let role = await message.guild.roles.fetch(settings.leveling.roles[i].role).catch(() => { });
+
+              if (!role) {
+                channel.send(`${message.author} I was unable to give you the reward for reaching level ${user.level}! As I was unable to find the role. Please contact a server admin to have the role given to you.`);
+                break;
               }
+              message.member.roles.add(settings.leveling.roles[i].role);
+
+              channel.send(`${message.author} has reached level ${user.level} and has been given the role ${role.name}`);
+            } catch (e) {
+              channel.send(`${message.author} I was unable to give you the reward for reaching level ${user.level}! As my role is not high enough. Please contact a server admin to have the role given to you.`);
             }
           }
-          globalChat();
         }
+        xpCooldown.add(message.author.id);
+        setTimeout(() => {
+          xpCooldown.delete(message.author.id);
+        }, 5000);
       }
-      if (settings.aiAutoMod) {
-        //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
-        let toxicity = await fetch(
-          `https://Toxicity.aeona.repl.co/?sentence=${message.content}`
-        );
-        let toxicityText = await toxicity.text();
+    }
+    globalchat(settings, message, client);
+    afkCheck(settings, message, client);
 
-        if (!toxicityText.includes("No")) {
-          message.delete();
-          message.channel
-            .send(
-              `<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`
-            )
-            .then(async (s) => {
-              setTimeout(() => {
-                s.delete().catch(() => {});
-              }, 5000);
-            })
-            .catch(() => {});
-        }
-      }
-      if (
-        message.author.id == client.user.id &&
-        message.channel.id != "970641138153304134"
-      )
-        return;
+    let a = await autoresponse(message, autoResponseCooldown);
+    autoResponseCooldown = a.cooldown;
+    if (a.success) return;
 
-      if (message.content.match(mentionRegex)) {
-        const proofita = `\`\`\`css\n[Prefix: ${
-          settings.prefix || "!"
-        }     ]\`\`\``;
-        const proofitaa = `\`\`\`css\n[Help: ${
-          settings.prefix || "!"
-        }help    ]\`\`\``;
-        const embed = new MessageEmbed()
-          .setTitle("Hello, I'm Aeona. What's Up?")
-          .addField(`Prefix`, proofita, true)
-          .addField(`Usage`, proofitaa, true)
-          .setDescription(
-            `\nIf you like Aeona, Consider [voting](https://top.gg/bot/931226824753700934), or [inviting](https://discord.com/oauth2/authorize?client_id=931226824753700934&scope=bot&permissions=470150262) it to your server! Thank you for using Aeona, we hope you enjoy it, as we always look forward to improve the bot. \n \n To talk with my AI chatbot, just reply to me with a message.`
+    if (settings.aiAutoMod) {
+      //fetch https://Toxicity.aeona.repl.co  with sentence?=${message.content} and if response does not contain "No" then delete message and tell the user
+      let toxicity = await fetch(
+        `https://Toxicity.aeona.repl.co/?sentence=${message.content}`
+      );
+      let toxicityText = await toxicity.text();
+
+      if (!toxicityText.includes("No")) {
+        message.delete();
+        message.channel
+          .send(
+            `<@${message.author.id}> Your message has been deleted for being ${toxicityText}.`
           )
-          .setFooter({ text: "Thank you for using Aeona!!" })
-          .setColor("#FF2C98");
-        return message.channel.send({ embeds: [embed] });
+          .then(async (s) => {
+            setTimeout(() => {
+              s.delete().catch(() => { });
+            }, 5000);
+          })
+          .catch(() => { });
       }
-      // Filters
-      if (settings && (await inviteFilter(message))) return;
-      if (settings && (await linkFilter(message))) return;
+    }
+    if (settings && (await inviteFilter(settings, message, client))) return;
+    if (settings && (await linkFilter(settings, message, client))) return;
 
-      let mainPrefix = settings ? settings.prefix : "+";
+    let mainPrefix = settings ? settings.prefix : "+";
 
-      let prefix;
-      let prefixes = [
-        mainPrefix,
-        mainPrefix == "+" ? ">" : null,
-        "aeona",
-        `<@${client.user.id}>`,
-        `<@!${client.user.id}>`,
-      ];
-      if (settings.chatbot.alwaysOnChannel == message.channel.id) prefix = "";
+    let prefixes = [
+      mainPrefix,
+      mainPrefix == "+" ? ">" : null,
+      "aeona",
+      `<@${message.client.user.id}>`,
+      `<@!${message.client.user.id}>`,
+    ];
 
-      if (message.mentions.repliedUser) {
-        if (message.mentions.repliedUser.id == message.client.user.id) {
-          prefix = "";
-        }
+    let prefix;
+
+    if (message.mentions.repliedUser) {
+      if (message.mentions.repliedUser.id === message.client.user.id) {
+        prefix = "";
       }
+    }
 
-      for (let i = 0; i < prefixes.length; i++) {
-        if (message.content.toLowerCase().startsWith(prefixes[i]))
-          prefix = prefixes[i];
+    if (settings.chatbot.alwaysOnChannel == message.channel.id) prefix = "";
+
+    for (let p of prefixes) {
+      if (message.content.toLowerCase().startsWith(p)) {
+        prefix = p;
+        break;
       }
+    }
 
-      const moderation = await Moderation.findOne({
-        guildId: message.guild.id,
-      });
+    if (prefix === undefined) return;
 
-      if (!moderation) {
-        Moderation.create({
-          guildId: message.guild.id,
-        });
-      }
-      // maintenance mode
+    if (message.author.bot) return;
 
-      const maintenance = await Maintenance.findOne({
-        maintenance: "maintenance",
-      });
 
-      const userBlacklistSettings = await Blacklist.findOne({
+    let userData= await User.findOne({ discordId: message.author.id});
+    if(!userData){
+      userData = new User({
         discordId: message.author.id,
       });
-      const guildBlacklistSettings = await Blacklist.findOne({
+      await userData.save();
+    }
+
+    if(userData.version !== client.version){
+      userData.version = client.version;
+      message.reply(client.updateLog[client.version]);
+
+      await userData.save();
+    }
+
+
+    const moderation = await Moderation.findOne({
+      guildId: message.guild.id,
+    });
+
+    if (!moderation) {
+      Moderation.create({
         guildId: message.guild.id,
       });
-      //autoResponse
+    }
 
-      const autoResponseSettings = await autoResponse.find({
-        guildId: message.guild.id,
+    const userBlacklistSettings = await Blacklist.findOne({
+      discordId: message.author.id,
+    });
+    if (userBlacklistSettings && userBlacklistSettings.isBlacklisted) return;
+
+    let args = message.content.slice(prefix.length).trim().split(" ");
+    let command = args.shift().toLowerCase();
+
+    if (!command || command == "")
+      return message.channel.send({
+        title: "Hello, I am Aeona",
+        description:
+          "I am an Intellegent Multipurpose AI Chatbot, I am here to help you with your server.\n\nTo get started, type `+help` ",
+        imageURL:
+          "https://cdn.discordapp.com/attachments/982536937996959784/982560515052175370/chatbot.gif?size=4096",
       });
 
-      if (autoResponseSettings.length > 0) {
-        for (let i = 0; i < autoResponseSettings.length; i++) {
-          if (
-            message.content
-              .toLowerCase()
-              .includes(autoResponseSettings[i].name.toLowerCase())
-          ) {
-            if (autoResponseCooldown.has(message.author.id)) {
-              return message.channel.send(
-                `${message.client.emoji.fail} Slow Down - ${message.author}`
-              );
-            } else {
-              message.channel.send(
-                autoResponseSettings[i].content
-                  .replace(/{user}/g, `${message.author}`)
+    let cmd;
+    if (await customCommands(message, command)) return;
 
-                  .replace(/{user_tag}/g, `${message.author.tag}`)
-                  .replace(/{user_name}/g, `${message.author.username}`)
-                  .replace(/{user_ID}/g, `${message.author.id}`)
-                  .replace(/{guild_name}/g, `${message.guild.name}`)
-                  .replace(/{guild_ID}/g, `${message.guild.id}`)
-                  .replace(/{memberCount}/g, `${message.guild.memberCount}`)
-                  .replace(/{size}/g, `${message.guild.memberCount}`)
-                  .replace(/{guild}/g, `${message.guild.name}`)
-                  .replace(
-                    /{member_createdAtAgo}/g,
-                    `${moment(message.author.createdTimestamp).fromNow()}`
-                  )
-                  .replace(
-                    /{member_createdAt}/g,
-                    `${moment(message.author.createdAt).format(
-                      "MMMM Do YYYY, h:mm:ss a"
-                    )}`
-                  )
-              );
-              autoResponseCooldown.add(message.author.id);
-              setTimeout(() => {
-                autoResponseCooldown.delete(message.author.id);
-              }, 2000);
-              break;
-            }
-          }
-        }
-      }
+    const disabledCommands = settings.disabledCommands;
+    if (typeof disabledCommands === "string")
+      disabledCommands = disabledCommands.split(" ");
 
-      //afk
-      let language = require(`../../data/language/english.json`);
-      if (settings)
-        language = require(`../../data/language/${settings.language}.json`);
+    if (message.client.commands.has(command.trim().toLowerCase())) {
+      cmd = message.client.commands.get(command);
 
-      moment.suppressDeprecationWarnings = true;
+      const rateLimit = ratelimit(message, cmd);
 
-      if (message.mentions.members.first()) {
-        if (maintenance && maintenance.toggle == "true") return;
-        const afklist = await afk.findOne({
-          userID: message.mentions.members.first().id,
-          serverID: message.guild.id,
-        });
-        if (afklist) {
-          await message.guild.members.fetch(afklist.userID).then((member) => {
-            let user_tag = member.user.tag;
-            return message.channel
-              .send(
-                `**${
-                  afklist.oldNickname || user_tag || member.user.username
-                }** ${language.afk6} ${afklist.reason} **- ${moment(
-                  afklist.time
-                ).fromNow()}**`
-              )
-              .catch(() => {});
-          });
-        }
-      }
-
-      const afklis = await afk.findOne({
-        userID: message.author.id,
-        serverID: message.guild.id,
-      });
-
-      if (afklis) {
-        if (maintenance && maintenance.toggle == "true") return;
-        let nickname = `${afklis.oldNickname}`;
-        message.member.setNickname(nickname).catch(() => {});
-        await afk.deleteOne({ userID: message.author.id });
+      if (typeof rateLimit === "string")
         return message.channel
-          .send({
-            embeds: [
-              new discord.MessageEmbed()
-                .setColor("GREEN")
-                .setDescription(`${language.afk7} ${afklis.reason}`),
-            ],
-          })
-          .then((m) => {
+          .send(
+            `Please wait **${rateLimit}** before running the **${cmd}** command again - ${message.author
+            }\n\n${number === 1
+              ? `*Did You know that Aeona has its own dashboard? ${process.env.domain}/dashboard*`
+              : ""
+            }${number === 2
+              ? `*You can check our top.gg page at ${process.env.domain}*`
+              : ""
+            }`
+          )
+          .then((s) => {
+            message.delete().catch(() => { });
+
             setTimeout(() => {
-              m.delete().catch(() => {});
+              s.delete().catch(() => { });
             }, 10000);
+          })
+          .catch(() => { });
+
+      try {
+        if (args.length < cmd.requiredArgs)
+          return await message.channel.sendError({
+            title: "Invalid Usage",
+            description: `Correct Usage: \`${cmd.usage}\`\nPlease retry this command.`,
           });
-      }
+        const player = message.client.manager.get(message.guild.id);
 
-      if (!message.content.startsWith(prefix)) return;
-
-      // eslint-disable-next-line no-unused-vars
-      const [cmd, ...args] = message.content
-        .slice(prefix.length)
-        .trim()
-        .split(/ +/g);
-      const command =
-        this.client.commands.get(cmd.toLowerCase()) ||
-        this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
-
-      // maintenance mode
-
-      if (!this.client.config.developers.includes(message.author.id)) {
-        if (maintenance && maintenance.toggle == "true") {
-          if (maintenanceCooldown.has(message.author.id)) return;
-
-          message.channel.send(
-            `Aeona is currently undergoing maintenance which won't allow anyone to access Aeona's Commands. Feel free to try again later.`
-          );
-
-          maintenanceCooldown.add(message.author.id);
-          setTimeout(() => {
-            maintenanceCooldown.delete(message.author.id);
-          }, 10000);
-
-          return;
+        if (cmd.player && !player) {
+          return message.channel.sendError({
+            description: `There is no player for this guild.`,
+          });
         }
-      }
-
-      // Custom Commands
-      const customCommandSettings = await customCommand.findOne({
-        guildId: message.guild.id,
-        name: cmd.toLowerCase(),
-      });
-
-      const customCommandEmbed = await customCommand.findOne({
-        guildId: message.guild.id,
-        name: cmd.toLowerCase(),
-      });
-
-      if (
-        customCommandSettings &&
-        customCommandSettings.name &&
-        customCommandSettings.description
-      ) {
-        if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
-          return;
-
-        let embed = new MessageEmbed()
-          .setTitle(customCommandEmbed.title)
-          .setDescription(customCommandEmbed.description)
-          .setFooter(``);
-
-        if (customCommandEmbed.image !== "none")
-          embed.setImage(customCommandEmbed.image);
-        if (customCommandEmbed.thumbnail !== "none")
-          embed.setThumbnail(customCommandEmbed.thumbnail);
-
-        if (customCommandEmbed.footer !== "none")
-          embed.setFooter(customCommandEmbed.footer);
-        if (customCommandEmbed.timestamp !== "no") embed.setTimestamp();
-        if (customCommandEmbed.color == "default") {
-          embed.setColor(message.guild.me.displayHexColor);
-        } else embed.setColor(`${customCommandEmbed.color}`);
-
-        return message.channel.send({ embeds: [embed] });
-      }
-
-      if (
-        customCommandSettings &&
-        customCommandSettings.name &&
-        !customCommandSettings.description &&
-        customCommandSettings.json == "false"
-      ) {
-        if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
-          return;
-        return message.channel.send(
-          customCommandSettings.content
-
-            .replace(/{user}/g, `${message.author}`)
-
-            .replace(/{user_tag}/g, `${message.author.tag}`)
-            .replace(/{user_name}/g, `${message.author.username}`)
-            .replace(/{user_ID}/g, `${message.author.id}`)
-            .replace(/{guild_name}/g, `${message.guild.name}`)
-            .replace(/{guild_ID}/g, `${message.guild.id}`)
-            .replace(/{memberCount}/g, `${message.guild.memberCount}`)
-            .replace(/{size}/g, `${message.guild.memberCount}`)
-            .replace(/{guild}/g, `${message.guild.name}`)
-            .replace(
-              /{member_createdAtAgo}/g,
-              `${moment(message.author.createdTimestamp).fromNow()}`
-            )
-            .replace(
-              /{member_createdAt}/g,
-              `${moment(message.author.createdAt).format(
-                "MMMM Do YYYY, h:mm:ss a"
-              )}`
-            )
-        );
-      }
-
-      if (
-        customCommandSettings &&
-        customCommandSettings.name &&
-        !customCommandSettings.description &&
-        customCommandSettings.json == "true"
-      ) {
-        if (userBlacklistSettings && userBlacklistSettings.isBlacklisted)
-          return;
-        const command = JSON.parse(customCommandSettings.content);
-        return message.channel.send(command).catch((e) => {
-          message.channel.send(
-            `There was a problem sending your embed, which is probably a JSON error.\nRead more here --> https://Aeona.xyz/embeds\n\n__Error:__\n\`${e}\``
-          );
-        });
-      }
-
-      if (command) {
-        await User.findOne(
-          {
-            discordId: message.author.id,
-          },
-          (err, user) => {
-            if (err) console.log(err);
-
-            if (!user) {
-              const newUser = new User({
-                discordId: message.author.id,
-              });
-
-              newUser.save();
-            }
-          }
-        );
-
-        const disabledCommands = settings.disabledCommands;
-        if (typeof disabledCommands === "string")
-          disabledCommands = disabledCommands.split(" ");
-
-        const rateLimit = this.ratelimit(message, cmd);
-
         if (
-          !message.channel.permissionsFor(message.guild.me).has("SEND_MESSAGES")
-        )
-          return;
-
-        // Check if user is Blacklisted
-        if (userBlacklistSettings && userBlacklistSettings.isBlacklisted) {
-          logger.warn(
-            `${message.author.tag} tried to use "${cmd}" command but the user is blacklisted`,
-            { label: "Commands" }
-          );
-          return message.channel.send(
-            `${message.client.emoji.fail} You are blacklisted from the bot :(`
-          );
+          cmd.permissions &&
+          !message.client.developers.includes(message.author.id) &&
+          !message.member.permissions.has(command.permission[0])
+        ) {
+          return message.channel.sendError({
+            description: ` You can't use this command.`,
+          });
         }
 
-        // Check if server is Blacklisted
-        if (guildBlacklistSettings && guildBlacklistSettings.isBlacklisted) {
-          logger.warn(
-            `${message.author.tag} tried to use "${cmd}" command but the guild is blacklisted`,
-            { label: "Commands" }
-          );
-          return message.channel.send(
-            `${message.client.emoji.fail} This guild is Blacklisted :(`
-          );
-        }
-
-        let number = Math.floor(Math.random() * 10 + 1);
-        if (typeof rateLimit === "string")
-          return message.channel
-            .send(
-              ` ${
-                message.client.emoji.fail
-              } Please wait **${rateLimit}** before running the **${cmd}** command again - ${
-                message.author
-              }\n\n${
-                number === 1
-                  ? "*Did You know that Aeona has its own dashboard? `https://Aeona.xyz/dashboard`*"
-                  : ""
-              }${
-                number === 2
-                  ? "*You can check our top.gg page at `https://Aeona.xyz`*"
-                  : ""
-              }`
-            )
-            .then((s) => {
-              message.delete().catch(() => {});
-              s.delete({ timeout: 20000 }).catch(() => {});
-            })
-            .catch(() => {});
-
-        if (command.botPermission) {
+        if (cmd.botPermission) {
           const missingPermissions = message.channel
             .permissionsFor(message.guild.me)
-            .missing(command.botPermission)
+            .missing(cmd.botPermission)
             .map((p) => permissions[p]);
 
           if (missingPermissions.length !== 0) {
-            const embed = new MessageEmbed()
-              .setAuthor(
-                `${this.client.user.tag}`,
-                message.client.user.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`:x: Missing Bot Permissions`)
-              .setDescription(
-                `Command Name: **${
-                  command.name
-                }**\nRequired Permission: **${missingPermissions
-                  .map((p) => `${p}`)
-                  .join(" - ")}**`
-              )
-              .setTimestamp()
-              .setFooter("https://Aeona.xyz")
-              .setColor(message.guild.me.displayHexColor);
-            return message.channel.send({ embeds: [embed] }).catch(() => {});
+            return message.channel
+              .sendError({
+                msg: message,
+                title: `Missing Bot Permissions`,
+                description: `Command Name: **${command.name
+                  }**\nRequired Permission: **${missingPermissions
+                    .map((p) => `${p}`)
+                    .join(" - ")}**`,
+              })
+              .catch(() => { });
           }
         }
 
         if (
-          command.userPermission &&
-          !this.client.config.developers.includes(message.author.id)
+          !message.channel
+            .permissionsFor(message.guild.me)
+            ?.has(Discord.Permissions.FLAGS.EMBED_LINKS) &&
+          client.user.id !== userId
         ) {
-          const missingPermissions = message.channel
-            .permissionsFor(message.author)
-            .missing(command.userPermission)
-            .map((p) => permissions[p]);
-          if (missingPermissions.length !== 0) {
-            const embed = new MessageEmbed()
-              .setAuthor(
-                `${message.author.tag}`,
-                message.author.displayAvatarURL({ dynamic: true })
-              )
-              .setTitle(`:x: Missing User Permissions`)
-              .setDescription(
-                `Command Name: **${
-                  command.name
-                }**\nRequired Permission: **${missingPermissions
-                  .map((p) => `${p}`)
-                  .join("\n")}**`
-              )
-              .setTimestamp()
-              .setFooter("https://Aeona.xyz")
-              .setColor(message.guild.me.displayHexColor);
-            return message.channel.send({ embeds: [embed] }).catch(() => {});
+          return channel.sendError({
+            content: `Error: I need \`EMBED_LINKS\` permission to work.`,
+          });
+        }
+
+        if (cmd.inVoiceChannel && !message.member.voice.channelId) {
+          return message.channel.sendError({
+            description: ` You must be in a voice channel.`,
+          });
+        }
+
+        if (cmd.sameVoiceChannel) {
+          if (message.guild.me.voice.channel) {
+            if (
+              message.guild.me.voice.channelId !==
+              message.member.voice.channelId
+            ) {
+              return message.channel.sendError({
+                description: ` You must be in the same channel as ${message.client.user}.`,
+              });
+            }
           }
         }
-        if (disabledCommands.includes(command.name || command)) return;
-
-        if (command.ownerOnly) {
-          if (!this.client.config.developers.includes(message.author.id))
-            return;
-        }
-
-        if (command.disabled)
-          return message.channel.send(
-            `The owner has disabled the following command for now. Try again Later!\n\n`
-          );
-
-        Statcord.ShardingClient.postCommand(
-          command.name,
-          message.author.id,
-          message.client
+        client.statcord.postCommand(command, message.author.id);
+        await cmd.execute(message, args, message.client, prefix);
+        console.log(
+          `${message.author.tag} ran command ${cmd.name} in ${message.guild.name
+          } (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id
+          }) with args ${args.join(" ")} userId: ${message.author.id}`
         );
-        await this.runCommand(message, cmd, args).catch((error) => {
-          return this.client.emit("commandError", error, message, cmd);
+      } catch (e) {
+        console.error(e);
+        message.replyError({
+          title: "Error",
+          description: `Hey, ${message.author}! Something went wrong! \n \`\`\`js ${e} \`\`\``,
         });
-      } else {
-        if (settings.chatbot.disabledChannels.includes(message.channel.id))
-          return;
-        Statcord.ShardingClient.postCommand(
-          "chatbot",
-          message.author.id,
-          message.client
-        );
-        execute(message, prefix, 0, settings.chatbot.chatbot);
       }
-    } catch (error) {
-      return this.client.emit("fatalError", error, message);
+    } else {
+      if (settings.chatbot.disabledChannels.includes(message.channel.id))
+        return;
+      client.statcord.postCommand("chatbot", message.author.id, message.client);
+      executeChatBot(message, prefix, 0, settings.chatbot.chatbot);
     }
-  }
-
-  async runCommand(message, cmd, args) {
-    if (
-      !message.channel.permissionsFor(message.guild.me) ||
-      !message.channel.permissionsFor(message.guild.me).has("EMBED_LINKS")
-    )
-      return message.channel.send(
-        `${message.client.emoji.fail} Missing bot Permissions - **Embeds Links**`
-      );
-
-    const command =
-      this.client.commands.get(cmd.toLowerCase()) ||
-      this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
-    logger.info(
-      `"${message.content}" (${command.name}) ran by "${message.author.tag}" (${message.author.id}) on guild "${message.guild.name}" (${message.guild.id}) channel "#${message.channel.name}" (${message.channel.id})`,
-      { label: "Command" }
-    );
-
-    if (message.author.bot) return;
-    await command.run(message, args, this.client);
-  }
-
-  ratelimit(message, cmd) {
-    if (message.author.bot) return;
-    try {
-      const command =
-        this.client.commands.get(cmd.toLowerCase()) ||
-        this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
-      if (message.author.permLevel > 4) return false;
-
-      const cooldown = command.cooldown * 1000;
-      const ratelimits = this.ratelimits.get(message.author.id) || {}; // get the ENMAP first.
-      if (!ratelimits[command.name])
-        ratelimits[command.name] = Date.now() - cooldown; // see if the command has been run before if not, add the ratelimit
-      const difference = Date.now() - ratelimits[command.name]; // easier to see the difference
-      if (difference < cooldown) {
-        // check the if the duration the command was run, is more than the cooldown
-        return moment
-          .duration(cooldown - difference)
-          .format("D [days], H [hours], m [minutes], s [seconds]", 1); // returns a string to send to a channel
-      } else {
-        ratelimits[command.name] = Date.now(); // set the key to now, to mark the start of the cooldown
-        this.ratelimits.set(message.author.id, ratelimits); // set it
-        return true;
-      }
-    } catch (e) {
-      this.client.emit("fatalError", error, message);
-    }
-  }
+  },
 };
 
-const http = require("https");
-async function execute(message, prefix, i, chatbot) {
-  if (process.env.apiKey && process.env.apiKey.trim() != "") {
-    if (message.author.bot) return;
-    if (i == 10) {
-      return;
-    }
+async function inviteFilter(settings, message, client) {
+  if (settings.antiLinks || !settings.antiInvites) return;
+  let permissions = message.guild.permissionsFor(message.member);
+  if (permissions.has(Discord.Permissions.FLAGS.MANAGE_MESSAGES)) return;
 
-    i++;
-    try {
-      let bot = message.client;
-      message.channel.sendTyping();
-
-      let context = undefined;
-      let context1 = undefined;
-      let context2 = undefined;
-      let context3 = undefined;
-      let context4 = undefined;
-      let context5 = undefined;
-
-      if (message.reference) {
-        let message2 = await message.fetchReference();
-        if (!message2) {
-          return;
+  const inviteLink = new RegExp(
+    /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li)|discordapp\.com\/invite)\/.+[a-z]/g
+  );
+  if (inviteLink.test(message.content)) {
+    const msgcontent = message.content;
+    code = msgcontent.replace(
+      /(https:\/\/)?(www\.)?(discord\.gg|discord\.me|discordapp\.com\/invite|discord\.com\/invite)\/?/g,
+      ""
+    );
+    fetch(`https://discordapp.com/api/invite/${code}`)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.message !== "Unknown Invite") {
+          message.delete().catch(() => { });
+          message.channel.send({
+            embeds: [
+              {
+                color: "RED",
+                author: {
+                  name: `${message.member.user.tag}`,
+                  icon_url: message.member.user.displayAvatarURL({
+                    format: "png",
+                    dynamic: true,
+                    size: 1024,
+                  }),
+                },
+                footer: {
+                  text: message.deletable
+                    ? ""
+                    : "Couldn't delete the message due to missing permissions.",
+                },
+                description: "No invite links here",
+              },
+            ],
+          });
         }
-        context = message2.content;
-        if (message2.reference) {
-          let message3 = await message2.fetchReference();
-          context1 = message3.content;
-          if (message3.reference) {
-            let message4 = await message3.fetchReference();
-            context2 = message4.content;
-            if (message4.reference) {
-              let message5 = await message4.fetchReference();
-              context3 = message5.content;
-              if (message5.reference) {
-                let message6 = await message5.fetchReference();
-                context4 = message6.content;
-                if (message6.reference) {
-                  let message7 = await message6.fetchReference();
-                  context5 = message7.content;
-                }
-              }
-            }
-          }
-        }
-      }
-      message.content = message.content.slice(prefix.length).trim();
-      if (message.content.trim() == "") {
-        message.content = "RANDOM";
-      }
-      const options = {
-        method: "GET",
-        hostname: "aeona3.p.rapidapi.com",
-        port: null,
-        path: encodeURI(
-          "/?" +
-            `text=${message.content}&userId=${message.author.id}${context ? `&context=${context}` : ""}${
-              context1 ? `&context1=${context1}` : ""
-            } ${context2 ? `&context2=${context2}` : ""} ${
-              context3 ? `&context3=${context3}` : ""
-            } ${context4 ? `&context4=${context4}` : ""} ${
-              context5 ? `&context5=${context5}` : ""
-            } ${chatbot ? `&chatbot=${chatbot}` : ""}`
-        ),
-        "headers": {
-          "X-RapidAPI-Host": "aeona3.p.rapidapi.com",
-          "X-RapidAPI-Key": process.env.apiKey,
-          "useQueryString": true
-        }
-      };
-      const req = http.request(options, function (res) {
-        const chunks = [];
-        req.on("error", function (e) {
-          console.log(e);
-          execute(message, "", i, chatbot);
-        });
-
-        req.on("timeout", function () {
-          console.log("timeout");
-          req.abort();
-          execute(message, "", i, chatbot);
-        });
-        res.on("data", function (chunk) {
-          chunks.push(chunk);
-        });
-
-        res.on("end", async function () {
-          const body = Buffer.concat(chunks);
-          let reply = body.toString();
-
-          //If reply is not a json
-          if (
-            reply.toLowerCase().includes("<html>") ||
-            reply.toLowerCase().includes("<body>") ||
-            reply.toLowerCase().includes("error")
-          ) {
-            execute(message, "", i, chatbot);
-            return;
-          }
-          if (!reply.startsWith("{") && reply != "") {
-            const command =
-              message.client.commands.get(reply.toLowerCase()) ||
-              message.client.commands.get(
-                message.client.aliases.get(reply.toLowerCase())
-              );
-
-            let comp = [];
-            if (Math.random() * 100 < 15) {
-              comp = [
-                new Discord.MessageActionRow().addComponents(
-                  new Discord.MessageButton()
-                    .setLabel("Invite")
-                    .setURL(
-                      "https://discord.com/api/oauth2/authorize?client_id=931226824753700934&permissions=8&scope=applications.commands%20bot"
-                    )
-                    .setStyle("LINK"),
-                  new Discord.MessageButton()
-                    .setLabel("Support Server")
-                    .setURL("https://aeona.xyz/invite")
-                    .setStyle("LINK"),
-                  new Discord.MessageButton()
-                    .setLabel("Website/Dashboard")
-                    .setURL("https://aeona.xyz")
-                    .setStyle("LINK"),
-                  new Discord.MessageButton()
-                    .setLabel("Vote")
-                    .setURL("https://top.gg/bot/931226824753700934/vote")
-                    .setStyle("LINK")
-                ),
-              ];
-            }
-            try {
-              let p = await message
-                .reply({
-                  content: reply,
-                  components: comp,
-                })
-                .catch((e) => {
-                  return;
-                });
-
-              if (command) {
-                console.log(command);
-                command.run(p, [], message.client);
-              }
-
-              return;
-            } catch (e) {
-              console.log(e);
-              execute(message, "", i, chatbot);
-              return;
-            }
-          }
-          message.content = "UDC";
-          execute(message, "", i, chatbot);
-          return;
-        });
       });
-      req.end();
-    } catch (e) {
-      console.log(e);
-      execute(message, "", i, chatbot);
+  } else {
+    let links = message.content.match(
+      /(https:\/\/)?(www\.)?(discord\.gg|discord\.me|discordapp\.com\/invite|discord\.com\/invite)\/([a-z0-9-.]+)?/i
+    );
+    if (links) {
+      message.delete().catch(() => { });
+      message.channel.send({
+        embeds: [
+          {
+            color: "RED",
+            author: {
+              name: `${message.member.user.tag}`,
+              icon_url: message.member.user.displayAvatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              }),
+            },
+            footer: {
+              text: message.deletable
+                ? ""
+                : "Couldn't delete the message due to missing permissions.",
+            },
+            description: "No invite links here",
+          },
+        ],
+      });
     }
+  }
+}
+
+async function linkFilter(settings, message, client) {
+  if (!settings.antiLinks) return;
+  let permissions = message.guild.permissionsFor(message.member);
+  if (permissions.has(Discord.Permissions.FLAGS.MANAGE_MESSAGES)) return;
+  if (hasLink(message.content)) {
+    return deleteLink(message);
+  }
+}
+
+function hasLink(string) {
+  let link =
+    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+
+  if (link.test(string)) return true;
+  return false;
+}
+
+function deleteLink(message) {
+  if (message.deletable) {
+    message.delete().catch(() => { });
+  }
+
+  message.channel.send({
+    embed: {
+      color: "RED",
+      author: {
+        name: `${message.member.user.tag}`,
+        icon_url: message.member.user.displayAvatarURL({
+          format: "png",
+          dynamic: true,
+          size: 1024,
+        }),
+      },
+      footer: {
+        text: message.deletable
+          ? ""
+          : "Couldn't delete the message due to missing permissions.",
+      },
+      description: "No Links allowed here",
+    },
+  });
+  return true;
+}
+const moment= require("moment")
+function ratelimit(message, command) {
+  try {
+    if (message.author.permLevel > 4) return false;
+    if (!command.cooldown) command.cooldown = 1;
+    const cooldown = command.cooldown * 1000;
+    const ratelimit = ratelimits.get(message.author.id) || {}; // get the ENMAP first.
+    if (!ratelimit[command.name])
+      ratelimit[command.name] = Date.now() - cooldown; // see if the command has been run before if not, add the ratelimit
+    const difference = Date.now() - ratelimit[command.name]; // easier to see the difference
+    if (difference < cooldown) {
+      // check the if the duration the command was run, is more than the cooldown
+      return moment
+        .duration(cooldown - difference)
+        .format("D [days], H [hours], m [minutes], s [seconds]", 1); // returns a string to send to a channel
+    } else {
+      ratelimit[command.name] = Date.now(); // set the key to now, to mark the start of the cooldown
+      ratelimits.set(message.author.id, ratelimit); // set it
+      return true;
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
