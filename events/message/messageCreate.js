@@ -84,7 +84,7 @@ module.exports = {
 
 
 
-          let levelUpMessage = guiild.leveling.levelUpMessage;
+          let levelUpMessage = settings.leveling.levelUpMessage;
           levelUpMessage = levelUpMessage.replace("{user}", message.member);
           levelUpMessage = levelUpMessage.replace("{level}", user.level);
           levelUpMessage = levelUpMessage.replace("{xp}", user.cleanXp);

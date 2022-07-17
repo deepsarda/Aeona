@@ -37,7 +37,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     
     let modules = "";
-    let description="**Use the dropdown to select the category to learn more about a command.**"
+    let description="**Use the dropdown to select the category to learn more about a command.** "
     let options = [];
     let fieldNames=[];
     let fieldValues=[];
@@ -55,7 +55,7 @@ module.exports = {
       fieldNames.push(`${bot.categories.get(category).info.emoji}・${caps(
         category
       )}`);
-      fieldValues.push(`\`${bot.categories.get(category).info.label}\``);
+      fieldValues.push(`${bot.categories.get(category).info.label}`);
       inlines.push(true);
      
     }
