@@ -4,18 +4,13 @@ const moment = require("moment");
 const LeaveDB = require("../../database/schemas/leave");
 const StickyDB = require("../../database/schemas/stickyRole");
 const Logging = require("../../database/schemas/logging");
-const Maintenance = require("../../database/schemas/maintenance");
 module.exports = {
   name: "guildMemberRemove",
   async execute(client, member) {
     console.log(member);
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
-    const maintenance = await Maintenance.findOne({
-      maintenance: "maintenance",
-    });
 
-    if (maintenance && maintenance.toggle == "true") return;
 
     if (logging) {
       if (logging.server_events.toggle == "true") {
@@ -42,7 +37,7 @@ module.exports = {
               )
               .setTimestamp()
               .setColor(member.guild.me.displayHexColor);
-            channelEmbed.send({ embeds: [embed] }).catch(() => {});
+            channelEmbed.send({ embeds: [embed] }).catch(() => { });
           }
         }
       }
@@ -59,14 +54,15 @@ module.exports = {
 
         if (6 <= createdd) {
           removeA(guildDB.leaves, leave);
-          await guildDB.save().catch(() => {});
+          await guildDB.save().catch(() => { });
         }
       });
 
       guildDB.leaves.push(Date.now());
-      await guildDB.save().catch(() => {});
+      await guildDB.save().catch(() => { });
     }
 
+    if (guildDB.verification.enabled) getVerification(guildDB, member.guild);
     let leave = await LeaveDB.findOne({
       guildId: member.guild.id,
     });
@@ -75,7 +71,7 @@ module.exports = {
       const newSettings = new LeaveDB({
         guildId: member.guild.id,
       });
-      await newSettings.save().catch(() => {});
+      await newSettings.save().catch(() => { });
       leave = await LeaveDB.findOne({ guildId: member.guild.id });
     }
 
@@ -101,7 +97,7 @@ module.exports = {
           );
 
         if (leave.leaveEmbed == "false") {
-          member.send(`${text}`).catch(() => {});
+          member.send(`${text}`).catch(() => { });
         }
         if (leave.leaveEmbed == "true") {
           let embed = new discord.MessageEmbed();
@@ -175,7 +171,7 @@ module.exports = {
             });
           if (thumbnail !== null) embed.setThumbnail(thumbnail);
 
-          member.send({ embeds: [embed] }).catch(() => {});
+          member.send({ embeds: [embed] }).catch(() => { });
         }
       }
       if (leave.leaveDM == "false") {
@@ -206,7 +202,7 @@ module.exports = {
               );
 
             if (leave.leaveEmbed == "false") {
-              greetChannel.send(`${text}`).catch(() => {});
+              greetChannel.send(`${text}`).catch(() => { });
             }
             if (leave.leaveEmbed == "true") {
               let embed = new discord.MessageEmbed();
@@ -280,7 +276,7 @@ module.exports = {
                 });
               if (thumbnail !== null) embed.setThumbnail(thumbnail);
 
-              greetChannel.send({ embeds: [embed] }).catch(() => {});
+              greetChannel.send({ embeds: [embed] }).catch(() => { });
             }
           }
         }
@@ -291,7 +287,7 @@ module.exports = {
       if (guildDB.autoroleID) {
         let role = member.guild.roles.cache.get(guildDB.autoroleID);
         if (role) {
-          member.roles.add(role).catch(() => {});
+          member.roles.add(role).catch(() => { });
         }
       }
     }
@@ -304,7 +300,7 @@ module.exports = {
       const newSettingss = new StickyDB({
         guildId: member.guild.id,
       });
-      await newSettingss.save().catch(() => {});
+      await newSettingss.save().catch(() => { });
       sticky = await StickyDB.findOne({ guildId: member.guild.id });
     }
 
@@ -319,7 +315,7 @@ module.exports = {
             )
           ) {
             sticky.stickyroleUser.push(member.id);
-            await sticky.save().catch(() => {});
+            await sticky.save().catch(() => { });
           }
         }
       }
@@ -338,4 +334,49 @@ function removeA(arr) {
     }
   }
   return arr;
+}
+
+const Captcha = require("@haileybot/captcha-generator");
+
+function getVerification(guildDB, guild) {
+  let channel = await guild.channels.fetch(guildDB.verification.verificationChannel).catch(() => { });
+  if (!channel) return;
+
+  let captcha = new Captcha();
+  channel.send({
+    title: "Verify Yourself",
+    description: "**Enter the text shown in the image below:** \n You have 5 minutes to enter the text. \n Don't bother about the case.",
+    files: [new Discord.MessageAttachment(captcha.JPEGStream, "captcha.jpeg")]
+  });
+
+  let verified = false;
+  let collector = channel.createMessageCollector({ filter: m => !m.author.bot, time: 5 * 60 * 1000 });
+
+  collector.on("collect", async (m) => {
+
+    let role = await guild.roles.fetch(guildDB.verification.verificationRole).catch(() => { });
+    if (!role) channel.send("Verification role not found. Please set it in the settings.");
+
+    if (m.content.toLowerCase() === captcha.value.toLowerCase()) {
+
+      try {
+        await m.member.roles.add(role);
+        verified = true;
+        collector.stop();
+      } catch (e) {
+        channel.send("Error adding role. Please try again. \n Is my role higher than the role you want to add?");
+      }
+
+    } else {
+      channel.send("Wrong captcha, try again.");
+    }
+  });
+
+  collector.on("end", async (collected, reason) => {
+    if (reason === "time") {
+      if (!verified) {
+        channel.send("You didn't enter the correct text in time.");
+      }
+    }
+  });
 }

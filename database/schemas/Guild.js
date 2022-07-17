@@ -75,6 +75,24 @@ const guildConfigSchema = mongoose.Schema({
       },
     ],
   },
+  verification: {
+    enabled: {
+      type: mongoose.SchemaTypes.Boolean,
+      required: false,
+      default: false,
+    },
+    verificationChannel: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    },
+    verificationRole: {
+      type: mongoose.SchemaTypes.String,
+      required: false,
+      default: null,
+    }
+  },
+
   bump: {
     enabled: {
       type: mongoose.SchemaTypes.Boolean,

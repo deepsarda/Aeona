@@ -49,7 +49,8 @@ module.exports = {
 
     if (message.author.bot) {
       if (message.embeds[0]) {
-        if (message.embeds[0].description.toLowerCase().includes("bump done")) {
+        if (message.embeds[0].description.toLowerCase().indexOf("Bump done") > -1) {
+          console.log("Bump done");
           if (guild.bump.enabled) {
             message.channel.send(
               `<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`
