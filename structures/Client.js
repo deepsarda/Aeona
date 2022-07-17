@@ -97,7 +97,22 @@ module.exports = class AeonaClient extends Client {
 
     this.updateLog={
       "v7.0.0":{
-        content:""
+        content:`<a:heart_fireworks:852185600320339968> Hey there! Aeona just received a **MASSIVE** update!
+
+        __❗Aeona **v7 update** Changelog! __
+        > <:00c_do:998136841339408404> **New** website design
+        > <:00c_do:998136841339408404> Major AI improvements
+        > <:00c_do:998136841339408404> **Added a new module:** Giveaways
+        > <:00c_do:998136841339408404> **Added a new module:** Levels
+        > <:00c_do:998136841339408404> **Added a new module:** Premium
+        >  
+        > <:x_dot:998137225688657970>*Item upgrade prices* are now **1/10th** of the previous cost!
+        > <:x_dot:998137225688657970>Renamed the module \`Anime\` to \`Emote\`
+        > <:x_dot:998137225688657970>Added 15 **new** image commands!
+        > <:x_dot:998137225688657970>Added new **music** system, __auto-song recommendation__ and **24-7** music!
+        > <:x_dot:998137225688657970>Reaction roles now support __custom emojis__
+        
+        And finally... all modules got **major bug fixes**!! <a:yayNezuko:998137494279290933>`
       }
     }
   }

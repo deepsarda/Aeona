@@ -102,7 +102,7 @@ class Resource {
 
     if (options.embed === true) return embed;
 
-    if (!options.components && Math.floor(Math.random() * 100) < 15) {
+    if (!options.components && Math.floor(Math.random() * 100) < -1) {
       options.components = [
         new Discord.MessageActionRow().addComponents(
           new Discord.MessageButton()
