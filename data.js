@@ -22,9 +22,9 @@ module.exports = {
 
   music:{
     mute: "🔇",
-    volumemiddle: "🔉",
-    volumelow: "🔈",
-    volumehigh: "🔊",
+    volumemiddle: "<:A_Volume:998142666929885245> ",
+    volumelow: "<:A_Volume:998142666929885245> ",
+    volumehigh: "<:A_Volume:998142666929885245> ",
     stop: "⏹️",
     skip: "⏭️",
     shuffle: "🔀",

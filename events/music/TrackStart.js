@@ -11,7 +11,6 @@ module.exports = {
     const emojiskip = client.emoji.skip;
 
     const thing = new MessageEmbed()
-      .setDescription()
       .setThumbnail(
         `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`
       )
@@ -54,7 +53,7 @@ module.exports = {
       description: `${emojiplay} **Started Playing**\n [${track.title}](${
         track.uri
       }) - \`[${convertTime(track.duration)}]\``,
-      thumbnailUrl: `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`,
+      imageURL: `https://img.youtube.com/vi/${track.identifier}/mqdefault.jpg`,
       components: [row],
     });
     player.setNowplayingMessage(NowPlaying);
@@ -77,17 +76,30 @@ module.exports = {
       },
       time: track.duration,
     });
+
+    try{
+    const autoplay = player.get("autoplay");
+  
+    if (autoplay === true) {
+      const requester = player.get("requester");
+      const oldidentifier = player.get("identifier");
+      const identifier = player.queue.current.identifier;
+      const search = `https://www.youtube.com/watch?v=${identifier}&list=RD${identifier}`;
+      res = await player.search(search, requester);
+      player.queue.add(res.tracks[2]);
+    }
+    }catch(e){console.log(e)}
+
+    
     collector.on("collect", async (i) => {
-      await i.deferReply({
-        ephemeral: false,
-      });
+      
       if (i.customId === "vdown") {
         if (!player) {
           return collector.stop();
         }
         let amount = Number(player.volume) - 10;
         await player.setVolume(amount);
-        i.editReply({
+        i.reply({
           description: `${volumeEmoji} The current volume is: **${amount}**`,
         }).then((msg) => {
           setTimeout(() => {
@@ -100,7 +112,7 @@ module.exports = {
         }
         await player.stop();
         await player.queue.clear();
-        i.editReply({
+        i.reply({
           description: `${emojistop} Stopped the music`,
         }).then((msg) => {
           setTimeout(() => {
@@ -116,7 +128,7 @@ module.exports = {
         const Text = player.paused
           ? `${emojipause} **Paused**`
           : `${emojiresume} **Resume**`;
-        i.editReply({
+        i.reply({
           description: `${Text} \n[${player.queue.current.title}](${player.queue.current.uri})`,
         }).then((msg) => {
           setTimeout(() => {
@@ -128,7 +140,7 @@ module.exports = {
           return collector.stop();
         }
         await player.stop();
-        i.editReply({
+        i.reply({
           description: `${emojiskip} **Skipped**\n[${player.queue.current.title}](${player.queue.current.uri})`,
         }).then((msg) => {
           setTimeout(() => {
@@ -145,7 +157,7 @@ module.exports = {
         let amount = Number(player.volume) + 10;
         if (amount >= 150)
           return i
-            .editReply({
+            .reply({
               description: `Cannot higher the player volume further more.`,
             })
             .then((msg) => {
@@ -154,7 +166,7 @@ module.exports = {
               }, 10000);
             });
         await player.setVolume(amount);
-        i.editReply({
+        i.reply({
           description: `${volumeEmoji} The current volume is: **${amount}**`,
         }).then((msg) => {
           setTimeout(() => {

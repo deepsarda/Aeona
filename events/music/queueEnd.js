@@ -5,6 +5,7 @@ const ms = require("ms");
 module.exports = {
   name: "queueEnd",
   async execute(client, player) {
+   
     const channel = client.channels.cache.get(player.textChannel);
     let thing = new MessageEmbed()
 
@@ -14,5 +15,6 @@ module.exports = {
         iconURL: client.user.displayAvatarURL(),
       });
     channel.send({ embeds: [thing] });
+    
   },
 };

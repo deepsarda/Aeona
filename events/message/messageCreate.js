@@ -107,7 +107,7 @@ module.exports = {
           });
 
           const attachment = new Discord.MessageAttachment(data, "profile.png");
-          channel.send({ content: levelUpMessage, files: [attachment] });
+          channel.send({ content: levelUpMessage, embeds:[],files: [attachment] });
         }
 
         for (let i = 0; i < settings.leveling.roles.length; i++) {

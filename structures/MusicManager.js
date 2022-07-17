@@ -36,7 +36,8 @@ module.exports = class MusicManager extends Manager {
           secure: true,
         },
       ],
-      autoPlay: true,
+      autoplay: true,
+      
       plugins,
 
       send: (id, payload) => {
@@ -45,6 +46,7 @@ module.exports = class MusicManager extends Manager {
       },
     });
   }
+  
 };
 
 Structure.extend("Player", (Player) => {

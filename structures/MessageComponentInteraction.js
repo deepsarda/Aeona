@@ -84,7 +84,14 @@ module.exports.run = () => {
     if (!options.resources) options = resources.error.embed(options);
     return this.webhook.send(options);
   };
-
+  MessageComponentInteraction.prototype.update = async function (options) {
+    if (!this.deferred && !this.replied) throw new Error('INTERACTION_NOT_REPLIED');
+    if (!options.resources) options = resources.success.embed(options);
+    const message = await this.webhook.editMessage('@original', options);
+    this.replied = true;
+    return message;
+  };
+  
   MessageComponentInteraction.prototype.update = async function (options) {
     if (this.deferred || this.replied)
       throw new Error("INTERACTION_ALREADY_REPLIED");

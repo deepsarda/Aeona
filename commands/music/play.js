@@ -52,8 +52,9 @@ module.exports = {
       textChannel: message.channel.id,
       selfDeafen: true,
       volume: 80,
+     
     });
-
+    player.set("autoplay", true);
     if (player.state != "CONNECTED") await player.connect();
     const search = args.join(" ");
     let res;
