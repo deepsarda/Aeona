@@ -11,12 +11,12 @@ module.exports = {
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`RED`)
       .setTitle("Leave Server")
-      .setThumbnail(`${process.env.domain}/logo`)
+      .setThumbnail(`${process.env.domain}/logo.png`)
       .setDescription(`Aeona left a Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
       .setFooter({
-        text: `${this.client.guilds.cache.size} guilds `,
+        text: `${client.guilds.cache.size} guilds `,
         iconURL: `${process.env.domain}/logo.png`,
       });
 

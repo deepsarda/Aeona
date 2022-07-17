@@ -1,5 +1,6 @@
 const { success, emotes } = require("../../utils/resources.js");
 const Discord = require("discord.js");
+const fetch= require("node-fetch")
 module.exports = {
   name: "meme",
   description: "See a funny meme!",

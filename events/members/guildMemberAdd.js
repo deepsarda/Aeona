@@ -9,7 +9,6 @@ const Logging = require("../../database/schemas/logging");
 module.exports = {
   name: "guildMemberAdd",
   async execute(client, member) {
-    console.log(member);
     const logging = await Logging.findOne({ guildId: member.guild.id });
 
     const muteDoc = await muteModel.findOne({

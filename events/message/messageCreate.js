@@ -482,7 +482,7 @@ function deleteLink(message) {
   });
   return true;
 }
-
+const moment= require("moment")
 function ratelimit(message, command) {
   try {
     if (message.author.permLevel > 4) return false;

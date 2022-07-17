@@ -113,14 +113,14 @@ module.exports = {
     const welcomeEmbed = new Discord.MessageEmbed()
       .setColor(`PURPLE`)
       .setTitle("New Server")
-      .setThumbnail(`${process.env.domain}/logo`)
+      .setThumbnail(`${process.env.domain}/logo.png`)
       .setDescription(`Aeona was added to a new Server!`)
       .addField(`Server Name`, `\`${guild.name}\``, true)
       .addField(`Server ID`, `\`${guild.id}\``, true)
       .addField(`Server Owner`, `\`${owner.user.tag}\``, true)
       .addField(`Server Owner ID`, `\`${owner.user.id}\``, true)
       .setFooter({
-        text: `${this.client.guilds.cache.size} guilds `,
+        text: `${client.guilds.cache.size} guilds `,
         iconURL: `${process.env.domain}/logo.png`,
       });
 
