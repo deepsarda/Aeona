@@ -1,5 +1,5 @@
 const autoResponse = require("../database/schemas/autoResponse");
-
+const moment=require("moment")
 module.exports = async function (message, autoResponseCooldown) {
   const autoResponseSettings = await autoResponse.find({
     guildId: message.guild.id,

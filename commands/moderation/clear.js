@@ -7,7 +7,7 @@ module.exports = {
   usage: "+clear [channel(optional)] [user(optional)] <message-count> [reason]",
   category: "moderation",
   requiredArgs: 1,
-  permission: ["MANAGE_MESSAGES"],
+  permissions: ["MANAGE_MESSAGES"],
   botPermission: ["MANAGE_MESSAGES"],
   aliases: ["purge"],
   execute: async (message, args, bot, prefix) => {
@@ -129,9 +129,7 @@ module.exports = {
                     .setFooter({ text: `Responsible ID: ${message.author.id}` })
                     .setColor(color);
 
-                  for (const field in fields) {
-                    logEmbed.addField(field, fields[field], true);
-                  }
+
 
                   channel.send({ embeds: [logEmbed] }).catch(() => {});
 

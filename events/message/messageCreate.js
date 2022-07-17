@@ -198,7 +198,7 @@ module.exports = {
           });
         }
         if (
-          cmd.permission &&
+          cmd.permissions &&
           !message.client.developers.includes(message.author.id) &&
           !message.member.permissions.has(command.permission[0])
         ) {

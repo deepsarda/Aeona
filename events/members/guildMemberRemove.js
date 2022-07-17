@@ -338,7 +338,7 @@ function removeA(arr) {
 
 const Captcha = require("@haileybot/captcha-generator");
 
-function getVerification(guildDB, guild) {
+async function getVerification(guildDB, guild) {
   let channel = await guild.channels.fetch(guildDB.verification.verificationChannel).catch(() => { });
   if (!channel) return;
 

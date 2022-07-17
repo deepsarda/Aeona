@@ -1,5 +1,5 @@
 const Guild = require("../../database/schemas/Guild");
-const autoResponse = require("../../database/schemas/autoResponse.js");
+const autoResponses = require("../../database/schemas/autoResponse.js");
 module.exports = {
   name: "autoresponse",
   description: "Create a auto-response which gets triggered without prefix!",
@@ -12,7 +12,7 @@ module.exports = {
     const guild = await Guild.findOne({ guildId: message.guild.id });
 
     if (guild.isPremium === "false") {
-      const results = await autoResponse.find({ guildId: message.guild.id });
+      const results = await autoResponses.find({ guildId: message.guild.id });
       if (results.length >= 5) {
         return await message.replyError({
           title: "Oops!",
@@ -37,7 +37,7 @@ module.exports = {
           "The auto-response cannot be longer than 2000 characters!\nPlease retry this command.",
       });
 
-    let autoResponse = await autoResponse.findOne({
+    let autoResponse = await autoResponses.findOne({
       guildId: message.guild.id,
       name: name,
     });
@@ -49,7 +49,7 @@ module.exports = {
           "Looks like an auto-response for this message already exists!\nPlease retry this command.",
       });
 
-    await autoResponse.create({
+    await autoResponses.create({
       guildId: message.guild.id,
       name: name,
       content: reply,
