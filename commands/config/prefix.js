@@ -11,7 +11,7 @@ module.exports = {
   execute: async (message, args, bot, prefix) => {
     let p = args[0];
 
-    if (p.length > 5)
+    if (p.length > 5) 
       return await message.replyError({
         title: "Oops!",
         description:

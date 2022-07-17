@@ -12,7 +12,6 @@ require("./structures/TextChannel").run();
 require("./structures/Message").run();
 require("./structures/MessageComponentInteraction").run();
 require("./structures/CanvasSenpai").run();
-require("./structures/CanvasSenpai").run();
 const logger = require("./utils/logger");
 
 logger("Aeona", config.logs_webhook_url);

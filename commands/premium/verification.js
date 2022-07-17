@@ -2,7 +2,7 @@ const Guild = require("../../database/schemas/Guild");
 
 module.exports = {
     name: "verification",
-    description: "Create a reminder to bump your server",
+    description: "Verify users who join your server",
     usage: "+verification enable <channel> <role> or +verification disable",
     category: "config",
     requiredArgs: 1,
@@ -29,7 +29,7 @@ module.exports = {
 
             guild.verification.verificationChannel = channel.id;
 
-            let role = await message.guild.roles.fetch(args[2]).catch(() => { });
+            let role = message.mentions.roles.first() ||await message.guild.roles.fetch(args[2]).catch(() => { });
             if (!role) return message.replyError({
                 title: `verification`,
                 description: `Invalid usage!\nPlease retry this command... using the correct syntax.\n\n\`${prefix}verification <channel> <role>\``,

@@ -62,10 +62,10 @@ const guildConfigSchema = mongoose.Schema({
     },
     roles: [
       {
-        roleId: {
+        role: {
           type: mongoose.SchemaTypes.String,
           required: false,
-          default: null,
+          default: "0",
         },
         level: {
           type: mongoose.SchemaTypes.Number,

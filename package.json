@@ -38,6 +38,7 @@
     "delay": "^5.0.0",
     "discord-giveaways": "^5.2.1",
     "discord-image-generation": "^1.4.13",
+    "discord-xp": "^1.1.16",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.7",

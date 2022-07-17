@@ -10,6 +10,12 @@ const customCommands = require("../../utils/customCommands");
 const globalchat = require("../../utils/globalchat");
 const afkCheck = require("../../utils/afkCheck");
 const autoresponse = require("../../utils/autoresponse");
+const Levels = require("discord-xp");
+let xpCooldown = new Set();
+const { CanvasSenpai } = require("canvas-senpai");
+const { channel } = require("diagnostics_channel");
+const canva = new CanvasSenpai();
+
 
 module.exports = {
   name: "messageCreate",
@@ -60,6 +66,72 @@ module.exports = {
         }
       }
     }
+
+    if (settings.leveling.enabled) {
+      if (!xpCooldown.has(message.author.id)) {
+        const randomAmountOfXp = Math.floor(Math.random() * 29) + 1; // Min 1, Max 30
+        const hasLeveledUp = await Levels.appendXp(message.author.id, message.guild.id, randomAmountOfXp);
+        let user = await Levels.fetch(message.member.id, message.guild.id, true); // Selects the target from the database.
+        let channel = message.channel;
+        if (settings.leveling.levelUpChannel) {
+          channel = await message.guild.channels.fetch(settings.leveling.levelUpChannel).catch(() => { });
+          if (!channel) {
+            channel = message.channel;
+          }
+        }
+
+        if (hasLeveledUp) {
+
+
+
+          let levelUpMessage = guiild.leveling.levelUpMessage;
+          levelUpMessage = levelUpMessage.replace("{user}", message.member);
+          levelUpMessage = levelUpMessage.replace("{level}", user.level);
+          levelUpMessage = levelUpMessage.replace("{xp}", user.cleanXp);
+          levelUpMessage = levelUpMessage.replace("{requiredXp}", user.cleanNextLevelXp);
+          levelUpMessage = levelUpMessage.replace("{rank}", user.position);
+
+          let data = await canva.profile({
+            name: message.author.username,
+            discriminator: message.author.discriminator,
+            avatar: message.member.displayAvatarURL({ format: "png" }),
+            background: message.member.banner
+              ? message.member.bannerURL({ format: "png", size: 4096 })
+              : null,
+            rank: 1,
+            xp: user.cleanXp,
+            level: user.level,
+            maxxp: user.cleanNextLevelXp,
+            blur: false,
+          });
+
+          const attachment = new Discord.MessageAttachment(data, "profile.png");
+          channel.send({ content: levelUpMessage, files: [attachment] });
+        }
+
+        for (let i = 0; i < settings.leveling.roles.length; i++) {
+          if (user.level == settings.leveling.roles[i].level) {
+            try {
+              let role = await message.guild.roles.fetch(settings.leveling.roles[i].role).catch(() => { });
+
+              if (!role) {
+                channel.send(`${message.author} I was unable to give you the reward for reaching level ${user.level}! As I was unable to find the role. Please contact a server admin to have the role given to you.`);
+                break;
+              }
+              message.member.roles.add(settings.leveling.roles[i].role);
+
+              channel.send(`${message.author} has reached level ${user.level} and has been given the role ${role.name}`);
+            } catch (e) {
+              channel.send(`${message.author} I was unable to give you the reward for reaching level ${user.level}! As my role is not high enough. Please contact a server admin to have the role given to you.`);
+            }
+          }
+        }
+        xpCooldown.add(message.author.id);
+        setTimeout(() => {
+          xpCooldown.delete(message.author.id);
+        }, 5000);
+      }
+    }
     globalchat(settings, message, client);
     afkCheck(settings, message, client);
 
@@ -82,10 +154,10 @@ module.exports = {
           )
           .then(async (s) => {
             setTimeout(() => {
-              s.delete().catch(() => {});
+              s.delete().catch(() => { });
             }, 5000);
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     }
     if (settings && (await inviteFilter(settings, message, client))) return;
@@ -163,26 +235,23 @@ module.exports = {
       if (typeof rateLimit === "string")
         return message.channel
           .send(
-            `Please wait **${rateLimit}** before running the **${cmd}** command again - ${
-              message.author
-            }\n\n${
-              number === 1
-                ? `*Did You know that Aeona has its own dashboard? ${process.env.domain}/dashboard*`
-                : ""
-            }${
-              number === 2
-                ? `*You can check our top.gg page at ${process.env.domain}*`
-                : ""
+            `Please wait **${rateLimit}** before running the **${cmd}** command again - ${message.author
+            }\n\n${number === 1
+              ? `*Did You know that Aeona has its own dashboard? ${process.env.domain}/dashboard*`
+              : ""
+            }${number === 2
+              ? `*You can check our top.gg page at ${process.env.domain}*`
+              : ""
             }`
           )
           .then((s) => {
-            message.delete().catch(() => {});
+            message.delete().catch(() => { });
 
             setTimeout(() => {
-              s.delete().catch(() => {});
+              s.delete().catch(() => { });
             }, 10000);
           })
-          .catch(() => {});
+          .catch(() => { });
 
       try {
         if (args.length < cmd.requiredArgs)
@@ -218,13 +287,12 @@ module.exports = {
               .sendError({
                 msg: message,
                 title: `Missing Bot Permissions`,
-                description: `Command Name: **${
-                  command.name
-                }**\nRequired Permission: **${missingPermissions
-                  .map((p) => `${p}`)
-                  .join(" - ")}**`,
+                description: `Command Name: **${command.name
+                  }**\nRequired Permission: **${missingPermissions
+                    .map((p) => `${p}`)
+                    .join(" - ")}**`,
               })
-              .catch(() => {});
+              .catch(() => { });
           }
         }
 
@@ -260,10 +328,8 @@ module.exports = {
         client.statcord.postCommand(command, message.author.id);
         await cmd.execute(message, args, message.client, prefix);
         console.log(
-          `${message.author.tag} ran command ${cmd.name} in ${
-            message.guild.name
-          } (${message.guild.id}) in channel ${message.channel.name} (${
-            message.channel.id
+          `${message.author.tag} ran command ${cmd.name} in ${message.guild.name
+          } (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id
           }) with args ${args.join(" ")} userId: ${message.author.id}`
         );
       } catch (e) {
@@ -300,7 +366,7 @@ async function inviteFilter(settings, message, client) {
       .then((res) => res.json())
       .then((json) => {
         if (json.message !== "Unknown Invite") {
-          message.delete().catch(() => {});
+          message.delete().catch(() => { });
           message.channel.send({
             embeds: [
               {
@@ -329,7 +395,7 @@ async function inviteFilter(settings, message, client) {
       /(https:\/\/)?(www\.)?(discord\.gg|discord\.me|discordapp\.com\/invite|discord\.com\/invite)\/([a-z0-9-.]+)?/i
     );
     if (links) {
-      message.delete().catch(() => {});
+      message.delete().catch(() => { });
       message.channel.send({
         embeds: [
           {
@@ -374,7 +440,7 @@ function hasLink(string) {
 
 function deleteLink(message) {
   if (message.deletable) {
-    message.delete().catch(() => {});
+    message.delete().catch(() => { });
   }
 
   message.channel.send({
