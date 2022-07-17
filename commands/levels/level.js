@@ -2,6 +2,7 @@ const Levels = require("discord-xp");
 const { CanvasSenpai } = require("canvas-senpai");
 const canva = new CanvasSenpai();
 const parseUser = require("../../utils/parseUser.js");
+const Discord=require("discord.js");
 
 module.exports = {
     name: "level",
