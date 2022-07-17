@@ -1,4 +1,4 @@
-const guild = require("../../database/schemas/Guild");
+const g = require("../../database/schemas/Guild");
 
 module.exports = {
     name: "removereward",
@@ -9,7 +9,7 @@ module.exports = {
     permission: ["MANAGE_GUILD"],
     execute: async (message, args, bot, prefix) => {
 
-        let guild = await guild.findOne({ guildId: message.guild.id });
+        let guild = await g.findOne({ guildId: message.guild.id });
 
         let level = parseInt(args[0]);
 
