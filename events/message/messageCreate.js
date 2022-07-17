@@ -64,7 +64,6 @@ module.exports = {
             );
             settings.bump.lastBump = Date.now();
           }
-        }
       }
     }
 
