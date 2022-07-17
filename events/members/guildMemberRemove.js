@@ -7,10 +7,7 @@ const Logging = require("../../database/schemas/logging");
 module.exports = {
   name: "guildMemberRemove",
   async execute(client, member) {
-    console.log(member);
     const logging = await Logging.findOne({ guildId: member.guild.id });
-
-
 
     if (logging) {
       if (logging.server_events.toggle == "true") {

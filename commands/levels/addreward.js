@@ -4,7 +4,7 @@ module.exports = {
     name: "addreward",
     description: "Add a reward to a certain level",
     usage: "+addreward <level> <role>",
-    category: "config",
+    category: "levels",
     requiredArgs: 2,
     permission: ["MANAGE_GUILD"],
     execute: async (message, args, bot, prefix) => {

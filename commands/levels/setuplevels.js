@@ -4,7 +4,7 @@ module.exports = {
     name: "setuplevels",
     description: "Create a reminder to bump your server",
     usage: "+setuplevels enable or +setuplevels set <channel> <message(optional)> or +setuplevels disable",
-    category: "config",
+    category: "levels",
     requiredArgs: 1,
     permission: ["MANAGE_GUILD"],
     execute: async (message, args, bot, prefix) => {

@@ -16,7 +16,7 @@ let xpCooldown = new Set();
 const { CanvasSenpai } = require("canvas-senpai");
 const { channel } = require("diagnostics_channel");
 const canva = new CanvasSenpai();
-
+const fetch=require("node-fetch")
 
 module.exports = {
   name: "messageCreate",

@@ -4,7 +4,7 @@ module.exports = {
     name: "removereward",
     description: "Remove a reward from a certain level",
     usage: "+removereward <level>",
-    category: "config",
+    category: "levels",
     requiredArgs: 1,
     permission: ["MANAGE_GUILD"],
     execute: async (message, args, bot, prefix) => {
