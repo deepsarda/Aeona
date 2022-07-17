@@ -1,0 +1,9 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<%      sort=(a,b)=>{return b.rawPosition-a.rawPosition};
+sortChannels=(a,b)=>{return a.rawPosition-b.rawPosition};
+guild.channels.cache=guild.channels.cache.sort((a,b)=>{a.rawPosition-b.rawPosition});
+guild.roles.cache=guild.roles.cache.sort((a,b)=>{a.rawPosition-b.rawPosition});
+guild.members.cache=guild.members.cache.sort((a,b)=>{a.user.username-b.user.username}); %>
+<div class="drawer drawer-mobile glass2">
+  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-content flex flex-col  p-10 ">

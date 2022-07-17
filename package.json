@@ -1,0 +1,79 @@
+{
+  "name": "aeona",
+  "version": "v7.0.0",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
+  "description": "Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_",
+  "main": "index.js.js",
+  "scripts": {
+    "start": "node index.js",
+    "tailwind": "npx tailwind build -o ./dashboard/static/css/build.css --watch --minify",
+    "dev": "nodemon index.js",
+    "lint": "ejslint **/*.ejs",
+    "lavalink": "java -jar Lavalink.jar"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.2",
+    "autoprefixer": "^10.4.7",
+    "daisyui": "^2.15.0",
+    "eslint": "^8.16.0",
+    "eslint-config-tesseract": "^0.3.0",
+    "node": "^17.7.2",
+    "postcss-import": "^14.1.0",
+    "tailwindcss": "^3.0.24",
+    "tailwindcss-animatecss": "^1.0.7",
+    "tailwindcss-filters": "^3.0.0"
+  },
+  "dependencies": {
+    "@haileybot/captcha-generator": "^1.7.0",
+    "@top-gg/sdk": "^3.1.3",
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "canvas-senpai": "^2.0.3",
+    "chokidar": "^3.5.3",
+    "connect-mongo": "^4.6.0",
+    "crypto": "^1.0.1",
+    "date-and-time": "^2.4.0",
+    "delay": "^5.0.0",
+    "discord-giveaways": "^5.2.1",
+    "discord-image-generation": "^1.4.13",
+    "discord-xp": "^1.1.16",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.7",
+    "erela.js": "^2.3.3",
+    "erela.js-deezer": "^1.0.7",
+    "erela.js-facebook": "^1.0.4",
+    "erela.js-spotify": "^1.2.0",
+    "express": "^4.18.1",
+    "express-session": "^1.17.2",
+    "fast-average-color-node": "^2.4.0",
+    "hmfull": "^2.4.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "mongoose": "^5.13.14",
+    "ms": "^2.1.3",
+    "nekos.life": "^3.0.0",
+    "node-fetch": "^2.6.7",
+    "passport": "^0.6.0",
+    "passport-discord": "^0.1.4",
+    "randostrings": "^0.1.6",
+    "statcord.js": "^3.4.2",
+    "tenorjs": "^1.0.8",
+    "topgg-autoposter": "^2.0.1",
+    "uniqid": "^5.4.0"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepsarda/Aeona.git"
+  },
+  "bugs": {
+    "url": "https://github.com/deepsarda/Aeona/issues"
+  },
+  "homepage": "https://github.com/deepsarda/Aeona#readme"
+}

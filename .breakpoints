@@ -1,0 +1,12 @@
+{
+  "files": {
+    "commands/moderation/mute.js": [
+      {
+        "id": "2ac29cd3-cc65-47c1-9449-2a0c062a113d",
+        "line": 19,
+        "version": 442,
+        "index": 616
+      }
+    ]
+  }
+}

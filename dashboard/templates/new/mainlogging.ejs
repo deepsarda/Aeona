@@ -1,0 +1,431 @@
+<%- include("../partials/head", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<% if (guild.icon) { iconurl="https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
+            + ".png??size=512" ; } else {
+            iconurl="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404-dark.png?v=1602427904949" ;
+} %>
+<%- include("../partials/sidebar", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<nav class="text-center">
+  <h1>Dashboard for <%=guild.name%> </h1>
+  <label for="my-drawer-2" class=" drawer-button lg:hidden float-left">Open Menu</label>
+</nav>
+<% if(alert) { %>
+<div id="alert-1" class="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
+  <svg class="flex-shrink-0 w-5 h-5 text-blue-700 dark:text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+  </svg>
+  <div class="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
+    <%= alert %>
+  </div>
+  <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300" data-dismiss-target="#alert-1" aria-label="Close">
+    <span class="sr-only">Close</span>
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+    </svg>
+  </button>
+</div>
+<% } %>
+
+<form role="form" action="/dashboard/<%= guild.id %>/logging" method="POST">
+  <h3>Server Logging</h3>
+  <hr class="border-x-gray-300 w-full m-0 mb-3">
+  <h5>- TIP: keep the embed color to #000000 for the default logging colors.</h5>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+    <div class="glass2">
+      <h3>Moderation Logging</h3>
+      <h5>Log actions ran by moderation commands</h5>
+      <ul>
+        <li>
+          <% if(log.moderation.ban=="true" ) {%>
+          <input id="c1" name="ban" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c1" name="ban" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c1">Ban / Unban / Softban</label>
+        </li>
+
+        <li>
+          <% if(log.moderation.kick=="true" ) {%>
+          <input id="c2" name="kick" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c2" name="kick" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c2">Kick </label>
+        </li>
+
+
+        <li>
+          <% if(log.moderation.role=="true" ) {%>
+          <input id="c3" name="role-a" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c3" name="role-a" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c3">Role add / remove</label>
+        </li>
+        <li>
+          <% if(log.moderation.purge=="true" ) {%>
+          <input id="c4" name="purge" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c4" name="purge" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c4">Purge</label>
+        </li>
+        <li>
+          <% if(log.moderation.lock=="true" ) {%>
+          <input id="c5" name="lock" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input name="lock" id="c5" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c5">Lock / unlock</label>
+        </li>
+        <li>
+          <% if(log.moderation.warns=="true" ) {%>
+          <input id="c6" name="warns" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c6" name="warns" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c6">Warn / Warn Purge</label>
+        </li>
+        <li>
+          <% if(log.moderation.mute=="true" ) {%>
+          <input id="c7" name="mute" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input name="mute" id="c7" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c7">Mute</label>
+        </li>
+        <li>
+          <% if(log.moderation.slowmode=="true" ) {%>
+          <input id="c8" name="slowmode" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c8" name="slowmode" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c8">Slowmode</label>
+        </li>
+        <li>
+          <% if(log.moderation.nicknames=="true" ) {%>
+          <input id="c9" name="nicknames" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c9" name="nicknames" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c9">Nicknames</label>
+        </li>
+      </ul>
+      <h4> Logging Channel</h4>
+      <select id="select1" name="moderation_channel" class="select">
+        <% if(log.moderation.channel && bot.channels.cache.has(log.moderation.channel)){ %>
+        <option selected="selected">#<%= bot.channels.cache.get(log.moderation.channel).name %>
+        </option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
+                                log.moderation.channel).sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">None</option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <% } %>
+      </select>
+
+      <h4> Ignore Channel</h4>
+      <select id="select130" name="ignore_channel" class="select">
+        <% if(log.moderation.ignore_channel &&
+                              bot.channels.cache.has(log.moderation.ignore_channel)){ %>
+        <option selected="selected">#<%=
+                                  bot.channels.cache.get(log.moderation.ignore_channel).name %>
+        </option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
+                                log.moderation.ignore_channel).sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">None</option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <% } %>
+      </select>
+
+      <h4>Ignore Role</h4>
+      <select id="select12" name="ignore_role" class="select">
+        <% if(log.moderation.ignore_role && guild.roles.cache.has(log.moderation.ignore_role)){ %>
+        <option style="color: <%= guild.roles.cache.get(log.moderation.ignore_role).hexColor === " #000000" ? {r:255,g:255,b:255} :
+                                guild.roles.cache.get(log.moderation.ignore_role).hexColor%>" selected="selected">@<%=
+                                  guild.roles.cache.get(log.moderation.ignore_role).name %>
+        </option>
+        <% guild.roles.cache.filter((r)=> r.id !== log.moderation.ignore_role && r.name !==
+                                "@everyone" && !r.managed).sort(sort).forEach((r) => { %>
+        <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} : r.hexColor%>
+                                  ">@<%= r.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">None</option>
+        <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name
+                                      !== "@everyone").first().id && r.name !== "@everyone" && !r.managed).sort(sort).forEach((r)=> { %>
+        <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} :
+                                        r.hexColor%>">@<%= r.name %>
+        </option>
+        <% }); %>
+        <% } %>>
+      </select>
+
+      <br>
+      <br>
+      Color
+      &nbsp;
+      <input name="color" value="<%= log.moderation.color %>" type="color" id="logging-color-1" class="color">
+      <br>
+      <br>
+
+      Enable
+      &nbsp;
+      <% if(log.moderation.toggle=="true" ){%>
+      <input id="s1" name="toggle" type="checkbox" checked class="toggle toggle-primary">
+      <% } else { %>
+      <input id="s1" name="toggle" type="checkbox" class="toggle toggle-primary">
+      <% } %>
+      <br>
+      <br>
+
+      <button type="submit" name="moderation" class="btn btn-primary">Save Changes</button>
+    </div>
+    <div class="glass2">
+      <h3>Message Events</h3>
+      <ul>
+        <li>
+          <% if(log.message_events.deleted=="true" ) { %>
+          <input id="c25" name="deleted" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c25" name="deleted" type="checkbox">
+          <% } %>
+          <label for="c25">Deleted Messages</label>
+        </li>
+        <li>
+          <% if(log.message_events.edited=="true" ) { %>
+          <input id="c26" name="edited" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c26" name="edited" type="checkbox">
+          <% } %>
+          <label for="c26">Edited Messages</label>
+        </li>
+        <li>
+          <% if(log.message_events.purged=="true" ) { %>
+          <input id="c27" name="purged" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c27" name="purged" type="checkbox">
+          <% } %>
+          <label for="c27">Purged Messages</label>
+        </li>
+        <li>
+          <% if(log.message_events.ignore=="true" ) { %>
+          <input id="s121" type="checkbox" name="ignore" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="s121" type="checkbox" name="ignore" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c299">Ignore others bots</label>
+        </li>
+      </ul>
+
+      <h3>Logging Channel</h3>
+      <select id="select4" name="message_events_channel" class="select">
+        <% if(log.message_events.channel && bot.channels.cache.has(log.message_events.channel)){ %>
+        <option selected="selected">#<%= bot.channels.cache.get(log.message_events.channel).name %>
+        </option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
+                              log.message_events.channel).sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">None</option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <% } %>
+      </select>
+
+
+      <br>
+      <br>
+      Color
+      &nbsp;
+      <input name="message_events_color" value="<%= log.message_events.color %>" type="color" id="logging-color-1" class="color">
+      <br>
+      <br>
+
+      Enable
+      &nbsp;
+      <% if(log.message_events.toggle=="true" ){%>
+      <input id="s1" name="message_events_toggle" type="checkbox" checked class="toggle toggle-primary">
+      <% } else { %>
+      <input id="s1" name="message_events_toggle" type="checkbox" class="toggle toggle-primary">
+      <% } %>
+      <br>
+      <br>
+
+      <button type="submit" name="message_events" class="btn btn-primary">Save Changes</button>
+    </div>
+
+    <div class="glass2">
+      <h3>Server Events</h3>
+      <ul>
+        <li>
+          <% if(log.server_events.channel_created=="true" ) { %>
+          <input id="c11" name="channel_created" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c11" name="channel_created" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c11">Channel Creation</label>
+        </li>
+        <li>
+          <% if(log.server_events.channel_update=="true" ) { %>
+          <input id="c12" name="channel_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c12" name="channel_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c12">Channel Updated </label>
+        </li>
+        <li>
+          <% if(log.server_events.channel_delete=="true" ) { %>
+          <input id="c13" name="channel_delete" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c13" name="channel_delete" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c13">Channel Deleted</label>
+        </li>
+        <li>
+          <% if(log.server_events.role_create=="true" ) { %>
+          <input id="c14" type="checkbox" name="role_create" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c14" name="role_create" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c14">Role created / deleted</label>
+        </li>
+        <li>
+          <% if(log.server_events.role_update=="true" ) { %>
+          <input id="c15" name="role_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c15" name="role_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c15">Role Updated</label>
+        </li>
+        <li>
+          <% if(log.server_events.guild_update=="true" ) { %>
+          <input id="c16" name="guild_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c16" name="guild_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c16">Guild Updated</label>
+        </li>
+        <li>
+          <% if(log.server_events.emoji_update=="true" ) { %>
+          <input id="c17" name="emoji_update" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c17" name="emoji_update" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c17">Emoji Changes</label>
+        </li>
+
+        <div style="padding-top: 25px;">
+        </div>
+        <p>Voice Events</p>
+        <li>
+          <% if(log.server_events.voice.join=="true" ) { %>
+          <input id="c190" name="join" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c190" name="join" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c190">Join voice channel</label>
+        </li>
+        <li>
+          <% if(log.server_events.voice.move=="true" ) { %>
+          <input id="c199" name="move" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c199" name="move" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c199">Move between voice channels</label>
+        </li>
+        <li>
+          <% if(log.server_events.voice.leave=="true" ) { %>
+          <input id="c192" name="leave" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c192" name="leave" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c192">Leave voice channel</label>
+        </li>
+        <div style="padding-top: 25px;">
+        </div>
+        <p>Member movement</p>
+        <li>
+          <% if(log.server_events.member_join=="true" ) { %>
+          <input id="c18" name="member_join" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c18" name="member_join" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c18">Members joining</label>
+        </li>
+        <li>
+          <% if(log.server_events.member_leave=="true" ) { %>
+          <input id="c19" name="member_leave" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+          <% } else { %>
+          <input id="c19" name="member_leave" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+          <% } %>
+          <label for="c19">Members Leaving</label>
+        </li>
+      </ul>
+      <h3>Logging Channel</h3>
+      <select id="select123" name="channel1" class="select">
+        <% if(log.server_events.channel && bot.channels.cache.has(log.server_events.channel)){ %>
+        <option selected="selected">#<%= bot.channels.cache.get(log.server_events.channel).name %>
+        </option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT" && ch.id !==
+                                log.server_events.channel).sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">None</option>
+        <% guild.channels.cache.filter((ch)=> ch.type === "GUILD_TEXT").sort(sortChannels).forEach((ch) => { %>
+        <option>#<%= ch.name %>
+        </option>
+        <% }); %>
+        <% } %>
+      </select>
+      <br>
+      <br>
+      Color
+      &nbsp;
+      <input name="color" value="<%= log.server_events.color %>" type="color" id="logging-color-2" class="color">
+      <br>
+      <br>
+
+      Enable
+      &nbsp;
+      <% if(log.server_events.toggle=="true" ){%>
+      <input id="s1" name="toggle1" type="checkbox" checked class="toggle toggle-primary">
+      <% } else { %>
+      <input id="s1" name="toggle1" type="checkbox" class="toggle toggle-primary">
+      <% } %>
+      <br>
+      <br>
+
+      <button class="btn btn-primary" type="submit" name="server_events">Save Changes</button>
+    </div>
+
+    
+  </div>
+</form>
+<%- include("../partials/sidebar-end", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<%- include("../partials/footer") %>

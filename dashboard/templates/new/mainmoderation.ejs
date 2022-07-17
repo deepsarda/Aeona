@@ -1,0 +1,355 @@
+<%- include("../partials/head", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<% if (guild.icon) { iconurl="https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
+            + ".png??size=512" ; } else {
+            iconurl="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404-dark.png?v=1602427904949" ;
+} %>
+<%- include("../partials/sidebar", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<nav class="text-center">
+  <h1>Dashboard for <%=guild.name%> </h1>
+  <label for="my-drawer-2" class=" drawer-button lg:hidden float-left">Open Menu</label>
+</nav>
+
+<% if(alert) { %>
+<div id="alert-1" class="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
+  <svg class="flex-shrink-0 w-5 h-5 text-blue-700 dark:text-blue-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+  </svg>
+  <div class="ml-3 text-sm font-medium text-blue-700 dark:text-blue-800">
+    <%= alert %>
+  </div>
+  <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300" data-dismiss-target="#alert-1" aria-label="Close">
+    <span class="sr-only">Close</span>
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+    </svg>
+  </button>
+</div>
+<% } %>
+
+<form role="form" action="/dashboard/<%= guild.id %>/moderation" method="POST">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+    <div class="glass2">
+      <h1>Moderation Settings</h1>
+      <label for="c1">Delete command after executed
+        <% if(mod.delete_after_executed==="true" ){ %>
+        <input id="c1" name="delete_after_executed" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+        <% } else { %>
+        <input id="c1" name="delete_after_executed" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+        <% } %>
+      </label>
+      <br>
+      <label for="c7">delete bot's reply message after 5 seconds
+        <% if(mod.delete_reply==="true" ){ %>
+        <input id="c7" name="delete_reply" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+        <% } else { %>
+        <input id="c7" name="delete_reply" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+        <% } %>
+      </label>
+      <br>
+      <label for="c2">Include the Reason in Chat
+        <% if(mod.include_reason==="true" ){ %>
+        <input id="c2" name="include_reason" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+        <% } else { %>
+
+        <input id="c2" name="include_reason" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+        <% } %>
+      </label>
+      <br>
+      <label for="c3">Remove all roles on Mute + Give back when unmuted
+        <% if(mod.remove_roles==="true" ){ %>
+        <input id="c3" name="remove_roles" type="checkbox" checked class="float-right mr-5 toggle toggle-primary">
+        <% } else { %>
+        <input id="c3" name="remove_roles" type="checkbox" class="float-right mr-5 toggle toggle-primary">
+        <% } %>
+
+      </label>
+
+
+      <h3>Mute Role</h3>
+      <select class="select" name="role">
+        <% if(mod.mute_role && guild.roles.cache.has(mod.mute_role)){ %>
+        <option style="color: <%= guild.roles.cache.get(mod.mute_role).hexColor === " #000000" ?{r:255,g:255,b:255} : guild.roles.cache.get(mod.mute_role).hexColor%>" selected="selected">@<%= guild.roles.cache.get(mod.mute_role).name %>
+        </option>
+        <% guild.roles.cache.filter((r)=> r.id !== mod.mute_role && r.name !== "@everyone" &&!r.managed).sort(sort).forEach((r) => { %>
+        <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} : r.hexColor%> ">@<%= r.name %>
+        </option>
+        <% }); %>
+        <option>None</option>
+        <% } else { %>
+        <option selected="selected">none</option>
+        <% guild.roles.cache.filter((r)=> r.id !== guild.roles.cache.filter((r) => r.name
+                                      !== "@everyone" && !r.managed).first().id && r.name !== "@everyone" &&
+                                      !r.managed).sort(sort).forEach((r) => { %>
+        <option style="color: <%= r.hexColor === " #000000" ? {r:255,g:255,b:255} :r.hexColor%>">@<%= r.name %>
+        </option>
+        <% }); %>
+        <% } %>
+      </select>
+
+      <h3>Ban DM - Settings</h3>
+
+      <% if(mod.ban_action==="1" ) { %>
+      <select class="select" name="ban">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.ban_action==="2" ) { %>
+      <select class="select" name="ban">
+        <option value="1">Don't DM</option>
+        <option value="2" selected>Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.ban_action==="3" ) { %>
+      <select class="select" name="ban">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3" selected>Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.ban_action==="4" ) { %>
+      <select class="select" name="ban">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4" selected>Send Action + Reason + Moderator</option>
+      </select>
+      <% } else { %>
+      <select class="select" name="ban">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } %>
+
+      <h3>Kick - DM settings</h3>
+
+
+      <% if(mod.kick_action==="1" ) { %>
+      <select class="select" name="kick">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.kick_action==="2" ) { %>
+      <select class="select" name="kick">
+        <option value="1">Don't DM</option>
+        <option value="2" selected>Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.kick_action==="3" ) { %>
+      <select class="select" name="kick">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3" selected>Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.kick_action==="4" ) { %>
+      <select class="select" name="kick">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4" selected>Send Action + Reason + Moderator</option>
+      </select>
+      <% } else { %>
+      <select class="select" name="kick">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } %>
+
+
+      <h3>Warn - DM settings</h3>
+
+
+      <% if(mod.warn_action==="1" ) { %>
+      <select class="select" name="warn">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.warn_action==="2" ) { %>
+      <select class="select" name="warn">
+        <option value="1">Don't DM</option>
+        <option value="2" selected>Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.warn_action==="3" ) { %>
+      <select class="select" name="warn">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3" selected>Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator</option>
+      </select>
+      <% } else if(mod.warn_action==="4" ) { %>
+      <select class="select" name="warn">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4" selected>Send Action + Reason + Moderator
+        </option>
+      </select>
+      <% } else { %>
+      <select class="select" name="warn">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator
+        </option>
+      </select>
+      <% } %>
+      <br>
+      <h3>Mute - DM settings</h3>
+      <% if(mod.mute_action==="1" ) { %>
+      <select class="select" name="mute">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator
+        </option>
+      </select>
+      <% } else if(mod.mute_action==="2" ) { %>
+      <select class="select" name="mute">
+        <option value="1">Don't DM</option>
+        <option value="2" selected>Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4">Send Action + Reason + Moderator
+        </option>
+      </select>
+      <% } else if(mod.mute_action==="3" ) { %>
+      <select class="select" name="mute">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3" selected>Send Action + Reason
+        </option>
+        <option value="4">Send Action + Reason + Moderator
+        </option>
+      </select>
+      <% } else if(mod.mute_action==="4" ) { %>
+      <select class="select" name="mute">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason</option>
+        <option value="4" selected>Send Action + Reason
+          + Moderator</option>
+      </select>
+      <% } else { %>
+      <select class="select" name="mute">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Reason
+        </option>
+        <option value="4">Send Action + Reason +
+          Moderator</option>
+      </select>
+      <% } %>
+
+
+      <br>
+      <br>
+      <br>
+      <button type="submit" name="save_main" class="!btn !btn-primary w-1/3">Save Changes</button>
+    </div>
+    <div class="glass2">
+      <h1>Auto Punish</h1>
+
+      <h3>Warn Amount (Max. 50)</h3>
+      <input value="<%= mod.auto_punish.amount || 1%>" type="number" name="amount" min="1" max="50" class="input">
+
+
+      <h3>Punishment</h3>
+      <% if(mod.auto_punish.punishment==="1" ) { %>
+      <select name="punishment" id="punishment" class="select">
+        <option value="1" selected>Ban</option>
+        <option value="2">Kick</option>
+        <option value="3">Softban</option>
+      </select>
+      <% } else if(mod.auto_punish.punishment==="2" ) { %>
+      <select name="punishment" id="punishment" class="select">
+        <option value="1">Ban</option>
+        <option value="2" selected>Kick</option>
+        <option value="3">Softban</option>
+      </select>
+      <% } else if(mod.auto_punish.punishment==="3" ) { %>
+      <select name="punishment" id="punishment" class="select">
+        <option value="1">Ban</option>
+        <option value="2">Kick</option>
+        <option value="3" selected>Softban</option>
+      </select>
+      <% } else { %>
+      <select name="punishment" id="punishment" class="select">
+        <option value="1" selected>Ban</option>
+        <option value="2">Kick</option>
+        <option value="3">Softban</option>
+      </select>
+      <% } %>
+
+
+      <h3>DM settings</h3>
+
+      <% if(mod.auto_punish.dm==="1" ) { %>
+      <select name="dm" class="select">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Warn Count</option>
+      </select>
+      <% } else if(mod.auto_punish.dm==="2" ) { %>
+      <select name="dm" class="select">
+        <option value="1">Don't DM</option>
+        <option value="2" selected>Send Action</option>
+        <option value="3">Send Action + Warn Count</option>
+      </select>
+      <% } else if(mod.auto_punish.dm==="3" ) { %>
+      <select name="dm" class="select">
+        <option value="1">Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3" selected>Send Action + Warn Count</option>
+      </select>
+      <% } else { %>
+      <select name="dm" class="select">
+        <option value="1" selected>Don't DM</option>
+        <option value="2">Send Action</option>
+        <option value="3">Send Action + Warn Count</option>
+      </select>
+      <% } %>
+      <br>
+      <br>
+      <% if(mod.auto_punish.toggle==="true" ) { %>
+      <button type="submit" name="auto_punish_disable" class="btn !btn-error w-1/3">Disable</button>
+      <button type="submit" name="auto_punish_update" class="btn !btn-primary w-1/3">Update</button>
+      <% } else { %>
+      <button type="submit" name="auto_punish_save" class="btn !btn-primary w-1/3">Enable</button>
+      <% } %>
+    </div>
+
+    <div class="glass2">
+      <h1>Ban Message</h1>
+      <hr class="border-x-gray-300 w-full m-0">
+      <textarea name="dm_message" id="myInput" placeholder="DM Message" rows="3" wrap="soft" class="textarea" maxlength="1024" type="text"><%= mod.ban_message.message || `Hey {user}! You've been banned from {guild}`%></textarea>
+      <br>
+      <br>
+      <% if(mod.ban_message.toggle==="true" ) { %>
+
+      <button type="submit" name="dm_disable" class="btn !btn-error w-1/3">Disable</button>
+      <button type="submit" name="dm_update" class="btn !btn-primary w-1/3">Update</button>
+
+    <% } else { %>
+    <button type="submit" name="dm_save" class="btn !btn-primary w-1/3">Enable</button>
+    <% } %>
+  </div>
+
+  </div>
+
+
+</form>
+<%- include("../partials/sidebar-end", { arc, bot, user, path, description, title: "Aeona - Dashboard" , url, image }) %>
+<%- include("../partials/footer") %>
