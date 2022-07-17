@@ -92,6 +92,14 @@ module.exports = class AeonaClient extends Client {
     require("../handlers/economy").run(this);
     this.developers = config.developers;
     this.giveawaysManager = require("../utils/giveaways")(this);
+
+    this.version=require("../package.json").version;
+
+    this.updateLog={
+      "v7.0.0":{
+        content:""
+      }
+    }
   }
 
   async start(token) {

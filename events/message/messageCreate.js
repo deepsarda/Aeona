@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 let ratelimits = new Discord.Collection();
 const Guild = require("../../database/schemas/Guild");
+const User = require("../../database/schemas/User");
 const Moderation = require("../../database/schemas/logging");
 const Blacklist = require("../../database/schemas/blacklist");
 let autoResponseCooldown = new Set();
@@ -193,6 +194,24 @@ module.exports = {
     if (prefix === undefined) return;
 
     if (message.author.bot) return;
+
+
+    let userData= await User.findOne({ discordId: message.author.id});
+    if(!userData){
+      userData = new User({
+        discordId: message.author.id,
+      });
+      await userData.save();
+    }
+
+    if(userData.version !== client.version){
+      userData.version = client.version;
+      message.reply(client.updateLog[client.version]);
+
+      await userData.save();
+    }
+
+
     const moderation = await Moderation.findOne({
       guildId: message.guild.id,
     });
