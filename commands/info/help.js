@@ -31,17 +31,18 @@ const getNumberOfPages = (bot, category) => {
 module.exports = {
   name: "help",
   description: "View a list of all commands",
-  usage: "+help",
+  usage: "+help <category>",
   category: "info",
   requiredArgs: 0,
   execute: async (message, args, bot, prefix) => {
-    
+
+
     let modules = "";
-    let description="**Use the dropdown to select the category to learn more about a command.** "
+    let description = "**Use the dropdown to select the category to learn more about a command.** "
     let options = [];
-    let fieldNames=[];
-    let fieldValues=[];
-    let inlines=[];
+    let fieldNames = [];
+    let fieldValues = [];
+    let inlines = [];
     for (const category of bot.categories.keys()) {
       let c = bot.categories.get(category);
 
@@ -57,7 +58,7 @@ module.exports = {
       )}`);
       fieldValues.push(`${bot.categories.get(category).info.label}`);
       inlines.push(true);
-     
+
     }
 
     const embed = await success.embed({
@@ -95,6 +96,12 @@ module.exports = {
     });
     let page = 0;
     let option;
+
+    if (args[0]) {
+      option = args[0];
+      const embed1 = await getPage(bot, option, 0);
+      await m.update({ embeds: [embed1] });
+    }
     collector.on("collect", async (i) => {
       if (i.customId) {
         if (i.customId == "last_page") {

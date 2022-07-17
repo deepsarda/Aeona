@@ -5,7 +5,7 @@ const { Structure } = require("erela.js");
 const Discord = require("discord.js");
 const Statcord = require("statcord.js");
 const config = require("../utils/config");
-
+const data=require("../data");
 const Tenor = require("tenorjs").client({
   Key: "LIVDSRZULELA", // https://tenor.com/developer/keyregistration
   Filter: "low", // "off", "low", "medium", "high", not case sensitive
@@ -77,33 +77,8 @@ module.exports = class AeonaClient extends Client {
     this.categories = new Collection();
     this.events = new Collection();
     this.mongoose = require("../utils/mongoose");
-    this.emojies = {
-      mute: "🔇",
-      volumemiddle: "🔉",
-      volumelow: "🔈",
-      volumehigh: "🔊",
-      stop: "⏹️",
-      skip: "⏭️",
-      shuffle: "🔀",
-      rewind: "⏪",
-      resume: "▶️",
-      remove: "⏏️",
-      queue: "🎶",
-      playlist: "🎶",
-      play: "▶️",
-      pause: "⏸️",
-      loop: "🔁",
-      forward: "⏩",
-      filter: "🎛️",
-      autoplay: "🎵",
-      addsong: "🎵",
-      music: "🎵",
-      warn: "⚠️",
-      join: "📥",
-      leave: "📤",
-      about: "🔎",
-      jump: "⏭️",
-    };
+
+    this.emojies=data.music;
     this.emoji = this.emojies;
 
     this.statcord = new Statcord.Client({
