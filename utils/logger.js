@@ -8,12 +8,25 @@ function timestamp() {
   return `[${stringHour}:${stringMinute}]`;
 }
 
+let m = "```\n";
 function Webhook(url) {
   let webhook = new Discord.WebhookClient({ url });
-
+  process.on("exit", () => {
+    m += "\n ```"
+    webhook.send(m);
+  });
+  
   return (message) => {
-    webhook.send(message);
+    m += "\n" + message;
+    if (m.length > 1000) {
+      m += "\n ```"
+      webhook.send(m);
+      m = "```\n";
+    }
   };
+
+
+
 }
 
 /**
@@ -43,7 +56,7 @@ function DiscordLogger(appName, webhookURL) {
           .reduce((accumulator, current) => {
             return accumulator + current.toString() + "      ";
           }, "")
-          .trim();
+          .replace(/\s+$/, '');
 
         webhook(`${prefix} ${message}`);
       }

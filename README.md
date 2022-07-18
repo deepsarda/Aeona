@@ -1,4 +1,7 @@
 # Aeona | Chatbot
+![Aeona Banner](https://github.com/deepsarda/Aeona/blob/master/dashboard/static/banner.png?raw=true)
+# The multipurpose Chabot
+
 
 [![Discord Bots](https://top.gg/api/widget/931226824753700934.svg)](https://top.gg/bot/931226824753700934)
 
