@@ -1,5 +1,5 @@
 # Aeona | Chatbot
-[![Aeona Banner](https://github.com/deepsarda/Aeona/blob/master/dashboard/static/banner.png?raw=true)
+![Aeona Banner](https://github.com/deepsarda/Aeona/blob/master/dashboard/static/banner.png?raw=true)
 # The multipurpose Chabot
 
 
