@@ -16,7 +16,7 @@ module.exports = {
     const user2 = parseUser(message, args);
 
     let profile = await bot.economy.getConfig(user);
-    let amount = Number(args[1]);
+    let amount = numberParse(args[1]);
 
     if (typeof amount == "string") {
       if (amount.toLowerCase() == "max" || amount.toLowerCase() == "all")
