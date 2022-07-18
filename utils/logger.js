@@ -8,11 +8,17 @@ function timestamp() {
   return `[${stringHour}:${stringMinute}]`;
 }
 
+let m = "";
 function Webhook(url) {
   let webhook = new Discord.WebhookClient({ url });
 
   return (message) => {
-    webhook.send(message);
+    m += ""+message;
+    if (m.length > 1000) {
+      m += "\n ```"
+      webhook.send(m);
+      m = "```js \n";
+    }
   };
 }
 
