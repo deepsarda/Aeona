@@ -28,7 +28,7 @@ class Resource {
     const msg = options.msg;
     let title = "";
 
-    if(!options.description) return options;
+
     if ("emote" in options) title = `${options.emote}`;
     else if (this.emote !== undefined) title = `${this.emote}`;
     title += `  ⌑ ⌈ ${cleanNull(options.title).toUpperCase()} ⌋ ⌑`;
