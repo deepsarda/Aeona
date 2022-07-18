@@ -16,7 +16,7 @@ let xpCooldown = new Set();
 const { CanvasSenpai } = require("canvas-senpai");
 const { channel } = require("diagnostics_channel");
 const canva = new CanvasSenpai();
-const fetch=require("node-fetch")
+const fetch = require("node-fetch")
 
 module.exports = {
   name: "messageCreate",
@@ -57,13 +57,13 @@ module.exports = {
     if (message.author.bot) {
       if (message.embeds.length &&
         message.author.username == 'DISBOARD' &&
-        message.embeds[ 0 ].description.indexOf("Bump done") > -1) {
-          if (settings.bump.enabled) {
-            message.channel.send(
-              `<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`
-            );
-            settings.bump.lastBump = Date.now();
-          }
+        message.embeds[0].description.indexOf("Bump done") > -1) {
+        if (settings.bump.enabled) {
+          message.channel.send(
+            `<@${message.author.id}> has bumped the server! Thank you for your contribution to this server! \n We shall remind you to bump in 2 hours!`
+          );
+          settings.bump.lastBump = Date.now();
+        }
       }
     }
 
@@ -106,7 +106,7 @@ module.exports = {
           });
 
           const attachment = new Discord.MessageAttachment(data, "profile.png");
-          channel.send({ content: levelUpMessage, embeds:[],files: [attachment] });
+          channel.send({ content: levelUpMessage, embeds: [], files: [attachment] });
         }
 
         for (let i = 0; i < settings.leveling.roles.length; i++) {
@@ -195,15 +195,15 @@ module.exports = {
     if (message.author.bot) return;
 
 
-    let userData= await User.findOne({ discordId: message.author.id});
-    if(!userData){
+    let userData = await User.findOne({ discordId: message.author.id });
+    if (!userData) {
       userData = new User({
         discordId: message.author.id,
       });
       await userData.save();
     }
 
-    if(userData.version !== client.version){
+    if (userData.version !== client.version) {
       userData.version = client.version;
       message.reply(client.updateLog[client.version]);
 
@@ -362,6 +362,13 @@ module.exports = {
         return;
       client.statcord.postCommand("chatbot", message.author.id, message.client);
       executeChatBot(message, prefix, 0, settings.chatbot.chatbot);
+
+
+      console.log(
+        `${message.author.tag} ran Chatbot in ${message.guild.name
+        } (${message.guild.id}) in channel ${message.channel.name} (${message.channel.id
+        }) with args ${message.content} userId: ${message.author.id}`
+      );
     }
   },
 };
@@ -482,7 +489,7 @@ function deleteLink(message) {
   });
   return true;
 }
-const moment= require("moment")
+const moment = require("moment")
 function ratelimit(message, command) {
   try {
     if (message.author.permLevel > 4) return false;
