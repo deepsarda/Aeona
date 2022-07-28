@@ -44,6 +44,7 @@ module.exports = {
     let fieldValues = [];
     let inlines = [];
     for (const category of bot.categories.keys()) {
+      if(category === "owner") continue;
       let c = bot.categories.get(category);
 
       console.log(category);
