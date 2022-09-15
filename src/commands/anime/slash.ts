@@ -12,16 +12,15 @@ export class Anime {
   @Slash()
   @SlashGroup("user", "anime")
   async baka(
-    @SlashOption({ name: "user", type: ApplicationCommandOptionType.User, required: false }) user: GuildMember,
+    @SlashOption({ name: "user", type: ApplicationCommandOptionType.User}) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
-
-    if (!user && interaction.member) user = interaction.member as GuildMember;
 
     respond(interaction, {
       authorName: `${user.displayName} is a baka`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.baka(),
     });
   }
@@ -31,21 +30,23 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} bit ${user.displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} bit ${user.displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bite(),
     });
   }
   @Slash()
   async blush(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is blushing O.O`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is blushing O.O`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.blush(),
     });
   }
@@ -56,22 +57,24 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} bonked ${user.displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} bonked ${user.displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bonk(),
     });
   }
 
   @Slash()
   async bored(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is bored (○´―\`)ゞ`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is bored (○´―\`)ゞ`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bored(),
     });
   }
@@ -82,67 +85,73 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
       authorName: `${user.displayName} is a bully (╬▔皿▔)╯`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bully(),
     });
   }
 
   @Slash()
   async confused(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is confused ＼（〇_ｏ）／`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is confused ＼（〇_ｏ）／`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.confused(),
     });
   }
 
   @Slash()
   async cry(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is crying >:(`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is crying >:(`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.cry(),
     });
   }
 
   @Slash()
   async dance(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is dancing 〜(￣▽￣〜)`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is dancing 〜(￣▽￣〜)`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.dance(),
     });
   }
 
   @Slash()
   async goodnight(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
       // eslint-disable-next-line no-irregular-whitespace
-      authorName: `${(interaction.member as GuildMember).displayName} is going to sleep (_　_)。゜zｚＺ`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is going to sleep (_　_)。゜zｚＺ`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.goodnight(),
     });
   }
 
   @Slash()
   async happy(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is happy []~(￣▽￣)~*`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is happy []~(￣▽￣)~*`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.happy(),
     });
   }
@@ -153,13 +162,12 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    
-
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} gave ${user.displayName} a high five (〃￣︶￣)人(￣︶￣〃)`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} gave ${user.displayName} a high five (〃￣︶￣)人(￣︶￣〃)`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.highfive(),
     });
   }
@@ -170,11 +178,12 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${user.displayName} got a hug from ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} got a hug from ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.hug(),
     });
   }
@@ -186,13 +195,12 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
-
     respond(interaction, {
-      authorName: `${user.displayName} was kicked by ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} was kicked by ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.kick(),
     });
   }
@@ -203,13 +211,13 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
 
     respond(interaction, {
-      authorName: `${user.displayName} shared a kiss with ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} shared a kiss with ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.kiss(),
     });
   }
@@ -220,22 +228,24 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${user.displayName} was K.O by ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} was K.O by ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bully(),
     });
   }
 
   @Slash()
   async nervous(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is nervous ＼（〇_ｏ）／`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is nervous ＼（〇_ｏ）／`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.nervous(),
     });
   }
@@ -247,13 +257,12 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
-
     respond(interaction, {
-      authorName: `${user.displayName} got a pat from ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} got a pat from ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.pat(),
     });
   }
@@ -265,13 +274,12 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
-
     respond(interaction, {
-      authorName: `${user.displayName} was poked by ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} was poked by ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.poke(),
     });
   }
@@ -283,35 +291,36 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
-
     respond(interaction, {
-      authorName: `${user.displayName} was punched by ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} was punched by ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.punch(),
     });
   }
   
   @Slash()
   async sad(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is sad <( _ _ )>`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is sad <( _ _ )>`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.sad(),
     });
   }
 
   @Slash()
   async scream(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is screaming ╰（‵□′）╯`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is screaming ╰（‵□′）╯`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.scream(),
     });
   }
@@ -321,87 +330,93 @@ export class Anime {
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
   ) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
-    if (!user && interaction.member) user = interaction.member as GuildMember;
-
     respond(interaction, {
-      authorName: `${user.displayName} was slapped by ${(interaction.member as GuildMember).displayName}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${user.displayName} was slapped by ${interaction.member .displayName}`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.slap(),
     });
   }
   @Slash()
   async smile(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is smiling (●ˇ∀ˇ●)`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is smiling (●ˇ∀ˇ●)`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.smile(),
     });
   }
 
   @Slash()
   async stare(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is staring O_O`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is staring O_O`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.stare(),
     });
   }
   @Slash()
   async thinking(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is thinking `,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is thinking `,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.thinking(),
     });
   }
   @Slash()
   async wave(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} is waving (≧∇≦)ﾉ`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is waving (≧∇≦)ﾉ`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.wave(),
     });
   }
 
   @Slash()
   async wink(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} winked`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} winked`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.wink(),
     });
   }
 
   @Slash()
   async yeet(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} has yeeted something`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} has yeeted something`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.yeet(),
     });
   }
 
   @Slash()
   async yes(interaction: CommandInteraction) {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction, {
-      authorName: `${(interaction.member as GuildMember).displayName} agrees`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} agrees`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.yes(),
     });
   }

@@ -48,7 +48,15 @@ bot.once("ready", async () => {
   console.log("Bot started");
 });
 
-bot.on("interactionCreate", (interaction: Interaction) => {
+bot.on("interactionCreate", async(interaction: Interaction) => {
+  if(!interaction.guildId) return;
+
+    interaction.guild || await bot.guilds.fetch(interaction.guildId).catch(() => null);
+    if(!interaction.guild) return;
+
+    if(!interaction.guild?.members?.cache?.size) await interaction.guild.members.fetch().catch(() => null);
+
+    interaction.member = interaction.member || interaction.guild.members.cache.get(interaction.user.id) || await interaction.guild.members.fetch(interaction.user.id).catch(() => null);
   bot.executeInteraction(interaction);
 });
 

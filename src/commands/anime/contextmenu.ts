@@ -1,8 +1,7 @@
 import { Discord, ContextMenu } from "discordx";
 import type {
     UserContextMenuCommandInteraction,
-    MessageContextMenuCommandInteraction,
-    GuildMember
+    MessageContextMenuCommandInteraction
 } from "discord.js";
 import { ApplicationCommandType } from "discord.js";
 import respond from "../../structures/respond.js";
@@ -17,11 +16,12 @@ export class Anime {
     type: ApplicationCommandType.Message,
   })
   async bonk(interaction: MessageContextMenuCommandInteraction): Promise<void> {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      authorName: `${(interaction.member as GuildMember).displayName} bonked ${interaction.targetMessage.member}`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member.displayName} bonked ${interaction.targetMessage.member}`,
+      authorIconUrl: interaction.member.displayAvatarURL(),
       imageURL: await actions.bonk()
     })
   }
@@ -32,11 +32,11 @@ export class Anime {
     type: ApplicationCommandType.User,
   })
   async bonkUser(interaction: UserContextMenuCommandInteraction): Promise<void> {
-    
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
-
+    
     respond(interaction,{
-      title: `${(interaction.member as GuildMember).displayName} bonked ${(interaction.targetMember as GuildMember).displayName}`,
+      title: `${interaction.member.displayName} bonked ${interaction.targetMember.displayName}`,
       imageURL: await actions.bonk()
     })
   }
@@ -46,11 +46,12 @@ export class Anime {
     type: ApplicationCommandType.Message,
   })
   async bully(interaction: MessageContextMenuCommandInteraction): Promise<void> {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      authorName: `${(interaction.member as GuildMember).displayName} is a bully :(`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member.displayName} is a bully :(`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.bully()
     })
   }
@@ -61,11 +62,11 @@ export class Anime {
     type: ApplicationCommandType.User,
   })
   async bullyUser(interaction: UserContextMenuCommandInteraction): Promise<void> {
-    
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      title: `${(interaction.targetMember as GuildMember).displayName} is a bully :(`,
+      title: `${interaction.targetMember .displayName} is a bully :(`,
       imageURL: await actions.bully()
     })
   }
@@ -75,11 +76,12 @@ export class Anime {
     type: ApplicationCommandType.Message,
   })
   async confused(interaction: MessageContextMenuCommandInteraction): Promise<void> {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      authorName: `${(interaction.member as GuildMember).displayName} is confused`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorName: `${interaction.member .displayName} is confused`,
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.confused()
     })
   }
@@ -90,11 +92,11 @@ export class Anime {
     type: ApplicationCommandType.User,
   })
   async confusedUser(interaction: UserContextMenuCommandInteraction): Promise<void> {
-    
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      title: `${(interaction.targetMember as GuildMember).displayName} is confused`,
+      title: `${interaction.targetMember .displayName} is confused`,
       imageURL: await actions.confused()
     })
   }
@@ -105,11 +107,12 @@ export class Anime {
     type: ApplicationCommandType.Message,
   })
   async goodnight(interaction: MessageContextMenuCommandInteraction): Promise<void> {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
       authorName: `${interaction.member} is saying goodnight`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.goodnight()
     })
   }
@@ -120,11 +123,11 @@ export class Anime {
     type: ApplicationCommandType.User,
   })
   async goodnightUser(interaction: UserContextMenuCommandInteraction): Promise<void> {
-    
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      title: `${(interaction.targetMember as GuildMember).displayName} is saying goodnight`,
+      title: `${interaction.targetMember .displayName} is saying goodnight`,
       imageURL: await actions.goodnight()
     })
   }
@@ -134,11 +137,12 @@ export class Anime {
     type: ApplicationCommandType.Message,
   })
   async happy(interaction: MessageContextMenuCommandInteraction): Promise<void> {
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
       authorName: `${interaction.member} is happy []~(￣▽￣)~*`,
-      authorIconUrl: (interaction.member as GuildMember).displayAvatarURL(),
+      authorIconUrl: interaction.member .displayAvatarURL(),
       imageURL: await actions.happy()
     })
   }
@@ -149,11 +153,11 @@ export class Anime {
     type: ApplicationCommandType.User,
   })
   async happyUser(interaction: UserContextMenuCommandInteraction): Promise<void> {
-    
+    if(!interaction.inCachedGuild()) return;
     await interaction.deferReply();
 
     respond(interaction,{
-      title: `${(interaction.targetMember as GuildMember).displayName} is happy []~(￣▽￣)~*`,
+      title: `${interaction.targetMember .displayName} is happy []~(￣▽￣)~*`,
       imageURL: await actions.happy()
     })
   }
