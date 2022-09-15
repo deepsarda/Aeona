@@ -15,7 +15,8 @@
     "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier . --check --print-width 120",
     "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix"
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "pretty-quick": "npx -p prettier@latest -p pretty-quick pretty-quick"
   },
   "dependencies": {
     "@discordx/importer": "^1.1.10",
@@ -26,6 +27,7 @@
     "discord.js": "^14.3.0",
     "discordx": "^11.1.12",
     "dotenv": "^16.0.2",
+    "husky": "^8.0.1",
     "koa": "^2.13.4",
     "reflect-metadata": "^0.1.13"
   },
@@ -49,5 +51,10 @@
   "engines": {
     "node": ">=16.0.0",
     "npm": ">=7.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
