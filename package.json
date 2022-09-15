@@ -16,7 +16,8 @@
     "prettier": "npx prettier . --check --print-width 120",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
-    "pretty-quick": "npx -p prettier@latest -p pretty-quick pretty-quick"
+    "pretty-quick": "npx -p prettier@latest -p pretty-quick pretty-quick",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@discordx/importer": "^1.1.10",
@@ -27,7 +28,6 @@
     "discord.js": "^14.3.0",
     "discordx": "^11.1.12",
     "dotenv": "^16.0.2",
-    "husky": "^8.0.1",
     "koa": "^2.13.4",
     "reflect-metadata": "^0.1.13"
   },
@@ -43,6 +43,8 @@
     "eslint-config-xo-typescript": "^0.53.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
@@ -56,5 +58,8 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
+  },
+  "lint-staged": {
+    "*.ts": "eslint"
   }
 }
