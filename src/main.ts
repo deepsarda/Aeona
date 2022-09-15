@@ -45,7 +45,7 @@ bot.once('ready', async () => {
 	//    ...bot.guilds.cache.map((g) => g.id)
 	//  );
 
-	console.log('Bot started');
+	                  console.log('Bot started');
 });
 
 bot.on('interactionCreate', (interaction: Interaction) => {
