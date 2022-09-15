@@ -4,7 +4,7 @@
 
 ### By Freya Developement
 
-<a href="https://aeona.xyz/support"><img src="https://aeona.xyz/banner.png"></a>
+<a href="https://aeona.xyz/support"><img src="https://aeona.xyz/logo.png"></a>
 
 Aeona aims to be an multipurpose all in one chatbot for discord.
 Discord is heading to an new era of slash commands but we should not forget out roots in the message commands.
@@ -29,6 +29,7 @@ PS: Check back often for new updates to this list.
 - Dashboard for easy use.
 
 [**Invite the Public Version of this Bot**](https://www.aeona.xyz).
+Note: Current version of bot runs on a highly customized version of [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot).
 
 ## Important notes and thank ❤️
 
