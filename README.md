@@ -1,129 +1,71 @@
-# Aeona | Chatbot
-![Aeona Banner](https://github.com/deepsarda/Aeona/blob/master/dashboard/static/banner.png?raw=true)
-# The multipurpose Chabot
+# Aeona Project
 
+## Creating a new era of discord bots
 
-[![Discord Bots](https://top.gg/api/widget/931226824753700934.svg)](https://top.gg/bot/931226824753700934)
+### By Freya Developement
 
-Aeona is an ever-growing multipurpose bot; primarily a fun chatbot you can converse with, but also showcases a wide range of _fun commands to pass time_, an **ever-expanding** _economy system_
+<a href="https://aeona.xyz/support"><img src="https://aeona.xyz/banner.png"></a>
 
-## Chatbot
+Aeona aims to be an multipurpose all in one chatbot for discord.
+Discord is heading to an new era of slash commands but we should not forget out roots in the message commands.
+Aeona provides support for both message based commands and slash based commands.
 
-Aeona offers a _fun, interactive chatbot_, which is triggered everytime the **bot is mentioned**, or when a messages starts with the word **aeona**.
+- Support for as many languages as possible.
+- Simple and easy to understand codebase.
+- Customizable in everyway possible.
+- Lastest discordjs version as soon as possible.
 
-The Chatbot AI is constantly being updated and _learns from the messages you send, to make it more lifelike_ using a new technology that combines **Generative AI** & **Search Fist AI**.
+## Features/Goals
 
-## Server Utilities
+PS: Check back often for new updates to this list.
 
-Aeona has several commands to truly improve the quality of your server, such as:
+- Multiple language support.
+- Using of buttons and selection menu's.
+- AI Chatbot
+- AntiNuke, Welcomer, Logging, Boost Logging, Server Stats and more.
+- Powerful Automated Security Features like Anti Nuke, Anti Spam, Anti Scam, Anti Mass Mention and much more.
+- Many Minigames and Fun commands (100+).
+- Advance Economy and Leveling system.
+- Dashboard for easy use.
 
-- `>reactionrole` → Allows you to setup reaction roles
-- **Suggestion commands** → Allows users to make suggestions, and admins to accept or reject them
-- `>ghostping` & `>modlog` → Helps moderators keep a check on the server
-- `>poll` → Allows users to vote on important server topics
+[**Invite the Public Version of this Bot**](https://www.aeona.xyz).
 
-## Economy
+## Important notes and thank ❤️
 
-Aeona supports an extensive, vast economy system to explore and have fun with when your server is inactive, or you just feel like it :)
+First of all, thanks for using this code, it is a lot of work make and maintain it, so do be sure to help out by contributing.
+If you like it please give it a ⭐.
 
-- Ever updating shop with numerous items
-- Numerous jobs to earn credits through (you can apply for all jobs)
-- Game commands to spend/bet the money
-- And much more..
+## Tech
 
-## Misc
+Aeona uses a number of libraries to work:
+[Typescript](https://github.com/Microsoft/TypeScript)
+[Discord.js](https://discord.js.org/#/)
+[DiscordX](https://discordx.js.org/)
 
-Aeona also has **multiple** miscellaneous commands, such as:
+This whole list can be found in `package.json`.
 
-- `>snipe` & `>editsnipe` → To view the most recently deleted and edited messages
-- **Reaction commands** under the _anime_ section to emote to your friends in style!
-- `>reddit` to view posts from various subreddits
-- Various image commands to view avatars, banners, cute pet images, and so on..
+## Public Use
 
-### So that's about it for Aeona. This bot is still in its early stages after verification, so you can be sure to expect loads of new changes and updates very soon
+You are not allowed to use this code commercially without prior permission from the owner of the repository.
+You are not allowed to have a bot in more than 10 servers without prior permission from the owner of the repository.
 
-## Setting Up
+## Setting up
 
-Your `config.json` should look like this:
+See `src/config` folder.
+Rename `example.env` to `.env` and fill out the forms.
+If you need help join the [support server](https://www.aeona.xyz/support)
 
-```
-{
-  "main_token": process.env.token,
-  "mongodb_url": "", //mongo db URL
-  "developers": ["", ""], //developers ID
-  "dashboard":"true",
-  "prefix":"+", //prefix
-  "webhook_id":"", //read config.json
-  "webhook_url":"" //read config.json
-}
+## Development
 
-```
+**Q: Why should I contribute?**
+**A:** If you do enough contributions, then you can obtain permission to use this project for commercial purposes from the owner of the repository.
 
-Your `config.js` should look like this:
+**Q: Who all can contribute?**
+**A:** Anyone can.
 
-```
-module.exports = {
- "verification": "",
- "description": "", //description
- "domain": "", // domain
- "google_analitics": "", // google analitics
- "token": process.env.TOKEN,
- "https":"https://", // leave as is
- "port":"5003",
+**Q: How can I contribute**
+**A:** Fork this repository, make yours changes then submit a pull request.
 
- "client_id":"", // bot client ID
- "secret":""// bot client secret for auth
+## Special Mention
 
-}
-```
-
-Your `.env` file should be:
-
-```
-importantLogs=Webhook Url
-ANALYTICS=Google anaylatics key
-STATCORD=Statcord key
-SECERT=Client OAUTH2 Secert
-logs=Webhook Url
-PORT=8000
-TOKEN=TOP.gg token
-SPOTIFY_CLIENT_SECRET=Spotify client deverloper Secert for music
-rateLimit=Webhook Url
-apiKey= get api key from https://rapidapi.com/multiii/api/aeona3/ look for X-RapidAPI-Key.
-errors=Webhook Url
-ID=Bot Client Id
-WEBHOOK_URL=Webhook Url
-SPOTIFY_CLIENT_ID=Spotify client deverloper ID for music
-MONGO_CONNECTION=mongodb connection url
-BOTTOKEN=BOT Token
-reports=Webhook Url for bug reports etc
-domain= URL of your dashboard example: https://aeona.xyz
-```
-
-# If you need help join [support server](https://www.aeeona.xyz/support)
-
-### for dashboard set up read https://github.com/IgorKowalczyk/majobot
-
-**callbacks on auth dev portal:**
-`https://domain/callback`
-`https://domain/window`
-`https://domain/thanks`
-
-Pease make sure you have enabled `Privileged Intents` on your Discord [developer portal](https://discordapp.com/developers/applications/). You can find these intents under the "Bot" section, and there are two ticks you have to switch on. For more information on Gateway Intents, check out [this](https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper) link.
-
-You can launch the bot with `node shard.js`
-
-**Important Note:** Aeona has so many bugs and requires a lot of js knowledge. You will have some difficulty running the bot if you have no experience in discord.js.
-
-### Emojis
-
-- You can change the emojis in: 
-  1- `data.js`
-
-### Colors
-
-- You can change the colors in `data.js`
-
-## Commits By User
-
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=deepsarda&repo=aeona&theme=radical&show_icons=true&show_owner=true)](https://github.com/deepsarda/Aeona)
+Inspired from the [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot)
