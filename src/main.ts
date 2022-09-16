@@ -36,9 +36,9 @@ export const bot = new Client({
 
   simpleCommand: {
     prefix: process.env.PREFIX,
-    responses:{
-     notFound:`I could not find that command.` 
-    }
+    responses: {
+      notFound: `I could not find that command.`,
+    },
   },
 });
 
@@ -76,9 +76,9 @@ bot.on("interactionCreate", async (interaction: Interaction) => {
 });
 
 bot.on("messageCreate", async (message: Message) => {
-  console.log(await bot.executeCommand(message,{
-    log:true
-  }));
+  await bot.executeCommand(message, {
+    log: true,
+  });
 });
 
 async function run(): Promise<void> {
