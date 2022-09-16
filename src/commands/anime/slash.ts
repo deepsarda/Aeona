@@ -2,6 +2,7 @@ import { Discord, SlashGroup, Slash, SlashOption } from "discordx";
 import respond from "../../structures/respond.js";
 import actions from "../../lib/anime/index.js";
 import { ApplicationCommandOptionType, CommandInteraction, GuildMember } from "discord.js";
+import { Description } from "@discordx/utilities";
 
 @Discord()
 @SlashGroup({ name: "anime", description: "React using gifs" })
@@ -10,6 +11,7 @@ import { ApplicationCommandOptionType, CommandInteraction, GuildMember } from "d
 export class Anime {
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("That user is a baka")
   async baka(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -25,6 +27,7 @@ export class Anime {
   }
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Bite a user")
   async bite(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -39,6 +42,7 @@ export class Anime {
     });
   }
   @Slash()
+  @Description("Show that you are blushing")
   async blush(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -52,6 +56,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Bonk a user")
   async bonk(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -67,6 +72,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are bored")
   async bored(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -80,6 +86,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("They are a bully")
   async bully(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -95,6 +102,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are confused")
   async confused(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -107,6 +115,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are crying")
   async cry(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -119,6 +128,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Dance your life away")
   async dance(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -131,6 +141,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are blushing")
   async goodnight(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -144,6 +155,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are happy")
   async happy(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -157,6 +169,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("High Five with an user")
   async highfive(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -173,6 +186,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Hug an user")
   async hug(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -189,6 +203,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Kick an user")
   async kick(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -205,6 +220,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Kiss an user")
   async kiss(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -221,6 +237,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Kill an user")
   async kill(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -236,6 +253,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are nervous")
   async nervous(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -249,6 +267,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Hug an user")
   async pat(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -265,6 +284,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Poke an user")
   async poke(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -281,6 +301,7 @@ export class Anime {
 
   @Slash()
   @SlashGroup("user", "anime")
+  @Description("Punch an user")
   async punch(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -296,6 +317,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you are sad")
   async sad(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -308,6 +330,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Internal Screaming")
   async scream(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -320,6 +343,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Slap an user")
   async slap(
     @SlashOption({ name: "user", type: ApplicationCommandOptionType.User }) user: GuildMember,
     interaction: CommandInteraction
@@ -334,6 +358,7 @@ export class Anime {
     });
   }
   @Slash()
+  @Description("Smile at an user")
   async smile(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -346,6 +371,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Stare")
   async stare(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -357,6 +383,7 @@ export class Anime {
     });
   }
   @Slash()
+  @Description("Think. Hmmmmm")
   async thinking(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -368,6 +395,7 @@ export class Anime {
     });
   }
   @Slash()
+  @Description("Wave, just smile and wave")
   async wave(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -380,6 +408,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Wink")
   async wink(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -392,6 +421,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Yeet something")
   async yeet(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();
@@ -404,6 +434,7 @@ export class Anime {
   }
 
   @Slash()
+  @Description("Show that you agree")
   async yes(interaction: CommandInteraction) {
     if (!interaction.inCachedGuild()) return;
     await interaction.deferReply();

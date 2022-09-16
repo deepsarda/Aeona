@@ -3,30 +3,42 @@ import "reflect-metadata";
 import { dirname, importx } from "@discordx/importer";
 import { Koa } from "@discordx/koa";
 import type { Interaction, Message } from "discord.js";
-import { IntentsBitField } from "discord.js";
+import { GatewayIntentBits } from "discord.js";
 import { Client } from "discordx";
 import { config } from "dotenv";
 config();
-
 export const bot = new Client({
   // To only use global commands (use @Guild for specific guild command), comment this line
   botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
 
   // Discord intents
   intents: [
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.GuildMessageReactions,
-    IntentsBitField.Flags.GuildVoiceStates,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildBans,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageTyping,
   ],
 
   // Debug logs are disabled in silent mode
   silent: false,
 
   // Configuration for @SimpleCommand
+
   simpleCommand: {
     prefix: process.env.PREFIX,
+    responses:{
+     notFound:`I could not find that command.` 
+    }
   },
 });
 
@@ -64,7 +76,9 @@ bot.on("interactionCreate", async (interaction: Interaction) => {
 });
 
 bot.on("messageCreate", async (message: Message) => {
-  await bot.executeCommand(message);
+  console.log(await bot.executeCommand(message,{
+    log:true
+  }));
 });
 
 async function run(): Promise<void> {

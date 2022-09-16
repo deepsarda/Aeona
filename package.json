@@ -20,6 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@discordx/changelog": "^2.0.11",
     "@discordx/importer": "^1.1.10",
     "@discordx/koa": "^1.1.2",
     "@discordx/pagination": "^3.0.0",
