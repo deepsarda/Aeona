@@ -31,7 +31,7 @@ PS: Check back often for new updates to this list.
 [**Invite the Public Version of this Bot**](https://www.aeona.xyz).
 Note: Current version of bot runs on a highly customized version of [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot).
 
-## Important notes and thank ❤️
+## Important notes and thanks ❤️
 
 First of all, thanks for using this code, it is a lot of work make and maintain it, so do be sure to help out by contributing.
 If you like it please give it a ⭐.
@@ -65,7 +65,7 @@ If you need help join the [support server](https://www.aeona.xyz/support)
 **A:** Anyone can.
 
 **Q: How can I contribute**
-**A:** Fork this repository, make yours changes then submit a pull request.
+**A:** Fork this repository, make your changes then submit a pull request.
 
 ## Special Mention
 
