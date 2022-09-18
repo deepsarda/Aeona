@@ -6,27 +6,26 @@
 
 <a href="https://aeona.xyz/support"><img src="https://aeona.xyz/logo.png"></a>
 
-Aeona aims to be an multipurpose all in one chatbot for discord.
-Discord is heading to an new era of slash commands but we should not forget out roots in the message commands.
-Aeona provides support for both message based commands and slash based commands.
+For Discord, Aeona wants to be a multifunctional all-in-one chatbot.
+Slash commands will usher in a new era for Discord, but we must not lose sight of our legacy with message commands.
+Aeona supports slash-based commands as well as message-based commands.
 
-- Support for as many languages as possible.
-- Simple and easy to understand codebase.
-- Customizable in everyway possible.
-- Lastest discordjs version as soon as possible.
+- The ability to support the greatest number of languages.
+- A simple and intuitive codebase.
+- Every aspect is customizable.
+- The most recent version of Discordjs as soon as possible.
 
 ## Features/Goals
 
 PS: Check back often for new updates to this list.
 
-- Multiple language support.
-- Using of buttons and selection menu's.
-- AI Chatbot
-- AntiNuke, Welcomer, Logging, Boost Logging, Server Stats and more.
-- Powerful Automated Security Features like Anti Nuke, Anti Spam, Anti Scam, Anti Mass Mention and much more.
-- Many Minigames and Fun commands (100+).
-- Advance Economy and Leveling system.
-- Dashboard for easy use.
+- Support for multiple languages.
+- Using menus and buttons for selection.
+- AntiNuke, Welcomer, Logging, Boost Logging, Server Stats, and more are all features of the AI chatbot.
+- Strong automated security features, such as anti-nuke, anti-spam, anti-scam, anti-mass-mention, and many others.
+- A lot of fun commands and minigames (more than 100).
+- A levelling and advanced economy system.
+- An easy-to-use dashboard.
 
 [**Invite the Public Version of this Bot**](https://www.aeona.xyz).
 Note: Current version of bot runs on a highly customized version of [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot).
@@ -47,8 +46,8 @@ This whole list can be found in `package.json`.
 
 ## Public Use
 
-You are not allowed to use this code commercially without prior permission from the owner of the repository.
-You are not allowed to have a bot in more than 10 servers without prior permission from the owner of the repository.
+Without the owner of the repository's prior consent, you are not permitted to use this code commercially.
+Without previous approval from the repository owner, you are not permitted to have a bot on more than 10 servers.
 
 ## Setting up
 
