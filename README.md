@@ -28,19 +28,19 @@ PS: Check back often for new updates to this list.
 - An easy-to-use dashboard.
 
 [**Invite the Public Version of this Bot**](https://www.aeona.xyz).
-Note: Current version of bot runs on a highly customized version of [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot).
 
 ## Important notes and thanks ❤️
 
 First of all, thanks for using this code, it is a lot of work make and maintain it, so do be sure to help out by contributing.
 If you like it please give it a ⭐.
 
+Uses code from @derockdev/discord-html-components, DBot and Green Bot.
 ## Tech
 
 Aeona uses a number of libraries to work:
 [Typescript](https://github.com/Microsoft/TypeScript)
-[Discord.js](https://discord.js.org/#/)
-[DiscordX](https://discordx.js.org/)
+[Discordeno](https://github.com/discordeno/discordeno)
+[AmethystFramework](https://github.com/AmethystFramework/framework)
 
 This whole list can be found in `package.json`.
 
