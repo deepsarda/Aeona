@@ -8,7 +8,6 @@ import { nanoid } from 'nanoid';
 import { Worker } from 'worker_threads';
 import { EVENT_HANDLER_URL, INTENTS, REST_URL } from '../configs.js';
 import { WorkerCreateData, WorkerGetShardInfo, WorkerMessage, WorkerShardInfo, WorkerShardPayload } from './worker.js';
-import { start } from 'repl';
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
