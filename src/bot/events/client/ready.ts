@@ -7,6 +7,7 @@ import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
 
 export default async (client: AmethystBot) => {
+
 	client.extras.messageCount = 0;
 	try {
 		const point = new Point('per_core_cpu_load').tag('action', 'sync');
@@ -33,18 +34,7 @@ export default async (client: AmethystBot) => {
 				.tag('action', 'sync')
 				.intField('value', value),
 		);
-
-		Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
-		Influx.writePoint(
-			new Point('users').tag('action', 'sync').intField(
-				'value',
-				client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
-			),
-		);
-
-		Influx.writePoint(
-			new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
-		);
+		
 		client.helpers.editBotStatus({
 			activities: [
 				{
