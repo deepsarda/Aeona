@@ -35,6 +35,7 @@ First of all, thanks for using this code, it is a lot of work make and maintain 
 If you like it please give it a ⭐.
 
 Uses code from @derockdev/discord-html-components, DBot and Green Bot.
+
 ## Tech
 
 Aeona uses a number of libraries to work:

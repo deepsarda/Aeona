@@ -2,7 +2,6 @@ import Counting from '../../database/models/countChannel.js';
 import GTN from '../../database/models/guessNumber.js';
 import GTW from '../../database/models/guessWord.js';
 
-
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'games',
@@ -95,7 +94,5 @@ export default {
 
 			client.extras.createChannelSetup(GTW, channel, ctx);
 		}
-
-		
 	},
 };

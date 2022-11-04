@@ -18,7 +18,9 @@
 		"lint:fix": "npm run lint -- --fix",
 		"prettier": "npx prettier . --check --print-width 120",
 		"prettier:fix": "npm run prettier -- --write",
-		"format": "npm run prettier:fix && npm run lint:fix"
+		"format": "npm run prettier:fix && npm run lint:fix",
+		"pretty-quick": "npx -p prettier@latest -p pretty-quick pretty-quick",
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"@derockdev/discord-components-core": "^3.5.1",
@@ -80,6 +82,7 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"nodemon": "^2.0.15",
+		"husky": "^8.0.1",
 		"prettier": "2.6.2",
 		"typescript": "^5.0.0-dev.20221101"
 	},
@@ -90,5 +93,10 @@
 		"singleQuote": true,
 		"semi": true,
 		"printWidth": 120
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged"
+		}
 	}
 }
