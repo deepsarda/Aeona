@@ -198,3 +198,6 @@ enum StatusCodes {
 
 	InternalServerError = 500,
 }
+
+process
+  .on("unhandledRejection", console.error)
