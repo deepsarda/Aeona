@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+process.on('unhandledRejection', console.error);
+
 import { Collection, createBot, createGatewayManager, createRestManager } from 'discordeno';
 import { createLogger } from 'discordeno/logger';
 import fastify from 'fastify';
@@ -199,5 +201,3 @@ enum StatusCodes {
 	InternalServerError = 500,
 }
 
-process
-  .on("unhandledRejection", console.error)

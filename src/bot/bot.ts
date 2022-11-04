@@ -5,6 +5,9 @@ import {
 	enableAmethystPlugin,
 } from '@thereallonewolf/amethystframework';
 import { BigString, createBot, createRestManager, startBot } from 'discordeno';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import fs from 'fs';
 import { setupAnalyticsHooks } from '../analytics.js';
 import { INTENTS, REST_URL } from '../configs.js';
@@ -203,6 +206,7 @@ if (process.env.DEVELOPEMENT) {
 		token: DISCORD_TOKEN,
 		secretKey: REST_AUTHORIZATION,
 		customUrl: REST_URL,
+		debug: console.log,
 	});
 }
 

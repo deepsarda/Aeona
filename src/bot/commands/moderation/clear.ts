@@ -10,6 +10,7 @@ export default {
 			name: 'amount',
 			description: 'The amount of messages to delete',
 			required: true,
+			type:'Number',
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],

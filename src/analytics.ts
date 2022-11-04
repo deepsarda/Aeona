@@ -44,11 +44,8 @@ export const setupAnalyticsHooks = (rest: RestManager) => {
 		};
 
 		setInterval(() => {
-			console.log(`[Influx - REST] Saving events...`);
+		
 			Influx?.flush()
-				.then(() => {
-					console.log(`[Influx - REST] Saved events!`);
-				})
 				.catch((error) => {
 					console.log(`[Influx - REST] Error saving events!`, error);
 				});
