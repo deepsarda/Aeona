@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import amqplib from 'amqplib';
 import {
 	createShardManager,
 	DiscordGuild,
