@@ -4,7 +4,6 @@ dotenv.config();
 import { Bot, DiscordGatewayPayload } from 'discordeno';
 // ReferenceError: publishMessage is not defined
 // import Embeds from "discordeno/embeds";
-import amqplib from 'amqplib';
 import express from 'express';
 import { EVENT_HANDLER_URL } from '../configs.js';
 import { bot } from './bot.js';
@@ -60,64 +59,3 @@ app.all('/', async (req: any, res: any) => {
 app.listen(EVENT_HANDLER_PORT, () => {
 	console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
 });
-
-const connectRabbitmq = async () => {
-	let connection: amqplib.Connection | undefined = undefined;
-
-	try {
-		connection = await amqplib.connect(
-			`amqp://${process.env.MESSAGEQUEUE_USERNAME}:${process.env.MESSAGEQUEUE_PASSWORD}@${process.env.MESSAGEQUEUE_URL}`,
-		);
-	} catch (error) {
-		console.error(error);
-		setTimeout(connectRabbitmq, 1000);
-	}
-
-	if (!connection) return;
-	connection.on('error', (err: any) => {
-		console.error(err);
-		setTimeout(connectRabbitmq, 1000);
-	});
-
-	connection.on('close', () => {
-		setTimeout(connectRabbitmq, 1000);
-	});
-
-	try {
-		const channel = await connection.createChannel();
-
-		await channel.assertExchange('gatewayMessage', 'x-message-deduplication', {
-			durable: true,
-			arguments: {
-				'x-cache-size': 1000,
-				'x-cache-ttl': 500,
-			},
-		});
-
-		await channel.assertQueue('gatewayMessageQueue');
-		await channel.bindQueue('gatewayMessageQueue', 'gatewayMessage', '');
-		await channel.consume(
-			'gatewayMessageQueue',
-			async (msg: any) => {
-				if (!msg) return;
-				const json = JSON.parse(msg.content.toString()) as {
-					message: DiscordGatewayPayload;
-					shardId: number;
-				};
-
-				await handleEvent(json.message, json.shardId);
-
-				await channel.ack(msg);
-			},
-			{
-				noAck: false,
-			},
-		);
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-if (process.env.MESSAGEQUEUE_ENABLE === 'true') {
-	connectRabbitmq();
-}

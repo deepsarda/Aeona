@@ -14,7 +14,6 @@ import {
 } from 'discordeno';
 import { createLogger } from 'discordeno/logger';
 import fetch from 'node-fetch';
-import crypto from 'node:crypto';
 import { parentPort, workerData } from 'worker_threads';
 import { ManagerMessage } from './index';
 
@@ -27,11 +26,6 @@ const script: WorkerCreateData = workerData;
 const log = createLogger({ name: `[WORKER #${script.workerId}]` });
 
 const identifyPromises = new Map<number, () => void>();
-
-let channel: amqplib.Channel | undefined = undefined;
-
-const useMessageQueue = process.env.MESSAGEQUEUE_ENABLE === 'true';
-
 // Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
 const guildIds: Set<bigint> = new Set();
 const loadingGuildIds: Set<bigint> = new Set();
@@ -78,21 +72,11 @@ const manager = createShardManager({
 			guildIds.delete(BigInt(guild.id));
 		}
 
-		if (useMessageQueue) {
-			if (!channel) return;
-			await channel.publish('gatewayMessage', '', Buffer.from(JSON.stringify({ shard, message })), {
-				contentType: 'application/json',
-				headers: {
-					'x-deduplication-header': crypto.createHash('md5').update(JSON.stringify(message.d)).digest('hex'),
-				},
-			});
-		} else {
-			await fetch(url, {
-				method: 'POST',
-				body: JSON.stringify({ message, shardId: shard.id }),
-				headers: { 'Content-Type': 'application/json', Authorization: script.handlerAuthorization },
-			}).catch((error) => log.error(error));
-		}
+		await fetch(url, {
+			method: 'POST',
+			body: JSON.stringify({ message, shardId: shard.id }),
+			headers: { 'Content-Type': 'application/json', Authorization: script.handlerAuthorization },
+		}).catch((error) => log.error(error));
 
 		log.debug({ shardId: shard.id, message });
 	},
@@ -185,47 +169,3 @@ export type WorkerShardInfo = {
 	rtt: number;
 	state: ShardState;
 };
-
-const connectRabbitmq = async () => {
-	let connection: amqplib.Connection | undefined = undefined;
-
-	try {
-		connection = await amqplib.connect(
-			`amqp://${process.env.MESSAGEQUEUE_USERNAME}:${process.env.MESSAGEQUEUE_PASSWORD}@${process.env.MESSAGEQUEUE_URL}`,
-		);
-	} catch (error) {
-		channel = undefined;
-		log.error(error);
-		setTimeout(connectRabbitmq, 1000);
-	}
-
-	if (!connection) return;
-	connection.on('error', (err) => {
-		channel = undefined;
-		log.error(err);
-		setTimeout(connectRabbitmq, 1000);
-	});
-
-	connection.on('close', () => {
-		channel = undefined;
-		setTimeout(connectRabbitmq, 1000);
-	});
-
-	try {
-		channel = await connection.createChannel();
-		await channel.assertExchange('gatewayMessage', 'x-message-deduplication', {
-			durable: true,
-			arguments: {
-				'x-cache-size': 1000,
-				'x-cache-ttl': 500,
-			},
-		});
-	} catch (error) {
-		log.error(error);
-		channel = undefined;
-	}
-};
-
-if (useMessageQueue) {
-	connectRabbitmq();
-}
