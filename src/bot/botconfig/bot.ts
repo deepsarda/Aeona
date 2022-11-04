@@ -9,6 +9,7 @@ export default {
 	},
 	discord: {
 		footer: embedconfig.footertext,
+		footerUrl: embedconfig.footericon,
 		serverInvite: '',
 	},
 	prefix: process.env.PREFIX,

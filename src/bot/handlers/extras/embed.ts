@@ -10,9 +10,7 @@ export default (client: AmethystBot) => {
 			.setColor(client.extras.config.colors.normal)
 			.setFooter(
 				client.extras.config.discord.footer,
-				client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
-					avatar: client.user.avatar,
-				}),
+				client.extras.config.discord.footerUrl,
 			)
 			.setTimestamp();
 	};
