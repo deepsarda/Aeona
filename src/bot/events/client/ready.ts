@@ -103,8 +103,8 @@ export default async (client: AmethystBot) => {
 					'value',
 					client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
 				),
-			);		
-			console.log(client.gateway.manager.shards.first()!.heart.rtt!)
+			);
+			console.log(client.gateway.manager.shards.first()!.heart.rtt!);
 			Influx.writePoint(
 				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
 			);

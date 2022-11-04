@@ -8,10 +8,7 @@ export default (client: AmethystBot) => {
 		return new AmethystEmbed()
 
 			.setColor(client.extras.config.colors.normal)
-			.setFooter(
-				client.extras.config.discord.footer,
-				client.extras.config.discord.footerUrl,
-			)
+			.setFooter(client.extras.config.discord.footer, client.extras.config.discord.footerUrl)
 			.setTimestamp();
 	};
 
