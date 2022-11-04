@@ -200,4 +200,3 @@ enum StatusCodes {
 
 	InternalServerError = 500,
 }
-
