@@ -7,7 +7,6 @@ import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
 
 export default async (client: AmethystBot) => {
-
 	client.extras.messageCount = 0;
 	try {
 		const point = new Point('per_core_cpu_load').tag('action', 'sync');
@@ -34,7 +33,7 @@ export default async (client: AmethystBot) => {
 				.tag('action', 'sync')
 				.intField('value', value),
 		);
-		
+
 		client.helpers.editBotStatus({
 			activities: [
 				{
