@@ -6,7 +6,7 @@ ls.stdout.on('data', (data) => {
 });
 
 ls.stderr.on('data', (data) => {
-	console.error(`stderr: ${data}`);
+	console.error(data);
 });
 
 ls.on('close', (code) => {
