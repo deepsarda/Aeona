@@ -6,15 +6,17 @@ export default {
 	description: 'Delete a reaction role.',
 	commandType: ['application', 'message'],
 	category: 'reactionroles',
-	args: [{
-		name:"category",
-		description: "The category of the reaction roles",
-        required: true,
-		type:"String",
-	}],
+	args: [
+		{
+			name: 'category',
+			description: 'The category of the reaction roles',
+			required: true,
+			type: 'String',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const category = ctx.options.getString('category',true);
+		const category = ctx.options.getString('category', true);
 
 		Schema.findOne({ Guild: ctx.guildId, Category: category }, async (err, data) => {
 			if (!data)

@@ -85,7 +85,7 @@ export default async (client: AmethystBot) => {
 				.sort([['xp', -1]])
 				.exec();
 
-			userReturn.position = leaderboard.findIndex((i) => i.userID === userId+"") + 1;
+			userReturn.position = leaderboard.findIndex((i) => i.userID === userId + '') + 1;
 		}
 
 		userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);

@@ -6,29 +6,33 @@ export default {
 	description: 'Create a reactionrole',
 	commandType: ['application', 'message'],
 	category: 'reactionroles',
-	args: [{
-		name:"category",
-		description: "The category of the reaction roles",
-        required: true,
-		type:"String",
-	},{
-		name:"role",
-		description: "The role to give",
-        required: true,
-		type:"Role",
-	},{
-		name:"emoji",
-		description: "The emoji for the reaction",
-        required: true,
-		type:"Emoji",
-	}],
+	args: [
+		{
+			name: 'category',
+			description: 'The category of the reaction roles',
+			required: true,
+			type: 'String',
+		},
+		{
+			name: 'role',
+			description: 'The role to give',
+			required: true,
+			type: 'Role',
+		},
+		{
+			name: 'emoji',
+			description: 'The emoji for the reaction',
+			required: true,
+			type: 'Emoji',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const category = ctx.options.getString('category',true);
-		const role = ctx.options.getRole('role',true);
-		const emoji = ctx.options.getString('emoji',true);
+		const category = ctx.options.getString('category', true);
+		const role = ctx.options.getRole('role', true);
+		const emoji = ctx.options.getString('emoji', true);
 
-		const parsedEmoji =parseEmoji(emoji);
+		const parsedEmoji = parseEmoji(emoji);
 		if (!parsedEmoji)
 			return client.extras.errNormal(
 				{

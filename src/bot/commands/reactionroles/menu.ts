@@ -7,17 +7,20 @@ export default {
 	description: 'Generate a menu reactionroles',
 	commandType: ['application', 'message'],
 	category: 'reactionroles',
-	args: [{
-		name:"category",
-		description: "The category of the reaction roles",
-        required: true,
-		type:"String",
-	},{
-		name:"channel",
-        description: "The channel to make the menu in.",
-        required: true,
-        type:"String",
-	}],
+	args: [
+		{
+			name: 'category',
+			description: 'The category of the reaction roles',
+			required: true,
+			type: 'String',
+		},
+		{
+			name: 'channel',
+			description: 'The channel to make the menu in.',
+			required: true,
+			type: 'String',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const category = ctx.options.getString('category');

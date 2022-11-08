@@ -6,20 +6,23 @@ export default {
 	description: 'Generate a button menu.',
 	commandType: ['application', 'message'],
 	category: 'reactionroles',
-	args: [{
-		name:"category",
-		description: "The category of the reaction roles",
-        required: true,
-		type:"String",
-	},{
-		name:"channel",
-        description: "The channel to make the menu in.",
-        required: true,
-        type:"String",
-	}],
+	args: [
+		{
+			name: 'category',
+			description: 'The category of the reaction roles',
+			required: true,
+			type: 'String',
+		},
+		{
+			name: 'channel',
+			description: 'The channel to make the menu in.',
+			required: true,
+			type: 'String',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const category = ctx.options.getString('category',true);
+		const category = ctx.options.getString('category', true);
 		const channel = ctx.options.getChannel('channel') || ctx.channel;
 
 		const lower = category.toLowerCase();
@@ -34,14 +37,13 @@ export default {
 					},
 					ctx,
 				);
-			const a =Object.keys(data.Roles);
+			const a = Object.keys(data.Roles);
 			const mapped = [];
-			for(const b in a){
-				const role = await client.cache.roles.get(data.Roles[b][0],ctx.guildId,true);
-				mapped.push(`${data.Roles[b][1].raw} | <&${role.id}>`)
+			for (const b in a) {
+				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
+				mapped.push(`${data.Roles[b][1].raw} | <&${role.id}>`);
 			}
-			const mappedstring=mapped.join("\n");
-			
+			const mappedstring = mapped.join('\n');
 
 			const reactions = Object.values(data.Roles).map((val) => val[1].raw);
 			const sendComponents = client.extras.buttonReactions('id', reactions);
