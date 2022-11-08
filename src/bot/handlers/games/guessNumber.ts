@@ -7,7 +7,7 @@ export default async (client: AmethystBot) => {
 		const author = await bot.cache.users.get(message.authorId)!;
 		if (!author) return;
 		if (author.toggles.bot) return;
-
+		if(!message.guildId) return;
 		const data = await Schema.findOne({
 			Guild: message.guildId,
 			Channel: message.channelId,

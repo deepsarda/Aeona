@@ -22,7 +22,7 @@ export default async (client: AmethystBot) => {
 				const Guilds = client.cache.guilds.memory.map((guild) => guild.id);
 				let i = 0;
 				const interval = setInterval(async function () {
-					console.log(Guilds[i]);
+					try{
 					const invites = await client.helpers.getInvites(Guilds[i]!);
 
 					const codeUses = new Map();
@@ -34,6 +34,8 @@ export default async (client: AmethystBot) => {
 					i++;
 
 					if (i === Guilds.length) clearInterval(interval);
+				}catch{//lint
+				}
 				}, 1500);
 			}, 60 /* The time in milliseconds that the bot will wait before checking the invites again. */ * 60 * 1000);
 		} catch (e) {
