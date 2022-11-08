@@ -195,11 +195,11 @@ const categories: CategoryOptions[] = [
 		default: 'family',
 	},
 	{
-		name:"reactionroles",
-		description: "Setup reaction roles for your server",
+		name: 'reactionroles',
+		description: 'Setup reaction roles for your server',
 		uniqueCommands: false,
-        default: 'list',
-	}
+		default: 'list',
+	},
 ];
 
 for (let i = 0; i < categories.length; i++) {

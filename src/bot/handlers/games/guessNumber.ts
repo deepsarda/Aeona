@@ -4,9 +4,7 @@ import Schema from '../../database/models/guessNumber.js';
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		const author = await bot.cache.users.get(message.authorId)!;
-		if (!author) return;
-		if (author.toggles.bot) return;
+		if (message.member?.user.toggles.bot) return;
 		if (!message.guildId) return;
 		const data = await Schema.findOne({
 			Guild: message.guildId,
@@ -28,7 +26,7 @@ export default async (client: AmethystBot) => {
 						fields: [
 							{
 								name: `→ Guessed by`,
-								value: `<@${author.id}> (${author.username + '#' + author?.discriminator})`,
+								value: `<@${message.member?.user.id}> (${message.member?.user.username + '#' + message.member?.user?.discriminator})`,
 								inline: true,
 							},
 							{
