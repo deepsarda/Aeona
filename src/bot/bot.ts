@@ -38,8 +38,8 @@ export const bot = enableAmethystPlugin(cachebot, {
 	botMentionAsPrefix: true,
 	ignoreBots: false,
 	defaultCooldown: {
-		seconds: 2,
-		allowedUses: 3,
+		seconds: 5,
+		allowedUses: 2,
 	},
 	commandDir: './dist/bot/commands',
 });
@@ -194,6 +194,12 @@ const categories: CategoryOptions[] = [
 		uniqueCommands: true,
 		default: 'family',
 	},
+	{
+		name:"reactionroles",
+		description: "Setup reaction roles for your server",
+		uniqueCommands: false,
+        default: 'list',
+	}
 ];
 
 for (let i = 0; i < categories.length; i++) {

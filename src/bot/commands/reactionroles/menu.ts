@@ -1,4 +1,4 @@
-import Schema from '../../database/models/reactionRoles';
+import Schema from '../../database/models/reactionRoles.js';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework/*';
 import { Components } from '@thereallonewolf/amethystframework';
