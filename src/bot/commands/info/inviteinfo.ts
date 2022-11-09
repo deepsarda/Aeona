@@ -8,7 +8,7 @@ export default {
 	category: 'info',
 	args: [
 		{
-			name: 'inviteCode',
+			name: 'invite',
 			description: 'Invite code',
 			required: true,
 			type: 'String',

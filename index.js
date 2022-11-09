@@ -1,5 +1,12 @@
-import { spawn } from 'child_process';
+import { spawn ,execSync} from 'child_process';
+try{
+	execSync("npm rebuild")
+}catch(e)
+{
+	console.log(e);
+}
 const ls = spawn('npm', ['run', 'devb']);
+
 
 ls.stdout.on('data', (data) => {
 	console.log(data.toString('ascii'));

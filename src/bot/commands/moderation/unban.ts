@@ -6,7 +6,7 @@ export default {
 	category: 'moderation',
 	args: [
 		{
-			name: 'userId',
+			name: 'userid',
 			description: 'The ID of the user you want to unban',
 			required: true,
 			type: 'String',
@@ -17,7 +17,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		client.helpers
-			.unbanMember(ctx.guild.id, ctx.options.getString('userId', true))
+			.unbanMember(ctx.guild.id, ctx.options.getString('userid', true))
 			.then(function () {
 				client.extras.succNormal(
 					{

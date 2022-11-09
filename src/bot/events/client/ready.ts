@@ -2,7 +2,7 @@ import { InfluxDB, Point } from '@influxdata/influxdb-client';
 import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { ActivityTypes } from 'discordeno/types';
 import { cpus } from 'os';
-
+import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
 
@@ -68,6 +68,50 @@ export default async (client: AmethystBot) => {
 				],
 				status: 'idle',
 			});
+
+			const point = new Point('per_core_cpu_load').tag('action', 'sync');
+
+			let index = 0;
+			for (const { times } of cpus()) {
+				console.log(`cpu_${index++} ${(times.user + times.nice + times.sys + times.irq) / times.idle}`);
+				point.floatField(`cpu_${index++}`, (times.user + times.nice + times.sys + times.irq) / times.idle);
+			}
+
+			Influx.writePoint(point);
+
+			const usage = process.memoryUsage();
+			Influx.writePoint(
+				new Point('memory') //
+					.tag('action', 'sync')
+					.floatField('total', usage.heapTotal)
+					.floatField('used', usage.heapUsed),
+			);
+			console.log(`memory total ${usage.heapTotal}`);
+			console.log(`memory used ${usage.heapUsed}`);
+
+			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
+			try {
+				Influx.writePoint(
+					new Point('users').tag('action', 'sync').intField(
+						'value',
+						client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
+					),
+				);
+			} catch (e) {
+				console.error(e);
+			}
+
+			Influx.writePoint(
+				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
+			);
+			console.log(`ping ${client.gateway.manager.shards.first()!.heart.rtt!}`);
+		} catch (e) {
+			console.error(e);
+		}
+	}, 10000);
+
+	setInterval(() => {
+		try {
 			const params = new URLSearchParams();
 			params.append('server_count', client.cache.guilds.memory.size + '');
 
@@ -79,22 +123,6 @@ export default async (client: AmethystBot) => {
 				body: params,
 			}).catch();
 
-			const point = new Point('per_core_cpu_load').tag('action', 'sync');
-
-			let index = 0;
-			for (const { times } of cpus())
-				point.floatField(`cpu_${index++}`, (times.user + times.nice + times.sys + times.irq) / times.idle);
-
-			Influx.writePoint(point);
-
-			const usage = process.memoryUsage();
-			Influx.writePoint(
-				new Point('memory') //
-					.tag('action', 'sync')
-					.floatField('total', usage.heapTotal)
-					.floatField('used', usage.heapUsed),
-			);
-
 			const value = client.extras.messageCount;
 			client.extras.messageCount = 0;
 
@@ -103,21 +131,101 @@ export default async (client: AmethystBot) => {
 					.tag('action', 'sync')
 					.intField('value', value),
 			);
-
-			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
-			Influx.writePoint(
-				new Point('users').tag('action', 'sync').intField(
-					'value',
-					client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
-				),
-			);
-			console.log(client.gateway.manager.shards.first()!.heart.rtt!);
-			Influx.writePoint(
-				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
-			);
 		} catch (e) {
 			console.error(e);
 		}
 	}, 60000);
-	await client.amethystUtils.updateSlashCommands();
+
+	// await verifySlashCommands;
 };
+
+async function verifySlashCommands(client: AmethystBot) {
+	try {
+		const commands = [];
+		client.category.forEach((category) => {
+			console.log(category.name);
+			const commandBuilder = new SlashCommandBuilder().setName(category.name).setDescription(category.description);
+			category.commands.forEach((command) => {
+				console.log(command.name);
+				commandBuilder.addSubcommand((subcommand) => {
+					subcommand.setName(command.name).setDescription(command.description);
+					for (const option of command.args) {
+						if (option.type == 'String')
+							subcommand.addStringOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+
+						if (option.type == 'Number')
+							subcommand.addNumberOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+						if (option.type == 'Integer')
+							subcommand.addIntegerOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+						if (option.type == 'Channel')
+							subcommand.addChannelOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+
+						if (option.type == 'Boolean')
+							subcommand.addBooleanOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+						if (option.type == 'User')
+							subcommand.addUserOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+						if (option.type == 'Role')
+							subcommand.addRoleOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+						if (option.type == 'Mentionable')
+							subcommand.addMentionableOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+
+						if (option.type == 'Attachment')
+							subcommand.addAttachmentOption((op) => {
+								op.setName(option.name).setDescription(option.description);
+								if (option.required) op.setRequired(true);
+								else op.setRequired(false);
+								return op;
+							});
+					}
+					return subcommand;
+				});
+			});
+
+			commands.push(commandBuilder.toJSON());
+		});
+		console.log(commands);
+		await client.helpers.upsertGlobalApplicationCommands(commands);
+	} catch (e) {
+		console.error(e);
+	}
+}

@@ -5,7 +5,7 @@ export default {
 	name: 'setverify',
 	description: 'Configure the verification system',
 	commandType: ['application', 'message'],
-	category: 'chabot',
+	category: 'config',
 	args: [
 		{
 			name: 'enable',
