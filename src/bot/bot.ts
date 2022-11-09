@@ -43,10 +43,10 @@ export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: process.env.PREFIX,
 	botMentionAsPrefix: true,
-	ignoreBots: false,
+	ignoreBots: true,
 	defaultCooldown: {
 		seconds: 5,
-		allowedUses: 2,
+		allowedUses: 3,
 	},
 	commandDir: './dist/bot/commands',
 });

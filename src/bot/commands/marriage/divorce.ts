@@ -58,7 +58,7 @@ export default {
 			client.extras.embed(
 				{
 					title: `Divorced`,
-					desc: `${author} and ${target} have been divorced`,
+					desc: `<@${author.id}> and <@${target.id}> have been divorced`,
 					type: 'editreply',
 				},
 				ctx,

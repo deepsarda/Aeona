@@ -19,7 +19,7 @@ export default {
 		const target = ctx.options.getUser('user', true);
 		const author = ctx.user;
 		const guild = { Guild: ctx.guildId };
-
+		console.log(`Proposal by ${target}`)
 		if (author.id == target.id)
 			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'editreply' }, ctx);
 
@@ -114,15 +114,15 @@ export default {
 			const message = await client.extras.embed(
 				{
 					title: `Marriage proposal`,
-					desc: `${author} has ${target} asked to propose him! \n${target} click on one of the buttons`,
+					desc: `<@${author.id}> has <@${target.id}> asked to marry them! \n<@${target.id}> click on one of the buttons`,
 					components: row,
-					content: `${target}`,
+					content: `<@${target.id}>`,
 					type: 'editreply',
 				},
 				ctx,
 			);
 
-			const filter = (i: { user: { id: bigint } }) => i.user.id === target.id;
+			const filter = (bot,i) => { console.log(i.user.id === target.id); return i.user.id === target.id};
 
 			client.amethystUtils
 				.awaitComponent(message.id, {
@@ -130,6 +130,7 @@ export default {
 					type: 'Button',
 				})
 				.then(async (i) => {
+					console.log(i)
 					if (i.data?.customId == 'propose_accept') {
 						Schema.findOne(
 							{ Guild: ctx.guildId, User: author.id },
@@ -166,9 +167,9 @@ export default {
 						client.extras.embed(
 							{
 								title: `Marriage proposal - Accepted`,
-								desc: `${author} and ${target} are now married! 👰🎉`,
+								desc: `${author} and <@${target.id}> are now married! 👰🎉`,
 								components: [],
-								content: `${target}`,
+								content: `<@${target.id}>`,
 								type: 'editreply',
 							},
 							ctx,
@@ -179,22 +180,23 @@ export default {
 						client.extras.embed(
 							{
 								title: `Marriage proposal - Declined`,
-								desc: `${target} loves someone else and chose not to marry ${author}`,
+								desc: `<@${target.id}> loves someone else and chose not to marry ${author}`,
 								components: [],
-								content: `${target}`,
+								content: `<@${target.id}>`,
 								type: 'editreply',
 							},
 							ctx,
 						);
 					}
 				})
-				.catch(() => {
+				.catch((e) => {
+					console.error(e);
 					client.extras.embed(
 						{
 							title: `Marriage proposal - Declined`,
-							desc: `${target} has not answered anything! The wedding is canceled`,
+							desc: `<@${target.id}> has not answered anything! The wedding is canceled`,
 							components: [],
-							content: `${target}`,
+							content: `<@${target.id}>`,
 							type: 'editreply',
 						},
 						ctx,

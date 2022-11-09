@@ -403,13 +403,22 @@ export default (client: AmethystBot) => {
 		if (ctx instanceof Context) {
 			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {
 				return await ctx
-					.reply({
+					.editReply({
 						embeds: embeds,
 						content: content,
 						components: components,
 						fetchReply: true,
 					})
 					.catch();
+			}else if(type && type.toLowerCase() == 'editreply'){
+				return await ctx
+				.reply({
+					embeds: embeds,
+					content: content,
+					components: components,
+					fetchReply: true,
+				})
+				.catch();
 			} else if (type && type.toLowerCase() == 'reply') {
 				return await ctx
 					.reply({

@@ -85,15 +85,15 @@ export default {
 		const message: Message = await client.extras.embed(
 			{
 				title: `Adoption`,
-				desc: `${author} has ${target} asked to adopt him! \n${target} click on one of the buttons`,
+				desc: `<@${author.id}> has <@${target.id}> asked to adopt them! \n<@${target.id}> click on one of the buttons`,
 				components: row,
-				content: `${target}`,
+				content: `<@${target.id}>`,
 				type: 'editreply',
 			},
 			ctx,
 		);
 
-		const filter = (i: { user: { id: bigint } }) => i.user.id === target.id;
+		const filter = (bot,i: { user: { id: bigint } }) => i.user.id === target.id;
 		client.amethystUtils
 			.awaitComponent(message.id, {
 				filter: filter,
@@ -136,7 +136,7 @@ export default {
 					client.extras.embed(
 						{
 							title: `Adoption - Approved`,
-							desc: `${author} is now the proud parent of ${target}! 🎉`,
+							desc: `<@${author.id}> is now the proud parent of <@${target.id}>! 🎉`,
 							components: [],
 							type: 'editreply',
 						},
@@ -148,7 +148,7 @@ export default {
 					client.extras.embed(
 						{
 							title: `Adoption - Denied`,
-							desc: `${target} don't want to be adopted by ${author}`,
+							desc: `<@${target.id}> don't want to be adopted by <@${author.id}>`,
 							components: [],
 							type: 'editreply',
 						},
@@ -160,7 +160,7 @@ export default {
 				client.extras.embed(
 					{
 						title: `Adoption - Denied`,
-						desc: `${target} has not answered anything! The adoption is canceled`,
+						desc: `<@${target.id}> has not answered anything! The adoption is canceled`,
 						components: [],
 						type: 'editreply',
 					},

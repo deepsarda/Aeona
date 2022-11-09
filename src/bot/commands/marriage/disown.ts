@@ -47,7 +47,7 @@ export default {
 							client.extras.embed(
 								{
 									title: `Disowned`,
-									desc: `${author} has disowned <@!${data.Parent}>`,
+									desc: `<@${author.id}> has disowned <@!${data.Parent}>`,
 									type: 'editreply',
 								},
 								ctx,
@@ -82,7 +82,7 @@ export default {
 								client.extras.embed(
 									{
 										title: `Disowned`,
-										desc: `${author} has disowned <@!${target.id}>`,
+										desc: `<@${author.id}> has disowned <@!${target.id}>`,
 										type: 'editreply',
 									},
 									ctx,
