@@ -3,3 +3,7 @@
 
 npm run pretty-quick --staged
 
+git commit -m "reaf: Format Files"
+
+git push
+
