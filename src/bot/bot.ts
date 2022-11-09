@@ -32,11 +32,11 @@ const cachebot = createProxyCache(basebot, {
 		messages: true,
 	},
 	desiredProps: {
-		guilds: ['id', 'name', 'roles', 'channels','memberCount'],
-		roles: ['id', 'name', 'permissions','guildId','color'],
-		channels: ['id', 'name', 'type','guildId',],
-		users: ['id', 'username', 'discriminator','flags','avatar','toggles'],
-		members: ['id', 'roles', 'nick','guildId'],
+		guilds: ['id', 'name', 'roles', 'channels', 'memberCount'],
+		roles: ['id', 'name', 'permissions', 'guildId', 'color'],
+		channels: ['id', 'name', 'type', 'guildId'],
+		users: ['id', 'username', 'discriminator', 'flags', 'avatar', 'toggles'],
+		members: ['id', 'roles', 'nick', 'guildId'],
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
