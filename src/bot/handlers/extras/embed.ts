@@ -410,15 +410,15 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
-			}else if(type && type.toLowerCase() == 'editreply'){
+			} else if (type && type.toLowerCase() == 'editreply') {
 				return await ctx
-				.reply({
-					embeds: embeds,
-					content: content,
-					components: components,
-					fetchReply: true,
-				})
-				.catch();
+					.reply({
+						embeds: embeds,
+						content: content,
+						components: components,
+						fetchReply: true,
+					})
+					.catch();
 			} else if (type && type.toLowerCase() == 'reply') {
 				return await ctx
 					.reply({

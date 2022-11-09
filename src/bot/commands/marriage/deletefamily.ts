@@ -23,7 +23,7 @@ export default {
 			ctx,
 		);
 
-		const filter = (bot,i: any) => i.user.id === ctx.user?.id;
+		const filter = (bot, i: any) => i.user.id === ctx.user?.id;
 
 		client.amethystUtils
 			.awaitComponent(message.id, {
@@ -46,7 +46,7 @@ export default {
 					});
 
 					if (parent) {
-						parent.Parent =[];
+						parent.Parent = [];
 						parent.save();
 					}
 

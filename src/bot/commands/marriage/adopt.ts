@@ -93,7 +93,7 @@ export default {
 			ctx,
 		);
 
-		const filter = (bot,i: { user: { id: bigint } }) => i.user.id === target.id;
+		const filter = (bot, i: { user: { id: bigint } }) => i.user.id === target.id;
 		client.amethystUtils
 			.awaitComponent(message.id, {
 				filter: filter,

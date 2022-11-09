@@ -19,7 +19,7 @@ export default {
 		const target = ctx.options.getUser('user', true);
 		const author = ctx.user;
 		const guild = { Guild: ctx.guildId };
-		console.log(`Proposal by ${target}`)
+		console.log(`Proposal by ${target}`);
 		if (author.id == target.id)
 			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'editreply' }, ctx);
 
@@ -122,7 +122,10 @@ export default {
 				ctx,
 			);
 
-			const filter = (bot,i) => { console.log(i.user.id === target.id); return i.user.id === target.id};
+			const filter = (bot, i) => {
+				console.log(i.user.id === target.id);
+				return i.user.id === target.id;
+			};
 
 			client.amethystUtils
 				.awaitComponent(message.id, {
@@ -130,7 +133,7 @@ export default {
 					type: 'Button',
 				})
 				.then(async (i) => {
-					console.log(i)
+					console.log(i);
 					if (i.data?.customId == 'propose_accept') {
 						Schema.findOne(
 							{ Guild: ctx.guildId, User: author.id },
