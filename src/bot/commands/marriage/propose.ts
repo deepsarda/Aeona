@@ -18,7 +18,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
-		
+
 		if (author.id == target.id)
 			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'edit' }, ctx);
 
@@ -110,7 +110,7 @@ export default {
 				.addButton('Yes', 'Success', 'propose_accept', { emoji: '✅' })
 				.addButton('No', 'Danger', 'propose_deny', { emoji: '❌' });
 
-			const message:Context = await client.extras.embed(
+			const message: Context = await client.extras.embed(
 				{
 					title: `Marriage proposal`,
 					desc: `<@${author.id}> has <@${target.id}> asked to marry them! \n<@${target.id}> click on one of the buttons`,
@@ -127,7 +127,7 @@ export default {
 			};
 			console.log(message);
 			client.amethystUtils
-				.awaitComponent(message.interaction? message.interaction.message.id:message.message.id, {
+				.awaitComponent(message.interaction ? message.interaction.message.id : message.message.id, {
 					filter: filter,
 					type: 'Button',
 				})

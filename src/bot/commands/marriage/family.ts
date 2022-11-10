@@ -16,7 +16,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = await ctx.options.getUser('user') || ctx.user;
+		const target = (await ctx.options.getUser('user')) || ctx.user;
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
