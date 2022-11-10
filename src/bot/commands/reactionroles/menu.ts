@@ -24,7 +24,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const category = ctx.options.getString('category');
-		const channel = ctx.options.getChannel('channel') || ctx.channel;
+		const channel = await ctx.options.getChannel('channel') || ctx.channel;
 
 		const lower = category.toLowerCase();
 		const upper = lower.charAt(0).toUpperCase() + lower.substring(1);
@@ -34,7 +34,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: `No data found!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

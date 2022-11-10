@@ -23,7 +23,7 @@ export default {
 
 		if (!['counting', 'guess-the-number', 'guess-the-word'].includes(choice))
 			return client.extras.errUsage(
-				{ usage: 'autosetup games counting/guess-the-number/guess-the-word', type: 'editreply' },
+				{ usage: 'autosetup games counting/guess-the-number/guess-the-word', type: 'reply' },
 				ctx,
 			);
 

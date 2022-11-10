@@ -14,7 +14,7 @@ export default {
 				desc: `Join the support server.`,
 				url: client.extras.config.discord.serverInvite,
 				components: row,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

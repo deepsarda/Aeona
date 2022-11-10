@@ -40,7 +40,7 @@ export default {
             
             \`{guild:name}\` - Server name
             \`{guild:members}\` - Server members count`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -55,7 +55,7 @@ export default {
 					client.extras.succNormal(
 						{
 							text: `Leave message deleted!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -84,7 +84,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

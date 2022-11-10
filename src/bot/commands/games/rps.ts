@@ -19,7 +19,7 @@ export default {
 		const options = ['rock', 'paper', 'scissors'];
 
 		if (!['rock', 'paper', 'scissors'].includes(option))
-			return client.extras.errUsage({ usage: 'rps rock/paper/scissors', type: 'editreply' }, ctx);
+			return client.extras.errUsage({ usage: 'rps rock/paper/scissors', type: 'edit' }, ctx);
 
 		const result = options[Math.floor(Math.random() * options.length)];
 
@@ -30,7 +30,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, I win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -40,7 +40,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, You win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -50,7 +50,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, It's a draw!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -62,7 +62,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, It's a draw!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -72,7 +72,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, I win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -82,7 +82,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, You win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -94,7 +94,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, You win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -104,7 +104,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, It's a draw!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -114,7 +114,7 @@ export default {
 						{
 							title: `Rock paper scissors`,
 							desc: `I have ${result}, I win!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

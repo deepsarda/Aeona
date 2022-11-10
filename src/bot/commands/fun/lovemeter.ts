@@ -20,11 +20,11 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const user1 = ctx.options.getUser('user1', true);
-		const user2 = ctx.options.getUser('user2', true);
+		const user1 = await ctx.options.getUser('user1', true);
+		const user2 = await ctx.options.getUser('user2', true);
 
 		if (user1 == user2)
-			return client.extras.errNormal({ error: 'You cannot give 2 of the same names!', type: 'editreply' }, ctx);
+			return client.extras.errNormal({ error: 'You cannot give 2 of the same names!', type: 'edit' }, ctx);
 
 		const result = Math.ceil(Math.random() * 100);
 
@@ -49,7 +49,7 @@ export default {
 						inline: false,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

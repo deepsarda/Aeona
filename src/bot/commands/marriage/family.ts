@@ -16,7 +16,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = ctx.options.getUser('user') || ctx.user;
+		const target = await ctx.options.getUser('user') || ctx.user;
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
@@ -43,7 +43,7 @@ export default {
 						value: `${data && data.Children.length > 0 ? `${data.Children.join(', ')}` : `This user has no children`}`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

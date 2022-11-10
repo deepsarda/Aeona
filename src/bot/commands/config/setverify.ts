@@ -31,8 +31,8 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const boolean = ctx.options.getBoolean('enable', true);
-		const channel = ctx.options.getChannel('channel', true);
-		const role = ctx.options.getRole('role', true);
+		const channel = await ctx.options.getChannel('channel', true);
+		const role = await ctx.options.getRole('role', true);
 		if (!channel) return;
 		if (boolean == true) {
 			const data = await Schema.findOne({ Guild: ctx.guildId });
@@ -63,7 +63,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

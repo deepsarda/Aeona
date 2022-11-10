@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Christmas`,
 				desc: `${days} days until Christmas`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

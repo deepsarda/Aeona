@@ -16,14 +16,14 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = ctx.options.getUser('user', true);
+		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
 
 		if (author.id == target.id)
 			return client.extras.errNormal(
 				{
 					error: 'You cannot divorce yourself',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -32,7 +32,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'You cannot divorce a bot',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -59,7 +59,7 @@ export default {
 				{
 					title: `Divorced`,
 					desc: `<@${author.id}> and <@${target.id}> have been divorced`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -67,7 +67,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: 'You are not married at the moment',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

@@ -23,7 +23,7 @@ export default (client: AmethystBot) => {
 						value: `${channel} (${channel.id})`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			interaction,
 		);
@@ -51,7 +51,7 @@ export default (client: AmethystBot) => {
 						value: `<&${role.id}> (${role.id})`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			interaction,
 		);

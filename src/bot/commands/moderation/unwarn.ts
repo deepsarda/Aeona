@@ -18,7 +18,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = ctx.options.getUser('user', true);
+		const member = await ctx.options.getUser('user', true);
 
 		Schema.findOne(
 			{ Guild: ctx.guildId, User: member.id },
@@ -30,7 +30,7 @@ export default {
 					client.extras.errNormal(
 						{
 							error: 'User has no warnings!',
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -66,7 +66,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

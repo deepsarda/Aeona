@@ -35,7 +35,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -44,7 +44,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: 'No level reward found at this level!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

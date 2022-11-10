@@ -13,7 +13,7 @@ export default {
 			{
 				title: `Roll`,
 				desc: `You rolled ${result}`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

@@ -26,7 +26,7 @@ export default {
 		const data = await Functions.findOne({ Guild: ctx.guildId });
 
 		if (data && data.Levels == true) {
-			const target = ctx.options.getUser('user', true);
+			const target = await ctx.options.getUser('user', true);
 			const level = ctx.options.getNumber('level', true);
 
 			const user = await client.extras.setLevel(target.id, ctx.guildId, level);
@@ -46,7 +46,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -54,7 +54,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: 'Levels are disabled in this guild!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

@@ -44,7 +44,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'Wrong day format!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -53,7 +53,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'Wrong month format!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -86,7 +86,7 @@ export default {
 						value: `${birthdayString}`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

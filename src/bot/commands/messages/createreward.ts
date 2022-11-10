@@ -24,14 +24,14 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const messages = ctx.options.getNumber('amount', true);
-		const role = ctx.options.getRole('role', true);
+		const role = await ctx.options.getRole('role', true);
 
 		Schema.findOne({ Guild: ctx.guildId, Messages: messages }, async (err: any, data: any) => {
 			if (data) {
 				return client.extras.errNormal(
 					{
 						error: 'This message amount already has a reward!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -52,7 +52,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

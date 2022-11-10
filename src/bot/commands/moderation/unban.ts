@@ -22,7 +22,7 @@ export default {
 				client.extras.succNormal(
 					{
 						text: 'The specified user has been successfully unbanned!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -31,7 +31,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: `I could not find the user!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

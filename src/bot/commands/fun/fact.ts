@@ -18,7 +18,7 @@ export default {
 				{
 					title: `Fact`,
 					desc: fact,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

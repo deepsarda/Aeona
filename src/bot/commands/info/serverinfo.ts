@@ -139,7 +139,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

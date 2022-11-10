@@ -30,7 +30,7 @@ export default {
 				client.extras.succNormal(
 					{
 						text: `Ticket panel has been set up successfully!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -38,7 +38,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: `Run the ticket setup first!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

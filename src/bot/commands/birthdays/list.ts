@@ -15,7 +15,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'No birthdays found!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

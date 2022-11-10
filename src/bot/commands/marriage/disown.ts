@@ -16,7 +16,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = ctx.options.getUser('user', true);
+		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
 		const guild = { Guild: ctx.guildId };
 
@@ -24,7 +24,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'You cannot disown yourself',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -33,7 +33,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'You cannot disown a bot',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -48,7 +48,7 @@ export default {
 								{
 									title: `Disowned`,
 									desc: `<@${author.id}> has disowned <@!${data.Parent}>`,
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							);
@@ -83,7 +83,7 @@ export default {
 									{
 										title: `Disowned`,
 										desc: `<@${author.id}> has disowned <@!${target.id}>`,
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								);
@@ -91,7 +91,7 @@ export default {
 								client.extras.errNormal(
 									{
 										error: 'You have no children/parents at the moment',
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								);
@@ -100,7 +100,7 @@ export default {
 							client.extras.errNormal(
 								{
 									error: 'You have no children/parents at the moment',
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							);

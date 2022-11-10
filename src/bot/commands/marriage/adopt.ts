@@ -17,14 +17,14 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = ctx.options.getUser('user', true);
+		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
 
 		if (author.id == target.id)
 			return client.extras.errNormal(
 				{
 					error: 'You cannot adopt yourself',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -33,7 +33,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'You cannot adopt a bot',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -58,7 +58,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `You cannot adopt a family member!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -72,7 +72,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `This user has already been adopted`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -88,7 +88,7 @@ export default {
 				desc: `<@${author.id}> has <@${target.id}> asked to adopt them! \n<@${target.id}> click on one of the buttons`,
 				components: row,
 				content: `<@${target.id}>`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);
@@ -138,7 +138,7 @@ export default {
 							title: `Adoption - Approved`,
 							desc: `<@${author.id}> is now the proud parent of <@${target.id}>! 🎉`,
 							components: [],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -150,7 +150,7 @@ export default {
 							title: `Adoption - Denied`,
 							desc: `<@${target.id}> don't want to be adopted by <@${author.id}>`,
 							components: [],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -162,7 +162,7 @@ export default {
 						title: `Adoption - Denied`,
 						desc: `<@${target.id}> has not answered anything! The adoption is canceled`,
 						components: [],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

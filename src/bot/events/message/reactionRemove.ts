@@ -22,7 +22,7 @@ export default async (
 		const starboardChannel = await client.helpers.getChannel(data.Channel);
 		if (!starboardChannel) return;
 
-		const fetch = await await client.helpers.getMessages(starboardChannel.id, {
+		const fetch = await client.helpers.getMessages(starboardChannel.id, {
 			limit: 100,
 		});
 		const stars = fetch.find((m) => {

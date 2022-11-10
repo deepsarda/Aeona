@@ -33,7 +33,7 @@ export default {
 
             \`{user:level}\` - Users's level
             \`{user:xp}\` - Users's xp`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -46,7 +46,7 @@ export default {
 						client.extras.succNormal(
 							{
 								text: `Level message deleted!`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -75,7 +75,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

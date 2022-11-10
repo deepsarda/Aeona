@@ -21,7 +21,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `This server has no bans`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

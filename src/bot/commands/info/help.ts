@@ -34,7 +34,7 @@ export default {
 			{
 				title: `My Help menu!`,
 				fields: fields,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

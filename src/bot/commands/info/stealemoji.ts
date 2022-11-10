@@ -43,7 +43,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -52,7 +52,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: 'Emoji not found!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

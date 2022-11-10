@@ -23,7 +23,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: `You're already afk!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

@@ -17,7 +17,7 @@ export default {
 					{
 						title: `Random panda fact`,
 						desc: json.fact,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

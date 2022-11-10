@@ -17,7 +17,7 @@ export default {
 					{
 						title: `Random koala fact`,
 						desc: json.fact,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

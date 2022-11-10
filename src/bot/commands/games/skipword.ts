@@ -51,7 +51,7 @@ export default {
 					client.extras.errNormal(
 						{
 							error: 'You are not in the right channel!',
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

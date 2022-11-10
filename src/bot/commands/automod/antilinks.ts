@@ -33,7 +33,7 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `Anti links is now **${boolean ? 'enabled' : 'disabled'}** in this guild`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

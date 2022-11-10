@@ -34,7 +34,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const type = ctx.options.getString('type', true);
-		const channel = ctx.options.getChannel('channel', true);
+		const channel = await ctx.options.getChannel('channel', true);
 
 		if (!channel) return;
 
@@ -47,7 +47,7 @@ export default {
 						return client.extras.errNormal(
 							{
 								error: `The channel ${channel} is already in the database!`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -72,7 +72,7 @@ export default {
 							value: `${channel} (${channel.name})`,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -85,7 +85,7 @@ export default {
 						return client.extras.errNormal(
 							{
 								error: `The channel ${channel} doesn't exist in the database!`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -110,7 +110,7 @@ export default {
 									value: `${channel} (${channel.name})`,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -118,7 +118,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `This guild has not data!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

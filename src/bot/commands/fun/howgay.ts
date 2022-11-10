@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Gay rate`,
 				desc: `You are ${result}% gay!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

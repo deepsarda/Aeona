@@ -18,7 +18,7 @@ export default {
 				title: `Reset family`,
 				desc: `Are you sure you want to reset your family?`,
 				components: row,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);
@@ -55,14 +55,14 @@ export default {
 						partner.save();
 					}
 
-					client.extras.succNormal({ text: `Your family has been deleted!`, type: 'editreply' }, ctx);
+					client.extras.succNormal({ text: `Your family has been deleted!`, type: 'edit' }, ctx);
 				}
 				if (!ctx.channel?.id) return;
 				client.helpers.deleteMessage(ctx.channel?.id, message.id);
 			})
 			.catch((err) => {
 				console.log(err);
-				client.extras.errNormal({ error: "Time's up! Cancelled backup loading!", type: 'editreply' }, ctx);
+				client.extras.errNormal({ error: "Time's up! Cancelled backup loading!", type: 'edit' }, ctx);
 			});
 	},
 };

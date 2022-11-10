@@ -22,7 +22,7 @@ export default {
 	userGuildPermissions: ['BAN_MEMBERS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const member = await client.helpers.getMember(ctx.guild.id, ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
 
 		const reason = ctx.options.getString('reason') || 'Not given';
 
@@ -68,7 +68,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -80,7 +80,7 @@ export default {
 					client.extras.succNormal(
 						{
 							text: 'The given user has been successfully banned, but has not received a notification!',
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -89,7 +89,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: "You can't ban a moderator",
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

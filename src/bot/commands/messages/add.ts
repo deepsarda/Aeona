@@ -23,7 +23,7 @@ export default {
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const user = ctx.options.getUser('user', true);
+		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 
 		const data = await Schema.findOne({
@@ -51,7 +51,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

@@ -16,7 +16,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: 'No birthday found!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -28,7 +28,7 @@ export default {
 				client.extras.succNormal(
 					{
 						text: 'Deleted your birthday',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

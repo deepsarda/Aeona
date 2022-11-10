@@ -22,21 +22,21 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'Please provide text shorter than 2000 character!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
 
 		figlet.text(msg, function (err, data) {
 			if (err) {
-				return client.extras.errNormal({ error: 'Something went wrong!', type: 'editreply' }, ctx);
+				return client.extras.errNormal({ error: 'Something went wrong!', type: 'edit' }, ctx);
 			}
 
 			client.extras.embed(
 				{
 					title: 'Ascii',
 					desc: `\`\`\` ${data} \`\`\``,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

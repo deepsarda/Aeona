@@ -65,7 +65,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 							.errNormal(
 								{
 									error: 'You have answered the captcha incorrectly!',
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							)

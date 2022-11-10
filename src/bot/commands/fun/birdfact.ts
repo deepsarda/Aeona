@@ -17,7 +17,7 @@ export default {
 					{
 						title: `Random bird fact`,
 						desc: json.fact,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

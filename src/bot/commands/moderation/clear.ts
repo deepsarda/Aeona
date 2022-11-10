@@ -23,7 +23,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'I cannot delete more than 100 messages at a time!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -32,7 +32,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'I cannot delete less than 1 message!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -63,7 +63,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: 'There was an error trying to delete messages in this channel!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

@@ -31,7 +31,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'You did not specify an hex color! Example: ff0000',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -58,7 +58,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

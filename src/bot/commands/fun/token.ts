@@ -17,7 +17,7 @@ export default {
 					{
 						title: `Bot token`,
 						desc: json.token,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

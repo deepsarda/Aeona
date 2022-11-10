@@ -34,7 +34,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: "I couldn't find the server",
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -103,7 +103,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

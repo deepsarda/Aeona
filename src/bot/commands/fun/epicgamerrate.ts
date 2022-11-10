@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Epic gamer rate`,
 				desc: `You are ${result}% epic gamer!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

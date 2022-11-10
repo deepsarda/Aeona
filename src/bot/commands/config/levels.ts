@@ -34,7 +34,7 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `Levels is now **${boolean ? 'enabled' : 'disabled'}** in this guild`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

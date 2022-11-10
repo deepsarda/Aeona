@@ -22,7 +22,7 @@ export default {
 		const choice = ctx.options.getString('setup', true).toLowerCase();
 
 		if (!['serverlogs', 'levellogs', 'boostlogs'].includes(choice))
-			return client.extras.errUsage({ usage: 'autosetup log serverlogs/levellogs/boostlogs', type: 'editreply' }, ctx);
+			return client.extras.errUsage({ usage: 'autosetup log serverlogs/levellogs/boostlogs', type: 'edit' }, ctx);
 
 		if (choice == 'serverlogs') {
 			const channel = await client.helpers.createChannel(ctx.guildId!, {

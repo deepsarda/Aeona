@@ -23,7 +23,7 @@ export default {
 							desc: `You have already voted!`,
 							color: client.extras.config.colors.succes,
 							components: row,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -36,7 +36,7 @@ export default {
 							image: `https://cdn.discordapp.com/attachments/843487478881976381/874694192755007509/banner_vote.jpg`,
 							color: client.extras.config.colors.error,
 							components: row,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

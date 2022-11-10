@@ -63,7 +63,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -71,7 +71,7 @@ export default {
 					client.extras.errNormal(
 						{
 							error: `No ticket message data found!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -107,7 +107,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -134,7 +134,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -142,7 +142,7 @@ export default {
 					client.extras.errNormal(
 						{
 							error: `No ticket message data found!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -178,7 +178,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

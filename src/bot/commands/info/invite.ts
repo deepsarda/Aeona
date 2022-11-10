@@ -19,7 +19,7 @@ export default {
 				title: `Invite`,
 				color: client.extras.config.colors.succes,
 				components: row,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

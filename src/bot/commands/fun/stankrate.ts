@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Stank rate`,
 				desc: `You are ${result}% stanky!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

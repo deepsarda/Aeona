@@ -16,7 +16,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = await client.helpers.getMember(ctx.guild.id, ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
 
 		await client.helpers
 			.removeRole(ctx.guild.id, member.id, member.roles[member.roles.length - 1])
@@ -48,7 +48,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -57,7 +57,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: "I can't demote the user",
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

@@ -22,7 +22,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const message = ctx.options.getString('message', true);
-		const channel = ctx.options.getChannel('channel', true);
+		const channel = await ctx.options.getChannel('channel', true);
 
 		client.extras.embed(
 			{
@@ -41,7 +41,7 @@ export default {
 						value: `${channel} (${channel?.name})`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

@@ -29,7 +29,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const category = ctx.options.getString('category', true);
-		const role = ctx.options.getRole('role', true);
+		const role = await ctx.options.getRole('role', true);
 		const emoji = ctx.options.getString('emoji', true);
 
 		const parsedEmoji = parseEmoji(emoji);
@@ -37,7 +37,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `Emoji not found in this server!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -85,7 +85,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

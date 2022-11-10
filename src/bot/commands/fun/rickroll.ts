@@ -20,7 +20,7 @@ export default {
 		client.extras.embed(
 			{
 				title: `${rick}`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

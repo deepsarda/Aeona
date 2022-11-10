@@ -18,7 +18,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = ctx.options.getUser('user', true);
+		const member = await ctx.options.getUser('user', true);
 
 		Schema.findOne({ Guild: ctx.guildId, User: member.id }, async (err: any, data: { Warns: any }) => {
 			if (data) {
@@ -33,7 +33,7 @@ export default {
 								inline: false,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -49,7 +49,7 @@ export default {
 								inline: false,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

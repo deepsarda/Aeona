@@ -23,7 +23,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: `No data found!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -36,7 +36,7 @@ export default {
 			client.extras.succNormal(
 				{
 					text: `**${category}** successfully deleted!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

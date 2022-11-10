@@ -28,7 +28,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `That word doesn't exist in the database!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -55,7 +55,7 @@ export default {
 								value: `${word}`,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -63,7 +63,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: `This guild has not data!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

@@ -51,7 +51,7 @@ export default {
 						inline: false,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

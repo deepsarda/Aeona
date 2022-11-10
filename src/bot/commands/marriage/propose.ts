@@ -16,19 +16,18 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const target = ctx.options.getUser('user', true);
+		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
-		const guild = { Guild: ctx.guildId };
-		console.log(`Proposal by ${target}`);
+		
 		if (author.id == target.id)
-			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'editreply' }, ctx);
+			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'edit' }, ctx);
 
 		Schema.findOne({ Guild: ctx.guildId, Partner: author.id }, async (err: any, data: any) => {
 			if (data) {
 				client.extras.errNormal(
 					{
 						error: 'Someone in the couple is already married!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -38,7 +37,7 @@ export default {
 						client.extras.errNormal(
 							{
 								error: 'Someone in the couple is already married!',
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -54,7 +53,7 @@ export default {
 									client.extras.errNormal(
 										{
 											error: 'You cannot marry a family member!',
-											type: 'editreply',
+											type: 'reply',
 										},
 										ctx,
 									);
@@ -70,7 +69,7 @@ export default {
 												client.extras.errNormal(
 													{
 														error: 'You cannot marry a family member!',
-														type: 'editreply',
+														type: 'reply',
 													},
 													ctx,
 												);
@@ -83,7 +82,7 @@ export default {
 																client.extras.errNormal(
 																	{
 																		error: 'You cannot marry a family member!',
-																		type: 'editreply',
+																		type: 'reply',
 																	},
 																	ctx,
 																);
@@ -111,13 +110,13 @@ export default {
 				.addButton('Yes', 'Success', 'propose_accept', { emoji: '✅' })
 				.addButton('No', 'Danger', 'propose_deny', { emoji: '❌' });
 
-			const message = await client.extras.embed(
+			const message:Context = await client.extras.embed(
 				{
 					title: `Marriage proposal`,
 					desc: `<@${author.id}> has <@${target.id}> asked to marry them! \n<@${target.id}> click on one of the buttons`,
 					components: row,
 					content: `<@${target.id}>`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -126,9 +125,9 @@ export default {
 				console.log(i.user.id === target.id);
 				return i.user.id === target.id;
 			};
-
+			console.log(message);
 			client.amethystUtils
-				.awaitComponent(message.id, {
+				.awaitComponent(message.interaction? message.interaction.message.id:message.message.id, {
 					filter: filter,
 					type: 'Button',
 				})
@@ -173,7 +172,7 @@ export default {
 								desc: `${author} and <@${target.id}> are now married! 👰🎉`,
 								components: [],
 								content: `<@${target.id}>`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -186,7 +185,7 @@ export default {
 								desc: `<@${target.id}> loves someone else and chose not to marry ${author}`,
 								components: [],
 								content: `<@${target.id}>`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -200,7 +199,7 @@ export default {
 							desc: `<@${target.id}> has not answered anything! The wedding is canceled`,
 							components: [],
 							content: `<@${target.id}>`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

@@ -16,7 +16,7 @@ export default {
 					{
 						title: '→ Blacklisted words 🤬 ',
 						desc: data.Words.join(', '),
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -24,7 +24,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: `This guild has not data!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

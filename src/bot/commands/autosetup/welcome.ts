@@ -23,7 +23,7 @@ export default {
 
 		if (!['welcomechannel', 'welcomerole', 'leavechannel'].includes(choice))
 			return client.extras.errUsage(
-				{ usage: 'autosetup welcome welcomechannel/welcomerole/leavechannel', type: 'editreply' },
+				{ usage: 'autosetup welcome welcomechannel/welcomerole/leavechannel', type: 'edit' },
 				ctx,
 			);
 		if (choice == 'welcomechannel') {

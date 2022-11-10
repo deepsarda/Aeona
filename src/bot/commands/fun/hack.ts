@@ -23,7 +23,7 @@ export default {
 			numbers: true,
 		});
 
-		const user = ctx.options.getUser('user', true);
+		const user = await ctx.options.getUser('user', true);
 		function wait(ms: number) {
 			const start = new Date().getTime();
 			let end = start;
@@ -37,7 +37,7 @@ export default {
 				{
 					title: 'Hacking',
 					desc: `The hack on ${user} started...`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			)

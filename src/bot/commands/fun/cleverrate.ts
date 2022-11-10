@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Clever Rate`,
 				desc: `You are ${result}% clever!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

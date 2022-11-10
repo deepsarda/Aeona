@@ -14,7 +14,7 @@ export default {
 			.simpleEmbed(
 				{
 					desc: `${client.extras.emotes.animated.loading} Calculating ping...`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			)
@@ -42,7 +42,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

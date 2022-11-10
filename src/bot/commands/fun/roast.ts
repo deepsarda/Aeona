@@ -14,7 +14,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const user = ctx.options.getUser('user', true);
+		const user = await ctx.options.getUser('user', true);
 
 		const roasts = [
 			"I'd offer you some gum but your smiles got plenty of it.",
@@ -64,7 +64,7 @@ export default {
 			{
 				title: `Roast`,
 				desc: `${user}, ${roasts[Math.floor(Math.random() * roasts.length)]}`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

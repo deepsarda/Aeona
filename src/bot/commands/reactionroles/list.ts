@@ -14,7 +14,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `No data found!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -29,7 +29,7 @@ export default {
 			{
 				title: '📃 Reaction roles',
 				desc: list,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

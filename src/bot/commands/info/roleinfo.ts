@@ -14,7 +14,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const role = ctx.options.getRole('role', true);
+		const role = await ctx.options.getRole('role', true);
 
 		client.extras.embed(
 			{
@@ -42,7 +42,7 @@ export default {
 						value: `${role.permissions}`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

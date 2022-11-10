@@ -20,7 +20,7 @@ export default {
 			{
 				title: `Simp rate`,
 				desc: `You are ${result}% simp!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

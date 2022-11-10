@@ -30,7 +30,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `That word is already exists in the database!`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -57,7 +57,7 @@ export default {
 						value: `${word}`,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

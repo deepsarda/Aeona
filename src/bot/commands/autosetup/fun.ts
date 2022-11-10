@@ -25,7 +25,7 @@ export default {
 		const choice = ctx.options.getString('setup', true);
 		if (!['birthdays', 'chatbot', 'reviews', 'suggestions', 'starboard'].includes(choice))
 			return client.extras.errUsage(
-				{ usage: 'autosetup birthdays/chatbot/reviews/suggestions/starboard', type: 'editreply' },
+				{ usage: 'autosetup birthdays/chatbot/reviews/suggestions/starboard', type: 'reply' },
 				ctx,
 			);
 		if (choice == 'birthdays') {

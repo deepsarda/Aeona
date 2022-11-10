@@ -15,7 +15,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `No rewards found!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

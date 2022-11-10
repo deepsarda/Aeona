@@ -14,7 +14,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: 'No birthday found!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -23,7 +23,7 @@ export default {
 				{
 					title: `${client.extras.emotes.normal.birthday} Birthday check`,
 					desc: `${ctx.user?.username} birthday is on ${data.Birthday}`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
