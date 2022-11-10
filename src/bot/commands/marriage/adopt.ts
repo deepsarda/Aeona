@@ -12,7 +12,7 @@ export default {
 			name: 'user',
 			description: 'The user to adopt',
 			required: true,
-			optionType: 'User',
+			type: 'User',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
