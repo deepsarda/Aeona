@@ -24,7 +24,7 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guildId && i.User === e.User) + 1}** | <@!${
+				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guildId + '' && i.User === e.User) + 1}** | <@!${
 					e.User
 				}> - Invites: \`${e.Invites}\``,
 		);

@@ -16,7 +16,7 @@ export default async (client: AmethystBot) => {
 			if (!userNumber || isNaN(userNumber)) return;
 
 			if (userNumber == number) {
-				bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.check);
+				bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 				const number = Math.ceil(Math.random() * 10000);
 
 				client.extras.sendEmbedMessage(

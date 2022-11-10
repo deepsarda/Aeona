@@ -178,7 +178,7 @@ export default async (client: AmethystBot, message: Message) => {
 					content: json,
 					messageReference: {
 						channelId: message.channelId,
-						messageId: message.id,
+						messageId: message.id + '',
 						guildId: message.guildId,
 						failIfNotExists: false,
 					},

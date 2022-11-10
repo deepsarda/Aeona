@@ -9,7 +9,7 @@ export default async (client: AmethystBot, member: Member) => {
 	const messageData = await messages.findOne({ Guild: member.guildId });
 	const inviteByData = await invitedBy.findOne({
 		Guild: member.guildId,
-		User: member.id,
+		User: member.id + '',
 	});
 	const channelData = await leaveSchema.findOne({ Guild: member.guildId });
 
@@ -33,17 +33,17 @@ export default async (client: AmethystBot, member: Member) => {
 				leaveMessage = leaveMessage.replace(`{user:username}`, member.user?.username);
 				leaveMessage = leaveMessage.replace(`{user:discriminator}`, member.user?.discriminator);
 				leaveMessage = leaveMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-				leaveMessage = leaveMessage.replace(`{user:mention}`, member);
+				leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${member.id}>`);
 
 				leaveMessage = leaveMessage.replace(`{inviter:mention}`, `<@!${inviteByData.inviteUser}>`);
-				leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData.Invites);
-				leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData.Left);
+				leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData.Invites + '');
+				leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData.Left + '');
 
 				leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-				leaveMessage = leaveMessage.replace(`{guild:members}`, guild.memberCount);
+				leaveMessage = leaveMessage.replace(`{guild:members}`, guild.memberCount + '');
 
 				client.helpers
-					.getUser(inviteData.inviteUser)
+					.getUser(inviteData.User)
 					.then(async (user) => {
 						leaveMessage = leaveMessage.replace(`{inviter:username}`, user.username);
 						leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, user.discriminator);
@@ -78,7 +78,7 @@ export default async (client: AmethystBot, member: Member) => {
 					});
 			} else {
 				client.helpers
-					.getUser(inviteData.inviteUser)
+					.getUser(inviteData.User + '')
 					.then(async (user) => {
 						const channel = await client.helpers.getChannel(channelData.Channel);
 

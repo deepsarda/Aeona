@@ -22,7 +22,7 @@ export default async (
 		const starboardChannel = await client.helpers.getChannel(data.Channel);
 		if (!starboardChannel) return;
 
-		const fetch = await client.helpers.getMessages(starboardChannel.id, {
+		const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
 			limit: 100,
 		});
 		const stars = fetch.find((m) => {
@@ -36,10 +36,10 @@ export default async (
 			const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
 
 			const image = message.attachments.length > 0 ? await extension(reaction, message.attachments[0]?.url) : '';
-			const starMsg = await client.helpers.getMessage(starboardChannel.id, stars.id);
+			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
 
 			if (message.reactions?.find((r) => r.emoji.name == '⭐')?.count) {
-				client.helpers.deleteMessage(starboardChannel.id, starMsg.id);
+				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
 			} else {
 				client.extras.editEmbed(
 					{

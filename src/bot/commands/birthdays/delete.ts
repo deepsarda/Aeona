@@ -23,7 +23,7 @@ export default {
 
 			Schema.findOneAndDelete({
 				Guild: ctx.guildId,
-				User: ctx.user.id,
+				User: ctx.user.id + '',
 			}).then(() => {
 				client.extras.succNormal(
 					{

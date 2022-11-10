@@ -22,7 +22,7 @@ export default {
 	userGuildPermissions: ['BAN_MEMBERS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
 
 		const reason = ctx.options.getString('reason') || 'Not given';
 
@@ -50,7 +50,7 @@ export default {
 					member,
 				)
 				.then(async function () {
-					await client.helpers.banMember(ctx.guildId!, member.id, {
+					await client.helpers.banMember(ctx.guildId!, member.id + '', {
 						reason,
 					});
 					client.extras.succNormal(
@@ -74,7 +74,7 @@ export default {
 					);
 				})
 				.catch(async function () {
-					await client.helpers.banMember(ctx.guildId!, member.id, {
+					await client.helpers.banMember(ctx.guildId!, member.id + '', {
 						reason,
 					});
 					client.extras.succNormal(

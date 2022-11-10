@@ -16,7 +16,7 @@ export default async (client: AmethystBot) => {
 
 		if (data) {
 			if (message.content.toLowerCase() == data.Word.toLowerCase()) {
-				bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.check);
+				bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 				const word = wordList[Math.floor(Math.random() * wordList.length)];
 				const shuffled = word
 					.split('')
@@ -64,7 +64,7 @@ export default async (client: AmethystBot) => {
 					message,
 				);
 			} else {
-				return bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+				return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 			}
 		}
 	});

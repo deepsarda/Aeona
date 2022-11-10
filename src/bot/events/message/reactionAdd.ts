@@ -21,7 +21,7 @@ export default async (
 		const starboardChannel = await client.helpers.getChannel(data.Channel).catch();
 		if (!starboardChannel) return;
 
-		const fetch = await client.helpers.getMessages(starboardChannel.id, {
+		const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
 			limit: 100,
 		});
 		const stars = fetch.find((m) => {
@@ -35,7 +35,7 @@ export default async (
 			const foundStar = stars.embeds[0];
 			const image = message.attachments.length > 0 ? await extension(payload, message.attachments[0]?.url) : '';
 
-			client.helpers.deleteMessage(starboardChannel.id, stars.id);
+			client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
 
 			client.extras.embed(
 				{

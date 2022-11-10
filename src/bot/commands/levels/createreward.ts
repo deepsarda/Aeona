@@ -39,7 +39,7 @@ export default {
 				new Schema({
 					Guild: ctx.guildId,
 					Level: level,
-					Role: role.id,
+					Role: role.id + '',
 				}).save();
 
 				client.extras.succNormal(

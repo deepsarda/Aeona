@@ -29,7 +29,7 @@ export default {
 			const target = await ctx.options.getUser('user', true);
 			const level = ctx.options.getNumber('level', true);
 
-			const user = await client.extras.setLevel(target.id, ctx.guildId, level);
+			const user = await client.extras.setLevel(target.id + '', ctx.guildId, level);
 
 			client.extras.succNormal(
 				{

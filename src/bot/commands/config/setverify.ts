@@ -43,8 +43,8 @@ export default {
 			} else {
 				new Schema({
 					Guild: ctx.guildId,
-					Channel: channel.id,
-					Role: role.id,
+					Channel: channel.id + '',
+					Role: role.id + '',
 				}).save();
 			}
 

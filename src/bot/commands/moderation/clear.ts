@@ -37,12 +37,12 @@ export default {
 				ctx,
 			);
 		const messageIds = (
-			await client.helpers.getMessages(ctx.channel.id, {
+			await client.helpers.getMessages(ctx.channel.id + '', {
 				limit: amount + 1,
 			})
 		).map((msg) => msg.id);
 		client.helpers
-			.deleteMessages(ctx.channel.id, messageIds)
+			.deleteMessages(ctx.channel.id + '', messageIds)
 			.then(() => {
 				client.extras.succNormal(
 					{

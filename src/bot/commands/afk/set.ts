@@ -32,7 +32,7 @@ export default {
 
 				new Schema({
 					Guild: ctx.guildId,
-					User: ctx.user.id,
+					User: ctx.user.id + '',
 					Message: reason,
 				}).save();
 
@@ -40,7 +40,7 @@ export default {
 				if (ctx.member?.nick) nick = ctx.member.nick;
 				if (!ctx.guildId) return;
 				if (nick.includes(`[AFK] `)) {
-					client.helpers.editMember(ctx.guildId, ctx.user.id, {
+					client.helpers.editMember(ctx.guildId, ctx.user.id + '', {
 						nick: `[AFK] ` + ctx.member?.nick,
 					});
 				}

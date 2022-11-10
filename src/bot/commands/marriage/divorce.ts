@@ -39,13 +39,13 @@ export default {
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: author.id,
-			Partner: target.id,
+			User: author.id + '',
+			Partner: target.id + '',
 		});
 		if (data) {
 			const data2 = await Schema.findOne({
 				Guild: ctx.guildId,
-				User: target.id,
+				User: target.id + '',
 			});
 			if (data2) {
 				data2.Partner = null;

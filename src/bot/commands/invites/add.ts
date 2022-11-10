@@ -28,7 +28,7 @@ export default {
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: user?.id,
+			User: user?.id + '',
 		});
 		if (data) {
 			data.Invites += amount;
@@ -37,7 +37,7 @@ export default {
 		} else {
 			new Schema({
 				Guild: ctx.guildId,
-				User: user?.id,
+				User: user?.id + '',
 				Invites: amount,
 				Total: amount,
 				Left: 0,

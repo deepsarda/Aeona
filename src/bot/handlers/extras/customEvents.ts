@@ -37,7 +37,7 @@ export default async (client: AmethystBot) => {
 				'guildBannerAdd',
 				client,
 				newGuild,
-				client.helpers.getGuildBannerURL(newGuild.id, {
+				client.helpers.getGuildBannerURL(newGuild.id + '', {
 					banner: newGuild.banner,
 				}),
 			);

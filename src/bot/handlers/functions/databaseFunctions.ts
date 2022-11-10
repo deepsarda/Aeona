@@ -9,7 +9,7 @@ export default (client: AmethystBot) => {
 			} else {
 				new Schema({
 					Guild: interaction.guildId,
-					Channel: channel.id,
+					Channel: channel.id + '',
 				}).save();
 			}
 		});
@@ -37,7 +37,7 @@ export default (client: AmethystBot) => {
 			} else {
 				new Schema({
 					Guild: interaction.guildId,
-					Role: role.id,
+					Role: role.id + '',
 				}).save();
 			}
 		});

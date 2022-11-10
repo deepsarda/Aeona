@@ -34,15 +34,15 @@ export default {
 				if (i.data?.customId == 'family_delete') {
 					const remove = await Schema.findOneAndDelete({
 						Guild: ctx.guildId,
-						User: ctx.author?.id,
+						User: ctx.author?.id + '',
 					});
 					const parent = await Schema.findOne({
 						Guild: ctx.guildId,
-						Parent: ctx.author?.id,
+						Parent: ctx.author?.id + '',
 					});
 					const partner = await Schema.findOne({
 						Guild: ctx.guildId,
-						Partner: ctx.author?.id,
+						Partner: ctx.author?.id + '',
 					});
 
 					if (parent) {
@@ -58,7 +58,7 @@ export default {
 					client.extras.succNormal({ text: `Your family has been deleted!`, type: 'edit' }, ctx);
 				}
 				if (!ctx.channel?.id) return;
-				client.helpers.deleteMessage(ctx.channel?.id, message.id);
+				client.helpers.deleteMessage(ctx.channel?.id + '', message.id);
 			})
 			.catch((err) => {
 				console.log(err);

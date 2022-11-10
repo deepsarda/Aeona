@@ -23,7 +23,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
 		const reason = ctx.options.getString('reason') || 'Not given';
 		try {
 			requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
@@ -49,7 +49,7 @@ export default {
 					member,
 				)
 				.then(function () {
-					client.helpers.kickMember(ctx.guild!.id, member.id, reason);
+					client.helpers.kickMember(ctx.guild!.id + '', member.id + '', reason);
 
 					client.extras.succNormal(
 						{
@@ -72,7 +72,7 @@ export default {
 					);
 				})
 				.catch(function () {
-					client.helpers.kickMember(ctx.guild!.id, member.id, reason);
+					client.helpers.kickMember(ctx.guild!.id + '', member.id + '', reason);
 
 					client.extras.succNormal(
 						{

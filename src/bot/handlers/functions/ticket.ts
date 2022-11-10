@@ -17,15 +17,15 @@ export default async (client: AmethystBot) => {
 	client.extras.getChannelTicket = async function (interaction: Context) {
 		const ticketChannelData = await ticketChannels.findOne({
 			Guild: interaction.guildId,
-			channelID: interaction.channel?.id,
+			channelID: interaction.channel?.id + '',
 		});
 		return ticketChannelData;
 	};
 
 	client.extras.isTicket = async function (interaction: Context) {
 		const ticketChannelData = await ticketChannels.findOne({
-			Guild: interaction.guild!.id,
-			channelID: interaction.channel!.id,
+			Guild: interaction.guild!.id + '',
+			channelID: interaction.channel!.id + '',
 		});
 
 		if (ticketChannelData) {
@@ -39,7 +39,7 @@ export default async (client: AmethystBot) => {
 
 	client.extras.transcript = async function (client: AmethystBot, channel: Channel) {
 		const file = await createTranscript(client, channel);
-		client.helpers.sendMessage(channel.id, {
+		client.helpers.sendMessage(channel.id + '', {
 			file: [file],
 		});
 	};

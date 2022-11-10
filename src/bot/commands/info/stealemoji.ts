@@ -22,7 +22,7 @@ export default {
 		if (parsedEmoji.id) {
 			const extension = parsedEmoji.animated ? '.gif' : '.png';
 			const url = `https://cdn.discordapp.com/emojis/${parsedEmoji.id + extension}`;
-			client.helpers.createEmoji(ctx.guild.id, { name: parsedEmoji.name, image: url }).then((emoji) => {
+			client.helpers.createEmoji(ctx.guild.id + '', { name: parsedEmoji.name, image: url }).then((emoji) => {
 				client.extras.succNormal(
 					{
 						text: `Emoji successfully added to the server`,

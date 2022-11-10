@@ -16,10 +16,10 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
 
 		await client.helpers
-			.removeRole(ctx.guild.id, member.id, member.roles[member.roles.length - 1])
+			.removeRole(ctx.guild.id + '', member.id + '', member.roles[member.roles.length - 1])
 			.then((r) => {
 				client.extras
 					.embed(

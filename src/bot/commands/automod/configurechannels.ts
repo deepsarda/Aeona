@@ -58,7 +58,7 @@ export default {
 				} else {
 					new Schema({
 						Guild: ctx.guildId,
-						Channels: channel.id,
+						Channels: channel.id + '',
 					}).save();
 				}
 			});

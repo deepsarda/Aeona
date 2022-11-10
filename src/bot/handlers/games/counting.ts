@@ -29,14 +29,14 @@ export default async (client: AmethystBot) => {
 					countData.Count = 1;
 					countData.User = ' ';
 					countData.save();
-					return bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+					return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 				} catch (error) {
-					bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 					throw error;
 				}
 			} else {
 				if (Number(message.content) == countData.Count) {
-					bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 					countData.User = message.authorId + '';
 					countData.Count += 1;
 					countData.save();
@@ -53,23 +53,23 @@ export default async (client: AmethystBot) => {
 						countData.Count = 1;
 						countData.User = ' ';
 						countData.save();
-						return bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+						return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 					} catch (error) {
-						bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+						bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 						throw error;
 					}
 				}
 			}
 		} else if (data) {
 			if (Number(message.content) == countData!.Count! + 1) {
-				bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.check);
+				bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 				new count({
 					Guild: message.guildId,
 					User: message.authorId,
 					Count: countData!.Count! + 1,
 				}).save();
 			} else {
-				return bot.helpers.addReaction(message.channelId, message.id, client.extras.emotes.normal.error);
+				return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 			}
 		}
 	});

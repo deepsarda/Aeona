@@ -133,7 +133,7 @@ export default (client: AmethystBot) => {
 										.setTitle(`${client.extras.emotes.normal.error} Moderator`)
 										.setAuthor(
 											client.user.username,
-											client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
+											client.helpers.getAvatarURL(client.user.id + '', client.user.discriminator, {
 												avatar: client.user.avatar,
 											}),
 										)
@@ -151,7 +151,7 @@ export default (client: AmethystBot) => {
 										.setTitle(`${client.extras.emotes.normal.error} Moderator`)
 										.setAuthor(
 											client.user.username,
-											client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
+											client.helpers.getAvatarURL(client.user.id + '', client.user.discriminator, {
 												avatar: client.user.avatar,
 											}),
 										)
@@ -189,7 +189,7 @@ export default (client: AmethystBot) => {
 										.setTitle(`${client.extras.emotes.normal.error} Moderator`)
 										.setAuthor(
 											client.user.username,
-											client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
+											client.helpers.getAvatarURL(client.user.id + '', client.user.discriminator, {
 												avatar: client.user.avatar,
 											}),
 										)
@@ -207,7 +207,7 @@ export default (client: AmethystBot) => {
 										.setTitle(`${client.extras.emotes.normal.error} Moderator`)
 										.setAuthor(
 											client.user.username,
-											client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
+											client.helpers.getAvatarURL(client.user.id + '', client.user.discriminator, {
 												avatar: client.user.avatar,
 											}),
 										)

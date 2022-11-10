@@ -31,7 +31,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-		const member = await client.helpers.getMember(ctx.guild.id, await ctx.options.getUser('user', true).id);
+		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
 
 		const reason = ctx.options.getString('reason') || 'Not given';
 
@@ -58,7 +58,7 @@ export default {
 					member,
 				)
 				.then(async function () {
-					client.helpers.banMember(ctx.guildId!, member.id, {
+					client.helpers.banMember(ctx.guildId!, member.id + '', {
 						reason: reason,
 					});
 					client.extras.succNormal(
@@ -86,12 +86,12 @@ export default {
 
 					await new TempSchema({
 						guildId: ctx.guildId,
-						userId: member.id,
+						userId: member.id + '',
 						expires,
 					}).save();
 				})
 				.catch(async function () {
-					client.helpers.banMember(ctx.guildId!, member.id, {
+					client.helpers.banMember(ctx.guildId!, member.id + '', {
 						reason: reason,
 					});
 					client.extras.succNormal(
@@ -107,7 +107,7 @@ export default {
 
 					await new TempSchema({
 						guildId: ctx.guildId,
-						userId: member.id,
+						userId: member.id + '',
 						expires,
 					}).save();
 				});

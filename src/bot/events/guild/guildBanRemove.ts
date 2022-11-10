@@ -10,7 +10,7 @@ export default async (client: AmethystBot, ban: User, guildId: bigint) => {
 			{
 				title: `🔧 Member unbanned`,
 				desc: `A user has been unbanned`,
-				thumbnail: client.helpers.getAvatarURL(ban.id, ban.discriminator, {
+				thumbnail: client.helpers.getAvatarURL(ban.id + '', ban.discriminator, {
 					avatar: ban.avatar,
 				}),
 				fields: [

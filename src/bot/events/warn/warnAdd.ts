@@ -1,3 +1,5 @@
+import { AmethystBot } from '@thereallonewolf/amethystframework';
+
 export default async (client: AmethystBot, user, mod) => {
 	const logsChannel = await client.extras.getLogs(user.guild.id);
 	if (!logsChannel) return;

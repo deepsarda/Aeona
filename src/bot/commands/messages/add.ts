@@ -28,7 +28,7 @@ export default {
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: user.id,
+			User: user.id + '',
 		});
 		if (data) {
 			data.Messages += amount;
@@ -36,7 +36,7 @@ export default {
 		} else {
 			await new Schema({
 				Guild: ctx.guildId,
-				User: user.id,
+				User: user.id + '',
 				Messages: amount,
 			}).save();
 		}

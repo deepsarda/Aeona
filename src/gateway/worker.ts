@@ -77,7 +77,7 @@ const manager = createShardManager({
 			headers: { 'Content-Type': 'application/json', Authorization: script.handlerAuthorization },
 		}).catch((error) => log.error(error));
 
-		log.debug({ shardId: shard.id, message });
+		log.debug({ shardId: shard.id + '', message });
 	},
 	requestIdentify: async function (shardId: number): Promise<void> {
 		return await new Promise((resolve) => {
@@ -96,7 +96,7 @@ const manager = createShardManager({
 function buildShardInfo(shard: Shard): WorkerShardInfo {
 	return {
 		workerId: script.workerId,
-		shardId: shard.id,
+		shardId: shard.id + '',
 		rtt: shard.heart.rtt || -1,
 		state: shard.state,
 	};

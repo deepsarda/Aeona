@@ -45,8 +45,8 @@ export default {
 						Schema.findOne(
 							{
 								Guild: ctx.guildId,
-								User: target.id,
-								Parent: author.id,
+								User: target.id + '',
+								Parent: author.id + '',
 							},
 							async (err: any, data: any) => {
 								if (data) {
@@ -61,8 +61,8 @@ export default {
 									Schema.findOne(
 										{
 											Guild: ctx.guildId,
-											User: author.id,
-											Parent: target.id,
+											User: author.id + '',
+											Parent: target.id + '',
 										},
 										async (err: any, data: any) => {
 											if (data) {
@@ -143,8 +143,8 @@ export default {
 								} else {
 									new Schema({
 										Guild: ctx.guildId,
-										User: author.id,
-										Partner: target.id,
+										User: author.id + '',
+										Partner: target.id + '',
 									}).save();
 								}
 							},
@@ -159,8 +159,8 @@ export default {
 								} else {
 									new Schema({
 										Guild: ctx.guildId,
-										User: target.id,
-										Partner: author.id,
+										User: target.id + '',
+										Partner: author.id + '',
 									}).save();
 								}
 							},

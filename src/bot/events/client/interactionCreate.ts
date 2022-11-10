@@ -41,7 +41,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 
 			// eslint-disable-next-line no-inner-declarations
 			function verifyUser(msg: Context) {
-				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then((response) => {
+				client.amethystUtils.awaitMessage(interaction.user.id + '', interaction.channelId!, {}).then((response) => {
 					if (response.content === captcha.value) {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 

@@ -349,7 +349,7 @@ export default (client: AmethystBot) => {
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
 
 		return await client.helpers
-			.editMessage(ctx.channelId, ctx.id, {
+			.editMessage(ctx.channelId, ctx.id + '', {
 				embeds: [embed],
 				content: content,
 				components: components,
@@ -460,7 +460,7 @@ export default (client: AmethystBot) => {
 			}
 		} else {
 			return await client.helpers
-				.sendMessage(ctx.id, {
+				.sendMessage(ctx.id + '', {
 					embeds: embeds,
 					content: content,
 					components: components,

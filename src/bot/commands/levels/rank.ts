@@ -22,13 +22,13 @@ export default {
 
 		if (data && data.Levels == true) {
 			const target = (await ctx.options.getUser('user')) || ctx.user;
-			const user = await client.extras.fetchLevels(target.id, ctx.guildId);
+			const user = await client.extras.fetchLevels(target.id + '', ctx.guildId);
 
 			const xpRequired = client.extras.xpFor(user.level + 1);
 
 			const rankCard = new Canvacord.Rank()
 				.setAvatar(
-					client.helpers.getAvatarURL(target.id, target.discriminator, {
+					client.helpers.getAvatarURL(target.id + '', target.discriminator, {
 						avatar: target.avatar,
 						format: 'png',
 					}),

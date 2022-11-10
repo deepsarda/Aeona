@@ -14,6 +14,7 @@ const Schema = new mongoose.Schema({
 	TextChannels: String,
 	BoostTier: String,
 	VoiceChannels: String,
+	Bots: String,
 	Time: String,
 	TimeZone: String,
 	ChannelTemplate: String,

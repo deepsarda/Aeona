@@ -45,9 +45,9 @@ export default {
 		Schema.findOne({ Guild: ctx.guildId, Category: category }, async (err, data) => {
 			if (data) {
 				data.Roles[emoji] = [
-					role.id,
+					role.id + '',
 					{
-						id: parsedEmoji.id,
+						id: parsedEmoji.id + '',
 						raw: emoji,
 					},
 				];
@@ -60,9 +60,9 @@ export default {
 					Category: category,
 					Roles: {
 						[emoji]: [
-							role.id,
+							role.id + '',
 							{
-								id: parsedEmoji.id,
+								id: parsedEmoji.id + '',
 								raw: emoji,
 							},
 						],

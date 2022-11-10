@@ -46,7 +46,7 @@ export default async (client: AmethystBot) => {
 		let msg;
 		if (interaction instanceof Context) {
 			msg = await client.helpers.editMessage(
-				interaction.channel!.id,
+				interaction.channel!.id + '',
 				// eslint-disable-next-line
 				interaction.message?.id!,
 				{
@@ -55,7 +55,7 @@ export default async (client: AmethystBot) => {
 				},
 			);
 		} else {
-			msg = await client.helpers.editMessage(interaction.channelId, interaction.id, {
+			msg = await client.helpers.editMessage(interaction.channelId, interaction.id + '', {
 				embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title, interaction)],
 				components: comp,
 			});

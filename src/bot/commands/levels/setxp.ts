@@ -28,7 +28,7 @@ export default {
 			const target = await ctx.options.getUser('user', true);
 			const xp = ctx.options.getNumber('amount', true);
 
-			const user = await client.extras.setXP(target.id, ctx.guildId, xp);
+			const user = await client.extras.setXP(target.id + '', ctx.guildId, xp);
 
 			client.extras.succNormal(
 				{

@@ -10,7 +10,7 @@ export default async (client: AmethystBot, emoji: Emoji, guild: Guild) => {
 		channelName = channelName.replace(`{name}`, `Emojis: ${emojies.size || '0'}`);
 
 		const data = await Schema.findOne({ Guild: guild.id });
-		client.helpers.editChannel(data.Emojies, {
+		client.helpers.editChannel(data.Emojis, {
 			name: channelName,
 		});
 	} catch {

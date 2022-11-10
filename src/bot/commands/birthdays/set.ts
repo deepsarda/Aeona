@@ -71,7 +71,7 @@ export default {
 			} else {
 				new Schema({
 					Guild: ctx.guildId,
-					User: ctx.user.id,
+					User: ctx.user.id + '',
 					Birthday: birthdayString,
 				}).save();
 			}

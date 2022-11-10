@@ -68,7 +68,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 	} else {
 		const data = await invites.findOne({
 			Guild: member.guildId,
-			User: inviter.id,
+			User: inviter.id + '',
 		});
 
 		if (data) {
@@ -129,13 +129,13 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 
 			rewards.findOne({ Guild: member.guildId, Invites: data.Invites }, async (err: any, data: { Role: any }) => {
 				if (data) {
-					client.helpers.addRole(member.guildId, member.id, data.Role);
+					client.helpers.addRole(member.guildId, member.id + '', data.Role);
 				}
 			});
 		} else {
 			new invites({
 				Guild: member.guildId,
-				User: inviter.id,
+				User: inviter.id + '',
 				Invites: 1,
 				Total: 1,
 				Left: 0,
@@ -205,8 +205,8 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				} else {
 					new invitedBy({
 						Guild: member.guildId,
-						inviteUser: inviter.id,
-						User: member.id,
+						inviteUser: inviter.id + '',
+						User: member.id + '',
 					}).save();
 				}
 			},

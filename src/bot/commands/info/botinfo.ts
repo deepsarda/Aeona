@@ -15,7 +15,7 @@ export default {
 			{
 				title: `Bot information`,
 				desc: `____________________________`,
-				thumbnail: client.helpers.getAvatarURL(client.user.id, client.user.discriminator, {
+				thumbnail: client.helpers.getAvatarURL(client.user.id + '', client.user.discriminator, {
 					avatar: client.user.avatar,
 				}),
 				fields: [

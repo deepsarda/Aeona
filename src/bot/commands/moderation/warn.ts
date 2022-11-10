@@ -29,7 +29,7 @@ export default {
 				} else {
 					new Schema({
 						Guild: ctx.guildId,
-						User: member.id,
+						User: member.id + '',
 						Warns: 1,
 					}).save();
 				}

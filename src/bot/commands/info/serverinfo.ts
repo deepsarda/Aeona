@@ -45,8 +45,8 @@ export default {
 			{
 				title: `Server Information`,
 				desc: `Information about the server ${ctx.guild.name}`,
-				thumbnail: client.helpers.getGuildIconURL(ctx.guild.id, undefined),
-				image: client.helpers.getGuildIconURL(ctx.guild.id, undefined),
+				thumbnail: client.helpers.getGuildIconURL(ctx.guild.id + '', undefined),
+				image: client.helpers.getGuildIconURL(ctx.guild.id + '', undefined),
 				fields: [
 					{
 						name: 'Server name:',

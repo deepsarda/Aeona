@@ -1,13 +1,15 @@
+import { AmethystBot } from '@thereallonewolf/amethystframework';
+
 export default async (client: AmethystBot, oldMessage, newMessage) => {
 	try {
 		if (!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) return;
 		if (oldMessage.author.bot) return;
 
-		const logsChannel = await client.extras.getLogs(oldmessage.guildId);
+		const logsChannel = await client.extras.getLogs(oldMessage.guildId);
 		if (!logsChannel) return;
 
-		client
+		client.extras
 			.embed(
 				{
 					title: `Message updated`,
@@ -38,5 +40,7 @@ export default async (client: AmethystBot, oldMessage, newMessage) => {
 				logsChannel,
 			)
 			.catch();
-	} catch {}
+	} catch {
+		//Fix lint
+	}
 };

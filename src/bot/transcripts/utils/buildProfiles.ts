@@ -22,20 +22,20 @@ export async function buildProfiles(bot: AmethystBot, messages: Message[]) {
 		const author = await bot.helpers.getUser(message.authorId);
 		if (!profiles.has(author.id)) {
 			// add profile
-			profiles.set(author.id, await buildProfile(bot, message.member!, author));
+			profiles.set(author.id + '', await buildProfile(bot, message.member!, author));
 		}
 
 		// add interaction users
 		if (message.interaction) {
 			const user = message.interaction.user;
 			if (!profiles.has(author.id)) {
-				profiles.set(author.id, await buildProfile(bot, null, author));
+				profiles.set(author.id + '', await buildProfile(bot, null, author));
 			}
 		}
 
 		// threads
 		if (message.thread && message.thread.lastMessageId) {
-			const m = await bot.helpers.getMessage(message.thread.id, message.thread.lastMessageId);
+			const m = await bot.helpers.getMessage(message.thread.id + '', message.thread.lastMessageId);
 			profiles.set(m.authorId, await buildProfile(bot, m.member!, await bot.helpers.getUser(m.authorId)));
 		}
 	}
@@ -47,7 +47,7 @@ export async function buildProfiles(bot: AmethystBot, messages: Message[]) {
 async function buildProfile(bot: AmethystBot, member: Member | null, author: User): Promise<CustomUser> {
 	const u: CustomUser = {
 		author: member?.nick ?? author.username,
-		avatar: bot.helpers.getAvatarURL(author.id, author.discriminator, {
+		avatar: bot.helpers.getAvatarURL(author.id + '', author.discriminator, {
 			avatar: member ? member.avatar : author.avatar,
 			size: 64,
 		}),

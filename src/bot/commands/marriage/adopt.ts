@@ -40,18 +40,18 @@ export default {
 
 		const familyMember = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: target.id,
-			Parent: author.id,
+			User: target.id + '',
+			Parent: author.id + '',
 		});
 		const familyMember2 = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: author.id,
-			Parent: target.id,
+			User: author.id + '',
+			Parent: target.id + '',
 		});
 		const familyMember3 = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: author.id,
-			Partner: target.id,
+			User: author.id + '',
+			Partner: target.id + '',
 		});
 
 		if (familyMember || familyMember2 || familyMember3) {
@@ -110,7 +110,7 @@ export default {
 							} else {
 								new Schema({
 									Guild: ctx.guildId,
-									User: author.id,
+									User: author.id + '',
 									Children: target.username,
 								}).save();
 							}
@@ -126,7 +126,7 @@ export default {
 							} else {
 								new Schema({
 									Guild: ctx.guildId,
-									User: target.id,
+									User: target.id + '',
 									Parent: author.username,
 								}).save();
 							}

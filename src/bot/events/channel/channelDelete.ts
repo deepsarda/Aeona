@@ -35,7 +35,7 @@ export default async (client: AmethystBot, channel: Channel) => {
 			if (data) {
 				const remove = await ticketChannels.deleteOne({
 					Guild: channel.guildId,
-					channelID: channel.id,
+					channelID: channel.id + '',
 				});
 			}
 		});

@@ -20,13 +20,13 @@ export default {
 
 		const data = await Schema.findOne({
 			Guild: ctx.guildId,
-			User: target.id,
+			User: target.id + '',
 		});
 
 		client.extras.embed(
 			{
 				title: `${target.username}'s Family`,
-				thumbnail: client.helpers.getAvatarURL(target.id, target.discriminator, {
+				thumbnail: client.helpers.getAvatarURL(target.id + '', target.discriminator, {
 					avatar: target.avatar,
 				}),
 				fields: [

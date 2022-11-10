@@ -65,7 +65,7 @@ export default {
 
 								await Schema.findOneAndUpdate(guild, {
 									Guild: ctx.guildId,
-									User: author.id,
+									User: author.id + '',
 									Children: filtered,
 								});
 

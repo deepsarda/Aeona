@@ -25,7 +25,7 @@ export default {
 		const messageId = ctx.options.getString('id', true);
 		if (!message || !messageId) return;
 
-		const editMessage = await client.helpers.getMessage(ctx.channel.id, messageId);
+		const editMessage = await client.helpers.getMessage(ctx.channel.id + '', messageId);
 
 		client.extras.editEmbed(
 			{

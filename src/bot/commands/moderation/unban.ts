@@ -17,7 +17,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		client.helpers
-			.unbanMember(ctx.guild.id, ctx.options.getString('userid', true))
+			.unbanMember(ctx.guild.id + '', ctx.options.getString('userid', true))
 			.then(function () {
 				client.extras.succNormal(
 					{

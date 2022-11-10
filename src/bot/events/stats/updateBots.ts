@@ -5,7 +5,7 @@ import Schema from '../../database/models/stats.js';
 
 export default async (client: AmethystBot, guild: Guild) => {
 	try {
-		const members = await client.helpers.getMembers(guild.id, {});
+		const members = await client.helpers.getMembers(guild.id + '', {});
 
 		let channelName = await client.extras.getTemplate(guild.id);
 		channelName = channelName.replace(`{emoji}`, '🤖');

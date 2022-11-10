@@ -24,7 +24,7 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.guildID === ctx.guildId && i.userID === e.userID) + 1}** | <@!${
+				`**${rawLeaderboard.findIndex((i) => i.guildID === ctx.guildId + '' && i.userID === e.userID) + 1}** | <@!${
 					e.userID
 				}> - Level: \`${e.level.toLocaleString()}\` (${e.xp.toLocaleString()} xp)`,
 		);

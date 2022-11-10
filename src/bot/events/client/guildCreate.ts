@@ -6,7 +6,7 @@ export default async (client: AmethystBot, guild: Guild) => {
 	if (guild == undefined) return;
 
 	new Functions({
-		Guild: guild.id,
+		Guild: guild.id + '',
 		Prefix: process.env.PREFIX,
 	}).save();
 
