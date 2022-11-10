@@ -137,6 +137,29 @@ export default async (client: AmethystBot) => {
 	}, 60000);
 
 	// await verifySlashCommands;
+
+	client.cache.members.memory.startSweeper({
+		filter: function memberSweeper(member, _, bot: AmethystBot) {
+			// Don't sweep the bot else strange things will happen
+			if (member.id === bot.id) return false;
+
+			// Only sweep members who were not active the last 30 minutes
+			if (client.cache.members.memory.size > 100) return true;
+			return false;
+		},
+		interval: 300000,
+	});
+
+	client.cache.messages.memory.startSweeper({
+		filter: function messageSweeper(message) {
+			// DM messages aren't needed
+			if (!message.guildId) return true;
+
+			// Only delete messages older than 10 minutes
+			return Date.now() - message.timestamp > 600000;
+		},
+		interval: 300000,
+	});
 };
 
 async function verifySlashCommands(client: AmethystBot) {
