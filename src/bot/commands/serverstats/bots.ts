@@ -10,19 +10,27 @@ export default {
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const members = await client.helpers.getMembers(ctx.guild.id,{});
+		const members = await client.helpers.getMembers(ctx.guild.id, {});
 
 		let channelName = await client.extras.getTemplate(ctx.guild.id);
 		channelName = channelName.replace(`{emoji}`, '🤖');
-		channelName = channelName.replace(`{name}`, `Bots: ${members.filter((member) => member.user?.toggles.bot).size || 0}`);
+		channelName = channelName.replace(
+			`{name}`,
+			`Bots: ${members.filter((member) => member.user?.toggles.bot).size || 0}`,
+		);
 
-		client.helpers.createChannel(ctx.guildId,{name: channelName,type:ChannelTypes.GuildVoice,permissionOverwrites: [
-			{
-				deny: ['CONNECT'],
-				type:0,
-				id: ctx.guildId,
-			},
-		]})
+		client.helpers
+			.createChannel(ctx.guildId, {
+				name: channelName,
+				type: ChannelTypes.GuildVoice,
+				permissionOverwrites: [
+					{
+						deny: ['CONNECT'],
+						type: 0,
+						id: ctx.guildId,
+					},
+				],
+			})
 			.then(async (channel) => {
 				Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
 					if (data) {

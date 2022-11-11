@@ -6,33 +6,38 @@ export default {
 	description: 'Setup tickets',
 	commandType: ['application', 'message'],
 	category: 'setup',
-	args: [{
-		name:'category',
-		description: 'Category for the channels',
-		type:'Channel',
-        required: true
-	},{
-		name:'role',
-		description: 'Role for the ticket',
-		type:'Role',
-        required: true
-	},{
-		name: 'channel',
-		description: 'Channel',
-		type: 'Channel',
-        required: true
-	},{
-		name:'logs',
-		description: 'The channel for the log',
-        type: 'Channel',
-		required: true
-	}],
+	args: [
+		{
+			name: 'category',
+			description: 'Category for the channels',
+			type: 'Channel',
+			required: true,
+		},
+		{
+			name: 'role',
+			description: 'Role for the ticket',
+			type: 'Role',
+			required: true,
+		},
+		{
+			name: 'channel',
+			description: 'Channel',
+			type: 'Channel',
+			required: true,
+		},
+		{
+			name: 'logs',
+			description: 'The channel for the log',
+			type: 'Channel',
+			required: true,
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const category = await ctx.options.getChannel('category',true);
-		const role = await ctx.options.getRole('role',true);
-		const channel = await ctx.options.getChannel('channel',true);
-		const logs = await ctx.options.getChannel('logs',true);
+		const category = await ctx.options.getChannel('category', true);
+		const role = await ctx.options.getRole('role', true);
+		const channel = await ctx.options.getChannel('channel', true);
+		const logs = await ctx.options.getChannel('logs', true);
 
 		ticketSchema.findOne({ Guild: ctx.guildId }, async (err, data) => {
 			if (data) {

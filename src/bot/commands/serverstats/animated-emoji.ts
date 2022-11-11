@@ -18,18 +18,22 @@ export default {
 			}
 		});
 
-
 		let channelName = await client.extras.getTemplate(ctx.guild.id);
 		channelName = channelName.replace(`{emoji}`, '🤡');
 		channelName = channelName.replace(`{name}`, `Animated Emojis: ${Animated || '0'}`);
 
-		client.helpers.createChannel(ctx.guildId,{name: channelName,type:ChannelTypes.GuildVoice,permissionOverwrites: [
-			{
-				deny: ['CONNECT'],
-				type:0,
-				id: ctx.guildId,
-			},
-		]})
+		client.helpers
+			.createChannel(ctx.guildId, {
+				name: channelName,
+				type: ChannelTypes.GuildVoice,
+				permissionOverwrites: [
+					{
+						deny: ['CONNECT'],
+						type: 0,
+						id: ctx.guildId,
+					},
+				],
+			})
 			.then(async (channel) => {
 				Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
 					if (data) {

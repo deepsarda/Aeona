@@ -19,7 +19,7 @@ export default {
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const time = ctx.options.getString('timezone',true);
+		const time = ctx.options.getString('timezone', true);
 		if (!moment().tz(time))
 			return client.extras.errNormal(
 				{

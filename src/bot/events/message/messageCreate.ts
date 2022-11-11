@@ -12,7 +12,7 @@ import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
-	
+
 	if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
 
 	// Levels

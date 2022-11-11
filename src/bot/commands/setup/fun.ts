@@ -10,26 +10,29 @@ export default {
 	description: 'Setup birthdays/chatbot/reviews/suggestions/starboard for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
-	args: [{
-		name:'setup',
-		description: `birthdays/chatbot/reviews/suggestions/starboard`,
-		required:true,
-		type:'String'
-	},{
-		name: 'channel',
-		description: 'The channel to setup',
-		required:true,
-        type:'Channel'
-	}],
+	args: [
+		{
+			name: 'setup',
+			description: `birthdays/chatbot/reviews/suggestions/starboard`,
+			required: true,
+			type: 'String',
+		},
+		{
+			name: 'channel',
+			description: 'The channel to setup',
+			required: true,
+			type: 'Channel',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const choice = ctx.options.getString('setup',true);
+		const choice = ctx.options.getString('setup', true);
 		if (!['birthdays', 'chatbot', 'reviews', 'suggestions', 'starboard'].includes(choice))
 			return client.extras.errUsage(
 				{ usage: 'setup fun birthdays/chatbot/reviews/suggestions/starboard', type: 'reply' },
 				ctx,
 			);
-		const channel = await ctx.options.getChannel('channel',true);
+		const channel = await ctx.options.getChannel('channel', true);
 
 		if (choice == 'birthdays') {
 			client.extras.createChannelSetup(Birthdays, channel, ctx);

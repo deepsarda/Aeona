@@ -14,16 +14,23 @@ export default {
 		channelName = channelName.replace(`{emoji}`, '🔊');
 		channelName = channelName.replace(
 			`{name}`,
-			`Voice Channels: ${(await client.helpers.getChannels(ctx.guild.id)).filter((ch)=>ch.type== ChannelTypes.GuildVoice).size || 0}`,
+			`Voice Channels: ${
+				(await client.helpers.getChannels(ctx.guild.id)).filter((ch) => ch.type == ChannelTypes.GuildVoice).size || 0
+			}`,
 		);
 
-		client.helpers.createChannel(ctx.guildId,{name: channelName,type:ChannelTypes.GuildVoice,permissionOverwrites: [
-			{
-				deny: ['CONNECT'],
-				type:0,
-				id: ctx.guildId,
-			},
-		]})
+		client.helpers
+			.createChannel(ctx.guildId, {
+				name: channelName,
+				type: ChannelTypes.GuildVoice,
+				permissionOverwrites: [
+					{
+						deny: ['CONNECT'],
+						type: 0,
+						id: ctx.guildId,
+					},
+				],
+			})
 			.then(async (channel) => {
 				Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
 					if (data) {

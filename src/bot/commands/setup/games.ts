@@ -2,28 +2,30 @@ import Counting from '../../database/models/countChannel.js';
 import GTN from '../../database/models/guessNumber.js';
 import GTW from '../../database/models/guessWord.js';
 
-
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'games',
 	description: 'Setup counting/guess-the-number/guess-the-word. ',
 	commandType: ['application', 'message'],
 	category: 'setup',
-	args: [{
-		name: 'setup',
-		description: 'counting/guess-the-number/guess-the-word',
-		required: true,
-		type: 'String',
-	},{
-		name: 'channel',
-		description: 'The channel to setup',
-		required:true,
-        type:'Channel'
-	},],
+	args: [
+		{
+			name: 'setup',
+			description: 'counting/guess-the-number/guess-the-word',
+			required: true,
+			type: 'String',
+		},
+		{
+			name: 'channel',
+			description: 'The channel to setup',
+			required: true,
+			type: 'Channel',
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const choice = ctx.options.getString('setup',true);
-		const channel = await ctx.options.getChannel('channel',true);
+		const choice = ctx.options.getString('setup', true);
+		const channel = await ctx.options.getChannel('channel', true);
 		if (!['counting', 'guess-the-number', 'guess-the-word'].includes(choice))
 			return client.extras.errUsage(
 				{ usage: 'setup games counting/guess-the-number/guess-the-word', type: 'reply' },
