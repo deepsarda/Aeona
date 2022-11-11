@@ -14,7 +14,7 @@ export default async (client: AmethystBot) => {
 					if (!d.TimeZone || !d.Time) return;
 					try {
 						const timeNow = moment().tz(d.TimeZone).format('HH:mm (z)');
-						const guild = await client.cache.guilds.get(d.Guild);
+						const guild = await client.cache.guilds.get(BigInt(d.Guild));
 
 						let channelName = await client.extras.getTemplate(guild!.id);
 						channelName = channelName.replace(`{emoji}`, '⏰');

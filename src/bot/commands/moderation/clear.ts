@@ -19,7 +19,7 @@ export default {
 
 		const amount = ctx.options.getNumber('amount', true);
 
-		if (amount > 100)
+		if (amount > 99)
 			return client.extras.errNormal(
 				{
 					error: 'I cannot delete more than 100 messages at a time!',
@@ -41,6 +41,7 @@ export default {
 				limit: amount + 1,
 			})
 		).map((msg) => msg.id);
+
 		client.helpers
 			.deleteMessages(ctx.channel.id + '', messageIds)
 			.then(() => {

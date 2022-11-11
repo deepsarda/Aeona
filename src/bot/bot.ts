@@ -36,7 +36,7 @@ const cachebot = createProxyCache(basebot, {
 		roles: ['id', 'name', 'permissions', 'guildId', 'color'],
 		channels: ['id', 'name', 'type', 'guildId'],
 		users: ['id', 'username', 'discriminator', 'flags', 'avatar', 'toggles'],
-		members: ['id', 'roles', 'nick', 'guildId'],
+		members: ['id', 'roles', 'nick', 'guildId',"user"],
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
@@ -45,8 +45,8 @@ export const bot = enableAmethystPlugin(cachebot, {
 	botMentionAsPrefix: true,
 	ignoreBots: true,
 	defaultCooldown: {
-		seconds: 5,
-		allowedUses: 3,
+		seconds: 1,
+		allowedUses: 30,
 	},
 	commandDir: './dist/bot/commands',
 });

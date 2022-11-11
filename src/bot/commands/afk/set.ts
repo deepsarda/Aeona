@@ -17,7 +17,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const reason = ctx.options.getString('reason') || `Not specified`;
-
+		console.log("Hmmm...");
 		Schema.findOne({ Guild: ctx.guildId, User: ctx.user.id }, async (err, data) => {
 			if (data) {
 				return client.extras.errNormal(

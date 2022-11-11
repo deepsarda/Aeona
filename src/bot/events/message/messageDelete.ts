@@ -7,7 +7,7 @@ export default async (client: AmethystBot, messageDeleted: Message) => {
 
 	let content = messageDeleted.content;
 	if (!content) content = 'No text to be found';
-
+	if(!messageDeleted.attachments) return;
 	if (messageDeleted.attachments.length > 0) content = messageDeleted.attachments[0]?.url;
 
 	const logsChannel = await client.extras.getLogs(messageDeleted.guildId);

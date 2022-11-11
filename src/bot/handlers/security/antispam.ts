@@ -9,7 +9,7 @@ const DIFF = 3000;
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		if (message.member?.user?.toggles.bot) return;
+		if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
 
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiSpam: boolean }) => {
 			if (data) {

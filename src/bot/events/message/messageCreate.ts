@@ -12,7 +12,8 @@ import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
-	if (message.member?.user?.toggles.bot) return;
+	
+	if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
 
 	// Levels
 	Functions.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
@@ -148,7 +149,7 @@ export default async (client: AmethystBot, message: Message) => {
 		if (!message.content.includes('@here') && !message.content.includes('@everyone')) {
 			afk.findOne({ Guild: message.guildId, User: u }, async (err: any, data: { Message: any }) => {
 				if (data) {
-					client.extras.simpleMessageEmbed({ desc: `${u} is currently afk! **Reason:** ${data.Message}` }, message);
+					client.extras.simpleMessageEmbed({ desc: `<@${u}> is currently afk! **Reason:** ${data.Message}` }, message);
 				}
 			});
 		}

@@ -73,7 +73,6 @@ export default async (client: AmethystBot) => {
 
 			let index = 0;
 			for (const { times } of cpus()) {
-				console.log(`cpu_${index++} ${(times.user + times.nice + times.sys + times.irq) / times.idle}`);
 				point.floatField(`cpu_${index++}`, (times.user + times.nice + times.sys + times.irq) / times.idle);
 			}
 
@@ -86,8 +85,6 @@ export default async (client: AmethystBot) => {
 					.floatField('total', usage.heapTotal)
 					.floatField('used', usage.heapUsed),
 			);
-			console.log(`memory total ${usage.heapTotal}`);
-			console.log(`memory used ${usage.heapUsed}`);
 
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
 			try {
@@ -104,7 +101,6 @@ export default async (client: AmethystBot) => {
 			Influx.writePoint(
 				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
 			);
-			console.log(`ping ${client.gateway.manager.shards.first()!.heart.rtt!}`);
 		} catch (e) {
 			console.error(e);
 		}
@@ -136,7 +132,7 @@ export default async (client: AmethystBot) => {
 		}
 	}, 60000);
 	try {
-		await verifySlashCommands;
+		await verifySlashCommands(client);
 	} catch (e) {
 		console.error(e);
 	}
@@ -168,7 +164,6 @@ async function verifySlashCommands(client: AmethystBot) {
 	try {
 		const commands = [];
 		client.category.forEach((category) => {
-			console.log(category.name);
 			const commandBuilder = new SlashCommandBuilder().setName(category.name).setDescription(category.description);
 			category.commands.forEach((command) => {
 				console.log(command.name);
@@ -248,7 +243,6 @@ async function verifySlashCommands(client: AmethystBot) {
 
 			commands.push(commandBuilder.toJSON());
 		});
-		console.log(commands);
 		await client.helpers.upsertGlobalApplicationCommands(commands);
 	} catch (e) {
 		console.error(e);

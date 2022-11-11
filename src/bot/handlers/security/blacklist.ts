@@ -31,7 +31,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('messageUpdate', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
+	client.on('messageUpdateWithOldMessage', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
 		if (oldMessage.content === newMessage.content) {
 			return;
 		}

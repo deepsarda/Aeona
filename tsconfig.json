@@ -22,7 +22,7 @@
 		"jsx": "react",
 		"moduleResolution": "node"
 	},
-	"include": ["./src/**/*", "./src/**/*.json", ".env"],
+	"include": ["./src/**/*", "./src/**/*.json", ".env", "futurecommands/todo/stickymessages", "futurecommands/todo/tools"],
 	"ts-node": {
 		"esm": true,
 		"experimentalSpecifierResolution": "node",
