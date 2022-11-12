@@ -400,6 +400,10 @@ export default (client: AmethystBot) => {
 		{ embeds: embeds, content: content, components: components, type: type }: any,
 		ctx: Context | { id: bigint },
 	) {
+		const s =['\n discord.gg/qURxRRHPwa','\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote'];
+		//Generate a random number between 1 to 10;
+		const randomNumber = Math.floor(Math.random() * 10);
+		content=randomNumber==0?(content??"")+s[0]:randomNumber==1?(content??"")+s[1]:content;
 		if (ctx instanceof Context) {
 			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {
 				return await ctx
@@ -438,7 +442,7 @@ export default (client: AmethystBot) => {
 						ephemeral: true,
 					})
 					.catch();
-			} else if (type && type.toLowerCase() == 'ephemeral') {
+			} else if (type && type.toLowerCase() == 'ephemeraledit') {
 				return await ctx
 					.reply({
 						embeds: embeds,
