@@ -102,7 +102,7 @@ export default (client: AmethystBot) => {
 	});
 
 	client.on('messageUpdateWithOldMessage', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
-		if(!oldMessage.content || !newMessage.content) return;
+		if (!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) {
 			return;
 		}
