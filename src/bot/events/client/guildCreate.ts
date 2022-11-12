@@ -18,7 +18,7 @@ export default async (client: AmethystBot, guild: Guild) => {
 		.addField('Server members', `${guild.memberCount}`, true)
 		.addField('Server owner', `<@${guild.ownerId}> (${guild.ownerId})`, true)
 		.setColor(client.extras.config.colors.normal);
-	client.extras.webhook({
-		embeds: [embed],
-	});
+	//client.extras.webhook({
+	//	embeds: [embed],
+	//});
 };

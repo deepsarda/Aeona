@@ -18,7 +18,6 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
-
 });
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
