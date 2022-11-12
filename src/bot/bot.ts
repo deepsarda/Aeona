@@ -19,7 +19,12 @@ const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
 });
-const cachebot = createProxyCache(basebot, {});
+const cachebot = createProxyCache(basebot, {
+		cacheInMemory:{
+			default:true,
+			messages:false,
+		}
+});
 export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: (bot, message) => {
