@@ -6,23 +6,24 @@ export default {
 	description: 'Deny a suggestion',
 	commandType: ['application', 'message'],
 	category: 'suggestions',
-	args: [{
-		name: 'id',
-		description: 'The id of the suggestion message',
-		required: true,
-		type:'String',
-	}],
+	args: [
+		{
+			name: 'id',
+			description: 'The id of the suggestion message',
+			required: true,
+			type: 'String',
+		},
+	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-
-		const messageID = ctx.options.getString('id',true);
+		const messageID = ctx.options.getString('id', true);
 
 		const data = await Schema.findOne({ Guild: ctx.guildId });
 		if (data) {
-			const suggestionchannel =await client.cache.channels.get(BigInt(data.Channel));
-			const suggestEmbed = await client.helpers.getMessage(suggestionchannel.guildId,messageID);
+			const suggestionchannel = await client.cache.channels.get(BigInt(data.Channel));
+			const suggestEmbed = await client.helpers.getMessage(suggestionchannel.guildId, messageID);
 			const embedData = suggestEmbed.embeds[0];
 
 			client.extras.embed(
@@ -40,14 +41,18 @@ export default {
 			);
 
 			try {
-				const user = await client.cache.users.get(BigInt(embedData.author.name.substring(
-					embedData.author.name.lastIndexOf("(") + 1, 
-					embedData.author.name.lastIndexOf(")")
-				)))
+				const user = await client.cache.users.get(
+					BigInt(
+						embedData.author.name.substring(
+							embedData.author.name.lastIndexOf('(') + 1,
+							embedData.author.name.lastIndexOf(')'),
+						),
+					),
+				);
 
 				if (user) {
-					client.
-						extras.embed(
+					client.extras
+						.embed(
 							{
 								title: `Suggestion denied`,
 								desc: `Your suggestion in ${ctx.guild.name} has been denied by a moderator!`,

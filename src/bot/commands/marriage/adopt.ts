@@ -39,17 +39,14 @@ export default {
 			);
 
 		const familyMember = await Schema.findOne({
-			
 			User: target.id + '',
 			Parent: author.id + '',
 		});
 		const familyMember2 = await Schema.findOne({
-			
 			User: author.id + '',
 			Parent: target.id + '',
 		});
 		const familyMember3 = await Schema.findOne({
-			
 			User: author.id + '',
 			Partner: target.id + '',
 		});
@@ -65,7 +62,6 @@ export default {
 		}
 
 		const checkAdopt = await Schema.findOne({
-			
 			Children: target.id,
 		});
 		if (checkAdopt) {
@@ -101,37 +97,29 @@ export default {
 			})
 			.then(async (i) => {
 				if (i.data?.customId == 'adopt_yes') {
-					Schema.findOne(
-						{  User: author.id },
-						async (err: any, data: { Children: string[]; save: () => void }) => {
-							if (data) {
-								data.Children.push(target.id+'');
-								data.save();
-							} else {
-								new Schema({
-									
-									User: author.id + '',
-									Children: target.id,
-								}).save();
-							}
-						},
-					);
+					Schema.findOne({ User: author.id }, async (err: any, data: { Children: string[]; save: () => void }) => {
+						if (data) {
+							data.Children.push(target.id + '');
+							data.save();
+						} else {
+							new Schema({
+								User: author.id + '',
+								Children: target.id,
+							}).save();
+						}
+					});
 
-					Schema.findOne(
-						{  User: target.id },
-						async (err: any, data: { Parent: string[]; save: () => void }) => {
-							if (data) {
-								data.Parent.push(author.id+"");
-								data.save();
-							} else {
-								new Schema({
-									
-									User: target.id + '',
-									Parent: author.id,
-								}).save();
-							}
-						},
-					);
+					Schema.findOne({ User: target.id }, async (err: any, data: { Parent: string[]; save: () => void }) => {
+						if (data) {
+							data.Parent.push(author.id + '');
+							data.save();
+						} else {
+							new Schema({
+								User: target.id + '',
+								Parent: author.id,
+							}).save();
+						}
+					});
 
 					client.extras.embed(
 						{

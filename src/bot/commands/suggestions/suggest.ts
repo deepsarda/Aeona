@@ -6,30 +6,32 @@ export default {
 	description: 'Generate a chat message',
 	commandType: ['application', 'message'],
 	category: 'suggestions',
-	args: [{
-		name:"suggestion",
-		type:"string",
-        description: "The suggestion you want to suggest",
-		required: true
-	}],
+	args: [
+		{
+			name: 'suggestion',
+			type: 'string',
+			description: 'The suggestion you want to suggest',
+			required: true,
+		},
+	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const suggestionQuery = await ctx.options.getString('suggestion',true);
+		const suggestionQuery = await ctx.options.getString('suggestion', true);
 
 		const data = await Schema.findOne({ Guild: ctx.guildId });
 		if (data) {
-			const channel =await  client.cache.channels.get(BigInt(data.Channel));
+			const channel = await client.cache.channels.get(BigInt(data.Channel));
 
-			client.
-				extras.embed(
+			client.extras
+				.embed(
 					{
 						title: `💡 Suggestion`,
 						desc: `${suggestionQuery}`,
 						author: {
-							name: ctx.user.username + '#' +ctx.user.discriminator+'('+ctx.user.id+')',
+							name: ctx.user.username + '#' + ctx.user.discriminator + '(' + ctx.user.id + ')',
 							iconURL: client.helpers.getAvatarURL(ctx.user.id + '', ctx.user.discriminator, {
 								avatar: ctx.user.avatar,
-							})
+							}),
 						},
 					},
 					channel,

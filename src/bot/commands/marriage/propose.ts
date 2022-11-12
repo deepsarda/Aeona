@@ -32,7 +32,7 @@ export default {
 					ctx,
 				);
 			} else {
-				Schema.findOne({  Partner: target.id }, async (err: any, data: any) => {
+				Schema.findOne({ Partner: target.id }, async (err: any, data: any) => {
 					if (data) {
 						client.extras.errNormal(
 							{
@@ -72,26 +72,23 @@ export default {
 													ctx,
 												);
 											} else {
-												Schema.findOne(
-													{ User: author.id },
-													async (err: any, data: { Children: bigint[] }) => {
-														if (data) {
-															if (data.Children.includes(target.id)) {
-																client.extras.errNormal(
-																	{
-																		error: 'You cannot marry a family member!',
-																		type: 'reply',
-																	},
-																	ctx,
-																);
-															} else {
-																propose();
-															}
+												Schema.findOne({ User: author.id }, async (err: any, data: { Children: bigint[] }) => {
+													if (data) {
+														if (data.Children.includes(target.id)) {
+															client.extras.errNormal(
+																{
+																	error: 'You cannot marry a family member!',
+																	type: 'reply',
+																},
+																ctx,
+															);
 														} else {
 															propose();
 														}
-													},
-												);
+													} else {
+														propose();
+													}
+												});
 											}
 										},
 									);
@@ -132,35 +129,29 @@ export default {
 				.then(async (i) => {
 					console.log(i);
 					if (i.data?.customId == 'propose_accept') {
-						Schema.findOne(
-							{ User: author.id },
-							async (err: any, data: { Partner: bigint; save: () => void }) => {
-								if (data) {
-									data.Partner = target.id;
-									data.save();
-								} else {
-									new Schema({
-										User: author.id + '',
-										Partner: target.id + '',
-									}).save();
-								}
-							},
-						);
+						Schema.findOne({ User: author.id }, async (err: any, data: { Partner: bigint; save: () => void }) => {
+							if (data) {
+								data.Partner = target.id;
+								data.save();
+							} else {
+								new Schema({
+									User: author.id + '',
+									Partner: target.id + '',
+								}).save();
+							}
+						});
 
-						Schema.findOne(
-							{ User: target.id },
-							async (err: any, data: { Partner: bigint; save: () => void }) => {
-								if (data) {
-									data.Partner = author.id;
-									data.save();
-								} else {
-									new Schema({
-										User: target.id + '',
-										Partner: author.id + '',
-									}).save();
-								}
-							},
-						);
+						Schema.findOne({ User: target.id }, async (err: any, data: { Partner: bigint; save: () => void }) => {
+							if (data) {
+								data.Partner = author.id;
+								data.save();
+							} else {
+								new Schema({
+									User: target.id + '',
+									Partner: author.id + '',
+								}).save();
+							}
+						});
 
 						client.extras.embed(
 							{

@@ -208,26 +208,29 @@ const categories: CategoryOptions[] = [
 		default: 'list',
 	},
 	{
-		name:'serverstats',
+		name: 'serverstats',
 		description: 'Configure your server stats',
 		uniqueCommands: true,
-        default: 'list',
-	},{
-		name:'setup',
-        description: 'Configure your server',
-        uniqueCommands: false,
-        default: 'fun',
-	},{
+		default: 'list',
+	},
+	{
+		name: 'setup',
+		description: 'Configure your server',
+		uniqueCommands: false,
+		default: 'fun',
+	},
+	{
 		name: 'stickymessages',
 		description: 'Configure sticky messages',
-        uniqueCommands: false,
+		uniqueCommands: false,
 		default: 'messages',
-	},{
+	},
+	{
 		name: 'suggestions',
 		description: 'Create/Deny/Accept suggestions',
-        uniqueCommands: true,
+		uniqueCommands: true,
 		default: 'list',
-	}
+	},
 ];
 
 for (let i = 0; i < categories.length; i++) {

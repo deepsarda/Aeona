@@ -1,8 +1,8 @@
 import Schema from '../../database/models/family.js';
-import { Canvas,loadImage } from 'canvas';
+import { Canvas, loadImage } from 'canvas';
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import { BigString } from 'discordeno/types';
-import {Blob} from 'buffer';
+import { Blob } from 'buffer';
 
 export default {
 	name: 'family',
@@ -26,7 +26,9 @@ export default {
 		});
 		const canvas = new Canvas(480, 480);
 		const ctx = canvas.getContext('2d');
-		const image = await loadImage("https://media.discordapp.net/attachments/1023100219975544865/1040850327395631104/unknown.png");
+		const image = await loadImage(
+			'https://media.discordapp.net/attachments/1023100219975544865/1040850327395631104/unknown.png',
+		);
 
 		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 		ctx.font = 'Arial';
@@ -49,7 +51,7 @@ export default {
 			json = await getFamily(target.id, client);
 		}
 
-		console.log(json)
+		console.log(json);
 		function drawRect(x, y, text) {
 			ctx.fillStyle = 'white';
 			ctx.fillText(text, x + deltaXText, y + deltaYText);
@@ -58,7 +60,7 @@ export default {
 		}
 
 		function drawLine(x1, y1, x2, y2) {
-			ctx.strokeStyle=""
+			ctx.strokeStyle = '';
 			ctx.beginPath();
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
@@ -115,10 +117,12 @@ function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
 	const ab = new ArrayBuffer(byteString.length);
 	const ia = new Uint8Array(ab);
-	for (let i = 0; i < byteString.length; i++) { ia[i] = byteString.charCodeAt(i); }
+	for (let i = 0; i < byteString.length; i++) {
+		ia[i] = byteString.charCodeAt(i);
+	}
 	//@ts-ignore
 	return new Blob([ab], { type: 'image/jpeg' });
-  }
+}
 
 async function getFamily(userId: BigString, client: AmethystBot) {
 	const data = await Schema.findOne({

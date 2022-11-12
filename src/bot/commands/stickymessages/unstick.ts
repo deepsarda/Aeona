@@ -6,16 +6,18 @@ export default {
 	description: 'Generate a chat message',
 	commandType: ['application', 'message'],
 	category: 'stickymessages',
-	args: [{
-		name:'channel',
-        description: 'The channel to remove sticky messages from',
-        type:'Channel',
-        required: true
-	}],
+	args: [
+		{
+			name: 'channel',
+			description: 'The channel to remove sticky messages from',
+			type: 'Channel',
+			required: true,
+		},
+	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const channel = await ctx.options.getChannel('channel',true);
+		const channel = await ctx.options.getChannel('channel', true);
 
 		Schema.findOne({ Guild: ctx.guildId, Channel: channel.id }, async (err, data) => {
 			if (data) {
