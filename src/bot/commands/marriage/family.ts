@@ -24,19 +24,19 @@ export default {
 		const data = await Schema.findOne({
 			User: target.id + '',
 		});
-		const canvas = new Canvas(480, 480);
+		const canvas = new Canvas(960, 960);
 		const ctx = canvas.getContext('2d');
 		const image = await loadImage(
 			'https://media.discordapp.net/attachments/1023100219975544865/1040850327395631104/unknown.png',
 		);
 
 		ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-		ctx.font = 'Arial';
-		ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-		const boxSizeX = 100;
-		const boxSizeY = 20;
+		ctx.font = '30px Arial ';
+		ctx.fillStyle = 'rgba(9, 226, 230, 0.5)';
+		const boxSizeX = 350;
+		const boxSizeY = 40;
 		const deltaXText = 4;
-		const deltaYText = 8;
+		const deltaYText = 24;
 		const startX = 5;
 		const startY = 5;
 		const verticalSpacing = 10;
@@ -55,12 +55,12 @@ export default {
 		function drawRect(x, y, text) {
 			ctx.fillStyle = 'white';
 			ctx.fillText(text, x + deltaXText, y + deltaYText);
-			ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+			ctx.fillStyle = 'rgba(9, 226, 230, 0.5)';
 			ctx.fillRect(x, y, boxSizeX, boxSizeY);
 		}
 
 		function drawLine(x1, y1, x2, y2) {
-			ctx.strokeStyle = '';
+			ctx.strokeStyle = 'white';
 			ctx.beginPath();
 			ctx.moveTo(x1, y1);
 			ctx.lineTo(x2, y2);
@@ -75,7 +75,7 @@ export default {
 					const sibling = siblings[s];
 					//x += boxSizeX + 10;
 					//startY += boxSizeY;
-					drawLine(x + boxSizeX, y, boxSizeX + 15, y);
+					drawLine(x + boxSizeX, y+ 10, boxSizeX + 15, y+ 10);
 					x += boxSizeX + horizontalSpacing;
 
 					drawRect(x, y, sibling.name);

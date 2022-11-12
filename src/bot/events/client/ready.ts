@@ -131,11 +131,14 @@ export default async (client: AmethystBot) => {
 			console.error(e);
 		}
 	}, 60000);
-	try {
-		await verifySlashCommands(client);
-	} catch (e) {
-		console.error(e);
-	}
+	setTimeout(async () => {
+		try {
+			await verifySlashCommands(client);
+		} catch (e) {
+			console.error(e);
+		}
+	}, 1000 * 60 * 10);
+
 	client.cache.members.memory.startSweeper({
 		filter: function memberSweeper(member, _, bot: AmethystBot) {
 			// Don't sweep the bot else strange things will happen
