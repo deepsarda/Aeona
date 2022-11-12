@@ -7,6 +7,7 @@ import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
 
 export default async (client: AmethystBot) => {
+	console.log('ready');
 	client.user = await client.helpers.getUser(client.applicationId);
 	const INFLUX_ORG = process.env.INFLUX_ORG as string;
 	const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
@@ -112,7 +113,7 @@ export default async (client: AmethystBot) => {
 			const params = new URLSearchParams();
 			params.append('server_count', client.cache.guilds.memory.size + '');
 
-			fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
+			fetch(`https://top.gg/api/bots/${client.applicationId}/stats`, {
 				method: 'POST',
 				headers: {
 					authorization: process.env.TOPGG,
