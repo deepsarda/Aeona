@@ -26,9 +26,9 @@
 		"./src/**/*",
 		"./src/**/*.json",
 		".env",
-		"futurecommands/todo/stickymessages",
+		"src/bot/commands/stickymessages",
 		"futurecommands/todo/tools"
-	],
+, "futurecommands/todo/thanks"	],
 	"ts-node": {
 		"esm": true,
 		"experimentalSpecifierResolution": "node",

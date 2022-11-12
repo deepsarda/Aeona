@@ -12,6 +12,7 @@ export default async (
 	if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
 			content: 'Oh no. You seem to be missing some permissions.',
+			
 		});
 	}
 	if (data.error.type == ErrorEnums.MISSING_REQUIRED_ARGUMENTS) {

@@ -38,13 +38,11 @@ export default {
 			);
 
 		const data = await Schema.findOne({
-			Guild: ctx.guildId,
 			User: author.id + '',
 			Partner: target.id + '',
 		});
 		if (data) {
 			const data2 = await Schema.findOne({
-				Guild: ctx.guildId,
 				User: target.id + '',
 			});
 			if (data2) {

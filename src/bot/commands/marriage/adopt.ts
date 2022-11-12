@@ -39,17 +39,17 @@ export default {
 			);
 
 		const familyMember = await Schema.findOne({
-			Guild: ctx.guildId,
+			
 			User: target.id + '',
 			Parent: author.id + '',
 		});
 		const familyMember2 = await Schema.findOne({
-			Guild: ctx.guildId,
+			
 			User: author.id + '',
 			Parent: target.id + '',
 		});
 		const familyMember3 = await Schema.findOne({
-			Guild: ctx.guildId,
+			
 			User: author.id + '',
 			Partner: target.id + '',
 		});
@@ -65,8 +65,8 @@ export default {
 		}
 
 		const checkAdopt = await Schema.findOne({
-			Guild: ctx.guildId,
-			Children: target.username,
+			
+			Children: target.id,
 		});
 		if (checkAdopt) {
 			return client.extras.errNormal(
@@ -102,32 +102,32 @@ export default {
 			.then(async (i) => {
 				if (i.data?.customId == 'adopt_yes') {
 					Schema.findOne(
-						{ Guild: ctx.guildId, User: author.id },
+						{  User: author.id },
 						async (err: any, data: { Children: string[]; save: () => void }) => {
 							if (data) {
-								data.Children.push(target.username);
+								data.Children.push(target.id+'');
 								data.save();
 							} else {
 								new Schema({
-									Guild: ctx.guildId,
+									
 									User: author.id + '',
-									Children: target.username,
+									Children: target.id,
 								}).save();
 							}
 						},
 					);
 
 					Schema.findOne(
-						{ Guild: ctx.guildId, User: target.id },
+						{  User: target.id },
 						async (err: any, data: { Parent: string[]; save: () => void }) => {
 							if (data) {
-								data.Parent.push(author.username);
+								data.Parent.push(author.id+"");
 								data.save();
 							} else {
 								new Schema({
-									Guild: ctx.guildId,
+									
 									User: target.id + '',
-									Parent: author.username,
+									Parent: author.id,
 								}).save();
 							}
 						},

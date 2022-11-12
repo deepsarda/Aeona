@@ -21,6 +21,7 @@ export default {
 			type: 'String',
 		},
 	],
+	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const category = ctx.options.getString('category');

@@ -14,6 +14,7 @@ export default {
 			type: 'Role',
 		},
 	],
+	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const role = await ctx.options.getRole('role', true);

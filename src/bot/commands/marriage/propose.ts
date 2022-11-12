@@ -22,7 +22,7 @@ export default {
 		if (author.id == target.id)
 			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'edit' }, ctx);
 
-		Schema.findOne({ Guild: ctx.guildId, Partner: author.id }, async (err: any, data: any) => {
+		Schema.findOne({ Partner: author.id }, async (err: any, data: any) => {
 			if (data) {
 				client.extras.errNormal(
 					{
@@ -32,7 +32,7 @@ export default {
 					ctx,
 				);
 			} else {
-				Schema.findOne({ Guild: ctx.guildId, Partner: target.id }, async (err: any, data: any) => {
+				Schema.findOne({  Partner: target.id }, async (err: any, data: any) => {
 					if (data) {
 						client.extras.errNormal(
 							{
@@ -44,7 +44,6 @@ export default {
 					} else {
 						Schema.findOne(
 							{
-								Guild: ctx.guildId,
 								User: target.id + '',
 								Parent: author.id + '',
 							},
@@ -60,7 +59,6 @@ export default {
 								} else {
 									Schema.findOne(
 										{
-											Guild: ctx.guildId,
 											User: author.id + '',
 											Parent: target.id + '',
 										},
@@ -75,7 +73,7 @@ export default {
 												);
 											} else {
 												Schema.findOne(
-													{ Guild: ctx.guildId, User: author.id },
+													{ User: author.id },
 													async (err: any, data: { Children: bigint[] }) => {
 														if (data) {
 															if (data.Children.includes(target.id)) {
@@ -135,14 +133,13 @@ export default {
 					console.log(i);
 					if (i.data?.customId == 'propose_accept') {
 						Schema.findOne(
-							{ Guild: ctx.guildId, User: author.id },
+							{ User: author.id },
 							async (err: any, data: { Partner: bigint; save: () => void }) => {
 								if (data) {
 									data.Partner = target.id;
 									data.save();
 								} else {
 									new Schema({
-										Guild: ctx.guildId,
 										User: author.id + '',
 										Partner: target.id + '',
 									}).save();
@@ -151,14 +148,13 @@ export default {
 						);
 
 						Schema.findOne(
-							{ Guild: ctx.guildId, User: target.id },
+							{ User: target.id },
 							async (err: any, data: { Partner: bigint; save: () => void }) => {
 								if (data) {
 									data.Partner = author.id;
 									data.save();
 								} else {
 									new Schema({
-										Guild: ctx.guildId,
 										User: target.id + '',
 										Partner: author.id + '',
 									}).save();

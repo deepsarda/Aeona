@@ -8,6 +8,7 @@ export default {
 	commandType: ['application', 'message'],
 	category: 'serverstats',
 	args: [],
+	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 

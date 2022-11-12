@@ -10,7 +10,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const url = 'https://uselessfacts.jsph.pl/random.json?language=en';
-
+		console.log("Hmm.")
 		request(url, function (err, response, body) {
 			const fact = JSON.parse(body).text;
 

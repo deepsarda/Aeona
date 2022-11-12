@@ -20,6 +20,7 @@ export default {
 			required: true,
 		},
 	],
+	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const name = ctx.options.getString('name', true);

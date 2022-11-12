@@ -391,6 +391,7 @@ export default (client: AmethystBot) => {
 		return await client.helpers
 			.sendMessage(ctx.channelId, {
 				embeds: [embed],
+				
 				content: content,
 				components: components,
 			})

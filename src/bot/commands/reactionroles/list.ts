@@ -7,6 +7,7 @@ export default {
 	commandType: ['application', 'message'],
 	category: 'reactionroles',
 	args: [],
+	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const reactions = await Schema.find({ Guild: ctx.guildId });
