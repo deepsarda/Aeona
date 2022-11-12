@@ -75,7 +75,7 @@ export default {
 					const sibling = siblings[s];
 					//x += boxSizeX + 10;
 					//startY += boxSizeY;
-					drawLine(x + boxSizeX, y+ 10, boxSizeX + 15, y+ 10);
+					drawLine(x + boxSizeX, y + 10, boxSizeX + 15, y + 10);
 					x += boxSizeX + horizontalSpacing;
 
 					drawRect(x, y, sibling.name);
