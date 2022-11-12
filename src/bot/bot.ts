@@ -30,10 +30,6 @@ export const bot = enableAmethystPlugin(cachebot, {
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,
-	defaultCooldown: {
-		seconds: 1,
-		allowedUses: 30,
-	},
 	commandDir: './dist/bot/commands',
 });
 
