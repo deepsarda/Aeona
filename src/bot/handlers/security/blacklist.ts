@@ -5,6 +5,7 @@ import BlackList from '../../database/models/blacklist.js';
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+		if(!message.content || message.content.length <1)return;
 		try {
 			BlackList.findOne({ Guild: message.guildId }, async (err: any, data: any) => {
 				if (data) {

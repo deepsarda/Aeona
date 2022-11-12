@@ -4,6 +4,7 @@ import Schema2 from '../../database/models/channelList.js';
 import Schema from '../../database/models/functions.js';
 export default (client: AmethystBot) => {
 	client.on('messageCreate', async (client: AmethystBot, message: Message) => {
+		if(!message.content || message.content.length <1)return;
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiInvite: boolean; AntiLinks: boolean }) => {
 			if (data) {
 				if (data.AntiInvite == true) {
