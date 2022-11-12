@@ -62,7 +62,7 @@ export default {
 		}
 
 		const checkAdopt = await Schema.findOne({
-			Children: target.id+ '',
+			Children: target.id + '',
 		});
 		if (checkAdopt) {
 			return client.extras.errNormal(
@@ -97,7 +97,7 @@ export default {
 			})
 			.then(async (i) => {
 				if (i.data?.customId == 'adopt_yes') {
-					Schema.findOne({ User: author.id + ''}, async (err: any, data: { Children: string[]; save: () => void }) => {
+					Schema.findOne({ User: author.id + '' }, async (err: any, data: { Children: string[]; save: () => void }) => {
 						if (data) {
 							data.Children.push(target.id + '');
 							data.save();
