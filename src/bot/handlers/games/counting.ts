@@ -5,7 +5,9 @@ import countSchema from '../../database/models/countChannel.js';
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+		if (!message.member) return;
+		if (!message.member.user) return;
+		if (!message.member.user.toggles.bot) return;
 		if (!message.guildId) return;
 		if (message.content || message.attachments.length > 0 || message.type == MessageTypes.ChannelPinnedMessage) return;
 

@@ -19,25 +19,7 @@ const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
 });
-const cachebot = createProxyCache(basebot, {
-	cacheInMemory: {
-		default: true,
-	},
-
-	fetchIfMissing: {
-		guilds: false,
-		users: true,
-		roles: true,
-		channels: true,
-		members: true,
-		messages: true,
-	},
-	desiredProps: {
-		guilds: ['id', 'name', 'roles', 'channels', 'memberCount', 'ownerId'],
-		roles: ['id', 'name', 'permissions', 'guildId', 'color'],
-		channels: ['id', 'name', 'type', 'guildId'],
-	},
-});
+const cachebot = createProxyCache(basebot, {});
 export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: process.env.PREFIX,
