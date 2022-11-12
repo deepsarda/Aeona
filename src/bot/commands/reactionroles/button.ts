@@ -17,7 +17,7 @@ export default {
 			name: 'channel',
 			description: 'The channel to make the menu in.',
 			required: true,
-			type: 'String',
+			type: 'Channel',
 		},
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
@@ -39,10 +39,12 @@ export default {
 					ctx,
 				);
 			const a = Object.keys(data.Roles);
+			
 			const mapped = [];
-			for (const b in a) {
+			for (let i =0; i < a.length; i++) {
+				const b = a[i];
 				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
-				mapped.push(`${data.Roles[b][1].raw} | <&${role.id}>`);
+				mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
 			}
 			const mappedstring = mapped.join('\n');
 
@@ -55,6 +57,7 @@ export default {
 						title: `${upper} Roles`,
 						desc: `_____ \n\nChoose your roles by pressing the button! \n\n${mappedstring}`,
 						components: sendComponents,
+						type: 'reply',
 					},
 					channel,
 				)
@@ -66,7 +69,7 @@ export default {
 			client.extras.succNormal(
 				{
 					text: 'Reaction panel successfully created!',
-					type: 'ephemeraledit',
+					type: 'ephemeral',
 				},
 				ctx,
 			);

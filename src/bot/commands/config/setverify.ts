@@ -77,6 +77,7 @@ export default {
 					title: `${ctx.guild.name} verify`,
 					desc: `Click on the button to verify yourself`,
 					components: comp,
+					
 				},
 				channel,
 			);

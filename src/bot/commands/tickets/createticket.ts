@@ -216,7 +216,7 @@ export default {
 																},
 															],
 															components: comp,
-															content: `${ctx.user}, <&${role.id}>`,
+															content: `${ctx.user}, <@&${role.id}>`,
 														},
 														channel,
 													);

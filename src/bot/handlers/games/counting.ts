@@ -6,13 +6,14 @@ import countSchema from '../../database/models/countChannel.js';
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
 		if (!message.guildId) return;
+		console.log(message.member)
 		try {
-			if ((await client.helpers.getUser(message.authorId)).toggles.bot) return true;
+			if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
 		} catch (e) {
 			//fix lint error
 		}
-		if (message.content || message.attachments.length > 0 || message.type == MessageTypes.ChannelPinnedMessage) return;
 
+		if (!message.content || message.type == MessageTypes.ChannelPinnedMessage) return;
 		const data = await countSchema.findOne({
 			Guild: message.guildId,
 			Channel: message.channelId,
@@ -27,7 +28,7 @@ export default async (client: AmethystBot) => {
 							error: 'You cannot count twice in a row! Count starts again from 1',
 							type: 'reply',
 						},
-						message,
+						{ id: message.channelId },
 					);
 
 					countData.Count = 1;
@@ -40,7 +41,7 @@ export default async (client: AmethystBot) => {
 				}
 			} else {
 				if (Number(message.content) == countData.Count) {
-					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
+					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 					countData.User = message.authorId + '';
 					countData.Count += 1;
 					countData.save();
@@ -51,7 +52,7 @@ export default async (client: AmethystBot) => {
 								error: `The correct number was ${countData.Count}! Count starts again from 1`,
 								type: 'reply',
 							},
-							message,
+							{ id: message.channelId },
 						);
 
 						countData.Count = 1;
@@ -65,12 +66,12 @@ export default async (client: AmethystBot) => {
 				}
 			}
 		} else if (data) {
-			if (Number(message.content) == countData!.Count! + 1) {
+			if (Number(message.content) == (countData?.Count ?? 0) + 1) {
 				bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 				new count({
 					Guild: message.guildId,
 					User: message.authorId,
-					Count: countData!.Count! + 1,
+					Count: (countData?.Count ?? 0) + 1,
 				}).save();
 			} else {
 				return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);

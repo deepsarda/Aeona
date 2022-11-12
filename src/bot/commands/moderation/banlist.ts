@@ -26,7 +26,7 @@ export default {
 						ctx,
 					);
 
-				await client.extras.createLeaderboard(`🔧 Banlist - ${ctx.guild!.name}`, list, ctx);
+				await client.extras.createLeaderboard(`🔧 Banlist - ${ctx.guild?.name}`, list, ctx);
 			})
 			.catch((error) => {
 				throw error;

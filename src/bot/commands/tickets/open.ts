@@ -20,7 +20,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: 'Ticket is already open!',
-							type: 'ephemeraledit',
+							type: 'ephemeral',
 						},
 						ctx,
 					);

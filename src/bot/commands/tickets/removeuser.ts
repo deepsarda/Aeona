@@ -42,7 +42,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: 'You cannot remove the ticket maker from this ticket',
-							type: 'ephemeraledit',
+							type: 'ephemeral',
 						},
 						ctx,
 					);

@@ -37,7 +37,7 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
 			resolveRole:
 				channel.type == ChannelTypes.DM
 					? () => null
-					: async (id: any) => (await bot.cache.guilds.get(channel.guildId))!.roles.get(id)!,
+					: async (id: any) => (await bot.cache.guilds.get(channel.guildId))?.roles.get(id)!,
 
 			...(options.callbacks ?? {}),
 		},

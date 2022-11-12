@@ -23,7 +23,7 @@ export default {
 			name: 'emoji',
 			description: 'The emoji for the reaction',
 			required: true,
-			type: 'Emoji',
+			type: 'String',
 		},
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
@@ -44,6 +44,8 @@ export default {
 			);
 
 		Schema.findOne({ Guild: ctx.guildId, Category: category }, async (err, data) => {
+			console.log("hmmm;...")
+			console.log(role)
 			if (data) {
 				data.Roles[emoji] = [
 					role.id + '',
@@ -70,7 +72,7 @@ export default {
 					},
 				}).save();
 			}
-
+			console.log("hmmm")
 			client.extras.succNormal(
 				{
 					text: 'Reaction role successfully created! Create a panel in the following way',

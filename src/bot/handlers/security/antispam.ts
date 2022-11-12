@@ -10,9 +10,11 @@ const DIFF = 3000;
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
-		if (!message.member) return;
-		if (!message.member.user) return;
-		if (message.member.user.toggles.bot) return;
+		try {
+			if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+		} catch (e) {
+			//fix lint error
+		}
 
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiSpam: boolean }) => {
 			if (data) {

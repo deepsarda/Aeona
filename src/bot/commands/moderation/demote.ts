@@ -25,7 +25,7 @@ export default {
 					.embed(
 						{
 							title: `Demote`,
-							desc: `You've been demoted from **${ctx.guild!.name}**`,
+							desc: `You've been demoted from **${ctx.guild?.name}**`,
 							fields: [
 								{
 									name: '→ Moderator',

@@ -27,7 +27,6 @@ function dataURItoBlob(dataURI) {
 }
 export default async (client: AmethystBot, interaction: Interaction) => {
 	// Commands
-	console.log('READY!');
 	// Verify system
 	if (interaction.type == InteractionTypes.MessageComponent && interaction.data?.customId == 'verify') {
 		const data = await verify.findOne({
@@ -112,7 +111,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 
 	// Reaction roles button
 	if (interaction.type == InteractionTypes.MessageComponent) {
-		const buttonID = interaction.data?.customId!.split('-');
+		const buttonID = interaction.data?.customId?.split('-');
 		if (!buttonID) return;
 		if (buttonID[0] == 'reaction_button') {
 			reactionSchema.findOne(
@@ -135,18 +134,18 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					const [roleid] = data.Roles[buttonID[1]];
 
 					if (interaction.member?.roles.includes(roleid)) {
-						client.helpers.removeRole(ctx.guildId!, ctx.user?.id!, roleid);
+						await client.helpers.removeRole(ctx.guildId!, ctx.user?.id!, roleid);
 
 						ctx.reply({
 							content: `<@&${roleid}> was removed!`,
-							ephemeral: true,
+							private: true,
 						});
 					} else {
-						client.helpers.addRole(ctx.guildId!, ctx.user?.id!, roleid);
+						await client.helpers.addRole(ctx.guildId!, ctx.user?.id!, roleid);
 
 						ctx.reply({
 							content: `<@&${roleid}> was added!`,
-							ephemeral: true,
+							private: true,
 						});
 					}
 				},

@@ -12,7 +12,7 @@ export default async (client: AmethystBot, role: Role, oldName: string, newName:
 				fields: [
 					{
 						name: `→ Role`,
-						value: `<&${role.id}>`,
+						value: `<@&${role.id}>`,
 					},
 					{
 						name: `→ Before`,

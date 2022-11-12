@@ -49,7 +49,7 @@ export default {
 					member,
 				)
 				.then(function () {
-					client.helpers.kickMember(ctx.guild!.id + '', member.id + '', reason);
+					client.helpers.kickMember(ctx.guild?.id + '', member.id + '', reason);
 
 					client.extras.succNormal(
 						{
@@ -72,7 +72,7 @@ export default {
 					);
 				})
 				.catch(function () {
-					client.helpers.kickMember(ctx.guild!.id + '', member.id + '', reason);
+					client.helpers.kickMember(ctx.guild?.id + '', member.id + '', reason);
 
 					client.extras.succNormal(
 						{

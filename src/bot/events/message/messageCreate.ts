@@ -13,9 +13,11 @@ import Schema from '../../database/models/stickymessages.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
-	if (!message.member) return;
-	if (!message.member.user) return;
-	if (!message.member.user.toggles.bot) return;
+	try {
+		if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+	} catch (e) {
+		//fix lint error
+	}
 
 	// Levels
 	Functions.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
@@ -138,8 +140,8 @@ export default async (client: AmethystBot, message: Message) => {
 				message,
 			);
 
-			if (message.member?.nick!.startsWith(`[AFK] `)) {
-				const name = message.member?.nick!.replace(`[AFK] `, ``);
+			if (message.member?.nick?.startsWith(`[AFK] `)) {
+				const name = message.member?.nick?.replace(`[AFK] `, ``);
 				client.helpers.editMember(message.guildId!, message.authorId, {
 					nick: name,
 				});

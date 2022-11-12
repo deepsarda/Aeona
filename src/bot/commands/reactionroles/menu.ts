@@ -24,7 +24,7 @@ export default {
 	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const category = ctx.options.getString('category');
+		const category = ctx.options.getString('category',true);
 		const channel = (await ctx.options.getChannel('channel')) || ctx.channel;
 
 		const lower = category.toLowerCase();
@@ -41,10 +41,12 @@ export default {
 				);
 
 			const a = Object.keys(data.Roles);
+
 			const map = [];
-			for (const b in a) {
+			for (let i = 0; i < a.length; i++) {
+				const b = a[i];
 				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
-				map.push(`${data.Roles[b][1].raw} | <&${role.id}>`);
+				map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
 			}
 			const mappedstring = map.join('\n');
 
@@ -66,8 +68,9 @@ export default {
 				.embed(
 					{
 						title: `${upper} Roles`,
-						desc: `_____ \n\nChoose your roles in the menu! \n\n${map}`,
+						desc: `_____ \n\nChoose your roles in the menu! \n\n${mappedstring}`,
 						components: [row],
+						type: 'reply',
 					},
 					channel,
 				)
@@ -79,7 +82,7 @@ export default {
 			client.extras.succNormal(
 				{
 					text: 'Reaction panel successfully created!',
-					type: 'ephemeraledit',
+					type: 'ephemeral',
 				},
 				ctx,
 			);

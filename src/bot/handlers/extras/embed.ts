@@ -1,6 +1,5 @@
 import { AmethystBot, AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { Member, Message, User } from 'discordeno';
-import { Channel } from 'discordeno/transformers';
+import { Message } from 'discordeno';
 import Schema from '../../database/models/functions.js';
 
 export default (client: AmethystBot) => {
@@ -399,7 +398,7 @@ export default (client: AmethystBot) => {
 	};
 	client.extras.sendEmbed = async function (
 		{ embeds: embeds, content: content, components: components, type: type }: any,
-		ctx: Context | Member | User | Channel,
+		ctx: Context |{ id:bigint},
 	) {
 		if (ctx instanceof Context) {
 			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {
@@ -429,7 +428,7 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
-			} else if (type && type.toLowerCase() == 'ephemeraledit') {
+			} else if (type && type.toLowerCase() == 'ephemeral') {
 				return await ctx
 					.editReply({
 						embeds: embeds,

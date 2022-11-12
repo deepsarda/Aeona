@@ -20,7 +20,7 @@ export default (client: AmethystBot) => {
 				fields: [
 					{
 						name: `→ Channel`,
-						value: `${channel} (${channel.id})`,
+						value: `<#${channel.id}> (${channel.id})`,
 					},
 				],
 				type: 'reply',
@@ -48,7 +48,7 @@ export default (client: AmethystBot) => {
 				fields: [
 					{
 						name: `→ Role`,
-						value: `<&${role.id}> (${role.id})`,
+						value: `<@&${role.id}> (${role.id})`,
 					},
 				],
 				type: 'reply',

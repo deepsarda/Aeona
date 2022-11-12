@@ -55,7 +55,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'ephemeraledit',
+						type: 'ephemeral',
 					},
 					ctx,
 				);

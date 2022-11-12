@@ -16,7 +16,7 @@ export default async (client: AmethystBot) => {
 						const timeNow = moment().tz(d.TimeZone).format('HH:mm (z)');
 						const guild = await client.cache.guilds.get(BigInt(d.Guild));
 
-						let channelName = await client.extras.getTemplate(guild!.id);
+						let channelName = await client.extras.getTemplate(guild?.id);
 						channelName = channelName.replace(`{emoji}`, '⏰');
 						channelName = channelName.replace(`{name}`, `${timeNow}`);
 						client.helpers.editChannel(d.Time, {

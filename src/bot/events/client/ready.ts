@@ -101,7 +101,7 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(
-				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()!.heart.rtt!),
+				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
 			);
 		} catch (e) {
 			console.error(e);

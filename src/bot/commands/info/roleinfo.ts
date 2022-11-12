@@ -20,7 +20,7 @@ export default {
 			{
 				title: `ℹ️ Role information`,
 				thumbnail: client.helpers.getGuildIconURL(ctx.guild.id + '', undefined),
-				desc: `Information about the role <&${role.id}>`,
+				desc: `Information about the role <@&${role.id}>`,
 				fields: [
 					{
 						name: 'Role ID:',

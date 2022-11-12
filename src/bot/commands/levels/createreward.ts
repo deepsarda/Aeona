@@ -48,7 +48,7 @@ export default {
 						fields: [
 							{
 								name: '→ Role',
-								value: `<&${role.id}>`,
+								value: `<@&${role.id}>`,
 								inline: true,
 							},
 						],

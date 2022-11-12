@@ -7,6 +7,11 @@ export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
 		try {
+			if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+		} catch (e) {
+			//fix lint error
+		}
+		try {
 			BlackList.findOne({ Guild: message.guildId }, async (err: any, data: any) => {
 				if (data) {
 					const lowerMsg = message.content.toLowerCase();
