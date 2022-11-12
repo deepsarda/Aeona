@@ -232,7 +232,6 @@ const categories: CategoryOptions[] = [
 		default: 'list',
 	},
 ];
-
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);
 }

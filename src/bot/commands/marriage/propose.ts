@@ -22,7 +22,7 @@ export default {
 		if (author.id == target.id)
 			return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'edit' }, ctx);
 
-		Schema.findOne({ Partner: author.id }, async (err: any, data: any) => {
+		Schema.findOne({ Partner: author.id+ '' }, async (err: any, data: any) => {
 			if (data) {
 				client.extras.errNormal(
 					{
@@ -32,7 +32,7 @@ export default {
 					ctx,
 				);
 			} else {
-				Schema.findOne({ Partner: target.id }, async (err: any, data: any) => {
+				Schema.findOne({ Partner: target.id+ '' }, async (err: any, data: any) => {
 					if (data) {
 						client.extras.errNormal(
 							{
@@ -72,7 +72,7 @@ export default {
 													ctx,
 												);
 											} else {
-												Schema.findOne({ User: author.id }, async (err: any, data: { Children: bigint[] }) => {
+												Schema.findOne({ User: author.id+ '' }, async (err: any, data: { Children: bigint[] }) => {
 													if (data) {
 														if (data.Children.includes(target.id)) {
 															client.extras.errNormal(
@@ -129,9 +129,9 @@ export default {
 				.then(async (i) => {
 					console.log(i);
 					if (i.data?.customId == 'propose_accept') {
-						Schema.findOne({ User: author.id }, async (err: any, data: { Partner: bigint; save: () => void }) => {
+						Schema.findOne({ User: author.id+ '' }, async (err: any, data) => {
 							if (data) {
-								data.Partner = target.id;
+								data.Partner = target.id+ '';
 								data.save();
 							} else {
 								new Schema({
@@ -141,9 +141,9 @@ export default {
 							}
 						});
 
-						Schema.findOne({ User: target.id }, async (err: any, data: { Partner: bigint; save: () => void }) => {
+						Schema.findOne({ User: target.id+ '' }, async (err: any, data) => {
 							if (data) {
-								data.Partner = author.id;
+								data.Partner = author.id+ '';
 								data.save();
 							} else {
 								new Schema({

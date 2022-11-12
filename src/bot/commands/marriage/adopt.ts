@@ -89,7 +89,7 @@ export default {
 			ctx,
 		);
 
-		const filter = (bot, i: { user: { id: bigint } }) => i.user.id === target.id;
+		const filter = (bot, i) => i.user.id === target.id;
 		client.amethystUtils
 			.awaitComponent(message.id, {
 				filter: filter,
@@ -97,26 +97,26 @@ export default {
 			})
 			.then(async (i) => {
 				if (i.data?.customId == 'adopt_yes') {
-					Schema.findOne({ User: author.id + '' }, async (err: any, data: { Children: string[]; save: () => void }) => {
+					Schema.findOne({ User: author.id + '' }, async (err: any, data) => {
 						if (data) {
 							data.Children.push(target.id + '');
 							data.save();
 						} else {
 							new Schema({
 								User: author.id + '',
-								Children: target.id,
+								Children: target.id+ '',
 							}).save();
 						}
 					});
 
-					Schema.findOne({ User: target.id }, async (err: any, data: { Parent: string[]; save: () => void }) => {
+					Schema.findOne({ User: target.id+ '' }, async (err: any, data) => {
 						if (data) {
 							data.Parent.push(author.id + '');
 							data.save();
 						} else {
 							new Schema({
 								User: target.id + '',
-								Parent: author.id,
+								Parent: author.id+ '',
 							}).save();
 						}
 					});

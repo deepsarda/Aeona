@@ -48,7 +48,7 @@ export default {
 					}
 
 					if (partner) {
-						partner.Partner = ' ';
+						partner.Partner = '';
 						partner.save();
 					}
 
