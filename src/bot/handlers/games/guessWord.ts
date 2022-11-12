@@ -6,7 +6,7 @@ export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
 		if (!message.member) return;
 		if (!message.member.user) return;
-		if (!message.member.user.toggles.bot) return;
+		if (message.member.user.toggles.bot) return;
 		if (!message.guildId) return;
 		let wordList = client.extras.config.wordList;
 		wordList = wordList.split('\n');
