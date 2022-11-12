@@ -27,7 +27,7 @@ export default async (client: AmethystBot) => {
 	});
 
 	client.on('channelCreate', async (client: AmethystBot, channel: Channel) => {
-		if(!channel.guildId) return;
+		if (!channel.guildId) return;
 		client.emit('updateChannels', channel, client, await client.cache.guilds.get(channel.guildId));
 		client.emit('updateNewsChannels', client, channel, await client.cache.guilds.get(channel.guildId));
 		client.emit('updateStageChannels', client, channel, await client.cache.guilds.get(channel.guildId));
@@ -35,7 +35,7 @@ export default async (client: AmethystBot) => {
 		client.emit('updateVoiceChannels', client, channel, await client.cache.guilds.get(channel.guildId));
 	});
 	client.on('channelDelete', async (client: AmethystBot, channel: Channel) => {
-		if(!channel.guildId) return;
+		if (!channel.guildId) return;
 		client.emit('updateChannels', client, channel, await client.cache.guilds.get(channel.guildId));
 		client.emit('updateNewsChannels', client, channel, await client.cache.guilds.get(channel.guildId));
 		client.emit('updateStageChannels', client, channel, await client.cache.guilds.get(channel.guildId));

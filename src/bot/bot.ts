@@ -22,11 +22,11 @@ const basebot = createBot({
 const cachebot = createProxyCache(basebot, {});
 export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
-	prefix: (bot,message)=>{
-		if(message.mentionedUserIds.includes(bot.applicationId)){
-			return ["+","aeona","<@!"+bot.applicationId+">",""];
+	prefix: (bot, message) => {
+		if (message.mentionedUserIds.includes(bot.applicationId)) {
+			return ['+', 'aeona', '<@!' + bot.applicationId + '>', ''];
 		}
-		return ["+","aeona","<@!"+bot.applicationId+">"];
+		return ['+', 'aeona', '<@!' + bot.applicationId + '>'];
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,
