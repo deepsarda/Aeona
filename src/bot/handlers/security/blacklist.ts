@@ -5,7 +5,7 @@ import BlackList from '../../database/models/blacklist.js';
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		if(!message.content || message.content.length <1)return;
+		if (!message.content || message.content.length < 1) return;
 		try {
 			BlackList.findOne({ Guild: message.guildId }, async (err: any, data: any) => {
 				if (data) {
@@ -33,6 +33,7 @@ export default async (client: AmethystBot) => {
 	});
 
 	client.on('messageUpdateWithOldMessage', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
+		if(!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) {
 			return;
 		}
