@@ -4,6 +4,8 @@ import Schema from '../../database/models/guessNumber.js';
 
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+		if (!message.member) return;
+		if (!message.member.user) return;
 		if (!message.member.user.toggles.bot) return;
 		if (!message.guildId) return;
 		const data = await Schema.findOne({
