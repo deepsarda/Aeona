@@ -18,6 +18,7 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
+
 });
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
@@ -248,6 +249,10 @@ for (let i = 0; i < categories.length; i++) {
 }
 if (process.env.DEVELOPEMENT) {
 	startBot(bot);
+	bot.rest = createRestManager({
+		token: DISCORD_TOKEN,
+		debug: console.log,
+	});
 } else {
 	bot.rest = createRestManager({
 		token: DISCORD_TOKEN,
