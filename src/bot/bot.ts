@@ -20,10 +20,10 @@ const basebot = createBot({
 	intents: INTENTS,
 });
 const cachebot = createProxyCache(basebot, {
-		cacheInMemory:{
-			default:true,
-			messages:false,
-		}
+	cacheInMemory: {
+		default: true,
+		messages: false,
+	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
