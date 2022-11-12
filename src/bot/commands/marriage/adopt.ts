@@ -104,19 +104,19 @@ export default {
 						} else {
 							new Schema({
 								User: author.id + '',
-								Children: target.id+ '',
+								Children: target.id + '',
 							}).save();
 						}
 					});
 
-					Schema.findOne({ User: target.id+ '' }, async (err: any, data) => {
+					Schema.findOne({ User: target.id + '' }, async (err: any, data) => {
 						if (data) {
 							data.Parent.push(author.id + '');
 							data.save();
 						} else {
 							new Schema({
 								User: target.id + '',
-								Parent: author.id+ '',
+								Parent: author.id + '',
 							}).save();
 						}
 					});

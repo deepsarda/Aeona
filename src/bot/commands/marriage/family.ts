@@ -125,12 +125,12 @@ function dataURItoBlob(dataURI) {
 }
 
 async function getFamily(userId: BigString, client: AmethystBot) {
-	console.log("User Id: " + userId)
+	console.log('User Id: ' + userId);
 	const data = await Schema.findOne({
 		User: userId + '',
 	});
-	console.log('Data:')
-	console.log(data)
+	console.log('Data:');
+	console.log(data);
 	if (!data) return;
 
 	const user = await client.helpers.getUser(userId);
@@ -138,7 +138,7 @@ async function getFamily(userId: BigString, client: AmethystBot) {
 	const children = [];
 	if (data.Children)
 		for (let i = 0; i < data.Children.length; i++) {
-			console.log("family: "+await getFamily(data.Children[i], client))
+			console.log('family: ' + (await getFamily(data.Children[i], client)));
 			children.push(await getFamily(data.Children[i], client));
 		}
 
