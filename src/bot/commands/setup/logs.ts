@@ -25,8 +25,8 @@ export default {
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		const choice = ctx.options.getString('setup',true);
-		const channel = await ctx.options.getChannel('channel',true);
+		const choice = ctx.options.getString('setup', true);
+		const channel = await ctx.options.getChannel('channel', true);
 		if (!['serverlogs', 'levellogs', 'boostlogs'].includes(choice))
 			return client.extras.errUsage({ usage: 'autosetup log serverlogs/levellogs/boostlogs', type: 'edit' }, ctx);
 		if (choice == 'serverLogs') {
