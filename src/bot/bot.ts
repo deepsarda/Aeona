@@ -230,10 +230,6 @@ for (let i = 0; i < categories.length; i++) {
 }
 if (process.env.DEVELOPEMENT) {
 	startBot(bot);
-	bot.rest = createRestManager({
-		token: DISCORD_TOKEN,
-		debug: console.log,
-	});
 } else {
 	bot.rest = createRestManager({
 		token: DISCORD_TOKEN,
