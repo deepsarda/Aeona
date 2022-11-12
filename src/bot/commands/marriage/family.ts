@@ -133,7 +133,7 @@ async function getFamily(userId: BigString, client: AmethystBot) {
 	console.log(data);
 	if (!data) return;
 
-	const user = await client.helpers.getUser(userId);
+	const user = await client.cache.users.get(userId);
 
 	const children = [];
 	if (data.Children)

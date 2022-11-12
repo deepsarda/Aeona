@@ -29,9 +29,9 @@ export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: (bot, message) => {
 		if (message.mentionedUserIds.includes(bot.applicationId)) {
-			return ['+', 'aeona', '<@!' + bot.applicationId + '>', ''];
+			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
 		}
-		return ['+', 'aeona', '<@!' + bot.applicationId + '>'];
+		return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>'];
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,

@@ -14,7 +14,7 @@ export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
 	try {
-		if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+		if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
 	} catch (e) {
 		//fix lint error
 	}

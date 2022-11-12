@@ -5,7 +5,7 @@ import Schema from '../../database/models/guessWord.js';
 export default async (client: AmethystBot) => {
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
 		try {
-			if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
 		} catch (e) {
 			//fix lint error
 		}
