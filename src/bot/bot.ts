@@ -23,8 +23,9 @@ const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
 	},
+
 	fetchIfMissing: {
-		guilds: true,
+		guilds: false,
 		users: true,
 		roles: true,
 		channels: true,
@@ -32,11 +33,9 @@ const cachebot = createProxyCache(basebot, {
 		messages: true,
 	},
 	desiredProps: {
-		guilds: ['id', 'name', 'roles', 'channels', 'memberCount'],
+		guilds: ['id', 'name', 'roles', 'channels', 'memberCount', 'ownerId'],
 		roles: ['id', 'name', 'permissions', 'guildId', 'color'],
 		channels: ['id', 'name', 'type', 'guildId'],
-		users: ['id', 'username', 'discriminator', 'flags', 'avatar', 'toggles'],
-		members: ['id', 'roles', 'nick', 'guildId', 'user'],
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
@@ -228,6 +227,18 @@ const categories: CategoryOptions[] = [
 	{
 		name: 'suggestions',
 		description: 'Create/Deny/Accept suggestions',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'thanks',
+		description: 'Thank users for their help',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'tickets',
+		description: 'Various ticket commands',
 		uniqueCommands: true,
 		default: 'list',
 	},

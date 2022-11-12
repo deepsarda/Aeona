@@ -3,6 +3,8 @@ import Canvacord from 'canvacord';
 import Functions from '../../database/models/functions.js';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { Blob } from 'buffer';
+
 export default {
 	name: 'rank',
 	description: 'See your rank.',
@@ -43,7 +45,16 @@ export default {
 				.setRank(user.position);
 
 			rankCard.build({}).then((data) => {
-				ctx.editReply({ files: [{ name: 'image.png', blob: data }] });
+				ctx.editReply({
+					files: [
+						{
+							name: 'image.png',
+							blob: new Blob([data], {
+								type: 'image/png',
+							}),
+						},
+					],
+				});
 			});
 		} else {
 			client.extras.errNormal(

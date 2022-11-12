@@ -6,17 +6,28 @@ import { InteractionTypes } from 'discordeno/types';
 import Captcha from '@haileybot/captcha-generator';
 import reactionSchema from '../../database/models/reactionRoles.js';
 import verify from '../../database/models/verify.js';
-/*
-import claim from "../../futurecommands/todo/tickets/claim";
-import close from "../../futurecommands/todo/tickets/close";
-import openticket from "../../futurecommands/todo/tickets/create";
-import deleteTicket from "../../futurecommands/todo/tickets/delete";
-import notice from "../../futurecommands/todo/tickets/notice";
-import transcript from "../../futurecommands/todo/tickets/transcript";
-*/
+
+import claim from '../../commands/tickets/claim.js';
+import close from '../../commands/tickets/close.js';
+import openticket from '../../commands/tickets/createticket.js';
+import deleteTicket from '../../commands/tickets/deleteticket.js';
+import notice from '../../commands/tickets/notice.js';
+import transcript from '../../commands/tickets/transcript.js';
+
+import { Blob } from 'buffer';
+function dataURItoBlob(dataURI) {
+	const byteString = atob(dataURI.split(',')[1]);
+	const ab = new ArrayBuffer(byteString.length);
+	const ia = new Uint8Array(ab);
+	for (let i = 0; i < byteString.length; i++) {
+		ia[i] = byteString.charCodeAt(i);
+	}
+	//@ts-ignore
+	return new Blob([ab], { type: 'image/jpeg' });
+}
 export default async (client: AmethystBot, interaction: Interaction) => {
 	// Commands
-
+	console.log('READY!');
 	// Verify system
 	if (interaction.type == InteractionTypes.MessageComponent && interaction.data?.customId == 'verify') {
 		const data = await verify.findOne({
@@ -82,7 +93,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 				.reply({
 					files: [
 						{
-							blob: captcha.JPEGStream,
+							blob: dataURItoBlob(captcha.dataURL),
 							name: 'captcha.jpeg',
 						},
 					],
@@ -187,105 +198,104 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			);
 		}
 	}
-	/*
-    // Tickets
-    if (interaction.data?.customId == "openticket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
 
-      openticket.execute(client, ctx);
-    }
+	// Tickets
+	if (interaction.data?.customId == 'openticket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
 
-    if (interaction.data?.customId == "closeticket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
+		openticket.execute(client, ctx);
+	}
 
-      close.execute(client, ctx);
-    }
+	if (interaction.data?.customId == 'closeticket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
 
-    if (interaction.data?.customId == "claimTicket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
-      claim.execute(client, ctx);
-    }
+		close.execute(client, ctx);
+	}
 
-    if (interaction.data?.customId == "transcriptTicket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
+	if (interaction.data?.customId == 'claimTicket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
+		claim.execute(client, ctx);
+	}
 
-      transcript.execute(client, ctx);
-    }
+	if (interaction.data?.customId == 'transcriptTicket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
 
-    if (interaction.data?.customId == "deleteTicket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
-      deleteTicket.execute(client, ctx);
-    }
+		transcript.execute(client, ctx);
+	}
 
-    if (interaction.data?.customId == "noticeTicket") {
-      const ctx = await createContext(
-        {
-          interaction: {
-            ...interaction,
-            data: interaction.data?.options?.[0],
-          },
-        },
-        createOptionResults(client, [], {
-          interaction: interaction,
-        }),
-        client
-      );
-      notice.execute(client, ctx);
-    }
-    */
+	if (interaction.data?.customId == 'deleteTicket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
+		deleteTicket.execute(client, ctx);
+	}
+
+	if (interaction.data?.customId == 'noticeTicket') {
+		const ctx = await createContext(
+			{
+				interaction: {
+					...interaction,
+					data: interaction.data?.options?.[0],
+				},
+			},
+			createOptionResults(client, [], {
+				interaction: interaction,
+			}),
+			client,
+		);
+		notice.execute(client, ctx);
+	}
 };

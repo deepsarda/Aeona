@@ -2,7 +2,6 @@ import Schema from '../../database/models/family.js';
 import { Canvas, loadImage } from 'canvas';
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import { BigString } from 'discordeno/types';
-import { Blob } from 'buffer';
 
 export default {
 	name: 'family',
@@ -113,6 +112,7 @@ export default {
 		});
 	},
 };
+import { Blob } from 'buffer';
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
 	const ab = new ArrayBuffer(byteString.length);

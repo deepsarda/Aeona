@@ -28,7 +28,7 @@
 		".env",
 		"src/bot/commands/stickymessages",
 		"futurecommands/todo/tools",
-		"futurecommands/todo/thanks"
+		"src/bot/commands/thanks"
 	],
 	"ts-node": {
 		"esm": true,

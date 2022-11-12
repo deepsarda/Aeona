@@ -7,7 +7,7 @@ import {
 	type GenerateFromMessagesOptions,
 	type ObjectType,
 } from './types.js';
-
+import { Blob } from 'buffer';
 /**
  *
  * @param messages The messages to generate a transcript from
@@ -59,7 +59,9 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
 	}
 
 	return {
-		blob: Buffer.from(html),
+		blob: new Blob([Buffer.from(html)], {
+			type: 'text/html',
+		}),
 		name: options.filename ?? `transcript-${channel.id}.html`,
 	} as unknown as ObjectType<T>;
 }

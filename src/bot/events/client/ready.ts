@@ -7,6 +7,7 @@ import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
 
 export default async (client: AmethystBot) => {
+	client.user = await client.helpers.getUser(client.applicationId);
 	const INFLUX_ORG = process.env.INFLUX_ORG as string;
 	const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 	const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
@@ -148,7 +149,7 @@ export default async (client: AmethystBot) => {
 			if (client.cache.members.memory.size > 100) return true;
 			return false;
 		},
-		interval: 300000,
+		interval: 1000 * 60 * 2,
 	});
 
 	client.cache.messages.memory.startSweeper({
@@ -157,9 +158,9 @@ export default async (client: AmethystBot) => {
 			if (!message.guildId) return true;
 
 			// Only delete messages older than 10 minutes
-			return Date.now() - message.timestamp > 600000;
+			return Date.now() - message.timestamp > 1000 * 60 * 2;
 		},
-		interval: 300000,
+		interval: 1000 * 60 * 2,
 	});
 };
 
