@@ -27,7 +27,7 @@ export default {
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
-		console.log("Hmmm")
+		console.log('Hmmm');
 		const choice = ctx.options.getString('setup', true);
 		if (!['birthdays', 'chatbot', 'reviews', 'suggestions', 'starboard'].includes(choice))
 			return client.extras.errUsage(

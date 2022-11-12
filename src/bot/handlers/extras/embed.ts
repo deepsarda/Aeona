@@ -398,7 +398,7 @@ export default (client: AmethystBot) => {
 	};
 	client.extras.sendEmbed = async function (
 		{ embeds: embeds, content: content, components: components, type: type }: any,
-		ctx: Context |{ id:bigint},
+		ctx: Context | { id: bigint },
 	) {
 		if (ctx instanceof Context) {
 			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {

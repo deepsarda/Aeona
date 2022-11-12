@@ -39,9 +39,9 @@ export default {
 					ctx,
 				);
 			const a = Object.keys(data.Roles);
-			
+
 			const mapped = [];
-			for (let i =0; i < a.length; i++) {
+			for (let i = 0; i < a.length; i++) {
 				const b = a[i];
 				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
 				mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
