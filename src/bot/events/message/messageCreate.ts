@@ -13,7 +13,9 @@ import Schema from '../../database/models/stickymessages.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
-	if ((await client.helpers.getUser(message.authorId)).toggles.bot) return;
+	if (!message.member) return;
+	if (!message.member.user) return;
+	if (!message.member.user.toggles.bot) return;
 
 	// Levels
 	Functions.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
