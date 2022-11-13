@@ -71,7 +71,10 @@ app.all('*', async (req, res): Promise<any> => {
 					cache.delete(req.url.split('?')[0]);
 				}, 1000);
 				res.status(200).send(result);
-			} else res.status(204).send(undefined);
+			} else {
+				cache.delete(req.url.split('?')[0]);
+				res.status(204).send(undefined);
+			}
 		} else {
 			console.log(req.method, `/api${req.url.split('?')[0]}`);
 			let result;
