@@ -79,6 +79,12 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(point);
+			console.log('Rest Queue Lenght: ' + client.rest.globalQueue.length);
+			Influx.writePoint(
+				new Point('rest') //
+					.tag('action', 'sync')
+					.floatField('length', client.rest.globalQueue.length),
+			);
 
 			const usage = process.memoryUsage();
 			Influx.writePoint(
@@ -132,13 +138,12 @@ export default async (client: AmethystBot) => {
 						client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
 					),
 				);
+				Influx.writePoint(
+					new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
+				);
 			} catch (e) {
 				console.error(e);
 			}
-
-			Influx.writePoint(
-				new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
-			);
 		} catch (e) {
 			console.error(e);
 		}
