@@ -106,8 +106,6 @@ app.listen(EVENT_HANDLER_PORT, () => {
 	console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
 });
 
-
-
 import { bot } from './bot.js';
 import { HTTPResponseCodes } from 'discordeno/types';
 import { AmethystCollection } from '@thereallonewolf/amethystframework';
