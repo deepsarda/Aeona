@@ -191,7 +191,7 @@ export default async (client: AmethystBot) => {
 			if (member.id === client.id) return false;
 
 			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.roles.memory.size > 100) return true;
+			if (client.cache.users.memory.size > 100) return true;
 			return false;
 		},
 		interval: 1000 * 60 * 2,
