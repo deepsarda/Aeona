@@ -18,7 +18,9 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 	fetch(url, options)
 		.then((res) => res.text())
 		.then(async (json) => {
-			Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', "chatbot").intField('value', 1));
+			Influx?.writePoint(
+				new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
+			);
 			await bot.helpers.sendMessage(message.channelId, {
 				content: json,
 				messageReference: {
