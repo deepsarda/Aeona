@@ -10,8 +10,6 @@ import { DiscordRESTError } from './rest/errors/DiscordRESTError.js';
 import fs from 'fs';
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
-
-const cache = new AmethystCollection<string, any>();
 const app = express();
 
 app.use(bodyParser.json());
@@ -34,8 +32,9 @@ app.all('*', async (req, res): Promise<any> => {
 		if (cache.has(req.url.split('?')[0])) return cache.get(req.url.split('?')[0]);
 		// TODO: Remove this
 		console.log(req.method, `/api${req.url.split('?')[0]}`);
-
-		const result = await reqHandler.request(
+		let result;
+		while(!result){
+			result= await reqHandler.request(
 			req.method,
 			`/api${req.url.split('?')[0]}`,
 			req.body,
@@ -43,10 +42,11 @@ app.all('*', async (req, res): Promise<any> => {
 				? req?.body?.file?.map((f: any) => ({ file: Buffer.from(f.blob.split('base64')[1], 'base64'), name: f.name }))
 				: undefined,
 		);
-		if (result) {
+		 }
+		
 			cache.set(req.url.split('?')[0], result);
 			res.status(200).send(result);
-		} else res.status(204).send(undefined);
+		
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
 			const errorTexts = {
@@ -88,10 +88,7 @@ app.all('*', async (req, res): Promise<any> => {
 app.listen(EVENT_HANDLER_PORT, () => {
 	console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
 });
-setInterval(() => {
-	console.log(`Clearing cache...`);
-	cache.clear();
-}, 10000);
+
 import { bot } from './bot.js';
 import { HTTPResponseCodes } from 'discordeno/types';
 import { AmethystCollection } from '@thereallonewolf/amethystframework';
