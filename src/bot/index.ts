@@ -11,7 +11,7 @@ import fs from 'fs';
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
 
-const cache = new AmethystCollection<string, any>();
+export const cache = new AmethystCollection<string, any>();
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const app = express();
 
@@ -32,38 +32,61 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		if (cache.get(req.url.split('?')[0])) return cache.get(req.url.split('?')[0]);
+		if (req.method.toLowerCase() == 'get') {
+			if (cache.get(req.url.split('?')[0])) return cache.get(req.url.split('?')[0]);
 
-		if (cache.has(req.url.split('?')[0])) {
-			// eslint-disable-next-line no-constant-condition
-			while (true) {
-				await sleep(100);
-				const result = cache.get(req.url.split('?')[0]);
-				if (result) return result;
+			if (cache.has(req.url.split('?')[0])) {
+				// eslint-disable-next-line no-constant-condition
+				while (true) {
+					await sleep(100);
+					const result = cache.get(req.url.split('?')[0]);
+					if (result) return result;
+				}
 			}
-		}
 
-		cache.set(req.url.split('?')[0], undefined);
+			cache.set(req.url.split('?')[0], undefined);
 
-		// TODO: Remove this
-		console.log(req.method, `/api${req.url.split('?')[0]}`);
-		let result;
-		while (!result) {
-			result = await reqHandler.request(
-				req.method,
-				`/api${req.url.split('?')[0]}`,
-				req.body,
-				req.body?.file
-					? req?.body?.file?.map((f: any) => ({ file: Buffer.from(f.blob.split('base64')[1], 'base64'), name: f.name }))
-					: undefined,
-			);
+			// TODO: Remove this
+			console.log(req.method, `/api${req.url.split('?')[0]}`);
+			let result;
+			while (!result) {
+				result = await reqHandler.request(
+					req.method,
+					`/api${req.url.split('?')[0]}`,
+					req.body,
+					req.body?.file
+						? req?.body?.file?.map((f: any) => ({
+								file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+								name: f.name,
+						  }))
+						: undefined,
+				);
+			}
+			console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
+			cache.set(req.url.split('?')[0], result);
+			setInterval(() => {
+				cache.delete(req.url.split('?')[0]);
+			}, 1000);
+			res.status(200).send(result);
+		} else {
+			console.log(req.method, `/api${req.url.split('?')[0]}`);
+			let result;
+			while (!result) {
+				result = await reqHandler.request(
+					req.method,
+					`/api${req.url.split('?')[0]}`,
+					req.body,
+					req.body?.file
+						? req?.body?.file?.map((f: any) => ({
+								file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+								name: f.name,
+						  }))
+						: undefined,
+				);
+			}
+			console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
+			res.status(200).send(result);
 		}
-		console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
-		cache.set(req.url.split('?')[0], result);
-		setInterval(() => {
-			cache.delete(req.url.split('?')[0]);
-		}, 1000);
-		res.status(200).send(result);
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
 			const errorTexts = {
