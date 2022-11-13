@@ -17,7 +17,7 @@ export default {
 	],
 	aliases: ['thank'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const target = await ctx.options.getUser('user');
 		if (!target) return client.extras.errUsage({ usage: 'thanks [mention user]', type: 'editreply' }, ctx);
 

@@ -8,7 +8,7 @@ export default {
 	category: 'levels',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const rawLeaderboard = await Schema.find({ guildID: ctx.guildId })
 			.sort([['xp', 'descending']])
 			.exec();

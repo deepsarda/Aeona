@@ -9,7 +9,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const reactions = await Schema.find({ Guild: ctx.guildId });
 		if (!reactions)
 			return client.extras.errNormal(

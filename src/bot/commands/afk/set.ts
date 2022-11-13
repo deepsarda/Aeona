@@ -15,7 +15,7 @@ export default {
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const reason = ctx.options.getString('reason') || `Not specified`;
 		console.log('Hmmm...');
 		Schema.findOne({ Guild: ctx.guildId, User: ctx.user.id }, async (err, data) => {
@@ -28,7 +28,7 @@ export default {
 					ctx,
 				);
 			} else {
-				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 				new Schema({
 					Guild: ctx.guildId,

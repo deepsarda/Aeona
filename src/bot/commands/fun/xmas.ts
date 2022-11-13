@@ -6,7 +6,7 @@ export default {
 	category: 'fun',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const today = new Date();
 		const xmas = new Date(today.getFullYear(), 11, 24);
 		if (today.getMonth() == 11 && today.getDate() > 24) {

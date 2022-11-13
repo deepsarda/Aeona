@@ -10,7 +10,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const members = await client.helpers.getMembers(ctx.guild.id, {});
 
 		let channelName = await client.extras.getTemplate(ctx.guild.id);
