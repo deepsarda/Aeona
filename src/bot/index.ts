@@ -29,7 +29,7 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		if (cache.has(req.url.split('?')[0])) return cache.get(req.url.split('?')[0]);
+		
 		// TODO: Remove this
 		console.log(req.method, `/api${req.url.split('?')[0]}`);
 		let result;
@@ -44,7 +44,6 @@ app.all('*', async (req, res): Promise<any> => {
 			);
 		}
 
-		cache.set(req.url.split('?')[0], result);
 		res.status(200).send(result);
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
@@ -90,5 +89,4 @@ app.listen(EVENT_HANDLER_PORT, () => {
 
 import { bot } from './bot.js';
 import { HTTPResponseCodes } from 'discordeno/types';
-import { AmethystCollection } from '@thereallonewolf/amethystframework';
 console.log(bot.applicationId);
