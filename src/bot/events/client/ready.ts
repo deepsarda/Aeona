@@ -88,6 +88,42 @@ export default async (client: AmethystBot) => {
 					.floatField('used', usage.heapUsed),
 			);
 
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'guilds')
+					.intField('total', client.cache.guilds.memory.size),
+			);
+
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'channels')
+					.intField('total', client.cache.channels.memory.size),
+			);
+
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'users')
+					.intField('total', client.cache.users.memory.size),
+			);
+
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'members')
+					.intField('total', client.cache.members.memory.size),
+			);
+
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'messages')
+					.intField('total', client.cache.messages.memory.size),
+			);
+
+			Influx.writePoint(
+				new Point('cache') //
+					.tag('type', 'roles')
+					.intField('total', client.cache.roles.memory.size),
+			);
+
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
 			try {
 				Influx.writePoint(
@@ -141,6 +177,41 @@ export default async (client: AmethystBot) => {
 		}
 	}, 1000 * 60 * 10);
 
+	client.cache.roles.memory.startSweeper({
+		filter: function memberSweeper(member, _, bot: AmethystBot) {
+			// Don't sweep the bot else strange things will happen
+			if (member.id === bot.id) return false;
+
+			// Only sweep members who were not active the last 30 minutes
+			if (client.cache.roles.memory.size > 100) return true;
+			return false;
+		},
+		interval: 1000 * 60 * 2,
+	});
+	client.cache.users.memory.startSweeper({
+		filter: function memberSweeper(member, _, bot: AmethystBot) {
+			// Don't sweep the bot else strange things will happen
+			if (member.id === bot.id) return false;
+
+			// Only sweep members who were not active the last 30 minutes
+			if (client.cache.roles.memory.size > 100) return true;
+			return false;
+		},
+		interval: 1000 * 60 * 2,
+	});
+
+	client.cache.channels.memory.startSweeper({
+		filter: function memberSweeper(member, _, bot: AmethystBot) {
+			// Don't sweep the bot else strange things will happen
+			if (member.id === bot.id) return false;
+
+			// Only sweep members who were not active the last 30 minutes
+			if (client.cache.channels.memory.size > 100) return true;
+			return false;
+		},
+		interval: 1000 * 60 * 2,
+	});
+
 	client.cache.members.memory.startSweeper({
 		filter: function memberSweeper(member, _, bot: AmethystBot) {
 			// Don't sweep the bot else strange things will happen
@@ -158,7 +229,7 @@ export default async (client: AmethystBot) => {
 			// DM messages aren't needed
 			if (!message.guildId) return true;
 
-			// Only delete messages older than 10 minutes
+			// Only delete messages older than 2 minutes
 			return Date.now() - message.timestamp > 1000 * 60 * 2;
 		},
 		interval: 1000 * 60 * 2,

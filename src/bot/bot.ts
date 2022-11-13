@@ -24,6 +24,14 @@ const cachebot = createProxyCache(basebot, {
 		default: true,
 		messages: false,
 	},
+	fetchIfMissing: {
+		channels: true,
+		guilds: true,
+		members: true,
+		messages: true,
+		roles: true,
+		users: true,
+	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],

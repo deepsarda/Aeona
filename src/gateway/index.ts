@@ -45,7 +45,9 @@ async function start() {
 		shardsPerWorker: SHARDS_PER_WORKER,
 		totalWorkers: TOTAL_WORKERS,
 
-		handleDiscordPayload: () => {},
+		handleDiscordPayload: () => {
+			//
+		},
 
 		tellWorkerToIdentify: async (_gateway, workerId, shardId, _bucketId) => {
 			log.info('TELL TO IDENTIFY', { workerId, shardId, _bucketId });
