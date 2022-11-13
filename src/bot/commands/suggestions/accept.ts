@@ -41,7 +41,7 @@ export default {
 			);
 
 			try {
-				const user = await client.cache.users.get(
+				const user = await client.helpers.getUser(
 					BigInt(
 						embedData.author.name.substring(
 							embedData.author.name.lastIndexOf('(') + 1,

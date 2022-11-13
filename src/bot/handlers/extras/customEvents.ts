@@ -13,11 +13,8 @@ export default async (client: AmethystBot) => {
 		}
 	};
 	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		try {
-			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-		} catch (e) {
-			//fix lint error
-		}
+		if (message.isFromBot) return;
+
 		client.emit('messageCreateNoBots', bot, message);
 	});
 	client.on('guildMemberUpdateWithOldMember', (client: AmethystBot, oldMember: Member, newMember: Member) => {

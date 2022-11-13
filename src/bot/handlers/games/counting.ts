@@ -86,9 +86,9 @@ export default async (client: AmethystBot) => {
 					client.extras.simpleMessageEmbed(
 						{
 							desc: `**${
-								(await bot.cache.users.get(message.authorId))?.username +
+								(await bot.helpers.getUser(message.authorId))?.username +
 								'#' +
-								(await bot.cache.users.get(message.authorId))?.discriminator
+								(await bot.helpers.getUser(message.authorId))?.discriminator
 							}**: ${message.content}`,
 						},
 						message,

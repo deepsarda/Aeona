@@ -8,7 +8,7 @@ import fetch from 'node-fetch';
 import { cache } from '../../index.js';
 export default async (client: AmethystBot) => {
 	console.log('ready');
-	client.user = await client.cache.users.get(client.applicationId);
+	client.user = await client.helpers.getUser(client.applicationId);
 	const INFLUX_ORG = process.env.INFLUX_ORG as string;
 	const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 	const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
