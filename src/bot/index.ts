@@ -60,6 +60,9 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 		console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
 		cache.set(req.url.split('?')[0], result);
+		setInterval(() => {
+			cache.delete(req.url.split('?')[0]);
+		}, 1000);
 		res.status(200).send(result);
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
@@ -102,10 +105,9 @@ app.all('*', async (req, res): Promise<any> => {
 app.listen(EVENT_HANDLER_PORT, () => {
 	console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
 });
-setInterval(() => {
-	console.log(`Clearing cache... ${cache.size}`);
-	cache.clear();
-}, 10000);
+
+
+
 import { bot } from './bot.js';
 import { HTTPResponseCodes } from 'discordeno/types';
 import { AmethystCollection } from '@thereallonewolf/amethystframework';

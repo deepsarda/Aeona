@@ -238,14 +238,13 @@ const categories: CategoryOptions[] = [
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);
 }
-setTimeout(() => {
-	bot.rest = createRestManager({
-		token: DISCORD_TOKEN,
-		secretKey: REST_AUTHORIZATION,
-		customUrl: EVENT_HANDLER_URL,
-	});
-	startBot(bot);
 
-	// Add send fetching analytics hook to rest
-	setupAnalyticsHooks(bot.rest);
-}, 10000);
+bot.rest = createRestManager({
+	token: DISCORD_TOKEN,
+	secretKey: REST_AUTHORIZATION,
+	customUrl: EVENT_HANDLER_URL,
+});
+startBot(bot);
+
+// Add send fetching analytics hook to rest
+setupAnalyticsHooks(bot.rest);
