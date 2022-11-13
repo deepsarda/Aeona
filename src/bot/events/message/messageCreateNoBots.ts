@@ -15,12 +15,6 @@ import { Influx } from '../client/commandStart.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
-	try {
-		if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-	} catch (e) {
-		//fix lint error
-	}
-
 	// Levels
 	Functions.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
 		if (data) {
