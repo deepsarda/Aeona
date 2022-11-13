@@ -49,7 +49,7 @@ app.all('*', async (req, res): Promise<any> => {
 			// TODO: Remove this
 			console.log(req.method, `/api${req.url.split('?')[0]}`);
 			let result;
-			while (!result) {
+			for (let i = 0; i < 10; i++) {
 				result = await reqHandler.request(
 					req.method,
 					`/api${req.url.split('?')[0]}`,
@@ -61,13 +61,17 @@ app.all('*', async (req, res): Promise<any> => {
 						  }))
 						: undefined,
 				);
+				if (result) break;
+				await sleep(100);
 			}
-			console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
-			cache.set(req.url.split('?')[0], result);
-			setInterval(() => {
-				cache.delete(req.url.split('?')[0]);
-			}, 1000);
-			res.status(200).send(result);
+			if (result) {
+				console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
+				cache.set(req.url.split('?')[0], result);
+				setInterval(() => {
+					cache.delete(req.url.split('?')[0]);
+				}, 1000);
+				res.status(200).send(result);
+			} else res.status(204).send(undefined);
 		} else {
 			console.log(req.method, `/api${req.url.split('?')[0]}`);
 			let result;
