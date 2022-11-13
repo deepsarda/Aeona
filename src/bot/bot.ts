@@ -26,7 +26,7 @@ const cachebot = createProxyCache(basebot, {
 		members: true,
 		messages: true,
 		roles: true,
-		users: false,
+		users: true,
 	},
 	cacheInMemory: {
 		default: true,
