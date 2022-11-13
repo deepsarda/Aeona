@@ -29,7 +29,7 @@ const cachebot = createProxyCache(basebot, {
 		users: false,
 	},
 	cacheInMemory: {
-		default: false,
+		default: true,
 		guilds: true,
 	},
 });
