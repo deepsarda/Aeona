@@ -33,20 +33,19 @@ app.all('*', async (req, res): Promise<any> => {
 		// TODO: Remove this
 		console.log(req.method, `/api${req.url.split('?')[0]}`);
 		let result;
-		while(!result){
-			result= await reqHandler.request(
-			req.method,
-			`/api${req.url.split('?')[0]}`,
-			req.body,
-			req.body?.file
-				? req?.body?.file?.map((f: any) => ({ file: Buffer.from(f.blob.split('base64')[1], 'base64'), name: f.name }))
-				: undefined,
-		);
-		 }
-		
-			cache.set(req.url.split('?')[0], result);
-			res.status(200).send(result);
-		
+		while (!result) {
+			result = await reqHandler.request(
+				req.method,
+				`/api${req.url.split('?')[0]}`,
+				req.body,
+				req.body?.file
+					? req?.body?.file?.map((f: any) => ({ file: Buffer.from(f.blob.split('base64')[1], 'base64'), name: f.name }))
+					: undefined,
+			);
+		}
+
+		cache.set(req.url.split('?')[0], result);
+		res.status(200).send(result);
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
 			const errorTexts = {
