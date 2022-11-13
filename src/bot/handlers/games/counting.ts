@@ -4,14 +4,8 @@ import count from '../../database/models/count.js';
 import countSchema from '../../database/models/countChannel.js';
 
 export default async (client: AmethystBot) => {
-	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
 		if (!message.guildId) return;
-		try {
-			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-		} catch (e) {
-			//fix lint error
-		}
-
 		if (!message.content || message.type == MessageTypes.ChannelPinnedMessage) return;
 		const data = await countSchema.findOne({
 			Guild: message.guildId,

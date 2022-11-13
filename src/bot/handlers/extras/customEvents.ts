@@ -1,5 +1,5 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import { Channel, ChannelTypes, Guild, Member, Role } from 'discordeno';
+import { Channel, ChannelTypes, Guild, Member, Message, Role } from 'discordeno';
 import Schema from '../../database/models/logChannels.js';
 
 export default async (client: AmethystBot) => {
@@ -12,7 +12,14 @@ export default async (client: AmethystBot) => {
 			return false;
 		}
 	};
-
+	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+		try {
+			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
+		} catch (e) {
+			//fix lint error
+		}
+		client.emit('messageCreateNoBots', bot, message);
+	});
 	client.on('guildMemberUpdateWithOldMember', (client: AmethystBot, oldMember: Member, newMember: Member) => {
 		if (!oldMember.premiumSince && newMember.premiumSince) {
 			client.emit('guildMemberBoost', client, newMember);

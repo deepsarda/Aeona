@@ -3,12 +3,7 @@ import { Message } from 'discordeno';
 import Schema from '../../database/models/guessNumber.js';
 
 export default async (client: AmethystBot) => {
-	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
-		try {
-			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-		} catch (e) {
-			//fix lint error
-		}
+	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
 		if (!message.guildId) return;
 		const data = await Schema.findOne({
 			Guild: message.guildId,

@@ -8,14 +8,8 @@ const TIME = 10000;
 const DIFF = 3000;
 
 export default async (client: AmethystBot) => {
-	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
-		try {
-			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-		} catch (e) {
-			//fix lint error
-		}
-
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiSpam: boolean }) => {
 			if (data) {
 				if (data.AntiSpam == true) {

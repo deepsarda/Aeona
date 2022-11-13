@@ -4,13 +4,9 @@ import blacklistedWords from '../../Collection/index.js';
 import BlackList from '../../database/models/blacklist.js';
 
 export default async (client: AmethystBot) => {
-	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
-		try {
-			if ((await client.cache.users.get(message.authorId)).toggles.bot) return;
-		} catch (e) {
-			//fix lint error
-		}
+
 		try {
 			BlackList.findOne({ Guild: message.guildId }, async (err: any, data: any) => {
 				if (data) {
