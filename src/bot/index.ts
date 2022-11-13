@@ -29,7 +29,7 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		
+
 		// TODO: Remove this
 		console.log(req.method, `/api${req.url.split('?')[0]}`);
 		let result;
