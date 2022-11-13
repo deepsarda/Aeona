@@ -16,7 +16,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const level = ctx.options.getNumber('level', true);
 
 		Schema.findOne({ Guild: ctx.guildId, Level: level }, async (err: any, data: any) => {

@@ -9,7 +9,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		ticketSchema.findOne({ Guild: ctx.guildId }, async (err, ticketData) => {
 			if (ticketData) {
 				const channel = await client.helpers.getChannel(ticketData.Channel);

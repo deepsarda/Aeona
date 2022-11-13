@@ -14,7 +14,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_EMOJIS'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 
 		const rawEmoji = ctx.options.getString('emoji', true);
 		const parsedEmoji = parseEmoji(rawEmoji);

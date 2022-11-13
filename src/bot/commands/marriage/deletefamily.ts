@@ -8,7 +8,7 @@ export default {
 	category: 'marriage',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const row = new Components()
 			.addButton('Yes', 'Success', 'family_delete', { emoji: '✅' })
 			.addButton('No', 'Danger', 'family_stop', { emoji: '❌' });

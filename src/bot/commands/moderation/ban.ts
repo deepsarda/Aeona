@@ -21,7 +21,7 @@ export default {
 	],
 	userGuildPermissions: ['BAN_MEMBERS'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
 
 		const reason = ctx.options.getString('reason') || 'Not given';

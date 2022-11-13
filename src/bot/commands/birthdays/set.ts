@@ -21,7 +21,7 @@ export default {
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const months = {
 			1: 'January',
 			2: 'February',
@@ -63,7 +63,7 @@ export default {
 		const birthdayString = `${convertedDay} of ${convertedMonth}`;
 
 		Schema.findOne({ Guild: ctx.guildId, User: ctx.user.id }, async (err, data) => {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return;
+			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 
 			if (data) {
 				data.Birthday = birthdayString;

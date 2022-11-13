@@ -34,7 +34,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const category = await ctx.options.getChannel('category', true);
 		const role = await ctx.options.getRole('role', true);
 		const channel = await ctx.options.getChannel('channel', true);

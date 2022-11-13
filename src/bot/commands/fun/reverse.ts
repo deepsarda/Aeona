@@ -13,7 +13,7 @@ export default {
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const text = ctx.options.getString('text', true);
 		if (!text) return;
 		client.extras.succNormal(

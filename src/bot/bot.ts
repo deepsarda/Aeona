@@ -20,10 +20,6 @@ const basebot = createBot({
 	intents: INTENTS,
 });
 const cachebot = createProxyCache(basebot, {
-	cacheInMemory: {
-		default: true,
-		messages: false,
-	},
 	fetchIfMissing: {
 		channels: true,
 		guilds: true,

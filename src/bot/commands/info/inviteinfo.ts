@@ -15,7 +15,7 @@ export default {
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const invite = ctx.options.getString('invite', true);
 
 		if (!invite) return;

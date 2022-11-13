@@ -8,7 +8,7 @@ export default {
 	category: 'invites',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const rawLeaderboard = await Schema.find({
 			Guild: ctx.guildId,
 		}).sort([['Invites', 'descending']]);

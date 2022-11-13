@@ -10,7 +10,7 @@ export default {
 	category: 'tickets',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const data = await ticketSchema.findOne({ Guild: ctx.guildId });
 		const ticketData = await ticketChannels.findOne({
 			Guild: ctx.guildId,

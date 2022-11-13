@@ -19,7 +19,7 @@ export default {
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const user1 = await ctx.options.getUser('user1', true);
 		const user2 = await ctx.options.getUser('user2', true);
 

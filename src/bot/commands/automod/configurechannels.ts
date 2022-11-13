@@ -32,7 +32,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return;
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 		const type = ctx.options.getString('type', true);
 		const channel = await ctx.options.getChannel('channel', true);
 
@@ -40,7 +40,7 @@ export default {
 
 		if (type == 'add') {
 			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
-				if (!ctx.guild || !ctx.user || !ctx.channel) return;
+				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 
 				if (data) {
 					if (data.Channels.includes(channel.id)) {
@@ -78,7 +78,7 @@ export default {
 			);
 		} else if (type == 'remove') {
 			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
-				if (!ctx.guild || !ctx.user || !ctx.channel) return;
+				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild+" "+ctx.channel+" "+ctx.user);
 
 				if (data) {
 					if (!data.Channels.includes(channel.id)) {
