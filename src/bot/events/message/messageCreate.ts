@@ -1,3 +1,4 @@
+import { Point } from '@influxdata/influxdb-client';
 import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
@@ -10,6 +11,7 @@ import levelRewards from '../../database/models/levelRewards.js';
 import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
+import { Influx } from '../client/commandStart.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
@@ -179,6 +181,7 @@ export default async (client: AmethystBot, message: Message) => {
 		fetch(url, options)
 			.then((res) => res.text())
 			.then(async (json) => {
+				Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', "chatbot").intField('value', 1));
 				await client.helpers.sendMessage(message.channelId, {
 					content: json,
 					messageReference: {
