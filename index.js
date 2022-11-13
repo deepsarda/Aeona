@@ -1,10 +1,10 @@
 import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 
-fs.rmdirSync("./dist",{
+fs.rmdirSync('./dist', {
 	recursive: true,
-	force: true
-})
+	force: true,
+});
 
 try {
 	execSync('npm rebuild');
