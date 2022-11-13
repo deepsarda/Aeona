@@ -10,7 +10,7 @@ dotenv.config();
 
 import fs from 'fs';
 import { setupAnalyticsHooks } from '../analytics.js';
-import { INTENTS, REST_URL } from '../configs.js';
+import { EVENT_HANDLER_URL, INTENTS, REST_URL } from '../configs.js';
 import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
@@ -238,16 +238,13 @@ const categories: CategoryOptions[] = [
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);
 }
-if (process.env.DEVELOPEMENT) {
-	startBot(bot);
-} else {
-	bot.rest = createRestManager({
-		token: DISCORD_TOKEN,
-		secretKey: REST_AUTHORIZATION,
-		customUrl: REST_URL,
-		debug: console.log,
-	});
-}
+console.log(REST_URL);
+bot.rest = createRestManager({
+	token: DISCORD_TOKEN,
+	secretKey: REST_AUTHORIZATION,
+	customUrl: EVENT_HANDLER_URL,
+});
+startBot(bot);
 
 // Add send fetching analytics hook to rest
 setupAnalyticsHooks(bot.rest);

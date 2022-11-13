@@ -185,7 +185,7 @@ export default async (client: AmethystBot) => {
 	client.cache.roles.memory.startSweeper({
 		filter: function memberSweeper(member, _, bot: AmethystBot) {
 			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.roles.memory.size > 100) return true;
+			if (client.cache.roles.memory.size > 50) return true;
 			return false;
 		},
 		interval: 1000 * 60 * 2,
@@ -196,7 +196,7 @@ export default async (client: AmethystBot) => {
 			if (member.id === client.id) return false;
 
 			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.users.memory.size > 100) return true;
+			if (client.cache.users.memory.size > 50) return true;
 			return false;
 		},
 		interval: 1000 * 60 * 2,
@@ -205,7 +205,7 @@ export default async (client: AmethystBot) => {
 	client.cache.channels.memory.startSweeper({
 		filter: function memberSweeper(member, _, bot: AmethystBot) {
 			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.channels.memory.size > 100) return true;
+			if (client.cache.channels.memory.size > 50) return true;
 			return false;
 		},
 		interval: 1000 * 60 * 2,
@@ -217,7 +217,7 @@ export default async (client: AmethystBot) => {
 			if (member.id === client.id) return false;
 
 			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.members.memory.size > 100) return true;
+			if (client.cache.members.memory.size > 50) return true;
 			return false;
 		},
 		interval: 1000 * 60 * 2,

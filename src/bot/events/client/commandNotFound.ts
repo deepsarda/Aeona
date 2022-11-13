@@ -1,7 +1,7 @@
 import { Point } from '@influxdata/influxdb-client';
 import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno/transformers';
-import { Influx } from './commandStart';
+import { Influx } from './commandStart.js';
 
 export default async (bot: AmethystBot, message: Message, commandName: string) => {
 	const url =
