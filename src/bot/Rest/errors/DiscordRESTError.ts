@@ -55,6 +55,7 @@ export class DiscordRESTError extends Error {
 	flattenErrors(errors: any, keyPrefix = '') {
 		let messages: string[] = [];
 		for (const fieldName in errors) {
+			// eslint-disable-next-line no-prototype-builtins
 			if (!errors.hasOwnProperty(fieldName) || fieldName === 'message' || fieldName === 'code') {
 				continue;
 			}

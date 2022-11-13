@@ -43,13 +43,14 @@ export class DiscordHTTPError extends Error {
 		return this.response.headers;
 	}
 
-	get name() {
+	override get name() {
 		return this.constructor.name;
 	}
 
 	flattenErrors(errors: any, keyPrefix = '') {
 		let messages: string[] = [];
 		for (const fieldName in errors) {
+			// eslint-disable-next-line no-prototype-builtins
 			if (!errors.hasOwnProperty(fieldName) || fieldName === 'message' || fieldName === 'code') {
 				continue;
 			}

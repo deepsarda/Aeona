@@ -40,6 +40,7 @@ export class Base {
 		// http://stackoverflow.com/questions/5905492/dynamic-function-name-in-javascript
 		const copy: any = new { [this.constructor.name]: class {} }[this.constructor.name]();
 		for (const key in this) {
+			// eslint-disable-next-line no-prototype-builtins
 			if (this.hasOwnProperty(key) && !key.startsWith('_') && this[key] !== undefined) {
 				copy[key] = this[key];
 			}

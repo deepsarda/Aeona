@@ -45,21 +45,39 @@ app.all('*', async (req, res): Promise<any> => {
 		else res.status(204).send(undefined);
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
-			// eslint-disable-next-line
-			error = { ok: false, status: error.res.statusCode, body: JSON.stringify(error.response) };
+			const errorTexts = {
+				[HTTPResponseCodes.BadRequest]: "The options was improperly formatted, or the server couldn't understand it.",
+				[HTTPResponseCodes.Unauthorized]: 'The Authorization header was missing or invalid.',
+				[HTTPResponseCodes.Forbidden]: 'The Authorization token you passed did not have permission to the resource.',
+				[HTTPResponseCodes.NotFound]: "The resource at the location specified doesn't exist.",
+				[HTTPResponseCodes.MethodNotAllowed]: 'The HTTP method used is not valid for the location specified.',
+				[HTTPResponseCodes.GatewayUnavailable]:
+					'There was not a gateway available to process your options. Wait a bit and retry.',
+			};
+
+			const err = {
+				ok: false,
+				status: error.res.statusCode,
+				error: errorTexts[error.res.statusCode as keyof typeof errorTexts] || 'REQUEST_UNKNOWN_ERROR',
+				body: JSON.stringify(error.response),
+			};
 
 			res.status(500).send(error);
 
-			if (error.status >= 400 && error.status < 500)
+			if (err.status >= 400 && err.status < 500)
 				fs.appendFileSync(
 					'4xx-errors.log',
-					`Received a 4xx response!\nStatus Code: ${error.status}\nMethod: ${req.method}\nRoute: ${
+					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
 						req.url
 					}\nError: ${inspect(
-						error,
+						err,
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
 				);
-		} else console.error(error);
+		} else {
+			console.error(error);
+
+			fs.appendFileSync('rest-errors.log', inspect(error));
+		}
 	}
 });
 
@@ -68,4 +86,5 @@ app.listen(EVENT_HANDLER_PORT, () => {
 });
 
 import { bot } from './bot.js';
+import { HTTPResponseCodes } from 'discordeno/types';
 console.log(bot.applicationId);

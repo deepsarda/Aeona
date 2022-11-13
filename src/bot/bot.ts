@@ -10,7 +10,7 @@ dotenv.config();
 
 import fs from 'fs';
 import { setupAnalyticsHooks } from '../analytics.js';
-import { EVENT_HANDLER_URL, INTENTS, REST_URL } from '../configs.js';
+import { EVENT_HANDLER_URL, INTENTS } from '../configs.js';
 import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
