@@ -31,7 +31,7 @@ const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
 		guilds: true,
-		users:true
+		users: true,
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
