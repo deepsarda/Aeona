@@ -21,6 +21,12 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 			Influx?.writePoint(
 				new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
 			);
+			const s = [
+				'\n discord.gg/qURxRRHPwa',
+				'\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
+			];
+			const randomNumber = Math.floor(Math.random() * 10);
+			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 			await bot.helpers.sendMessage(message.channelId, {
 				content: json,
 				messageReference: {

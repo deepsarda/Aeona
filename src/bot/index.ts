@@ -88,22 +88,22 @@ app.all('*', async (req, res): Promise<any> => {
 			}
 		} else {
 			console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-			let result;
-			while (!result) {
-				result = await reqHandler.request(
-					req.method,
-					`/api${req.url.split('?')[0]}`,
-					req.body,
-					req.body?.file
-						? req?.body?.file?.map((f: any) => ({
-								file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-								name: f.name,
-						  }))
-						: undefined,
-				);
-			}
+
+			const result = await reqHandler.request(
+				req.method,
+				`/api${req.url.split('?')[0]}`,
+				req.body,
+				req.body?.file
+					? req?.body?.file?.map((f: any) => ({
+							file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+							name: f.name,
+					  }))
+					: undefined,
+			);
+
 			console.log(colors.green('RESOLVED'), req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-			res.status(200).send(result);
+			if (result) res.status(200).send(result);
+			else res.status(204).send(undefined);
 		}
 	} catch (error) {
 		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {

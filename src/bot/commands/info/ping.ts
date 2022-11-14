@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'chat',
-	description: 'Generate a chat message',
+	name: 'ping',
+	description: 'Get my ping',
 	commandType: ['application', 'message'],
 	category: 'info',
 	args: [],
