@@ -184,7 +184,7 @@ export default async (client: AmethystBot, message: Message) => {
 				];
 				const randomNumber = Math.floor(Math.random() * 10);
 				json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
-				
+
 				await client.helpers.sendMessage(message.channelId, {
 					content: json,
 					messageReference: {
