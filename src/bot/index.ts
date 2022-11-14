@@ -126,7 +126,7 @@ app.all('*', async (req, res): Promise<any> => {
 
 			res.status(500).send(error);
 
-			if (err.status >= 400 && err.status < 500){
+			if (err.status >= 400 && err.status < 500) {
 				fs.appendFileSync(
 					'4xx-errors.log',
 					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
@@ -136,14 +136,14 @@ app.all('*', async (req, res): Promise<any> => {
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
 				);
 
-				console.log('4xx-errors.log'.white.bgRed.bold,
-				`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
-					req.url
-				}`.yellow,`Error: ${inspect(
-					err,
-				)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`.red,)
+				console.log(
+					'4xx-errors.log'.white.bgRed.bold,
+					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${req.url}`.yellow,
+					`Error: ${inspect(
+						err,
+					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`.red,
+				);
 			}
-
 		} else {
 			console.error(error);
 
