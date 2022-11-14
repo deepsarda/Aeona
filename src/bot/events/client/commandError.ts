@@ -82,4 +82,6 @@ export default async (
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
 			content: 'Oh no! This is only meant for my owner.',
 		});
+
+    console.log(data.error)
 };

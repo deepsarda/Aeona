@@ -28,8 +28,9 @@
 		".env",
 		"src/bot/commands/stickymessages",
 		"src/bot/events/tools",
-		"src/bot/commands/thanks"
-, "futurecommands/tools"	],
+		"src/bot/commands/thanks",
+		"futurecommands/tools"
+	],
 	"ts-node": {
 		"esm": true,
 		"experimentalSpecifierResolution": "node",
