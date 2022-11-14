@@ -79,7 +79,7 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(point);
-			console.log('Rest Queue Lenght:'.yellow.bold , (cache.size+"").cyan);
+			console.log('Rest Queue Lenght:'.yellow.bold, (cache.size + '').cyan);
 			Influx.writePoint(
 				new Point('rest') //
 					.tag('action', 'sync')
