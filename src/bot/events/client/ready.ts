@@ -79,7 +79,7 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(point);
-			console.log('Rest Queue Lenght: ' + cache.size);
+			console.log('Rest Queue Lenght:'.yellow.bold , (cache.size+"").cyan);
 			Influx.writePoint(
 				new Point('rest') //
 					.tag('action', 'sync')
@@ -142,7 +142,7 @@ export default async (client: AmethystBot) => {
 					new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
 				);
 			} catch (e) {
-				console.error(e);
+				//e3
 			}
 		} catch (e) {
 			console.error(e);

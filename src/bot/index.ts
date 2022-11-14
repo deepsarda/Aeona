@@ -74,7 +74,9 @@ app.all('*', async (req, res): Promise<any> => {
 			if (result) {
 				console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 				cache.set(req.url.split('?')[0], result);
-
+				setInterval(() => {
+					cache.delete(req.url.split('?')[0]);
+				}, 1000);
 				res.status(200).send(result);
 			} else {
 				console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
