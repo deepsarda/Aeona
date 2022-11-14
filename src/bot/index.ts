@@ -8,6 +8,8 @@ import { inspect } from 'util';
 import { DiscordHTTPError } from './rest/errors/DiscordHTTPError.js';
 import { DiscordRESTError } from './rest/errors/DiscordRESTError.js';
 import fs from 'fs';
+import colors from "colors";
+
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
 
@@ -38,16 +40,21 @@ app.all('*', async (req, res): Promise<any> => {
 			if (cache.has(req.url.split('?')[0])) {
 				// eslint-disable-next-line no-constant-condition
 				while (true) {
-					await sleep(100);
+					await sleep(50);
 					const result = cache.get(req.url.split('?')[0]);
-					if (result) return result;
+					if (result)
+						return typeof result == 'string'
+							? result == 'INVALID RESULT'
+								? res.status(204).send(undefined)
+								: res.status(200).send(result)
+							: res.status(200).send(result);
 				}
 			}
 
 			cache.set(req.url.split('?')[0], undefined);
 
 			// TODO: Remove this
-			console.log(req.method, `/api${req.url.split('?')[0]}`);
+			console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			let result;
 			for (let i = 0; i < 10; i++) {
 				result = await reqHandler.request(
@@ -62,21 +69,23 @@ app.all('*', async (req, res): Promise<any> => {
 						: undefined,
 				);
 				if (result) break;
-				await sleep(100);
+				await sleep(50);
 			}
 			if (result) {
-				console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
+				console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 				cache.set(req.url.split('?')[0], result);
+
+				res.status(200).send(result);
+			} else {
+				console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+				cache.set(req.url.split('?')[0], 'INVALID RESULT');
 				setInterval(() => {
 					cache.delete(req.url.split('?')[0]);
 				}, 1000);
-				res.status(200).send(result);
-			} else {
-				cache.delete(req.url.split('?')[0]);
 				res.status(204).send(undefined);
 			}
 		} else {
-			console.log(req.method, `/api${req.url.split('?')[0]}`);
+			console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			let result;
 			while (!result) {
 				result = await reqHandler.request(
@@ -91,7 +100,7 @@ app.all('*', async (req, res): Promise<any> => {
 						: undefined,
 				);
 			}
-			console.log('RESOLVED', req.method, `/api${req.url.split('?')[0]}`);
+			console.log(colors.green('RESOLVED'), req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(200).send(result);
 		}
 	} catch (error) {

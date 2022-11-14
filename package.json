@@ -36,6 +36,7 @@
 		"canvacord": "^5.2.3",
 		"canvas": "^2.10.2",
 		"chalk": "^4.1.2",
+		"colors": "^1.4.0",
 		"discord-markdown-parser": "~1.1.0",
 		"discordeno": "^17.1.0",
 		"dotenv": "^16.0.3",
