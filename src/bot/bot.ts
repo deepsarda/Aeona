@@ -4,13 +4,13 @@ import {
 	createProxyCache,
 	enableAmethystPlugin,
 } from '@thereallonewolf/amethystframework';
-import { BigString, createBot, createRestManager, startBot } from 'discordeno';
+import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import fs from 'fs';
-import { setupAnalyticsHooks } from '../analytics.js';
-import { EVENT_HANDLER_URL, INTENTS } from '../configs.js';
+import fs from 'fs'
+import { INTENTS, REST_URL } from '../configs.js';
+import { start } from '../gateway/index.js';
 import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
@@ -18,16 +18,7 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
-	botGatewayData: {
-		url: 'wss://gateway.discord.gg',
-		shards: 1,
-		sessionStartLimit: {
-			maxConcurrency: 1,
-			remaining: 1000,
-			resetAfter: Date.now() + 1000 * 60 * 60 * 24,
-			total: 1000,
-		},
-	},
+	
 });
 
 const cachebot = createProxyCache(basebot, {
@@ -258,9 +249,7 @@ for (let i = 0; i < categories.length; i++) {
 bot.rest = createRestManager({
 	token: DISCORD_TOKEN,
 	secretKey: REST_AUTHORIZATION,
-	customUrl: EVENT_HANDLER_URL,
+	customUrl: REST_URL,
 });
-startBot(bot);
 
-// Add send fetching analytics hook to rest
-setupAnalyticsHooks(bot.rest);
+start();

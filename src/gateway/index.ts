@@ -19,21 +19,23 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const SHARDS_PER_WORKER = Number(process.env.SHARDS_PER_WORKER as string);
 const TOTAL_SHARDS = process.env.TOTAL_SHARDS ? Number(process.env.TOTAL_SHARDS) : undefined;
 const TOTAL_WORKERS = Number(process.env.TOTAL_WORKERS as string);
-async function start() {
+export async function start() {
 	const log = createLogger({ name: '[MANAGER]' });
 
 	const bot = createBot({
 		token: DISCORD_TOKEN,
 	});
 
+
+
+	const gatewayBot = await bot.helpers.getGatewayBot();
+
 	bot.rest = createRestManager({
 		token: DISCORD_TOKEN,
 		secretKey: REST_AUTHORIZATION,
 		customUrl: REST_URL,
+		debug:(text)=>{log.info(text)}
 	});
-
-	const gatewayBot = await bot.helpers.getGatewayBot();
-
 	const gateway = createGatewayManager({
 		gatewayBot,
 		gatewayConfig: {

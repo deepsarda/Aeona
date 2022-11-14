@@ -1,162 +1,64 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
-import express from 'express';
-import { EVENT_HANDLER_URL } from '../configs.js';
-import { RequestHandler } from './rest/RequestHandler.js';
-import bodyParser from 'body-parser';
-import { inspect } from 'util';
-import { DiscordHTTPError } from './rest/errors/DiscordHTTPError.js';
-import { DiscordRESTError } from './rest/errors/DiscordRESTError.js';
-import fs from 'fs';
-import colors from 'colors';
 
+import { DiscordGatewayPayload } from "discordeno";
+import express from "express";
+import {  EVENT_HANDLER_URL } from "../configs.js";
+import { bot } from "./bot.js";
+import colors from "colors";
+
+const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
-const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
 
-export const cache = new AmethystCollection<string, any>();
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Handle events from the gateway
+const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
+  // EMITS RAW EVENT
+  bot.events.raw(bot, message, shardId);
+
+  if (message.t && message.t !== "RESUMED") {
+    // When a guild or something isnt in cache this will fetch it before doing anything else
+    if (!["READY", "GUILD_LOADED_DD"].includes(message.t)) {
+      await bot.events.dispatchRequirements(bot, message, shardId);
+    }
+
+    bot.handlers[message.t]?.(bot, message, shardId);
+  }
+};
+
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+    limit:'200mb'
+  }),
+);
 
-app.all('*', async (req, res): Promise<any> => {
-	if (!process.env.REST_AUTHORIZATION || process.env.REST_AUTHORIZATION !== req.headers.authorization)
-		return res.status(401).send({ error: 'Invalid authorization key.' });
+app.use(express.json({
+  limit:'200mb'
+}));
 
-	try {
-		if (!['get', 'post', 'put', 'delete', 'patch'].includes(req.method.toLowerCase()))
-			return console.error(`Unknown Request Method Received!\nMethod: ${req.method.toLowerCase()}`);
+app.all("/", async (req, res) => {
+  try {
+    if (!EVENT_HANDLER_AUTHORIZATION || EVENT_HANDLER_AUTHORIZATION !== req.headers.authorization) {
+      return res.status(401).json({ error: "Invalid authorization key." });
+    }
 
-		if (Object.keys(req.query).length) {
-			if (!Object.keys(req.body).length) req.body = req.query;
-			else req.body = { ...req.body, ...req.query };
-		}
+    const json = req.body as {
+      message: DiscordGatewayPayload;
+      shardId: number;
+    };
 
-		if (!Object.keys(req.body).length) req.body = undefined;
-		if (req.method.toLowerCase() == 'get') {
-			if (cache.get(req.url.split('?')[0])) return cache.get(req.url.split('?')[0]);
+    await handleEvent(json.message, json.shardId);
 
-			if (cache.has(req.url.split('?')[0])) {
-				// eslint-disable-next-line no-constant-condition
-				while (true) {
-					await sleep(50);
-					const result = cache.get(req.url.split('?')[0]);
-					if (result)
-						return typeof result == 'string'
-							? result == 'INVALID RESULT'
-								? res.status(204).send(undefined)
-								: res.status(200).send(result)
-							: res.status(200).send(result);
-				}
-			}
-
-			cache.set(req.url.split('?')[0], undefined);
-
-			// TODO: Remove this
-			console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-			let result;
-			for (let i = 0; i < 10; i++) {
-				result = await reqHandler.request(
-					req.method,
-					`/api${req.url.split('?')[0]}`,
-					req.body,
-					req.body?.file
-						? req?.body?.file?.map((f: any) => ({
-								file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-								name: f.name,
-						  }))
-						: undefined,
-				);
-				if (result) break;
-				await sleep(50);
-			}
-			if (result) {
-				console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-				cache.set(req.url.split('?')[0], result);
-				setInterval(() => {
-					cache.delete(req.url.split('?')[0]);
-				}, 1000);
-				res.status(200).send(result);
-			} else {
-				console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-				cache.set(req.url.split('?')[0], 'INVALID RESULT');
-				setInterval(() => {
-					cache.delete(req.url.split('?')[0]);
-				}, 1000);
-				res.status(204).send(undefined);
-			}
-		} else {
-			console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-
-			const result = await reqHandler.request(
-				req.method,
-				`/api${req.url.split('?')[0]}`,
-				req.body,
-				req.body?.file
-					? req?.body?.file?.map((f: any) => ({
-							file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-							name: f.name,
-					  }))
-					: undefined,
-			);
-
-			console.log(colors.green('RESOLVED'), req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
-			if (result) res.status(200).send(result);
-			else res.status(204).send(undefined);
-		}
-	} catch (error) {
-		if (error instanceof DiscordHTTPError || error instanceof DiscordRESTError) {
-			const errorTexts = {
-				[HTTPResponseCodes.BadRequest]: "The options was improperly formatted, or the server couldn't understand it.",
-				[HTTPResponseCodes.Unauthorized]: 'The Authorization header was missing or invalid.',
-				[HTTPResponseCodes.Forbidden]: 'The Authorization token you passed did not have permission to the resource.',
-				[HTTPResponseCodes.NotFound]: "The resource at the location specified doesn't exist.",
-				[HTTPResponseCodes.MethodNotAllowed]: 'The HTTP method used is not valid for the location specified.',
-				[HTTPResponseCodes.GatewayUnavailable]:
-					'There was not a gateway available to process your options. Wait a bit and retry.',
-			};
-
-			const err = {
-				ok: false,
-				status: error.res.statusCode,
-				error: errorTexts[error.res.statusCode as keyof typeof errorTexts] || 'REQUEST_UNKNOWN_ERROR',
-				body: JSON.stringify(error.response),
-			};
-
-			res.status(500).send(error);
-
-			if (err.status >= 400 && err.status < 500) {
-				fs.appendFileSync(
-					'4xx-errors.log',
-					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
-						req.url
-					}\nError: ${inspect(
-						err,
-					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
-				);
-
-				console.log(
-					'4xx-errors.log'.white.bgRed.bold,
-					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${req.url}`.yellow,
-					`Error: ${inspect(
-						err,
-					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`.red,
-				);
-			}
-		} else {
-			console.error(error);
-
-			fs.appendFileSync('rest-errors.log', inspect(error));
-		}
-	}
+    res.status(200).json({ success: true });
+  } catch (error: any) {
+    console.error(error);
+    res.status(error.code).json(error);
+  }
 });
 
 app.listen(EVENT_HANDLER_PORT, () => {
-	console.log(`Bot is listening at ${EVENT_HANDLER_URL};`);
+  console.log(colors.green(`Bot is listening at ${EVENT_HANDLER_URL};`));
 });
-
-import { bot } from './bot.js';
-import { HTTPResponseCodes } from 'discordeno/types';
-import { AmethystCollection } from '@thereallonewolf/amethystframework';
-console.log(bot.applicationId);

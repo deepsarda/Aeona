@@ -14,7 +14,7 @@ import {
 import { createLogger } from 'discordeno/logger';
 import fetch from 'node-fetch';
 import { parentPort, workerData } from 'worker_threads';
-import { ManagerMessage } from './index';
+import { ManagerMessage } from './index.js';
 
 if (!parentPort) {
 	throw new Error('Parent port is null');
@@ -96,7 +96,7 @@ const manager = createShardManager({
 function buildShardInfo(shard: Shard): WorkerShardInfo {
 	return {
 		workerId: script.workerId,
-		shardId: shard.id + '',
+		shardId: shard.id ,
 		rtt: shard.heart.rtt || -1,
 		state: shard.state,
 	};

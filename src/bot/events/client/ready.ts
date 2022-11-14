@@ -5,7 +5,6 @@ import { cpus } from 'os';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
-import { cache } from '../../index.js';
 export default async (client: AmethystBot) => {
 	console.log('ready');
 	client.user = await client.helpers.getUser(client.applicationId);
@@ -79,12 +78,7 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(point);
-			console.log('Rest Queue Lenght:'.yellow.bold, (cache.size + '').cyan);
-			Influx.writePoint(
-				new Point('rest') //
-					.tag('action', 'sync')
-					.floatField('length', cache.size),
-			);
+			
 
 			const usage = process.memoryUsage();
 			Influx.writePoint(

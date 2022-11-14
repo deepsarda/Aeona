@@ -9,7 +9,9 @@
 		"**/.classpath": true,
 		"**/.project": true,
 		"**/.settings": true,
-		"**/.factorypath": true
+		"**/.factorypath": true,
+		"dist": true,
+		"node_modules": true
 	},
 	"explorerExclude.backup": {}
 }
