@@ -181,58 +181,27 @@ export default async (client: AmethystBot) => {
 			console.error(e);
 		}
 	}, 1000 * 60 * 10);
+	setInterval(()=>{
 
-	client.cache.roles.memory.startSweeper({
-		filter: function memberSweeper(member, _, bot: AmethystBot) {
-			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.roles.memory.size > 50) return true;
-			return false;
-		},
-		interval: 1000 * 60 * 2,
-	});
-	client.cache.users.memory.startSweeper({
-		filter: function memberSweeper(member, _, bot: AmethystBot) {
-			// Don't sweep the bot else strange things will happen
-			if (member.id === client.id) return false;
+		if(client.cache.users.memory.size > 500){
+			for(const [userId,user] of client.cache.users.memory){
+				if(userId !=client.user.id) client.cache.users.delete(userId);
+			}
+	    }
+		if(client.cache.members.memory.size > 500){
+			for(const [userId,user] of client.cache.members.memory){
+				if(user.id !=client.user.id) client.cache.members.delete(user.id,user.guildId);
+			}
+	    }
+		for(const [messageId,message] of client.cache.messages.memory){
+			if( Date.now() - message.timestamp > 1000 * 60 * 2 ) client.cache.messages.delete(messageId);
+		}
 
-			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.users.memory.size > 50) return true;
-			return false;
-		},
-		interval: 1000 * 60 * 2,
-	});
 
-	client.cache.channels.memory.startSweeper({
-		filter: function memberSweeper(member, _, bot: AmethystBot) {
-			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.channels.memory.size > 50) return true;
-			return false;
-		},
-		interval: 1000 * 60 * 2,
-	});
 
-	client.cache.members.memory.startSweeper({
-		filter: function memberSweeper(member, _, bot: AmethystBot) {
-			// Don't sweep the bot else strange things will happen
-			if (member.id === client.id) return false;
 
-			// Only sweep members who were not active the last 30 minutes
-			if (client.cache.members.memory.size > 50) return true;
-			return false;
-		},
-		interval: 1000 * 60 * 2,
-	});
-
-	client.cache.messages.memory.startSweeper({
-		filter: function messageSweeper(message) {
-			// DM messages aren't needed
-			if (!message.guildId) return true;
-
-			// Only delete messages older than 2 minutes
-			return Date.now() - message.timestamp > 1000 * 60 * 2;
-		},
-		interval: 1000 * 60 * 2,
-	});
+	},1000 * 60 * 2)
+	
 };
 
 async function verifySlashCommands(client: AmethystBot) {
