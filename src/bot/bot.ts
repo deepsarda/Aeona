@@ -29,6 +29,7 @@ const basebot = createBot({
 		},
 	},
 });
+
 const cachebot = createProxyCache(basebot, {
 	fetchIfMissing: {
 		channels: true,
