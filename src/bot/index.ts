@@ -8,7 +8,7 @@ import { inspect } from 'util';
 import { DiscordHTTPError } from './rest/errors/DiscordHTTPError.js';
 import { DiscordRESTError } from './rest/errors/DiscordRESTError.js';
 import fs from 'fs';
-import colors from "colors";
+import colors from 'colors';
 
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
