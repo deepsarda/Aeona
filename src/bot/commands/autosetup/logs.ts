@@ -28,7 +28,7 @@ export default {
 		if (choice == 'serverlogs') {
 			const channel = await client.helpers.createChannel(ctx.guildId!, {
 				name: 'Logs',
-				
+
 				type: ChannelTypes.GuildText,
 			});
 
