@@ -181,27 +181,21 @@ export default async (client: AmethystBot) => {
 			console.error(e);
 		}
 	}, 1000 * 60 * 10);
-	setInterval(()=>{
-
-		if(client.cache.users.memory.size > 500){
-			for(const [userId,user] of client.cache.users.memory){
-				if(userId !=client.user.id) client.cache.users.delete(userId);
+	setInterval(() => {
+		if (client.cache.users.memory.size > 500) {
+			for (const [userId, user] of client.cache.users.memory) {
+				if (userId != client.user.id) client.cache.users.delete(userId);
 			}
-	    }
-		if(client.cache.members.memory.size > 500){
-			for(const [userId,user] of client.cache.members.memory){
-				if(user.id !=client.user.id) client.cache.members.delete(user.id,user.guildId);
-			}
-	    }
-		for(const [messageId,message] of client.cache.messages.memory){
-			if( Date.now() - message.timestamp > 1000 * 60 * 2 ) client.cache.messages.delete(messageId);
 		}
-
-
-
-
-	},1000 * 60 * 2)
-	
+		if (client.cache.members.memory.size > 500) {
+			for (const [userId, user] of client.cache.members.memory) {
+				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
+			}
+		}
+		for (const [messageId, message] of client.cache.messages.memory) {
+			if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
+		}
+	}, 1000 * 60 * 2);
 };
 
 async function verifySlashCommands(client: AmethystBot) {
