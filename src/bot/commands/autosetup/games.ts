@@ -3,6 +3,7 @@ import GTN from '../../database/models/guessNumber.js';
 import GTW from '../../database/models/guessWord.js';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { ChannelTypes } from 'discordeno/types';
 export default {
 	name: 'games',
 	description: 'Generate channels for all my games',
@@ -48,7 +49,6 @@ export default {
 		if (choice == 'guess-the-number') {
 			const channel = await client.helpers.createChannel(ctx.guildId!, {
 				name: 'Guess-The-Number',
-				//@ts-ignore
 				type: ChannelTypes.GuildText,
 			});
 

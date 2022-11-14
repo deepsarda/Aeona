@@ -3,6 +3,7 @@ import levelLogs from '../../database/models/levelChannels.js';
 import logs from '../../database/models/logChannels.js';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { ChannelTypes } from 'discordeno/types';
 export default {
 	name: 'log',
 	description: 'Setup logging channels',
@@ -27,7 +28,7 @@ export default {
 		if (choice == 'serverlogs') {
 			const channel = await client.helpers.createChannel(ctx.guildId!, {
 				name: 'Logs',
-				//@ts-ignore
+				
 				type: ChannelTypes.GuildText,
 			});
 

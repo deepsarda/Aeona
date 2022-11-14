@@ -1,7 +1,7 @@
 import welcomeRole from '../../database/models/joinRole.js';
 import leaveChannel from '../../database/models/leaveChannels.js';
 import welcomeChannel from '../../database/models/welcomeChannels.js';
-
+import { ChannelTypes } from 'discordeno/types';
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'welcome',
@@ -29,7 +29,6 @@ export default {
 		if (choice == 'welcomechannel') {
 			const channel = await client.helpers.createChannel(ctx.guildId!, {
 				name: 'Logs',
-				//@ts-ignore
 				type: ChannelTypes.GuildText,
 			});
 
