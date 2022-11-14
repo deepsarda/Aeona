@@ -18,6 +18,16 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
+	botGatewayData: {
+		url: 'wss://gateway.discord.gg',
+		shards: 1,
+		sessionStartLimit: {
+			maxConcurrency: 1,
+			remaining: 1000,
+			resetAfter: Date.now() + 1000 * 60 * 60 * 24,
+			total: 1000,
+		},
+	},
 });
 const cachebot = createProxyCache(basebot, {
 	fetchIfMissing: {
