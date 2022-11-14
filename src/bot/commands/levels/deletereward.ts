@@ -11,7 +11,7 @@ export default {
 			name: 'level',
 			description: 'The level you want to delete',
 			required: true,
-			optionType: 'Number',
+			type: 'Number',
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
