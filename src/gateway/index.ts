@@ -26,15 +26,15 @@ export async function start() {
 		token: DISCORD_TOKEN,
 	});
 
-
-
 	const gatewayBot = await bot.helpers.getGatewayBot();
 
 	bot.rest = createRestManager({
 		token: DISCORD_TOKEN,
 		secretKey: REST_AUTHORIZATION,
 		customUrl: REST_URL,
-		debug:(text)=>{log.info(text)}
+		debug: (text) => {
+			log.info(text);
+		},
 	});
 	const gateway = createGatewayManager({
 		gatewayBot,

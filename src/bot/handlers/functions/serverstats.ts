@@ -57,12 +57,8 @@ export default async (client: AmethystBot) => {
 		client.emit('updateBoosts', client, await client.helpers.getGuild(booster.guildId)),
 	);
 
-	client.on('guildBoostLevelUp', async (tier: Guild) =>
-		client.emit('updateTier', client, tier),
-	);
-	client.on('guildBoostLevelDown', async (tier: Guild) =>
-		client.emit('updateTier', client,tier),
-	);
+	client.on('guildBoostLevelUp', async (tier: Guild) => client.emit('updateTier', client, tier));
+	client.on('guildBoostLevelDown', async (tier: Guild) => client.emit('updateTier', client, tier));
 
 	client.on('emojiCreate', async (emoji) => {
 		client.emit('updateEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));

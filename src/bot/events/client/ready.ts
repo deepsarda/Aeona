@@ -78,7 +78,6 @@ export default async (client: AmethystBot) => {
 			}
 
 			Influx.writePoint(point);
-			
 
 			const usage = process.memoryUsage();
 			Influx.writePoint(

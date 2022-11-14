@@ -8,7 +8,7 @@ import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import fs from 'fs'
+import fs from 'fs';
 import { INTENTS, REST_URL } from '../configs.js';
 import { start } from '../gateway/index.js';
 import botConfig from './botconfig/bot.js';
@@ -18,7 +18,6 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
-	
 });
 
 const cachebot = createProxyCache(basebot, {

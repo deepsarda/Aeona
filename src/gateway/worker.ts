@@ -96,7 +96,7 @@ const manager = createShardManager({
 function buildShardInfo(shard: Shard): WorkerShardInfo {
 	return {
 		workerId: script.workerId,
-		shardId: shard.id ,
+		shardId: shard.id,
 		rtt: shard.heart.rtt || -1,
 		state: shard.state,
 	};
