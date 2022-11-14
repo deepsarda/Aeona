@@ -26,11 +26,12 @@ const cachebot = createProxyCache(basebot, {
 		members: true,
 		messages: true,
 		roles: true,
-		users: true,
+		users: false,
 	},
 	cacheInMemory: {
 		default: true,
 		guilds: true,
+		users:true
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {

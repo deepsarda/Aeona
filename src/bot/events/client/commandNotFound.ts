@@ -2,7 +2,7 @@ import { Point } from '@influxdata/influxdb-client';
 import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno/transformers';
 import { Influx } from './commandStart.js';
-
+import fetch from 'node-fetch';
 export default async (bot: AmethystBot, message: Message, commandName: string) => {
 	const url =
 		'https://aeona3.p.rapidapi.com/?text=' + encodeURIComponent(message.content) + '&userId=' + message.authorId;
