@@ -9,7 +9,7 @@ export default {
 			name: 'emoji',
 			description: 'The emoji you want to use',
 			required: true,
-			optionType: 'String',
+			type: 'String',
 		},
 	],
 	userGuildPermissions: ['MANAGE_EMOJIS'],

@@ -9,7 +9,7 @@ export default {
 			name: 'user',
 			description: 'The user',
 			required: false,
-			type: 'String',
+			type: 'User',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {

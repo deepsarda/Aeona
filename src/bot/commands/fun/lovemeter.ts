@@ -9,13 +9,13 @@ export default {
 			name: 'user',
 			description: 'The user',
 			required: true,
-			type: 'String',
+			type: 'User',
 		},
 		{
 			name: 'user1',
 			description: 'The user',
 			required: true,
-			type: 'String',
+			type: 'User',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
@@ -35,12 +35,12 @@ export default {
 				fields: [
 					{
 						name: 'Name 1',
-						value: `${user1}`,
+						value: `<@${user1.id}>`,
 						inline: true,
 					},
 					{
 						name: 'Name 2',
-						value: `${user2}`,
+						value: `<@${user2}>`,
 						inline: true,
 					},
 					{

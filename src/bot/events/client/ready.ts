@@ -180,7 +180,7 @@ export default async (client: AmethystBot) => {
 		} catch (e) {
 			console.error(e);
 		}
-	}, 1000 * 60 * 10);
+	}, 1000 * 60 * 2);
 	setInterval(() => {
 		if (client.cache.users.memory.size > 500) {
 			for (const [userId, user] of client.cache.users.memory) {
@@ -281,7 +281,14 @@ async function verifySlashCommands(client: AmethystBot) {
 
 			commands.push(commandBuilder.toJSON());
 		});
-		await client.helpers.upsertGlobalApplicationCommands(commands);
+
+		const c = await client.helpers.upsertGlobalApplicationCommands(commands);
+		c.forEach((command) => {
+			const category = client.category.get(command.name);
+			command.options?.forEach((option) => {
+				const c = category?.commands.get(option.name);
+			});
+		});
 	} catch (e) {
 		console.error(e);
 	}

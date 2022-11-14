@@ -9,7 +9,7 @@ export default {
 			name: 'user',
 			description: 'The user',
 			required: true,
-			type: 'String',
+			type: 'User',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
@@ -63,7 +63,7 @@ export default {
 		client.extras.embed(
 			{
 				title: `Roast`,
-				desc: `${user}, ${roasts[Math.floor(Math.random() * roasts.length)]}`,
+				desc: `<@${user.id}>, ${roasts[Math.floor(Math.random() * roasts.length)]}`,
 				type: 'reply',
 			},
 			ctx,
