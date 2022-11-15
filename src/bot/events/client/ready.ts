@@ -197,10 +197,11 @@ async function verifySlashCommands(client: AmethystBot) {
 		client.category.forEach((category) => {
 			const commandBuilder = new SlashCommandBuilder().setName(category.name).setDescription(category.description);
 			category.commands.forEach((command) => {
-				console.log(command.name);
+				
 				commandBuilder.addSubcommand((subcommand) => {
 					subcommand.setName(command.name).setDescription(command.description);
 					for (const option of command.args) {
+						if(!option.type) console.log(command.name);
 						if (option.type == 'String')
 							subcommand.addStringOption((op) => {
 								op.setName(option.name).setDescription(option.description);

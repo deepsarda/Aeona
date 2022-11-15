@@ -15,7 +15,7 @@ export default async (client: AmethystBot) => {
 			//this pervents a lint error
 		}
 	});
-/*
+	/*
 	client.once('ready', async () => {
 		try {
 			setInterval(async function () {
