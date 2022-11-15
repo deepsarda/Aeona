@@ -66,7 +66,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 								},
 								{
 									id: interaction.channelId,
-								}
+								},
 							)
 							.then((msgError: Message) => {
 								setTimeout(() => {
@@ -76,7 +76,8 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				});
 			}
-				client.helpers.sendMessage(interaction.channelId,{
+			client.helpers
+				.sendMessage(interaction.channelId, {
 					file: [
 						{
 							blob: dataURItoBlob(captcha.dataURL),
