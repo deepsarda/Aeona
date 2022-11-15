@@ -90,7 +90,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 
 			ctx
 				.editReply({
-					files: [
+					file: [
 						{
 							blob: dataURItoBlob(captcha.dataURL),
 							name: 'captcha.jpeg',
