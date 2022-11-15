@@ -1,4 +1,4 @@
-import { AmethystBot, Context, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import { AmethystBot, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 import { Interaction } from 'discordeno/transformers';
 import { InteractionTypes } from 'discordeno/types';

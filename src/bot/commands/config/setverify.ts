@@ -59,7 +59,7 @@ export default {
 						},
 						{
 							name: `→ Role`,
-							value: `<#&${role.id}> (${role.name})`,
+							value: `<@&${role.id}> (${role.name})`,
 							inline: true,
 						},
 					],
