@@ -467,7 +467,7 @@ export default (client: AmethystBot) => {
 			}
 		} else {
 			return await client.helpers
-				.sendMessage(ctx.id + '', {
+				.sendMessage(ctx.id, {
 					embeds: embeds,
 					content: content,
 					components: components,

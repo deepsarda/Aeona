@@ -49,11 +49,12 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 								{
 									text: 'You have been successfully verified!',
 								},
-								interaction.user,
+								response.member,
 							)
-							.catch((error) => console.error);
-
-						client.helpers.addRole(msg.guildId!, msg.authorId, data.Role);
+							.catch((error) => console.error(error));
+							
+							
+						client.helpers.addRole(msg.guildId, response.authorId, data.Role).catch((error) => console.error(error));
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 						client.helpers.deleteMessage(interaction.channelId!, msg.id);
