@@ -52,8 +52,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 								response.member,
 							)
 							.catch((error) => console.error(error));
-							
-							
+
 						client.helpers.addRole(msg.guildId, response.authorId, data.Role).catch((error) => console.error(error));
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
