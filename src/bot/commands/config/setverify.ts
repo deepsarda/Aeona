@@ -54,12 +54,12 @@ export default {
 					fields: [
 						{
 							name: `→ Channel`,
-							value: `${channel} (${channel.name})`,
+							value: `<#${channel.id}> (${channel.name})`,
 							inline: true,
 						},
 						{
 							name: `→ Role`,
-							value: `<&${role.id}> (${role.name})`,
+							value: `<#&${role.id}> (${role.name})`,
 							inline: true,
 						},
 					],
