@@ -39,7 +39,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			// eslint-disable-next-line no-inner-declarations
 			function verifyUser(msg: Message) {
 				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then((response) => {
-					if (response.content === captcha.value) {
+					if (response.content.toUpperCase() === captcha.value) {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 
 						client.helpers.deleteMessage(interaction.channelId!, msg.id!);
@@ -51,7 +51,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 								},
 								interaction.user,
 							)
-							.catch();
+							.catch((error) => console.error);
 
 						client.helpers.addRole(msg.guildId!, msg.authorId, data.Role);
 					} else {
@@ -61,7 +61,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 						client.extras
 							.errNormal(
 								{
-									error: 'You have answered the captcha incorrectly!',
+									error: 'You have answered the captcha incorrectly! Don\'t worry you can try again',
 									type: 'reply',
 								},
 								{
@@ -71,7 +71,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 							.then((msgError: Message) => {
 								setTimeout(() => {
 									client.helpers.deleteMessage(interaction.channelId!, msgError.id);
-								}, 2000);
+								}, 20000);
 							});
 					}
 				});
