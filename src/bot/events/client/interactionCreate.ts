@@ -87,7 +87,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				});
 			}
-			
+
 			ctx
 				.editReply({
 					files: [
