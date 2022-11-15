@@ -87,9 +87,9 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				});
 			}
-
+			
 			ctx
-				.reply({
+				.editReply({
 					files: [
 						{
 							blob: dataURItoBlob(captcha.dataURL),
