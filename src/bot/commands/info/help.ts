@@ -23,7 +23,7 @@ export default {
 				});
 				value += '>` \n Slash Equivalents: ';
 				c.commands.forEach((command) => {
-					value += `${command.mention} `
+					value += `${command.mention} `;
 				});
 				fields.push({
 					name: '➯ ' + c.description,
