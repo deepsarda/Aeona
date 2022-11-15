@@ -15,7 +15,7 @@ export default async (client: AmethystBot) => {
 			//this pervents a lint error
 		}
 	});
-
+/*
 	client.once('ready', async () => {
 		try {
 			setInterval(async function () {
@@ -38,12 +38,12 @@ export default async (client: AmethystBot) => {
 						//lint
 					}
 				}, 1500);
-			}, 60 /* The time in milliseconds that the bot will wait before checking the invites again. */ * 60 * 1000);
+			}, 60  * 60 * 1000);
 		} catch (e) {
 			//this pervents a lint error
 		}
 	});
-
+*/
 	client.on('guildMemberAdd', async (member: Member) => {
 		try {
 			const cachedInvites = guildInvites.get(member.guildId);
