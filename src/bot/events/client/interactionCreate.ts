@@ -61,7 +61,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 						client.extras
 							.errNormal(
 								{
-									error: 'You have answered the captcha incorrectly! Don\'t worry you can try again',
+									error: "You have answered the captcha incorrectly! Don't worry you can try again",
 									type: 'reply',
 								},
 								{
