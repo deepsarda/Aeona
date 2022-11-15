@@ -13,7 +13,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		let channelName = await client.extras.getTemplate(ctx.guild.id);
 		channelName = channelName.replace(`{emoji}`, '👤');
-		channelName = channelName.replace(`{name}`, `Members: ${ctx.guild.memberCount.toLocaleString()}`);
+		channelName = channelName.replace(`{name}`, `Members: ${ctx.guild.approximateMemberCount.toLocaleString()}`);
 
 		client.helpers
 			.createChannel(ctx.guildId, {

@@ -29,7 +29,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			joinMessage = joinMessage.replace(`{inviter:invites:left}`, '∞');
 
 			joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-			joinMessage = joinMessage.replace(`{guild:members}`, guild.memberCount);
+			joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
 
 			welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: BigString }) => {
 				if (channelData) {
@@ -93,7 +93,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				joinMessage = joinMessage.replace(`{inviter:invites:left}`, data.Left);
 
 				joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-				joinMessage = joinMessage.replace(`{guild:members}`, guild.memberCount);
+				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
 
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 					if (channelData) {
@@ -158,7 +158,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				joinMessage = joinMessage.replace(`{inviter:invites:left}`, '0');
 
 				joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-				joinMessage = joinMessage.replace(`{guild:members}`, guild.memberCount);
+				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
 
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 					if (channelData) {

@@ -40,7 +40,7 @@ export default {
 			TIER_3: `3`,
 			NONE: `0`,
 		};
-
+		const channels = await client.helpers.getChannels(ctx.guildId);
 		client.extras.embed(
 			{
 				title: `Server Information`,
@@ -81,46 +81,38 @@ export default {
 
 					{
 						name: 'Members:',
-						value: `${ctx.guild.memberCount} members!`,
+						value: `${ctx.guild.approximateMemberCount} members!`,
 						inline: true,
 					},
 
 					{
 						name: 'Text Channels: ',
-						value: `${ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.GuildText).size} channels!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildText).size} channels!`,
 						inline: true,
 					},
 					{
 						name: 'Voice Channels:',
-						value: `${ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.GuildVoice).size} channels!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildVoice).size} channels!`,
 						inline: true,
 					},
 					{
 						name: 'Stage Channels:',
-						value: `${
-							ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).size
-						} channels!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).size} channels!`,
 						inline: true,
 					},
 					{
 						name: 'News Channels:',
-						value: `${
-							ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.GuildAnnouncement).size
-						} channels!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildAnnouncement).size} channels!`,
 						inline: true,
 					},
 					{
 						name: 'Public Threads:',
-						value: `${
-							ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.PublicThread).size
-						} threads!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.PublicThread).size} threads!`,
 						inline: true,
 					},
 					{
 						name: 'Private Threads:',
-						value: `${
-							ctx.guild.channels.filter((channel) => channel.type === ChannelTypes.PrivateThread).size
-						} threads!`,
+						value: `${channels.filter((channel) => channel.type === ChannelTypes.PrivateThread).size} threads!`,
 						inline: true,
 					},
 					{

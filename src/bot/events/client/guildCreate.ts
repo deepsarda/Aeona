@@ -15,7 +15,7 @@ export default async (client: AmethystBot, guild: Guild) => {
 		.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
 		.addField('Server name', `${guild.name}`, true)
 		.addField('Server ID', `${guild.id}`, true)
-		.addField('Server members', `${guild.memberCount}`, true)
+		.addField('Server members', `${guild.approximateMemberCount}`, true)
 		.addField('Server owner', `<@${guild.ownerId}> (${guild.ownerId})`, true)
 		.setColor(client.extras.config.colors.normal);
 	//client.extras.webhook({

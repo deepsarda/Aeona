@@ -4,10 +4,10 @@ import Schema from '../../database/models/stats.js';
 
 export default async (client: AmethystBot, guild: Guild) => {
 	try {
-		console.log(guild.memberCount);
+		console.log(guild.approximateMemberCount);
 		let channelName = await client.extras.getTemplate(guild.id);
 		channelName = channelName.replace(`{emoji}`, '👤');
-		channelName = channelName.replace(`{name}`, `Members: ${guild.memberCount.toLocaleString()}`);
+		channelName = channelName.replace(`{name}`, `Members: ${guild.approximateMemberCount.toLocaleString()}`);
 
 		const data = await Schema.findOne({ Guild: guild.id });
 		client.helpers.editChannel(data.Members, {

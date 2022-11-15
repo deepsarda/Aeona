@@ -128,7 +128,7 @@ export default async (client: AmethystBot) => {
 				Influx.writePoint(
 					new Point('users').tag('action', 'sync').intField(
 						'value',
-						client.cache.guilds.memory.reduce((a, b) => a + b?.memberCount, 0),
+						client.cache.guilds.memory.reduce((a, b) => a + b?.approximateMemberCount, 0),
 					),
 				);
 				Influx.writePoint(

@@ -19,7 +19,7 @@ export default async (client: AmethystBot, member: Member) => {
 			boostMessage = boostMessage.replace(`{user:mention}`, member);
 
 			boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
-			boostMessage = boostMessage.replace(`{guild:members}`, guild.memberCount);
+			boostMessage = boostMessage.replace(`{guild:members}`, guild.approximateMemberCount);
 			boostMessage = boostMessage.replace(`{guild:boosts}`, guild.premiumSubscriptionCount);
 			boostMessage = boostMessage.replace(`{guild:booststier}`, guild.premiumTier);
 

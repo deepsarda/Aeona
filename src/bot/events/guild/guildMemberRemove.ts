@@ -40,7 +40,7 @@ export default async (client: AmethystBot, member: Member) => {
 				leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData.Left + '');
 
 				leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-				leaveMessage = leaveMessage.replace(`{guild:members}`, guild.memberCount + '');
+				leaveMessage = leaveMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
 				client.helpers
 					.getUser(inviteData.User)
