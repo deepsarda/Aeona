@@ -36,26 +36,13 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 		if (data) {
 			const captcha = new Captcha();
 
-			const ctx = await createContext(
-				{
-					interaction: {
-						...interaction,
-						data: interaction.data?.options?.[0],
-					},
-				},
-				createOptionResults(client, [], {
-					interaction: interaction,
-				}),
-				client,
-			);
-
 			// eslint-disable-next-line no-inner-declarations
-			function verifyUser(msg: Context) {
+			function verifyUser(msg: Message) {
 				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then((response) => {
 					if (response.content === captcha.value) {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 
-						client.helpers.deleteMessage(interaction.channelId!, msg.message?.id!);
+						client.helpers.deleteMessage(interaction.channelId!, msg.id!);
 
 						client.extras
 							.succNormal(
@@ -66,10 +53,10 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 							)
 							.catch();
 
-						client.helpers.addRole(msg.guildId!, msg.user?.id!, data.Role);
+						client.helpers.addRole(msg.guildId!, msg.authorId, data.Role);
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
-						client.helpers.deleteMessage(interaction.channelId!, msg.message?.id!);
+						client.helpers.deleteMessage(interaction.channelId!, msg.id);
 
 						client.extras
 							.errNormal(
@@ -77,7 +64,9 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 									error: 'You have answered the captcha incorrectly!',
 									type: 'reply',
 								},
-								ctx,
+								{
+									id: interaction.channelId,
+								}
 							)
 							.then((msgError: Message) => {
 								setTimeout(() => {
@@ -87,9 +76,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				});
 			}
-
-			ctx
-				.editReply({
+				client.helpers.sendMessage(interaction.channelId,{
 					file: [
 						{
 							blob: dataURItoBlob(captcha.dataURL),
