@@ -15,7 +15,7 @@ export default async (client: AmethystBot) => {
 			//this pervents a lint error
 		}
 	});
-	
+
 	client.once('ready', async () => {
 		try {
 			setInterval(async function () {
@@ -37,8 +37,8 @@ export default async (client: AmethystBot) => {
 					} catch {
 						//lint
 					}
-				}, 15  * 60 * 1000);
-			}, 60  * 60 * 1000);
+				}, 15 * 60 * 1000);
+			}, 60 * 60 * 1000);
 		} catch (e) {
 			//this pervents a lint error
 		}
