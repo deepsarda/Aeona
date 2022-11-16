@@ -31,8 +31,7 @@ const cachebot = createProxyCache(basebot, {
 	},
 	cacheInMemory: {
 		default: true,
-		guilds: true,
-		users: true,
+		roles: false,
 	},
 });
 export const bot = enableAmethystPlugin(cachebot, {
@@ -67,6 +66,7 @@ bot.extras.webhook = async (content: any) => {
 bot.extras.startTime = new Date().getTime();
 
 process.on('unhandledRejection', (error: Error) => {
+	if(error.message.includes('Authorization token')) return;
 	console.error(error);
 	const embed = new AmethystEmbed()
 		.setTitle(`Unhandled promise rejection`)

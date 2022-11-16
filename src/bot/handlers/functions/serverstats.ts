@@ -18,6 +18,7 @@ export default async (client: AmethystBot) => {
 	};
 
 	client.on('guildMemberAdd', async (client: AmethystBot, member: Member) => {
+		if (!member.guildId) return;
 		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
 	});
