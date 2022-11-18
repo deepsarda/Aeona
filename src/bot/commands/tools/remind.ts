@@ -1,4 +1,4 @@
-import Schema from '../../database/models/reminder';
+import Schema from '../../database/models/reminder.js';
 import ms from 'ms';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
