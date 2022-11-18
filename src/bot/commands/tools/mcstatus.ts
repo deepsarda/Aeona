@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'mc status',
+	name: 'mcstatus',
 	description: 'Generate a chat message',
 	commandType: ['application', 'message'],
 	category: 'tools',
