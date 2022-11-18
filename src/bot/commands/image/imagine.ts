@@ -28,7 +28,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const prompt = ctx.options.getLongString('prompt', true);
-        console.log(prompt);
+		console.log(prompt);
 		query({
 			inputs:
 				prompt +
@@ -37,7 +37,7 @@ export default {
 				wait_for_model: true,
 			},
 		}).then(async (response) => {
-            console.log("HMMM");
+			console.log('HMMM');
 			ctx.reply({
 				content: 'PORMPT: ' + prompt,
 				file: [
