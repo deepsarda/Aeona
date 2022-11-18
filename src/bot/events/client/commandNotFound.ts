@@ -5,14 +5,15 @@ import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
 export default async (bot: AmethystBot, message: Message, commandName: string) => {
 	const url =
-		'https://aeona3.p.rapidapi.com/?text=' + encodeURIComponent(message.content) + '&userId=' + message.authorId;
+		'https://DumBotApi.aeona.repl.co?text=' +
+		encodeURIComponent(message.content) +
+		'&userId=' +
+		message.authorId +
+		'&key=' +
+		process.env.apiKey;
 
 	const options = {
 		method: 'GET',
-		headers: {
-			'X-RapidAPI-Key': process.env.apiKey!,
-			'X-RapidAPI-Host': 'aeona3.p.rapidapi.com',
-		},
 	};
 
 	fetch(url, options)

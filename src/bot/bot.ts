@@ -240,6 +240,18 @@ const categories: CategoryOptions[] = [
 		uniqueCommands: true,
 		default: 'list',
 	},
+	{
+		name: 'tools',
+		description: 'Various commands to help you',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'image',
+		description: 'Enjoy image magic',
+		uniqueCommands: true,
+		default: '',
+	},
 ];
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);

@@ -44,7 +44,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('guildMemberAdd', async (member: Member) => {
+	client.on('guildMemberAdd', async (bot: AmethystBot, member: Member) => {
 		try {
 			const cachedInvites = guildInvites.get(member.guildId);
 			const newInvites = await client.helpers.getInvites(member.guildId);

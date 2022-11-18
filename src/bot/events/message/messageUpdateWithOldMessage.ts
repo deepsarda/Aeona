@@ -8,7 +8,7 @@ export default async (client: AmethystBot, oldMessage, newMessage) => {
 
 		const logsChannel = await client.extras.getLogs(oldMessage.guildId);
 		if (!logsChannel) return;
-
+		const user = await client.helpers.getUser(newMessage.member.id);
 		client.extras
 			.embed(
 				{
@@ -17,7 +17,7 @@ export default async (client: AmethystBot, oldMessage, newMessage) => {
 					fields: [
 						{
 							name: `→ Author`,
-							value: `${newMessage.member.user} (${newMessage.member.user?.tag})`,
+							value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 						},
 						{
 							name: `→ Date`,

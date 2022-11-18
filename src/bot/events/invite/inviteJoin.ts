@@ -19,7 +19,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
 
 			joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-			joinMessage = joinMessage.replace(`{user:mention}`, member);
+			joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member + '>');
 
 			joinMessage = joinMessage.replace(`{inviter:username}`, 'System');
 			joinMessage = joinMessage.replace(`{inviter:discriminator}`, '#0000');
@@ -29,7 +29,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			joinMessage = joinMessage.replace(`{inviter:invites:left}`, '∞');
 
 			joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-			joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
+			joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
 			welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: BigString }) => {
 				if (channelData) {
@@ -83,17 +83,17 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				joinMessage = joinMessage.replace(`{user:username}`, member.user?.username);
 				joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
 				joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-				joinMessage = joinMessage.replace(`{user:mention}`, member);
+				joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 				joinMessage = joinMessage.replace(`{inviter:username}`, inviter.username);
 				joinMessage = joinMessage.replace(`{inviter:discriminator}`, inviter.discriminator);
 				joinMessage = joinMessage.replace(`{inviter:tag}`, inviter.username + '#' + inviter.discriminator);
-				joinMessage = joinMessage.replace(`{inviter:mention}`, inviter);
-				joinMessage = joinMessage.replace(`{inviter:invites}`, data.Invites);
-				joinMessage = joinMessage.replace(`{inviter:invites:left}`, data.Left);
+				joinMessage = joinMessage.replace(`{inviter:mention}`, '<@' + inviter.id + '>');
+				joinMessage = joinMessage.replace(`{inviter:invites}`, data.Invites + '');
+				joinMessage = joinMessage.replace(`{inviter:invites:left}`, data.Left + '');
 
 				joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
+				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 					if (channelData) {
@@ -148,17 +148,17 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				const guild = await client.cache.guilds.get(member.guildId);
 				if (!guild) return;
 				joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-				joinMessage = joinMessage.replace(`{user:mention}`, member);
+				joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 				joinMessage = joinMessage.replace(`{inviter:username}`, inviter.username);
 				joinMessage = joinMessage.replace(`{inviter:discriminator}`, inviter.discriminator);
 				joinMessage = joinMessage.replace(`{inviter:tag}`, inviter.username + '#' + inviter.discriminator);
-				joinMessage = joinMessage.replace(`{inviter:mention}`, inviter);
+				joinMessage = joinMessage.replace(`{inviter:mention}`, '<@' + inviter.id + '>');
 				joinMessage = joinMessage.replace(`{inviter:invites}`, '1');
 				joinMessage = joinMessage.replace(`{inviter:invites:left}`, '0');
 
 				joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount);
+				joinMessage = joinMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 					if (channelData) {
