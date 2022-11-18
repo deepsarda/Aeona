@@ -28,7 +28,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const prompt = ctx.options.getLongString('prompt', true);
-		console.log("Prompt: "+prompt);
+		console.log('Prompt: ' + prompt);
 		query({
 			inputs:
 				prompt +
