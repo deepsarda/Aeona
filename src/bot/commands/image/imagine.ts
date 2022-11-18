@@ -4,7 +4,7 @@ import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 
 async function query(data) {
 	const response = await fetch('https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5', {
-		headers: { Authorization: `Bearer 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` },
+		headers: { Authorization: `Bearer ${process.env.APIKEY}` },
 		method: 'POST',
 		body: JSON.stringify(data),
 	});
