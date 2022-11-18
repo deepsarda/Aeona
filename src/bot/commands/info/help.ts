@@ -21,7 +21,8 @@ export default {
 					if (value.endsWith('<')) value += `${command.name}`;
 					else value += `/${command.name}`;
 				});
-				/* value += '>` \n Slash Equivalents: ';
+				value += '>`';
+				/*  value += '>` \n Slash Equivalents: ';
 				c.commands.forEach((command) => {
 					value += `${command.mention} `;
 				});
