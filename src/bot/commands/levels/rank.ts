@@ -46,7 +46,7 @@ export default {
 
 			rankCard.build({}).then((data) => {
 				ctx.editReply({
-					files: [
+					file: [
 						{
 							name: 'image.png',
 							blob: new Blob([data], {

@@ -83,5 +83,5 @@ export default async (
 			content: 'Oh no! This is only meant for my owner.',
 		});
 
-	console.log(data.error);
+	console.log(data);
 };
