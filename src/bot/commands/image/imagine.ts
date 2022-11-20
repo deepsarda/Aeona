@@ -23,10 +23,10 @@ export default {
 			description: 'describe the image you want to generate',
 			required: true,
 			type: 'String',
-		}
+		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log("Hmm");
+		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
 		const prompt = ctx.options.getLongString('prompt', true);
 		console.log('Prompt: ' + prompt);
 		query({
@@ -38,7 +38,6 @@ export default {
 				wait_for_model: true,
 			},
 		}).then(async (response) => {
-			
 			ctx.reply({
 				content: 'Prompt: ' + prompt,
 				file: [
