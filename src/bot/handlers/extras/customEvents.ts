@@ -18,7 +18,6 @@ export default async (client: AmethystBot) => {
 		client.emit('messageCreateNoBots', bot, message);
 	});
 	client.on('guildMemberUpdateWithOldMember', (client: AmethystBot, oldMember: Member, newMember: Member) => {
-		if (!oldMember) return;
 		if (!oldMember.premiumSince && newMember.premiumSince) {
 			client.emit('guildMemberBoost', client, newMember);
 		}

@@ -19,7 +19,7 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
 
 			joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-			joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member + '>');
+			joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 			joinMessage = joinMessage.replace(`{inviter:username}`, 'System');
 			joinMessage = joinMessage.replace(`{inviter:discriminator}`, '#0000');
@@ -117,9 +117,9 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 						client.extras.embed(
 							{
 								title: `👋 Welcome`,
-								desc: `**${member} | ${member.user?.username + '#' + member.user?.discriminator}** was invited by ${
-									inviter.username + '#' + inviter.discriminator
-								} **(${data.Invites} invites)**`,
+								desc: `**<@${member.id}> | ${
+									member.user?.username + '#' + member.user?.discriminator
+								}** was invited by ${inviter.username + '#' + inviter.discriminator} **(${data.Invites} invites)**`,
 							},
 							channel,
 						);
