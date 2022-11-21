@@ -115,6 +115,7 @@ export default {
 			inputs: 'mdjrny-v4 style, ' + prompt + modifiers,
 			options: {
 				wait_for_model: true,
+				use_cache: false,
 			},
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
