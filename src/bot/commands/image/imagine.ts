@@ -111,14 +111,13 @@ export default {
 				break;
 		}
 
-		
 		query({
 			inputs: 'mdjrny-v4 style, ' + prompt + modifiers,
 			options: {
 				wait_for_model: true,
 			},
 		}).then(async (response) => {
-			await client.helpers.deleteMessage(msg.channelId,msg.id);
+			await client.helpers.deleteMessage(msg.channelId, msg.id);
 			ctx.reply({
 				content: 'Prompt: ' + prompt,
 				file: [
