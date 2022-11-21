@@ -35,7 +35,7 @@ export default {
 			' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
 		comp
 			.addButton('normal', 'Danger', 'normal')
-			.addButton('default', 'Secondary', 'default')
+			.addButton('default', 'Success', 'default')
 			.addButton('portrait', 'Secondary', 'portrait')
 			.addButton('photo', 'Secondary', 'photo')
 			.addButton('fantasy', 'Secondary', 'fantasy')
