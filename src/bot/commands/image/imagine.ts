@@ -28,8 +28,10 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
 		const prompt = ctx.options.getLongString('prompt', true);
-		console.log('Prompt: ' + prompt);
-
+		if (prompt.split(' ').length < 5)
+			return ctx.reply({
+				content: 'You need atleast 5 words',
+			});
 		const comp = new Components();
 		let modifiers =
 			' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';

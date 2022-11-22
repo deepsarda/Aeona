@@ -68,29 +68,11 @@ bot.extras.startTime = new Date().getTime();
 process.on('unhandledRejection', (error: Error) => {
 	if (error.message.includes('Authorization token')) return;
 	console.error(error);
-	const embed = new AmethystEmbed()
-		.setTitle(`Unhandled promise rejection`)
-		.addField(`Error`, `\`\`\`${error}\`\`\``)
-		.addField(`Stack error`, `\`\`\`${error.stack}\`\`\``);
-	bot.extras
-		.webhook({
-			username: 'Logs',
-			embeds: [embed],
-		})
-		.catch(() => {
-			console.log(error);
-		});
 });
 
 process.on('warning', (warn) => {
 	console.warn(warn);
 	const embed = new AmethystEmbed().setTitle(`New warning found`).addField(`Warn`, `\`\`\`${warn}\`\`\``);
-	bot.extras
-		.webhook({
-			username: 'Logs',
-			embeds: [embed],
-		})
-		.catch();
 });
 
 fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {

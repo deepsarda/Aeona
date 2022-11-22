@@ -134,7 +134,7 @@ export default async (client: AmethystBot) => {
 					new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
 				);
 			} catch (e) {
-				//e3
+				console.error(e);
 			}
 		} catch (e) {
 			console.error(e);
@@ -146,7 +146,7 @@ export default async (client: AmethystBot) => {
 			const params = new URLSearchParams();
 			params.append('server_count', client.cache.guilds.memory.size + '');
 
-			fetch(`https://top.gg/api/bots/${client.applicationId}/stats`, {
+			fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
 				method: 'POST',
 				headers: {
 					authorization: process.env.TOPGG,
