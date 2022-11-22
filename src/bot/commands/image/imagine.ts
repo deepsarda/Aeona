@@ -28,9 +28,9 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
 		const prompt = ctx.options.getLongString('prompt', true);
-		if (prompt.split(' ').length < 5)
+		if (prompt.split(' ').length < 3)
 			return ctx.reply({
-				content: 'You need atleast 5 words',
+				content: 'You need atleast 3 words',
 			});
 		const comp = new Components();
 		let modifiers =
@@ -126,6 +126,15 @@ export default {
 			},
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
+			client.helpers.sendMessage("1044575489118978068", {
+				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
+				file: [
+					{
+						blob: response,
+						name: 'image.jpg',
+					},
+				],
+			})
 			ctx.reply({
 				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
 				file: [
