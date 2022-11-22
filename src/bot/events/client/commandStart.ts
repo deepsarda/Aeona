@@ -9,17 +9,12 @@ const INFLUX_URL = process.env.INFLUX_URL as string;
 const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 export const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 export default async (bot: AmethystBot, command: CommandClass, data: Interaction | Message) => {
+	const user = await bot.helpers.getUser(data.member.id);
 	const embed = new AmethystEmbed()
 		.setTitle(`Command Ran`)
 		.addField(
 			'User:',
-			'<@' +
-				data.member.id +
-				'> \n' +
-				data.member.user.username +
-				'#' +
-				data.member.user.discriminator +
-				`(${data.member.id})`,
+			'<@' + data.member.id + '> \n' + user.username + '#' + user.discriminator + `(${data.member.id})`,
 		)
 		.addField('Command: ', command.name)
 		.addField('Channel:', (await bot.cache.channels.get(data.channelId)).name)
