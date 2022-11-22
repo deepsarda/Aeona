@@ -37,7 +37,7 @@ export default {
 			' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
 		comp
 			.addButton('normal', 'Danger', 'normal')
-			.addButton('default', 'Success', 'default')
+			.addButton('dramatic', 'Success', 'dramatic')
 			.addButton('portrait', 'Secondary', 'portrait')
 			.addButton('photo', 'Secondary', 'photo')
 			.addButton('fantasy', 'Secondary', 'fantasy')
@@ -58,7 +58,11 @@ export default {
 			content: 'Choose your style...',
 			components: comp,
 		});
+		
 		const c = await client.amethystUtils.awaitComponent(msg.id);
+		await client.helpers.editMessage(ctx.channel.id, msg.id,{
+			content:"GENERATING...."
+		})
 		switch (c.data.customId) {
 			case 'normal':
 				modifiers = '';
@@ -114,7 +118,7 @@ export default {
 		}
 
 		query({
-			inputs: 'mdjrny-v4 style, ' + prompt + modifiers,
+			inputs:   prompt +' mdjrny-v4 style '+ modifiers,
 			options: {
 				wait_for_model: true,
 				use_cache: false,
@@ -122,7 +126,7 @@ export default {
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
 			ctx.reply({
-				content: 'Prompt: ' + prompt,
+				content: 'Prompt: ' + prompt + '\n Mode: '+c.data.customId ,
 				file: [
 					{
 						blob: response,

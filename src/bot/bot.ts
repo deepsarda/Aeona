@@ -1,5 +1,4 @@
 import {
-	AmethystEmbed,
 	CategoryOptions,
 	createProxyCache,
 	enableAmethystPlugin,
@@ -72,8 +71,7 @@ process.on('unhandledRejection', (error: Error) => {
 
 process.on('warning', (warn) => {
 	console.warn(warn);
-	const embed = new AmethystEmbed().setTitle(`New warning found`).addField(`Warn`, `\`\`\`${warn}\`\`\``);
-});
+	});
 
 fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
 	fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
