@@ -125,12 +125,6 @@ export default async (client: AmethystBot) => {
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
 			try {
 				Influx.writePoint(
-					new Point('users').tag('action', 'sync').intField(
-						'value',
-						client.cache.guilds.memory.reduce((a, b) => a + b?.approximateMemberCount, 0),
-					),
-				);
-				Influx.writePoint(
 					new Point('ping').tag('action', 'sync').intField('value', client.gateway.manager.shards.first()?.heart.rtt!),
 				);
 			} catch (e) {

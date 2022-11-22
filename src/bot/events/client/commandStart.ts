@@ -10,7 +10,7 @@ const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, to
 export const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 export default async (bot: AmethystBot, command: CommandClass, data: Interaction | Message) => {
 	const embed = new AmethystEmbed()
-		.setTitle(`Unhandled promise rejection`)
+		.setTitle(`Command Ran`)
 		.addField(
 			'User:',
 			'<@' +
