@@ -21,8 +21,10 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 				data.member.user.discriminator +
 				`(${data.member.id})`,
 		)
+		.addField("Command: ",command.name)
 		.addField('Channel:', (await bot.cache.channels.get(data.channelId)).name)
 		.addField('Guild:', (await bot.cache.guilds.get(data.guildId)).name);
+
 
 	//@ts-ignore
 	if (data.content) embed.addField('Content:', data.content);
@@ -31,9 +33,10 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 		embed.addField(
 			'Content:',
 			//@ts-ignore
-			data.data.options.map((option) =>
-				option.value.options ? option.value.options.map((option) => option.value) : option.value,
-			),
+			data.data.options.map((option) =>{
+				
+				return option.options ? option.options.map((option) => option.value) : option.value
+			}),
 		);
 	bot.extras.webhook({
 		username: 'Logs',
