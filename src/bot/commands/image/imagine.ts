@@ -62,6 +62,7 @@ export default {
 		const c = await client.amethystUtils.awaitComponent(msg.id);
 		await client.helpers.editMessage(ctx.channel.id, msg.id, {
 			content: 'GENERATING....',
+			components: [],
 		});
 		switch (c.data.customId) {
 			case 'normal':
@@ -126,7 +127,7 @@ export default {
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
 			ctx.reply({
-				content: 'Prompt: ' + prompt + '\n Mode: ' + c.data.customId,
+				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
 				file: [
 					{
 						blob: response,

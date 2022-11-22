@@ -28,8 +28,8 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 			'Content:',
 			//@ts-ignore
 			data.data.options.map((option) => {
-				return option.options ? option.options.map((option) => option.value) : option.value;
-			}),
+				return option.options ? option.options.map((option) => option.value).join(" ") : option.value;
+			}).join(" "),
 		);
 	bot.extras.webhook({
 		username: 'Logs',
