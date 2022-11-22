@@ -126,7 +126,7 @@ export default {
 			},
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
-			client.helpers.sendMessage("1044575489118978068", {
+			client.helpers.sendMessage('1044575489118978068', {
 				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
 				file: [
 					{
@@ -134,7 +134,7 @@ export default {
 						name: 'image.jpg',
 					},
 				],
-			})
+			});
 			ctx.reply({
 				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
 				file: [
