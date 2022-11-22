@@ -27,9 +27,11 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 		embed.addField(
 			'Content:',
 			//@ts-ignore
-			data.data.options.map((option) => {
-				return option.options ? option.options.map((option) => option.value).join(" ") : option.value;
-			}).join(" "),
+			data.data.options
+				.map((option) => {
+					return option.options ? option.options.map((option) => option.value).join(' ') : option.value;
+				})
+				.join(' '),
 		);
 	bot.extras.webhook({
 		username: 'Logs',
