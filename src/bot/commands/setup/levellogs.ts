@@ -1,7 +1,7 @@
 import levelLogs from '../../database/models/levelChannels.js';
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'levelLogs',
+	name: 'levellogs',
 	description: 'Setup the levelLogs for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
