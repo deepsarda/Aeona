@@ -27,7 +27,7 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 	//@ts-ignore
 	if (data.content) embed.addField('Content:', data.content);
 	//@ts-ignore
-	else if( data.data.options)
+	else if (data.data.options)
 		embed.addField(
 			'Content:',
 			//@ts-ignore
@@ -40,7 +40,7 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 		embeds: [embed],
 	});
 
-	console.log("HMMM")
+	console.log('HMMM');
 	Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 	Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', command.name).intField('value', 1));
 };

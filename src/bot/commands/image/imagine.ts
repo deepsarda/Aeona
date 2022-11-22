@@ -58,11 +58,11 @@ export default {
 			content: 'Choose your style...',
 			components: comp,
 		});
-		
+
 		const c = await client.amethystUtils.awaitComponent(msg.id);
-		await client.helpers.editMessage(ctx.channel.id, msg.id,{
-			content:"GENERATING...."
-		})
+		await client.helpers.editMessage(ctx.channel.id, msg.id, {
+			content: 'GENERATING....',
+		});
 		switch (c.data.customId) {
 			case 'normal':
 				modifiers = '';
@@ -118,7 +118,7 @@ export default {
 		}
 
 		query({
-			inputs:   prompt +' mdjrny-v4 style '+ modifiers,
+			inputs: prompt + ' mdjrny-v4 style ' + modifiers,
 			options: {
 				wait_for_model: true,
 				use_cache: false,
@@ -126,7 +126,7 @@ export default {
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
 			ctx.reply({
-				content: 'Prompt: ' + prompt + '\n Mode: '+c.data.customId ,
+				content: 'Prompt: ' + prompt + '\n Mode: ' + c.data.customId,
 				file: [
 					{
 						blob: response,

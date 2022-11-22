@@ -123,7 +123,6 @@ export default async (client: AmethystBot) => {
 			);
 
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
-			
 		} catch (e) {
 			console.error(e);
 		}

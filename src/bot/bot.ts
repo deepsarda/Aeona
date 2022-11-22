@@ -1,8 +1,4 @@
-import {
-	CategoryOptions,
-	createProxyCache,
-	enableAmethystPlugin,
-} from '@thereallonewolf/amethystframework';
+import { CategoryOptions, createProxyCache, enableAmethystPlugin } from '@thereallonewolf/amethystframework';
 import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -71,7 +67,7 @@ process.on('unhandledRejection', (error: Error) => {
 
 process.on('warning', (warn) => {
 	console.warn(warn);
-	});
+});
 
 fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
 	fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
