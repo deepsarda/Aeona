@@ -86,8 +86,6 @@ app.all('*', async (req, res): Promise<any> => {
 						err,
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
 				);
-
-				
 			}
 		} else {
 			console.error(error);
@@ -111,7 +109,7 @@ app.listen(REST_PORT, () => {
 		Influx?.writePoint(
 			new Point('rest') //
 				.tag('action', 'sync')
-				.floatField('length', requestCount/10),
+				.floatField('length', requestCount / 10),
 		);
 
 		requestCount = 0;
