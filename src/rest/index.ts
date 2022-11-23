@@ -38,7 +38,7 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+		//console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 		const result = await reqHandler.request(
 			req.method,
 			`/api${req.url.split('?')[0]}`,
@@ -51,10 +51,10 @@ app.all('*', async (req, res): Promise<any> => {
 				: undefined,
 		);
 		if (result) {
-			console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			//console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(200).send(result);
 		} else {
-			console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			//console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(204).send(undefined);
 		}
 	} catch (error) {
@@ -87,17 +87,7 @@ app.all('*', async (req, res): Promise<any> => {
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
 				);
 
-				console.log(
-					'4xx-errors.log'.white.bgRed.bold,
-					`Received a 4xx response!`.white,
-					`\nStatus Code: ${err.status}`.grey,
-					`\nMethod: ${req.method}`.yellow,
-					`\nRoute: ${req.url}`.yellow,
-					`\nError: ${inspect(err)}`.red,
-					`\nTimeStamp: ${Date.now()}`.cyan,
-					`\nTime: ${new Date().toUTCString()}`.cyan,
-					`\n------------------------------------\n`.red,
-				);
+				
 			}
 		} else {
 			console.error(error);
@@ -108,10 +98,9 @@ app.all('*', async (req, res): Promise<any> => {
 });
 
 app.listen(REST_PORT, () => {
-	console.log(colors.green(`Bot is listening at ${REST_URL};`));
+	console.log(colors.green(`Rest is listening at ${REST_URL};`));
 
 	setInterval(() => {
-		console.log('Rest Queue Lenght:'.yellow.bold, (requestCount + '').cyan);
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 		const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
@@ -122,9 +111,9 @@ app.listen(REST_PORT, () => {
 		Influx?.writePoint(
 			new Point('rest') //
 				.tag('action', 'sync')
-				.floatField('length', requestCount),
+				.floatField('length', requestCount/10),
 		);
 
 		requestCount = 0;
-	}, 60 * 1000);
+	}, 10 * 1000);
 });
