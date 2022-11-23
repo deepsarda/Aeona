@@ -20,5 +20,5 @@ export default async (client: AmethystBot, guild: Guild) => {
 		.setColor(client.extras.config.colors.normal);
 	client.extras.webhook({
 		embeds: [embed],
-    });
+	});
 };
