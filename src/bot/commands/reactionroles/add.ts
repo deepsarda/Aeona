@@ -72,7 +72,7 @@ export default {
 					},
 				}).save();
 			}
-			console.log('hmmm');
+
 			client.extras.succNormal(
 				{
 					text: 'Reaction role successfully created! Create a panel in the following way',

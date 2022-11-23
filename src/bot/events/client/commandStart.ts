@@ -38,7 +38,6 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 		embeds: [embed],
 	});
 
-	console.log('HMMM');
 	Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 	Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', command.name).intField('value', 1));
 };
