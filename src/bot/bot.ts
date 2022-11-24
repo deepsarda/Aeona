@@ -249,7 +249,7 @@ start();
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
 		try {
-			if (process.env.TOPGG) {
+			if (process.env.TOPGG_TOKEN) {
 				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
 				const json = await response.json();
 				return true;

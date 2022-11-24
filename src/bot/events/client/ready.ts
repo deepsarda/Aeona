@@ -134,13 +134,16 @@ export default async (client: AmethystBot) => {
 			console.error(e);
 		}
 		try {
-			if (process.env.TOPGG && client.user.id == BigInt(931226824753700934n)) {
-				console.log(client.user.id);
-				const response = await fetch(`https://top.gg/api/bots/931226824753700934/votes`);
-				console.log('HMMM');
+			if (process.env.TOPGG_TOKEN && client.user.id == BigInt(931226824753700934n)) {
+				const response = await fetch(`https://top.gg/api/bots/931226824753700934/votes`, {
+					headers: {
+						authorization: process.env.TOPGG_TOKEN,
+					},
+				});
+
 				//@ts-ignore
 				const json: UserTopgg[] = await response.json();
-				console.log(json);
+
 				if (json[json.length - 1].id != lastUserId) {
 					let lastIndex = 0;
 					for (let i = 0; i < json.length; i++) {
@@ -165,6 +168,7 @@ export default async (client: AmethystBot) => {
 							embeds: [embed],
 						});
 					}
+					lastUserId = json[json.length - 1].id;
 				}
 
 				fs.writeFileSync('last.txt', json[json.length - 1].id);
