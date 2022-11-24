@@ -2,11 +2,12 @@ import {
 	CategoryOptions,
 	createProxyCache,
 	enableAmethystPlugin,
-	AmethystBot,
 	AmethystError,
+	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
+import { connect } from './database/connect.js';
 dotenv.config();
 
 import fs from 'fs';
@@ -48,9 +49,8 @@ export const bot = enableAmethystPlugin(cachebot, {
 	commandDir: './dist/bot/commands',
 });
 
-// Connect to database
-import { connect } from './database/connect.js';
-import { Command } from '@thereallonewolf/amethystframework/';
+
+
 connect();
 // bot settings
 bot.extras.config = botConfig;
@@ -247,23 +247,28 @@ bot.rest = createRestManager({
 });
 
 start();
-/*
+
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
-		let voted = false;
+	
 
 		try {
 			if (process.env.TOPGG) {
 				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
 				const json = await response.json();
-				if (json.voted == 1) voted = true;
+				return true;
 			}
 		} catch (e) {
 			console.log(e);
 		}
 
-		if(!voted) return 
+		return {
+			//@ts-ignore
+			type: ErrorEnums.OTHER,
+			value: "You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.",
+		  };
+		
 	}
 	return true;
 });
-*/
+

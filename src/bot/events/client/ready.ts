@@ -1,12 +1,19 @@
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AmethystBot, AmethystEmbed } from '@thereallonewolf/amethystframework';
 import { ActivityTypes } from 'discordeno/types';
 import { cpus } from 'os';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
 import fetch from 'node-fetch';
+import fs from 'fs';
 export default async (client: AmethystBot) => {
-	console.log('ready');
+	let lastUserId = '0';
+
+	try {
+		lastUserId = fs.readFileSync('last.txt', 'utf8');
+	} catch (err) {
+		//console.error("Couldn't read last.txt", err);
+	}
 	client.user = await client.helpers.getUser(client.applicationId);
 	const INFLUX_ORG = process.env.INFLUX_ORG as string;
 	const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
@@ -45,7 +52,7 @@ export default async (client: AmethystBot) => {
 			activities: [
 				{
 					type: ActivityTypes.Streaming,
-					name: `${bot.prefix}help in ${client.cache.guilds.memory.size} servers.`,
+					name: `${bot.prefix}help `,
 					createdAt: new Date().getTime(),
 					url: process.env.WEBSITE,
 				},
@@ -55,13 +62,14 @@ export default async (client: AmethystBot) => {
 	} catch (e) {
 		console.error(e);
 	}
-	setInterval(() => {
+	setInterval(async () => {
 		try {
+			
 			client.helpers.editBotStatus({
 				activities: [
 					{
 						type: ActivityTypes.Streaming,
-						name: `${bot.prefix}help in ${client.cache.guilds.memory.size} servers.`,
+						name: `${bot.prefix}help in `,
 						createdAt: new Date().getTime(),
 						url: process.env.WEBSITE,
 					},
@@ -125,6 +133,45 @@ export default async (client: AmethystBot) => {
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
 		} catch (e) {
 			console.error(e);
+		}
+		try {
+			if (process.env.TOPGG && client.user.id == BigInt(931226824753700934n)) {
+				console.log(client.user.id)
+				const response = await fetch(`https://top.gg/api/bots/931226824753700934/votes`);
+				console.log("HMMM");
+				//@ts-ignore
+				const json: UserTopgg[] = await response.json();
+				console.log(json)
+				if (json[json.length - 1].id != lastUserId) {
+					let lastIndex = 0;
+					for (let i = 0; i < json.length; i++) {
+						if (json[i].id == lastUserId) lastIndex = i;
+					}
+
+					for (let i = lastIndex; i < json.length; i++) {
+						const user = json[i];
+						const embed = new AmethystEmbed()
+							.setTitle('Thank You!')
+							.setDescription(
+								` ${user.username} has upvoted us! \n Thank you so much for helping Aeona to keep growing!  \n [Upvote Me Here](https://top.gg/bot/931226824753700934/vote)`,
+							)
+							.setAuthor(
+								`${user.username}`,
+								client.helpers.getAvatarURL(user.id, client.user.discriminator, {
+									avatar: user.avatar,
+								}),
+							);
+						client.helpers.sendMessage(1034419695283077132n, {
+							content: '<@!' + user.id + '>',
+							embeds: [embed],
+						});
+					}
+				}
+
+				fs.writeFileSync('last.txt', json[json.length - 1].id);
+			}
+		} catch (e) {
+			console.log(e);
 		}
 	}, 10000);
 
@@ -277,6 +324,8 @@ async function verifySlashCommands(client: AmethystBot) {
 								else op.setRequired(false);
 								return op;
 							});
+
+						if(!option.type) console.log(command.name)
 					}
 					return subcommand;
 				});
@@ -296,3 +345,9 @@ async function verifySlashCommands(client: AmethystBot) {
 		console.error(e);
 	}
 }
+
+type UserTopgg = {
+	username: string;
+	id: string;
+	avatar: string;
+};
