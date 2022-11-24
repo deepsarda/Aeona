@@ -171,6 +171,21 @@ export default async (client: AmethystBot) => {
 				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
 			}
 		}
+		if (client.cache.members.memory.size > 500) {
+			for (const [userId, user] of client.cache.members.memory) {
+				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
+			}
+		}
+		if (client.cache.channels.memory.size > 100) {
+			for (const [channelId, channel] of client.cache.channels.memory) {
+				client.cache.channels.delete(channel.id);
+			}
+		}
+		if (client.cache.messages.memory.size > 500) {
+			for (const [messageId, message] of client.cache.messages.memory) {
+				client.cache.messages.delete(messageId);
+			}
+		}
 		for (const [messageId, message] of client.cache.messages.memory) {
 			if (!message.timestamp) client.cache.messages.delete(messageId);
 			if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
