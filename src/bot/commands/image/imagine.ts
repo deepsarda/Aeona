@@ -25,6 +25,9 @@ export default {
 			type: 'String',
 		},
 	],
+	extras:{
+		upvoteOnly: true,
+	},
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
 		const prompt = ctx.options.getLongString('prompt', true);

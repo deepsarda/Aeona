@@ -1,4 +1,10 @@
-import { CategoryOptions, createProxyCache, enableAmethystPlugin } from '@thereallonewolf/amethystframework';
+import {
+	CategoryOptions,
+	createProxyCache,
+	enableAmethystPlugin,
+	AmethystBot,
+	AmethystError,
+} from '@thereallonewolf/amethystframework';
 import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -44,6 +50,7 @@ export const bot = enableAmethystPlugin(cachebot, {
 
 // Connect to database
 import { connect } from './database/connect.js';
+import { Command } from '@thereallonewolf/amethystframework/';
 connect();
 // bot settings
 bot.extras.config = botConfig;
@@ -240,3 +247,23 @@ bot.rest = createRestManager({
 });
 
 start();
+/*
+bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
+	if (command.extras.upvoteOnly) {
+		let voted = false;
+
+		try {
+			if (process.env.TOPGG) {
+				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
+				const json = await response.json();
+				if (json.voted == 1) voted = true;
+			}
+		} catch (e) {
+			console.log(e);
+		}
+
+		if(!voted) return 
+	}
+	return true;
+});
+*/
