@@ -64,7 +64,6 @@ export default async (client: AmethystBot) => {
 	}
 	setInterval(async () => {
 		try {
-			
 			client.helpers.editBotStatus({
 				activities: [
 					{
@@ -136,12 +135,12 @@ export default async (client: AmethystBot) => {
 		}
 		try {
 			if (process.env.TOPGG && client.user.id == BigInt(931226824753700934n)) {
-				console.log(client.user.id)
+				console.log(client.user.id);
 				const response = await fetch(`https://top.gg/api/bots/931226824753700934/votes`);
-				console.log("HMMM");
+				console.log('HMMM');
 				//@ts-ignore
 				const json: UserTopgg[] = await response.json();
-				console.log(json)
+				console.log(json);
 				if (json[json.length - 1].id != lastUserId) {
 					let lastIndex = 0;
 					for (let i = 0; i < json.length; i++) {
@@ -325,7 +324,7 @@ async function verifySlashCommands(client: AmethystBot) {
 								return op;
 							});
 
-						if(!option.type) console.log(command.name)
+						if (!option.type) console.log(command.name);
 					}
 					return subcommand;
 				});

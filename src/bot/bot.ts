@@ -49,8 +49,6 @@ export const bot = enableAmethystPlugin(cachebot, {
 	commandDir: './dist/bot/commands',
 });
 
-
-
 connect();
 // bot settings
 bot.extras.config = botConfig;
@@ -250,8 +248,6 @@ start();
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
-	
-
 		try {
 			if (process.env.TOPGG) {
 				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
@@ -265,10 +261,8 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 		return {
 			//@ts-ignore
 			type: ErrorEnums.OTHER,
-			value: "You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.",
-		  };
-		
+			value: 'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.',
+		};
 	}
 	return true;
 });
-
