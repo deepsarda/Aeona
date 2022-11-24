@@ -25,7 +25,7 @@ export default {
 			type: 'String',
 		},
 	],
-	extras:{
+	extras: {
 		upvoteOnly: true,
 	},
 	async execute(client: AmethystBot, ctx: Context) {

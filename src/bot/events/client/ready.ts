@@ -172,7 +172,7 @@ export default async (client: AmethystBot) => {
 			}
 		}
 		for (const [messageId, message] of client.cache.messages.memory) {
-			if(! message.timestamp) client.cache.messages.delete(messageId);
+			if (!message.timestamp) client.cache.messages.delete(messageId);
 			if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
 		}
 	}, 1000 * 60 * 2);
