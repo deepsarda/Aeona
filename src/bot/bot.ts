@@ -252,7 +252,12 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 			if (process.env.TOPGG_TOKEN) {
 				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
 				const json = await response.json();
-				return true;
+				if (json.voted == 1) return true;
+				return {
+					//@ts-ignore
+					type: ErrorEnums.OTHER,
+					value: 'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.  \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
+				};
 			}
 		} catch (e) {
 			console.log(e);
@@ -261,7 +266,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 		return {
 			//@ts-ignore
 			type: ErrorEnums.OTHER,
-			value: 'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.',
+			value: 'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
 		};
 	}
 	return true;
