@@ -13,7 +13,7 @@ Aeona supports slash-based commands as well as message-based commands.
 - The ability to support the greatest number of languages.
 - A simple and intuitive codebase.
 - Every aspect is customizable.
-- The most recent version of Discordjs as soon as possible.
+- The most recent version of Discordenoas soon as possible.
 
 ## Features/Goals
 
