@@ -191,6 +191,14 @@ export default async (client: AmethystBot) => {
 			if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
 		}
 	}, 1000 * 60 * 2);
+
+	setInterval(() => {
+		if (client.cache.messages.memory.size > 100) {
+			for (const [messageId, message] of client.cache.messages.memory) {
+				client.cache.messages.delete(messageId);
+			}
+		}
+	},1000);
 };
 
 async function verifySlashCommands(client: AmethystBot) {
