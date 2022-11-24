@@ -130,11 +130,13 @@ export default async (client: AmethystBot) => {
 			);
 
 			Influx.writePoint(new Point('guilds').tag('action', 'sync').intField('value', client.cache.guilds.memory.size));
+		
+		
 		} catch (e) {
 			console.error(e);
 		}
 		try {
-			if (process.env.TOPGG_TOKEN && client.user.id == BigInt(931226824753700934n)) {
+			if (process.env.TOPGG_TOKEN && client.user.id == BigInt(1034419695794794561n)) {
 				const response = await fetch(`https://top.gg/api/bots/931226824753700934/votes`, {
 					headers: {
 						authorization: process.env.TOPGG_TOKEN,
@@ -143,14 +145,13 @@ export default async (client: AmethystBot) => {
 
 				//@ts-ignore
 				const json: UserTopgg[] = await response.json();
-
-				if (json[json.length - 1].id != lastUserId) {
+				if (json[0].id != lastUserId) {
 					let lastIndex = 0;
 					for (let i = 0; i < json.length; i++) {
 						if (json[i].id == lastUserId) lastIndex = i;
 					}
 
-					for (let i = lastIndex; i < json.length; i++) {
+					for (let i = 0; i < lastIndex; i++) {
 						const user = json[i];
 						const embed = new AmethystEmbed()
 							.setTitle('Thank You!')
@@ -178,7 +179,7 @@ export default async (client: AmethystBot) => {
 		}
 	}, 10000);
 
-	setInterval(() => {
+	setInterval(async () => {
 		try {
 			const params = new URLSearchParams();
 			params.append('server_count', client.cache.guilds.memory.size + '');
@@ -202,6 +203,8 @@ export default async (client: AmethystBot) => {
 		} catch (e) {
 			console.error(e);
 		}
+
+		
 	}, 60000);
 	setTimeout(async () => {
 		try {

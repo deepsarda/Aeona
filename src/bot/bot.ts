@@ -9,6 +9,7 @@ import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
 dotenv.config();
+import fetch from "node-fetch"
 
 import fs from 'fs';
 import { INTENTS, REST_URL } from '../configs.js';
@@ -248,11 +249,16 @@ start();
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
-		return true;
+		
 		try {
 			if (process.env.TOPGG_TOKEN) {
-				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`);
-				const json = await response.json();
+				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`,{
+					headers: {
+						authorization: process.env.TOPGG_TOKEN,
+					},
+				});
+				const json:any = await response.json();
+
 				if (json.voted == 1) return true;
 				return {
 					//@ts-ignore
