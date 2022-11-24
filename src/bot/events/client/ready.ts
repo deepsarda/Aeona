@@ -198,7 +198,7 @@ export default async (client: AmethystBot) => {
 				client.cache.messages.delete(messageId);
 			}
 		}
-	},1000);
+	}, 1000);
 };
 
 async function verifySlashCommands(client: AmethystBot) {
