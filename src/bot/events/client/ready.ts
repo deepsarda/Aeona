@@ -176,7 +176,6 @@ export default async (client: AmethystBot) => {
 			console.log(e);
 		}
 	}, 10000);
-
 	setInterval(async () => {
 		try {
 			const params = new URLSearchParams();

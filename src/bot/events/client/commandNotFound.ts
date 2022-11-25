@@ -27,7 +27,7 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 				'\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
 				'\n Generate beautiful images using /imagine \n || https://media.discordapp.net/attachments/1034419695060791342/1044217539682652170/unknown.png ||',
 			];
-			const randomNumber = Math.floor(Math.random() * 10);
+			const randomNumber = Math.floor(Math.random() * 30);
 			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 			await bot.helpers.sendMessage(message.channelId, {
 				content: json,
