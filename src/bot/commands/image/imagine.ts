@@ -60,9 +60,15 @@ export default {
 		const msg = await client.helpers.sendMessage(ctx.channel.id, {
 			content: 'Choose your style...',
 			components: comp,
+			messageReference: {
+				messageId: ctx.message?.id,
+				failIfNotExists: false,
+			},
 		});
 
-		const c = await client.amethystUtils.awaitComponent(msg.id);
+		const c = await client.amethystUtils.awaitComponent(msg.id, {
+			filter: (bot, data) => data.user.id == ctx.author.id,
+		});
 		await client.helpers.editMessage(ctx.channel.id, msg.id, {
 			content: 'GENERATING....',
 			components: [],

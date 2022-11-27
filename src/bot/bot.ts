@@ -251,11 +251,15 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	if (command.extras.upvoteOnly) {
 		try {
 			if (process.env.TOPGG_TOKEN) {
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 3000);
 				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`, {
+					signal: controller.signal,
 					headers: {
 						authorization: process.env.TOPGG_TOKEN,
 					},
 				});
+				clearTimeout(timeoutId);
 				const json: any = await response.json();
 
 				if (json.voted == 1) return true;
