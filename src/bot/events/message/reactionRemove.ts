@@ -49,7 +49,7 @@ export default async (
 						fields: [
 							{
 								name: `→ Stars`,
-								value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count}`,
+								value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count || 1}`,
 								inline: true,
 							},
 							{
@@ -59,9 +59,7 @@ export default async (
 							},
 							{
 								name: `→ Author`,
-								value: `<@${message.member?.id}> (${
-									message.member?.user?.username + '#' + message.member?.user?.discriminator
-								})`,
+								value: `<@${message.authorId}>`,
 								inline: true,
 							},
 						],

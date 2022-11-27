@@ -268,6 +268,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 			}
 		} catch (e) {
 			console.log(e);
+			return true;
 		}
 
 		return {

@@ -13,6 +13,7 @@ export default async (client: AmethystBot) => {
 	const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 	const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 	client.extras.messageCount = 0;
+	
 	try {
 		const point = new Point('per_core_cpu_load').tag('action', 'sync');
 

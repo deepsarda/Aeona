@@ -43,7 +43,6 @@ export default async (client: AmethystBot, guild: Guild) => {
 	client.extras.webhook({
 		embeds: [embed],
 	});
-
 	await Schema.deleteMany({ Guild: guild.id });
 	await Schema4.deleteMany({ Guild: guild.id });
 	await Schema5.deleteMany({ Guild: guild.id });
