@@ -160,7 +160,7 @@ const categories: CategoryOptions[] = [
 		name: 'levels',
 		description: 'Configure the rank system',
 		uniqueCommands: false,
-		default: 'rannk',
+		default: 'rank',
 	},
 	{
 		name: 'marriage',
@@ -231,6 +231,18 @@ const categories: CategoryOptions[] = [
 	{
 		name: 'image',
 		description: 'Enjoy image magic',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'code',
+		description: 'Some useful coding commands',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'anime',
+		description: 'Some anime commands',
 		uniqueCommands: true,
 		default: '',
 	},

@@ -36,26 +36,96 @@ export default {
 				content: 'You need atleast 3 words',
 			});
 		const comp = new Components();
+		comp.addSelectComponent('Choose your style', 'style', [
+			{
+				label: 'accurate',
+				description: 'Generates the image most accurate to your prompt but will be less amazing.',
+				value: 'accurate',
+			},
+			{
+				label: 'dramatic',
+				description: 'Not the most accurate but generates the best images',
+				value: 'dramatic',
+				default: true,
+			},
+			{
+				label: 'portrait',
+				description: 'Best for images of a single living being.',
+				value: 'portrait',
+			},
+			{
+				label: 'photo',
+				description: 'One of the most accurate and best for real life images. Prefer this over accurate.',
+				value: 'photo',
+			},
+			{
+				label: 'fantasy',
+				description: 'Generate fantasy style images.',
+				value: 'fantasy',
+			},
+			{
+				label: 'anime',
+				description: 'Make the generated image in the style of a anime',
+				value: 'anime',
+			},
+			{
+				label: 'neo',
+				description: 'Gets some neo led colors for your image.',
+				value: 'neo',
+			},
+			{
+				label: 'cgi',
+				description: 'Make your image like a cgi character.',
+				value: 'cgi',
+			},
+			{
+				label: 'oil painting',
+				description: 'Make your image like a oil painting',
+				value: 'oil',
+			},
+			{
+				label: 'horror',
+				description: 'Give your art a horror feeling',
+				value: 'horror',
+			},
+			{
+				label: 'steampunk',
+				description: 'Make your art in a retro style',
+				value: 'steampunk',
+			},
+			{
+				label: 'cyberpunk',
+				description: 'Show the future in your images',
+				value: 'cyberpunk',
+			},
+			{
+				label: 'synthwave',
+				description: 'Make your art colorful',
+				value: 'synthwave',
+			},
+			{
+				label: '3D Game',
+				description: 'Make your image look like a 3D game',
+				value: '3d',
+			},
+			{
+				label: 'epic',
+				description: 'Set your image in a epic style',
+				value: 'epic',
+			},
+			{
+				label: 'comic',
+				description: 'Make your image in a comic strip style does not work all the time!',
+				value: 'comic',
+			},
+			{
+				label: 'charcoal',
+				description: 'Make the image in charcoal',
+				value: 'charcoal',
+			},
+		]);
 		let modifiers =
 			' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
-		comp
-			.addButton('normal', 'Danger', 'normal')
-			.addButton('dramatic', 'Success', 'dramatic')
-			.addButton('portrait', 'Secondary', 'portrait')
-			.addButton('photo', 'Secondary', 'photo')
-			.addButton('fantasy', 'Secondary', 'fantasy')
-			.addButton('anime', 'Secondary', 'anime')
-			.addButton('neo', 'Secondary', 'neo')
-			.addButton('cgi', 'Secondary', 'cgi')
-			.addButton('oil painting', 'Secondary', 'oil')
-			.addButton('horror', 'Secondary', 'horror')
-			.addButton('steampunk', 'Secondary', 'steampunk')
-			.addButton('cyberpunk', 'Secondary', 'cyberpunk')
-			.addButton('synthwave', 'Secondary', 'synthwave')
-			.addButton('3D Game', 'Secondary', '3d')
-			.addButton('epic', 'Secondary', 'epic')
-			.addButton('comic', 'Secondary', 'comic')
-			.addButton('charcoal', 'Secondary', 'charcoal');
 
 		const msg = await client.helpers.sendMessage(ctx.channel.id, {
 			content: 'Choose your style...',
@@ -73,8 +143,8 @@ export default {
 			content: 'GENERATING....',
 			components: [],
 		});
-		switch (c.data.customId) {
-			case 'normal':
+		switch (c.data.values[0]) {
+			case 'accurate':
 				modifiers = '';
 				break;
 			case 'portrait':
