@@ -9,9 +9,13 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		client.extras.embed({
-			title: `${ctx.user.username} likes that`,
-			image: (await hmfull.HMtai.sfw.like()).url,
-		});
+		client.extras.embed(
+			{
+				title: `${ctx.user.username} likes that`,
+				image: (await hmfull.HMtai.sfw.like()).url,
+				type: 'reply',
+			},
+			ctx,
+		);
 	},
 };

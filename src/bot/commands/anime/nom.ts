@@ -9,9 +9,13 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		client.extras.embed({
-			title: `${ctx.user.username} is munching`,
-			image: (await hmfull.HMtai.sfw.nom()).url,
-		});
+		client.extras.embed(
+			{
+				title: `${ctx.user.username} is munching`,
+				image: (await hmfull.HMtai.sfw.nom()).url,
+				type: 'reply',
+			},
+			ctx,
+		);
 	},
 };

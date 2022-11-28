@@ -16,9 +16,13 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const user = await ctx.options.getUser('user', true);
-		client.extras.embed({
-			title: `${ctx.user.username} boops ${user.username}`,
-			image: (await hmfull.HMtai.sfw.boop()).url,
-		});
+		client.extras.embed(
+			{
+				title: `${ctx.user.username} boops ${user.username}`,
+				image: (await hmfull.HMtai.sfw.boop()).url,
+				type: 'reply',
+			},
+			ctx,
+		);
 	},
 };
