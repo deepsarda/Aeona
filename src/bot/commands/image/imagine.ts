@@ -46,7 +46,6 @@ export default {
 				label: 'dramatic',
 				description: 'Not the most accurate but generates the best images',
 				value: 'dramatic',
-				default: true,
 			},
 			{
 				label: 'portrait',
