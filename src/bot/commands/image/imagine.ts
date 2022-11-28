@@ -206,7 +206,7 @@ export default {
 		}).then(async (response) => {
 			await client.helpers.deleteMessage(msg.channelId, msg.id);
 			client.helpers.sendMessage('1044575489118978068', {
-				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
+				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
 				file: [
 					{
 						blob: response,
@@ -215,7 +215,7 @@ export default {
 				],
 			});
 			ctx.reply({
-				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.customId,
+				content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
 				file: [
 					{
 						blob: response,
