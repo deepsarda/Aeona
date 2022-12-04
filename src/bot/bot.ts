@@ -32,13 +32,11 @@ async function init() {
 			default: false,
 			members: true,
 			messages: true,
-			guilds: true,
 		},
 		cacheOutsideMemory: {
 			default: true,
 			members: false,
 			messages: false,
-			guilds: false,
 		},
 		getItem: async (table, id, guildid?) => {
 			if (!connection) return;
