@@ -34,6 +34,7 @@ const cachebot = createProxyCache(basebot, {
 		default: true,
 		members: false,
 		messages: false,
+		roles: false,
 	},
 	undesiredProps: {
 		guilds: [
