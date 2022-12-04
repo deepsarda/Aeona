@@ -10,332 +10,292 @@ import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
 dotenv.config();
 import fetch from 'node-fetch';
-import sql from 'mysql2/promise';
 import fs from 'fs';
 import { INTENTS, REST_URL } from '../configs.js';
 import { start } from '../gateway/index.js';
 import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
-
+import { JsonDB, Config } from 'node-json-db';
+import JSON from 'json-bigint';
+const db = new JsonDB(new Config('tmp/db', true, false, '/'));
 export const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
 });
-async function init() {
-	const connection = await sql.createConnection({
-		uri: process.env.mysqlConnectionURL,
-	});
 
-	const cachebot = createProxyCache(basebot, {
-		cacheInMemory: {
-			default: false,
-			members: true,
-			messages: true,
-		},
-		cacheOutsideMemory: {
-			default: true,
-			members: false,
-			messages: false,
-		},
-		getItem: async (table, id, guildid?) => {
-			if (!connection) return;
+const cachebot = createProxyCache(basebot, {
+	cacheInMemory: {
+		default: false,
+		members: true,
+		messages: true,
+	},
+	cacheOutsideMemory: {
+		default: true,
+		members: false,
+		messages: false,
+	},
+	getItem: async (table, id, guildid?) => {
+		return JSON.parse(await db.getData(`${table}/${id}${guildid ? '/' + guildid : ''}`));
+	},
 
-			if (table != 'member') {
-				const [rows, fields] = await connection.execute(`SELECT * FROM \`${table}\` WHERE \`id\` = ${id}`);
-				return JSON.parse(rows[0]);
-			}
-			const [rows, fields] = await connection.execute(
-				`SELECT * FROM \`${table}\` WHERE \`id\` = ${id} and \`guildid\` = ${guildid}`,
-			);
-			console.log(rows);
-			return JSON.parse(rows[0]);
-		},
+	removeItem: async (table, id, guildid?) => {
+		return await db.delete(`${table}/${id}${guildid ? '/' + guildid : ''}`);
+	},
 
-		removeItem: async (table, id, guildid?) => {
-			if (!connection) return;
+	setItem: async (table, item) => {
+		return await db.push(`${table}/${item.id}`, JSON.stringify(item));
+	},
+});
 
-			if (table != 'member') {
-				const [rows, fields] = await connection.execute(`DELETE * FROM \`${table}\` WHERE \`id\` = ${id}`);
-				return rows[0];
-			}
-			const [rows, fields] = await connection.execute(
-				`DELETE * FROM \`${table}\` WHERE \`id\` = ${id} and \`guildid\` = ${guildid}`,
-			);
-			return JSON.parse(rows[0]);
-		},
-
-		setItem: async (table, item) => {
-			try {
-				if (!connection) return;
-
-				const [rows, fields] = await connection.execute(`INSERT INTO \`${table}\` SET ?`, [JSON.stringify(item)]);
-
-				return JSON.parse(rows[0]);
-			} catch (e) {
-				console.log('Unable to set');
-			}
-		},
-	});
-
-	const bot = enableAmethystPlugin(cachebot, {
-		owners: ['794921502230577182'],
-		prefix: (bot, message) => {
-			if (message.mentionedUserIds.includes(bot.applicationId)) {
-				return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
-			}
-			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>'];
-		},
-		botMentionAsPrefix: true,
-		ignoreBots: true,
-		commandDir: './dist/bot/commands',
-	});
-
-	connect();
-	// bot settings
-	bot.extras.config = botConfig;
-	bot.extras.colors = botConfig.colors;
-	bot.extras.emotes = botConfig.emotes;
-
-	const parts = process.env.WEBHOOKURL!.split('/');
-	const token = parts.pop() || '';
-	const id = parts.pop();
-
-	bot.extras.webhook = async (content: any) => {
-		return await bot.helpers.sendWebhookMessage(id as BigString, token, content);
-	};
-
-	bot.extras.startTime = new Date().getTime();
-
-	process.on('unhandledRejection', (error: Error) => {
-		if (error.message.includes('Authorization token')) return;
-		console.error(error);
-	});
-
-	process.on('warning', (warn) => {
-		console.warn(warn);
-	});
-
-	fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
-		fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			const a = await import(`./handlers/${dir}/${handler}`);
-
-			a.default(bot);
-		});
-	});
-
-	fs.readdirSync('./dist/bot/events/').forEach(async (dirs) => {
-		const events = fs.readdirSync(`./dist/bot/events/${dirs}`).filter((files) => files.endsWith('.js'));
-
-		for (const file of events) {
-			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			const a = await import(`./events/${dirs}/${file}`);
-
-			bot.on(file.split('.')[0]!, a.default);
+const bot = enableAmethystPlugin(cachebot, {
+	owners: ['794921502230577182'],
+	prefix: (bot, message) => {
+		if (message.mentionedUserIds.includes(bot.applicationId)) {
+			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
 		}
-	});
+		return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>'];
+	},
+	botMentionAsPrefix: true,
+	ignoreBots: true,
+	commandDir: './dist/bot/commands',
+});
 
-	const categories: CategoryOptions[] = [
-		{
-			name: 'afk',
-			description: 'Set/List your afk.',
-			uniqueCommands: false,
-			default: 'set',
-		},
-		{
-			name: 'announcement',
-			description: 'Create/Edit your announcement.',
-			uniqueCommands: false,
-			default: 'create',
-		},
-		{
-			name: 'automod',
-			description: 'Configure the automod.',
-			uniqueCommands: false,
-			default: 'display',
-		},
-		{
-			name: 'autosetup',
-			description: 'Automatically setup certain commands.',
-			uniqueCommands: false,
-			default: 'log',
-		},
-		{
-			name: 'birthdays',
-			description: 'List your birthdays.',
-			uniqueCommands: false,
-			default: 'list',
-		},
-		{
-			name: 'config',
-			description: 'Configure the config system',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'fun',
-			description: 'Have some fun.',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'game',
-			description: 'Play some games.',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'info',
-			description: 'See various informations',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'invites',
-			description: 'Configure the invites system',
-			uniqueCommands: false,
-			default: 'show',
-		},
-		{
-			name: 'levels',
-			description: 'Configure the rank system',
-			uniqueCommands: false,
-			default: 'rank',
-		},
-		{
-			name: 'marriage',
-			description: 'Create your family',
-			uniqueCommands: true,
-			default: 'family',
-		},
-		{
-			name: 'messages',
-			description: 'Configure the messages system',
-			uniqueCommands: false,
-			default: 'show',
-		},
-		{
-			name: 'moderation',
-			description: 'Clean your server',
-			uniqueCommands: true,
-			default: 'family',
-		},
-		{
-			name: 'reactionroles',
-			description: 'Setup reaction roles for your server',
-			uniqueCommands: false,
-			default: 'list',
-		},
-		{
-			name: 'serverstats',
-			description: 'Configure your server stats',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'setup',
-			description: 'Configure your server',
-			uniqueCommands: false,
-			default: 'fun',
-		},
-		{
-			name: 'stickymessages',
-			description: 'Configure sticky messages',
-			uniqueCommands: false,
-			default: 'messages',
-		},
-		{
-			name: 'suggestions',
-			description: 'Create/Deny/Accept suggestions',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'thanks',
-			description: 'Thank users for their help',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'tickets',
-			description: 'Various ticket commands',
-			uniqueCommands: true,
-			default: 'list',
-		},
-		{
-			name: 'tools',
-			description: 'Various commands to help you',
-			uniqueCommands: true,
-			default: '',
-		},
-		{
-			name: 'image',
-			description: 'Enjoy image magic',
-			uniqueCommands: true,
-			default: '',
-		},
-		{
-			name: 'code',
-			description: 'Some useful coding commands',
-			uniqueCommands: true,
-			default: '',
-		},
-		{
-			name: 'anime',
-			description: 'Some anime commands',
-			uniqueCommands: true,
-			default: '',
-		},
-	];
-	for (let i = 0; i < categories.length; i++) {
-		bot.amethystUtils.createCategory(categories[i]);
+connect();
+// bot settings
+bot.extras.config = botConfig;
+bot.extras.colors = botConfig.colors;
+bot.extras.emotes = botConfig.emotes;
+
+const parts = process.env.WEBHOOKURL!.split('/');
+const token = parts.pop() || '';
+const id = parts.pop();
+
+bot.extras.webhook = async (content: any) => {
+	return await bot.helpers.sendWebhookMessage(id as BigString, token, content);
+};
+
+bot.extras.startTime = new Date().getTime();
+
+
+fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
+	fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const a = await import(`./handlers/${dir}/${handler}`);
+
+		a.default(bot);
+	});
+});
+
+fs.readdirSync('./dist/bot/events/').forEach(async (dirs) => {
+	const events = fs.readdirSync(`./dist/bot/events/${dirs}`).filter((files) => files.endsWith('.js'));
+
+	for (const file of events) {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const a = await import(`./events/${dirs}/${file}`);
+
+		bot.on(file.split('.')[0]!, a.default);
 	}
+});
 
-	bot.rest = createRestManager({
-		token: DISCORD_TOKEN,
-		secretKey: REST_AUTHORIZATION,
-		customUrl: REST_URL,
-	});
-
-	start();
-
-	bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
-		if (command.extras.upvoteOnly) {
-			try {
-				if (process.env.TOPGG_TOKEN) {
-					const controller = new AbortController();
-					const timeoutId = setTimeout(() => controller.abort(), 3000);
-					const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`, {
-						signal: controller.signal,
-						headers: {
-							authorization: process.env.TOPGG_TOKEN,
-						},
-					});
-					clearTimeout(timeoutId);
-					const json: any = await response.json();
-
-					if (json.voted == 1) return true;
-					return {
-						//@ts-ignore
-						type: ErrorEnums.OTHER,
-						value:
-							'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.  \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
-					};
-				}
-			} catch (e) {
-				console.log(e);
-				return true;
-			}
-
-			return {
-				//@ts-ignore
-				type: ErrorEnums.OTHER,
-				value:
-					'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
-			};
-		}
-		return true;
-	});
+const categories: CategoryOptions[] = [
+	{
+		name: 'afk',
+		description: 'Set/List your afk.',
+		uniqueCommands: false,
+		default: 'set',
+	},
+	{
+		name: 'announcement',
+		description: 'Create/Edit your announcement.',
+		uniqueCommands: false,
+		default: 'create',
+	},
+	{
+		name: 'automod',
+		description: 'Configure the automod.',
+		uniqueCommands: false,
+		default: 'display',
+	},
+	{
+		name: 'autosetup',
+		description: 'Automatically setup certain commands.',
+		uniqueCommands: false,
+		default: 'log',
+	},
+	{
+		name: 'birthdays',
+		description: 'List your birthdays.',
+		uniqueCommands: false,
+		default: 'list',
+	},
+	{
+		name: 'config',
+		description: 'Configure the config system',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'fun',
+		description: 'Have some fun.',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'game',
+		description: 'Play some games.',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'info',
+		description: 'See various informations',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'invites',
+		description: 'Configure the invites system',
+		uniqueCommands: false,
+		default: 'show',
+	},
+	{
+		name: 'levels',
+		description: 'Configure the rank system',
+		uniqueCommands: false,
+		default: 'rank',
+	},
+	{
+		name: 'marriage',
+		description: 'Create your family',
+		uniqueCommands: true,
+		default: 'family',
+	},
+	{
+		name: 'messages',
+		description: 'Configure the messages system',
+		uniqueCommands: false,
+		default: 'show',
+	},
+	{
+		name: 'moderation',
+		description: 'Clean your server',
+		uniqueCommands: true,
+		default: 'family',
+	},
+	{
+		name: 'reactionroles',
+		description: 'Setup reaction roles for your server',
+		uniqueCommands: false,
+		default: 'list',
+	},
+	{
+		name: 'serverstats',
+		description: 'Configure your server stats',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'setup',
+		description: 'Configure your server',
+		uniqueCommands: false,
+		default: 'fun',
+	},
+	{
+		name: 'stickymessages',
+		description: 'Configure sticky messages',
+		uniqueCommands: false,
+		default: 'messages',
+	},
+	{
+		name: 'suggestions',
+		description: 'Create/Deny/Accept suggestions',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'thanks',
+		description: 'Thank users for their help',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'tickets',
+		description: 'Various ticket commands',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'tools',
+		description: 'Various commands to help you',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'image',
+		description: 'Enjoy image magic',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'code',
+		description: 'Some useful coding commands',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'anime',
+		description: 'Some anime commands',
+		uniqueCommands: true,
+		default: '',
+	},
+];
+for (let i = 0; i < categories.length; i++) {
+	bot.amethystUtils.createCategory(categories[i]);
 }
-init();
+
+bot.rest = createRestManager({
+	token: DISCORD_TOKEN,
+	secretKey: REST_AUTHORIZATION,
+	customUrl: REST_URL,
+});
+
+start();
+
+bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
+	if (command.extras.upvoteOnly) {
+		try {
+			if (process.env.TOPGG_TOKEN) {
+				const controller = new AbortController();
+				const timeoutId = setTimeout(() => controller.abort(), 3000);
+				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`, {
+					signal: controller.signal,
+					headers: {
+						authorization: process.env.TOPGG_TOKEN,
+					},
+				});
+				clearTimeout(timeoutId);
+				const json: any = await response.json();
+
+				if (json.voted == 1) return true;
+				return {
+					//@ts-ignore
+					type: ErrorEnums.OTHER,
+					value:
+						'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.  \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
+				};
+			}
+		} catch (e) {
+			console.log(e);
+			return true;
+		}
+
+		return {
+			//@ts-ignore
+			type: ErrorEnums.OTHER,
+			value:
+				'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
+		};
+	}
+	return true;
+});

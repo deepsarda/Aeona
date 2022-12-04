@@ -180,6 +180,8 @@ export async function start() {
 		log.error(['[FASTIFY ERROR', error].join('\n'));
 		process.exit(1);
 	});
+
+	console.log('Server listening on port ' + GATEWAY_PORT)
 }
 
 start();

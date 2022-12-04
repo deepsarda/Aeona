@@ -63,3 +63,12 @@ app.all('/', async (req, res) => {
 app.listen(EVENT_HANDLER_PORT, () => {
 	console.log(colors.green(`Bot is listening at ${EVENT_HANDLER_URL};`));
 });
+
+process.on('unhandledRejection', (error: Error) => {
+	if (error.message.includes('Authorization token')) return;
+	console.error(error);
+});
+
+process.on('warning', (warn) => {
+	console.warn(warn);
+});
