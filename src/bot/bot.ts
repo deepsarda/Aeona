@@ -26,15 +26,14 @@ export const basebot = createBot({
 
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
-		default: false,
+		default: true,
 		members: true,
 		messages: true,
 	},
 	cacheOutsideMemory: {
-		default: true,
+		default: false,
 		members: false,
 		messages: false,
-		roles: true,
 	},
 	undesiredProps: {
 		guilds: [
