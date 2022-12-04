@@ -181,7 +181,7 @@ export async function start() {
 		process.exit(1);
 	});
 
-	console.log('Server listening on port ' + GATEWAY_PORT)
+	console.log('Server listening on port ' + GATEWAY_PORT);
 }
 
 start();

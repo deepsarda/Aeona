@@ -68,7 +68,7 @@ const manager = createShardManager({
 
 			guildIds.delete(BigInt(guild.id));
 		}
-		
+
 		await fetch(url, {
 			method: 'POST',
 			body: JSON.stringify({ message, shardId: shard.id }),

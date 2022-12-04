@@ -77,7 +77,6 @@ bot.extras.webhook = async (content: any) => {
 
 bot.extras.startTime = new Date().getTime();
 
-
 fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
 	fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
