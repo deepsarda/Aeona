@@ -4,7 +4,7 @@ dotenv.config();
 import { DiscordGatewayPayload } from 'discordeno';
 import express from 'express';
 import { EVENT_HANDLER_URL } from '../configs.js';
-import { bot } from './bot.js';
+import { basebot } from './bot.js';
 import colors from 'colors';
 
 const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
@@ -13,15 +13,15 @@ const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
 // Handle events from the gateway
 const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
 	// EMITS RAW EVENT
-	bot.events.raw(bot, message, shardId);
+	basebot.events.raw(basebot, message, shardId);
 
 	if (message.t && message.t !== 'RESUMED') {
 		// When a guild or something isnt in cache this will fetch it before doing anything else
 		if (!['READY', 'GUILD_LOADED_DD'].includes(message.t)) {
-			await bot.events.dispatchRequirements(bot, message, shardId);
+			await basebot.events.dispatchRequirements(basebot, message, shardId);
 		}
 
-		bot.handlers[message.t]?.(bot, message, shardId);
+		basebot.handlers[message.t]?.(basebot, message, shardId);
 	}
 };
 

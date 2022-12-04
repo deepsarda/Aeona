@@ -66,8 +66,6 @@ const manager = createShardManager({
 		if (message.t === 'GUILD_DELETE') {
 			const guild = message.d as DiscordUnavailableGuild;
 
-			if (guild.unavailable) return;
-
 			guildIds.delete(BigInt(guild.id));
 		}
 

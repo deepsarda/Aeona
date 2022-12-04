@@ -1,5 +1,5 @@
 import { Point } from '@influxdata/influxdb-client';
-import { AmethystBot, AmethystEmbed } from '@thereallonewolf/amethystframework';
+import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno/transformers';
 import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
@@ -37,27 +37,6 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 					guildId: message.guildId,
 					failIfNotExists: false,
 				},
-			});
-
-			const embed = new AmethystEmbed()
-				.setTitle(`Chatbot`)
-				.addField(
-					'User:',
-					'<@' +
-						message.member.id +
-						'> \n' +
-						message.member.user.username +
-						'#' +
-						message.member.user.discriminator +
-						`(${message.member.id})`,
-				)
-				.addField('Content: ', message.content)
-				.addField('Reply', json)
-				.addField('Channel:', (await bot.cache.channels.get(message.channelId)).name)
-				.addField('Guild:', (await bot.cache.guilds.get(message.guildId)).name);
-			bot.extras.webhook({
-				username: 'Logs',
-				embeds: [embed],
 			});
 
 			Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));

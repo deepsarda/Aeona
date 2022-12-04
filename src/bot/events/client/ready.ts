@@ -148,24 +148,9 @@ export default async (client: AmethystBot) => {
 		}
 	}, 1000 * 60 * 2);
 	setInterval(() => {
-		if (client.cache.users.memory.size > 500) {
-			for (const [userId, user] of client.cache.users.memory) {
-				if (userId != client.user.id) client.cache.users.delete(userId);
-			}
-		}
 		if (client.cache.members.memory.size > 500) {
 			for (const [userId, user] of client.cache.members.memory) {
 				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
-			}
-		}
-		if (client.cache.members.memory.size > 500) {
-			for (const [userId, user] of client.cache.members.memory) {
-				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
-			}
-		}
-		if (client.cache.channels.memory.size > 100) {
-			for (const [channelId, channel] of client.cache.channels.memory) {
-				client.cache.channels.delete(channel.id);
 			}
 		}
 		if (client.cache.messages.memory.size > 500) {

@@ -29,7 +29,6 @@ import Schema35 from '../../database/models/verify.js';
 import Schema38 from '../../database/models/warnings.js';
 
 export default async (client: AmethystBot, guild: Guild) => {
-	if (guild.name == undefined) return;
 
 	const embed = new AmethystEmbed()
 		.setTitle('🔴 Removed from a server!')
