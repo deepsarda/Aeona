@@ -70,7 +70,7 @@ export default async (client: AmethystBot) => {
 		}
 
 		if (oldRole.permissions !== newRole.permissions) {
-			client.emit('rolePermissionsUpdate', newRole, oldRole.permissions, newRole.permissions);
+			client.emit('rolePermissionsUpdate', client, newRole, oldRole.permissions, newRole.permissions);
 		}
 
 		if (oldRole.color !== newRole.color) {
