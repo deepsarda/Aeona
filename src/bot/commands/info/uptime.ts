@@ -13,7 +13,7 @@ export default {
 		const uptime = new Date().getTime() - client.extras.startTime;
 		momentDurationFormatSetup(moment);
 
-		const duration = moment.duration().format('`D` [days], `H` [hrs], `m` [mins], `s` [secs]');
+		const duration = moment.duration(uptime).humanize();
 		const upvalue = (Date.now() / 1000 - uptime / 1000).toFixed(0);
 
 		client.extras.embed(

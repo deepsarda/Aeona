@@ -57,6 +57,7 @@
 		"jsdom": "^18.1.1",
 		"json-bigint": "^1.0.0",
 		"libsodium-wrappers": "^0.7.10",
+		"markov-generator": "^1.2.3",
 		"mathjs": "^10.6.4",
 		"moment": "^2.29.4",
 		"moment-duration-format": "^2.3.2",

@@ -12,6 +12,7 @@ import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { Influx } from '../client/commandStart.js';
+import Schema1 from '../../database/models/votecredits';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
@@ -181,7 +182,6 @@ export default async (client: AmethystBot, message: Message) => {
 				);
 				const s = [
 					'\n discord.gg/qURxRRHPwa',
-					'\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
 					'\n Generate beautiful images using /imagine \n || https://media.discordapp.net/attachments/1034419695060791342/1044217539682652170/unknown.png ||',
 				];
 				const randomNumber = Math.floor(Math.random() * 30);
@@ -195,6 +195,11 @@ export default async (client: AmethystBot, message: Message) => {
 						failIfNotExists: false,
 					},
 				});
+				const user = await Schema1.findOne({ User: message.member.id });
+				if (user.LastVersion != client.extras.version)
+					client.helpers.sendMessage(message.channelId, {
+						content: 'You have unread news. Use `+news` to read it',
+					});
 				Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 			})
 			.catch((err) => console.error('error:' + err));

@@ -8,6 +8,7 @@ import {
 import { BigString, createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
+import chatBotSchema from './database/models/chatbot-channel.js';
 dotenv.config();
 import fetch from 'node-fetch';
 import fs from 'fs';
@@ -50,7 +51,9 @@ const cachebot = createProxyCache(basebot, {
 
 const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
-	prefix: (bot, message) => {
+	prefix: async (bot, message) => {
+		const schema = await chatBotSchema.findOne({ Guild: message.guildId });
+		if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';
 		if (message.mentionedUserIds.includes(bot.applicationId)) {
 			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
 		}
@@ -265,6 +268,7 @@ bot.rest = createRestManager({
 	customUrl: REST_URL,
 });
 
+bot.extras.version = 'v0.1.2';
 start();
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
