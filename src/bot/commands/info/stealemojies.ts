@@ -16,7 +16,7 @@ export default {
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const rawEmoji = ctx.options.getString('emoji', true).split(' ');
+		const rawEmoji = ctx.options.getLongString('emoji', true).split(' ');
 		for (let i = 0; i < rawEmoji.length; i++) {
 			const parsedEmoji = parseEmoji(rawEmoji[i]);
 			if (!parsedEmoji) return;
