@@ -1,25 +1,18 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'pat',
-	description: "Let's pat some good guys (/ω＼)",
+	name: 'nom',
+	description: 'nom nom',
 	commandType: ['application', 'message'],
-	category: 'anime',
-	args: [
-		{
-			name: 'user',
-			description: 'The User',
-			required: true,
-			type: 'User',
-		},
-	],
+	category: 'anime2',
+	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const user = await ctx.options.getUser('user', true);
+
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} pats ${user.username}`,
-				image: (await hmfull.HMtai.sfw.pat()).url,
+				title: `${ctx.user.username} is munching`,
+				image: (await hmfull.HMtai.sfw.nom()).url,
 				type: 'reply',
 			},
 			ctx,

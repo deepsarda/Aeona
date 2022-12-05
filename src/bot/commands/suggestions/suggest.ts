@@ -9,7 +9,7 @@ export default {
 	args: [
 		{
 			name: 'suggestion',
-			type: 'string',
+			type: 'String',
 			description: 'The suggestion you want to suggest',
 			required: true,
 		},

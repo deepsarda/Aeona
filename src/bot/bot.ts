@@ -248,6 +248,12 @@ const categories: CategoryOptions[] = [
 		uniqueCommands: true,
 		default: '',
 	},
+	{
+		name: 'anime2',
+		description: 'Some more anime commands',
+		uniqueCommands: true,
+		default: '',
+	},
 ];
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);

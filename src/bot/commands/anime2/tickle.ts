@@ -1,10 +1,10 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'slap',
-	description: 'BAKA!!',
+	name: 'tickle',
+	description: 'Tiiickle tickle tickle :3',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [
 		{
 			name: 'user',
@@ -18,8 +18,8 @@ export default {
 		const user = await ctx.options.getUser('user', true);
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} slap ${user.username}`,
-				image: (await hmfull.HMtai.sfw.wave()).url,
+				title: `${ctx.user.username} tickes ${user.username}`,
+				image: (await hmfull.HMtai.sfw.tickle()).url,
 				type: 'reply',
 			},
 			ctx,

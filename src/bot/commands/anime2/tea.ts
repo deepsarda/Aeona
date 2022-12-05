@@ -1,18 +1,18 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'like',
-	description: 'I like it, nice 👍',
+	name: 'tea',
+	description: 'Sip a tea',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} likes that`,
-				image: (await hmfull.HMtai.sfw.like()).url,
+				title: `${ctx.user.username} sips tea`,
+				image: (await hmfull.HMtai.sfw.tea()).url,
 				type: 'reply',
 			},
 			ctx,

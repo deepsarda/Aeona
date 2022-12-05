@@ -1,18 +1,18 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'sad',
-	description: 'T_T',
+	name: 'smile',
+	description: 'Smile',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} is sad`,
-				image: (await hmfull.HMtai.sfw.depression()).url,
+				title: `${ctx.user.username} smiles`,
+				image: (await hmfull.HMtai.sfw.smile()).url,
 				type: 'reply',
 			},
 			ctx,

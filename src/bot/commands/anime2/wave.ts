@@ -1,10 +1,10 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'punch',
-	description: 'ONE PUUUUUUUUUUUNCH',
+	name: 'wave',
+	description: 'wave to a user',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [
 		{
 			name: 'user',
@@ -18,8 +18,8 @@ export default {
 		const user = await ctx.options.getUser('user', true);
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} punches ${user.username}`,
-				image: (await hmfull.HMtai.sfw.punch()).url,
+				title: `${ctx.user.username} waves to ${user.username}`,
+				image: (await hmfull.HMtai.sfw.wave()).url,
 				type: 'reply',
 			},
 			ctx,

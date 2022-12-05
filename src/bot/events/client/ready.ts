@@ -182,7 +182,6 @@ async function verifySlashCommands(client: AmethystBot) {
 				commandBuilder.addSubcommand((subcommand) => {
 					subcommand.setName(command.name).setDescription(command.description);
 					for (const option of command.args) {
-						if (!option.type) console.log(command.name);
 						if (option.type == 'String')
 							subcommand.addStringOption((op) => {
 								op.setName(option.name).setDescription(option.description);
@@ -190,67 +189,63 @@ async function verifySlashCommands(client: AmethystBot) {
 								else op.setRequired(false);
 								return op;
 							});
-
-						if (option.type == 'Number')
+						else if (option.type == 'Number')
 							subcommand.addNumberOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-						if (option.type == 'Integer')
+						else if (option.type == 'Integer')
 							subcommand.addIntegerOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-						if (option.type == 'Channel')
+						else if (option.type == 'Channel')
 							subcommand.addChannelOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-
-						if (option.type == 'Boolean')
+						else if (option.type == 'Boolean')
 							subcommand.addBooleanOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-						if (option.type == 'User')
+						else if (option.type == 'User')
 							subcommand.addUserOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-						if (option.type == 'Role')
+						else if (option.type == 'Role')
 							subcommand.addRoleOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-						if (option.type == 'Mentionable')
+						else if (option.type == 'Mentionable')
 							subcommand.addMentionableOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-
-						if (option.type == 'Attachment')
+						else if (option.type == 'Attachment')
 							subcommand.addAttachmentOption((op) => {
 								op.setName(option.name).setDescription(option.description);
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
-
-						if (!option.type) console.log(command.name);
+						else console.log(command.name);
 					}
 					return subcommand;
 				});
@@ -259,13 +254,7 @@ async function verifySlashCommands(client: AmethystBot) {
 			commands.push(commandBuilder.toJSON());
 		});
 
-		const c = await client.helpers.upsertGlobalApplicationCommands(commands);
-		c.forEach((command) => {
-			const category = client.category.get(command.name);
-			command.options?.forEach((option) => {
-				const c = category?.commands.get(option.name);
-			});
-		});
+		await client.helpers.upsertGlobalApplicationCommands(commands);
 	} catch (e) {
 		console.error(e);
 	}

@@ -1,18 +1,18 @@
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 import hmfull from 'hmfull';
 export default {
-	name: 'nom',
-	description: 'nom nom',
+	name: 'wink',
+	description: 'Wink',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		client.extras.embed(
 			{
-				title: `${ctx.user.username} is munching`,
-				image: (await hmfull.HMtai.sfw.nom()).url,
+				title: `${ctx.user.username} winks`,
+				image: (await hmfull.HMtai.sfw.wink()).url,
 				type: 'reply',
 			},
 			ctx,

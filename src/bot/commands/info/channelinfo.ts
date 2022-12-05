@@ -9,7 +9,7 @@ export default {
 			name: 'channel',
 			description: 'Channel to get details of',
 			required: true,
-			type: 'Ctring',
+			type: 'Channel',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {

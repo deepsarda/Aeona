@@ -29,7 +29,7 @@ export default {
 						fields: [
 							{
 								name: '→ Emoji',
-								value: `${emoji}`,
+								value: `<${parsedEmoji.animated ? 'a:':'a'}${parsedEmoji.name}:${parsedEmoji.id}>`,
 								inline: true,
 							},
 							{

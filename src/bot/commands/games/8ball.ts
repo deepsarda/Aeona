@@ -9,7 +9,7 @@ export default {
 			name: 'question',
 			description: 'the question you want to ask',
 			required: true,
-			type: 'STRING',
+			type: 'String',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {

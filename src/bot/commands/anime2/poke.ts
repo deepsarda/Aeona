@@ -4,7 +4,7 @@ export default {
 	name: 'poke',
 	description: 'Poke-poke :P',
 	commandType: ['application', 'message'],
-	category: 'anime',
+	category: 'anime2',
 	args: [
 		{
 			name: 'user',
