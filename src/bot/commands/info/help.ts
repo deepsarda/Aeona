@@ -13,7 +13,7 @@ export default {
 			if (c.uniqueCommands) {
 				fields.push({
 					name: '➯ ' + c.description,
-					value: c.commands.map((c) => `\`${process.env.PREFIX!}${c.name}\`  ${c.mention}`).join(' '),
+					value: c.commands.map((c) => `\`${process.env.PREFIX!}${c.name}\``).join(' '),
 				});
 			} else {
 				let value = `\`${process.env.PREFIX!}${c.name} <`;
@@ -21,10 +21,7 @@ export default {
 					if (value.endsWith('<')) value += `${command.name}`;
 					else value += `/${command.name}`;
 				});
-				value += '>` \n Slash Equivalents: ';
-				c.commands.forEach((command) => {
-					value += `${command.mention} `;
-				});
+				value += '>`';
 
 				fields.push({
 					name: '➯ ' + c.description,
