@@ -18,7 +18,6 @@ export default {
 
 		const rawEmoji = ctx.options.getString('emoji', true).split(' ');
 		for (let i = 0; i < rawEmoji.length; i++) {
-			
 			const parsedEmoji = parseEmoji(rawEmoji[i]);
 			if (!parsedEmoji) return;
 			if (parsedEmoji.id) {
