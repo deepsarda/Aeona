@@ -3,7 +3,7 @@ import { AmethystBot } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno/transformers';
 import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
-import Schema from '../../database/models/votecredits';
+import Schema from '../../database/models/votecredits.js';
 export default async (bot: AmethystBot, message: Message, commandName: string) => {
 	const url =
 		'https://DumBotApi.aeona.repl.co?text=' +

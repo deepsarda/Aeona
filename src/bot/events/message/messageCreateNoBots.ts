@@ -12,7 +12,7 @@ import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { Influx } from '../client/commandStart.js';
-import Schema1 from '../../database/models/votecredits';
+import Schema1 from '../../database/models/votecredits.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 

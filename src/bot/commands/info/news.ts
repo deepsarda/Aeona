@@ -1,4 +1,4 @@
-import Schema from '../../database/models/votecredits';
+import Schema from '../../database/models/votecredits.js';
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'news',
