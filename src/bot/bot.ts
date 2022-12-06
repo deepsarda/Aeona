@@ -53,7 +53,7 @@ const bot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: async (bot, message) => {
 		const schema = await chatBotSchema.findOne({ Guild: message.guildId });
-		if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';
+		if(schema) if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';
 		if (message.mentionedUserIds.includes(bot.applicationId)) {
 			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
 		}
