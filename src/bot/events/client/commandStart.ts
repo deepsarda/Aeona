@@ -11,7 +11,8 @@ export const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 export default async (bot: AmethystBot, command: CommandClass, data: Interaction | Message) => {
 	Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 	Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', command.name).intField('value', 1));
-	const user = await Schema.findOne({ User: data.member.id });
+	let user = await Schema.findOne({ User: data.member.id });
+	if (!user) user = new Schema({ User: data.member.id });
 	if (user.LastVersion != bot.extras.version)
 		bot.helpers.sendMessage(data.channelId, {
 			content: 'You have unread news. Use `+news` to read it',

@@ -8,8 +8,10 @@ export default {
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const user = await Schema.findOne({ User: ctx.user.id });
+		let user = await Schema.findOne({ User: ctx.user.id });
+		if (!user) user = new Schema({ User: ctx.user.id });
 		user.LastVersion = client.extras.version;
+		user.save();
 		client.extras.embed(
 			{
 				title: `Changelog for ${client.extras.version}`,

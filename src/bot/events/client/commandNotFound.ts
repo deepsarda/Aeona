@@ -38,7 +38,8 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 					failIfNotExists: false,
 				},
 			});
-			const user = await Schema.findOne({ User: message.member.id });
+			let user = await Schema.findOne({ User: message.member.id });
+			if (!user) user = new Schema({ User: message.member.id });
 			if (user.LastVersion != bot.extras.version)
 				bot.helpers.sendMessage(message.channelId, {
 					content: 'You have unread news. Use `+news` to read it',
