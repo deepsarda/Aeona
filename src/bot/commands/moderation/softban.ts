@@ -37,8 +37,6 @@ export default {
 				ctx,
 			);
 		} catch {
-			
-
 			client.extras
 				.embed(
 					{

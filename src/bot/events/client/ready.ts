@@ -165,8 +165,8 @@ export default async (client: AmethystBot) => {
 	}, 1000 * 60 * 2);
 
 	setInterval(async () => {
-		client.emit("updateClock", client)
-	},1000*60*5)
+		client.emit('updateClock', client);
+	}, 1000 * 60 * 5);
 	setInterval(() => {
 		if (client.cache.messages.memory.size > 100) {
 			for (const [messageId, message] of client.cache.messages.memory) {
