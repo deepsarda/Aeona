@@ -22,7 +22,7 @@ export default async (client: AmethystBot) => {
 		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
 	});
-	client.on('guildMemberRemove', async (client: AmethystBot, member: Member) => {
+	client.on('memberDeleteWithOldMember', async (client: AmethystBot, member: Member) => {
 		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
 	});
@@ -35,7 +35,7 @@ export default async (client: AmethystBot) => {
 		client.emit('updateTextChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 		client.emit('updateVoiceChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 	});
-	client.on('channelDelete', async (client: AmethystBot, channel: Channel) => {
+	client.on('channelDeleteWithOldChannel', async (client: AmethystBot, channel: Channel) => {
 		if (!channel.guildId) return;
 		client.emit('updateChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 		client.emit('updateNewsChannels', client, channel, await client.helpers.getGuild(channel.guildId));
@@ -47,7 +47,7 @@ export default async (client: AmethystBot) => {
 	client.on('roleCreate', async (client: AmethystBot, role: Role) =>
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
-	client.on('roleDelete', async (client: AmethystBot, role: Role) =>
+	client.on('roleDeleteWithOldRole', async (client: AmethystBot, role: Role) =>
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 

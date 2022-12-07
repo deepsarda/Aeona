@@ -72,7 +72,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('messageDelete', async (bot: AmethystBot, message: Message) => {
+	client.on('messageDeleteWithOldMessage', async (bot: AmethystBot, message: Message) => {
 		try {
 			const data = await countSchema.findOne({
 				Guild: message.guildId,

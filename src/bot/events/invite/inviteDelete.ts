@@ -4,7 +4,6 @@ import { Invite } from 'discordeno';
 export default async (client: AmethystBot, invite: Invite) => {
 	const logsChannel = await client.extras.getLogs(invite.guildId);
 	if (!logsChannel) return;
-
 	client.extras
 		.embed(
 			{

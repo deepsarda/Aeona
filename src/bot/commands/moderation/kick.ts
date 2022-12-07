@@ -28,6 +28,14 @@ export default {
 		try {
 			requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
 
+			return client.extras.errNormal(
+				{
+					error: "You can't kick a moderator",
+					type: 'reply',
+				},
+				ctx,
+			);
+		} catch {
 			client.extras
 				.embed(
 					{
@@ -82,14 +90,6 @@ export default {
 						ctx,
 					);
 				});
-		} catch {
-			return client.extras.errNormal(
-				{
-					error: "You can't kick a moderator",
-					type: 'reply',
-				},
-				ctx,
-			);
 		}
 	},
 };

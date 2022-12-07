@@ -37,6 +37,15 @@ export default {
 
 		try {
 			requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
+
+			return client.extras.errNormal(
+				{
+					error: "You can't ban a moderator",
+					type: 'reply',
+				},
+				ctx,
+			);
+		} catch {
 			client.extras
 				.embed(
 					{
@@ -111,14 +120,6 @@ export default {
 						expires,
 					}).save();
 				});
-		} catch {
-			return client.extras.errNormal(
-				{
-					error: "You can't ban a moderator",
-					type: 'reply',
-				},
-				ctx,
-			);
 		}
 	},
 };
