@@ -272,7 +272,8 @@ export default (client: AmethystBot) => {
 											},
 										],
 									};
-
+								console.log(data);
+								console.log(logsChannel);
 								client.extras.embed(data, logsChannel).catch((e) => console.log(e));
 							}
 						}
