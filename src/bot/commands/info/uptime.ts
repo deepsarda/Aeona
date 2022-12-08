@@ -3,8 +3,8 @@ import momentDurationFormatSetup from 'moment-duration-format';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'chat',
-	description: 'Generate a chat message',
+	name: 'uptime',
+	description: 'Get uptime of the bot',
 	commandType: ['application', 'message'],
 	category: 'info',
 	args: [],

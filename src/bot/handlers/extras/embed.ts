@@ -266,7 +266,7 @@ export default (client: AmethystBot) => {
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
 
-		return client.extras.sendEmbed(
+		return await client.extras.sendEmbed(
 			{
 				embeds: [embed],
 				content: content,

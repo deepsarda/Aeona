@@ -12,6 +12,7 @@ export default {
 		if (!user) user = new Schema({ User: ctx.user.id });
 		user.LastVersion = client.extras.version;
 		user.save();
+
 		client.extras.embed(
 			{
 				title: `Changelog for ${client.extras.version}`,

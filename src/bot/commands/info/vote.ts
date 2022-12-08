@@ -2,7 +2,7 @@ import Topgg from '@top-gg/sdk';
 
 import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'chat',
+	name: 'vote',
 	description: 'Generate a chat message',
 	commandType: ['application', 'message'],
 	category: 'info',
