@@ -6,7 +6,7 @@ export default async (client: AmethystBot) => {
 	client.extras.getLogs = async function (guildId: any) {
 		const data = await Schema.findOne({ Guild: guildId });
 		if (data && data.Channel) {
-			const channel = await client.cache.channels.get(BigInt(data.Channel));
+			const channel = await client.helpers.getChannel(BigInt(data.Channel));
 			return channel;
 		} else {
 			return false;

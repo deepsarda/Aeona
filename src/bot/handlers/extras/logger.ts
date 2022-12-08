@@ -33,17 +33,13 @@ export default (client: AmethystBot) => {
 								logChannel.save();
 							}
 							for (const auditLogEntry of auditLog) {
-								const logsChannel = await client.extras.getLogs(guild.id);
-								if (!logsChannel) return;
+								const channel = await client.extras.getLogs(guild.id);
+								if (!channel) return;
 								const user = await client.helpers.getUser(auditLogEntry.userId);
 								let data = {
 									title: '',
 									desc: '',
 									fields: [
-										{
-											name: `→ Name`,
-											value: `${auditLogEntry.changes[0].key}`,
-										},
 										{
 											name: `→ ID`,
 											value: `${auditLogEntry.targetId}`,
@@ -272,9 +268,7 @@ export default (client: AmethystBot) => {
 											},
 										],
 									};
-								console.log(data);
-								console.log(logsChannel);
-								client.extras.embed(data, logsChannel).catch((e) => console.log(e));
+								client.extras.embed(data, channel).catch((e) => console.log(e));
 							}
 						}
 					} catch (e) {
