@@ -55,7 +55,8 @@ export default {
 				const b = a[i];
 				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
 				labels.push({
-					label: `${data.Roles[b][1].raw} <@&${role.id}>`,
+					label: `${data.Roles[b][1].raw} ${role.name}`,
+					description: `Add or remove the role ${role.name}`,
 					emoji: data.Roles[b][1].raw,
 					value: data.Roles[b][1].raw,
 				});
