@@ -126,14 +126,14 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 
 						ctx.reply({
 							content: `<@&${roleid}> was removed!`,
-							private: true,
+							empheral: true,
 						});
 					} else {
 						await client.helpers.addRole(ctx.guildId!, ctx.user?.id!, roleid);
 
 						ctx.reply({
 							content: `<@&${roleid}> was added!`,
-							private: true,
+							empheral: true,
 						});
 					}
 				},
@@ -177,7 +177,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 							);
 							ctx.reply({
 								content: `I have updated the following roles for you: ${roles}`,
-								ephemeral: true,
+								empheral: true,
 							});
 						}
 					}
