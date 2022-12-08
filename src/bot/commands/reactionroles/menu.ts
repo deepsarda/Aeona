@@ -50,13 +50,12 @@ export default {
 			}
 			const mappedstring = map.join('\n');
 
-			const c = Object.keys(data.Roles);
 			const labels = [];
-			for (const b in c) {
+			for (let i = 0; i < a.length; i++) {
+				const b = a[i];
 				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
 				labels.push({
-					label: `${role.name}`,
-					description: `Add or remove the role ${role.name}`,
+					label: `${data.Roles[b][1].raw} <@&${role.id}>`,
 					emoji: data.Roles[b][1].raw,
 					value: data.Roles[b][1].raw,
 				});
