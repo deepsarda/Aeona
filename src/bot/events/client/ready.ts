@@ -166,7 +166,7 @@ export default async (client: AmethystBot) => {
 
 	setInterval(async () => {
 		client.emit('updateClock', client);
-	}, 1000 * 60 );
+	}, 1000 * 60);
 };
 
 async function verifySlashCommands(client: AmethystBot) {
