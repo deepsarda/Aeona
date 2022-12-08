@@ -28,8 +28,8 @@ export const basebot = createBot({
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
-		members: true,
-		messages: true,
+		channels: false,
+		roles:false
 	},
 	cacheOutsideMemory: {
 		default: false,

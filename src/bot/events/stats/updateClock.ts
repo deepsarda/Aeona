@@ -21,12 +21,12 @@ export default async (client: AmethystBot) => {
 					client.helpers.editChannel(d.Time, {
 						name: channelName,
 					});
-				} catch {
-					//Fix lint error
+				} catch  (err) {
+					console.log(err);
 				}
 			});
 		}
 	} catch (err) {
-		//Fix lint error
+		console.log(err);
 	}
 };

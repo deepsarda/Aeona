@@ -1,5 +1,5 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import { Channel, ChannelTypes, Guild, Member, Message, Role } from 'discordeno';
+import {  Guild, Member, Message, Role } from 'discordeno';
 import Schema from '../../database/models/logChannels.js';
 
 export default async (client: AmethystBot) => {
@@ -82,13 +82,4 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('channelUpdateWithOldChannel', (client: AmethystBot, oldChannel: Channel, newChannel: Channel) => {
-		if (oldChannel.type === ChannelTypes.GuildText && oldChannel.topic !== newChannel.topic) {
-			client.emit('channelTopicUpdate', client, newChannel, oldChannel.topic, newChannel.topic);
-		}
-
-		if (oldChannel.name !== newChannel.name) {
-			client.emit('channelNameUpdate', client, newChannel, oldChannel.name, newChannel.name);
-		}
-	});
 };

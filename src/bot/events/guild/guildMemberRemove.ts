@@ -1,21 +1,21 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import { Member } from 'discordeno/transformers';
+import { User } from 'discordeno/transformers';
 import invitedBy from '../../database/models/inviteBy.js';
 import messages from '../../database/models/inviteMessages.js';
 import invites from '../../database/models/invites.js';
 import leaveSchema from '../../database/models/leaveChannels.js';
 
-export default async (client: AmethystBot, member: Member) => {
-	const messageData = await messages.findOne({ Guild: member.guildId });
+export default async (client: AmethystBot, user: User, guildId: bigint) => {
+	const messageData = await messages.findOne({ Guild: guildId });
 	const inviteByData = await invitedBy.findOne({
-		Guild: member.guildId,
-		User: member.id + '',
+		Guild: guildId,
+		User: user.id + '',
 	});
-	const channelData = await leaveSchema.findOne({ Guild: member.guildId });
+	const channelData = await leaveSchema.findOne({ Guild: guildId });
 
 	if (inviteByData) {
 		const inviteData = await invites.findOne({
-			Guild: member.guildId,
+			Guild: guildId,
 			User: inviteByData.inviteUser,
 		});
 
@@ -27,13 +27,13 @@ export default async (client: AmethystBot, member: Member) => {
 
 		if (channelData) {
 			if (messageData && messageData.inviteLeave) {
-				const guild = await client.cache.guilds.get(member.guildId);
+				const guild = await client.cache.guilds.get(guildId);
 				if (!guild) return;
 				let leaveMessage = messageData.inviteLeave;
-				leaveMessage = leaveMessage.replace(`{user:username}`, member.user?.username);
-				leaveMessage = leaveMessage.replace(`{user:discriminator}`, member.user?.discriminator);
-				leaveMessage = leaveMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-				leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${member.id}>`);
+				leaveMessage = leaveMessage.replace(`{user:username}`, user.username);
+				leaveMessage = leaveMessage.replace(`{user:discriminator}`, user.discriminator);
+				leaveMessage = leaveMessage.replace(`{user:tag}`, user.username + '#' + user.discriminator);
+				leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
 
 				leaveMessage = leaveMessage.replace(`{inviter:mention}`, `<@!${inviteByData.inviteUser}>`);
 				leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData.Invites + '');
@@ -69,7 +69,7 @@ export default async (client: AmethystBot, member: Member) => {
 								.embed(
 									{
 										title: `👋 Bye`,
-										desc: `**${member.user?.username + '#' + member.user?.discriminator}** has left us`,
+										desc: `**${user.username + '#' + user.discriminator}** has left us`,
 									},
 									channel,
 								)
@@ -86,7 +86,7 @@ export default async (client: AmethystBot, member: Member) => {
 							.embed(
 								{
 									title: `👋 Bye`,
-									desc: `**${member.user?.username + '#' + member.user?.discriminator}** was invited by ${
+									desc: `**${user.username + '#' + user.discriminator}** was invited by ${
 										user.username + '#' + user.discriminator
 									}`,
 								},
@@ -102,9 +102,7 @@ export default async (client: AmethystBot, member: Member) => {
 								.embed(
 									{
 										title: `👋 Bye`,
-										desc: `**${
-											member.user?.username + '#' + member.user?.discriminator
-										}** was invited by I could not find that person`,
+										desc: `**${user.username + '#' + user.discriminator}** was invited by I could not find that person`,
 									},
 									channel,
 								)
@@ -121,7 +119,7 @@ export default async (client: AmethystBot, member: Member) => {
 				.embed(
 					{
 						title: `👋 Bye`,
-						desc: `**${member.user?.username + '#' + member.user?.discriminator}** has left us`,
+						desc: `**${user.username + '#' + user.discriminator}** has left us`,
 					},
 					channel,
 				)
