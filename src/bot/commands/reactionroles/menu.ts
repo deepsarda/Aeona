@@ -68,7 +68,7 @@ export default {
 					{
 						title: `${upper} Roles`,
 						desc: `_____ \n\nChoose your roles in the menu! \n\n${mappedstring}`,
-						components: [row],
+						components: row,
 						type: 'reply',
 					},
 					channel,
