@@ -18,7 +18,7 @@ export default {
 			name: 'channel',
 			description: 'The channel to make the menu in.',
 			required: true,
-			type: 'String',
+			type: 'Channel',
 		},
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
