@@ -25,9 +25,7 @@ export default async (client: AmethystBot) => {
 						fields: [
 							{
 								name: `→ Guessed by`,
-								value: `<@${user.id}> (${
-									user.username + '#' + user.discriminator
-								})`,
+								value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 								inline: true,
 							},
 							{
