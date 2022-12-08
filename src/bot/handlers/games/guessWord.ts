@@ -23,7 +23,7 @@ export default async (client: AmethystBot) => {
 						return 0.5 - Math.random();
 					})
 					.join('');
-
+				const user = await client.helpers.getUser(message.authorId);
 				client.extras.sendEmbedMessage(
 					{
 						title: `→ Guess the word`,
@@ -31,9 +31,7 @@ export default async (client: AmethystBot) => {
 						fields: [
 							{
 								name: `→ Guessed by`,
-								value: `<@${message.member?.user.id}> (${
-									message.member?.user.username + '#' + message.member?.user?.discriminator
-								})`,
+								value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 								inline: true,
 							},
 							{

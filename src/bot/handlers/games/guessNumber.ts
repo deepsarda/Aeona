@@ -17,7 +17,7 @@ export default async (client: AmethystBot) => {
 			if (userNumber == number) {
 				bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 				const number = Math.ceil(Math.random() * 10000);
-
+				const user = await client.helpers.getUser(message.authorId);
 				client.extras.sendEmbedMessage(
 					{
 						title: `Guess the number`,
@@ -25,8 +25,8 @@ export default async (client: AmethystBot) => {
 						fields: [
 							{
 								name: `→ Guessed by`,
-								value: `<@${message.member?.user.id}> (${
-									message.member?.user.username + '#' + message.member?.user?.discriminator
+								value: `<@${user.id}> (${
+									user.username + '#' + user.discriminator
 								})`,
 								inline: true,
 							},
