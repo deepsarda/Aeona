@@ -63,7 +63,7 @@ export default {
 			}
 
 			const row = new Components();
-			row.addSelectComponent('Choose your row', 'reaction_select', labels, '❌ Nothing selected', 1,map.length);
+			row.addSelectComponent('Choose your row', 'reaction_select', labels, '❌ Nothing selected', 1, map.length);
 			client.extras
 				.embed(
 					{
