@@ -21,7 +21,7 @@ export default async (client: AmethystBot) => {
 					client.helpers.editChannel(d.Time, {
 						name: channelName,
 					});
-				} catch  (err) {
+				} catch (err) {
 					console.log(err);
 				}
 			});

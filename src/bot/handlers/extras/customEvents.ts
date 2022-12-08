@@ -1,5 +1,5 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import {  Guild, Member, Message, Role } from 'discordeno';
+import { Guild, Member, Message, Role } from 'discordeno';
 import Schema from '../../database/models/logChannels.js';
 
 export default async (client: AmethystBot) => {
@@ -81,5 +81,4 @@ export default async (client: AmethystBot) => {
 			client.emit('roleNameUpdate', client, newRole, oldRole.name, newRole.name);
 		}
 	});
-
 };

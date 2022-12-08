@@ -29,7 +29,7 @@ const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
 		channels: false,
-		roles:false
+		roles: false,
 	},
 	cacheOutsideMemory: {
 		default: false,
