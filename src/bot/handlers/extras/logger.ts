@@ -33,7 +33,7 @@ export default (client: AmethystBot) => {
 								logChannel.save();
 							}
 							for (const auditLogEntry of auditLog) {
-								const logsChannel = await client.extras.getLogs(guild);
+								const logsChannel = await client.extras.getLogs(guild.id);
 								if (!logsChannel) return;
 								const user = await client.helpers.getUser(auditLogEntry.userId);
 								let data = {
