@@ -28,9 +28,10 @@ export default (client: AmethystBot) => {
 								logChannel.LastLog ? auditLogEntry.id > BigInt(logChannel.LastLog) : true,
 							);
 
-							logChannel.LastLog = auditLog[0].id + '';
-							logChannel.save();
-
+							if (auditLog.length > 0) {
+								logChannel.LastLog = auditLog[0].id + '';
+								logChannel.save();
+							}
 							for (const auditLogEntry of auditLog) {
 								const logsChannel = await client.extras.getLogs(guild);
 								if (!logsChannel) return;
