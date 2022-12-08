@@ -1,5 +1,5 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import { Guild, Member, Message, Role } from 'discordeno';
+import { Guild, Member, Message } from 'discordeno';
 import Schema from '../../database/models/logChannels.js';
 
 export default async (client: AmethystBot) => {
@@ -64,21 +64,10 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('guildRoleUpdateWithOldRole', (client: AmethystBot, oldRole: Role, newRole: Role) => {
-		if (oldRole.position !== newRole.position) {
-			client.emit('rolePositionUpdate', client, newRole, oldRole.position, newRole.position);
-		}
-
-		if (oldRole.permissions !== newRole.permissions) {
-			client.emit('rolePermissionsUpdate', client, newRole, oldRole.permissions, newRole.permissions);
-		}
-
-		if (oldRole.color !== newRole.color) {
-			client.emit('roleColorUpdate', client, newRole, oldRole.color, newRole.color);
-		}
-
-		if (oldRole.name !== newRole.name) {
-			client.emit('roleNameUpdate', client, newRole, oldRole.name, newRole.name);
-		}
+	client.on('guildRoleUpdateWithOldRole', () => {
+		//aaa
+	});
+	client.on('channelUpdateWithOldChannel', () => {
+		//aaa
 	});
 };

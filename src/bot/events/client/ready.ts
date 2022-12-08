@@ -148,7 +148,7 @@ export default async (client: AmethystBot) => {
 		}
 	}, 1000 * 60 * 2);
 	setInterval(() => {
-		if (client.cache.members.memory.size > 500) {
+		if (client.cache.members.memory.size > 20000) {
 			for (const [userId, user] of client.cache.members.memory) {
 				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
 			}
@@ -166,14 +166,7 @@ export default async (client: AmethystBot) => {
 
 	setInterval(async () => {
 		client.emit('updateClock', client);
-	}, 1000 * 60 * 5);
-	setInterval(() => {
-		if (client.cache.messages.memory.size > 100) {
-			for (const [messageId, message] of client.cache.messages.memory) {
-				client.cache.messages.delete(messageId);
-			}
-		}
-	}, 1000);
+	}, 1000 * 60 );
 };
 
 async function verifySlashCommands(client: AmethystBot) {
