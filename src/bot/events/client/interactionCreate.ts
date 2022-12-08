@@ -106,34 +106,20 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 				{ Message: interaction.message?.id },
 				async (err: any, data: { Roles: { [x: string]: [any] } }) => {
 					if (!data) return;
-					const ctx = await createContext(
-						{
-							interaction: {
-								...interaction,
-								data: interaction.data?.options?.[0],
-							},
-						},
-						createOptionResults(client, [], {
-							interaction: interaction,
-						}),
-						client,
-					);
 
 					const [roleid] = data.Roles[buttonID[1]];
 
 					if (interaction.member?.roles.includes(roleid)) {
-						await client.helpers.removeRole(ctx.guildId!, ctx.user?.id!, roleid);
-
-						ctx.reply({
-							content: `<@&${roleid}> was removed!`,
-							empheral: true,
+						await client.helpers.removeRole(interaction.guildId, interaction.user?.id!, roleid);
+						await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+							type: 4,
+							data: { content: `<@&${roleid}> was removed!`, flags: 1 << 6 },
 						});
 					} else {
-						await client.helpers.addRole(ctx.guildId!, ctx.user?.id!, roleid);
-
-						ctx.reply({
-							content: `<@&${roleid}> was added!`,
-							empheral: true,
+						await client.helpers.addRole(interaction.guildId!, interaction.user?.id!, roleid);
+						await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+							type: 4,
+							data: { content: `<@&${roleid}> was added!`, flags: 1 << 6 },
 						});
 					}
 				},
@@ -163,21 +149,9 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 						}
 
 						if (i + 1 === interaction.data.values.length) {
-							const ctx = await createContext(
-								{
-									interaction: {
-										...interaction,
-										data: interaction.data?.options?.[0],
-									},
-								},
-								createOptionResults(client, [], {
-									interaction: interaction,
-								}),
-								client,
-							);
-							ctx.reply({
-								content: `I have updated the following roles for you: ${roles}`,
-								empheral: true,
+							await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+								type: 4,
+								data: { content: `I have updated the following roles for you: ${roles}`, flags: 1 << 6 },
 							});
 						}
 					}
