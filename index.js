@@ -20,7 +20,7 @@ try {
 } catch (e) {
 	console.log(e);
 }
-const ls = exec('npm run devr');
+const ls = exec('npm run startr');
 
 ls.stdout.on('data', (data) => {
 	console.log(data.toString('ascii').trim());
@@ -44,7 +44,7 @@ ls1.on('close', (code) => {
 	console.log(`child process exited with code ${code}`);
 });
 
-const ls2 = exec('npm run devg');
+const ls2 = exec('npm run startg');
 
 ls2.stdout.on('data', (data) => {
 	console.log(data.toString('ascii').trim());
