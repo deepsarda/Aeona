@@ -13,7 +13,6 @@ dotenv.config();
 import fetch from 'node-fetch';
 import fs from 'fs';
 import { INTENTS, REST_URL } from '../configs.js';
-import { start } from '../gateway/index.js';
 import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
@@ -269,7 +268,6 @@ bot.rest = createRestManager({
 });
 
 bot.extras.version = 'v0.1.2';
-start();
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {

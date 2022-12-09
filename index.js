@@ -1,4 +1,4 @@
-import { spawn, execSync } from 'child_process';
+import { exec, execSync } from 'child_process';
 import fs from 'fs';
 try {
 	fs.rmdirSync('./dist', {
@@ -10,7 +10,7 @@ try {
 }
 
 try {
-	execSync('npm rebuild');
+	execSync('npm i');
 } catch (e) {
 	console.log(e);
 }
@@ -20,26 +20,50 @@ try {
 } catch (e) {
 	console.log(e);
 }
-const ls = spawn('npm', ['run', 'startr']);
+const ls = exec('npm run devr');
 
 ls.stdout.on('data', (data) => {
-	console.log(data.toString('ascii'));
+	console.log(data.toString('ascii').trim());
 });
 
 ls.stderr.on('data', (data) => {
-	console.error(data.toString('ascii'));
+	console.error(data.toString('ascii').trim());
 });
 
-const ls1 = spawn('npm', ['run', 'startb']);
+const ls1 = exec('npm run devb');
 
 ls1.stdout.on('data', (data) => {
-	console.log(data.toString('ascii'));
+	console.log(data.toString('ascii').trim());
 });
 
 ls1.stderr.on('data', (data) => {
-	console.error(data.toString('ascii'));
+	console.error(data.toString('ascii').trim());
 });
 
 ls1.on('close', (code) => {
 	console.log(`child process exited with code ${code}`);
 });
+
+const ls2 = exec('npm run devg');
+
+ls2.stdout.on('data', (data) => {
+	console.log(data.toString('ascii').trim());
+});
+
+ls2.stderr.on('data', (data) => {
+	console.error(data.toString('ascii').trim());
+});
+
+ls2.on('close', (code) => {
+	console.log(`child process exited with code ${code}`);
+});
+
+
+
+setInterval(() => {
+	try {
+		execSync('git pull');
+	} catch (e) {
+		console.log(e);
+	}
+},60*1000);
