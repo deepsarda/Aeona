@@ -12,7 +12,6 @@ import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { Influx } from '../client/commandStart.js';
-import Schema1 from '../../database/models/votecredits.js';
 export default async (client: AmethystBot, message: Message) => {
 	client.extras.messageCount++;
 
@@ -195,12 +194,7 @@ export default async (client: AmethystBot, message: Message) => {
 						failIfNotExists: false,
 					},
 				});
-				let user = await Schema1.findOne({ User: message.member.id });
-				if (!user) user = new Schema1({ User: message.member.id });
-				if (user.LastVersion != client.extras.version)
-					client.helpers.sendMessage(message.channelId, {
-						content: 'You have unread news. Use `+news` to read it',
-					});
+				
 				Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 			})
 			.catch((err) => console.error('error:' + err));

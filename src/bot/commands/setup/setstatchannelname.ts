@@ -5,7 +5,7 @@ export default {
 	name: 'setstatchannelname',
 	description: 'Sets the channel name for stats',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'setup',
 	args: [
 		{
 			name: 'message',

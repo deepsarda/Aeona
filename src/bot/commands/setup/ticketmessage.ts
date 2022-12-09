@@ -5,7 +5,7 @@ export default {
 	name: 'ticketmessage',
 	description: 'Configure the ticket system',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'setup',
 	args: [
 		{
 			name: 'type',

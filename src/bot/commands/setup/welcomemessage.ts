@@ -5,7 +5,7 @@ export default {
 	name: 'welcomemessage',
 	description: 'Send a welcome message ',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'setup',
 	args: [
 		{
 			name: 'message',

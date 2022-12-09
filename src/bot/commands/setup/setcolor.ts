@@ -5,7 +5,7 @@ export default {
 	name: 'setcolor',
 	description: 'Set the color of the embed',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'setup',
 	args: [
 		{
 			name: 'color',

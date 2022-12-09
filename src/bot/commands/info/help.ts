@@ -33,6 +33,21 @@ export default {
 		client.extras.embed(
 			{
 				title: `My Help menu!`,
+				desc: `Oh, Hi there. :wave~1: 
+Let me help you get your server going.	
+
+**Want to setup chatbot?**
+Use \`+setup chatbot <channel>\` or
+\`+autosetup chatbot\` to have me make a channel for you.
+
+**Want to setup bump reminder?**
+Well then run \`+bumpreminder setup <channel> <role>\`
+
+**Want to generate some art?**
+Use \`+imagine <prompt>\`
+	
+All of my commands are given below!
+				`,
 				fields: fields,
 				type: 'reply',
 			},

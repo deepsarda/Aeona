@@ -131,12 +131,6 @@ const categories: CategoryOptions[] = [
 		default: 'list',
 	},
 	{
-		name: 'config',
-		description: 'Configure the config system',
-		uniqueCommands: true,
-		default: 'list',
-	},
-	{
 		name: 'fun',
 		description: 'Have some fun.',
 		uniqueCommands: true,
@@ -200,7 +194,7 @@ const categories: CategoryOptions[] = [
 		name: 'setup',
 		description: 'Configure your server',
 		uniqueCommands: false,
-		default: 'fun',
+		default: 'chatbot',
 	},
 	{
 		name: 'stickymessages',
@@ -255,6 +249,12 @@ const categories: CategoryOptions[] = [
 		description: 'Some more anime commands',
 		uniqueCommands: true,
 		default: '',
+	},
+	{
+		name: 'bumpreminder',
+		description: 'Setup bumpreminder for your server.',
+		uniqueCommands: false,
+		default: 'setup',
 	},
 ];
 for (let i = 0; i < categories.length; i++) {

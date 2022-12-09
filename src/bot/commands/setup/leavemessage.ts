@@ -1,11 +1,11 @@
-import Schema from '../../database/models/levelMessages.js';
+import inviteMessages from '../../database/models/inviteMessages.js';
 
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
-	name: 'levelmessage',
-	description: 'Set the level up message',
+	name: 'leavemessage',
+	description: 'Set the leave message',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'setup',
 	args: [
 		{
 			name: 'message',
@@ -24,50 +24,59 @@ export default {
 		if (message.toLowerCase() == 'help') {
 			return client.extras.embed(
 				{
-					title: `Level message options`,
-					desc: `These are the level message name options: \n
+					title: `Welcome message options`,
+					desc: `Leave message options: \n
             \`{user:username}\` - User's username
             \`{user:discriminator}\` - User's discriminator
             \`{user:tag}\` - User's tag
             \`{user:mention}\` - Mention a user
 
-            \`{user:level}\` - Users's level
-            \`{user:xp}\` - Users's xp`,
+            \`{inviter:username}\` - inviter's username
+            \`{inviter:discriminator}\` - inviter's discriminator
+            \`{inviter:tag}\` - inviter's tag
+            \`{inviter:mention}\` - inviter's mention
+            \`{inviter:invites}\` - inviter's invites
+            \`{inviter:invites:left}\` - inviter's left invites
+            
+            \`{guild:name}\` - Server name
+            \`{guild:members}\` - Server members count`,
 					type: 'reply',
 				},
 				ctx,
 			);
 		}
 
-		if (message.toLowerCase() == 'default') {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+		if (message.toUpperCase() == 'default') {
+			inviteMessages.findOne({ Guild: ctx.guildId }, async (err, data) => {
 				if (data) {
-					Schema.findOneAndDelete({ Guild: ctx.guildId }).then(() => {
-						client.extras.succNormal(
-							{
-								text: `Level message deleted!`,
-								type: 'reply',
-							},
-							ctx,
-						);
-					});
+					data.inviteLeave = null;
+					data.save();
+
+					client.extras.succNormal(
+						{
+							text: `Leave message deleted!`,
+							type: 'reply',
+						},
+						ctx,
+					);
 				}
 			});
 		} else {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			inviteMessages.findOne({ Guild: ctx.guildId }, async (err, data) => {
+				if (!ctx.guild) return;
 				if (data) {
-					data.Message = message;
+					data.inviteLeave = message;
 					data.save();
 				} else {
-					new Schema({
+					new inviteMessages({
 						Guild: ctx.guildId,
-						Message: message,
+						inviteLeave: message,
 					}).save();
 				}
 
 				client.extras.succNormal(
 					{
-						text: `The level message has been set successfully`,
+						text: `The leave message has been set successfully`,
 						fields: [
 							{
 								name: `→ Message`,

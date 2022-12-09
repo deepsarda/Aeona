@@ -4,6 +4,7 @@ import { ActivityTypes } from 'discordeno/types';
 import { cpus } from 'os';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
+import bumpreminder from '../../database/models/bumpreminder.js';
 export default async (client: AmethystBot) => {
 	client.user = await client.helpers.getUser(client.applicationId);
 	const INFLUX_ORG = process.env.INFLUX_ORG as string;
@@ -166,6 +167,30 @@ export default async (client: AmethystBot) => {
 
 	setInterval(async () => {
 		client.emit('updateClock', client);
+	}, 1000 * 60);
+
+	setInterval(async () => {
+		const reminders = await bumpreminder.find();
+		for (const reminder of reminders) {
+			try {
+				if (Date.now() > reminder.LastBump + 7200000) {
+					reminder.LastBump = Date.now();
+					reminder.save();
+
+					const channel = await client.helpers.getChannel(reminder.Channel);
+					client.extras.embed(
+						{
+							title: `Time to bump!`,
+							desc: reminder.Message ?? `Use /bump to bump this server!`,
+							type: 'reply',
+						},
+						channel,
+					);
+				}
+			} catch (err) {
+				console.log(err);
+			}
+		}
 	}, 1000 * 60);
 };
 

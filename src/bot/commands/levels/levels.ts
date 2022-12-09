@@ -5,7 +5,7 @@ export default {
 	name: 'levels',
 	description: 'Enable or disable level messages',
 	commandType: ['application', 'message'],
-	category: 'config',
+	category: 'levels',
 	args: [
 		{
 			name: 'boolean',
