@@ -80,7 +80,7 @@ export async function start() {
 			token: DISCORD_TOKEN,
 			handlerUrls: [EVENT_HANDLER_URL],
 			handlerAuthorization: EVENT_HANDLER_AUTHORIZATION,
-			path: './worker.ts',
+			path: './worker.js',
 			totalShards: gateway.manager.totalShards,
 			workerId,
 		};

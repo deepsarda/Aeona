@@ -19,7 +19,7 @@ export default {
 		client.extras.embed(
 			{
 				title: `${ctx.user.username} throws ${user.username}`,
-				image: (await hmfull.HMtai.sfw.wave()).url,
+				image: (await hmfull.HMtai.sfw.throw()).url,
 				type: 'reply',
 			},
 			ctx,
