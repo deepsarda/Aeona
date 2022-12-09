@@ -75,6 +75,7 @@
 		"twemoji": "^14.0.2",
 		"typescript": "^5.0.0-dev.20221101",
 		"weather-js": "^2.0.0",
+		"nodemon": "^2.0.20",
 		"web-worker": "^1.2.0"
 	},
 	"devDependencies": {
@@ -90,7 +91,6 @@
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"husky": "^8.0.2",
-		"nodemon": "^2.0.20",
 		"prettier": "2.6.2"
 	},
 	"prettier": {
