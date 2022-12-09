@@ -165,7 +165,7 @@ export default async (client: AmethystBot) => {
 		}
 	}, 1000 * 60 * 2);
 
-	setInterval( () => {
+	setInterval(() => {
 		client.emit('updateClock', client);
 	}, 1000 * 60);
 
