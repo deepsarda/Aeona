@@ -58,12 +58,10 @@ ls2.on('close', (code) => {
 	console.log(`child process exited with code ${code}`);
 });
 
-
-
 setInterval(() => {
 	try {
 		execSync('git pull');
 	} catch (e) {
 		console.log(e);
 	}
-},60*1000);
+}, 60 * 1000);
