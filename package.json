@@ -6,9 +6,9 @@
 	"scripts": {
 		"devbg": " npm run devr & npm run devb & npm run devg",
 		"fmt": "prettier -w ./src",
-		"devg": "nodemon --ignore ./src/bot/**/* --ignore ./src/rest/**/* --ignore ./dist/**/* -e ts dist/gateway/index.js",
-		"devr": "nodemon --ignore ./src/bot/**/* --ignore ./src/gateway/**/* --ignore ./dist/**/* -e ts dist/rest/index.js",
-		"devb": "nodemon --ignore ./src/rest/**/* --ignore ./src/gateway/**/* --ignore ./dist/**/* -e ts dist/bot/index.js",
+		"devg": "nodemon dist/gateway/index.js --ignore ./src/bot/**/* --ignore ./src/rest/**/* --ignore ./dist/**/* -e ts ",
+		"devr": "nodemon dist/rest/index.js --ignore ./src/bot/**/* --ignore ./src/gateway/**/* --ignore ./dist/**/* -e ts ",
+		"devb": "nodemon dist/bot/index.js --ignore ./src/rest/**/* --ignore ./src/gateway/**/* --ignore ./dist/**/* -e ts ",
 		"type": "tsc --noEmit",
 		"build": "swc src --out-dir dist",
 		"startr": "node dist/rest/index.js",
@@ -67,6 +67,7 @@
 		"nanoid": "^4.0.0",
 		"node-fetch": "^3.3.0",
 		"node-json-db": "^2.1.3",
+		"nodemon": "^2.0.20",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"recachegoose": "^9.1.0",
@@ -75,7 +76,6 @@
 		"twemoji": "^14.0.2",
 		"typescript": "^5.0.0-dev.20221101",
 		"weather-js": "^2.0.0",
-		"nodemon": "^2.0.20",
 		"web-worker": "^1.2.0"
 	},
 	"devDependencies": {
