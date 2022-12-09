@@ -4,7 +4,11 @@ import bumpreminder from '../../database/models/bumpreminder.js';
 export default async (client: AmethystBot, message: Message) => {
 	if (!message.isFromBot) return;
 
-	if (message.embeds.length && message.embeds[0].description && message.embeds[0].description.indexOf('Bump done') > -1) {
+	if (
+		message.embeds.length &&
+		message.embeds[0].description &&
+		message.embeds[0].description.indexOf('Bump done') > -1
+	) {
 		const schema = await bumpreminder.findOne({ Guild: message.guildId });
 		if (schema) {
 			client.helpers.sendMessage(message.channelId, {
