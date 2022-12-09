@@ -180,6 +180,7 @@ export default async (client: AmethystBot) => {
 					const channel = await client.helpers.getChannel(reminder.Channel);
 					client.extras.embed(
 						{
+							content: `<&${reminder.Role}>`,
 							title: `Time to bump!`,
 							desc: reminder.Message ?? `Use /bump to bump this server!`,
 							type: 'reply',
