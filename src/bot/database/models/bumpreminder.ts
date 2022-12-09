@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
 	Guild: String,
 	Channel: String,
 	Role: String,
-    Message: String,
+	Message: String,
 	LastBump: Number,
 });
 

@@ -194,7 +194,7 @@ export default async (client: AmethystBot, message: Message) => {
 						failIfNotExists: false,
 					},
 				});
-				
+
 				Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 			})
 			.catch((err) => console.error('error:' + err));

@@ -12,34 +12,35 @@ export default {
 			required: true,
 			type: 'Channel',
 		},
-        {
+		{
 			name: 'role',
 			description: 'The role to ping reminding for.',
 			required: true,
 			type: 'Role',
-		}
+		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const channel = await ctx.options.getChannel("channel",true);
-        const role = await ctx.options.getRole("role",true);
+		const channel = await ctx.options.getChannel('channel', true);
+		const role = await ctx.options.getRole('role', true);
 
-        let reminder = await bumpreminder.findOne({Guild: ctx.guild.id});
-        if (!reminder) reminder= new bumpreminder({
-            Guild: ctx.guild.id,
-            Channel: channel.id,
-            Role: role.id,
-            LastBumpedReminder:  Date.now()
-        });
-        else{
-            reminder.Channel = channel.id+"";
-            reminder.Role = role.id+"";
-        }
+		let reminder = await bumpreminder.findOne({ Guild: ctx.guild.id });
+		if (!reminder)
+			reminder = new bumpreminder({
+				Guild: ctx.guild.id,
+				Channel: channel.id,
+				Role: role.id,
+				LastBumpedReminder: Date.now(),
+			});
+		else {
+			reminder.Channel = channel.id + '';
+			reminder.Role = role.id + '';
+		}
 
-        client.extras.embed(
+		client.extras.embed(
 			{
 				title: `Successfully setup bumpreminder`,
-                desc: `I will automatically start reminding after next successful bump.`,
+				desc: `I will automatically start reminding after next successful bump.`,
 				fields: [
 					{
 						name: '→ Channel',
@@ -57,7 +58,6 @@ export default {
 			ctx,
 		);
 
-        reminder.save();
-
+		reminder.save();
 	},
 };
