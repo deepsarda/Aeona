@@ -158,7 +158,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				},
 			);
-		} else if (interaction.data?.customId == 'help_select') {
+		} else if (interaction.data?.customId.startsWith('help_select')) {
 			const c = client.category.get(interaction.data?.values[0]);
 			const fields: Field[] = [];
 			if (c.uniqueCommands) {

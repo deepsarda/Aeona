@@ -59,7 +59,7 @@ setTimeout(() => {
 	ls2.on('close', (code) => {
 		console.log(`child process exited with code ${code}`);
 	});
-}, 60000);
+}, 10000);
 setInterval(() => {
 	try {
 		exec('git pull');

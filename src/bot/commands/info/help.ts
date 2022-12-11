@@ -8,22 +8,25 @@ export default {
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const options: SelectOption[] = [];
+		let options: SelectOption[] = [];
 		const comp = new Components();
-
-		client.category.forEach((c) => {
-			options.push({
-				label: `${client.extras.capitalizeFirstLetter(c.name)}`,
-				value: `${c.name}`,
-				description: `${c.description}`,
+		console.log(client.category.size)
+		try {
+			client.category.forEach((c) => {
+				options.push({
+					label: `${client.extras.capitalizeFirstLetter(c.name)}`,
+					value: `${c.name}`,
+					description: `${c.description}`,
+				});
 			});
-		});
-
-		comp.addSelectComponent('Choose which commands to see', 'help_select', options);
-		client.extras.embed(
-			{
-				title: `My Help menu!`,
-				desc: `Oh, Hi there. <:kanna_wave:805054424267096124> 
+			const options2= options.slice(0, options.length / 2);
+			options = options.slice(options.length / 2)
+			comp.addSelectComponent('Choose which commands to see. (1/2)', 'help_select', options2);
+			comp.addSelectComponent('Choose which commands to see. (2/2)', 'help_select1', options);
+			client.extras.embed(
+				{
+					title: `My Help menu!`,
+					desc: `Oh, Hi there. <:kanna_wave:805054424267096124> 
 Let me help you get your server going.	
 
 **Want to setup chatbot?**
@@ -38,10 +41,13 @@ Use \`+imagine <prompt>\`
 	
 Use the dropdown to see all my commands.
 				`,
-				components: comp,
-				type: 'reply',
-			},
-			ctx,
-		);
+					components: comp,
+					type: 'reply',
+				},
+				ctx,
+			);
+		} catch (e) {
+			console.log(e);
+		}
 	},
 };
