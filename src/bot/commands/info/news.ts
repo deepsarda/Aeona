@@ -20,7 +20,7 @@ export default {
 				fields: [
 					{
 						name: '→ :frame_photo: AI Image Generator',
-						value: `Updated the A>I`,
+						value: `Updated the AI`,
 						inline: true,
 					},
 					{
