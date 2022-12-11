@@ -1,5 +1,5 @@
 import { AmethystBot } from '@thereallonewolf/amethystframework';
-import { Channel, Guild, Member, Role } from 'discordeno';
+import { Channel, Guild, Member, Role, User } from 'discordeno';
 import Schema from '../../database/models/stats.js';
 
 export default async (client: AmethystBot) => {
@@ -22,10 +22,11 @@ export default async (client: AmethystBot) => {
 		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
 	});
-	client.on('memberDeleteWithOldMember', async (client: AmethystBot, member: Member) => {
-		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
-		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
+	client.on('memberDelete', async (client: AmethystBot, user: User, guildId: bigint) => {
+		client.emit('updateMembers', client, await client.helpers.getGuild(guildId));
+		client.emit('updateBots', client, await client.helpers.getGuild(guildId));
 	});
+	
 
 	client.on('channelCreate', async (client: AmethystBot, channel: Channel) => {
 		if (!channel.guildId) return;

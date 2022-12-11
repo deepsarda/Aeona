@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import Schema from '../../database/models/stats.js';
 
 export default async (client: AmethystBot) => {
+	console.log("Updating clocks")
 	try {
 		const data = await Schema.find();
 
