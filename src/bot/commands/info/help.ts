@@ -10,7 +10,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		let options: SelectOption[] = [];
 		const comp = new Components();
-		console.log(client.category.size)
+		console.log(client.category.size);
 		try {
 			client.category.forEach((c) => {
 				options.push({
@@ -19,8 +19,8 @@ export default {
 					description: `${c.description}`,
 				});
 			});
-			const options2= options.slice(0, options.length / 2);
-			options = options.slice(options.length / 2)
+			const options2 = options.slice(0, options.length / 2);
+			options = options.slice(options.length / 2);
 			comp.addSelectComponent('Choose which commands to see. (1/2)', 'help_select', options2);
 			comp.addSelectComponent('Choose which commands to see. (2/2)', 'help_select1', options);
 			client.extras.embed(
