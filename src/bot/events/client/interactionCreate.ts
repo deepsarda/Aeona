@@ -1,4 +1,4 @@
-import { AmethystBot, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import { AmethystBot, AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 import { Interaction } from 'discordeno/transformers';
 import { InteractionTypes } from 'discordeno/types';
@@ -15,6 +15,7 @@ import notice from '../../commands/tickets/notice.js';
 import transcript from '../../commands/tickets/transcript.js';
 
 import { Blob } from 'buffer';
+
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
 	const ab = new ArrayBuffer(byteString.length);
@@ -157,6 +158,40 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				},
 			);
+		} else if (interaction.data?.customId == 'help_select') {
+			const c = client.category.get(interaction.data?.values[0]);
+			const fields: Field[] = [];
+			if (c.uniqueCommands) {
+				fields.push({
+					name: '➯ ' + c.description,
+					value: c.commands.map((c) => `\`${process.env.PREFIX!}${c.name}\``).join(' '),
+				});
+			} else {
+				let value = `\`${process.env.PREFIX!}${c.name} <`;
+				c.commands.forEach((command) => {
+					if (value.endsWith('<')) value += `${command.name}`;
+					else value += `/${command.name}`;
+				});
+				value += '>`';
+
+				fields.push({
+					name: '➯ ' + c.description,
+					value: value,
+				});
+			}
+			const embed = new AmethystEmbed()
+				.setColor(client.extras.config.colors.normal)
+				.setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
+				.setDescription(`*${c.description.trim}* \n Total of ${c.commands.size} commands`)
+				.addBlankField()
+				.addField(fields[0].name, fields[0].value, fields[0].inline);
+			await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+				type: 4,
+				data: {
+					embeds: [embed],
+					flags: 1 << 6,
+				},
+			});
 		}
 	}
 
@@ -259,4 +294,9 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 		);
 		notice.execute(client, ctx);
 	}
+};
+type Field = {
+	name: string;
+	value: string;
+	inline?: boolean;
 };

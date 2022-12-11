@@ -16,31 +16,31 @@ export default {
 		client.extras.embed(
 			{
 				title: `Changelog for ${client.extras.version}`,
-				desc: `Hello there <a:wave:1049348090244636683>, I have undergone some <:F_Settings:1009877506775601303> changes and upgrades while you where gone. Why dont we see them?`,
+				desc: `Hello there <a:wave:1049348090244636683>, I have been killing some bugs right now. Why dont we see them?`,
 				fields: [
 					{
 						name: '→ :frame_photo: AI Image Generator',
-						value: `Get beautiful image generated across various styles using \`+imagine\``,
+						value: `Updated the A>I`,
 						inline: true,
 					},
 					{
 						name: '→ <:chatbot:1049292165282541638> Updated Chatbot',
-						value: `The main chatbot has been updated to no longer use commands and unknown emojies.`,
+						value: `The chatbot now uses more emojies!`,
 						inline: true,
 					},
 					{
-						name: '→ <:F_Moderation:1049289033374781471> New AI powered chat reviver',
-						value: `The main chatbot has been updated to no longer use commands and unknown emojies.`,
+						name: '→ <:F_Moderation:1049289033374781471> Bug Fixs',
+						value: `Improvements to the help command and reorganising of the files to better show `,
 						inline: true,
 					},
 					{
-						name: '→ <:channel:1049292166343688192> Loads of new anime reaction commands',
-						value: `You can now react to anything. Also added 2 new coding help commands.`,
+						name: '→ <:channel:1049292166343688192> clock stats should now work better',
+						value: `We will continue to monitor this.`,
 						inline: true,
 					},
 					{
 						name: '→  🔞 🪲  Removes loads of bugs',
-						value: `Logs should now work much better than before.`,
+						value: `Member leave logs should now work better.`,
 						inline: true,
 					},
 				],

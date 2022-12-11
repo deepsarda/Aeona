@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { AmethystBot, Context, Components } from '@thereallonewolf/amethystframework';
+import { SelectOption } from 'discordeno';
 export default {
 	name: 'help',
 	description: 'See the commands',
@@ -7,33 +8,22 @@ export default {
 	args: [],
 	async execute(client: AmethystBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const fields: Field[] = [];
+		const options: SelectOption[] = [];
+		const comp = new Components();
 
 		client.category.forEach((c) => {
-			if (c.uniqueCommands) {
-				fields.push({
-					name: '➯ ' + c.description,
-					value: c.commands.map((c) => `\`${process.env.PREFIX!}${c.name}\``).join(' '),
-				});
-			} else {
-				let value = `\`${process.env.PREFIX!}${c.name} <`;
-				c.commands.forEach((command) => {
-					if (value.endsWith('<')) value += `${command.name}`;
-					else value += `/${command.name}`;
-				});
-				value += '>`';
-
-				fields.push({
-					name: '➯ ' + c.description,
-					value: value,
-				});
-			}
+			options.push({
+				label: `${client.extras.capitalizeFirstLetter(c.name)}`,
+				value: `${c.name}`,
+				description: `${c.description}`,
+			});
 		});
 
+		comp.addSelectComponent('Choose which commands to see', 'help_select', options);
 		client.extras.embed(
 			{
 				title: `My Help menu!`,
-				desc: `Oh, Hi there. :wave~1: 
+				desc: `Oh, Hi there. <:kanna_wave:805054424267096124> 
 Let me help you get your server going.	
 
 **Want to setup chatbot?**
@@ -46,9 +36,9 @@ Well then run \`+bumpreminder setup <channel> <role>\`
 **Want to generate some art?**
 Use \`+imagine <prompt>\`
 	
-All of my commands are given below!
+Use the dropdown to see all my commands.
 				`,
-				fields: fields,
+				components: comp,
 				type: 'reply',
 			},
 			ctx,
@@ -56,8 +46,3 @@ All of my commands are given below!
 	},
 };
 
-type Field = {
-	name: string;
-	value: string;
-	inline?: boolean;
-};

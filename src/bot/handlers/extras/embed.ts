@@ -4,11 +4,7 @@ import Schema from '../../database/models/functions.js';
 
 export default (client: AmethystBot) => {
 	client.extras.templateEmbed = function () {
-		return new AmethystEmbed()
-
-			.setColor(client.extras.config.colors.normal)
-			.setFooter(client.extras.config.discord.footer, client.extras.config.discord.footerUrl)
-			.setTimestamp();
+		return new AmethystEmbed().setColor(client.extras.config.colors.normal);
 	};
 
 	//----------------------------------------------------------------//
