@@ -197,7 +197,7 @@ export default async (client: AmethystBot) => {
 				console.log(err);
 			}
 		}
-	}, 1000 * 60);
+	}, 1000 * 60*10);
 };
 
 async function verifySlashCommands(client: AmethystBot) {
