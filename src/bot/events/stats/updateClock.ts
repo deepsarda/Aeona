@@ -11,6 +11,8 @@ export default async (client: AmethystBot) => {
 
 		if (data) {
 			data.forEach(async (d) => {
+				if (!d.TimeZone || !d.Time) return;
+
 				console.log('Updating clock for ' + d.Guild);
 
 				try {

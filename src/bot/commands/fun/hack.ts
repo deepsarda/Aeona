@@ -12,7 +12,7 @@ export default {
 			name: 'user',
 			description: 'The user to hack',
 			required: true,
-			type: 'String',
+			type: 'User',
 		},
 	],
 	async execute(client: AmethystBot, ctx: Context) {
