@@ -60,7 +60,7 @@ ls2.on('close', (code) => {
 
 setInterval(() => {
 	try {
-		execSync('git pull');
+		exec('git pull');
 	} catch (e) {
 		console.log(e);
 	}

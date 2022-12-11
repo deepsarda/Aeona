@@ -316,7 +316,7 @@ export async function getAuditLog(bot: Bot, guildId: BigString, options?: GetGui
 
 	const id = bot.transformers.snowflake(guildId);
 	return {
-		auditLogEntries: result.audit_log_entries.map((entry) => bot.transformers.auditLogEntry(bot, entry)),
+		auditLogEntries: result.audit_log_entries.map((entry) => transformAuditLogEntry(bot, entry)),
 		autoModerationRules: result.auto_moderation_rules?.map((rule) => bot.transformers.automodRule(bot, rule)),
 		guildScheduledEvents: result.guild_scheduled_events?.map((event) => bot.transformers.scheduledEvent(bot, event)),
 		integrations: result.integrations.map((integration) => ({
@@ -400,13 +400,13 @@ export function transformAuditLogEntry(bot: Bot, payload: DiscordAuditLogEntry) 
 				case 'deny':
 				case 'channel_id':
 				case 'inviter_id':
-				case 'avatar_hash':
 				case 'id':
 					return {
 						key: change.key,
 						old: change.old_value ? bot.transformers.snowflake(change.old_value) : undefined,
 						new: change.new_value ? bot.transformers.snowflake(change.new_value) : undefined,
 					};
+				case 'avatar_hash':
 				case 'name':
 				case 'description':
 				case 'preferred_locale':

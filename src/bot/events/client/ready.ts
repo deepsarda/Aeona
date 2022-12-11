@@ -281,9 +281,3 @@ async function verifySlashCommands(client: AmethystBot) {
 		console.error(e);
 	}
 }
-
-type UserTopgg = {
-	username: string;
-	id: string;
-	avatar: string;
-};
