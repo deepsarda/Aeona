@@ -182,7 +182,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			const embed = new AmethystEmbed()
 				.setColor(client.extras.config.colors.normal)
 				.setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
-				.setDescription(`*${c.description.trim}* \n Total of ${c.commands.size} commands`)
+				.setDescription(`*${c.description.trim()}* \n Total of ${c.commands.size} commands`)
 				.addBlankField()
 				.addField(fields[0].name, fields[0].value, fields[0].inline);
 			await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
