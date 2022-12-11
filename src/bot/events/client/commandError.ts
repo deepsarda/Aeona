@@ -84,6 +84,7 @@ export default async (
 		});
 
 	if (data.error.type == ErrorEnums.OTHER) {
+		console.log(data.error);
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
 			content: 'An Error occured: ' + data.error.type,
 		});

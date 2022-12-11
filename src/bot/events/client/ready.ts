@@ -149,7 +149,7 @@ export default async (client: AmethystBot) => {
 		}
 	}, 1000 * 60 * 2);
 	setInterval(() => {
-		if (client.cache.members.memory.size > 500) {
+		if (client.cache.members.memory.size > 5000) {
 			for (const [userId, user] of client.cache.members.memory) {
 				if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
 			}
