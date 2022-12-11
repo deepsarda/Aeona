@@ -45,4 +45,3 @@ Use the dropdown to see all my commands.
 		);
 	},
 };
-
