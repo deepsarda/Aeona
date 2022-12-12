@@ -10,7 +10,7 @@ import {
 	DiscordTime,
 	DiscordUnderlined,
 } from '@derockdev/discord-components-react';
-import  { type RuleTypesExtended,parse } from 'discord-markdown-parser';
+import { type RuleTypesExtended, parse } from 'discord-markdown-parser';
 import { ChannelTypes } from 'discordeno';
 import React, { Fragment, type ReactNode } from 'react';
 import type { ASTNode, SingleASTNode } from 'simple-markdown';
