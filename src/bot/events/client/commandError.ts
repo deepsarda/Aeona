@@ -82,4 +82,11 @@ export default async (
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
 			content: 'Oh no! This is only meant for my owner.',
 		});
+		if (data.error.type == ErrorEnums.OTHER) {
+			return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+				//@ts-ignore
+				content: data.error.value,
+			});
+		}
+	
 };
