@@ -41,10 +41,10 @@ export async function renderEmbed(embed: Embed, context: RenderEmbedContext) {
 			)}
 
 			{/* Fields */}
-			{embed.fields!.length > 0 && (
+			{embed.fields && embed.fields.length > 0 && (
 				<DiscordEmbedFields slot="fields">
 					{await Promise.all(
-						embed.fields!.map(async (field, id) => (
+						embed.fields.map(async (field, id) => (
 							<DiscordEmbedField
 								key={`${context.message.id}-e-${context.index}-f-${id}`}
 								fieldTitle={field.name}
