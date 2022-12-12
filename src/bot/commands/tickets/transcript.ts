@@ -1,4 +1,3 @@
-
 import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'transcript',
