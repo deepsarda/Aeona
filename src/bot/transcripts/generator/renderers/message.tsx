@@ -66,13 +66,14 @@ export default async function renderMessage(bot: AmethystBot, message: Message, 
 			{await renderAttachments(message, context)}
 
 			{/* message embeds */}
-			{message.embeds && message.embeds.length > 0 &&
+			{message.embeds &&
+				message.embeds.length > 0 &&
 				(await Promise.all(
 					message.embeds.map(async (embed, id) => await renderEmbed(embed, { ...context, index: id, message })),
 				))}
 
 			{/* components */}
-			{message.components&&message.components.length > 0 && (
+			{message.components && message.components.length > 0 && (
 				<DiscordAttachments slot="components">
 					{message.components!.map((component, id) =>
 						//@ts-ignore
@@ -82,7 +83,7 @@ export default async function renderMessage(bot: AmethystBot, message: Message, 
 			)}
 
 			{/* reactions */}
-			{message.reactions&& message.reactions.length > 0 && (
+			{message.reactions && message.reactions.length > 0 && (
 				<DiscordReactions slot="reactions">
 					{message.reactions!.map((reaction) => (
 						<DiscordReaction
