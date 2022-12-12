@@ -283,7 +283,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 				});
 				clearTimeout(timeoutId);
 				const json: any = await response.json();
-
+				console.log(json);
 				if (json.voted == 1) return true;
 				return {
 					//@ts-ignore
