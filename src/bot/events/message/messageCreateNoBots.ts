@@ -174,12 +174,12 @@ export default async (client: AmethystBot, message: Message) => {
 		let context4;
 		let context5;
 		try {
-			context = msgs[1];
-			context1 = msgs[2];
-			context2 = msgs[3];
-			context3 = msgs[4];
-			context4 = msgs[5];
-			context5 = msgs[6];
+			context = msgs[1].content;
+			context1 = msgs[2].content;
+			context2 = msgs[3].content;
+			context3 = msgs[4].content;
+			context4 = msgs[5].content;
+			context5 = msgs[6].content;
 		} catch (e) {
 			//ignore error
 		}
