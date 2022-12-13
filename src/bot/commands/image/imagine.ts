@@ -231,7 +231,7 @@ export default {
 							name: 'image.jpg',
 						},
 					],
-					components: comp,
+					components: component,
 				});
 			});
 		} catch (e) {
