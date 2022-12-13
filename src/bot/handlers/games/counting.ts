@@ -14,6 +14,7 @@ export default async (client: AmethystBot) => {
 		const countData = await count.findOne({ Guild: message.guildId });
 
 		if (data && countData) {
+			if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
 			if (message.authorId + '' == countData.User!) {
 				try {
 					client.extras.errNormal(
@@ -30,7 +31,6 @@ export default async (client: AmethystBot) => {
 					throw error;
 				}
 			} else {
-				if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
 				if (Number(message.content) == countData.Count) {
 					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 					countData.User = message.authorId + '';
