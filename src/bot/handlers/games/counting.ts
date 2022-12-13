@@ -18,21 +18,19 @@ export default async (client: AmethystBot) => {
 				try {
 					client.extras.errNormal(
 						{
-							error: 'You cannot count twice in a row! Count starts again from 1',
+							error: 'You cannot count twice in a row',
 							type: 'reply',
 						},
 						{ id: message.channelId },
 					);
 
-					countData.Count = 1;
-					countData.User = ' ';
-					countData.save();
 					return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 				} catch (error) {
 					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 					throw error;
 				}
 			} else {
+				if(!Number(message.content)||Number.isNaN(Number(message.content))) return;
 				if (Number(message.content) == countData.Count) {
 					bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.check);
 					countData.User = message.authorId + '';
@@ -42,15 +40,12 @@ export default async (client: AmethystBot) => {
 					try {
 						client.extras.errNormal(
 							{
-								error: `The correct number was ${countData.Count}! Count starts again from 1`,
+								error: `The correct number was ${countData.Count}!`,
 								type: 'reply',
 							},
 							{ id: message.channelId },
 						);
 
-						countData.Count = 1;
-						countData.User = ' ';
-						countData.save();
 						return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
 					} catch (error) {
 						bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
