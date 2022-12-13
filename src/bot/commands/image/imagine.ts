@@ -217,7 +217,7 @@ export default {
 				const component = new Components();
 				component.addSelectComponent(
 					'Share your image!',
-					'share-imagine',
+					'share-imagine'+ctx.user.id,
 					[
 						{
 							label: 'Official Server',
