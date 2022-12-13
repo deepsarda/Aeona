@@ -214,8 +214,8 @@ export default {
 						},
 					],
 				});
-				const comp = new Components();
-				comp.addSelectComponent('Share your image!', 'share-imagine', [
+				const component = new Components();
+				component.addSelectComponent('Share your image!', 'share-imagine', [
 					{
 						label: 'Official Server',
 						value: 'share-discord',
