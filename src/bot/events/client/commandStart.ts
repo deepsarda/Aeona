@@ -12,7 +12,7 @@ export default async (bot: AmethystBot, command: CommandClass, data: Interaction
 	Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 	Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', command.name).intField('value', 1));
 	let user = await Schema.findOne({ User: data.member.id });
-	console.log(command.name)
+	console.log(command.name);
 	if (!user) user = new Schema({ User: data.member.id });
 	if (user.LastVersion != bot.extras.version)
 		bot.helpers.sendMessage(data.channelId, {
