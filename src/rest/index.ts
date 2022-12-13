@@ -30,6 +30,7 @@ const app = express();
 
 app.use(
 	express.urlencoded({
+		limit: '200mb',
 		extended: true,
 	}),
 );
