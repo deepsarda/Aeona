@@ -207,7 +207,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			) {
 				const channel = await createForumThread(client, '1045332279943233667', {
 					name:
-						interaction.message.content.split('\n')[0].split(':')[1] +
+						interaction.message.content.split('\n')[0].split(':**')[1] +
 						' by ' +
 						interaction.user.username +
 						'(' +
