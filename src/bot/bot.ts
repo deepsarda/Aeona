@@ -267,7 +267,7 @@ bot.rest = createRestManager({
 	customUrl: REST_URL,
 });
 
-bot.extras.version = 'v0.1.3';
+bot.extras.version = 'v0.1.4';
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
@@ -310,3 +310,8 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 bot.extras.capitalizeFirstLetter = (string: string) => {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+//Set timeout for 2 mins
+setTimeout(() => {
+	bot.emit('ready', bot);
+}, 2 * 60 * 1000);

@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { AmethystBot, Context, Components } from '@thereallonewolf/amethystframework';
 
 async function query(data) {
-	const response = await fetch('https://api-inference.huggingface.co/models/prompthero/openjourney', {
+	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2', {
 		headers: { Authorization: `Bearer ${process.env.APIKEY}` },
 		method: 'POST',
 		body: JSON.stringify(data),
@@ -198,7 +198,7 @@ export default {
 			}
 
 			query({
-				inputs: prompt + ' mdjrny-v4 style ' + modifiers,
+				inputs: prompt + modifiers,
 				options: {
 					wait_for_model: true,
 					use_cache: false,
@@ -214,6 +214,12 @@ export default {
 						},
 					],
 				});
+				const comp = new Components();
+				comp.addSelectComponent("Share your image!","share-imagine",[{
+					label: "Official Server",
+					value:"share-discord",
+					description: "Share your imaage on the official discord server. Note: Your discord username and id will be shared."					
+				}]);
 				ctx.reply({
 					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
 					file: [

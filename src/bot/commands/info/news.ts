@@ -16,31 +16,16 @@ export default {
 		client.extras.embed(
 			{
 				title: `Changelog for ${client.extras.version}`,
-				desc: `Hello there <a:wave:1049348090244636683>, I have been killing some bugs right now. Why dont we see them?`,
+				desc: `Hello there <a:wave:1049348090244636683>, I have upgraded my AI.`,
 				fields: [
 					{
 						name: '→ :frame_photo: AI Image Generator',
-						value: `Updated the AI`,
+						value: `We now generate higher resolution photos but slower. \n The images should now be much more accurate to your prompt. \n Along with a ability to share your art.`,
 						inline: true,
 					},
 					{
-						name: '→ <:chatbot:1049292165282541638> Updated Chatbot',
-						value: `The chatbot now uses more emojies!`,
-						inline: true,
-					},
-					{
-						name: '→ <:F_Moderation:1049289033374781471> Bug Fixs',
-						value: `Improvements to the help command and reorganising of the files to better show `,
-						inline: true,
-					},
-					{
-						name: '→ <:channel:1049292166343688192> clock stats should now work better',
-						value: `We will continue to monitor this.`,
-						inline: true,
-					},
-					{
-						name: '→  🔞 🪲  Removes loads of bugs',
-						value: `Member leave logs should now work better.`,
+						name: '→  Several bugs lost thier life.',
+						value: `Different commands work much faster.`,
 						inline: true,
 					},
 				],
