@@ -15,7 +15,7 @@ import notice from '../../commands/tickets/notice.js';
 import transcript from '../../commands/tickets/transcript.js';
 
 import { Blob } from 'buffer';
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
 	const ab = new ArrayBuffer(byteString.length);
