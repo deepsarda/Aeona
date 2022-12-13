@@ -160,14 +160,41 @@ export default async (client: AmethystBot, message: Message) => {
 		if (!data) return;
 
 		if (message.channelId != data.Channel) return;
-
+		const msgs = Array.from(
+			(
+				await client.helpers.getMessages(message.channelId, {
+					limit: 6,
+				})
+			).values(),
+		).sort((a, b) => b.timestamp - a.timestamp);
+		let context;
+		let context1;
+		let context2;
+		let context3;
+		let context4;
+		let context5;
+		try {
+			context = msgs[1];
+			context1 = msgs[2];
+			context2 = msgs[3];
+			context3 = msgs[4];
+			context4 = msgs[5];
+			context5 = msgs[6];
+		} catch (e) {
+			//ignore error
+		}
 		const url =
 			'https://DumBotApi.aeona.repl.co?text=' +
 			encodeURIComponent(message.content) +
 			'&userId=' +
 			message.authorId +
 			'&key=' +
-			process.env.apiKey;
+			process.env.apiKey +
+			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
+				context2 ? `&context2=${context2}` : ''
+			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
+				context5 ? `&context5=${context5}` : ''
+			}`;
 
 		const options = {
 			method: 'GET',

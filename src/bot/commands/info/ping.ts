@@ -19,7 +19,7 @@ export default {
 				ctx,
 			)
 			.then((resultMessage) => {
-				const ping = Math.floor(resultMessage.message.createdTimestamp - time);
+				const ping = Math.floor(resultMessage.message.timestamp - time);
 
 				mongoose.connection.db.admin().ping(function (err, result) {
 					if (!result) return;
