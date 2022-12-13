@@ -215,14 +215,19 @@ export default {
 					],
 				});
 				const component = new Components();
-				component.addSelectComponent('Share your image!', 'share-imagine', [
-					{
-						label: 'Official Server',
-						value: 'share-discord',
-						description:
-							'Share your image on the official discord server. Note: Your discord username and id will be shared.',
-					},
-				],"Share this image.");
+				component.addSelectComponent(
+					'Share your image!',
+					'share-imagine',
+					[
+						{
+							label: 'Official Server',
+							value: 'share-discord',
+							description:
+								'Share your image on the official discord server. Note: Your discord username and id will be shared.',
+						},
+					],
+					'Share this image.',
+				);
 				ctx.reply({
 					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
 					file: [
