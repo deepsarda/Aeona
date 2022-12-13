@@ -10,7 +10,6 @@ process.on('warning', (warn) => {
 	console.warn(warn);
 });
 
-
 import { Collection, createBot, createGatewayManager, createRestManager } from 'discordeno';
 import { createLogger } from 'discordeno/logger';
 import fastify from 'fastify';
