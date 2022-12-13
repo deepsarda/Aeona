@@ -1,6 +1,6 @@
 export default {
 	animated: {
-		loading: '<a:loading:807539286319693844>',
+		loading: '<a:F_Loading:1008013111913103401>',
 	},
 	normal: {
 		birthday: '<:birthday:898486908932456560>',

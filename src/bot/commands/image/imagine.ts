@@ -140,7 +140,7 @@ export default {
 				filter: (bot, data) => data.user.id == ctx.author.id,
 			});
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
-				content: 'GENERATING....',
+				content: '<a:F_Loading:1008013111913103401> GENERATING....',
 				components: [],
 			});
 			switch (c.data.values[0]) {
@@ -231,6 +231,7 @@ export default {
 							name: 'image.jpg',
 						},
 					],
+					components:comp
 				});
 			});
 		} catch (e) {
