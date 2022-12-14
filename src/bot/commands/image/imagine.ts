@@ -64,6 +64,11 @@ export default {
 					value: 'fantasy',
 				},
 				{
+					label: 'sci-fi',
+					description: 'Generate fantasy style images.',
+					value: 'sci-fi',
+				},
+				{
 					label: 'anime',
 					description: 'Make the generated image in the style of a anime',
 					value: 'anime',
@@ -149,7 +154,7 @@ export default {
 					break;
 				case 'portrait':
 					modifiers =
-						' head and shoulders portrait, 8k resolution concept art portrait by Greg Rutkowski, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting';
+						' wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad';
 					break;
 				case 'photo':
 					modifiers =
@@ -157,7 +162,10 @@ export default {
 					break;
 				case 'fantasy':
 					modifiers =
-						' a masterpiece, 8k resolution, dark fantasy concept art, by Greg Rutkowski, dynamic lighting, hyperdetailed, intricately detailed, Splash screen art, trending on Artstation, deep color, Unreal Engine, volumetric lighting, Alphonse Mucha, Jordan Grimmer, purple and yellow complementary colours';
+						' !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!!';
+					break;
+				case "sci-fi":
+					modifiers = "glowing, neon, smoke and mist, close up shot, high definition, cybernetic sci-fi render, octane render, cinematic masterpiece, trending on art station";
 					break;
 				case 'anime':
 					modifiers =
@@ -168,10 +176,10 @@ export default {
 						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint';
 					break;
 				case 'oil':
-					modifiers = ' oil painting by James Gurney';
+					modifiers = ' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!';
 					break;
 				case 'horror':
-					modifiers = ' horror Gustave Doré Greg Rutkowski';
+					modifiers = ' horror Gustave Doré senior character artist';
 					break;
 				case 'steampunk':
 					modifiers = ' steampunk engine';
