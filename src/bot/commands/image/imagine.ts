@@ -164,8 +164,9 @@ export default {
 					modifiers =
 						' !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!!';
 					break;
-				case "sci-fi":
-					modifiers = "glowing, neon, smoke and mist, close up shot, high definition, cybernetic sci-fi render, octane render, cinematic masterpiece, trending on art station";
+				case 'sci-fi':
+					modifiers =
+						'glowing, neon, smoke and mist, close up shot, high definition, cybernetic sci-fi render, octane render, cinematic masterpiece, trending on art station';
 					break;
 				case 'anime':
 					modifiers =
@@ -176,7 +177,8 @@ export default {
 						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint';
 					break;
 				case 'oil':
-					modifiers = ' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!';
+					modifiers =
+						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!';
 					break;
 				case 'horror':
 					modifiers = ' horror Gustave Doré senior character artist';
