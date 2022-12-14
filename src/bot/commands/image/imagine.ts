@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 
-import { AmethystBot, Context, Components } from '@thereallonewolf/amethystframework';
+import { AmethystBot, Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
 
 async function query(data) {
-	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2', {
+	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
 		headers: { Authorization: `Bearer ${process.env.APIKEY}` },
 		method: 'POST',
 		body: JSON.stringify(data),
@@ -47,6 +47,11 @@ export default {
 					label: 'dramatic',
 					description: 'Not the most accurate but generates the best images',
 					value: 'dramatic',
+				},
+				{
+					label: 'digital art',
+					description: 'Best for generating images',
+					value: 'digital',
 				},
 				{
 					label: 'portrait',
@@ -130,7 +135,7 @@ export default {
 				},
 			]);
 			let modifiers =
-				' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
+				'  lens flares, cinematic, hdri, matte painting, concept art, celestial, soft render, highly detailed, cgsociety, octane render, trending on artstation, architectural HD, HQ, 4k, 8k';
 
 			const msg = await client.helpers.sendMessage(ctx.channel.id, {
 				content: 'Choose your style...',
@@ -156,17 +161,21 @@ export default {
 					modifiers =
 						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting';
 					break;
+				case 'digital':
+					modifiers =
+						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!: 6 | bad art, strange colours, sketch, lacklustre, repetitive, cropped, lowres, deformed, old, childish: -2';
+					break;
 				case 'photo':
 					modifiers =
-						' wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad';
+						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait : 6 | blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, repetitive, black and white : -2';
 					break;
 				case 'fantasy':
 					modifiers =
-						' !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!!';
+						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!: 6 | blender, !!!!text!!!!, disfigured, realistic, photo, 3d render, nsfw, grain, cropped, out of frame : -3';
 					break;
 				case 'sci-fi':
 					modifiers =
-						'glowing, neon, smoke and mist, close up shot, high definition, cybernetic sci-fi render, octane render, cinematic masterpiece, trending on art station';
+						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave';
 					break;
 				case 'anime':
 					modifiers =
@@ -253,4 +262,4 @@ export default {
 			console.log(e);
 		}
 	},
-};
+} as CommandOptions;
