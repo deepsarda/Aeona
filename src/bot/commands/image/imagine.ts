@@ -155,7 +155,8 @@ export default {
 			});
 			switch (c.data.values[0]) {
 				case 'accurate':
-					modifiers = '| blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						'| blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'portrait':
 					modifiers =
@@ -190,29 +191,36 @@ export default {
 						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'horror':
-					modifiers = ' horror Gustave Doré senior character artist | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' horror Gustave Doré senior character artist | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'steampunk':
-					modifiers = ' steampunk engine | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' steampunk engine | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'cyberpunk':
-					modifiers = ' cyberpunk 2099 blade runner 2049 neon | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' cyberpunk 2099 blade runner 2049 neon | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'synthwave':
-					modifiers = ' synthwave neon retro | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' synthwave neon retro | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case '3d':
-					modifiers = ' trending on Artstation Unreal Engine 3D shading shadow depth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' trending on Artstation Unreal Engine 3D shading shadow depth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'epic':
 					modifiers =
 						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'comic':
-					modifiers = ' Mark Brooks and Dan Mumford, comic book art, perfect, smooth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 				case 'charcoal':
-					modifiers = ' hyperdetailed charcoal drawing | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+					modifiers =
+						' hyperdetailed charcoal drawing | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
 					break;
 			}
 
