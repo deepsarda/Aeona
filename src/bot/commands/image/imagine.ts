@@ -154,11 +154,11 @@ export default {
 					break;
 				case 'portrait':
 					modifiers =
-						' wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad';
+						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting';
 					break;
 				case 'photo':
 					modifiers =
-						' Professional photography, bokeh, natural lighting, canon lens, shot on dslr 64 megapixels sharp focus';
+						' wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad';
 					break;
 				case 'fantasy':
 					modifiers =
