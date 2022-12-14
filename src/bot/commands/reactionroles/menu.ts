@@ -41,26 +41,25 @@ export default {
 				);
 
 			const a = Object.keys(data.Roles);
-
+			const roles = await client.helpers.getRoles(ctx.guildId);
 			const map = [];
-			for (let i = 0; i < a.length; i++) {
-				const b = a[i];
-				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
-				map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
-			}
-			const mappedstring = map.join('\n');
-
 			const labels = [];
 			for (let i = 0; i < a.length; i++) {
 				const b = a[i];
-				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
-				labels.push({
-					label: `${data.Roles[b][1].raw} ${role.name}`,
-					description: `Add or remove the role ${role.name}`,
-					emoji: data.Roles[b][1].raw,
-					value: data.Roles[b][1].raw,
-				});
+				try {
+					const role = roles.get(BigInt(data.Roles[b][0]));
+					map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+					labels.push({
+						label: `${data.Roles[b][1].raw} ${role.name}`,
+						description: `Add or remove the role ${role.name}`,
+						emoji: data.Roles[b][1].raw,
+						value: data.Roles[b][1].raw,
+					});
+				} catch (e) {
+					//ignore
+				}
 			}
+			const mappedstring = map.join('\n');
 
 			const row = new Components();
 			row.addSelectComponent('Choose your row', 'reaction_select', labels, '❌ Nothing selected', 1, map.length);
@@ -68,7 +67,7 @@ export default {
 				.embed(
 					{
 						title: `${upper} Roles`,
-						desc: `_____ \n\nChoose your roles in the menu! \n\n${mappedstring}`,
+						desc: `Choose your roles in the menu! \n\n${mappedstring}`,
 						components: row,
 						type: 'reply',
 					},

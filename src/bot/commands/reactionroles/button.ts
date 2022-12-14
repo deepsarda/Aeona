@@ -39,12 +39,16 @@ export default {
 					ctx,
 				);
 			const a = Object.keys(data.Roles);
-
+			const roles = await client.helpers.getRoles(ctx.guildId);
 			const mapped = [];
 			for (let i = 0; i < a.length; i++) {
 				const b = a[i];
-				const role = await client.cache.roles.get(data.Roles[b][0], ctx.guildId, true);
-				mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+				const role = roles.get(BigInt(data.Roles[b][0]));
+				try {
+					mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+				} catch (e) {
+					//ignore
+				}
 			}
 			const mappedstring = mapped.join('\n');
 
@@ -55,7 +59,7 @@ export default {
 				.embed(
 					{
 						title: `${upper} Roles`,
-						desc: `_____ \n\nChoose your roles by pressing the button! \n\n${mappedstring}`,
+						desc: `Choose your roles by pressing the button! \n\n${mappedstring}`,
 						components: sendComponents,
 						type: 'reply',
 					},
