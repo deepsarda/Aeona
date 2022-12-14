@@ -35,6 +35,14 @@ const cachebot = createProxyCache(basebot, {
 		members: false,
 		messages: false,
 	},
+	fetchIfMissing:{
+		channels:true,
+		guilds: true,
+		members: true,
+		messages: true,
+		users: true,
+		roles: true
+	},
 	getItem: async (table, id, guildid?) => {
 		return JSON.parse(await db.getData(`${table}/${id}${guildid ? '/' + guildid : ''}`));
 	},
