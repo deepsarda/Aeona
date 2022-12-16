@@ -9,7 +9,6 @@ import { createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
 import Functions from './database/models/functions.js';
-import { start } from '../gateway/index.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 dotenv.config();
 import fetch from 'node-fetch';
@@ -319,5 +318,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	}
 	return true;
 });
-
-start();
+setTimeout(() => {
+	console.log('Sending ready event.');
+	bot.emit('ready', bot);
+}, 2 * 60 * 1000);

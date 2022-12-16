@@ -43,7 +43,21 @@ ls1.stderr.on('data', (data) => {
 ls1.on('close', (code) => {
 	console.log(`child process exited with code ${code}`);
 });
+setTimeout(() => {
+	const ls2 = exec('npm run startg');
 
+	ls2.stdout.on('data', (data) => {
+		console.log(data.toString('ascii').trim());
+	});
+
+	ls2.stderr.on('data', (data) => {
+		console.error(data.toString('ascii').trim());
+	});
+
+	ls2.on('close', (code) => {
+		console.log(`child process exited with code ${code}`);
+	});
+}, 10000);
 setInterval(() => {
 	try {
 		exec('git pull');
