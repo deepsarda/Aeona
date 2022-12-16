@@ -57,16 +57,17 @@ export default async (
 					.tag('action', 'sync')
 					.intField('value', value),
 			);
-
+			
 			client.helpers.editBotStatus({
 				activities: [
 					{
 						type: ActivityTypes.Custom,
-						name: `<:Aeona:1050342178217529364> Using ${bot.prefix}help.`,
+						name: `:smiley: Using ${bot.prefix}help.`,
 						createdAt: new Date().getTime(),
 					},
 				],
 				status: 'idle',
+
 			});
 		} catch (e) {
 			console.error(e);
@@ -77,7 +78,7 @@ export default async (
 					activities: [
 						{
 							type: ActivityTypes.Custom,
-							name: ` ${bot.prefix}help.`,
+							name: `:smiley: ${bot.prefix}help.`,
 							createdAt: new Date().getTime(),
 						},
 					],
