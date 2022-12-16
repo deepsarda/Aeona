@@ -77,7 +77,7 @@ export default async (
 					activities: [
 						{
 							type: ActivityTypes.Custom,
-							name: `<:Aeona:1050342178217529364> Using ${bot.prefix}help.`,
+							name: ` ${bot.prefix}help.`,
 							createdAt: new Date().getTime(),
 						},
 					],
