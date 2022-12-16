@@ -92,13 +92,11 @@ export default async (
 								client.cache.guilds.memory.size
 							}`,
 							createdAt: new Date().getTime(),
-							emoji:{
-								name:"Aeona",
-								id:1050342178217529364n,
-								animated:false
+							emoji: {
+								name: 'Aeona',
+								id: 1050342178217529364n,
+								animated: false,
 							},
-							
-							
 						},
 					],
 					status: 'idle',
