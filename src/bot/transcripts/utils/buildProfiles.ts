@@ -2,7 +2,7 @@ import { AmethystCollection } from '@thereallonewolf/amethystframework';
 import { BigString, Member, Message, User } from 'discordeno';
 import { BotWithCache } from 'discordeno/cache-plugin';
 import { highestRole } from 'discordeno/permissions-plugin';
-import { AeonaBot } from '../../extras.js';
+import { AeonaBot } from '../../extras/index';
 export type Profile = {
 	author: string; // author of the message
 	avatar?: string; // avatar of the author

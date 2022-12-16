@@ -16,7 +16,7 @@ export default {
 			name: 'messageid',
 			description: 'Id of that message.',
 			required: true,
-			type: 'String.',
+			type: 'String',
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],

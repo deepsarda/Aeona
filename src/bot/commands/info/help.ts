@@ -1,6 +1,6 @@
 import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
 import { SelectOption } from 'discordeno';
-import { AeonaBot } from '../../extras.js';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'help',
 	description: 'See the commands',
