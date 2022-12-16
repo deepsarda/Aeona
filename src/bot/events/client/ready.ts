@@ -60,12 +60,28 @@ export default async (
 					.intField('value', value),
 			);
 
-			client.helpers.editBotStatus({
+			const duration = moment.duration().humanize();
+			const formatter = Intl.NumberFormat('en', {
+				notation: 'compact',
+			});
+			await client.helpers.editBotStatus({
 				activities: [
 					{
-						type: ActivityTypes.Watching,
-						name: `${bot.prefix}help.`,
+						type: ActivityTypes.Game,
+						name: `${bot.prefix}help on ${formatter.format(
+							client.cache.guilds.memory.size,
+						)} servers with ${client.category.reduce((a: number, c) => (a += c.commands.size))} commands.`,
+						details: `**Up since:** ${duration} \n **Categories:** ${
+							client.category.size
+						} \n **Commands:** ${client.category.reduce((a: number, c) => (a += c.commands.size))} \n **Servers:** ${
+							client.cache.guilds.memory.size
+						}`,
 						createdAt: new Date().getTime(),
+						emoji: {
+							name: 'Aeona',
+							id: 1050342178217529364n,
+							animated: false,
+						},
 					},
 				],
 				status: 'idle',
