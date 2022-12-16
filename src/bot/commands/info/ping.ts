@@ -27,14 +27,19 @@ export default {
 					const mongooseSeconds = (result.ok % 60000) / 1000;
 					const pingSeconds = (ping % 60000) / 1000;
 
-					client.extras.embed(
+					client.extras.editEmbed(
 						{
 							title: `Pong`,
 							desc: `Check out how fast our bot is`,
 							fields: [
 								{
-									name: '→ Bot latency',
+									name: '→ Bot Parsing Time',
 									value: `${ping}ms (${pingSeconds}s)`,
+									inline: true,
+								},
+								{
+									name: '→ Bot Ping',
+									value: `${client.gateway.manager.shards.first()?.heart.rtt}ms (${(client.gateway.manager.shards.first()?.heart.rtt! % 60000)/1000}s)`,
 									inline: true,
 								},
 								{
@@ -43,9 +48,8 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'reply',
 						},
-						ctx,
+						resultMessage,
 					);
 				});
 			});
