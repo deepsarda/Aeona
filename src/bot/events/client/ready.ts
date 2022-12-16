@@ -7,7 +7,9 @@ import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
 
 export default async (client: AeonaBot) => {
+	console.log("READY!".green);
 	if (!client.extras.ready) {
+		console.log("Running loops".green);
 		client.user = await client.helpers.getUser(client.applicationId);
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
