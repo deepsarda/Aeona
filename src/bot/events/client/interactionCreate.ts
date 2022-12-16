@@ -176,7 +176,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			const fields: Field[] = [];
 			if (c.uniqueCommands) {
 				for (let i = 0; i < c.commands.size; i++) {
-					const command = c.commands[i];
+					const command = c.commands.at(i)!;
 					fields.push({
 						name: '➯ ' + command.description,
 						value: `\`${process.env.PREFIX!}${command.name}\``,
@@ -184,7 +184,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				}
 			} else {
 				for (let i = 0; i < c.commands.size; i++) {
-					const command = c.commands[i];
+					const command = c.commands.at(i)!;
 					fields.push({
 						name: '➯ ' + command.description,
 						value: `\`${process.env.PREFIX!}${c.name} ${command.name}\``,
