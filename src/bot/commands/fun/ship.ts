@@ -2,7 +2,7 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
 import wrapper from '../../lib/popcat.js';
 export default {
-	name: 'roast',
+	name: 'ship',
 	description: 'Roast a user.',
 	commandType: ['application', 'message'],
 	category: 'fun',

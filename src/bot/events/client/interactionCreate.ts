@@ -175,25 +175,26 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			if (!c) return;
 			const fields: Field[] = [];
 			if (c.uniqueCommands) {
-				c.commands.forEach((command) => {
+				for (let i = 0; i < c.commands.size; i++) {
+					const command = c.commands[i];
 					fields.push({
 						name: '➯ ' + command.description,
 						value: `\`${process.env.PREFIX!}${command.name}\``,
 					});
-				});
+				}
 			} else {
-				c.commands.forEach((command) => {
+				for (let i = 0; i < c.commands.size; i++) {
+					const command = c.commands[i];
 					fields.push({
 						name: '➯ ' + command.description,
 						value: `\`${process.env.PREFIX!}${c.name} ${command.name}\``,
 					});
-				});
+				}
 			}
 			const embed = new AmethystEmbed()
 				.setColor(client.extras.config.colors.normal)
 				.setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
-				.setDescription(`*${c.description.trim()}* \n Total of ${c.commands.size} commands`)
-				.addBlankField()
+				.setDescription(`*${c.description.trim()}* \n Total of ${c.commands.size} commands. `)
 				.addField(fields[0].name, fields[0].value, fields[0].inline);
 			await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
 				type: 4,
@@ -207,7 +208,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				interaction.data?.values![0] == 'share-discord' &&
 				interaction.data?.customId?.split('_')[1] == interaction.user.id + ''
 			) {
-				const channel = await createForumThread(client, '1045332279943233667', {
+				const channel = await createForumThread(client, '1042413922138980352', {
 					name:
 						interaction.message?.content.split('\n')[0].split(':**')[1] +
 						' by ' +
