@@ -191,7 +191,7 @@ export async function start() {
 	console.log('Server listening on port ' + GATEWAY_PORT);
 }
 
-start();
+
 export type ManagerMessage = ManagerRequestIdentify | ManagerNonceReply<WorkerShardInfo[]>;
 
 export type ManagerRequestIdentify = {

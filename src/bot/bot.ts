@@ -9,7 +9,7 @@ import { createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
 import Functions from './database/models/functions.js';
-
+import { start } from '../gateway/index.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 dotenv.config();
 import fetch from 'node-fetch';
@@ -21,6 +21,7 @@ import { JsonDB, Config } from 'node-json-db';
 import JSON from 'json-bigint';
 import { additionalProps } from './extras/index.js';
 import { AeonaBot } from './extras/index.js';
+
 const db = new JsonDB(new Config('tmp/db', true, false, '/'));
 export const basebot = createBot({
 	token: DISCORD_TOKEN,
@@ -319,8 +320,4 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	return true;
 });
 
-//Set timeout for 2 mins
-setTimeout(() => {
-	console.log('Sending ready event.');
-	bot.emit('ready', bot);
-}, 2 * 60 * 1000);
+start();
