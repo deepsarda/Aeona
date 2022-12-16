@@ -39,7 +39,9 @@ export default {
 								},
 								{
 									name: '→ Bot Ping',
-									value: `${client.gateway.manager.shards.first()?.heart.rtt}ms (${(client.gateway.manager.shards.first()?.heart.rtt! % 60000)/1000}s)`,
+									value: `${client.gateway.manager.shards.first()?.heart.rtt}ms (${
+										(client.gateway.manager.shards.first()?.heart.rtt! % 60000) / 1000
+									}s)`,
 									inline: true,
 								},
 								{
