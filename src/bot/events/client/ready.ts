@@ -5,8 +5,7 @@ import { cpus } from 'os';
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
 import { User } from 'discordeno/transformers';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
+
 export default async (
 	client: AeonaBot,
 	payload: {
@@ -32,8 +31,6 @@ export default async (
 		const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 		const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET)!;
 		client.extras.messageCount = 0;
-		const uptime = new Date().getTime() - client.extras.startTime;
-		momentDurationFormatSetup(moment);
 		try {
 			const point = new Point('per_core_cpu_load').tag('action', 'sync');
 
@@ -60,7 +57,6 @@ export default async (
 					.intField('value', value),
 			);
 
-			const duration = moment.duration().humanize();
 			const formatter = Intl.NumberFormat('en', {
 				notation: 'compact',
 			});
@@ -82,7 +78,6 @@ export default async (
 		}
 		setInterval(async () => {
 			try {
-				const duration = moment.duration().humanize();
 				const formatter = Intl.NumberFormat('en', {
 					notation: 'compact',
 				});
@@ -93,17 +88,8 @@ export default async (
 							name: `${bot.prefix}help on ${formatter.format(
 								client.cache.guilds.memory.size,
 							)} servers with ${client.category.reduce((a: number, c) => (a += c.commands.size))} commands.`,
-							details: `**Up since:** ${duration} \n **Categories:** ${
-								client.category.size
-							} \n **Commands:** ${client.category.reduce((a: number, c) => (a += c.commands.size))} \n **Servers:** ${
-								client.cache.guilds.memory.size
-							}`,
+
 							createdAt: new Date().getTime(),
-							emoji: {
-								name: 'Aeona',
-								id: 1050342178217529364n,
-								animated: false,
-							},
 						},
 					],
 					status: 'idle',
