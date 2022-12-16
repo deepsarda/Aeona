@@ -58,5 +58,5 @@ export default async (client: AeonaBot) => {
 		client.emit('updateSEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 	});
 
-	client.on('ready', async (client) => client.emit('updateClock', client));
+	
 };

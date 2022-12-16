@@ -1,16 +1,29 @@
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
 import { AeonaBot } from '../../extras/index.js';
-import { ActivityTypes } from 'discordeno/types';
+import { ActivityTypes, DiscordReady } from 'discordeno/types';
 import { cpus } from 'os';
-import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
+import { User } from 'discordeno/transformers';
 
-export default async (client: AeonaBot) => {
+export default async (
+	client: AeonaBot,
+	payload: {
+		shardId: number;
+		v: number;
+		user: User;
+		guilds: bigint[];
+		sessionId: string;
+		shard?: number[] | undefined;
+		applicationId: bigint;
+	},
+	rawPayload: DiscordReady,
+) => {
 	console.log('READY!');
+
 	if (!client.extras.ready) {
 		console.log('Running loops');
-		client.user = await client.helpers.getUser(client.applicationId);
+		client.user = payload.user;
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 		const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
@@ -143,13 +156,7 @@ export default async (client: AeonaBot) => {
 				console.error(e);
 			}
 		}, 60000);
-		setTimeout(async () => {
-			try {
-				await verifySlashCommands(client);
-			} catch (e) {
-				console.error(e);
-			}
-		}, 1000 * 60 * 2);
+
 		setInterval(() => {
 			if (client.cache.members.memory.size > 5000) {
 				for (const [userId, user] of client.cache.members.memory) {
@@ -173,6 +180,7 @@ export default async (client: AeonaBot) => {
 		}, 1000 * 60 * 2);
 
 		setInterval(() => {
+			console.log('Updating clock');
 			client.emit('updateClock', client);
 		}, 1000 * 60);
 
@@ -204,90 +212,3 @@ export default async (client: AeonaBot) => {
 		client.extras.ready = true;
 	}
 };
-
-async function verifySlashCommands(client: AeonaBot) {
-	try {
-		const commands: any[] = [];
-		client.category.forEach((category) => {
-			const commandBuilder = new SlashCommandBuilder().setName(category.name).setDescription(category.description);
-			category.commands.forEach((command) => {
-				commandBuilder.addSubcommand((subcommand) => {
-					subcommand.setName(command.name).setDescription(command.description);
-					for (const option of command.args) {
-						if (option.type == 'String')
-							subcommand.addStringOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Number')
-							subcommand.addNumberOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Integer')
-							subcommand.addIntegerOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Channel')
-							subcommand.addChannelOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Boolean')
-							subcommand.addBooleanOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'User')
-							subcommand.addUserOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Role')
-							subcommand.addRoleOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Mentionable')
-							subcommand.addMentionableOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else if (option.type == 'Attachment')
-							subcommand.addAttachmentOption((op) => {
-								op.setName(option.name).setDescription(option.description ?? '');
-								if (option.required) op.setRequired(true);
-								else op.setRequired(false);
-								return op;
-							});
-						else console.log(command.name);
-					}
-					return subcommand;
-				});
-			});
-
-			commands.push(commandBuilder.toJSON());
-		});
-
-		await client.helpers.upsertGlobalApplicationCommands(commands);
-	} catch (e) {
-		console.error(e);
-	}
-}

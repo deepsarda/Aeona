@@ -5,15 +5,13 @@ import moment from 'moment-timezone';
 import Schema from '../../database/models/stats.js';
 
 export default async (client: AeonaBot) => {
-	console.log('Updating clocks');
+
 	try {
 		const data = await Schema.find({});
 
 		if (data) {
 			data.forEach(async (d) => {
 				if (!d.TimeZone || !d.Time || !d.Guild) return;
-
-				console.log('Updating clock for ' + d.Guild);
 
 				try {
 					const timeNow = moment().tz(d.TimeZone).format('HH:mm (z)');
