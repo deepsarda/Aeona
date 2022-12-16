@@ -57,7 +57,7 @@ export default async (
 					.tag('action', 'sync')
 					.intField('value', value),
 			);
-			
+
 			client.helpers.editBotStatus({
 				activities: [
 					{
@@ -67,7 +67,6 @@ export default async (
 					},
 				],
 				status: 'idle',
-
 			});
 		} catch (e) {
 			console.error(e);
