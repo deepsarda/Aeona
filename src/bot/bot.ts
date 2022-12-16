@@ -321,6 +321,6 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 
 //Set timeout for 2 mins
 setTimeout(() => {
-	console.log("Sending ready event.")
+	console.log('Sending ready event.');
 	bot.emit('ready', bot);
 }, 2 * 60 * 1000);
