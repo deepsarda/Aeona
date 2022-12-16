@@ -2,7 +2,8 @@ import moment from 'moment-timezone';
 
 import Schema from '../../database/models/stats.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
 export default {
 	name: 'time',
@@ -18,7 +19,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const time = ctx.options.getString('timezone', true);
 		if (!moment().tz(time))
@@ -32,31 +33,31 @@ export default {
 
 		const timeNow = moment().tz(time).format('HH:mm (z)');
 
-		let channelName = await client.extras.getTemplate(ctx.guild.id);
+		let channelName = await client.extras.getTemplate(ctx.guild!.id);
 		channelName = channelName.replace(`{emoji}`, '⏰');
 		channelName = channelName.replace(`{name}`, `${timeNow}`);
 
 		client.helpers
-			.createChannel(ctx.guildId, {
+			.createChannel(ctx.guild!.id, {
 				name: channelName,
 				type: ChannelTypes.GuildVoice,
 				permissionOverwrites: [
 					{
 						deny: ['CONNECT'],
 						type: 0,
-						id: ctx.guildId,
+						id: ctx.guild!.id,
 					},
 				],
 			})
 			.then(async (channel) => {
-				Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+				Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 					if (data) {
 						data.Time = channel.id;
 						data.TimeZone = time;
 						data.save();
 					} else {
 						new Schema({
-							Guild: ctx.guildId,
+							Guild: ctx.guild!.id,
 							TimeZone: time,
 							Time: channel.id,
 						}).save();
@@ -78,4 +79,4 @@ export default {
 				);
 			});
 	},
-};
+} as CommandOptions;

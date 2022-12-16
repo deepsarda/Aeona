@@ -1,7 +1,8 @@
 import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'open',
 	description: 'Open a closed ticket',
@@ -9,12 +10,12 @@ export default {
 	category: 'tickets',
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const type = 'reply';
 
-		ticketChannels.findOne({ Guild: ctx.guildId, channelID: ctx.channel.id }, async (err, ticketData) => {
+		ticketChannels.findOne({ Guild: ctx.guild!.id, channelID: ctx.channel.id }, async (err, ticketData) => {
 			if (ticketData) {
 				if (ticketData.resolved == false)
 					return client.extras.errNormal(
@@ -25,7 +26,7 @@ export default {
 						ctx,
 					);
 
-				ticketSchema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+				ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 					if (data) {
 						const ticketCategory = await client.helpers.getChannel(data.Category);
 
@@ -39,8 +40,8 @@ export default {
 							);
 						}
 
-						if (ctx.channel.parentId == ticketCategory.id) {
-							client.helpers.editChannel(ctx.channel.id, {
+						if (ctx.channel!.parentId == ticketCategory.id) {
+							client.helpers.editChannel(ctx.channel!.id, {
 								permissionOverwrites: [
 									{
 										type: 1,
@@ -52,7 +53,7 @@ export default {
 
 							const ticketid = String(ticketData.TicketID).padStart(4, '0');
 
-							client.helpers.editChannel(ctx.channel.id, {
+							client.helpers.editChannel(ctx.channel?.id!, {
 								name: `ticket-${ticketid}`,
 							});
 
@@ -61,7 +62,7 @@ export default {
 
 							return client.extras.simpleEmbed(
 								{
-									desc: `Ticket opened by <@!${ctx.user.id}>`,
+									desc: `Ticket opened by <@!${ctx.user?.id}>`,
 									type: type,
 								},
 								ctx,
@@ -88,4 +89,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

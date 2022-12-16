@@ -1,18 +1,19 @@
 import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'information',
 	description: 'Gain info about this ticket.',
 	commandType: ['application', 'message'],
 	category: 'tickets',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		ticketChannels.findOne({ Guild: ctx.guildId, channelID: ctx.channel.id }, async (err, ticketData) => {
+		ticketChannels.findOne({ Guild: ctx.guild!.id, channelID: ctx.channel.id }, async (err, ticketData) => {
 			if (ticketData) {
-				ticketSchema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+				ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 					if (data) {
 						const ticketCategory = await client.helpers.getChannel(data.Category);
 
@@ -26,7 +27,7 @@ export default {
 							);
 						}
 
-						if (ctx.channel.parentId == ticketCategory.id) {
+						if (ctx.channel!.parentId == ticketCategory.id) {
 							client.extras
 								.embed(
 									{
@@ -36,7 +37,7 @@ export default {
 									ctx,
 								)
 								.then((msg) => {
-									client.extras.transcript(client, ctx.channel);
+									client.extras.transcript(client, ctx.channel!);
 
 									return client.extras.embed(
 										{
@@ -44,12 +45,12 @@ export default {
 											fields: [
 												{
 													name: 'Ticket name',
-													value: `\`${ctx.channel.name}\``,
+													value: `\`${ctx.channel!.name}\``,
 													inline: true,
 												},
 												{
 													name: 'Channel id',
-													value: `\`${ctx.channel.id}\``,
+													value: `\`${ctx.channel!.id}\``,
 													inline: true,
 												},
 												{
@@ -95,4 +96,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

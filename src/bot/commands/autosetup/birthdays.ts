@@ -1,6 +1,7 @@
 import Birthdays from '../../database/models/birthdaychannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno';
 export default {
 	name: 'birthdays',
@@ -10,14 +11,14 @@ export default {
 	args: [],
 	aliases: ['birthday'],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const channel = await client.helpers.createChannel(ctx.guildId!, {
+		const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 			name: 'Birthdays',
 			type: ChannelTypes.GuildText,
 		});
 
 		client.extras.createChannelSetup(Birthdays, channel, ctx);
 	},
-};
+} as CommandOptions;

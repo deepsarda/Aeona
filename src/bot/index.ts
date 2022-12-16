@@ -53,10 +53,10 @@ app.all('/', async (req, res) => {
 
 		await handleEvent(json.message, json.shardId);
 
-		res.status(200).json({ success: true });
+		return res.status(200).json({ success: true });
 	} catch (error: any) {
 		console.error(error);
-		res.status(error.code).json(error);
+		return res.status(error.code).json(error);
 	}
 });
 

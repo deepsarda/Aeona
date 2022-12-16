@@ -1,6 +1,7 @@
 import Schema from '../../database/models/afk.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'set',
 	description: 'Set your AFK',
@@ -14,11 +15,11 @@ export default {
 			required: false,
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const reason = ctx.options.getString('reason') || `Not specified`;
 		console.log('Hmmm...');
-		Schema.findOne({ Guild: ctx.guildId, User: ctx.user.id }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id, User: ctx.user.id }, async (err, data) => {
 			if (data) {
 				return client.extras.errNormal(
 					{
@@ -31,23 +32,24 @@ export default {
 				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 				new Schema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					User: ctx.user.id + '',
 					Message: reason,
 				}).save();
 
 				let nick = ctx.user.username;
 				if (ctx.member?.nick) nick = ctx.member.nick;
-				if (!ctx.guildId) return;
+				if (!ctx.guild!.id) return;
 				if (nick.includes(`[AFK] `)) {
-					client.helpers.editMember(ctx.guildId, ctx.user.id + '', {
+					client.helpers.editMember(ctx.guild!.id, ctx.user.id + '', {
 						nick: `[AFK] ` + ctx.member?.nick,
 					});
 				}
 
-				client.extras.succNormal(
+				client.extras.embed(
 					{
-						text: `Your AFK has been set up succesfully`,
+						title: `Your AFK has been set up succesfully`,
+						desc: '',
 						type: 'ephemeral',
 					},
 					ctx,
@@ -55,11 +57,13 @@ export default {
 
 				client.extras.embed(
 					{
+						title: '',
 						desc: `<@${ctx.user.id}> is now afk! **Reason:** ${reason}`,
+						type: '',
 					},
 					ctx.channel,
 				);
 			}
 		});
 	},
-};
+} as CommandOptions;

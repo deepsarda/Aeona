@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'create',
 	description: 'Create an announcement',
@@ -19,7 +20,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const message = ctx.options.getString('message', true);
 		const channel = await ctx.options.getChannel('channel', true);
@@ -46,4 +47,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

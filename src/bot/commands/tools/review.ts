@@ -1,6 +1,7 @@
 import Schema from '../../database/models/reviewChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'review',
 	description: 'Wrute a review',
@@ -20,7 +21,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const stars = ctx.options.getNumber('stars', true);
 		const message = ctx.options.getString('message') || 'Not given';
@@ -34,9 +35,9 @@ export default {
 				ctx,
 			);
 
-		Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 			if (data) {
-				const channel = client.cache.channels.get(data.Channel);
+				const channel = await client.cache.channels.get(data.Channel);
 				if (!channel)
 					return client.extras.errNormal(
 						{
@@ -73,7 +74,7 @@ export default {
 
 				client.extras.embed(
 					{
-						title: `Review ${ctx.user.username + '#' + ctx.user.discriminator}`,
+						title: `Review ${ctx.user?.username + '#' + ctx.user?.discriminator}`,
 						desc: `A new review has been written!`,
 						fields: [
 							{
@@ -101,4 +102,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

@@ -1,10 +1,10 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Emoji, Member, User } from 'discordeno/transformers';
 
 import StarBoard from '../../database/models/starboardChannels.js';
 
 export default async (
-	client: AmethystBot,
+	client: AeonaBot,
 	reaction: {
 		userId: bigint;
 		channelId: bigint;
@@ -19,7 +19,7 @@ export default async (
 		const data = await StarBoard.findOne({ Guild: reaction.guildId });
 		if (!data) return;
 
-		const starboardChannel = await client.helpers.getChannel(data.Channel);
+		const starboardChannel = await client.helpers.getChannel(data.Channel!);
 		if (!starboardChannel) return;
 
 		const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
@@ -63,8 +63,6 @@ export default async (
 								inline: true,
 							},
 						],
-						footer: `${client.extras.config.discord.footer} | ${reaction.messageId}`,
-						type: 'edit',
 					},
 					starMsg,
 				);

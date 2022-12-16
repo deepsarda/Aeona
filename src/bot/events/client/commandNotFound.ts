@@ -1,10 +1,10 @@
 import { Point } from '@influxdata/influxdb-client';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno/transformers';
 import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
 import Schema from '../../database/models/votecredits.js';
-export default async (bot: AmethystBot, message: Message, commandName: string) => {
+export default async (bot: AeonaBot, message: Message, commandName: string) => {
 	const url =
 		'https://DumBotApi.aeona.repl.co?text=' +
 		encodeURIComponent(message.content) +
@@ -38,8 +38,8 @@ export default async (bot: AmethystBot, message: Message, commandName: string) =
 					failIfNotExists: false,
 				},
 			});
-			let user = await Schema.findOne({ User: message.member.id });
-			if (!user) user = new Schema({ User: message.member.id });
+			let user = await Schema.findOne({ User: message.member?.id });
+			if (!user) user = new Schema({ User: message.member?.id });
 			if (user.LastVersion != bot.extras.version)
 				bot.helpers.sendMessage(message.channelId, {
 					content: 'You have unread news. Use `+news` to read it',

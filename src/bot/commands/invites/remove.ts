@@ -1,6 +1,7 @@
 import Schema from '../../database/models/invites.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'remove',
 	description: 'Remove invites from a user',
@@ -21,19 +22,19 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 		if (!user || !amount) return;
 
 		const data = await Schema.findOne({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 			User: user.id + '',
 		});
 		if (data) {
-			data.Invites -= amount;
-			data.Total -= amount;
+			data.Invites! -= amount;
+			data.Total! -= amount;
 			data.save();
 		} else {
 			return client.extras.errNormal(
@@ -60,4 +61,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

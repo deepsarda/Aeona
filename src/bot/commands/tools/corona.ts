@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'corona',
 	description: 'See the latest corona data',
@@ -14,7 +15,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const countries = ctx.options.getLongString('country', true);
 
@@ -54,4 +55,4 @@ export default {
 				return client.extras.errNormal({ error: `Invalid country provided!`, type: 'editreply' }, ctx);
 			});
 	},
-};
+} as CommandOptions;

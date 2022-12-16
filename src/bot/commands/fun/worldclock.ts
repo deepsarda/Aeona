@@ -1,11 +1,12 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'worldclock',
 	description: 'See time around the world',
 	commandType: ['application', 'message'],
 	category: 'fun',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const gmt = new Date().toLocaleString('en-US', {
 			timeZone: 'Europe/London',
@@ -85,4 +86,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

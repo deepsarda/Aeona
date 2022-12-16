@@ -1,6 +1,7 @@
 import Review from '../../database/models/reviewChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'reviews',
 	description: 'Setup reviews for your server.',
@@ -15,10 +16,10 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const channel = await ctx.options.getChannel('channel', true);
 
 		client.extras.createChannelSetup(Review, channel, ctx);
 	},
-};
+} as CommandOptions;

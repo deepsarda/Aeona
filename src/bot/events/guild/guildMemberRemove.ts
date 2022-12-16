@@ -1,11 +1,11 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { User } from 'discordeno/transformers';
 import invitedBy from '../../database/models/inviteBy.js';
 import messages from '../../database/models/inviteMessages.js';
 import invites from '../../database/models/invites.js';
 import leaveSchema from '../../database/models/leaveChannels.js';
 
-export default async (client: AmethystBot, user: User, guildId: bigint) => {
+export default async (client: AeonaBot, user: User, guildId: bigint) => {
 	const messageData = await messages.findOne({ Guild: guildId });
 	const inviteByData = await invitedBy.findOne({
 		Guild: guildId,
@@ -19,7 +19,7 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 			User: inviteByData.inviteUser,
 		});
 
-		if (inviteData) {
+		if (inviteData && inviteData.Invites && inviteData.Left) {
 			inviteData.Invites -= 1;
 			inviteData.Left += 1;
 			inviteData.save();
@@ -36,20 +36,20 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 				leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
 
 				leaveMessage = leaveMessage.replace(`{inviter:mention}`, `<@!${inviteByData.inviteUser}>`);
-				leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData.Invites + '');
-				leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData.Left + '');
+				leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData?.Invites! + '');
+				leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData?.Left! + '');
 
 				leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
 				leaveMessage = leaveMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
 				client.helpers
-					.getUser(inviteData.User)
+					.getUser(inviteData?.User!)
 					.then(async (user) => {
 						leaveMessage = leaveMessage.replace(`{inviter:username}`, user.username);
 						leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, user.discriminator);
 						leaveMessage = leaveMessage.replace(`{inviter:tag}`, `${user.username}#${user.discriminator}`);
 
-						const channel = await client.helpers.getChannel(channelData.Channel);
+						const channel = await client.helpers.getChannel(channelData.Channel!);
 
 						await client.extras
 							.embed(
@@ -63,7 +63,7 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 					})
 					.catch(async () => {
 						if (channelData) {
-							const channel = await client.helpers.getChannel(channelData.Channel);
+							const channel = await client.helpers.getChannel(channelData.Channel!);
 
 							await client.extras
 								.embed(
@@ -78,9 +78,9 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 					});
 			} else {
 				client.helpers
-					.getUser(inviteData.User + '')
+					.getUser(inviteData?.User! + '')
 					.then(async (user) => {
-						const channel = await client.helpers.getChannel(channelData.Channel);
+						const channel = await client.helpers.getChannel(channelData.Channel!);
 
 						await client.extras
 							.embed(
@@ -96,7 +96,7 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 					})
 					.catch(async () => {
 						if (channelData) {
-							const channel = await client.helpers.getChannel(channelData.Channel);
+							const channel = await client.helpers.getChannel(channelData.Channel!);
 
 							await client.extras
 								.embed(
@@ -113,7 +113,7 @@ export default async (client: AmethystBot, user: User, guildId: bigint) => {
 		}
 	} else {
 		if (channelData) {
-			const channel = await client.helpers.getChannel(channelData.Channel);
+			const channel = await client.helpers.getChannel(channelData.Channel!);
 
 			await client.extras
 				.embed(

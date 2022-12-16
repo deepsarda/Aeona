@@ -1,6 +1,7 @@
 import weather from 'weather-js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'weather',
 	description: 'Get the latest weather',
@@ -14,7 +15,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const country = ctx.options.getString('location', true);
 
@@ -74,4 +75,4 @@ export default {
 			);
 		});
 	},
-};
+} as CommandOptions;

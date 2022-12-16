@@ -1,8 +1,8 @@
-import { AmethystBot, AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
+import { AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
 import { Interaction, Message } from 'discordeno/transformers';
-
+import { AeonaBot } from '../../extras/index.js';
 export default async (
-	bot: AmethystBot,
+	bot: AeonaBot,
 	data: {
 		error: AmethystError;
 		data?: Interaction;
@@ -10,7 +10,7 @@ export default async (
 	},
 ) => {
 	if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			content: 'Oh no. You seem to be missing some permissions.',
 		});
 	}
@@ -42,12 +42,12 @@ export default async (
 		}
 
 		const args = message.content.split(' ').filter((e) => Boolean(e.length));
-		const commandName = args.shift()?.slice(prefix.length);
+		const commandName = args.shift()?.slice(prefix?.length);
 		const subCommandName = args.shift();
 		let command;
 		let category;
 		for (let i = 0; i < bot.category.size; i++) {
-			command = bot.category.at(i)?.getCommand(commandName, subCommandName);
+			command = bot.category.at(i)?.getCommand(commandName!, subCommandName);
 			if (command) {
 				if (bot.category.at(i)?.uniqueCommands && subCommandName) args.unshift(subCommandName);
 				category = bot.category.at(i);
@@ -57,7 +57,7 @@ export default async (
 
 		if (!command) return;
 		console.log(command.category.uniqueCommands);
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
 				category.uniqueCommands ? command.name : category.name + ' ' + command.name
 			} ${command.args
@@ -74,16 +74,16 @@ export default async (
 	}
 
 	if (data.error.type == ErrorEnums.COOLDOWN)
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			content: 'Oh no! You are ratelimmited try again later',
 		});
 
 	if (data.error.type == ErrorEnums.OWNER_ONLY)
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			content: 'Oh no! This is only meant for my owner.',
 		});
 	if (data.error.type == ErrorEnums.OTHER) {
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId, {
+		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			//@ts-ignore
 			content: data.error.value,
 		});

@@ -1,5 +1,5 @@
 import { Point } from '@influxdata/influxdb-client';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
 import afk from '../../database/models/afk.js';
@@ -12,42 +12,70 @@ import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { Influx } from '../client/commandStart.js';
-export default async (client: AmethystBot, message: Message) => {
-	client.extras.messageCount++;
+export default async (client: AeonaBot, message: Message) => {
+	if (message.content == '<@!' + client.user?.id + '>' || message.content == '<@' + client.user?.id + '>') {
+		let guild = await Functions.findOne({
+			Guild: message.guildId,
+		});
+		if (!guild) guild = new Functions({ Guild: message.guildId });
 
+		if (!guild.Prefix) {
+			guild.Prefix = process.env.PREFIX!;
+			guild.save();
+		}
+
+		client.extras.sendEmbedMessage(
+			{
+				title: `Hi there!`,
+				desc: `My prefix is \`${guild.Prefix}\`.
+Let me help you get your server going.	
+
+**Want to setup chatbot?**
+Use \`${guild.Prefix}setup chatbot <channel>\` or
+\`${guild.Prefix}autosetup chatbot\` to have me make a channel for you.
+			
+**Want to setup bump reminder?**
+Well then run \`${guild.Prefix}bumpreminder setup <channel> <role>\`
+			
+**Want to generate some art?**
+Use \`${guild.Prefix}imagine <prompt>\`
+				
+Use the  \`${guild.Prefix}help\` to see all my commands.`,
+			},
+			message,
+		);
+	}
 	// Levels
 	Functions.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
 		if (data) {
 			if (data.Levels == true) {
 				const randomXP = Math.floor(Math.random() * 9) + 1;
-				const hasLeveledUp = await client.extras.addXP(message.authorId, message.guildId, randomXP);
+				const hasLeveledUp = await client.extras.addXP(message.authorId, message.guildId!, randomXP);
 
 				if (hasLeveledUp) {
-					const user = await client.extras.fetchLevels(message.authorId, message.guildId);
-
+					const user = await client.extras.fetchLevels(message.authorId, message.guildId!);
+					if (!user) return;
 					const levelData = await levelLogs.findOne({
 						Guild: message.guildId,
 					});
 					const messageData = await messageSchema.findOne({
 						Guild: message.guildId,
 					});
-
+					const u = await client.helpers.getUser(message.authorId);
 					if (messageData) {
 						let levelMessage = messageData.Message;
-						levelMessage = levelMessage.replace(`{user:username}`, message.member?.user?.username);
-						levelMessage = levelMessage.replace(`{user:discriminator}`, message.member?.user?.discriminator);
-						levelMessage = levelMessage.replace(
-							`{user:tag}`,
-							message.member?.user?.username + '#' + message.member?.user?.discriminator,
-						);
-						levelMessage = levelMessage.replace(`{user:mention}`, '<@' + message.member?.user?.id + '>');
+						if (!levelMessage) return;
+						levelMessage = levelMessage.replace(`{user:username}`, u.username);
+						levelMessage = levelMessage.replace(`{user:discriminator}`, u.discriminator);
+						levelMessage = levelMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
+						levelMessage = levelMessage.replace(`{user:mention}`, '<@' + u.id + '>');
 
-						levelMessage = levelMessage.replace(`{user:level}`, user.level);
-						levelMessage = levelMessage.replace(`{user:xp}`, user.xp);
+						levelMessage = levelMessage.replace(`{user:level}`, user.level + '');
+						levelMessage = levelMessage.replace(`{user:xp}`, user.xp + '');
 
 						try {
 							if (levelData) {
-								await client.helpers.sendMessage(levelData.Channel, {
+								await client.helpers.sendMessage(levelData.Channel!, {
 									content: levelMessage,
 								});
 							} else {
@@ -63,7 +91,7 @@ export default async (client: AmethystBot, message: Message) => {
 					} else {
 						try {
 							if (levelData) {
-								client.helpers.sendMessage(levelData.Channel, {
+								client.helpers.sendMessage(levelData.Channel!, {
 									content: `**GG** <@!${message.authorId}>, you are now level **${user.level}**`,
 								});
 							} else {

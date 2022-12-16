@@ -1,4 +1,5 @@
-import { AmethystBot, Context, requireGuildPermissions } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context, requireGuildPermissions } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 
 export default {
 	name: 'ban',
@@ -20,9 +21,9 @@ export default {
 		},
 	],
 	userGuildPermissions: ['BAN_MEMBERS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
+		const member = await client.helpers.getMember(ctx.guild!.id + '', (await ctx.options.getUser('user', true)).id);
 
 		const reason = ctx.options.getString('reason') || 'Not given';
 
@@ -57,7 +58,7 @@ export default {
 					member,
 				)
 				.then(async function () {
-					await client.helpers.banMember(ctx.guildId!, member.id + '', {
+					await client.helpers.banMember(ctx.guild!.id!, member.id + '', {
 						reason,
 					});
 					client.extras.succNormal(
@@ -81,7 +82,7 @@ export default {
 					);
 				})
 				.catch(async function () {
-					await client.helpers.banMember(ctx.guildId!, member.id + '', {
+					await client.helpers.banMember(ctx.guild!.id!, member.id + '', {
 						reason,
 					});
 					client.extras.succNormal(
@@ -94,4 +95,4 @@ export default {
 				});
 		}
 	},
-};
+} as CommandOptions;

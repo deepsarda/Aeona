@@ -1,6 +1,7 @@
 import Schema from '../../database/models/levelMessages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'levelmessage',
 	description: 'Set the level up message',
@@ -15,7 +16,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const message = ctx.options.getLongString('message', true);
@@ -40,9 +41,9 @@ export default {
 		}
 
 		if (message.toLowerCase() == 'default') {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
-					Schema.findOneAndDelete({ Guild: ctx.guildId }).then(() => {
+					Schema.findOneAndDelete({ Guild: ctx.guild!.id }).then(() => {
 						client.extras.succNormal(
 							{
 								text: `Level message deleted!`,
@@ -54,13 +55,13 @@ export default {
 				}
 			});
 		} else {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.Message = message;
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						Message: message,
 					}).save();
 				}
@@ -82,4 +83,4 @@ export default {
 			});
 		}
 	},
-};
+} as CommandOptions;

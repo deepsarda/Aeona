@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'youtube',
 	description: 'Search youtube for videos',
@@ -12,7 +13,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const name = encodeURIComponent(ctx.options.getLongString('text', true));
 		const link = `https://www.youtube.com/results?search_query=${name}`;
@@ -32,4 +33,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

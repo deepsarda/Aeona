@@ -1,4 +1,4 @@
-import { AmethystBot, AmethystEmbed } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed } from '@thereallonewolf/amethystframework';
 import { Guild } from 'discordeno/transformers';
 
 import Schema from '../../database/models/afk.js';
@@ -17,7 +17,6 @@ import Schema18 from '../../database/models/levelRewards.js';
 import Schema19 from '../../database/models/logChannels.js';
 import Schema40 from '../../database/models/messageRewards.js';
 import Schema20 from '../../database/models/messages.js';
-import Schema25 from '../../database/models/privatechannels.js';
 import Schema27 from '../../database/models/reactionRoles.js';
 import Schema28 from '../../database/models/reviewChannels.js';
 import Schema29 from '../../database/models/stats.js';
@@ -27,8 +26,9 @@ import Schema32 from '../../database/models/ticketMessage.js';
 import Schema34 from '../../database/models/tickets.js';
 import Schema35 from '../../database/models/verify.js';
 import Schema38 from '../../database/models/warnings.js';
+import { AeonaBot } from '../../extras/index.js';
 
-export default async (client: AmethystBot, guild: Guild) => {
+export default async (client: AeonaBot, guild: Guild) => {
 	const embed = new AmethystEmbed()
 		.setTitle('🔴 Removed from a server!')
 		.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
@@ -56,7 +56,6 @@ export default async (client: AmethystBot, guild: Guild) => {
 	await Schema18.deleteMany({ Guild: guild.id });
 	await Schema19.deleteMany({ Guild: guild.id });
 	await Schema20.deleteMany({ Guild: guild.id });
-	await Schema25.deleteMany({ Guild: guild.id });
 	await Schema27.deleteMany({ Guild: guild.id });
 	await Schema28.deleteMany({ Guild: guild.id });
 	await Schema29.deleteMany({ Guild: guild.id });

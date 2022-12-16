@@ -1,6 +1,7 @@
 import Functions from '../../database/models/functions.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'setxp',
 	description: 'Set xp of a user.',
@@ -20,16 +21,16 @@ export default {
 			type: 'Number',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await Functions.findOne({ Guild: ctx.guildId });
+		const data = await Functions.findOne({ Guild: ctx.guild!.id });
 
 		if (data && data.Levels == true) {
 			const target = await ctx.options.getUser('user', true);
 			const xp = ctx.options.getNumber('amount', true);
 
-			const user = await client.extras.setXP(target.id + '', ctx.guildId, xp);
-
+			const user = await client.extras.setXP(target.id, ctx.guild!.id, xp);
+			if (!user) return;
 			client.extras.succNormal(
 				{
 					text: `XP has been modified successfully`,
@@ -59,4 +60,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

@@ -1,6 +1,7 @@
 import Schema from '../../database/models/channelList.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'configurechannels',
 	description: 'Change the channels automod channels',
@@ -31,7 +32,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const type = ctx.options.getString('type', true);
 		const channel = await ctx.options.getChannel('channel', true);
@@ -39,7 +40,7 @@ export default {
 		if (!channel) return;
 
 		if (type == 'add') {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 				if (data) {
@@ -57,7 +58,7 @@ export default {
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						Channels: channel.id + '',
 					}).save();
 				}
@@ -77,7 +78,7 @@ export default {
 				ctx,
 			);
 		} else if (type == 'remove') {
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 				if (data) {
@@ -94,9 +95,9 @@ export default {
 					const filtered = data.Channels.filter((target) => target !== channel.id);
 
 					await Schema.findOneAndUpdate(
-						{ Guild: ctx.guildId },
+						{ Guild: ctx.guild!.id },
 						{
-							Guild: ctx.guildId,
+							Guild: ctx.guild!.id,
 							Channels: filtered,
 						},
 					);
@@ -126,4 +127,4 @@ export default {
 			});
 		}
 	},
-};
+} as CommandOptions;

@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'clear',
 	description: 'Clear messages in a channel',
@@ -14,7 +15,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const amount = ctx.options.getNumber('amount', true);
@@ -70,4 +71,4 @@ export default {
 				);
 			});
 	},
-};
+} as CommandOptions;

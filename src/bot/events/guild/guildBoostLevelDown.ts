@@ -1,7 +1,7 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Guild } from 'discordeno';
 
-export default async (client: AmethystBot, guild: Guild, oldLevel: number, newLevel: number) => {
+export default async (client: AeonaBot, guild: Guild, oldLevel: number, newLevel: number) => {
 	const logsChannel = await client.extras.getLogs(guild.id);
 	if (!logsChannel) return;
 

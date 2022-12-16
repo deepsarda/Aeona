@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'demote',
 	description: 'Demote a user.',
@@ -13,13 +14,13 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const member = await client.helpers.getMember(ctx.guild.id + '', (await ctx.options.getUser('user', true)).id);
+		const member = await client.helpers.getMember(ctx.guild!.id + '', (await ctx.options.getUser('user', true)).id);
 
 		await client.helpers
-			.removeRole(ctx.guild.id + '', member.id + '', member.roles[member.roles.length - 1])
+			.removeRole(ctx.guild!.id + '', member.id + '', member.roles[member.roles.length - 1])
 			.then((r) => {
 				client.extras
 					.embed(
@@ -63,4 +64,4 @@ export default {
 				);
 			});
 	},
-};
+} as CommandOptions;

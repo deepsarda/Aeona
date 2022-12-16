@@ -1,12 +1,11 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
 import Schema from '../../database/models/guessWord.js';
 
-export default async (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
 		if (!message.guildId) return;
-		let wordList = client.extras.config.wordList;
-		wordList = wordList.split('\n');
+		const wordList = client.extras.config.wordList.split('\n');
 
 		const data = await Schema.findOne({
 			Guild: message.guildId,

@@ -1,4 +1,4 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import logChannels from '../../database/models/logChannels.js';
 
 import type { Bot, DiscordAuditLogEntry, DiscordAutoModerationRule, Optionalize } from 'discordeno';
@@ -11,12 +11,13 @@ import { Webhook } from 'discordeno';
 import { DiscordAuditLog } from 'discordeno';
 import { AuditLogEvents, BigString } from 'discordeno';
 
-export default (client: AmethystBot) => {
+export default (client: AeonaBot) => {
 	client.on('ready', () => {
 		setInterval(() => {
 			logChannels.find({}).then(async (logChannels) => {
 				for (const logChannel of logChannels) {
 					try {
+						if (!logChannel.Guild) return;
 						const guild = await client.helpers.getGuild(logChannel.Guild);
 
 						if (guild) {
@@ -35,10 +36,12 @@ export default (client: AmethystBot) => {
 							for (const auditLogEntry of auditLog) {
 								const channel = await client.extras.getLogs(guild.id);
 								if (!channel) return;
+								if (!auditLogEntry.userId) return;
 								const user = await client.helpers.getUser(auditLogEntry.userId);
 								let data = {
 									title: '',
 									desc: '',
+									type: '',
 									fields: [
 										{
 											name: `→ ID`,
@@ -66,10 +69,6 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
@@ -83,10 +82,6 @@ export default (client: AmethystBot) => {
 										desc: `A channel has been deleted.`,
 										fields: [
 											...data.fields,
-											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
 											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
@@ -102,19 +97,15 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
 												name: `→ Modified Settings`,
 												value: `${
-													auditLogEntry.options.type == 1
-														? `<@${auditLogEntry.options.id}>`
-														: auditLogEntry.options.roleName
+													auditLogEntry.options?.type == 1
+														? `<@${auditLogEntry.options?.id}>`
+														: auditLogEntry.options?.roleName
 												}`,
 											},
 										],
@@ -127,19 +118,15 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
 												name: `→ Modified Settings`,
 												value: `${
-													auditLogEntry.options.type == 1
+													auditLogEntry.options?.type == 1
 														? `<@${auditLogEntry.options.id}>`
-														: auditLogEntry.options.roleName
+														: auditLogEntry.options?.roleName
 												}`,
 											},
 										],
@@ -153,19 +140,15 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings`,
+												name: `→ Modified Settings for`,
 												value: `${
-													auditLogEntry.options.type == 1
-														? `<@${auditLogEntry.options.id}>`
-														: auditLogEntry.options.roleName
+													auditLogEntry.options?.type == 1
+														? `<@${auditLogEntry.options?.id}>`
+														: auditLogEntry.options?.roleName
 												}`,
 											},
 										],
@@ -179,18 +162,17 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
 												name: `→ Modified Settings`,
 												value: `${auditLogEntry.changes
-													.map((change) => `Value: ${change.key} ${change.old}→${change.new} `)
-													.join(' \n')}`,
+													?.map(
+														(change) =>
+															`**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
+													)
+													.join('\n\n')}`,
 											},
 										],
 									};
@@ -205,8 +187,11 @@ export default (client: AmethystBot) => {
 											{
 												name: `→ Modified Settings`,
 												value: `${auditLogEntry.changes
-													.map((change) => `Value: ${change.key} ${change.old}→${change.new} `)
-													.join(' \n')}`,
+													?.map(
+														(change) =>
+															`**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
+													)
+													.join('\n\n')}`,
 											},
 										],
 									};
@@ -218,10 +203,6 @@ export default (client: AmethystBot) => {
 										desc: `A role has been created`,
 										fields: [
 											...data.fields,
-											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
 											{
 												name: `→ Role`,
 												value: `<&${auditLogEntry.targetId}>`,
@@ -236,10 +217,6 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Role`,
 												value: `<&${auditLogEntry.targetId}>`,
 											},
@@ -253,22 +230,21 @@ export default (client: AmethystBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Name`,
-												value: `${auditLogEntry.changes[0].key}`,
-											},
-											{
 												name: `→ Role`,
 												value: `<&${auditLogEntry.targetId}>`,
 											},
 											{
 												name: `→ Modified Settings`,
 												value: `${auditLogEntry.changes
-													.map((change) => `Value: ${change.key} ${change.old}→${change.new} `)
-													.join(' \n')}`,
+													?.map(
+														(change) =>
+															`**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
+													)
+													.join('\n\n')}`,
 											},
 										],
 									};
-								if (data.title != '') client.extras.embed(data, channel).catch((e) => console.log(e));
+								if (data.title != '') client.extras.embed(data, channel).catch((e: any) => console.log(e));
 							}
 						}
 					} catch (e) {

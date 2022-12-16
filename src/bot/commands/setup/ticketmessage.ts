@@ -1,6 +1,7 @@
 import Schema from '../../database/models/ticketMessage.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'ticketmessage',
 	description: 'Configure the ticket system',
@@ -31,7 +32,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const type = ctx.options.getString('type', true);
@@ -41,7 +42,7 @@ export default {
 
 		if (type == 'open') {
 			if (message.toUpperCase() == 'DEFAULT') {
-				const data = await Schema.findOne({ Guild: ctx.guildId });
+				const data = await Schema.findOne({ Guild: ctx.guild!.id });
 
 				if (data) {
 					data.openTicket =
@@ -80,13 +81,13 @@ export default {
 				return;
 			}
 
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.openTicket = message;
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						openTicket: message,
 					}).save();
 				}
@@ -113,7 +114,7 @@ export default {
 			);
 		} else if (type == 'close') {
 			if (message.toUpperCase() == 'DEFAULT') {
-				const data = await Schema.findOne({ Guild: ctx.guildId });
+				const data = await Schema.findOne({ Guild: ctx.guild!.id });
 
 				if (data) {
 					data.dmMessage = 'Here is the transcript for your ticket, please keep this if you ever want to refer to it!';
@@ -151,13 +152,13 @@ export default {
 				return;
 			}
 
-			Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.dmMessage = message;
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						dmMessage: message,
 					}).save();
 				}
@@ -184,4 +185,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

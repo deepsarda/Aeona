@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
 export default {
 	name: 'setup',
@@ -19,15 +20,15 @@ export default {
 			type: 'Role',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const channel = await ctx.options.getChannel('channel', true);
 		const role = await ctx.options.getRole('role', true);
 
-		let reminder = await bumpreminder.findOne({ Guild: ctx.guild.id });
+		let reminder = await bumpreminder.findOne({ Guild: ctx.guild!.id });
 		if (!reminder)
 			reminder = new bumpreminder({
-				Guild: ctx.guild.id,
+				Guild: ctx.guild!.id,
 				Channel: channel.id,
 				Role: role.id,
 				LastBumpedReminder: Date.now(),
@@ -60,4 +61,4 @@ export default {
 
 		reminder.save();
 	},
-};
+} as CommandOptions;

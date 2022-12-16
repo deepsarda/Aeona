@@ -1,15 +1,16 @@
 import Schema from '../../database/models/birthday.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'delete',
 	description: 'Delete your birthday from me',
 	commandType: ['application', 'message'],
 	category: 'birthdays',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		Schema.findOne({ Guild: ctx.guildId, User: ctx.user.id }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id, User: ctx.user.id }, async (err, data) => {
 			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 			if (!data)
@@ -22,7 +23,7 @@ export default {
 				);
 
 			Schema.findOneAndDelete({
-				Guild: ctx.guildId,
+				Guild: ctx.guild!.id,
 				User: ctx.user.id + '',
 			}).then(() => {
 				client.extras.succNormal(
@@ -35,4 +36,4 @@ export default {
 			});
 		});
 	},
-};
+} as CommandOptions;

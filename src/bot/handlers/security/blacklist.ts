@@ -1,10 +1,10 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
 import blacklistedWords from '../../Collection/index.js';
 import BlackList from '../../database/models/blacklist.js';
 
-export default async (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
 
 		try {
@@ -33,7 +33,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('messageUpdateWithOldMessage', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
+	client.on('messageUpdateWithOldMessage', async (bot: AeonaBot, oldMessage: Message, newMessage: Message) => {
 		if (!oldMessage || !newMessage) return;
 		if (!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) {

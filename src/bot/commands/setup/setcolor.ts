@@ -1,6 +1,7 @@
 import Schema from '../../database/models/functions.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'setcolor',
 	description: 'Set the color of the embed',
@@ -15,7 +16,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const rawColor = ctx.options.getString('color', true);
@@ -36,13 +37,13 @@ export default {
 				ctx,
 			);
 
-		Schema.findOne({ Guild: ctx.guildId }, async (err: any, data: { Color: string; save: () => void }) => {
+		Schema.findOne({ Guild: ctx.guild!.id }, async (err: any, data: { Color: string; save: () => void }) => {
 			if (data) {
 				data.Color = `#${color}`;
 				data.save();
 			} else {
 				new Schema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Color: `#${color}`,
 				}).save();
 			}
@@ -63,7 +64,7 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;
 
 function isHexColor(hex: string | any[]) {
 	return typeof hex === 'string' && hex.length === 6 && !isNaN(Number('0x' + hex));

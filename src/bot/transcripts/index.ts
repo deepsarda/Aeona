@@ -1,4 +1,3 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework/';
 import { Channel, ChannelTypes, Collection, Message } from 'discordeno';
 import renderMessages from './generator/index.js';
 import {
@@ -8,6 +7,7 @@ import {
 	type ObjectType,
 } from './types.js';
 import { Blob } from 'buffer';
+import { AeonaBot } from '../extras/index.js';
 /**
  *
  * @param messages The messages to generate a transcript from
@@ -16,7 +16,7 @@ import { Blob } from 'buffer';
  * @returns        The generated transcript
  */
 export async function generateFromMessages<T extends ExportReturnType = ExportReturnType.Attachment>(
-	bot: AmethystBot,
+	bot: AeonaBot,
 	messages: Message[] | Collection<string, Message>,
 	channel: Channel,
 	options: GenerateFromMessagesOptions<T> = {},
@@ -73,7 +73,7 @@ export async function generateFromMessages<T extends ExportReturnType = ExportRe
  * @returns       The generated transcript
  */
 export async function createTranscript<T extends ExportReturnType = ExportReturnType.Attachment>(
-	bot: AmethystBot,
+	bot: AeonaBot,
 	channel: Channel,
 	options: CreateTranscriptOptions<T> = {},
 ): Promise<ObjectType<T>> {

@@ -1,6 +1,7 @@
 import figlet from 'figlet';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'ascii',
 	description: 'Make ASCII text from your text',
@@ -14,7 +15,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const msg = ctx.options.getString('text', true);
 		if (!msg) return;
@@ -42,4 +43,4 @@ export default {
 			);
 		});
 	},
-};
+} as CommandOptions;

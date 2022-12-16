@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'stealemoji',
 	description: 'Generate a chat message',
@@ -12,8 +13,8 @@ export default {
 			type: 'String',
 		},
 	],
-	userGuildPermissions: ['MANAGE_EMOJIS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	userGuildPermissions: ['MANAGE_EMOJIS_AND_STICKERS'],
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const rawEmoji = ctx.options.getString('emoji', true);
@@ -22,7 +23,7 @@ export default {
 		if (parsedEmoji.id) {
 			const extension = parsedEmoji.animated ? '.gif' : '.png';
 			const url = `https://cdn.discordapp.com/emojis/${parsedEmoji.id + extension}`;
-			client.helpers.createEmoji(ctx.guild.id + '', { name: parsedEmoji.name, image: url }).then((emoji) => {
+			client.helpers.createEmoji(ctx.guild!.id + '', { name: parsedEmoji.name, image: url }).then((emoji) => {
 				client.extras.succNormal(
 					{
 						text: `Emoji successfully added to the server`,
@@ -58,7 +59,7 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;
 function parseEmoji(text: string) {
 	if (text.includes('%')) text = decodeURIComponent(text);
 	if (!text.includes(':'))

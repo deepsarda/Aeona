@@ -5,19 +5,22 @@ import {
 	AmethystError,
 	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
-import { BigString, createBot, createRestManager } from 'discordeno';
+import { createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
+import Functions from './database/models/functions';
+
 import chatBotSchema from './database/models/chatbot-channel.js';
 dotenv.config();
 import fetch from 'node-fetch';
 import fs from 'fs';
 import { INTENTS, REST_URL } from '../configs.js';
-import botConfig from './botconfig/bot.js';
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 import { JsonDB, Config } from 'node-json-db';
 import JSON from 'json-bigint';
+import { additionalProps } from './extras/index.js';
+import { AeonaBot } from './extras/index';
 const db = new JsonDB(new Config('tmp/db', true, false, '/'));
 export const basebot = createBot({
 	token: DISCORD_TOKEN,
@@ -56,36 +59,33 @@ const cachebot = createProxyCache(basebot, {
 	},
 });
 
-const bot = enableAmethystPlugin(cachebot, {
+const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 	owners: ['794921502230577182'],
 	prefix: async (bot, message) => {
 		const schema = await chatBotSchema.findOne({ Guild: message.guildId });
 		if (schema) if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';
-		if (message.mentionedUserIds.includes(bot.applicationId)) {
-			return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>', ''];
+
+		let guild = await Functions.findOne({
+			Guild: message.guildId,
+		});
+		if (!guild) guild = new Functions({ Guild: message.guildId });
+
+		if (!guild.Prefix) {
+			guild.Prefix = process.env.PREFIX!;
+			guild.save();
 		}
-		return [process.env.PREFIX, 'aeona', '<@!' + bot.applicationId + '>'];
+		if (message.mentionedUserIds.includes(bot.applicationId)) {
+			return [guild.Prefix, 'aeona', '<@!' + bot.user?.id + '>', '<@' + bot.user?.id + '>', ''];
+		}
+		return [guild.Prefix, 'aeona', '<@!' + bot.user?.id + '>', '<@' + bot.user?.id + '>'];
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,
 	commandDir: './dist/bot/commands',
 });
 
+bot.extras = additionalProps(bot);
 connect();
-// bot settings
-bot.extras.config = botConfig;
-bot.extras.colors = botConfig.colors;
-bot.extras.emotes = botConfig.emotes;
-
-const parts = process.env.WEBHOOKURL!.split('/');
-const token = parts.pop() || '';
-const id = parts.pop();
-
-bot.extras.webhook = async (content: any) => {
-	return await bot.helpers.sendWebhookMessage(id as BigString, token, content);
-};
-
-bot.extras.startTime = new Date().getTime();
 
 fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
 	fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
@@ -115,10 +115,16 @@ const categories: CategoryOptions[] = [
 		default: 'set',
 	},
 	{
-		name: 'announcement',
-		description: 'Create/Edit your announcement.',
+		name: 'setup',
+		description: 'Configure your server. (Must See)',
 		uniqueCommands: false,
-		default: 'create',
+		default: 'chatbot',
+	},
+	{
+		name: 'info',
+		description: 'See various informations',
+		uniqueCommands: true,
+		default: 'list',
 	},
 	{
 		name: 'automod',
@@ -133,12 +139,6 @@ const categories: CategoryOptions[] = [
 		default: 'log',
 	},
 	{
-		name: 'birthdays',
-		description: 'List your birthdays.',
-		uniqueCommands: false,
-		default: 'list',
-	},
-	{
 		name: 'fun',
 		description: 'Have some fun.',
 		uniqueCommands: true,
@@ -151,9 +151,81 @@ const categories: CategoryOptions[] = [
 		default: 'list',
 	},
 	{
-		name: 'info',
-		description: 'See various informations',
+		name: 'levels',
+		description: 'Configure the rank system',
 		uniqueCommands: true,
+		default: 'rank',
+	},
+	{
+		name: 'bumpreminder',
+		description: 'Setup bumpreminder for your server.',
+		uniqueCommands: false,
+		default: 'setup',
+	},
+	{
+		name: 'anime',
+		description: 'Some anime commands',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'anime2',
+		description: 'Some more anime commands',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'reactionroles',
+		description: 'Setup reaction roles for your server',
+		uniqueCommands: false,
+		default: 'list',
+	},
+	{
+		name: 'moderation',
+		description: 'Clean your server',
+		uniqueCommands: true,
+		default: 'family',
+	},
+	{
+		name: 'embed',
+		description: 'Create and modify embeds.',
+		uniqueCommands: true,
+		default: 'setup',
+	},
+	{
+		name: 'serverstats',
+		description: 'Configure your server stats',
+		uniqueCommands: true,
+		default: 'list',
+	},
+	{
+		name: 'marriage',
+		description: 'Create your family',
+		uniqueCommands: true,
+		default: 'family',
+	},
+	{
+		name: 'image',
+		description: 'Enjoy image magic',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'code',
+		description: 'Some useful coding commands',
+		uniqueCommands: true,
+		default: '',
+	},
+	{
+		name: 'announcement',
+		description: 'Create/Edit your announcement.',
+		uniqueCommands: false,
+		default: 'create',
+	},
+	{
+		name: 'birthdays',
+		description: 'List your birthdays.',
+		uniqueCommands: false,
 		default: 'list',
 	},
 	{
@@ -163,46 +235,10 @@ const categories: CategoryOptions[] = [
 		default: 'show',
 	},
 	{
-		name: 'levels',
-		description: 'Configure the rank system',
-		uniqueCommands: false,
-		default: 'rank',
-	},
-	{
-		name: 'marriage',
-		description: 'Create your family',
-		uniqueCommands: true,
-		default: 'family',
-	},
-	{
 		name: 'messages',
 		description: 'Configure the messages system',
 		uniqueCommands: false,
 		default: 'show',
-	},
-	{
-		name: 'moderation',
-		description: 'Clean your server',
-		uniqueCommands: true,
-		default: 'family',
-	},
-	{
-		name: 'reactionroles',
-		description: 'Setup reaction roles for your server',
-		uniqueCommands: false,
-		default: 'list',
-	},
-	{
-		name: 'serverstats',
-		description: 'Configure your server stats',
-		uniqueCommands: true,
-		default: 'list',
-	},
-	{
-		name: 'setup',
-		description: 'Configure your server',
-		uniqueCommands: false,
-		default: 'chatbot',
 	},
 	{
 		name: 'stickymessages',
@@ -234,36 +270,6 @@ const categories: CategoryOptions[] = [
 		uniqueCommands: true,
 		default: '',
 	},
-	{
-		name: 'image',
-		description: 'Enjoy image magic',
-		uniqueCommands: true,
-		default: '',
-	},
-	{
-		name: 'code',
-		description: 'Some useful coding commands',
-		uniqueCommands: true,
-		default: '',
-	},
-	{
-		name: 'anime',
-		description: 'Some anime commands',
-		uniqueCommands: true,
-		default: '',
-	},
-	{
-		name: 'anime2',
-		description: 'Some more anime commands',
-		uniqueCommands: true,
-		default: '',
-	},
-	{
-		name: 'bumpreminder',
-		description: 'Setup bumpreminder for your server.',
-		uniqueCommands: false,
-		default: 'setup',
-	},
 ];
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);
@@ -275,15 +281,13 @@ bot.rest = createRestManager({
 	customUrl: REST_URL,
 });
 
-bot.extras.version = 'v0.1.4';
-
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
 		try {
 			if (process.env.TOPGG_TOKEN) {
 				const controller = new AbortController();
 				const timeoutId = setTimeout(() => controller.abort(), 3000);
-				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options.memberId}`, {
+				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options?.memberId}`, {
 					signal: controller.signal,
 					headers: {
 						authorization: process.env.TOPGG_TOKEN,
@@ -314,10 +318,6 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	}
 	return true;
 });
-
-bot.extras.capitalizeFirstLetter = (string: string) => {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-};
 
 //Set timeout for 2 mins
 setTimeout(() => {

@@ -1,6 +1,7 @@
 import Schema from '../../database/models/stickymessages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'stick',
 	description: 'Generate a chat message',
@@ -15,14 +16,14 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const channel = await ctx.options.getChannel('channel', true);
 
-		Schema.findOne({ Guild: ctx.guildId, Channel: channel.id }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id, Channel: channel.id }, async (err, data) => {
 			if (data) {
 				Schema.findOneAndDelete({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Channel: channel.id,
 				}).then(() => {
 					client.extras.succNormal(
@@ -50,4 +51,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

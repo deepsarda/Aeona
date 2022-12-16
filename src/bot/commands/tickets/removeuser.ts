@@ -1,7 +1,8 @@
 import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'removeuser',
 	description: 'Generate a chat message',
@@ -16,16 +17,16 @@ export default {
 		},
 	],
 
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await ticketSchema.findOne({ Guild: ctx.guildId });
+		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 		const ticketData = await ticketChannels.findOne({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 			channelID: ctx.channel.id,
 		});
 
 		if (data) {
-			const ticketCategory = await client.helpers.getChannel(data.Category);
+			const ticketCategory = await client.helpers.getChannel(data.Category!);
 			if (ticketCategory == undefined) {
 				return client.extras.errNormal(
 					{
@@ -75,4 +76,4 @@ export default {
 			}
 		}
 	},
-};
+} as CommandOptions;

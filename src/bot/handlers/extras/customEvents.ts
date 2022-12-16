@@ -1,23 +1,13 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Guild, Member, Message } from 'discordeno';
-import Schema from '../../database/models/logChannels.js';
 
-export default async (client: AmethystBot) => {
-	client.extras.getLogs = async function (guildId: any) {
-		const data = await Schema.findOne({ Guild: guildId });
-		if (data && data.Channel) {
-			const channel = await client.helpers.getChannel(BigInt(data.Channel));
-			return channel;
-		} else {
-			return false;
-		}
-	};
-	client.on('messageCreate', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreate', async (bot: AeonaBot, message: Message) => {
 		if (message.isFromBot) return;
 
 		client.emit('messageCreateNoBots', bot, message);
 	});
-	client.on('guildMemberUpdateWithOldMember', (client: AmethystBot, oldMember: Member, newMember: Member) => {
+	client.on('guildMemberUpdateWithOldMember', (client: AeonaBot, oldMember: Member, newMember: Member) => {
 		if (!oldMember.premiumSince && newMember.premiumSince) {
 			client.emit('guildMemberBoost', client, newMember);
 		}
@@ -27,7 +17,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('guildUpdateWithOldGuild', (client: AmethystBot, oldGuild: Guild, newGuild: Guild) => {
+	client.on('guildUpdateWithOldGuild', (client: AeonaBot, oldGuild: Guild, newGuild: Guild) => {
 		if (oldGuild.premiumTier < newGuild.premiumTier) {
 			client.emit('guildBoostLevelUp', client, newGuild, oldGuild.premiumTier, newGuild.premiumTier);
 		}

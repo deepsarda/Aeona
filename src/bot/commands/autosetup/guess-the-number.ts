@@ -1,6 +1,7 @@
 import GTN from '../../database/models/guessNumber.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno';
 export default {
 	name: 'guess-the-number',
@@ -9,10 +10,10 @@ export default {
 	category: 'autosetup',
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const channel = await client.helpers.createChannel(ctx.guildId!, {
+		const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 			name: 'Guess-The-Number',
 			type: ChannelTypes.GuildText,
 		});
@@ -27,4 +28,4 @@ export default {
 
 		client.extras.createChannelSetup(GTN, channel, ctx);
 	},
-};
+} as CommandOptions;

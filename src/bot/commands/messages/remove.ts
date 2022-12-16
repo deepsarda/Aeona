@@ -1,6 +1,7 @@
 import Schema from '../../database/models/messages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'remove',
 	description: 'Remove ',
@@ -21,16 +22,17 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 
 		const data = await Schema.findOne({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 			User: user.id + '',
 		});
 		if (data) {
+			if (!data.Messages) data.Messages = 0;
 			data.Messages -= amount;
 			await data.save();
 		} else {
@@ -58,4 +60,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

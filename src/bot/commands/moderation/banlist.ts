@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'banlist',
 	description: 'See the ban list',
@@ -6,11 +7,11 @@ export default {
 	category: 'moderation',
 	args: [],
 	userGuildPermissions: ['BAN_MEMBERS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		client.helpers
-			.getBans(ctx.guild.id)
+			.getBans(ctx.guild!.id)
 			.then(async (banned) => {
 				const list = banned.map(
 					(banUser) =>
@@ -32,4 +33,4 @@ export default {
 				throw error;
 			});
 	},
-};
+} as CommandOptions;

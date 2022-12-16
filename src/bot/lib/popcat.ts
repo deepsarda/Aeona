@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 const baseurl = 'https://api.popcat.xyz/';
 
-async function request(endpoint, input = '') {
+async function request(endpoint: string, input = '') {
 	const res = `${baseurl}${endpoint}?${input}`;
 	return res;
 }
@@ -39,7 +39,7 @@ export default {
 		if (res.error) throw new Error(res.error);
 		return res;
 	},
-	steam: async function (name) {
+	steam: async function (name: string) {
 		if (!name) throw new Error("[Popcat Wrapper] steam(name) ==> 'name' parameter is missing.");
 		const res = await fetch(`https://api.popcat.xyz/steam?q=${encodeURIComponent(name)}`);
 		const text = await res.text();
@@ -66,7 +66,7 @@ export default {
 		if (json.error) throw new Error(json.error);
 		return json.shortened;
 	},
-	lyrics: async function (song) {
+	lyrics: async function (song: string) {
 		if (!song) throw new Error("[Popcat Wrapper] The field 'song' was left empty int he LYRICS function!");
 		const res = await fetch(`https://api.popcat.xyz/lyrics?song=${encodeURIComponent(song)}`);
 		const text = await res.text();
@@ -92,30 +92,30 @@ export default {
 		const json = JSON.parse(text);
 		return json;
 	},
-	subreddit: async function (subreddit) {
+	subreddit: async function (subreddit: string) {
 		if (!subreddit) throw new Error("[Popcat Wrapper] The field 'subeddit' was left empty in the SUBREDDIT function!");
 		const res = await fetch(`https://api.popcat.xyz/subreddit/${encodeURIComponent(subreddit)}`);
 		const text = await res.text();
 		const json = JSON.parse(text);
 		return json;
 	},
-	oogway: async function (text) {
+	oogway: async function (text: string) {
 		if (!text) throw new Error("[Popcat Wrapper] The field 'text' was left empty in the OOGWAY function!");
 		const img = `https://api.popcat.xyz/oogway?text=${encodeURIComponent(text)}`;
 		return img;
 	},
-	opinion: async function (image, text) {
+	opinion: async function (image: string, text: string) {
 		if (!image) throw new Error("[Popcat Wrapper] The field 'image' was left empty in the OPINION function!");
 		if (!text) throw new Error("[Popcat Wrapper] The field 'text' was left empty in the OPINION function!");
 		const img = `https://api.popcat.xyz/opinion?image=${encodeURIComponent(image)}&text=${encodeURIComponent(text)}`;
 		return img;
 	},
-	wanted: async function (image) {
+	wanted: async function (image: string) {
 		if (!image) throw new Error("[Popcat Wrapper] The field 'image' was left empty in the WANTED function!");
 		const url = `https://api.popcat.xyz/wanted?image=${encodeURIComponent(image)}`;
 		return url;
 	},
-	sadcat: async function (text) {
+	sadcat: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the SAD CAT function. Need help? https://popcat.xyz/server",
@@ -123,7 +123,7 @@ export default {
 		const url = `${baseurl}sadcat?text=${encodeURIComponent(text)}`;
 		return url;
 	},
-	github: async function (username) {
+	github: async function (username: string) {
 		if (!username) throw new Error("[Popcat Wrapper] The field 'username' was left empty in the GITHUB function!");
 		const res = await fetch(`https://api.popcat.xyz/github/${encodeURIComponent(username)}`);
 		const js = await res.text();
@@ -131,7 +131,7 @@ export default {
 		if (obj.error) throw new Error('[Popcat Wrapper] Invalid username in the github function!');
 		return obj;
 	},
-	weather: async function (place) {
+	weather: async function (place: string) {
 		if (!place) throw new Error("[Popcat Wrapper] The field 'place' was left empty in the WEATHER function!");
 		const res = await fetch(`https://api.popcat.xyz/weather?q=${encodeURIComponent(place)}`);
 		const js = await res.text();
@@ -139,7 +139,7 @@ export default {
 		if (obj.error) throw new Error('[Popcat Wrapper] Invalid place in the weather function!');
 		return obj;
 	},
-	lulcat: async function (text) {
+	lulcat: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the LUL CAT function. Need help? https://popcat.xyz/server",
@@ -150,13 +150,13 @@ export default {
 		const t = final.text;
 		return t;
 	},
-	gun: async function (image) {
+	gun: async function (image: string) {
 		if (!image) throw new Error("[Popcat Wrapper] The field 'image' was left empty in the GUN function!");
 		const input = `image=${encodeURIComponent(image)}`;
 		const res = await request('gun', input);
 		return res;
 	},
-	country: async function (name) {
+	country: async function (name: string) {
 		if (!name) throw new Error("[Popcat Wrapper] The field 'country name' was left empty in the COUNTRY function!");
 		const res = await fetch(`${baseurl}countries/${encodeURIComponent(name)}`);
 		const js = await res.text();
@@ -164,14 +164,14 @@ export default {
 		if (obj.error) throw new Error('[Popcat Wrapper] Invalid country in the COUNTRY function!');
 		return obj;
 	},
-	banner: async function (uid) {
+	banner: async function (uid: string) {
 		if (!uid) throw new Error("[Popcat Wrapper] The field 'user id' was left empty in the BANNER function!");
 		const res = await fetch(baseurl + 'banners/' + uid);
 		const obj = await res.text();
 		const js = JSON.parse(obj);
 		return js;
 	},
-	npm: async function (pkg) {
+	npm: async function (pkg: string) {
 		if (!pkg) throw new Error("[Popcat Wrapper] The field 'package name' was left empty in the NPM function!");
 		const url = `https://api.popcat.xyz/npm?q=${encodeURIComponent(pkg)}`;
 		const res = await fetch(url);
@@ -189,7 +189,7 @@ export default {
 		const final = fact.fact;
 		return final;
 	},
-	instagramUser: async function (username) {
+	instagramUser: async function (username: string) {
 		if (!username)
 			throw new Error("[Popcat Wrapper] The field 'username' was left empty in the instagramUser function!");
 		const name = username;
@@ -200,21 +200,21 @@ export default {
 		const js = JSON.parse(account);
 		return js;
 	},
-	drake: async function (text1, text2) {
+	drake: async function (text1: string, text2: string) {
 		if (!text1) throw new Error('The field text1 was left empty in the drake function');
 		if (!text2) throw new Error('The field text2 was left empty in the drake function');
 		const input = `text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}`;
 		const response = await request('drake', input);
 		return response;
 	},
-	pooh: async function (text1, text2) {
+	pooh: async function (text1: string, text2: string) {
 		if (!text1) throw new Error('The field text1 was left empty in the pooh function');
 		if (!text2) throw new Error('The field text2 was left empty in the pooh function');
 		const input = `text1=${encodeURIComponent(text1)}&text2=${encodeURIComponent(text2)}`;
 		const response = await request('pooh', input);
 		return response;
 	},
-	ship: async function (image1, image2) {
+	ship: async function (image1: string, image2: string) {
 		if (!image1)
 			throw new Error('The field image1 was left empty in the ship function. Need help? https://dsc.gg/popcatcom');
 		if (!image2)
@@ -223,7 +223,7 @@ export default {
 		const response = await request('ship', input);
 		return response;
 	},
-	colorify: async function (image, color) {
+	colorify: async function (image: string, color: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the colorify function. Need help? https://dsc.gg/popcatcom",
@@ -236,7 +236,7 @@ export default {
 		const res = await request('colorify', input);
 		return res;
 	},
-	biden: function (text) {
+	biden: function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the biden function. Need help? https://dsc.gg/popcatcom",
@@ -245,7 +245,7 @@ export default {
 		return res;
 	},
 
-	pikachu: async function (text) {
+	pikachu: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the pikachu function. Need help? https://dsc.gg/popcatcom",
@@ -254,7 +254,7 @@ export default {
 		const res = await request('pikachu', text);
 		return res;
 	},
-	drip: async function (image) {
+	drip: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the drip function. Need help? https://dsc.gg/popcatcom",
@@ -263,7 +263,7 @@ export default {
 		const res = await request('drip', input);
 		return res;
 	},
-	clown: async function (image) {
+	clown: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the clown function. Need help? https://dsc.gg/popcatcom",
@@ -272,7 +272,7 @@ export default {
 		const res = await request('clown', input);
 		return res;
 	},
-	translate: async function (text, to) {
+	translate: async function (text: string, to: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the translate function. Need help? https://dsc.gg/popcatcom",
@@ -286,13 +286,13 @@ export default {
 		const json: any = await res.json();
 		return json.translated;
 	},
-	reverse: async function (text) {
+	reverse: async function (text: string) {
 		if (!text) throw new Error("[Popcat Wrapper] The field 'text' was left empty in the reverse function");
 		const res = await fetch(`https://api.popcat.xyz/reverse?text=${encodeURIComponent(text)}`);
 		const json: any = await res.json();
 		return json.text;
 	},
-	uncover: async function (image) {
+	uncover: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the uncover function. Need help? https://dsc.gg/popcatcom",
@@ -301,7 +301,7 @@ export default {
 		const res = await request('uncover', input);
 		return res;
 	},
-	ad: async function (image) {
+	ad: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the ad function. Need help? https://dsc.gg/popcatcom",
@@ -310,7 +310,7 @@ export default {
 		const res = await request('ad', input);
 		return res;
 	},
-	blur: async function (image) {
+	blur: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the blur function. Need help? https://dsc.gg/popcatcom",
@@ -319,7 +319,7 @@ export default {
 		const res = await request('blur', input);
 		return res;
 	},
-	invert: async function (image) {
+	invert: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the invert function. Need help? https://dsc.gg/popcatcom",
@@ -328,7 +328,7 @@ export default {
 		const res = await request('invert', input);
 		return res;
 	},
-	greyscale: async function (image) {
+	greyscale: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the greyscale function. Need help? https://dsc.gg/popcatcom",
@@ -337,7 +337,7 @@ export default {
 		const res = await request('greyscale', input);
 		return res;
 	},
-	alert: async function (text) {
+	alert: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the alert function. Need help? https://dsc.gg/popcatcom",
@@ -346,7 +346,7 @@ export default {
 		const res = await request('alert', input);
 		return res;
 	},
-	caution: async function (text) {
+	caution: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the caution function. Need help? https://dsc.gg/popcatcom",
@@ -355,7 +355,7 @@ export default {
 		const res = await request('caution', input);
 		return res;
 	},
-	colorinfo: async function (color) {
+	colorinfo: async function (color: string) {
 		if (!color)
 			throw new Error(
 				"[Popcat Wrapper] The field 'color' was left empty in the colorinfo function. Need help? https://dsc.gg/popcatcom",
@@ -368,7 +368,7 @@ export default {
 		const obj = JSON.parse(json);
 		return obj;
 	},
-	jokeoverhead: async function (image) {
+	jokeoverhead: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the jokeoverhead function. Need help? https://dsc.gg/popcatcom",
@@ -377,7 +377,7 @@ export default {
 		const res = await request('jokeoverhead', input);
 		return res;
 	},
-	mnm: async function (image) {
+	mnm: async function (image: string) {
 		if (!image)
 			throw new Error(
 				"[Popcat Wrapper] The field 'image' was left empty in the mnm function. Need help? https://dsc.gg/popcatcom",
@@ -386,7 +386,7 @@ export default {
 		const res = await request('mnm', input);
 		return res;
 	},
-	mock: async function (text) {
+	mock: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the mock function. Need help? https://dsc.gg/popcatcom",
@@ -396,7 +396,7 @@ export default {
 		const json: any = await res.json();
 		return json.text;
 	},
-	doublestruck: async function (text) {
+	doublestruck: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the doublestruck function. Need help? https://dsc.gg/popcatcom",
@@ -407,7 +407,7 @@ export default {
 		return json.text;
 	},
 
-	texttomorse: async function (text) {
+	texttomorse: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the texttomorse function. Need help? https://dsc.gg/popcatcom",
@@ -429,7 +429,13 @@ export default {
 		const obj = JSON.parse(json);
 		return obj;
 	},
-	welcomecard: async function welcomecard(background, avatar, text_1, text_2, text_3) {
+	welcomecard: async function welcomecard(
+		background: string,
+		avatar: string,
+		text_1: string,
+		text_2: string,
+		text_3: string,
+	) {
 		if (!background)
 			throw new SyntaxError('welcomeImage(background, avatar, text_1, text_2, text_3, color) ==> background is null.');
 		if (!background.startsWith('https://'))
@@ -450,7 +456,7 @@ export default {
 		const welcomeimg = await request('welcomecard', input);
 		return welcomeimg;
 	},
-	itunes: async function (x) {
+	itunes: async function (x: string) {
 		if (!x) throw new Error("[Popcat Wrapper] The field 'song' was left empty in the iTunes function.");
 		const res = await fetch(`https://api.popcat.xyz/itunes?q=${encodeURIComponent(x)}`);
 		const json = await res.text();
@@ -458,7 +464,7 @@ export default {
 		const obj = JSON.parse(json);
 		return obj;
 	},
-	chatbot: async function (x, ownername, botname) {
+	chatbot: async function (x: string, ownername: string, botname: string) {
 		if (!x) throw new Error("[Popcat Wrapper] The field 'content' was left empty in the chatbot function.");
 		if (!ownername) throw new Error("[Popcat Wrapper] The field 'ownername' was left empty in the chatbot function.");
 		if (!botname) throw new Error("[Popcat Wrapper] The field 'botname' was left empty in the chatbot function.");
@@ -470,7 +476,7 @@ export default {
 		const resp: any = await res.json();
 		return resp.response;
 	},
-	playstore: async function (app) {
+	playstore: async function (app: string) {
 		if (!app) throw new Error("[Popcat Wrapper] The field 'appname' was left empty in the playstore function.");
 		const res = await fetch(`https://api.popcat.xyz/playstore?q=${encodeURIComponent(app)}`);
 		const json = await res.text();
@@ -482,7 +488,7 @@ export default {
 		const json: any = await res.json();
 		return json.joke;
 	},
-	encode: async function (text) {
+	encode: async function (text: string) {
 		if (!text)
 			throw new Error(
 				"[Popcat Wrapper] The field 'text' was left empty in the encode function. Need help? https://dsc.gg/popcatcom",
@@ -492,7 +498,7 @@ export default {
 		const json: any = await res.json();
 		return json.binary;
 	},
-	decode: async function (binary) {
+	decode: async function (binary: string) {
 		if (!binary)
 			throw new Error(
 				"[Popcat Wrapper] The field 'binary' was left empty in the decode function. Need help? https://dsc.gg/popcatcom",
@@ -502,7 +508,7 @@ export default {
 		const json: any = await res.json();
 		return json.text;
 	},
-	facts: async function (text) {
+	facts: async function (text: string) {
 		if (!text) throw new Error("[Popcat Wrapper] The field 'text' was left empty in the facts functuion.");
 		const input = `text=${encodeURIComponent(text)}`;
 		const res = await request('facts', input);

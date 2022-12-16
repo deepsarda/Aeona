@@ -1,6 +1,7 @@
 import Schema from '../../database/models/family.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'divorce',
 	description: 'Get a divorce from your spouse.',
@@ -14,7 +15,7 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
@@ -46,10 +47,11 @@ export default {
 				User: target.id + '',
 			});
 			if (data2) {
+				//@ts-ignore
 				data2.Partner = null;
 				data2.save();
 			}
-
+			//@ts-ignore
 			data.Partner = null;
 			data.save();
 
@@ -71,4 +73,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

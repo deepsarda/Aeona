@@ -1,7 +1,7 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno/transformers';
 
-export default async (client: AmethystBot, messageDeleted: Message) => {
+export default async (client: AeonaBot, messageDeleted: Message) => {
 	if (!messageDeleted) return;
 	if (messageDeleted.member?.user?.toggles.bot) return;
 

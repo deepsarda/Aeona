@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
 import Schema from '../../database/models/guessNumber.js';
 
-export default async (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
 		if (!message.guildId) return;
 		const data = await Schema.findOne({
 			Guild: message.guildId,

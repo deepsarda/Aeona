@@ -2,7 +2,8 @@ import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 import ticketMessageConfig from '../../database/models/ticketMessage.js';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'createticket',
 	description: 'Create a ticket',
@@ -16,7 +17,7 @@ export default {
 			required: false,
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		let reason = 'Not given';
 		if (ctx.options) reason = ctx.options.getString('reason') || 'Not given';
@@ -25,7 +26,7 @@ export default {
 
 		ticketChannels.findOne(
 			{
-				Guild: ctx.guildId,
+				Guild: ctx.guild!.id,
 				creator: ctx.user.id,
 				resolved: false,
 			},
@@ -39,21 +40,21 @@ export default {
 						ctx,
 					);
 				} else {
-					ticketSchema.findOne({ Guild: ctx.guildId }, async (err, TicketData) => {
+					ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, TicketData) => {
 						if (TicketData) {
 							const logsChannel = await client.helpers.getChannel(TicketData.Logs);
 							const ticketCategory = await client.helpers.getChannel(TicketData.Category);
-							const ticketRoles = await client.helpers.getRoles(ctx.guildId);
+							const ticketRoles = await client.helpers.getRoles(ctx.guild!.id!);
 							const role = ticketRoles.find((r) => r.id === TicketData.Role);
 
 							try {
 								let openTicket =
 									'Thanks for creating a ticket! \nSupport will be with you shortly \n\n🔒 - Close ticket \n✋ - Claim ticket \n📝 - Save transcript \n🔔 - Send a notification';
 								const ticketMessageData = await ticketMessageConfig.findOne({
-									Guild: ctx.guildId,
+									Guild: ctx.guild!.id,
 								});
 								if (ticketMessageData) {
-									openTicket = ticketMessageData.openTicket;
+									openTicket = ticketMessageData.openTicket!;
 								}
 								const comp = new Components()
 									.addButton('', 'Primary', 'closeticket', {
@@ -100,13 +101,13 @@ export default {
 
 											const ticketid = String(TicketData.TicketCount).padStart(4, '0');
 											await client.helpers
-												.createChannel(ctx.guildId, {
+												.createChannel(ctx.guild!.id!, {
 													name: `ticket-${ticketid}`,
 													permissionOverwrites: [
 														{
 															type: 0,
 															deny: ['VIEW_CHANNEL'],
-															id: ctx.guildId,
+															id: ctx.guild!.id!,
 														},
 														{
 															type: 1,
@@ -117,7 +118,7 @@ export default {
 																'READ_MESSAGE_HISTORY',
 																'ADD_REACTIONS',
 															],
-															id: ctx.user.id,
+															id: ctx.user!.id,
 														},
 														{
 															type: 0,
@@ -128,7 +129,7 @@ export default {
 																'READ_MESSAGE_HISTORY',
 																'ADD_REACTIONS',
 															],
-															id: role.id,
+															id: role!.id,
 														},
 													],
 													parentId: category.id,
@@ -161,10 +162,10 @@ export default {
 													);
 
 													new ticketChannels({
-														Guild: ctx.guildId,
+														Guild: ctx.guild!.id,
 														TicketID: ticketid,
 														channelID: channel.id,
-														creator: ctx.user.id,
+														creator: ctx.user!.id,
 														claimed: 'None',
 													}).save();
 
@@ -176,7 +177,7 @@ export default {
 																fields: [
 																	{
 																		name: '→ Creator',
-																		value: `${ctx.user.username + '#' + ctx.user.discriminator} (${ctx.user.id})`,
+																		value: `${ctx.user!.username + '#' + ctx.user!.discriminator} (${ctx.user!.id})`,
 																		inline: false,
 																	},
 																	{
@@ -216,7 +217,7 @@ export default {
 																},
 															],
 															components: comp,
-															content: `${ctx.user}, <@&${role.id}>`,
+															content: `${ctx.user}, <@&${role!.id}>`,
 														},
 														channel,
 													);
@@ -247,4 +248,4 @@ export default {
 			},
 		);
 	},
-};
+} as CommandOptions;

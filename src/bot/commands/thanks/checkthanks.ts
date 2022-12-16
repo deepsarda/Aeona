@@ -1,6 +1,7 @@
 import thanksSchema from '../../database/models/thanks.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'checkthanks',
 	description: 'Check how many times a user had been thanked',
@@ -14,16 +15,16 @@ export default {
 			required: true,
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const member = await ctx.options.getUser('user');
 
-		thanksSchema.findOne({ User: member.id }, async (err, data) => {
+		thanksSchema.findOne({ User: member!.id }, async (err, data) => {
 			if (data) {
 				return client.extras.embed(
 					{
 						title: `🤝 Thanks`,
-						desc: `**${member.username + '#' + member.discriminator}** has \`${data.Received}\` thanks`,
+						desc: `**${member!.username + '#' + member!.discriminator}** has \`${data.Received}\` thanks`,
 						type: 'editreply',
 					},
 					ctx,
@@ -32,7 +33,7 @@ export default {
 				return client.extras.embed(
 					{
 						title: `🤝 Thanks`,
-						desc: `**${member.username + '#' + member.discriminator}** has \`0\` thanks`,
+						desc: `**${member!.username + '#' + member!.discriminator}** has \`0\` thanks`,
 						type: 'editreply',
 					},
 					ctx,
@@ -40,4 +41,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

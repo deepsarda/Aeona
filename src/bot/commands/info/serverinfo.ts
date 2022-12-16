@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno';
 export default {
 	name: 'serverinfo',
@@ -6,7 +7,7 @@ export default {
 	commandType: ['application', 'message'],
 	category: 'info',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const verifLevels = {
 			NONE: 'None',
@@ -40,13 +41,13 @@ export default {
 			TIER_3: `3`,
 			NONE: `0`,
 		};
-		const channels = await client.helpers.getChannels(ctx.guildId);
+		const channels = await client.helpers.getChannels(ctx.guild!.id);
 		client.extras.embed(
 			{
 				title: `Server Information`,
 				desc: `Information about the server ${ctx.guild.name}`,
-				thumbnail: client.helpers.getGuildIconURL(ctx.guild.id + '', undefined),
-				image: client.helpers.getGuildIconURL(ctx.guild.id + '', undefined),
+				thumbnail: client.helpers.getGuildIconURL(ctx.guild!.id + '', undefined),
+				image: client.helpers.getGuildIconURL(ctx.guild!.id + '', undefined),
 				fields: [
 					{
 						name: 'Server name:',
@@ -55,7 +56,7 @@ export default {
 					},
 					{
 						name: 'Server id:',
-						value: `${ctx.guildId}`,
+						value: `${ctx.guild!.id}`,
 						inline: true,
 					},
 					{
@@ -127,7 +128,7 @@ export default {
 					},
 					{
 						name: 'Sticker count:',
-						value: `${(await client.helpers.getGuildStickers(ctx.guildId!)).size} stickers`,
+						value: `${(await client.helpers.getGuildStickers(ctx.guild!.id!)).size} stickers`,
 						inline: true,
 					},
 				],
@@ -136,4 +137,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'hexcolor',
 	description: 'Get information about some hex colors',
@@ -14,10 +15,11 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const color = ctx.options.getString('color', true);
 
+		//@ts-ignore
 		const { data } = await axios.get(`https://some-random-api.ml/canvas/rgb?hex=${color}`).catch((e) => {
 			return client.extras.errNormal(
 				{
@@ -50,4 +52,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

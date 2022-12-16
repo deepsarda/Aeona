@@ -1,8 +1,9 @@
-import { AmethystBot, AmethystEmbed } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed } from '@thereallonewolf/amethystframework';
 import { Guild } from 'discordeno/transformers';
 import Functions from '../../database/models/functions.js';
+import { AeonaBot } from '../../extras/index.js';
 
-export default async (client: AmethystBot, guild: Guild) => {
+export default async (client: AeonaBot, guild: Guild) => {
 	if (guild == undefined) return;
 
 	new Functions({

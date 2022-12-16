@@ -1,6 +1,7 @@
 import ticketSchema from '../../database/models/tickets.js';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'ticketpanel',
 	description: 'Set up the tickets',
@@ -21,12 +22,12 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const name = ctx.options.getString('name', true);
 		const description = ctx.options.getString('description', true);
 
-		ticketSchema.findOne({ Guild: ctx.guildId }, async (err, ticketData) => {
+		ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, ticketData) => {
 			if (ticketData) {
 				const channel = await client.helpers.getChannel(ticketData.Channel);
 				const comp = new Components();
@@ -59,4 +60,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

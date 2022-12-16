@@ -1,6 +1,7 @@
 import Schema from '../../database/models/family.js';
 import { Canvas, loadImage } from 'canvas';
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { BigString } from 'discordeno/types';
 
 export default {
@@ -16,7 +17,7 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, context: Context) {
+	async execute(client: AeonaBot, context: Context) {
 		if (!context.guild || !context.user || !context.channel) return;
 		const target = (await context.options.getUser('user')) || context.user;
 
@@ -111,7 +112,7 @@ export default {
 			],
 		});
 	},
-};
+} as CommandOptions;
 import { Blob } from 'buffer';
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
@@ -124,7 +125,7 @@ function dataURItoBlob(dataURI) {
 	return new Blob([ab], { type: 'image/jpeg' });
 }
 
-async function getFamily(userId: BigString, client: AmethystBot) {
+async function getFamily(userId: BigString, client: AeonaBot) {
 	console.log('User Id: ' + userId);
 	const data = await Schema.findOne({
 		User: userId + '',
@@ -135,7 +136,7 @@ async function getFamily(userId: BigString, client: AmethystBot) {
 
 	const user = await client.helpers.getUser(userId);
 
-	const children = [];
+	const children: any[] = [];
 	if (data.Children)
 		for (let i = 0; i < data.Children.length; i++) {
 			console.log('family: ' + (await getFamily(data.Children[i], client)));

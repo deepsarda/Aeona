@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Guild } from 'discordeno';
 
 import Schema from '../../database/models/stats.js';
 
-export default async (client: AmethystBot, guild: Guild) => {
+export default async (client: AeonaBot, guild: Guild) => {
 	try {
 		const members = await client.helpers.getMembers(guild.id + '', {});
 
@@ -15,6 +15,7 @@ export default async (client: AmethystBot, guild: Guild) => {
 		);
 
 		const data = await Schema.findOne({ Guild: guild.id });
+		if (!data || !data.Bots) return;
 		client.helpers.editChannel(data.Bots, {
 			name: channelName,
 		});

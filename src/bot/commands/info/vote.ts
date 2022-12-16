@@ -1,13 +1,14 @@
 import Topgg from '@top-gg/sdk';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'vote',
 	description: 'Generate a chat message',
 	commandType: ['application', 'message'],
 	category: 'info',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const dbl = new Topgg.Api(process.env.TOPGG_TOKEN!);
 
@@ -45,11 +46,10 @@ export default {
 			.catch((error) => {
 				client.extras.errNormal(
 					{
-						text: `There was an error by checking this vote!`,
-						editreply: true,
+						error: `There was an error by checking this vote!`,
 					},
 					ctx,
 				);
 			});
 	},
-};
+} as CommandOptions;

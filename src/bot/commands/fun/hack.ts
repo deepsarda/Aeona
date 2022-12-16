@@ -1,7 +1,8 @@
 import generator from 'generate-password';
 import fetch from 'node-fetch';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'hack',
 	description: 'Hack a user',
@@ -15,7 +16,7 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const password = generator.generate({
 			length: 10,
@@ -41,14 +42,13 @@ export default {
 				},
 				ctx,
 			)
-			.then((msg: any) => {
+			.then((msg) => {
 				wait(140);
 				client.extras
 					.editEmbed(
 						{
 							title: 'Hacking',
 							desc: `Searching for user information..`,
-							type: 'edit',
 						},
 						msg,
 					)
@@ -59,7 +59,6 @@ export default {
 								{
 									title: 'Hacking',
 									desc: `Searching for IP address...`,
-									type: 'edit',
 								},
 								msg,
 							)
@@ -77,7 +76,6 @@ export default {
 													inline: true,
 												},
 											],
-											type: 'edit',
 										},
 										msg,
 									)
@@ -109,7 +107,6 @@ export default {
 																	value: `\`\`\`${password}\`\`\``,
 																},
 															],
-															type: 'edit',
 														},
 														msg,
 													)
@@ -120,7 +117,6 @@ export default {
 																{
 																	title: 'Hacking',
 																	desc: `Search for Discord token...`,
-																	type: 'edit',
 																},
 																msg,
 															)
@@ -142,7 +138,6 @@ export default {
 																							inline: true,
 																						},
 																					],
-																					type: 'edit',
 																				},
 																				msg,
 																			)
@@ -153,7 +148,6 @@ export default {
 																						{
 																							title: 'Hacking',
 																							desc: `Reporting account to Discord for breaking TOS...`,
-																							type: 'edit',
 																						},
 																						msg,
 																					)
@@ -178,4 +172,4 @@ export default {
 					});
 			});
 	},
-};
+} as CommandOptions;

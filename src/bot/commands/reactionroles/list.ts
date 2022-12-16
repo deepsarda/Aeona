@@ -1,6 +1,7 @@
 import Schema from '../../database/models/reactionRoles.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'list',
 	description: 'See all the reaction roles.',
@@ -8,9 +9,9 @@ export default {
 	category: 'reactionroles',
 	args: [],
 	userGuildPermissions: ['MANAGE_ROLES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const reactions = await Schema.find({ Guild: ctx.guildId });
+		const reactions = await Schema.find({ Guild: ctx.guild!.id });
 		if (!reactions)
 			return client.extras.errNormal(
 				{
@@ -35,4 +36,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

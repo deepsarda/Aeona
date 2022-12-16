@@ -1,6 +1,7 @@
 import Schema from '../../database/models/stats.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'setstatchannelname',
 	description: 'Sets the channel name for stats',
@@ -15,7 +16,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const name = ctx.options.getLongString('name', true);
@@ -34,13 +35,13 @@ export default {
 			);
 		}
 
-		Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 			if (data) {
 				data.ChannelTemplate = name;
 				data.save();
 			} else {
 				new Schema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					ChannelTemplate: name,
 				}).save();
 			}
@@ -61,4 +62,4 @@ export default {
 			);
 		});
 	},
-};
+} as CommandOptions;

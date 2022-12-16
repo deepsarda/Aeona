@@ -1,6 +1,7 @@
 import Schema from '../../database/models/stats.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
 export default {
 	name: 'text-channels',
@@ -9,37 +10,37 @@ export default {
 	category: 'serverstats',
 	args: [],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		let channelName = await client.extras.getTemplate(ctx.guild.id);
+		let channelName = await client.extras.getTemplate(ctx.guild!.id);
 		channelName = channelName.replace(`{emoji}`, '💬');
 		channelName = channelName.replace(
 			`{name}`,
 			`Text Channels: ${
-				(await client.helpers.getChannels(ctx.guild.id)).filter((ch) => ch.type == ChannelTypes.GuildText).size || 0
+				(await client.helpers.getChannels(ctx.guild!.id)).filter((ch) => ch.type == ChannelTypes.GuildText).size || 0
 			}`,
 		);
 
 		client.helpers
-			.createChannel(ctx.guildId, {
+			.createChannel(ctx.guild!.id, {
 				name: channelName,
 				type: ChannelTypes.GuildVoice,
 				permissionOverwrites: [
 					{
 						deny: ['CONNECT'],
 						type: 0,
-						id: ctx.guildId,
+						id: ctx.guild!.id,
 					},
 				],
 			})
 			.then(async (channel) => {
-				Schema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+				Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 					if (data) {
 						data.TextChannels = channel.id;
 						data.save();
 					} else {
 						new Schema({
-							Guild: ctx.guildId,
+							Guild: ctx.guild!.id,
 							TextChannels: channel.id,
 						}).save();
 					}
@@ -60,4 +61,4 @@ export default {
 				);
 			});
 	},
-};
+} as CommandOptions;

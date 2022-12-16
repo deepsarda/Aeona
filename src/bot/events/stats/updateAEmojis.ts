@@ -1,8 +1,8 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Emoji, Guild } from 'discordeno/transformers';
 import Schema from '../../database/models/stats.js';
 
-export default async (client: AmethystBot, emoji: Emoji, guild: Guild) => {
+export default async (client: AeonaBot, emoji: Emoji, guild: Guild) => {
 	if (emoji.toggles.animated) {
 		try {
 			let Animated = 0;
@@ -18,7 +18,7 @@ export default async (client: AmethystBot, emoji: Emoji, guild: Guild) => {
 			channelName = channelName.replace(`{name}`, `Animated Emojis: ${Animated || '0'}`);
 
 			const data = await Schema.findOne({ Guild: guild.id });
-
+			if (!data || !data.AnimatedEmojis) return;
 			client.helpers.editChannel(data.AnimatedEmojis, {
 				name: channelName,
 			});

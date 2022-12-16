@@ -1,7 +1,8 @@
 import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'deleteticket',
 	description: 'Delete ticket',
@@ -9,12 +10,12 @@ export default {
 	category: 'tickets',
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const type = 'reply';
 
-		ticketSchema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+		ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 			if (data) {
 				const ticketCategory = await client.helpers.getChannel(data.Category);
 
@@ -28,7 +29,7 @@ export default {
 					);
 				}
 
-				if (ctx.channel.parentId == ticketCategory.id) {
+				if (ctx.channel!.parentId == ticketCategory.id) {
 					client.extras
 						.simpleEmbed(
 							{
@@ -39,17 +40,17 @@ export default {
 						)
 						.then((msg) =>
 							setTimeout(async () => {
-								await client.helpers.deleteChannel(ctx.channel.id);
+								await client.helpers.deleteChannel(ctx.channel!.id);
 								ticketChannels.findOne(
 									{
-										Guild: ctx.guildId,
-										channelID: ctx.channel.id,
+										Guild: ctx.guild!.id,
+										channelID: ctx.channel!.id,
 									},
 									async (err, data) => {
 										if (data) {
 											const remove = await ticketChannels.deleteOne({
-												Guild: ctx.guildId,
-												channelID: ctx.channel.id,
+												Guild: ctx.guild!.id,
+												channelID: ctx.channel!.id,
 											});
 										}
 									},
@@ -76,4 +77,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

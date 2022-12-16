@@ -1,6 +1,7 @@
 import Schema from '../../database/models/reactionRoles.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'add',
 	description: 'Create a reactionrole',
@@ -27,7 +28,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const category = ctx.options.getString('category', true);
 		const role = await ctx.options.getRole('role', true);
@@ -43,7 +44,7 @@ export default {
 				ctx,
 			);
 
-		Schema.findOne({ Guild: ctx.guildId, Category: category }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id, Category: category }, async (err, data) => {
 			console.log('hmmm;...');
 			console.log(role);
 			if (data) {
@@ -55,10 +56,10 @@ export default {
 					},
 				];
 
-				await Schema.findOneAndUpdate({ Guild: ctx.guildId, Category: category }, data);
+				await Schema.findOneAndUpdate({ Guild: ctx.guild!.id, Category: category }, data);
 			} else {
 				new Schema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Message: 0,
 					Category: category,
 					Roles: {
@@ -94,7 +95,7 @@ export default {
 			);
 		});
 	},
-};
+} as CommandOptions;
 function parseEmoji(text: string) {
 	if (text.includes('%')) text = decodeURIComponent(text);
 	if (!text.includes(':'))

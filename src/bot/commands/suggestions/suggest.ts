@@ -1,6 +1,7 @@
 import Schema from '../../database/models/suggestionChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'suggest',
 	description: 'Generate a chat message',
@@ -14,13 +15,13 @@ export default {
 			required: true,
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const suggestionQuery = await ctx.options.getString('suggestion', true);
 
-		const data = await Schema.findOne({ Guild: ctx.guildId });
+		const data = await Schema.findOne({ Guild: ctx.guild!.id });
 		if (data) {
-			const channel = await client.cache.channels.get(BigInt(data.Channel));
+			const channel = await client.cache.channels.get(BigInt(data.Channel!));
 
 			client.extras
 				.embed(
@@ -34,7 +35,7 @@ export default {
 							}),
 						},
 					},
-					channel,
+					channel!,
 				)
 				.then((msg) => {
 					client.extras.succNormal(
@@ -56,9 +57,9 @@ export default {
 						},
 						ctx,
 					);
-
-					msg.react('🔺');
-					msg.react('🔻');
+					const m = msg instanceof Context ? ctx.message! : msg;
+					client.helpers.addReaction(m.channelId, m.id, '🔺');
+					client.helpers.addReaction(m.channelId, m.id, '🔻');
 				})
 				.catch((e) => {
 					return client.extras.errNormal(
@@ -79,4 +80,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

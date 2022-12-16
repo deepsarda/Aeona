@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework/';
+import { AeonaBot } from '../../extras/index.js';
 import { Invite, Member } from 'discordeno/transformers';
-export default async (client: AmethystBot) => {
+export default async (client: AeonaBot) => {
 	const guildInvites = new Map();
 
-	client.on('inviteCreate', async (client: AmethystBot, invite: Invite) => {
+	client.on('inviteCreate', async (client: AeonaBot, invite: Invite) => {
 		try {
 			const invites = await client.helpers.getInvites(invite.guildId!);
 
@@ -44,7 +44,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('guildMemberAdd', async (bot: AmethystBot, member: Member) => {
+	client.on('guildMemberAdd', async (bot: AeonaBot, member: Member) => {
 		try {
 			const cachedInvites = guildInvites.get(member.guildId);
 			const newInvites = await client.helpers.getInvites(member.guildId);

@@ -1,6 +1,7 @@
 import Schema from '../../database/models/family.js';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'propose',
 	description: 'Propose to a user',
@@ -14,7 +15,7 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
@@ -105,7 +106,7 @@ export default {
 				.addButton('Yes', 'Success', 'propose_accept', { emoji: '✅' })
 				.addButton('No', 'Danger', 'propose_deny', { emoji: '❌' });
 
-			const message: Context = await client.extras.embed(
+			const message = await client.extras.embed(
 				{
 					title: `Marriage proposal`,
 					desc: `<@${author.id}> has <@${target.id}> asked to marry them! \n<@${target.id}> click on one of the buttons`,
@@ -120,9 +121,10 @@ export default {
 				console.log(i.user.id === target.id);
 				return i.user.id === target.id;
 			};
-			console.log(message);
+
 			client.amethystUtils
-				.awaitComponent(message.interaction ? message.interaction.message.id : message.message.id, {
+				//@ts-ignore
+				.awaitComponent(message.interaction ? message.interaction!.message!.id : message.message!.id, {
 					filter: filter,
 					type: 'Button',
 				})
@@ -193,4 +195,4 @@ export default {
 				});
 		}
 	},
-};
+} as CommandOptions;

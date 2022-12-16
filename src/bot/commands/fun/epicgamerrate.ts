@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'epicgamerrate',
 	description: 'See how much of a epic gamer are you',
@@ -12,7 +13,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const result = Math.ceil(Math.random() * 100);
 
@@ -25,4 +26,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

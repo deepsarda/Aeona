@@ -2,7 +2,8 @@ import Canvacord from 'canvacord';
 
 import Functions from '../../database/models/functions.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Blob } from 'buffer';
 
 export default {
@@ -18,15 +19,15 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await Functions.findOne({ Guild: ctx.guildId });
+		const data = await Functions.findOne({ Guild: ctx.guild!.id });
 
 		if (data && data.Levels == true) {
 			const target = (await ctx.options.getUser('user')) || ctx.user;
-			const user = await client.extras.fetchLevels(target.id + '', ctx.guildId);
-
-			const xpRequired = client.extras.xpFor(user.level + 1);
+			const user = await client.extras.fetchLevels(target.id, ctx.guild!.id);
+			if (!user) return;
+			const xpRequired = client.extras.xpFor(user.level! + 1);
 
 			const rankCard = new Canvacord.Rank()
 				.setAvatar(
@@ -36,8 +37,8 @@ export default {
 					}),
 				)
 				.setRequiredXP(xpRequired)
-				.setCurrentXP(user.xp)
-				.setLevel(user.level)
+				.setCurrentXP(user.xp!)
+				.setLevel(user.level!)
 				.setProgressBar(client.extras.config.colors.normal, 'COLOR')
 				.setUsername(target.username)
 				.setDiscriminator(target.discriminator)
@@ -66,4 +67,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

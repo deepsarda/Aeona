@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'unban',
 	description: 'Unban a user',
@@ -13,11 +14,11 @@ export default {
 		},
 	],
 	userGuildPermissions: ['BAN_MEMBERS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		client.helpers
-			.unbanMember(ctx.guild.id + '', ctx.options.getString('userid', true))
+			.unbanMember(ctx.guild!.id + '', ctx.options.getString('userid', true))
 			.then(function () {
 				client.extras.succNormal(
 					{
@@ -37,4 +38,4 @@ export default {
 				);
 			});
 	},
-};
+} as CommandOptions;

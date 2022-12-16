@@ -1,10 +1,10 @@
 import { DiscordReply } from '@derockdev/discord-components-react';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../../extras/index.js';
 import { ChannelTypes, Errors, Guild, Member, Message, Role } from 'discordeno';
 import React from 'react';
 import type { RenderMessageContext } from '..';
 import renderContent, { RenderType } from './content.js';
-export default async function renderReply(bot: AmethystBot, message: Message, context: RenderMessageContext) {
+export default async function renderReply(bot: AeonaBot, message: Message, context: RenderMessageContext) {
 	if (!message.messageReference) return null;
 	if (message.messageReference.guildId !== message.guildId) return null;
 
@@ -57,7 +57,7 @@ function rgbToHex(rgb: number) {
 	}
 	return '#' + hex;
 }
-export async function highestRole(bot: AmethystBot, guildOrId: bigint | Guild, memberOrId: bigint | Member) {
+export async function highestRole(bot: AeonaBot, guildOrId: bigint | Guild, memberOrId: bigint | Member) {
 	const guild = typeof guildOrId === 'bigint' ? await bot.cache.guilds.get(guildOrId) : guildOrId;
 	if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
 

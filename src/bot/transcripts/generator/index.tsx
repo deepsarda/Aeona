@@ -1,6 +1,6 @@
 import { DiscordHeader, DiscordMessages } from '@derockdev/discord-components-react';
 import { Async } from '@thereallonewolf/amethystframework';
-import { AmethystBot } from '@thereallonewolf/amethystframework/';
+import { AeonaBot } from '../../extras/index.js';
 import { Channel, ChannelTypes, Message, Role, User } from 'discordeno';
 import { readFileSync } from 'fs';
 import path from 'path';
@@ -37,7 +37,7 @@ export type RenderMessageContext = {
 };
 
 export default async function renderMessages(
-	bot: AmethystBot,
+	bot: AeonaBot,
 	{ messages, channel, callbacks, ...options }: RenderMessageContext,
 ) {
 	const profiles = await buildProfiles(bot, messages);

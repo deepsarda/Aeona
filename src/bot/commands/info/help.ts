@@ -1,12 +1,13 @@
-import { AmethystBot, Context, Components } from '@thereallonewolf/amethystframework';
+import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
 import { SelectOption } from 'discordeno';
+import { AeonaBot } from '../../extras';
 export default {
 	name: 'help',
 	description: 'See the commands',
 	commandType: ['application', 'message'],
 	category: 'info',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		let options: SelectOption[] = [];
 		const comp = new Components();
@@ -26,7 +27,7 @@ export default {
 			client.extras.embed(
 				{
 					title: `My Help menu!`,
-					desc: `Oh, Hi there. <:kanna_wave:805054424267096124> 
+					desc: `Oh, Hi there. <:kanna_wave:1053256324084928562> 
 Let me help you get your server going.	
 
 **Want to setup chatbot?**
@@ -50,4 +51,4 @@ Use the dropdown to see all my commands.
 			console.log(e);
 		}
 	},
-};
+} as CommandOptions;

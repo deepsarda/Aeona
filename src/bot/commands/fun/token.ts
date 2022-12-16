@@ -1,13 +1,14 @@
 import fetch from 'node-fetch';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'token',
 	description: 'Generate a bot token',
 	commandType: ['application', 'message'],
 	category: 'fun',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		fetch(`https://some-random-api.ml/bottoken`)
 			.then((res) => res.json())
@@ -24,4 +25,4 @@ export default {
 			})
 			.catch();
 	},
-};
+} as CommandOptions;

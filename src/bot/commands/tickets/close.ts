@@ -2,18 +2,20 @@ import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 import ticketMessageConfig from '../../database/models/ticketMessage.js';
 
-import { AmethystBot, Context, Components } from '@thereallonewolf/amethystframework';
+import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
+import { createTranscript } from '../../transcripts/index.js';
 export default {
 	name: 'close',
 	description: 'Close the ticket',
 	commandType: ['application', 'message'],
 	category: 'tickets',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await ticketSchema.findOne({ Guild: ctx.guildId });
+		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 		const ticketData = await ticketChannels.findOne({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 			channelID: ctx.channel.id,
 		});
 
@@ -30,8 +32,8 @@ export default {
 				);
 
 			if (data) {
-				const ticketCategory = await client.cache.channels.get(BigInt(data.Category));
-				const logsChannel = await client.cache.channels.get(BigInt(data.Logs));
+				const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
+				const logsChannel = await client.cache.channels.get(BigInt(data.Logs!));
 
 				if (ticketCategory == undefined) {
 					return client.extras.errNormal(
@@ -46,7 +48,7 @@ export default {
 					permissionOverwrites: [
 						{
 							type: 1,
-							id: BigInt(ticketData.creator),
+							id: BigInt(ticketData.creator!),
 							allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'],
 						},
 					],
@@ -56,10 +58,10 @@ export default {
 					let closeMessageTicket =
 						'Here is the transcript for your ticket, please keep this if you ever want to refer to it!';
 					const ticketMessageData = await ticketMessageConfig.findOne({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 					});
 					if (ticketMessageData) {
-						closeMessageTicket = ticketMessageData.dmMessage;
+						closeMessageTicket = ticketMessageData.dmMessage!;
 					}
 
 					client.extras.embed(
@@ -83,9 +85,13 @@ export default {
 								},
 							],
 						},
-						{ id: BigInt(ticketData.creator) },
+						{ id: BigInt(ticketData.creator!) },
 					);
-					client.extras.transcript(client, { id: BigInt(ticketData.creator) }).catch();
+					client.extras.transcript(client, ctx.channel!).catch();
+					const file = await createTranscript(client, ctx.channel!);
+					client.helpers.sendMessage(BigInt(ticketData.creator!), {
+						file: [file],
+					});
 				} catch (err) {
 					//Fix lint error
 				}
@@ -165,4 +171,4 @@ export default {
 			}
 		}
 	},
-};
+} as CommandOptions;

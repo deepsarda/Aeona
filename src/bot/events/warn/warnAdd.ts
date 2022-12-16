@@ -1,6 +1,6 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 
-export default async (client: AmethystBot, user, mod) => {
+export default async (client: AeonaBot, user, mod) => {
 	const logsChannel = await client.extras.getLogs(user.guild.id);
 	if (!logsChannel) return;
 

@@ -1,6 +1,7 @@
 import Schema from '../../database/models/verify.js';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'setverify',
 	description: 'Configure the verification system',
@@ -27,7 +28,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const boolean = ctx.options.getBoolean('enable', true);
@@ -35,14 +36,14 @@ export default {
 		const role = await ctx.options.getRole('role', true);
 		if (!channel) return;
 		if (boolean == true) {
-			const data = await Schema.findOne({ Guild: ctx.guildId });
+			const data = await Schema.findOne({ Guild: ctx.guild!.id });
 			if (data) {
 				data.Channel = channel.id + '';
 				data.Role = role.id + '';
 				data.save();
 			} else {
 				new Schema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Channel: channel.id + '',
 					Role: role.id + '',
 				}).save();
@@ -82,4 +83,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

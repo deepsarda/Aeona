@@ -1,4 +1,4 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { BigString, Member, User } from 'discordeno';
 import invitedBy from '../../database/models/inviteBy.js';
 import messages from '../../database/models/inviteMessages.js';
@@ -6,7 +6,7 @@ import rewards from '../../database/models/inviteRewards.js';
 import invites from '../../database/models/invites.js';
 import welcomeSchema from '../../database/models/welcomeChannels.js';
 
-export default async (client: AmethystBot, member: Member, invite: User | null, inviter: User | null) => {
+export default async (client: AeonaBot, member: Member, invite: User | null, inviter: User | null) => {
 	const messageData = await messages.findOne({ Guild: member.guildId });
 	client.events;
 	if (!invite || !inviter) {
@@ -15,10 +15,12 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			if (!guild) return;
 
 			let joinMessage = messageData.inviteJoin;
-			joinMessage = joinMessage.replace(`{user:username}`, member.user?.username);
-			joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
+			if (!joinMessage) return;
+			const u = await client.helpers.getUser(member.id);
+			joinMessage = joinMessage.replace(`{user:username}`, u.username);
+			joinMessage = joinMessage.replace(`{user:discriminator}`, u.discriminator);
 
-			joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
+			joinMessage = joinMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
 			joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 			joinMessage = joinMessage.replace(`{inviter:username}`, 'System');
@@ -50,14 +52,12 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 				if (channelData) {
 					const channel = await client.helpers.getChannel(channelData.Channel);
-
+					const u = await client.helpers.getUser(member.id);
 					client.extras
 						.embed(
 							{
 								title: `👋 Welcome`,
-								desc: `I cannot trace how **<@${member.id}> | ${
-									member.user?.username + '#' + member.user?.discriminator
-								}** has been joined`,
+								desc: `I cannot trace how **<@${member.id}> | ${u.username + '#' + u.discriminator}** has been joined`,
 							},
 							channel,
 						)
@@ -72,6 +72,8 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 		});
 
 		if (data) {
+			if (!data.Invites) data.Invites = 0;
+			if (!data.Total) data.Total = 0;
 			data.Invites += 1;
 			data.Total += 1;
 			data.save();
@@ -79,10 +81,11 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			if (messageData) {
 				let joinMessage = messageData.inviteJoin;
 				const guild = await client.cache.guilds.get(member.guildId);
-				if (!guild) return;
-				joinMessage = joinMessage.replace(`{user:username}`, member.user?.username);
-				joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
-				joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
+				const u = await client.helpers.getUser(member.id);
+				if (!guild || !joinMessage) return;
+				joinMessage = joinMessage.replace(`{user:username}`, u.username);
+				joinMessage = joinMessage.replace(`{user:discriminator}`, u.discriminator);
+				joinMessage = joinMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
 				joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 				joinMessage = joinMessage.replace(`{inviter:username}`, inviter.username);
@@ -112,14 +115,15 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 				});
 			} else {
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
+					const u = await client.helpers.getUser(member.id);
 					if (channelData) {
 						const channel = await client.helpers.getChannel(channelData.Channel);
 						client.extras.embed(
 							{
 								title: `👋 Welcome`,
-								desc: `**<@${member.id}> | ${
-									member.user?.username + '#' + member.user?.discriminator
-								}** was invited by ${inviter.username + '#' + inviter.discriminator} **(${data.Invites} invites)**`,
+								desc: `**<@${member.id}> | ${u.username + '#' + u.discriminator}** was invited by ${
+									inviter.username + '#' + inviter.discriminator
+								} **(${data.Invites} invites)**`,
 							},
 							channel,
 						);
@@ -142,12 +146,14 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			}).save();
 
 			if (messageData) {
+				const u = await client.helpers.getUser(member.id);
 				let joinMessage = messageData.inviteJoin;
-				joinMessage = joinMessage.replace(`{user:username}`, member.user?.username);
-				joinMessage = joinMessage.replace(`{user:discriminator}`, member.user?.discriminator);
+				if (!joinMessage) return;
+				joinMessage = joinMessage.replace(`{user:username}`, u.username!);
+				joinMessage = joinMessage.replace(`{user:discriminator}`, u.discriminator!);
 				const guild = await client.cache.guilds.get(member.guildId);
 				if (!guild) return;
-				joinMessage = joinMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
+				joinMessage = joinMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
 				joinMessage = joinMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 				joinMessage = joinMessage.replace(`{inviter:username}`, inviter.username);
@@ -178,15 +184,16 @@ export default async (client: AmethystBot, member: Member, invite: User | null, 
 			} else {
 				welcomeSchema.findOne({ Guild: member.guildId }, async (err: any, channelData: { Channel: any }) => {
 					if (channelData) {
+						const u = await client.helpers.getUser(member.id);
 						const channel = await client.helpers.getChannel(channelData.Channel);
 
 						await client.extras
 							.embed(
 								{
 									title: `👋 Welcome`,
-									desc: `**<@${member.id}> | ${
-										member.user?.username + '#' + member.user?.discriminator
-									}** was invited by ${inviter.username + '#' + inviter.discriminator} **(1 invites)**`,
+									desc: `**<@${member.id}> | ${u.username + '#' + u.discriminator}** was invited by ${
+										inviter.username + '#' + inviter.discriminator
+									} **(1 invites)**`,
 								},
 								channel,
 							)

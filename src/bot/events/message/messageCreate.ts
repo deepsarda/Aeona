@@ -1,7 +1,8 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework/*';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno/';
 import bumpreminder from '../../database/models/bumpreminder.js';
-export default async (client: AmethystBot, message: Message) => {
+export default async (client: AeonaBot, message: Message) => {
+	client.extras.messageCount++;
 	if (!message.isFromBot) return;
 
 	if (

@@ -1,13 +1,14 @@
 import Schema from '../../database/models/family.js';
 
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'deletefamily',
 	description: 'Delete your family',
 	commandType: ['application', 'message'],
 	category: 'marriage',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const row = new Components()
 			.addButton('Yes', 'Success', 'family_delete', { emoji: '✅' })
@@ -55,11 +56,11 @@ export default {
 					client.extras.succNormal({ text: `Your family has been deleted!`, type: 'edit' }, ctx);
 				}
 				if (!ctx.channel?.id) return;
-				client.helpers.deleteMessage(ctx.channel?.id + '', message.id);
+				client.helpers.deleteMessage(ctx.channel?.id + '', message.id + '');
 			})
 			.catch((err) => {
 				console.log(err);
 				client.extras.errNormal({ error: "Time's up! Cancelled backup loading!", type: 'edit' }, ctx);
 			});
 	},
-};
+} as CommandOptions;

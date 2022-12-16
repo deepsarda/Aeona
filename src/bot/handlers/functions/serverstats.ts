@@ -1,33 +1,17 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Channel, Guild, Member, Role, User } from 'discordeno';
-import Schema from '../../database/models/stats.js';
-
-export default async (client: AmethystBot) => {
-	client.extras.getTemplate = async (guild: bigint) => {
-		try {
-			const data = await Schema.findOne({ Guild: guild });
-
-			if (data && data.ChannelTemplate) {
-				return data.ChannelTemplate;
-			} else {
-				return `{emoji} {name}`;
-			}
-		} catch {
-			return `{emoji} {name}`;
-		}
-	};
-
-	client.on('guildMemberAdd', async (client: AmethystBot, member: Member) => {
+export default async (client: AeonaBot) => {
+	client.on('guildMemberAdd', async (client: AeonaBot, member: Member) => {
 		if (!member.guildId) return;
 		client.emit('updateMembers', client, await client.helpers.getGuild(member.guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(member.guildId));
 	});
-	client.on('memberDelete', async (client: AmethystBot, user: User, guildId: bigint) => {
+	client.on('memberDelete', async (client: AeonaBot, user: User, guildId: bigint) => {
 		client.emit('updateMembers', client, await client.helpers.getGuild(guildId));
 		client.emit('updateBots', client, await client.helpers.getGuild(guildId));
 	});
 
-	client.on('channelCreate', async (client: AmethystBot, channel: Channel) => {
+	client.on('channelCreate', async (client: AeonaBot, channel: Channel) => {
 		if (!channel.guildId) return;
 		client.emit('updateChannels', channel, client, await client.helpers.getGuild(channel.guildId));
 		client.emit('updateNewsChannels', client, channel, await client.helpers.getGuild(channel.guildId));
@@ -36,7 +20,7 @@ export default async (client: AmethystBot) => {
 		client.emit('updateVoiceChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 	});
 
-	client.on('channelDelete', async (client: AmethystBot, channel: Channel) => {
+	client.on('channelDelete', async (client: AeonaBot, channel: Channel) => {
 		if (!channel.guildId) return;
 		client.emit('updateChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 		client.emit('updateNewsChannels', client, channel, await client.helpers.getGuild(channel.guildId));
@@ -45,11 +29,11 @@ export default async (client: AmethystBot) => {
 		client.emit('updateVoiceChannels', client, channel, await client.helpers.getGuild(channel.guildId));
 	});
 
-	client.on('roleCreate', async (client: AmethystBot, role: Role) =>
+	client.on('roleCreate', async (client: AeonaBot, role: Role) =>
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 
-	client.on('roleDeleteWithOldRole', async (client: AmethystBot, role: Role) =>
+	client.on('roleDeleteWithOldRole', async (client: AeonaBot, role: Role) =>
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 

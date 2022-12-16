@@ -1,7 +1,8 @@
 import thanksSchema from '../../database/models/thanks.js';
 import thanksAuthor from '../../database/models/thanksAuthor.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'thank',
 	description: 'Thank a user.',
@@ -16,7 +17,7 @@ export default {
 		},
 	],
 	aliases: ['thank'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const target = await ctx.options.getUser('user');
 		if (!target) return client.extras.errUsage({ usage: 'thanks [mention user]', type: 'editreply' }, ctx);
@@ -57,9 +58,9 @@ export default {
 
 				new thanksAuthor({
 					User: target.id + '',
-					Author: ctx.user.id + '',
+					Author: ctx.user?.id + '',
 				}).save();
 			}
 		});
 	},
-};
+} as CommandOptions;

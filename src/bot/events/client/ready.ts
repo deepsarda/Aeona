@@ -1,13 +1,13 @@
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ActivityTypes } from 'discordeno/types';
 import { cpus } from 'os';
 import { SlashCommandBuilder } from '@discordjs/builders';
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
-let ready = false;
-export default async (client: AmethystBot) => {
-	if (!ready) {
+
+export default async (client: AeonaBot) => {
+	if (!client.extras.ready) {
 		client.user = await client.helpers.getUser(client.applicationId);
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
@@ -16,6 +16,7 @@ export default async (client: AmethystBot) => {
 		const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 		const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 		client.extras.messageCount = 0;
+		if (!Influx) return;
 
 		try {
 			const point = new Point('per_core_cpu_load').tag('action', 'sync');
@@ -46,10 +47,9 @@ export default async (client: AmethystBot) => {
 			client.helpers.editBotStatus({
 				activities: [
 					{
-						type: ActivityTypes.Streaming,
-						name: `${bot.prefix}help `,
+						type: ActivityTypes.Custom,
+						name: `<:Aeona:1050342178217529364> Using ${bot.prefix}help.`,
 						createdAt: new Date().getTime(),
-						url: process.env.WEBSITE,
 					},
 				],
 				status: 'idle',
@@ -62,10 +62,9 @@ export default async (client: AmethystBot) => {
 				client.helpers.editBotStatus({
 					activities: [
 						{
-							type: ActivityTypes.Streaming,
-							name: `${bot.prefix}help in `,
+							type: ActivityTypes.Custom,
+							name: `<:Aeona:1050342178217529364> Using ${bot.prefix}help.`,
 							createdAt: new Date().getTime(),
-							url: process.env.WEBSITE,
 						},
 					],
 					status: 'idle',
@@ -180,6 +179,7 @@ export default async (client: AmethystBot) => {
 			const reminders = await bumpreminder.find();
 			for (const reminder of reminders) {
 				try {
+					if (!reminder.LastBump || !reminder.Channel) return;
 					if (Date.now() > reminder.LastBump + 7200000) {
 						reminder.LastBump = Date.now();
 						reminder.save();
@@ -200,13 +200,13 @@ export default async (client: AmethystBot) => {
 				}
 			}
 		}, 1000 * 60 * 10);
-		ready = true;
+		client.extras.ready = true;
 	}
 };
 
-async function verifySlashCommands(client: AmethystBot) {
+async function verifySlashCommands(client: AeonaBot) {
 	try {
-		const commands = [];
+		const commands: any[] = [];
 		client.category.forEach((category) => {
 			const commandBuilder = new SlashCommandBuilder().setName(category.name).setDescription(category.description);
 			category.commands.forEach((command) => {
@@ -215,63 +215,63 @@ async function verifySlashCommands(client: AmethystBot) {
 					for (const option of command.args) {
 						if (option.type == 'String')
 							subcommand.addStringOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Number')
 							subcommand.addNumberOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Integer')
 							subcommand.addIntegerOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Channel')
 							subcommand.addChannelOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Boolean')
 							subcommand.addBooleanOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'User')
 							subcommand.addUserOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Role')
 							subcommand.addRoleOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Mentionable')
 							subcommand.addMentionableOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;
 							});
 						else if (option.type == 'Attachment')
 							subcommand.addAttachmentOption((op) => {
-								op.setName(option.name).setDescription(option.description);
+								op.setName(option.name).setDescription(option.description ?? '');
 								if (option.required) op.setRequired(true);
 								else op.setRequired(false);
 								return op;

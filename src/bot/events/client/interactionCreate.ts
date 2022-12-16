@@ -1,4 +1,4 @@
-import { AmethystBot, AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, createContext, createOptionResults, Context } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
@@ -10,7 +10,7 @@ import {
 	MessageComponents,
 	WithReason,
 } from 'discordeno/types';
-
+import { AeonaBot } from '../../extras/index.js';
 import Captcha from '@haileybot/captcha-generator';
 import reactionSchema from '../../database/models/reactionRoles.js';
 import verify from '../../database/models/verify.js';
@@ -34,7 +34,7 @@ function dataURItoBlob(dataURI) {
 	//@ts-ignore
 	return new Blob([ab], { type: 'image/jpeg' });
 }
-export default async (client: AmethystBot, interaction: Interaction) => {
+export default async (client: AeonaBot, interaction: Interaction) => {
 	// Commands
 	// Verify system
 	if (interaction.type == InteractionTypes.MessageComponent && interaction.data?.customId == 'verify') {
@@ -54,15 +54,16 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 						client.helpers.deleteMessage(interaction.channelId!, msg.id!);
 
 						client.extras
-							.succNormal(
+							.embed(
 								{
-									text: 'You have been successfully verified!',
+									title: 'You have been successfully verified!',
+									type: '',
 								},
-								response.member,
+								interaction.user,
 							)
 							.catch((error) => console.error(error));
 
-						client.helpers.addRole(msg.guildId, response.authorId, data.Role).catch((error) => console.error(error));
+						client.helpers.addRole(msg.guildId!, response.authorId, data?.Role!).catch((error) => console.error(error));
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 						client.helpers.deleteMessage(interaction.channelId!, msg.id);
@@ -74,19 +75,22 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 									type: 'reply',
 								},
 								{
-									id: interaction.channelId,
+									id: interaction.channelId!,
 								},
 							)
-							.then((msgError: Message) => {
+							.then((msgError) => {
 								setTimeout(() => {
-									client.helpers.deleteMessage(interaction.channelId!, msgError.id);
+									client.helpers.deleteMessage(
+										interaction.channelId!,
+										msgError instanceof Context ? msgError.message!.id : msg.id,
+									);
 								}, 20000);
 							});
 					}
 				});
 			}
 			client.helpers
-				.sendMessage(interaction.channelId, {
+				.sendMessage(interaction.channelId!, {
 					file: [
 						{
 							blob: dataURItoBlob(captcha.dataURL),
@@ -119,7 +123,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					const [roleid] = data.Roles[buttonID[1]];
 
 					if (interaction.member?.roles.includes(roleid)) {
-						await client.helpers.removeRole(interaction.guildId, interaction.user?.id!, roleid);
+						await client.helpers.removeRole(interaction.guildId!, interaction.user?.id!, roleid);
 						await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
 							type: 4,
 							data: { content: `<@&${roleid}> was removed!`, flags: 1 << 6 },
@@ -166,25 +170,23 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					}
 				},
 			);
-		} else if (interaction.data?.customId.startsWith('help_select')) {
-			const c = client.category.get(interaction.data?.values[0]);
+		} else if (interaction.data?.customId?.startsWith('help_select')) {
+			const c = client.category.get(interaction.data?.values![0]);
+			if (!c) return;
 			const fields: Field[] = [];
 			if (c.uniqueCommands) {
-				fields.push({
-					name: '➯ ' + c.description,
-					value: c.commands.map((c) => `\`${process.env.PREFIX!}${c.name}\``).join(' '),
+				c.commands.forEach((command) => {
+					fields.push({
+						name: '➯ ' + command.description,
+						value: `\`${process.env.PREFIX!}${command.name}\``,
+					});
 				});
 			} else {
-				let value = `\`${process.env.PREFIX!}${c.name} <`;
 				c.commands.forEach((command) => {
-					if (value.endsWith('<')) value += `${command.name}`;
-					else value += `/${command.name}`;
-				});
-				value += '>`';
-
-				fields.push({
-					name: '➯ ' + c.description,
-					value: value,
+					fields.push({
+						name: '➯ ' + command.description,
+						value: `\`${process.env.PREFIX!}${c.name} ${command.name}\``,
+					});
 				});
 			}
 			const embed = new AmethystEmbed()
@@ -200,24 +202,24 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					flags: 1 << 6,
 				},
 			});
-		} else if (interaction.data?.customId.startsWith('share-imagine')) {
+		} else if (interaction.data?.customId?.startsWith('share-imagine')) {
 			if (
-				interaction.data?.values[0] == 'share-discord' &&
-				interaction.data?.customId.split('_')[1] == interaction.user.id + ''
+				interaction.data?.values![0] == 'share-discord' &&
+				interaction.data?.customId?.split('_')[1] == interaction.user.id + ''
 			) {
 				const channel = await createForumThread(client, '1045332279943233667', {
 					name:
-						interaction.message.content.split('\n')[0].split(':**')[1] +
+						interaction.message?.content.split('\n')[0].split(':**')[1] +
 						' by ' +
 						interaction.user.username +
 						'(' +
-						interaction.member.id +
+						interaction.member?.id +
 						')',
 					autoArchiveDuration: 60,
-					content: interaction.message.attachments[0].proxyUrl,
+					content: interaction.message?.attachments[0].proxyUrl,
 				});
 				client.helpers.sendMessage(channel.id, {
-					content: interaction.message.content,
+					content: interaction.message?.content,
 				});
 				await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
 					type: 4,
@@ -228,7 +230,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 					},
 				});
 
-				await client.helpers.editMessage(interaction.channelId, interaction.message.id, {
+				await client.helpers.editMessage(interaction.channelId!, interaction.message?.id!, {
 					components: [],
 				});
 			}
@@ -250,7 +252,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			client,
 		);
 
-		openticket.execute(client, ctx);
+		openticket.execute!(client, ctx);
 	}
 
 	if (interaction.data?.customId == 'closeticket') {
@@ -267,7 +269,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			client,
 		);
 
-		close.execute(client, ctx);
+		close.execute!(client, ctx);
 	}
 
 	if (interaction.data?.customId == 'claimTicket') {
@@ -283,7 +285,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			}),
 			client,
 		);
-		claim.execute(client, ctx);
+		claim.execute!(client, ctx);
 	}
 
 	if (interaction.data?.customId == 'transcriptTicket') {
@@ -300,7 +302,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			client,
 		);
 
-		transcript.execute(client, ctx);
+		transcript.execute!(client, ctx);
 	}
 
 	if (interaction.data?.customId == 'deleteTicket') {
@@ -316,7 +318,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			}),
 			client,
 		);
-		deleteTicket.execute(client, ctx);
+		deleteTicket.execute!(client, ctx);
 	}
 
 	if (interaction.data?.customId == 'noticeTicket') {
@@ -332,7 +334,7 @@ export default async (client: AmethystBot, interaction: Interaction) => {
 			}),
 			client,
 		);
-		notice.execute(client, ctx);
+		notice.execute!(client, ctx);
 	}
 };
 type Field = {
@@ -341,7 +343,7 @@ type Field = {
 	inline?: boolean;
 };
 export async function createForumThread(
-	bot: AmethystBot,
+	bot: AeonaBot,
 	channelId: BigString,
 	options: CreateForumPostWithMessage,
 ): Promise<Channel> {

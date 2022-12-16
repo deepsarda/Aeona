@@ -1,7 +1,7 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import Schema from '../../database/models/tempban.js';
 
-export default (client: AmethystBot) => {
+export default (client: AeonaBot) => {
 	const checkForExpired = async () => {
 		const now = new Date();
 

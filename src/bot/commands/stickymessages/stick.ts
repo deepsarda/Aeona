@@ -1,6 +1,7 @@
 import Schema from '../../database/models/stickymessages.js';
 
-import { AmethystBot, AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'stick',
 	description: 'Stick a message to be the last message in the channel',
@@ -21,14 +22,14 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const channel = await ctx.options.getChannel('channel', true);
 		const content = await ctx.options.getLongString('message', true);
 
 		const embed = new AmethystEmbed().setDescription(`${content}`).setColor(client.extras.config.colors.normal);
 		client.helpers.sendMessage(channel.id, { embeds: [embed] }).then((msg) => {
-			Schema.findOne({ Guild: ctx.guildId, Channel: channel.id }, async (err, data) => {
+			Schema.findOne({ Guild: ctx.guild!.id, Channel: channel.id }, async (err, data) => {
 				if (data) {
 					data.Channel = channel.id;
 					data.Content = content;
@@ -36,7 +37,7 @@ export default {
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						Channel: channel.id,
 						LastMessage: msg.id,
 						Content: content,
@@ -59,4 +60,4 @@ export default {
 			);
 		});
 	},
-};
+} as CommandOptions;

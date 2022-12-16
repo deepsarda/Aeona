@@ -1,6 +1,7 @@
 import inviteMessages from '../../database/models/inviteMessages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'welcomemessage',
 	description: 'Send a welcome message ',
@@ -15,7 +16,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const message = ctx.options.getLongString('message');
@@ -46,7 +47,7 @@ export default {
 		}
 
 		if (message.toUpperCase() == 'DEFAULT') {
-			inviteMessages.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			inviteMessages.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.inviteJoin = null;
 					data.save();
@@ -61,13 +62,13 @@ export default {
 				}
 			});
 		} else {
-			inviteMessages.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			inviteMessages.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.inviteJoin = message;
 					data.save();
 				} else {
 					new inviteMessages({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						inviteJoin: message,
 					}).save();
 				}
@@ -89,4 +90,4 @@ export default {
 			});
 		}
 	},
-};
+} as CommandOptions;

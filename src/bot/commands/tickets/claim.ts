@@ -1,7 +1,8 @@
 import ticketSchema from '../../database/models/tickets.js';
 import ticketChannels from '../../database/models/ticketChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'claim',
 	description: 'Generate a chat message',
@@ -9,11 +10,11 @@ export default {
 	category: 'tickets',
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await ticketSchema.findOne({ Guild: ctx.guildId });
+		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 		const ticketData = await ticketChannels.findOne({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 			channelID: ctx.channel.id,
 		});
 
@@ -23,7 +24,7 @@ export default {
 			if (ctx.user.id + '' !== ticketData.creator) {
 				if (data) {
 					if (ticketData.claimed == '' || ticketData.claimed == undefined || ticketData.claimed == 'None') {
-						const ticketCategory = await client.cache.channels.get(BigInt(data.Category));
+						const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
 
 						if (ticketCategory == undefined) {
 							return client.extras.errNormal(
@@ -84,4 +85,4 @@ export default {
 			}
 		}
 	},
-};
+} as CommandOptions;

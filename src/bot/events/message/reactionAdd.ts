@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Emoji, Member, User } from 'discordeno';
 import StarBoard from '../../database/models/starboardChannels.js';
 
 export default async (
-	client: AmethystBot,
+	client: AeonaBot,
 	payload: {
 		userId: bigint;
 		channelId: bigint;
@@ -18,7 +18,7 @@ export default async (
 		const data = await StarBoard.findOne({ Guild: payload.guildId });
 		if (!data) return;
 
-		const starboardChannel = await client.helpers.getChannel(data.Channel).catch();
+		const starboardChannel = await client.helpers.getChannel(data.Channel!).catch();
 		if (!starboardChannel) return;
 
 		const fetch = await client.helpers.getMessages(starboardChannel.id + '', {

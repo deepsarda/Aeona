@@ -1,10 +1,11 @@
 import { DiscordReaction, DiscordReactions, DiscordSystemMessage } from '@derockdev/discord-components-react';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+
 import { Errors, Guild, Member, Message, MessageTypes, Role, User } from 'discordeno';
 
 import React from 'react';
+import { AeonaBot } from '../../../extras/index.js';
 import { parseDiscordEmoji } from '../../utils/utils.js';
-export default async function renderSystemMessage(bot: AmethystBot, message: Message) {
+export default async function renderSystemMessage(bot: AeonaBot, message: Message) {
 	switch (message.type) {
 		case MessageTypes.RecipientAdd:
 		case MessageTypes.UserJoin:
@@ -124,7 +125,7 @@ const allJoinMessages = [
 	"Hello. Is it {user} you're looking for?",
 ];
 
-export async function JoinMessage(bot: AmethystBot, member: Member | undefined, fallbackUser: User): Promise<string> {
+export async function JoinMessage(bot: AeonaBot, member: Member | undefined, fallbackUser: User): Promise<string> {
 	const randomMessage = allJoinMessages[Math.floor(Math.random() * allJoinMessages.length)]!;
 
 	randomMessage.replace(
@@ -146,7 +147,7 @@ function rgbToHex(rgb: number) {
 	}
 	return '#' + hex;
 }
-export async function highestRole(bot: AmethystBot, guildOrId: bigint | Guild, memberOrId: bigint | Member) {
+export async function highestRole(bot: AeonaBot, guildOrId: bigint | Guild, memberOrId: bigint | Member) {
 	const guild = typeof guildOrId === 'bigint' ? await bot.cache.guilds.get(guildOrId) : guildOrId;
 	if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
 

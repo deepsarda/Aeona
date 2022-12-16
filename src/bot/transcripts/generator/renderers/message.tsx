@@ -7,7 +7,7 @@ import {
 	DiscordThread,
 	DiscordThreadMessage,
 } from '@derockdev/discord-components-react';
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../../extras/index.js';
 import { Message, MessageTypes } from 'discordeno';
 import React from 'react';
 import type { RenderMessageContext } from '..';
@@ -19,7 +19,7 @@ import { renderEmbed } from './embed.js';
 import renderReply from './reply.js';
 import renderSystemMessage from './systemMessage.js';
 
-export default async function renderMessage(bot: AmethystBot, message: Message, context: RenderMessageContext) {
+export default async function renderMessage(bot: AeonaBot, message: Message, context: RenderMessageContext) {
 	if (
 		message.type == MessageTypes.ChannelFollowAdd ||
 		message.type == MessageTypes.Call ||

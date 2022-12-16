@@ -1,10 +1,10 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message, MessageTypes } from 'discordeno';
 import count from '../../database/models/count.js';
 import countSchema from '../../database/models/countChannel.js';
 
-export default async (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
 		if (!message.guildId) return;
 		if (!message.content || message.type == MessageTypes.ChannelPinnedMessage) return;
 		const data = await countSchema.findOne({
@@ -67,7 +67,7 @@ export default async (client: AmethystBot) => {
 		}
 	});
 
-	client.on('messageDeleteWithOldMessage', async (bot: AmethystBot, message: Message) => {
+	client.on('messageDeleteWithOldMessage', async (bot: AeonaBot, message: Message) => {
 		try {
 			const data = await countSchema.findOne({
 				Guild: message.guildId,
@@ -80,6 +80,7 @@ export default async (client: AmethystBot) => {
 				if (Number(message.content) == lastCount) {
 					client.extras.simpleMessageEmbed(
 						{
+							title: ``,
 							desc: `**${
 								(await bot.helpers.getUser(message.authorId))?.username +
 								'#' +

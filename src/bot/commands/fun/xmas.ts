@@ -1,11 +1,12 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'xmas',
 	description: 'See time to xmas',
 	commandType: ['application', 'message'],
 	category: 'fun',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const today = new Date();
 		const xmas = new Date(today.getFullYear(), 11, 24);
@@ -25,6 +26,6 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;
 
 // :copyright: Dotwood Media | All rights reserved

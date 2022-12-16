@@ -1,6 +1,7 @@
 import bumpreminder from '../../database/models/bumpreminder.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'message',
 	description: 'Set the bump message',
@@ -15,14 +16,14 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const message = ctx.options.getLongString('message', true);
 		if (!message) return;
 
 		if (message.toUpperCase() == 'default') {
-			bumpreminder.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			bumpreminder.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (data) {
 					data.Message = null;
 					data.save();
@@ -37,7 +38,7 @@ export default {
 				}
 			});
 		} else {
-			bumpreminder.findOne({ Guild: ctx.guildId }, async (err, data) => {
+			bumpreminder.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 				if (!ctx.guild) return;
 				if (data) {
 					data.Message = message;
@@ -69,4 +70,4 @@ export default {
 			});
 		}
 	},
-};
+} as CommandOptions;

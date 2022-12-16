@@ -1,6 +1,7 @@
 import Schema from '../../database/models/invites.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'show',
 	description: 'Show details of a user',
@@ -14,12 +15,12 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const user = (await ctx.options.getUser('user')) || ctx.user;
 
 		Schema.findOne(
-			{ Guild: ctx.guildId, User: user.id },
+			{ Guild: ctx.guild!.id, User: user.id },
 			async (err: any, data: { Invites: any; Total: any; Left: any }) => {
 				if (data) {
 					client.extras.embed(
@@ -67,4 +68,4 @@ export default {
 			},
 		);
 	},
-};
+} as CommandOptions;

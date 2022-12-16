@@ -1,6 +1,7 @@
 import Schema from '../../database/models/levelRewards.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'deletereward',
 	description: 'Delete a level reward',
@@ -15,14 +16,14 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const level = ctx.options.getNumber('level', true);
 
-		Schema.findOne({ Guild: ctx.guildId, Level: level }, async (err: any, data: any) => {
+		Schema.findOne({ Guild: ctx.guild!.id, Level: level }, async (err: any, data: any) => {
 			if (data) {
 				Schema.findOneAndDelete({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Level: level,
 				}).then(() => {
 					client.extras.succNormal(
@@ -51,4 +52,4 @@ export default {
 			}
 		});
 	},
-};
+} as CommandOptions;

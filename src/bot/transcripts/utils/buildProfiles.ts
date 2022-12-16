@@ -1,7 +1,8 @@
-import { AmethystBot, AmethystCollection } from '@thereallonewolf/amethystframework';
+import { AmethystCollection } from '@thereallonewolf/amethystframework';
 import { BigString, Member, Message, User } from 'discordeno';
 import { BotWithCache } from 'discordeno/cache-plugin';
 import { highestRole } from 'discordeno/permissions-plugin';
+import { AeonaBot } from '../../extras';
 export type Profile = {
 	author: string; // author of the message
 	avatar?: string; // avatar of the author
@@ -13,7 +14,7 @@ export type Profile = {
 	verified?: boolean; // is the author verified
 };
 
-export async function buildProfiles(bot: AmethystBot, messages: Message[]) {
+export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
 	const profiles = new AmethystCollection<BigString, CustomUser>();
 
 	// loop through messages
@@ -27,7 +28,6 @@ export async function buildProfiles(bot: AmethystBot, messages: Message[]) {
 
 		// add interaction users
 		if (message.interaction) {
-			const user = message.interaction.user;
 			if (!profiles.has(author.id)) {
 				profiles.set(author.id + '', await buildProfile(bot, null, author));
 			}
@@ -44,7 +44,7 @@ export async function buildProfiles(bot: AmethystBot, messages: Message[]) {
 	return JSON.stringify(profiles);
 }
 
-async function buildProfile(bot: AmethystBot, member: Member | null, author: User): Promise<CustomUser> {
+async function buildProfile(bot: AeonaBot, member: Member | null, author: User): Promise<CustomUser> {
 	const u: CustomUser = {
 		author: member?.nick ?? author.username,
 		avatar: bot.helpers.getAvatarURL(author.id + '', author.discriminator, {

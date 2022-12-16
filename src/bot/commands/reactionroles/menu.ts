@@ -1,6 +1,7 @@
 import Schema from '../../database/models/reactionRoles.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework/*';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Components } from '@thereallonewolf/amethystframework';
 export default {
 	name: 'menu',
@@ -22,7 +23,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const category = ctx.options.getString('category', true);
 		const channel = (await ctx.options.getChannel('channel')) || ctx.channel;
@@ -30,7 +31,7 @@ export default {
 		const lower = category.toLowerCase();
 		const upper = lower.charAt(0).toUpperCase() + lower.substring(1);
 
-		Schema.findOne({ Guild: ctx.guildId, Category: category }, async (err, data) => {
+		Schema.findOne({ Guild: ctx.guild!.id, Category: category }, async (err, data) => {
 			if (!data)
 				return client.extras.errNormal(
 					{
@@ -41,13 +42,14 @@ export default {
 				);
 
 			const a = Object.keys(data.Roles);
-			const roles = await client.helpers.getRoles(ctx.guildId);
-			const map = [];
-			const labels = [];
+			const roles = await client.helpers.getRoles(ctx.guild!.id);
+			const map: string[] = [];
+			const labels: any[] = [];
 			for (let i = 0; i < a.length; i++) {
 				const b = a[i];
-				try {
-					const role = roles.get(BigInt(data.Roles[b][0]));
+
+				const role = roles.get(BigInt(data.Roles[b][0]));
+				if (role) {
 					map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
 					labels.push({
 						label: `${data.Roles[b][1].raw} ${role.name}`,
@@ -55,8 +57,6 @@ export default {
 						emoji: data.Roles[b][1].raw,
 						value: data.Roles[b][1].raw,
 					});
-				} catch (e) {
-					//ignore
 				}
 			}
 			const mappedstring = map.join('\n');
@@ -80,11 +80,11 @@ export default {
 
 			client.extras.succNormal(
 				{
-					text: 'Reaction panel successfully created!',
+					text: 'Reaction panel successfully created! \n TIP: `Use the commands under the *edit* category to modify thier look.` \n Example use: `+editdescription`',
 					type: 'ephemeral',
 				},
 				ctx,
 			);
 		});
 	},
-};
+} as CommandOptions;

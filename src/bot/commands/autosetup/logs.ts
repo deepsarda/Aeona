@@ -2,7 +2,8 @@ import boostLogs from '../../database/models/boostChannels.js';
 import levelLogs from '../../database/models/levelChannels.js';
 import logs from '../../database/models/logChannels.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
 export default {
 	name: 'log',
@@ -18,7 +19,7 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const choice = ctx.options.getString('setup', true).toLowerCase();
 
@@ -26,7 +27,7 @@ export default {
 			return client.extras.errUsage({ usage: 'autosetup log serverlogs/levellogs/boostlogs', type: 'edit' }, ctx);
 
 		if (choice == 'serverlogs') {
-			const channel = await client.helpers.createChannel(ctx.guildId!, {
+			const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 				name: 'Logs',
 
 				type: ChannelTypes.GuildText,
@@ -36,7 +37,7 @@ export default {
 		}
 
 		if (choice == 'levellogs') {
-			const channel = await client.helpers.createChannel(ctx.guildId!, {
+			const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 				name: 'levelLogs',
 				//@ts-ignore
 				type: ChannelTypes.GuildText,
@@ -46,7 +47,7 @@ export default {
 		}
 
 		if (choice == 'boostlogs') {
-			const channel = await client.helpers.createChannel(ctx.guildId!, {
+			const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 				name: 'boostLogs',
 				//@ts-ignore
 				type: ChannelTypes.GuildText,
@@ -55,4 +56,4 @@ export default {
 			client.extras.createChannelSetup(boostLogs, channel, ctx);
 		}
 	},
-};
+} as CommandOptions;

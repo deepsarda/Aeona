@@ -1,16 +1,17 @@
 import Schema from '../../database/models/messages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'leaderboard',
 	description: 'See the leaderboard',
 	commandType: ['application', 'message'],
 	category: 'messages',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const rawLeaderboard = await Schema.find({
-			Guild: ctx.guildId,
+			Guild: ctx.guild!.id,
 		}).sort([['Messages', 'descending']]);
 
 		if (!rawLeaderboard)
@@ -24,11 +25,11 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guildId + '' && i.User === e.User) + 1}** | <@!${
+				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${
 					e.User
 				}> - Messages: \`${e.Messages}\``,
 		);
 
 		await client.extras.createLeaderboard(`Messages - ${ctx.guild.name}`, lb, ctx);
 	},
-};
+} as CommandOptions;

@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Member } from 'discordeno/transformers';
 import Schema from '../../database/models/boostChannels.js';
 import Schema2 from '../../database/models/boostMessage.js';
 
-export default async (client: AmethystBot, member: Member) => {
+export default async (client: AeonaBot, member: Member) => {
 	try {
 		const channelData = await Schema.findOne({ Guild: member.guildId });
 		const messageData = await Schema2.findOne({ Guild: member.guildId });
@@ -18,26 +18,27 @@ export default async (client: AmethystBot, member: Member) => {
 			const guild = await client.cache.guilds.get(member.guildId);
 			if (!guild) return;
 			let boostMessage = messageData.boostMessage!;
-			boostMessage = boostMessage.replace(`{user:username}`, member.user?.username!);
-			boostMessage = boostMessage.replace(`{user:discriminator}`, member.user?.discriminator!);
-			boostMessage = boostMessage.replace(`{user:tag}`, member.user?.username + '#' + member.user?.discriminator);
-			boostMessage = boostMessage.replace(`{user:mention}`, member);
+			const u = await client.helpers.getUser(member.id);
+			boostMessage = boostMessage.replace(`{user:username}`, u.username!);
+			boostMessage = boostMessage.replace(`{user:discriminator}`, u.discriminator!);
+			boostMessage = boostMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
+			boostMessage = boostMessage.replace(`{user:mention}`, '<@' + member.id + '>');
 
 			boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
-			boostMessage = boostMessage.replace(`{guild:members}`, guild.approximateMemberCount);
-			boostMessage = boostMessage.replace(`{guild:boosts}`, guild.premiumSubscriptionCount);
-			boostMessage = boostMessage.replace(`{guild:booststier}`, guild.premiumTier);
+			boostMessage = boostMessage.replace(`{guild:members}`, guild.approximateMemberCount! + '');
+			boostMessage = boostMessage.replace(`{guild:boosts}`, guild.premiumSubscriptionCount! + '');
+			boostMessage = boostMessage.replace(`{guild:booststier}`, guild.premiumTier + '');
 
 			if (channelData) {
 				try {
-					const channel = await client.cache.channels.get(channelData.Channel);
+					const channel = await client.cache.channels.get(BigInt(channelData.Channel!));
 
 					client.extras.embed(
 						{
 							title: `🚀 New boost`,
 							desc: boostMessage,
 						},
-						channel,
+						channel!,
 					);
 				} catch {
 					//prevent lint errors
@@ -46,14 +47,14 @@ export default async (client: AmethystBot, member: Member) => {
 		} else {
 			if (channelData) {
 				try {
-					const channel = await client.cache.channels.get(channelData.Channel!);
+					const channel = await client.cache.channels.get(BigInt(channelData.Channel!));
 
 					client.extras.embed(
 						{
 							title: `🚀 New boost`,
 							desc: `${member} boosted the server!`,
 						},
-						channel,
+						channel!,
 					);
 				} catch {
 					//prevent lint errors

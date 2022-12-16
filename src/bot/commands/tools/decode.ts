@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'decode',
 	description: 'Decode text from binary format',
@@ -12,7 +13,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const code = ctx.options.getLongString('code', true);
 
@@ -51,4 +52,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

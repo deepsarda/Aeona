@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Linter } from 'eslint';
 const linter = new Linter();
 const rules = linter.getRules();
@@ -15,7 +16,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const rule = await ctx.options.getLongString('rule', true);
 		rule.replaceAll(' ', '-');
@@ -37,4 +38,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

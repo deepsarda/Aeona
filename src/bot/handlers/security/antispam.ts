@@ -1,4 +1,4 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
 import Schema from '../../database/models/functions.js';
 
@@ -7,8 +7,8 @@ const LIMIT = 5;
 const TIME = 10000;
 const DIFF = 3000;
 
-export default async (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (bot: AmethystBot, message: Message) => {
+export default async (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiSpam: boolean }) => {
 			if (data) {

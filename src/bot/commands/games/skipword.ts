@@ -1,6 +1,7 @@
 import Schema from '../../database/models/guessWord.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'skipword',
 	description: 'skip the word in guess the word',
@@ -8,16 +9,15 @@ export default {
 	category: 'game',
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		let wordList = client.extras.config.wordList;
 
 		Schema.findOne(
-			{ Guild: ctx.guildId, Channel: ctx.channel.id },
+			{ Guild: ctx.guild!.id, Channel: ctx.channel.id },
 			async (err: any, data: { Word: any; save: () => void }) => {
 				if (data) {
 					try {
-						wordList = wordList.split('\n');
+						const wordList = client.extras.config.wordList.split('\n');
 						const word = wordList[Math.floor(Math.random() * wordList.length)];
 						const shuffled = word
 							.split('')
@@ -42,7 +42,7 @@ export default {
 								title: `Guess the word`,
 								desc: `Put the letters in the right position! \n\n ${shuffled.toLowerCase()}`,
 							},
-							ctx.channel,
+							ctx.channel!,
 						);
 					} catch {
 						//This prevents a lint error from happening
@@ -59,4 +59,4 @@ export default {
 			},
 		);
 	},
-};
+} as CommandOptions;

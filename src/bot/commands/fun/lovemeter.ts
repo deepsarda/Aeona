@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'lovemeter',
 	description: 'Get the love between two users.',
@@ -18,7 +19,7 @@ export default {
 			type: 'User',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const user1 = await ctx.options.getUser('user1', true);
 		const user2 = await ctx.options.getUser('user2', true);
@@ -54,4 +55,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

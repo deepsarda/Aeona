@@ -1,9 +1,9 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import Bdays from '../../database/models/bdays.js';
 import Schema from '../../database/models/birthday.js';
 import birthdayChannel from '../../database/models/birthdaychannels.js';
 
-export default (client: AmethystBot) => {
+export default (client: AeonaBot) => {
 	const checkBirthdays = async () => {
 		const now = new Date();
 		const getLastDate = await Bdays.findOne({ Action: 'Birthday' }).exec();
@@ -63,8 +63,9 @@ export default (client: AmethystBot) => {
 								{
 									title: `${client.extras.emotes.normal.birthday} Birthday`,
 									desc: `Happy birthday to <@!${User}>!`,
+									type: '',
 								},
-								channel,
+								channel!,
 							);
 						}
 					});

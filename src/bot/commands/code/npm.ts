@@ -1,4 +1,5 @@
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 import wrapper from '../../lib/popcat.js';
 export default {
 	name: 'npm',
@@ -13,7 +14,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const name = await ctx.options.getLongString('package', true);
 		const r = await wrapper.npm(name).catch((e) => {
@@ -71,4 +72,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

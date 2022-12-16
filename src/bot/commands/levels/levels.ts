@@ -1,6 +1,7 @@
 import Schema from '../../database/models/functions.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'levels',
 	description: 'Enable or disable level messages',
@@ -15,18 +16,18 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const boolean = ctx.options.getBoolean('boolean', true);
 
-		const data = await Schema.findOne({ Guild: ctx.guildId });
+		const data = await Schema.findOne({ Guild: ctx.guild!.id });
 		if (data) {
 			data.Levels = boolean;
 			data.save();
 		} else {
 			new Schema({
-				Guild: ctx.guildId,
+				Guild: ctx.guild!.id,
 				Levels: boolean,
 			}).save();
 		}
@@ -39,4 +40,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

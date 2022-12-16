@@ -1,33 +1,36 @@
-import { AmethystBot, AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { Message } from 'discordeno';
-import Schema from '../../database/models/functions.js';
-
-export default (client: AmethystBot) => {
-	client.extras.templateEmbed = function () {
-		return new AmethystEmbed().setColor(client.extras.config.colors.normal);
+import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
+import { Message, ActionRow } from 'discordeno';
+import Schema from '../database/models/functions.js';
+import config from '../botconfig/bot.js';
+import { AeonaBot } from './index';
+/* Exporting a function that takes a client as a parameter. */
+export default (client: AeonaBot) => {
+	const templateEmbed = function () {
+		return new AmethystEmbed().setColor(config.colors.normal);
 	};
 
-	//----------------------------------------------------------------//
-	//                        ERROR MESSAGES                          //
-	//----------------------------------------------------------------//
-
-	// Normal error
-	client.extras.errNormal = async function (
+	const errNormal = async function (
 		{
-			embed: embed = client.extras.templateEmbed(),
+			embed: embed = templateEmbed(),
 			error: error,
 			type: type,
 			content: content,
 			components: components,
-		}: any,
-		interaction: any,
+		}: {
+			embed?: AmethystEmbed;
+			error: string;
+			type?: string;
+			content?: string;
+			components?: ActionRow[];
+		},
+		interaction: Context | { id: bigint },
 	) {
-		embed.setTitle(`${client.extras.emotes.normal.error} Error!`);
+		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`Something went wrong!`);
 		embed.addField('→ Error comment', `\`\`\`${error}\`\`\``);
-		embed.setColor(client.extras.config.colors.error);
+		embed.setColor(config.colors.error);
 
-		return client.extras.sendEmbed(
+		return await sendEmbed(
 			{
 				embeds: [embed],
 				content: content,
@@ -38,23 +41,28 @@ export default (client: AmethystBot) => {
 		);
 	};
 
-	// Missing args
-	client.extras.errUsage = async function (
+	const errUsage = async function (
 		{
-			embed: embed = client.extras.templateEmbed(),
+			embed: embed = templateEmbed(),
 			usage: usage,
 			type: type,
 			content: content,
 			components: components,
-		}: any,
-		interaction: any,
+		}: {
+			embed?: AmethystEmbed;
+			usage: string;
+			type?: string;
+			content?: string;
+			components?: ActionRow[];
+		},
+		interaction: Context | { id: bigint },
 	) {
-		embed.setTitle(`${client.extras.emotes.normal.error} Error!`);
+		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You did not provide the correct arguments`);
 		embed.addField('→ Required arguments', `\`\`\`${usage}\`\`\``);
-		embed.setColor(client.extras.config.colors.error);
+		embed.setColor(config.colors.error);
 
-		return client.extras.sendEmbed(
+		return await sendEmbed(
 			{
 				embeds: [embed],
 				content: content,
@@ -65,80 +73,28 @@ export default (client: AmethystBot) => {
 		);
 	};
 
-	// Missing perms
-
-	client.extras.errMissingPerms = async function (
+	const errWait = async function (
 		{
-			embed: embed = client.extras.templateEmbed(),
-			perms: perms,
-			type: type,
-			content: content,
-			components: components,
-		}: any,
-		interaction: any,
-	) {
-		embed.setTitle(`${client.extras.emotes.normal.error} Error!`);
-		embed.setDescription(`You don't have the right permissions`);
-		embed.addField('→ Required Permission', `\`\`\`${perms}\`\`\``);
-		embed.setColor(client.extras.config.colors.error);
-
-		return client.extras.sendEmbed(
-			{
-				embeds: [embed],
-				content: content,
-				components: components,
-				type: type,
-			},
-			interaction,
-		);
-	};
-
-	// No bot perms
-
-	client.extras.errNoPerms = async function (
-		{
-			embed: embed = client.extras.templateEmbed(),
-			perms: perms,
-			type: type,
-			content: content,
-			components: components,
-		}: any,
-		interaction: any,
-	) {
-		embed.setTitle(`${client.extras.emotes.normal.error} Error!`);
-		embed.setDescription(`I don't have the right permissions`);
-		embed.addField('→ Required Permission', `\`\`\`${perms}\`\`\``);
-		embed.setColor(client.extras.config.colors.error);
-
-		return client.extras.sendEmbed(
-			{
-				embeds: [embed],
-				content: content,
-				components: components,
-				type: type,
-			},
-			interaction,
-		);
-	};
-
-	// Wait error
-
-	client.extras.errWait = async function (
-		{
-			embed: embed = client.extras.templateEmbed(),
+			embed: embed = templateEmbed(),
 			time: time,
 			type: type,
 			content: content,
 			components: components,
-		}: any,
-		interaction: any,
+		}: {
+			embed?: AmethystEmbed;
+			time: number;
+			content?: string;
+			type?: string;
+			components?: ActionRow[];
+		},
+		interaction: Context | { id: bigint },
 	) {
-		embed.setTitle(`${client.extras.emotes.normal.error} Error!`);
+		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You've already done this once`);
 		embed.addField('→ Try again on', `<t:${time}:f>`);
-		embed.setColor(client.extras.config.colors.error);
+		embed.setColor(config.colors.error);
 
-		return client.extras.sendEmbed(
+		return await sendEmbed(
 			{
 				embeds: [embed],
 				content: content,
@@ -149,47 +105,9 @@ export default (client: AmethystBot) => {
 		);
 	};
 
-	//----------------------------------------------------------------//
-	//                        SUCCES MESSAGES                         //
-	//----------------------------------------------------------------//
-
-	// Normal succes
-	client.extras.succNormal = async function (
+	const embed = async function (
 		{
-			embed: embed = client.extras.templateEmbed(),
-			text: text,
-			fields: fields,
-			type: type,
-			content: content,
-			components: components,
-		}: any,
-		interaction: any,
-	) {
-		embed.setTitle(`${client.extras.emotes.normal.check} Success!`);
-		embed.setDescription(`${text}`);
-		embed.setColor(client.extras.config.colors.succes);
-
-		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-
-		return client.extras.sendEmbed(
-			{
-				embeds: [embed],
-				content: content,
-				components: components,
-				type: type,
-			},
-			interaction,
-		);
-	};
-
-	//----------------------------------------------------------------//
-	//                        BASIC MESSAGES                          //
-	//----------------------------------------------------------------//
-
-	// Default
-	client.extras.embed = async function (
-		{
-			embed: embed = client.extras.templateEmbed(),
+			embed: embed = templateEmbed(),
 			title: title,
 			desc: desc,
 			color: color,
@@ -202,11 +120,32 @@ export default (client: AmethystBot) => {
 			content: content,
 			components: components,
 			type: type,
-		}: any,
-		interaction: { guild: { id: any } | undefined },
+		}: {
+			title?: string;
+			desc?: string;
+			color?: string;
+			image?: string;
+			author?: {
+				name?: string;
+				iconURL?: string;
+			};
+			thumbnail?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			url?: string;
+			content?: string;
+			components?: ActionRow[];
+			type?: string;
+			footer?: string;
+			embed?: AmethystEmbed;
+		},
+		interaction: Context | { id: bigint; guildId?: bigint },
 	) {
-		if (interaction.guild == undefined) interaction.guild = { id: '0' };
-		const functiondata = await Schema.findOne({ Guild: interaction.guild.id });
+		if (interaction.guildId == undefined) interaction.guildId = 0n;
+		const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
 		if (title) embed.setTitle(title);
 		if (desc && desc.length >= 2048) embed.setDescription(desc.substr(0, 2044) + '...');
@@ -214,13 +153,13 @@ export default (client: AmethystBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author);
-		if (url) embed.setURL(url);
+		if (author) embed.setAuthor(author[0], author[1]);
+		if (url) embed.url = url;
 		if (footer) embed.setFooter(footer);
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
 
-		return client.extras.sendEmbed(
+		return await sendEmbed(
 			{
 				embeds: [embed],
 				content: content,
@@ -231,7 +170,7 @@ export default (client: AmethystBot) => {
 		);
 	};
 
-	client.extras.simpleEmbed = async function (
+	const simpleEmbed = async function (
 		{
 			title: title,
 			desc: desc,
@@ -244,12 +183,31 @@ export default (client: AmethystBot) => {
 			content: content,
 			components: components,
 			type: type,
-		}: any,
-		interaction: { guildId: bigint },
+		}: {
+			title?: string;
+			desc?: string;
+			color?: string;
+			image?: string;
+			author?: {
+				name?: string;
+				iconURL?: string;
+			};
+			thumbnail?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			url?: string;
+			content?: string;
+			components?: ActionRow[];
+			type?: string;
+		},
+		interaction: Context | { id: bigint; guildId?: bigint },
 	) {
 		const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
-		const embed = new AmethystEmbed().setColor(client.extras.config.colors.normal);
+		const embed = new AmethystEmbed().setColor(config.colors.normal);
 
 		if (title) embed.setTitle(title);
 		if (desc && desc.length >= 2048) embed.setDescription(desc.substr(0, 2044) + '...');
@@ -262,7 +220,7 @@ export default (client: AmethystBot) => {
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
 
-		return await client.extras.sendEmbed(
+		return await sendEmbed(
 			{
 				embeds: [embed],
 				content: content,
@@ -273,7 +231,7 @@ export default (client: AmethystBot) => {
 		);
 	};
 
-	client.extras.simpleMessageEmbed = async function (
+	const simpleMessageEmbed = async function (
 		{
 			title: title,
 			desc: desc,
@@ -285,13 +243,30 @@ export default (client: AmethystBot) => {
 			url: url,
 			content: content,
 			components: components,
-			type: type,
-		}: any,
+		}: {
+			title?: string;
+			desc?: string;
+			color?: string;
+			image?: string;
+			author?: {
+				name?: string;
+				iconURL?: string;
+			};
+			thumbnail?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			url?: string;
+			content?: string;
+			components?: ActionRow[];
+		},
 		ctx: Message,
 	) {
 		const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
-		const embed = new AmethystEmbed().setColor(client.extras.config.colors.normal);
+		const embed = new AmethystEmbed().setColor(config.colors.normal);
 
 		if (title) embed.setTitle(title);
 		if (desc && desc.length >= 2048) embed.setDescription(desc.substr(0, 2044) + '...');
@@ -312,7 +287,7 @@ export default (client: AmethystBot) => {
 			.catch();
 	};
 
-	client.extras.editEmbed = async function (
+	const editEmbed = async function (
 		{
 			title: title,
 			desc: desc,
@@ -320,17 +295,35 @@ export default (client: AmethystBot) => {
 			image: image,
 			author: author,
 			thumbnail: thumbnail,
+
 			fields: fields,
 			url: url,
 			content: content,
 			components: components,
-			type: type,
-		}: any,
+		}: {
+			title?: string;
+			desc?: string;
+			color?: string;
+			image?: string;
+			author?: {
+				name?: string;
+				iconURL?: string;
+			};
+			thumbnail?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			url?: string;
+			content?: string;
+			components?: ActionRow[];
+		},
 		ctx: Message,
 	) {
 		const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
-		const embed = new AmethystEmbed().setColor(client.extras.config.colors.normal);
+		const embed = new AmethystEmbed().setColor(config.colors.normal);
 
 		if (title) embed.setTitle(title);
 		if (desc && desc.length >= 2048) embed.setDescription(desc.substr(0, 2044) + '...');
@@ -351,8 +344,45 @@ export default (client: AmethystBot) => {
 			})
 			.catch();
 	};
+	const succNormal = async function (
+		{
+			embed: embed = templateEmbed(),
+			text: text,
+			fields: fields,
+			type: type,
+			content: content,
+			components: components,
+		}: {
+			embed?: AmethystEmbed;
+			text?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			content?: string;
+			components?: ActionRow[];
+			type: string;
+		},
+		interaction: Context | { id: bigint },
+	) {
+		embed.setTitle(`${client.extras.emotes.normal.check}・Success!`);
+		embed.setDescription(`${text}`);
+		embed.setColor(client.extras.config.colors.succes);
 
-	client.extras.sendEmbedMessage = async function (
+		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+
+		return client.extras.sendEmbed(
+			{
+				embeds: [embed],
+				content: content,
+				components: components,
+				type: type,
+			},
+			interaction,
+		);
+	};
+	const sendEmbedMessage = async function (
 		{
 			title: title,
 			desc: desc,
@@ -364,13 +394,27 @@ export default (client: AmethystBot) => {
 			url: url,
 			content: content,
 			components: components,
-			type: type,
-		}: any,
+		}: {
+			title?: string;
+			desc?: string;
+			color?: string;
+			image?: string;
+			author?: string;
+			thumbnail?: string;
+			fields?: {
+				name: string;
+				value: string;
+				inline?: boolean;
+			}[];
+			url?: string;
+			content?: string;
+			components?: ActionRow[];
+		},
 		ctx: Message,
 	) {
 		const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
-		const embed = new AmethystEmbed().setColor(client.extras.config.colors.normal);
+		const embed = new AmethystEmbed().setColor(config.colors.normal);
 
 		if (title) embed.setTitle(title);
 		if (desc && desc.length >= 2048) embed.setDescription(desc.substr(0, 2044) + '...');
@@ -392,8 +436,18 @@ export default (client: AmethystBot) => {
 			})
 			.catch();
 	};
-	client.extras.sendEmbed = async function (
-		{ embeds: embeds, content: content, components: components, type: type }: any,
+	const sendEmbed = async function (
+		{
+			embeds: embeds,
+			content: content,
+			components: components,
+			type: type,
+		}: {
+			embeds: AmethystEmbed[];
+			content?: string;
+			components?: ActionRow[];
+			type?: string;
+		},
 		ctx: Context | { id: bigint },
 	) {
 		if (ctx instanceof Context) {
@@ -405,7 +459,7 @@ export default (client: AmethystBot) => {
 			const randomNumber = Math.floor(Math.random() * 50);
 			content = randomNumber == 0 ? (content ?? '') + s[0] : randomNumber == 1 ? (content ?? '') + s[1] : content;
 			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {
-				return await ctx
+				const c = await ctx
 					.editReply({
 						embeds: embeds,
 						content: content,
@@ -413,8 +467,10 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
+
+				return c.message!;
 			} else if (type && type.toLowerCase() == 'editreply') {
-				return await ctx
+				const c = await ctx
 					.reply({
 						embeds: embeds,
 						content: content,
@@ -422,8 +478,9 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
+				return c.message!;
 			} else if (type && type.toLowerCase() == 'reply') {
-				return await ctx
+				const c = await ctx
 					.reply({
 						embeds: embeds,
 						content: content,
@@ -431,28 +488,33 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
+				return c.message!;
 			} else if (type && type.toLowerCase() == 'ephemeral') {
-				return await ctx
+				const c = await ctx
 					.editReply({
 						embeds: embeds,
 						content: content,
 						components: components,
 						fetchReply: true,
 						ephemeral: true,
+						private: true,
 					})
 					.catch();
+				return c.message!;
 			} else if (type && type.toLowerCase() == 'ephemeraledit') {
-				return await ctx
+				const c = await ctx
 					.reply({
 						embeds: embeds,
 						content: content,
 						components: components,
 						fetchReply: true,
 						ephemeral: true,
+						private: true,
 					})
 					.catch();
+				return c.message!;
 			} else {
-				return await ctx
+				const c = await ctx
 					.reply({
 						embeds: embeds,
 						content: content,
@@ -460,6 +522,7 @@ export default (client: AmethystBot) => {
 						fetchReply: true,
 					})
 					.catch();
+				return c.message!;
 			}
 		} else {
 			return await client.helpers
@@ -470,5 +533,20 @@ export default (client: AmethystBot) => {
 				})
 				.catch();
 		}
+	};
+
+	//Return all the functions
+	return {
+		templateEmbed,
+		errNormal,
+		errUsage,
+		errWait,
+		embed,
+		simpleEmbed,
+		simpleMessageEmbed,
+		editEmbed,
+		sendEmbedMessage,
+		sendEmbed,
+		succNormal,
 	};
 };

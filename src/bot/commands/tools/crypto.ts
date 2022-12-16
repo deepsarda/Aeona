@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'crypto',
 	description: 'See the latest crypto information',
@@ -20,7 +21,7 @@ export default {
 			type: 'String',
 		},
 	],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const coin = ctx.options.getString('coin', true);
 		const currency = ctx.options.getString('currency', true);
@@ -50,4 +51,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

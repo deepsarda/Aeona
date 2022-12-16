@@ -1,6 +1,7 @@
 import ticketSchema from '../../database/models/tickets.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'tickets',
 	description: 'Setup tickets',
@@ -33,14 +34,14 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const category = await ctx.options.getChannel('category', true);
 		const role = await ctx.options.getRole('role', true);
 		const channel = await ctx.options.getChannel('channel', true);
 		const logs = await ctx.options.getChannel('logs', true);
 
-		ticketSchema.findOne({ Guild: ctx.guildId }, async (err, data) => {
+		ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 			if (data) {
 				data.Category = category.id;
 				data.Role = role.id;
@@ -49,7 +50,7 @@ export default {
 				data.save();
 			} else {
 				new ticketSchema({
-					Guild: ctx.guildId,
+					Guild: ctx.guild!.id,
 					Category: category.id,
 					Role: role.id,
 					Channel: channel.id,
@@ -66,4 +67,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

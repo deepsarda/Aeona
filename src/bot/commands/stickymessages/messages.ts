@@ -1,6 +1,7 @@
 import Schema from '../../database/models/stickymessages.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'messages',
 	description: 'See all the sticky messages of the server',
@@ -8,9 +9,9 @@ export default {
 	category: 'stickymessages',
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const data = await Schema.find({ Guild: ctx.guildId });
+		const data = await Schema.find({ Guild: ctx.guild!.id });
 
 		if (data) {
 			let list = ``;
@@ -37,4 +38,4 @@ export default {
 			);
 		}
 	},
-};
+} as CommandOptions;

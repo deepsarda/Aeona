@@ -1,6 +1,7 @@
 import Schema from '../../database/models/warnings.js';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'warn',
 	description: 'Warn a user.',
@@ -15,20 +16,20 @@ export default {
 		},
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const member = await ctx.options.getUser('user', true);
 
 		Schema.findOne(
-			{ Guild: ctx.guildId, User: member.id },
+			{ Guild: ctx.guild!.id, User: member.id },
 			async (err: any, data: { Warns: number; save: () => void }) => {
 				if (data) {
 					data.Warns += 1;
 					data.save();
 				} else {
 					new Schema({
-						Guild: ctx.guildId,
+						Guild: ctx.guild!.id,
 						User: member.id + '',
 						Warns: 1,
 					}).save();
@@ -69,4 +70,4 @@ export default {
 			ctx,
 		);
 	},
-};
+} as CommandOptions;

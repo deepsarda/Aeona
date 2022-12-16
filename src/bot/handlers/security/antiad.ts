@@ -1,9 +1,10 @@
-import { AmethystBot, AmethystEmbed, hasGuildPermissions } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, hasGuildPermissions } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 import Schema2 from '../../database/models/channelList.js';
 import Schema from '../../database/models/functions.js';
-export default (client: AmethystBot) => {
-	client.on('messageCreateNoBots', async (client: AmethystBot, message: Message) => {
+import { AeonaBot } from '../../extras/index.js';
+export default (client: AeonaBot) => {
+	client.on('messageCreateNoBots', async (client: AeonaBot, message: Message) => {
 		if (!message.content || message.content.length < 1) return;
 		Schema.findOne({ Guild: message.guildId }, async (err: any, data: { AntiInvite: boolean; AntiLinks: boolean }) => {
 			if (data) {
@@ -101,7 +102,7 @@ export default (client: AmethystBot) => {
 		});
 	});
 
-	client.on('messageUpdateWithOldMessage', async (bot: AmethystBot, oldMessage: Message, newMessage: Message) => {
+	client.on('messageUpdateWithOldMessage', async (bot: AeonaBot, oldMessage: Message, newMessage: Message) => {
 		if (!oldMessage || !newMessage) return;
 		if (!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) {

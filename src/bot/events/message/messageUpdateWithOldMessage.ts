@@ -1,6 +1,6 @@
-import { AmethystBot } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 
-export default async (client: AmethystBot, oldMessage, newMessage) => {
+export default async (client: AeonaBot, oldMessage, newMessage) => {
 	try {
 		if (!oldMessage.content || !newMessage.content) return;
 		if (oldMessage.content === newMessage.content) return;

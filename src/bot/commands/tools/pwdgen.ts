@@ -1,13 +1,14 @@
 import generator from 'generate-password';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'pwdgen',
 	description: 'Generate a password',
 	commandType: ['application', 'message'],
 	category: 'tools',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const password = generator.generate({
 			length: 12,
@@ -38,8 +39,9 @@ export default {
 						inline: true,
 					},
 				],
+				type: '',
 			},
-			ctx.user,
+			ctx.user!,
 		);
 	},
-};
+} as CommandOptions;

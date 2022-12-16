@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
 
-import { AmethystBot, Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
+import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras';
 
-async function query(data) {
+async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
 		headers: { Authorization: `Bearer ${process.env.APIKEY}` },
 		method: 'POST',
@@ -28,7 +29,7 @@ export default {
 	extras: {
 		upvoteOnly: true,
 	},
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		try {
 			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
 			const prompt = ctx.options.getLongString('prompt', true);
@@ -147,13 +148,13 @@ export default {
 			});
 
 			const c = await client.amethystUtils.awaitComponent(msg.id, {
-				filter: (bot, data) => data.user.id == ctx.author.id,
+				filter: (bot, data) => data.user.id == ctx.author?.id,
 			});
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
 				content: '<a:F_Loading:1008013111913103401> GENERATING....',
 				components: [],
 			});
-			switch (c.data.values[0]) {
+			switch (c.data?.values![0]) {
 				case 'accurate':
 					modifiers =
 						'| blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
@@ -233,7 +234,7 @@ export default {
 			}).then(async (response) => {
 				await client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
-					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
+					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
 					file: [
 						{
 							blob: response,
@@ -244,7 +245,7 @@ export default {
 				const component = new Components();
 				component.addSelectComponent(
 					'Share your image!',
-					'share-imagine_' + ctx.user.id,
+					'share-imagine_' + ctx.user?.id,
 					[
 						{
 							label: 'Official Server',
@@ -256,7 +257,7 @@ export default {
 					'Share this image.',
 				);
 				ctx.reply({
-					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data.values[0],
+					content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
 					file: [
 						{
 							blob: response,

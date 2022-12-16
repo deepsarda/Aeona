@@ -1,14 +1,15 @@
 import Schema from '../../database/models/reminder.js';
 import ms from 'ms';
 
-import { AmethystBot, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'remind',
 	description: 'Set a reminder',
 	commandType: ['application', 'message'],
 	category: 'tools',
 	args: [],
-	async execute(client: AmethystBot, ctx: Context) {
+	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const time = ctx.options.getString('time', true);
 		const text = ctx.options.getLongString('message', true);
@@ -54,14 +55,14 @@ export default {
 						},
 					],
 				},
-				ctx.user,
+				ctx.user!,
 			);
 
 			const deleted = await Schema.findOneAndDelete({
 				Text: text,
-				User: ctx.user.id,
+				User: ctx.user?.id,
 				endTime: endtime,
 			});
 		}, endtime - new Date().getTime());
 	},
-};
+} as CommandOptions;
