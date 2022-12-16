@@ -57,16 +57,17 @@ export default async (
 					.tag('action', 'sync')
 					.intField('value', value),
 			);
-
+			
 			client.helpers.editBotStatus({
 				activities: [
 					{
-						type: ActivityTypes.Custom,
-						name: `:smiley: Using ${bot.prefix}help.`,
+						type: ActivityTypes.Watching,
+						name: `${bot.prefix}help.`,
 						createdAt: new Date().getTime(),
 					},
 				],
 				status: 'idle',
+				
 			});
 		} catch (e) {
 			console.error(e);
@@ -76,8 +77,8 @@ export default async (
 				client.helpers.editBotStatus({
 					activities: [
 						{
-							type: ActivityTypes.Custom,
-							name: `:smiley: ${bot.prefix}help.`,
+							type: ActivityTypes.Watching,
+							name: `${bot.prefix}help.`,
 							createdAt: new Date().getTime(),
 						},
 					],
