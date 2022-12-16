@@ -7,7 +7,7 @@ import Stats from '../database/models/stats.js';
 import ticketChannels from '../database/models/ticketChannels.js';
 import ticketSchema from '../database/models/tickets.js';
 import { createTranscript } from '../transcripts/index.js';
-import embeds from './embed';
+import embeds from './embed.js';
 import levels from '../database/models/levels.js';
 
 export interface AeonaBot extends AmethystBot {

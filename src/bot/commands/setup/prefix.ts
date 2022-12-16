@@ -1,4 +1,4 @@
-import Functions from '../../database/models/functions';
+import Functions from '../../database/models/functions.js';
 
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';

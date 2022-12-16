@@ -2,7 +2,7 @@ import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
 import { Message, ActionRow } from 'discordeno';
 import Schema from '../database/models/functions.js';
 import config from '../botconfig/bot.js';
-import { AeonaBot } from './index';
+import { AeonaBot } from './index.js';
 /* Exporting a function that takes a client as a parameter. */
 export default (client: AeonaBot) => {
 	const templateEmbed = function () {

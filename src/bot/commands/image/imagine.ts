@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras';
+import { AeonaBot } from '../../extras.js';
 
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {

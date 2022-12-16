@@ -8,7 +8,7 @@ import {
 import { createBot, createRestManager } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
-import Functions from './database/models/functions';
+import Functions from './database/models/functions.js';
 
 import chatBotSchema from './database/models/chatbot-channel.js';
 dotenv.config();
@@ -20,7 +20,7 @@ const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
 import { JsonDB, Config } from 'node-json-db';
 import JSON from 'json-bigint';
 import { additionalProps } from './extras/index.js';
-import { AeonaBot } from './extras/index';
+import { AeonaBot } from './extras/index.js';
 const db = new JsonDB(new Config('tmp/db', true, false, '/'));
 export const basebot = createBot({
 	token: DISCORD_TOKEN,
