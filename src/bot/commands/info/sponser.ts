@@ -11,7 +11,7 @@ export default {
 
 		ctx.reply({
 			content: `
-			:Indionic: **__IndionicHost__ - Think, Build and Deploy**
+			<:Indionic:1053595994769592370> **__IndionicHost__ - Think, Build and Deploy**
 			
 			**#1・** What is "IndionicHost" ?
 			

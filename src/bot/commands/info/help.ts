@@ -41,7 +41,7 @@ Well then run \`+bumpreminder setup <channel> <role>\`
 Use \`+imagine <prompt>\`
 
 Our hosting partner and premium hosting provider.
-:Indionic: **__IndionicHost__ - Think, Build and Deploy**
+<:Indionic:1053595994769592370> **__IndionicHost__ - Think, Build and Deploy**
 \`+sponser\` to see more about them.
 
 Use the dropdown to see all my commands.
