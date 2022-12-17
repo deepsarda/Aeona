@@ -39,7 +39,11 @@ Well then run \`+bumpreminder setup <channel> <role>\`
 
 **Want to generate some art?**
 Use \`+imagine <prompt>\`
-	
+
+Our hosting partner and premium hosting provider.
+:Indionic: **__IndionicHost__ - Think, Build and Deploy**
+\`+sponser\` to see more about them.
+
 Use the dropdown to see all my commands.
 				`,
 					components: comp,
