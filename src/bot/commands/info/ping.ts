@@ -33,15 +33,8 @@ export default {
 							desc: `Check out how fast our bot is`,
 							fields: [
 								{
-									name: '→ Bot Parsing Time',
-									value: `${ping}ms (${pingSeconds}s)`,
-									inline: true,
-								},
-								{
 									name: '→ Bot Ping',
-									value: `${client.gateway.manager.shards.first()?.heart.rtt}ms (${
-										(client.gateway.manager.shards.first()?.heart.rtt! % 60000) / 1000
-									}s)`,
+									value: `${ping}ms (${pingSeconds}s)`,
 									inline: true,
 								},
 								{
