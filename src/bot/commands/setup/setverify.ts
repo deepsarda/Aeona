@@ -35,7 +35,6 @@ export default {
 		const channel = await ctx.options.getChannel('channel', true);
 		const role = await ctx.options.getRole('role', true);
 		if (!channel) return;
-		console.log(role);
 		if (boolean == true) {
 			const data = await Schema.findOne({ Guild: ctx.guild!.id });
 			if (data) {

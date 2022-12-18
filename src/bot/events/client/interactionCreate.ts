@@ -59,11 +59,15 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 									title: 'You have been successfully verified!',
 									type: '',
 								},
-								interaction.user,
+								{
+									id: interaction.user.id,
+								},
 							)
 							.catch((error) => console.error(error));
 
-						client.helpers.addRole(msg.guildId!, response.authorId, data?.Role!).catch((error) => console.error(error));
+						client.helpers
+							.addRole(interaction.guildId!, interaction.user.id, data?.Role!)
+							.catch((error) => console.error(error));
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 						client.helpers.deleteMessage(interaction.channelId!, msg.id);
