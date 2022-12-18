@@ -38,9 +38,10 @@ export default {
 				return ctx.reply({
 					content: 'You need atleast 3 words',
 				});
-			if(filter.isProfane(prompt)) return ctx.reply({
-				content: 'This prompt is either profane, nfsw or both.',
-			});
+			if (filter.isProfane(prompt))
+				return ctx.reply({
+					content: 'This prompt is either profane, nfsw or both.',
+				});
 			const comp = new Components();
 			comp.addSelectComponent('Choose your style', 'style', [
 				{
