@@ -1,4 +1,4 @@
-import { AmethystEmbed, createContext, createOptionResults, Context } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
@@ -48,7 +48,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			// eslint-disable-next-line no-inner-declarations
 			function verifyUser(msg: Message) {
 				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then((response) => {
-					if (response.content.toUpperCase() === captcha.value) {
+					if (response.content.toUpperCase() === captcha.value.toUpperCase()) {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 
 						client.helpers.deleteMessage(interaction.channelId!, msg.id!);
@@ -63,7 +63,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 							)
 							.catch((error) => console.error(error));
 
-						client.helpers.addRole(msg.guildId!, response.authorId, data?.Role!).catch((error) => console.error(error));
+						 client.helpers.addRole(msg.guildId!, response.authorId, data?.Role!).catch((error) => console.error(error));
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 						client.helpers.deleteMessage(interaction.channelId!, msg.id);
@@ -80,10 +80,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 							)
 							.then((msgError) => {
 								setTimeout(() => {
-									client.helpers.deleteMessage(
-										interaction.channelId!,
-										msgError instanceof Context ? msgError.message!.id : msg.id,
-									);
+									client.helpers.deleteMessage(interaction.channelId!, msg.id);
 								}, 20000);
 							});
 					}
