@@ -20,7 +20,7 @@ const id = parts.pop();
 export function additionalProps(client: AeonaBot) {
 	return {
 		...embeds(client),
-		version: 'v0.1.5',
+		version: 'v0.1.6',
 		webhook: async (content: any) => {
 			return await client.helpers.sendWebhookMessage(id as BigString, token, content);
 		},

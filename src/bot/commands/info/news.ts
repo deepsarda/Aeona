@@ -17,21 +17,11 @@ export default {
 		client.extras.embed(
 			{
 				title: `Changelog for ${client.extras.version}`,
-				desc: `Hello there <a:wave:1049348090244636683>, This is `,
+				desc: `Hello there <a:wave:1049348090244636683>.`,
 				fields: [
 					{
 						name: '→ :frame_photo: AI Image Generator',
-						value: `We now generate lesser nfsw images and faster. \n It is way more accurate but the image generation quality is lesser. Hope to be fixed soon.`,
-						inline: true,
-					},
-					{
-						name: '→  Customizing the prefix',
-						value: `You can now easily customize your prefix.`,
-						inline: true,
-					},
-					{
-						name: '→  Source Code Refactor',
-						value: `If you are hosting Aeona on your own`,
+						value: `The AI GENERATION is much much much greater.`,
 						inline: true,
 					},
 				],
