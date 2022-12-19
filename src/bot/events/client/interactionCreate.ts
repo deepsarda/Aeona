@@ -21,7 +21,7 @@ import openticket from '../../commands/tickets/createticket.js';
 import deleteTicket from '../../commands/tickets/deleteticket.js';
 import notice from '../../commands/tickets/notice.js';
 import transcript from '../../commands/tickets/transcript.js';
-import fetch from 'node-fetch';
+
 import { Blob } from 'buffer';
 
 function dataURItoBlob(dataURI) {
@@ -211,7 +211,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				interaction.data?.values![0] == 'share-discord' &&
 				interaction.data?.customId?.split('_')[1] == interaction.user.id + ''
 			) {
-				const blob = await (await fetch(interaction.message?.attachments[0].proxyUrl!)).blob();
 				const channel = await createForumThread(client, '1042413922138980352', {
 					name:
 						interaction.message?.content.split('\n')[0].split(':**')[1] +
@@ -221,20 +220,16 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 						interaction.member?.id +
 						')',
 					autoArchiveDuration: 60,
-					content: interaction.message?.content,
-					file: {
-						name: 'image.png',
-						blob,
-					},
+					content: interaction.message?.attachments[0].proxyUrl,
 				});
-
+				client.helpers.sendMessage(channel.id, {
+					content: interaction.message?.content,
+				});
 				await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
 					type: 4,
 					data: {
 						content:
-							'I have successfully posted your art in my support server. \n To see it join discord.gg/qURxRRHPwa and see <#' +
-							channel.id +
-							'>',
+							'I have successfully posted your art in my support server. \n To see it join discord.gg/qURxRRHPwa and see <#1045332279943233667>',
 						flags: 1 << 6,
 					},
 				});
