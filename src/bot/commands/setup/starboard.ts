@@ -1,4 +1,4 @@
-import Birthdays from '../../database/models/birthdaychannels.js';
+import Starboard from '../../database/models/starboardChannels.js';
 
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
@@ -20,6 +20,6 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const channel = await ctx.options.getChannel('channel', true);
 
-		client.extras.createChannelSetup(Birthdays, channel, ctx);
+		client.extras.createChannelSetup(Starboard, channel, ctx);
 	},
 } as CommandOptions;

@@ -299,7 +299,7 @@ export function additionalProps(client: AeonaBot) {
 
 				userReturn.position = leaderboard.findIndex((i) => i.userID === userId + '') + 1;
 			}
-
+			console.log(user.level)
 			userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
 			userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
 
