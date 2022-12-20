@@ -134,7 +134,7 @@ export function additionalProps(client: AeonaBot) {
 					disabled: btn2,
 				});
 
-			const msg = await interaction.editReply({
+			const msg = await interaction.reply({
 				embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
 				components: comp,
 			});
