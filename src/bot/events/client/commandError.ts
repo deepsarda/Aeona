@@ -83,6 +83,14 @@ export default async (
 			content: 'Oh no! This is only meant for my owner.',
 		});
 	if (data.error.type == ErrorEnums.OTHER) {
+		//@ts-ignore
+		if(!data.error.value){
+			console.log(data);
+			return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
+				//@ts-ignore
+				content: "An error occured and has been reported.",
+			});
+		}
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			//@ts-ignore
 			content: data.error.value,
