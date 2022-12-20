@@ -1,5 +1,5 @@
 import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
-import { Channel, Message, Role } from 'discordeno/*';
+import { Channel, Role } from 'discordeno/*';
 import { BigString } from 'discordeno/types';
 import botConfig from '../botconfig/bot.js';
 import Schema from '../database/models/logChannels.js';
@@ -286,10 +286,10 @@ export function additionalProps(client: AeonaBot) {
 
 				userReturn.position = leaderboard.findIndex((i) => i.userID === userId + '') + 1;
 			}
-			console.log(user);
+			
 			userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
 			userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
-
+			console.log(userReturn);
 			return userReturn;
 		},
 
