@@ -84,11 +84,11 @@ export default async (
 		});
 	if (data.error.type == ErrorEnums.OTHER) {
 		//@ts-ignore
-		if(!data.error.value){
+		if (!data.error.value) {
 			console.log(data);
 			return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 				//@ts-ignore
-				content: "An error occured and has been reported.",
+				content: 'An error occured and has been reported.',
 			});
 		}
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
