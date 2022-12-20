@@ -268,8 +268,10 @@ export function additionalProps(client: AeonaBot) {
 				userID: userId,
 				guildID: guildId,
 			});
+			
 			const userReturn = {
-				...user,
+				//@ts-ignore
+				...user!._doc,
 				position: 0,
 				cleanXp: 0,
 				cleanNextLevelXp: 0,
