@@ -117,7 +117,7 @@ export function additionalProps(client: AeonaBot) {
 			return embed;
 		},
 
-		createLeaderboard: async function (title: any, lb: any[], interaction: Context | Message, currentIndex?: number) {
+		createLeaderboard: async function (title: any, lb: any[], interaction: Context, currentIndex?: number) {
 			if (!currentIndex) currentIndex = 0;
 			let btn1 = true;
 			let btn2 = true;
@@ -134,28 +134,15 @@ export function additionalProps(client: AeonaBot) {
 					disabled: btn2,
 				});
 
-			let msg;
-			if (interaction instanceof Context) {
-				msg = await client.helpers.editMessage(
-					interaction.channel!.id + '',
-					// eslint-disable-next-line
-					interaction.message?.id!,
-					{
-						embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-						components: comp,
-					},
-				);
-			} else {
-				msg = await client.helpers.editMessage(interaction.channelId, interaction.id + '', {
-					embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-					components: comp,
-				});
-			}
+			const msg = await interaction.editReply({
+				embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
+				components: comp,
+			});
 
 			if (lb.length <= 10) return;
 			client.amethystUtils
 				// eslint-disable-next-line
-				.awaitComponent(msg.id!, {
+				.awaitComponent(msg.message!.id, {
 					timeout: 60_000,
 					type: 'Button',
 				})
@@ -299,7 +286,7 @@ export function additionalProps(client: AeonaBot) {
 
 				userReturn.position = leaderboard.findIndex((i) => i.userID === userId + '') + 1;
 			}
-			console.log(user.level);
+			console.log(user);
 			userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
 			userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
 

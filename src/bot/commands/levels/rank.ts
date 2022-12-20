@@ -37,7 +37,7 @@ export default {
 					}),
 				)
 				.setRequiredXP(xpRequired)
-				.setCurrentXP(user.xp!)
+				.setCurrentXP(user.cleanXp)
 				.setLevel(user.level!)
 				.setProgressBar(client.extras.config.colors.normal, 'COLOR')
 				.setUsername(target.username)
