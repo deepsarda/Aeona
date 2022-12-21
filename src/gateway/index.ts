@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 process.on('unhandledRejection', (error: Error) => {
-	if (error.message.includes('Authorization token') || error.message.includes('Fetch Failed')) return;
 	console.error(error);
 });
 

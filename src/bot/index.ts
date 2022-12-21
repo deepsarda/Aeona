@@ -65,7 +65,6 @@ app.listen(EVENT_HANDLER_PORT, () => {
 });
 
 process.on('unhandledRejection', (error: Error) => {
-	if (error.message.includes('Authorization token')) return;
 	console.error(error);
 });
 
