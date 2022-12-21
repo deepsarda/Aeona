@@ -24,7 +24,7 @@ export default {
 		const data = await Schema.findOne({
 			User: target.id + '',
 		});
-		const canvas = new Canvas(1200, 1200);
+		const canvas = new Canvas(720, 720);
 		const ctx = canvas.getContext('2d');
 		const image = await loadImage(
 			'https://media.discordapp.net/attachments/1012091823931527259/1054708120154284032/image.jpg',

@@ -45,7 +45,7 @@ export default {
 				.setStatus('dnd', true)
 				.setRank(user.position);
 
-			const data = await rankCard.build({})
+			const data = await rankCard.build({});
 			ctx.editReply({
 				file: [
 					{
@@ -56,7 +56,6 @@ export default {
 					},
 				],
 			});
-
 		} else {
 			client.extras.errNormal(
 				{
