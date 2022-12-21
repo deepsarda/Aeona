@@ -48,8 +48,7 @@ export default {
 		const FONT = '12px monospace';
 		const CIRCLE_STYLE = '#bbb';
 		const LINE_STYLE = '#999';
-		const TEXT_STYLE = '#000';
-		const TAG_STYLE = '#fff';
+		const TEXT_STYLE = '#fff';
 		const ANGLE = 0;
 		const DISTANCE = 1;
 		const X = 0;
@@ -86,8 +85,6 @@ export default {
 			//draw centered text using rel. polar coords
 			const l = ctx.measureText(string).width / 2;
 			location = translate(reference, location);
-			ctx.fillStyle = TAG_STYLE;
-			ctx.fillRect(location[X] - l - 2, location[Y] - 13, 2 * l + 4, 24);
 			ctx.fillStyle = TEXT_STYLE;
 			ctx.textBaseline = 'middle';
 			ctx.font = FONT;
