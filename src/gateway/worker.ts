@@ -73,7 +73,7 @@ const manager = createShardManager({
 			method: 'POST',
 			body: JSON.stringify({ message, shardId: shard.id }),
 			headers: { 'Content-Type': 'application/json', Authorization: script.handlerAuthorization },
-		}).catch((error) => log.error(error));
+		}).catch();
 
 		log.debug({ shardId: shard.id + '', message });
 	},

@@ -45,18 +45,18 @@ export default {
 				.setStatus('dnd', true)
 				.setRank(user.position);
 
-			rankCard.build({}).then((data) => {
-				ctx.editReply({
-					file: [
-						{
-							name: 'image.png',
-							blob: new Blob([data], {
-								type: 'image/png',
-							}),
-						},
-					],
-				});
+			const data = await rankCard.build({})
+			ctx.editReply({
+				file: [
+					{
+						name: 'image.png',
+						blob: new Blob([data], {
+							type: 'image/png',
+						}),
+					},
+				],
 			});
+
 		} else {
 			client.extras.errNormal(
 				{
