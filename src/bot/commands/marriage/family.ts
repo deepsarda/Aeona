@@ -83,11 +83,12 @@ export default {
 
 		function text(reference, location, string) {
 			//draw centered text using rel. polar coords
-			const l = ctx.measureText(string).width / 2;
+
 			location = translate(reference, location);
 			ctx.fillStyle = TEXT_STYLE;
 			ctx.textBaseline = 'middle';
 			ctx.font = FONT;
+			const l = ctx.measureText(string).width / 2;
 			ctx.fillText(string, location[X] - l, location[Y]);
 		}
 
