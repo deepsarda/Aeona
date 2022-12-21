@@ -43,8 +43,8 @@ export default {
 			json = await getFamily(target.id, client);
 		}
 
-		const SIZE = [1200, 1200];
-		const MIN_RADIAL_DISTANCE = 150;
+		const SIZE = [720, 720];
+		const MIN_RADIAL_DISTANCE = 100;
 		const FONT = '12px monospace';
 		const CIRCLE_STYLE = '#bbb';
 		const LINE_STYLE = '#999';
