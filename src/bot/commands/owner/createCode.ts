@@ -17,11 +17,11 @@ export default {
 	ownerOnly: true,
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const code = ctx.options.getInteger('number', true);
+		const code = ctx.options.getString('number', true);
 
 		const expiresAt = Date.now() + 2592000000;
 		const array: string[] = [];
-		for (let i = 0; i < code; i++) {
+		for (let i = 0; i < Number(code); i++) {
 			const codePremium = voucher_codes.generate({
 				pattern: '####-####-####',
 			});
