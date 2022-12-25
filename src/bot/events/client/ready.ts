@@ -6,7 +6,7 @@ import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
 import { User } from 'discordeno/transformers';
 import functions from '../../database/models/functions.js';
-
+import premium from '../../database/models/premium.js';
 export default async (
 	client: AeonaBot,
 	payload: {
@@ -223,6 +223,9 @@ export default async (
 		}, 1000 * 60 * 10);
 
 		setInterval(async () => {
+			await premium.deleteMany({
+				Code: null,
+			});
 			const conditional = {
 				isPremium: 'true',
 			};

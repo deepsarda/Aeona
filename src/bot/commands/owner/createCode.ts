@@ -27,11 +27,11 @@ export default {
 			});
 
 			const c = codePremium.toString().toUpperCase();
-			console.log(c);
+
 			const find = await Premium.findOne({
 				code: c,
 			});
-			console.log(find);
+
 			if (!find) {
 				Premium.create({
 					code: c,

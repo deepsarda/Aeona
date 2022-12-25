@@ -27,7 +27,7 @@ const TOTAL_SHARDS = process.env.TOTAL_SHARDS ? Number(process.env.TOTAL_SHARDS)
 const TOTAL_WORKERS = Number(process.env.TOTAL_WORKERS as string);
 export async function start() {
 	const log = createLogger({ name: '[MANAGER]' });
-
+	log.info(DISCORD_TOKEN);
 	const bot = createBot({
 		token: DISCORD_TOKEN,
 	});

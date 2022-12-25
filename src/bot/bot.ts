@@ -294,12 +294,19 @@ bot.rest = createRestManager({
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
-		let guildDB = await Functions.findOne({ Guild: options!.guildId! + '' });
-		if (!guildDB)
-			guildDB = new Functions({
-				Guild: options!.guildId! + '',
+		if (options && options.guildId) {
+			let guildDB = await Functions.findOne({ Guild: options.guildId + '' });
+			if (!guildDB)
+				guildDB = new Functions({
+					Guild: options.guildId + '',
+				});
+			bot.helpers.sendMessage('1034710126675898389', {
+				content: `Guild: ${guildDB.Guild} || ${options.guildId}. Premium: ${guildDB.isPremium} || ${
+					guildDB.isPremium === 'true'
+				}`,
 			});
-		if (guildDB.isPremium === 'true') return true;
+			if (guildDB.isPremium === 'true') return true;
+		}
 		try {
 			if (process.env.TOPGG_TOKEN) {
 				const controller = new AbortController();
@@ -335,6 +342,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	return true;
 });
 setTimeout(() => {
+	bot.helpers.sendMessage('1034710126675898389', { content: 'Sending ready event.' });
 	console.log('Sending ready event.');
 	bot.emit('ready', bot);
-}, 2 * 60 * 1000);
+}, 30 * 1000);
