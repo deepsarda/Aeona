@@ -27,7 +27,7 @@ export default {
 			});
 
 			const c = codePremium.toString().toUpperCase();
-			console.log(c)
+			console.log(c);
 			const find = await Premium.findOne({
 				code: c,
 			});
