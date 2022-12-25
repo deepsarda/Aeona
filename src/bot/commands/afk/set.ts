@@ -17,7 +17,7 @@ export default {
 	],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const reason = ctx.options.getString('reason') || `Not specified`;
+		const reason = ctx.options.getLongString('reason') || `Not specified`;
 		console.log('Hmmm...');
 		Schema.findOne({ Guild: ctx.guild!.id, User: ctx.user.id }, async (err, data) => {
 			if (data) {

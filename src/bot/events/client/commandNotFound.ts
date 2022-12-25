@@ -25,7 +25,7 @@ export default async (bot: AeonaBot, message: Message, commandName: string) => {
 			);
 			const s = [
 				'\n discord.gg/qURxRRHPwa',
-				'\n Generate beautiful images using /imagine \n || https://media.discordapp.net/attachments/1034419695060791342/1044217539682652170/unknown.png ||',
+				'\n Generate beautiful images using /imagine \n ',
 			];
 			const randomNumber = Math.floor(Math.random() * 30);
 			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;

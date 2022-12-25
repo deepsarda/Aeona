@@ -66,7 +66,7 @@ export default {
 		} catch (e) {
 			return client.extras.errNormal(
 				{
-					error: 'Unable to update message. Was it send by me?',
+					error: 'Unable to update message. Was it sent by me?',
 					type: 'reply',
 				},
 				ctx,

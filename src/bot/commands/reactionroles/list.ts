@@ -24,7 +24,7 @@ export default {
 		let list = ``;
 
 		for (let i = 0; i < reactions.length; i++) {
-			list += `**${i + 1}** - Category: ${reactions[i].Category} \n`;
+			list += `**${i + 1}** - Name: ${reactions[i].Category} \n`;
 		}
 
 		await client.extras.embed(

@@ -5,6 +5,7 @@ import { cpus } from 'os';
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
 import { User } from 'discordeno/transformers';
+import functions from '../../database/models/functions.js';
 
 export default async (
 	client: AeonaBot,
@@ -220,6 +221,48 @@ export default async (
 				}
 			}
 		}, 1000 * 60 * 10);
+
+
+		setInterval(async () => {
+			const conditional = {
+				isPremium: "true",
+			}
+			const results = await functions.find(conditional)
+
+			if (results && results.length) {
+				for (const result of results) {
+					if (Number(result.Premium!.RedeemedAt) >= Number(result.Premium!.ExpiresAt)) {
+						const guildPremium = await client.cache.guilds.get(BigInt(result.Guild!));
+						if (guildPremium) {
+							const user = await client.cache.users.get(BigInt(result.Premium!.RedeemedBy!.id))
+
+							if (user) {
+								client.extras.errNormal({
+									error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased.`
+								}, user)
+
+							}
+
+							result.isPremium = "false";
+							//@ts-ignore
+							result.Premium!.RedeemedBy.id = null;
+							//@ts-ignore
+							result.Premium!.RedeemedBy.tag = null;
+							//@ts-ignore
+							result.Premium!.RedeemedAt = null;
+							//@ts-ignore
+							result.Premium!.ExpiresAt = null;
+							//@ts-ignore
+							result.Premium!.Plan = null;
+
+							await result.save()
+						}
+					}
+
+				}
+			}
+		}, 500000)
+
 		client.extras.ready = true;
 	}
 };

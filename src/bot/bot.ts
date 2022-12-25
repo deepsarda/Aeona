@@ -31,11 +31,12 @@ const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
 		channels: false,
+		members: false,
 		roles: false,
 	},
 	cacheOutsideMemory: {
 		default: false,
-		members: false,
+		members: true,
 		messages: false,
 	},
 	fetchIfMissing: {
@@ -60,7 +61,7 @@ const cachebot = createProxyCache(basebot, {
 });
 
 const bot: AeonaBot = enableAmethystPlugin(cachebot, {
-	owners: ['794921502230577182'],
+	owners: ['794921502230577182', ''],
 	prefix: async (bot, message) => {
 		const schema = await chatBotSchema.findOne({ Guild: message.guildId });
 		if (schema) if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';
@@ -270,6 +271,12 @@ const categories: CategoryOptions[] = [
 		uniqueCommands: true,
 		default: '',
 	},
+	{
+		name: 'owner',
+		description: 'Private commands for the owners',
+		uniqueCommands: true,
+		default: '',
+	},
 ];
 for (let i = 0; i < categories.length; i++) {
 	bot.amethystUtils.createCategory(categories[i]);
@@ -283,6 +290,11 @@ bot.rest = createRestManager({
 
 bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
+		let guildDB = await Functions.findOne({ Guild: options!.guildId! + "" });
+		if (!guildDB) guildDB = new Functions({
+			Guild: options!.guildId! + "",
+		})
+		if (guildDB.isPremium === "true") return true;
 		try {
 			if (process.env.TOPGG_TOKEN) {
 				const controller = new AbortController();
@@ -295,13 +307,12 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 				});
 				clearTimeout(timeoutId);
 				const json: any = await response.json();
-				console.log(json);
 				if (json.voted == 1) return true;
 				return {
 					//@ts-ignore
 					type: ErrorEnums.OTHER,
 					value:
-						'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command.  \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
+						'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at http://patreon.com/aeonadiscord __ and remove all ads.',
 				};
 			}
 		} catch (e) {
@@ -313,7 +324,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 			//@ts-ignore
 			type: ErrorEnums.OTHER,
 			value:
-				'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Why the Change? Unfortunately, due to the extraordinarily high demand for these commands, we have chosen to make this command available to anybody who gives us an upvote rather than setting a long ratelimit of 1 minute. It is free and really benefits us.',
+				'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at http://patreon.com/aeonadiscord __ and remove all ads.',
 		};
 	}
 	return true;

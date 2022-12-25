@@ -218,10 +218,8 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 			message.authorId +
 			'&key=' +
 			process.env.apiKey +
-			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
-				context2 ? `&context2=${context2}` : ''
-			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
-				context5 ? `&context5=${context5}` : ''
+			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${context2 ? `&context2=${context2}` : ''
+			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${context5 ? `&context5=${context5}` : ''
 			}`;
 
 		const options = {
@@ -234,10 +232,16 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 				Influx?.writePoint(
 					new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
 				);
-				const s = [
+				let guild = await Functions.findOne({
+					Guild: message.guildId,
+				});
+				if (!guild) guild = new Functions({ Guild: message.guildId });
+				let s = [
 					'\n discord.gg/qURxRRHPwa',
-					'\n Generate beautiful images using /imagine \n || https://media.discordapp.net/attachments/1034419695060791342/1044217539682652170/unknown.png ||',
+					'\n Generate beautiful images using /imagine \n ',
 				];
+
+				if (guild.isPremium === "true") s = [];
 				const randomNumber = Math.floor(Math.random() * 30);
 				json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 				await client.helpers.sendMessage(message.channelId, {

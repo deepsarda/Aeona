@@ -10,6 +10,20 @@ const Schema = new mongoose.Schema({
 	AntiLinks: { type: Boolean, default: false },
 	Prefix: String,
 	Color: String,
+	Premium: {
+		RedeemedBy: {
+			id: { type: mongoose.SchemaTypes.String, default: null },
+			tag: { type: mongoose.SchemaTypes.String, default: null },
+		},
+		RedeemedAt: { type: mongoose.SchemaTypes.String, default: null },
+		ExpiresAt: { type: mongoose.SchemaTypes.String, default: null },
+		Plan: { type: mongoose.SchemaTypes.String, default: null },
+	},
+	isPremium: {
+		type: mongoose.SchemaTypes.String,
+		required: false,
+		default: false
+	},
 });
 
 export default mongoose.model('functions', Schema);

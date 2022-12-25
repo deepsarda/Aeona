@@ -10,8 +10,8 @@ export default {
 	category: 'reactionroles',
 	args: [
 		{
-			name: 'category',
-			description: 'The category of the reaction roles',
+			name: 'name',
+			description: 'The name of the reaction roles',
 			required: true,
 			type: 'String',
 		},
@@ -25,7 +25,7 @@ export default {
 	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-		const category = ctx.options.getString('category', true);
+		const category = ctx.options.getString('name', true);
 		const channel = (await ctx.options.getChannel('channel')) || ctx.channel;
 
 		const lower = category.toLowerCase();
@@ -80,7 +80,7 @@ export default {
 
 			client.extras.succNormal(
 				{
-					text: 'Reaction panel successfully created! \n TIP: `Use the commands under the *edit* category to modify thier look.` \n Example use: `+editdescription`',
+					text: 'Reaction panel successfully created! \n TIP: `Use the commands under the *embed* category to modify thier look.` \n Example use: `+editembed`',
 					type: 'ephemeral',
 				},
 				ctx,
