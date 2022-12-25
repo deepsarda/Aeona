@@ -21,9 +21,10 @@ export default async (
 	rawPayload: DiscordReady,
 ) => {
 	console.log('READY!');
-
+	client.helpers.sendMessage('1034710126675898389', { content: 'READY!' });
 	if (!client.extras.ready) {
 		console.log('Running loops');
+		client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
 		client.user = payload.user;
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
