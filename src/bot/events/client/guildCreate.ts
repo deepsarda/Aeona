@@ -1,4 +1,3 @@
-
 import { Guild } from 'discordeno/transformers';
 import Functions from '../../database/models/functions.js';
 import { AeonaBot } from '../../extras/index.js';
