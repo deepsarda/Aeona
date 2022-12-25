@@ -455,11 +455,12 @@ export default (client: AeonaBot) => {
 				'\n discord.gg/qURxRRHPwa',
 				'\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
 			];
-			let guildDB = await Schema.findOne({ Guild: ctx.guildId + "" });
-			if (!guildDB) guildDB = new Schema({
-				Guild: ctx.guildId + "",
-			})
-			if (guildDB.isPremium === "true") s = [];
+			let guildDB = await Schema.findOne({ Guild: ctx.guildId + '' });
+			if (!guildDB)
+				guildDB = new Schema({
+					Guild: ctx.guildId + '',
+				});
+			if (guildDB.isPremium === 'true') s = [];
 
 			//Generate a random number between 1 to 10;
 			const randomNumber = Math.floor(Math.random() * 50);

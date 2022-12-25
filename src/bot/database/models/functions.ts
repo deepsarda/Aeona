@@ -22,7 +22,7 @@ const Schema = new mongoose.Schema({
 	isPremium: {
 		type: mongoose.SchemaTypes.String,
 		required: false,
-		default: false
+		default: false,
 	},
 });
 

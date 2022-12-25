@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
-    Code: { type: mongoose.SchemaTypes.String, default: null },
+	Code: { type: mongoose.SchemaTypes.String, default: null },
 
-    ExpiresAt: { type: mongoose.SchemaTypes.String, default: Date.now() + 2592000000 },
+	ExpiresAt: { type: mongoose.SchemaTypes.String, default: Date.now() + 2592000000 },
 
-    Plan: { type: mongoose.SchemaTypes.String, default: null },
+	Plan: { type: mongoose.SchemaTypes.String, default: null },
 });
 
 export default mongoose.model('functions', Schema);
