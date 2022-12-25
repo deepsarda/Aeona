@@ -25,7 +25,7 @@ export default async (
 	if (!client.extras.ready) {
 		console.log('Running loops');
 		client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
-		client.user = payload.user;
+		client.user = await client.helpers.getUser(client.applicationId);
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 		const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
