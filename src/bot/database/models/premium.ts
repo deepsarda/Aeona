@@ -8,4 +8,4 @@ const Schema = new mongoose.Schema({
 	Plan: { type: mongoose.SchemaTypes.String, default: null },
 });
 
-export default mongoose.model('functions', Schema);
+export default mongoose.model('codes', Schema);
