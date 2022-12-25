@@ -1,7 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { DiscordGatewayPayload, DiscordGuild, DiscordReady, DiscordUnavailableGuild, GatewayEventNames } from 'discordeno';
+import {
+	DiscordGatewayPayload,
+	DiscordGuild,
+	DiscordReady,
+	DiscordUnavailableGuild,
+	GatewayEventNames,
+} from 'discordeno';
 import express from 'express';
 import { EVENT_HANDLER_URL } from '../configs.js';
 import { basebot } from './bot.js';
