@@ -26,7 +26,7 @@ export default {
 				pattern: '####-####-####',
 			});
 
-			const c = codePremium.toString().toUpperCase();
+			const c = codePremium[0].toString().toUpperCase();
 			const find = await Premium.findOne({
 				code: c,
 			});
