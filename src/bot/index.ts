@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { DiscordGatewayPayload } from 'discordeno';
+import { DiscordGatewayPayload, DiscordGuild, DiscordReady, DiscordUnavailableGuild, GatewayEventNames } from 'discordeno';
 import express from 'express';
 import { EVENT_HANDLER_URL } from '../configs.js';
 import { basebot } from './bot.js';
@@ -9,10 +9,41 @@ import colors from 'colors';
 
 const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
 const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
-
+// Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
+const guildIds: Set<bigint> = new Set();
+const loadingGuildIds: Set<bigint> = new Set();
 // Handle events from the gateway
 const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
 	// EMITS RAW EVENT
+	if (message.t === 'READY') {
+		// Marks which guilds the bot in when initial loading in cache.
+		(message.d as DiscordReady).guilds.forEach((g) => loadingGuildIds.add(BigInt(g.id)));
+	}
+
+	// If GUILD_CREATE event came from a shard loaded event, change event to GUILD_LOADED_DD.
+	if (message.t === 'GUILD_CREATE') {
+		const guild = message.d as DiscordGuild;
+		const id = BigInt(guild.id);
+
+		const existing = guildIds.has(id);
+		if (existing) return;
+
+		if (loadingGuildIds.has(id)) {
+			(message.t as GatewayEventNames | 'GUILD_LOADED_DD') = 'GUILD_LOADED_DD';
+
+			loadingGuildIds.delete(id);
+		}
+
+		guildIds.add(id);
+	}
+
+	// Delete guild id from cache so GUILD_CREATE from the same guild later works properly.
+	if (message.t === 'GUILD_DELETE') {
+		const guild = message.d as DiscordUnavailableGuild;
+
+		guildIds.delete(BigInt(guild.id));
+	}
+
 	basebot.events.raw(basebot, message, shardId);
 
 	if (message.t && message.t !== 'RESUMED') {

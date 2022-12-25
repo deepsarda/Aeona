@@ -5,7 +5,7 @@ import {
 	AmethystError,
 	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
-import { createBot, createRestManager } from 'discordeno';
+import { createBot, createRestManager, startBot } from 'discordeno';
 import dotenv from 'dotenv';
 import { connect } from './database/connect.js';
 import Functions from './database/models/functions.js';
@@ -301,9 +301,8 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 					Guild: options.guildId + '',
 				});
 			bot.helpers.sendMessage('1034710126675898389', {
-				content: `Guild: ${guildDB.Guild} || ${options.guildId}. Premium: ${guildDB.isPremium} || ${
-					guildDB.isPremium === 'true'
-				}`,
+				content: `Guild: ${guildDB.Guild} || ${options.guildId}. Premium: ${guildDB.isPremium} || ${guildDB.isPremium === 'true'
+					}`,
 			});
 			if (guildDB.isPremium === 'true') return true;
 		}
@@ -341,8 +340,5 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	}
 	return true;
 });
-setTimeout(() => {
-	bot.helpers.sendMessage('1034710126675898389', { content: 'Sending ready event.' });
-	console.log('Sending ready event.');
-	bot.emit('ready', bot);
-}, 60 * 1000);
+
+startBot(bot);
