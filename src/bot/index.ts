@@ -2,24 +2,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import {
-	DiscordGatewayPayload,
 	DiscordGuild,
 	DiscordReady,
 	DiscordUnavailableGuild,
-	GatewayEventNames,
 } from 'discordeno';
-import express from 'express';
-import { EVENT_HANDLER_URL } from '../configs.js';
-import { basebot } from './bot.js';
-import colors from 'colors';
 
-const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
-const EVENT_HANDLER_PORT = process.env.EVENT_HANDLER_PORT as string;
+import { basebot } from './bot.js';
+
+
 // Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
 const guildIds: Set<bigint> = new Set();
 const loadingGuildIds: Set<bigint> = new Set();
-// Handle events from the gateway
-const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
+
+basebot.handleDiscordPayload = async (shard, message) => {
 	// EMITS RAW EVENT
 	if (message.t === 'READY') {
 		// Marks which guilds the bot in when initial loading in cache.
@@ -35,9 +30,10 @@ const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
 		if (existing) return;
 
 		if (loadingGuildIds.has(id)) {
-			(message.t as GatewayEventNames | 'GUILD_LOADED_DD') = 'GUILD_LOADED_DD';
-
+			//@ts-ignore
+			message.t = 'GUILD_LOADED_DD';
 			loadingGuildIds.delete(id);
+
 		}
 
 		guildIds.add(id);
@@ -50,56 +46,17 @@ const handleEvent = async (message: DiscordGatewayPayload, shardId: number) => {
 		guildIds.delete(BigInt(guild.id));
 	}
 
-	basebot.events.raw(basebot, message, shardId);
+	basebot.events.raw(basebot, message, shard.id);
 
 	if (message.t && message.t !== 'RESUMED') {
 		// When a guild or something isnt in cache this will fetch it before doing anything else
 		if (!['READY', 'GUILD_LOADED_DD'].includes(message.t)) {
-			await basebot.events.dispatchRequirements(basebot, message, shardId);
+			await basebot.events.dispatchRequirements(basebot, message, shard.id);
 		}
 
-		basebot.handlers[message.t]?.(basebot, message, shardId);
+		basebot.handlers[message.t]?.(basebot, message, shard.id);
 	}
-};
-
-const app = express();
-
-app.use(
-	express.urlencoded({
-		extended: true,
-		limit: '200mb',
-	}),
-);
-
-app.use(
-	express.json({
-		limit: '200mb',
-	}),
-);
-
-app.all('/', async (req, res) => {
-	try {
-		if (!EVENT_HANDLER_AUTHORIZATION || EVENT_HANDLER_AUTHORIZATION !== req.headers.authorization) {
-			return res.status(401).json({ error: 'Invalid authorization key.' });
-		}
-
-		const json = req.body as {
-			message: DiscordGatewayPayload;
-			shardId: number;
-		};
-
-		await handleEvent(json.message, json.shardId);
-
-		return res.status(200).json({ success: true });
-	} catch (error: any) {
-		console.error(error);
-		return res.status(error.code).json(error);
-	}
-});
-
-app.listen(EVENT_HANDLER_PORT, () => {
-	console.log(colors.green(`Bot is listening at ${EVENT_HANDLER_URL};`));
-});
+}
 
 process.on('unhandledRejection', (error: Error) => {
 	console.error(error);
