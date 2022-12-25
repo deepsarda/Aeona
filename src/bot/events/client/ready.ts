@@ -7,6 +7,7 @@ import bumpreminder from '../../database/models/bumpreminder.js';
 import { User } from 'discordeno/transformers';
 import functions from '../../database/models/functions.js';
 import premium from '../../database/models/premium.js';
+import { getBotIdFromToken } from 'discordeno/*';
 export default async (
 	client: AeonaBot,
 	payload: {
@@ -25,7 +26,8 @@ export default async (
 	if (!client.extras.ready) {
 		console.log('Running loops');
 		client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
-		client.user = await client.helpers.getUser(client.applicationId);
+
+		client.user = await client.helpers.getUser(getBotIdFromToken(process.env.DISCORD_TOKEN!));
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 		const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
