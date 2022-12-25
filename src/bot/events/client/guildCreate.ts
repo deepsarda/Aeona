@@ -11,6 +11,7 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Prefix: process.env.PREFIX,
 	}).save();
 
+	/*
 	const embed = new AmethystEmbed()
 		.setTitle('Added to a new server!')
 		.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
@@ -22,4 +23,5 @@ export default async (client: AeonaBot, guild: Guild) => {
 	client.extras.webhook({
 		embeds: [embed],
 	});
+	*/
 };
