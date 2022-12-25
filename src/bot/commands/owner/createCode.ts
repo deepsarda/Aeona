@@ -10,7 +10,7 @@ export default {
 	args: [
 		{
 			name: 'number',
-			type: 'Number',
+			type: 'String',
 			required: true,
 		},
 	],
