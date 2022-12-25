@@ -2,13 +2,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { DiscordGuild, DiscordReady, DiscordUnavailableGuild } from 'discordeno';
-
+import colors from 'colors';
 import { basebot } from './bot.js';
 
 // Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
 const guildIds: Set<bigint> = new Set();
 const loadingGuildIds: Set<bigint> = new Set();
-
+console.log(colors.green("STARTING"))
 basebot.handleDiscordPayload = async (shard, message) => {
 	// EMITS RAW EVENT
 	if (message.t === 'READY') {

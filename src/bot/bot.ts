@@ -301,9 +301,8 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 					Guild: options.guildId + '',
 				});
 			bot.helpers.sendMessage('1034710126675898389', {
-				content: `Guild: ${guildDB.Guild} || ${options.guildId}. Premium: ${guildDB.isPremium} || ${
-					guildDB.isPremium === 'true'
-				}`,
+				content: `Guild: ${guildDB.Guild} || ${options.guildId}. Premium: ${guildDB.isPremium} || ${guildDB.isPremium === 'true'
+					}`,
 			});
 			if (guildDB.isPremium === 'true') return true;
 		}

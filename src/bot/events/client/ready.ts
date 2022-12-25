@@ -7,7 +7,7 @@ import bumpreminder from '../../database/models/bumpreminder.js';
 import { User } from 'discordeno/transformers';
 import functions from '../../database/models/functions.js';
 import premium from '../../database/models/premium.js';
-import { getBotIdFromToken } from 'discordeno/*';
+import { getBotIdFromToken } from 'discordeno';
 export default async (
 	client: AeonaBot,
 	payload: {
