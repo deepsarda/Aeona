@@ -25,12 +25,19 @@ export default {
 			const codePremium = voucher_codes.generate({
 				pattern: '####-####-####',
 			});
-
+			client.extras.succNormal(
+				{
+					text: codePremium.toString().toUpperCase(),
+					type: 'reply',
+				},
+				ctx,
+			);
 			const c = codePremium[0].toString().toUpperCase();
+
 			const find = await Premium.findOne({
 				code: c,
 			});
-
+			console.log(find)
 			if (!find) {
 				Premium.create({
 					code: c,
