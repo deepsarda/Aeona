@@ -1,14 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import {
-	DiscordGuild,
-	DiscordReady,
-	DiscordUnavailableGuild,
-} from 'discordeno';
+import { DiscordGuild, DiscordReady, DiscordUnavailableGuild } from 'discordeno';
 
 import { basebot } from './bot.js';
-
 
 // Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
 const guildIds: Set<bigint> = new Set();
@@ -33,7 +28,6 @@ basebot.handleDiscordPayload = async (shard, message) => {
 			//@ts-ignore
 			message.t = 'GUILD_LOADED_DD';
 			loadingGuildIds.delete(id);
-
 		}
 
 		guildIds.add(id);
@@ -56,7 +50,7 @@ basebot.handleDiscordPayload = async (shard, message) => {
 
 		basebot.handlers[message.t]?.(basebot, message, shard.id);
 	}
-}
+};
 
 process.on('unhandledRejection', (error: Error) => {
 	console.error(error);
