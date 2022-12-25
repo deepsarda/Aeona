@@ -37,7 +37,7 @@ export default {
 			const find = await Premium.findOne({
 				code: c,
 			});
-			console.log(find)
+			console.log(find);
 			if (!find) {
 				Premium.create({
 					code: c,
