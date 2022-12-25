@@ -33,12 +33,12 @@ export default {
 
 			if (!find) {
 				Premium.create({
-					code: code,
+					code: c,
 					expiresAt: expiresAt,
 					plan: 'month',
 				});
 
-				array.push(`\`${i + 1}-\` ${code}`);
+				array.push(`\`${i + 1}-\` ${c}`);
 			}
 		}
 		client.extras.succNormal(
