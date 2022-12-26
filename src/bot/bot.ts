@@ -86,7 +86,7 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,
-	commandDir: './dist/bot/commands',
+
 });
 
 bot.extras = additionalProps(bot);
@@ -109,6 +109,17 @@ fs.readdirSync('./dist/bot/events/').forEach(async (dirs) => {
 		const a = await import(`./events/${dirs}/${file}`);
 
 		bot.on(file.split('.')[0]!, a.default);
+	}
+});
+
+fs.readdirSync('./dist/bot/commands/').forEach(async (dirs) => {
+	const events = fs.readdirSync(`./dist/bot/commands/${dirs}`).filter((files) => files.endsWith('.js'));
+
+	for (const file of events) {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const a = await import(`./commands/${dirs}/${file}`);
+
+		bot.amethystUtils.createCommand(a.default);
 	}
 });
 
@@ -337,4 +348,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 	return true;
 });
 
-startBot(bot);
+//Wait for 10 seconds
+setTimeout(() => {
+	startBot(bot);
+}, 10000);
