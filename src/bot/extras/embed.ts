@@ -362,7 +362,7 @@ export default (client: AeonaBot) => {
 			}[];
 			content?: string;
 			components?: ActionRow[];
-			type: string;
+			type?: string;
 		},
 		interaction: Context | { id: bigint },
 	) {
@@ -371,7 +371,7 @@ export default (client: AeonaBot) => {
 		embed.setColor(client.extras.config.colors.succes);
 
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-
+		type = 'editreply';
 		return client.extras.sendEmbed(
 			{
 				embeds: [embed],

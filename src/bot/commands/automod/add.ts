@@ -58,7 +58,6 @@ export default {
 						value: `${word}`,
 					},
 				],
-				type: 'reply',
 			},
 			ctx,
 		);

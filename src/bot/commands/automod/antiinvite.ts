@@ -34,7 +34,6 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `Anti invite is now **${boolean ? 'enabled' : 'disabled'}** in this guild`,
-				type: 'reply',
 			},
 			ctx,
 		);

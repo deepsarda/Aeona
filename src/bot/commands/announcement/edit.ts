@@ -39,7 +39,6 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `Announcement has been edit successfully!`,
-				type: 'ephemeral',
 			},
 			ctx,
 		);

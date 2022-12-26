@@ -42,7 +42,6 @@ export default {
 						value: `${channel} (${channel?.name})`,
 					},
 				],
-				type: 'reply',
 			},
 			ctx,
 		);
