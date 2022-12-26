@@ -86,7 +86,6 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 	},
 	botMentionAsPrefix: true,
 	ignoreBots: true,
-
 });
 
 bot.extras = additionalProps(bot);
