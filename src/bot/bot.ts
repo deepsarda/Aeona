@@ -48,11 +48,9 @@ const cachebot = createProxyCache(basebot, {
 		roles: true,
 	},
 	getItem: async (table, id, guildid?) => {
-		try {
-			return JSON.parse(await db.getData(`${table}/${id}${guildid ? guildid : ''}`));
-		} catch {
-			return undefined;
-		}
+
+		return JSON.parse(await db.getData(`${table}/${id}${guildid ? guildid : ''}`));
+
 	},
 
 	removeItem: async (table, id, guildid?) => {
@@ -60,7 +58,7 @@ const cachebot = createProxyCache(basebot, {
 	},
 
 	setItem: async (table, item) => {
-		return await db.push(`${table}/${item.id}`, JSON.stringify(item));
+		return await db.push(`${table}/${item.id}${item.guildid ? item.guildid : ''}`, JSON.stringify(item));
 	},
 });
 
