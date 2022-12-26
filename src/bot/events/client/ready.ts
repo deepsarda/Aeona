@@ -91,7 +91,7 @@ export default async (
 							type: ActivityTypes.Game,
 							name: `${bot.prefix}help on ${formatter.format(
 								client.cache.guilds.memory.size,
-							)} servers with ${client.category.reduce((a: number, c) => (a += c.commands.size))} commands.`,
+							)} servers with 220+ commands.`,
 
 							createdAt: new Date().getTime(),
 						},

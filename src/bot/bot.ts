@@ -65,7 +65,7 @@ const cachebot = createProxyCache(basebot, {
 });
 
 const bot: AeonaBot = enableAmethystPlugin(cachebot, {
-	owners: ['794921502230577182', ''],
+	owners: ['794921502230577182', '830231116660604951'],
 	prefix: async (bot, message) => {
 		const schema = await chatBotSchema.findOne({ Guild: message.guildId });
 		if (schema) if (schema.Channel == message.channelId + '') return 'asdasdasdasdasdasdasdasdasdq3w12341234';

@@ -4,6 +4,7 @@ import { Message } from 'discordeno/transformers';
 import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
 import Schema from '../../database/models/votecredits.js';
+import Functions from '../../database/models/functions.js';
 export default async (bot: AeonaBot, message: Message, commandName: string) => {
 	const url =
 		'https://DumBotApi.aeona.repl.co?text=' +
@@ -23,7 +24,12 @@ export default async (bot: AeonaBot, message: Message, commandName: string) => {
 			Influx?.writePoint(
 				new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
 			);
-			const s = ['\n discord.gg/qURxRRHPwa', '\n Generate beautiful images using /imagine \n '];
+			let s = ['\n discord.gg/qURxRRHPwa', '\n Generate beautiful images using /imagine \n '];
+			let guild = await Functions.findOne({
+				Guild: message.guildId,
+			});
+			if (!guild) guild = new Functions({ Guild: message.guildId });
+			if (guild.isPremium === 'true') s = [];
 			const randomNumber = Math.floor(Math.random() * 30);
 			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 			await bot.helpers.sendMessage(message.channelId, {
