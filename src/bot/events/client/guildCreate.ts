@@ -11,12 +11,7 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Prefix: process.env.PREFIX,
 	}).save();
 
-	if (guild.publicUpdatesChannelId) {
-		const channel = guild.channels.get(guild.publicUpdatesChannelId);
-		if (channel) {
-			client.helpers.followAnnouncementChannel('1057248837238009946', channel.id + '');
-		}
-	}
+
 
 	if (Date.now() > client.extras.startTime + 30 * 60 * 1000) {
 		const embed = new AmethystEmbed()
@@ -30,5 +25,11 @@ export default async (client: AeonaBot, guild: Guild) => {
 		client.extras.webhook({
 			embeds: [embed],
 		});
+		if (guild.publicUpdatesChannelId) {
+			const channel = guild.channels.get(guild.publicUpdatesChannelId);
+			if (channel) {
+				client.helpers.followAnnouncementChannel('1057248837238009946', channel.id + '');
+			}
+		}
 	}
 };
