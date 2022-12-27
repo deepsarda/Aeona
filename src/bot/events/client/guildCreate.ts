@@ -11,8 +11,6 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Prefix: process.env.PREFIX,
 	}).save();
 
-
-
 	if (Date.now() > client.extras.startTime + 30 * 60 * 1000) {
 		const embed = new AmethystEmbed()
 			.setTitle('Added to a new server!')
