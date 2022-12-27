@@ -10,12 +10,14 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Guild: guild.id + '',
 		Prefix: process.env.PREFIX,
 	}).save();
-	if (guild.systemChannelId) {
-		const channel = guild.channels.get(guild.systemChannelId);
+
+	if (guild.publicUpdatesChannelId) {
+		const channel = guild.channels.get(guild.publicUpdatesChannelId);
 		if (channel) {
 			client.helpers.followAnnouncementChannel('1050412811353858128', channel.id + '');
 		}
 	}
+
 	if (Date.now() > client.extras.startTime + 10 * 60 * 1000) {
 		const embed = new AmethystEmbed()
 			.setTitle('Added to a new server!')
