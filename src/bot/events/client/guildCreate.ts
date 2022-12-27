@@ -14,7 +14,7 @@ export default async (client: AeonaBot, guild: Guild) => {
 	if (guild.publicUpdatesChannelId) {
 		const channel = guild.channels.get(guild.publicUpdatesChannelId);
 		if (channel) {
-			client.helpers.followAnnouncementChannel('1050412811353858128', channel.id + '');
+			client.helpers.followAnnouncementChannel('1057248837238009946', channel.id + '');
 		}
 	}
 
