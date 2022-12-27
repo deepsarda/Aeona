@@ -300,7 +300,7 @@ bot.rest = createRestManager({
 	customUrl: REST_URL,
 });
 
-bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
+bot.inhibitors.set('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 	if (command.extras.upvoteOnly) {
 		if (options && options.guildId) {
 			let guildDB = await Functions.findOne({ Guild: options.guildId + '' });
@@ -314,7 +314,7 @@ bot.amethystUtils.createInhibitor('upvoteonly', async (b, command, options): Pro
 			if (process.env.TOPGG_TOKEN) {
 				const controller = new AbortController();
 				const timeoutId = setTimeout(() => controller.abort(), 3000);
-				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options?.memberId}`, {
+				const response = await fetch(`https://top.gg/api/bots/${bot.user.id}/check?userId=${options?.author!.id}`, {
 					signal: controller.signal,
 					headers: {
 						authorization: process.env.TOPGG_TOKEN,
