@@ -31,6 +31,4 @@ export default async (client: AeonaBot, guild: Guild) => {
 		}
 		lastguildcount = client.cache.guilds.memory.size;
 	}
-
-
 };
