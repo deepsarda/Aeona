@@ -10,7 +10,7 @@ import premium from '../../database/models/premium.js';
 import { getBotIdFromToken } from 'discordeno';
 export default async (
 	client: AeonaBot,
-	payload: {
+	_payload: {
 		shardId: number;
 		v: number;
 		user: User;
@@ -19,7 +19,7 @@ export default async (
 		shard?: number[] | undefined;
 		applicationId: bigint;
 	},
-	rawPayload: DiscordReady,
+	_rawPayload: DiscordReady,
 ) => {
 	console.log('READY!');
 	client.helpers.sendMessage('1034710126675898389', { content: 'READY!' });
@@ -174,17 +174,17 @@ export default async (
 
 		setInterval(() => {
 			if (client.cache.members.memory.size > 5000) {
-				for (const [userId, user] of client.cache.members.memory) {
+				for (const [_userId, user] of client.cache.members.memory) {
 					if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
 				}
 			}
 			if (client.cache.users.memory.size > 500) {
-				for (const [userId, user] of client.cache.users.memory) {
+				for (const [_userId, user] of client.cache.users.memory) {
 					if (user.id != client.user.id) client.cache.users.delete(user.id);
 				}
 			}
 			if (client.cache.messages.memory.size > 500) {
-				for (const [messageId, message] of client.cache.messages.memory) {
+				for (const [messageId, _message] of client.cache.messages.memory) {
 					client.cache.messages.delete(messageId);
 				}
 			}

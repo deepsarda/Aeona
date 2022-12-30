@@ -20,7 +20,7 @@ export default {
 		const color = ctx.options.getString('color', true);
 
 		//@ts-ignore
-		const { data } = await axios.get(`https://some-random-api.ml/canvas/rgb?hex=${color}`).catch((e) => {
+		const { data } = await axios.get(`https://some-random-api.ml/canvas/rgb?hex=${color}`).catch(() => {
 			return client.extras.errNormal(
 				{
 					error: 'Color not found!',

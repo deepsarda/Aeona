@@ -33,7 +33,7 @@ export default {
 			})
 			.then(async (i) => {
 				if (i.data?.customId == 'family_delete') {
-					const remove = await Schema.findOneAndDelete({
+					await Schema.findOneAndDelete({
 						User: ctx.author?.id + '',
 					});
 					const parent = await Schema.findOne({

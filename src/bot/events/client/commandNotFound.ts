@@ -5,7 +5,7 @@ import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
 import Schema from '../../database/models/votecredits.js';
 import Functions from '../../database/models/functions.js';
-export default async (bot: AeonaBot, message: Message, commandName: string) => {
+export default async (bot: AeonaBot, message: Message, _commandName: string) => {
 	const url =
 		'https://DumBotApi.aeona.repl.co?text=' +
 		encodeURIComponent(message.content) +

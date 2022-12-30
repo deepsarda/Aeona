@@ -38,7 +38,7 @@ export default {
 							},
 							ctx,
 						)
-						.then((msg) =>
+						.then((_msg) =>
 							setTimeout(async () => {
 								await client.helpers.deleteChannel(ctx.channel!.id);
 								ticketChannels.findOne(
@@ -48,7 +48,7 @@ export default {
 									},
 									async (err, data) => {
 										if (data) {
-											const remove = await ticketChannels.deleteOne({
+											await ticketChannels.deleteOne({
 												Guild: ctx.guild!.id,
 												channelID: ctx.channel!.id,
 											});

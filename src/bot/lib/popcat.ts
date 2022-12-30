@@ -251,7 +251,7 @@ export default {
 				"[Popcat Wrapper] The field 'text' was left empty in the pikachu function. Need help? https://dsc.gg/popcatcom",
 			);
 		const input = `text=${encodeURIComponent(text)}`;
-		const res = await request('pikachu', text);
+		const res = await request('pikachu', input);
 		return res;
 	},
 	drip: async function (image: string) {

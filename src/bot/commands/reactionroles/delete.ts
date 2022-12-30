@@ -30,7 +30,7 @@ export default {
 					ctx,
 				);
 
-			const remove = await Schema.deleteOne({
+			await Schema.deleteOne({
 				Guild: ctx.guild!.id,
 				Category: category,
 			});

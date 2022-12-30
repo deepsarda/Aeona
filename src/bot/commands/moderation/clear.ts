@@ -61,7 +61,7 @@ export default {
 					ctx,
 				);
 			})
-			.catch((err) => {
+			.catch((_err) => {
 				client.extras.errNormal(
 					{
 						error: 'There was an error trying to delete messages in this channel!',

@@ -20,7 +20,7 @@ export default {
 				},
 				ctx,
 			)
-			.then(async (editMsg) => {
+			.then(async (_editMsg) => {
 				client.extras.transcript(client, ctx.channel!).then(() => {
 					return client.extras.simpleEmbed(
 						{

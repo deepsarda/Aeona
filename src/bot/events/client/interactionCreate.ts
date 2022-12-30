@@ -82,7 +82,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 									id: interaction.channelId!,
 								},
 							)
-							.then((msgError) => {
+							.then((_msgError) => {
 								setTimeout(() => {
 									client.helpers.deleteMessage(interaction.channelId!, msg.id);
 								}, 20000);
@@ -365,11 +365,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-							parse: options.allowedMentions?.parse,
-							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-							users: options.allowedMentions?.users?.map((id) => id.toString()),
-							replied_user: options.allowedMentions?.repliedUser,
-					  }
+						parse: options.allowedMentions?.parse,
+						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+						users: options.allowedMentions?.users?.map((id) => id.toString()),
+						replied_user: options.allowedMentions?.repliedUser,
+					}
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),

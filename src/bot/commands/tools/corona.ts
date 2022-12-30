@@ -51,7 +51,7 @@ export default {
 					ctx,
 				);
 			})
-			.catch((e) => {
+			.catch(() => {
 				return client.extras.errNormal({ error: `Invalid country provided!`, type: 'editreply' }, ctx);
 			});
 	},

@@ -19,7 +19,7 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
 		'unused-imports/no-unused-vars': [
-			'off',
+			2,
 			{
 				vars: 'all',
 				varsIgnorePattern: '^_',

@@ -21,7 +21,7 @@ export default {
 
 		await client.helpers
 			.removeRole(ctx.guild!.id + '', member.id + '', member.roles[member.roles.length - 1])
-			.then((r) => {
+			.then((_r) => {
 				client.extras
 					.embed(
 						{

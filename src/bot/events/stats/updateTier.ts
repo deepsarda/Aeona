@@ -6,13 +6,6 @@ import Schema from '../../database/models/stats.js';
 /* A type definition for the client. */
 
 export default async (client: AeonaBot, guild: Guild) => {
-	const tier = {
-		TIER_1: `1`,
-		TIER_2: `2`,
-		TIER_3: `3`,
-		NONE: `0`,
-	};
-
 	try {
 		let channelName = await client.extras.getTemplate(guild.id);
 		channelName = channelName.replace(`{emoji}`, '🥇');

@@ -61,7 +61,7 @@ export default {
 					client.helpers.addReaction(m.channelId, m.id, '🔺');
 					client.helpers.addReaction(m.channelId, m.id, '🔻');
 				})
-				.catch((e) => {
+				.catch((_e) => {
 					return client.extras.errNormal(
 						{
 							error: `No suggestion channel set! Please do the setup`,

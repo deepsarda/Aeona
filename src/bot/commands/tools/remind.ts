@@ -58,7 +58,7 @@ export default {
 				ctx.user!,
 			);
 
-			const deleted = await Schema.findOneAndDelete({
+			await Schema.findOneAndDelete({
 				Text: text,
 				User: ctx.user?.id,
 				endTime: endtime,

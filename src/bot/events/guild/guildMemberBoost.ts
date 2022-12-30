@@ -9,12 +9,6 @@ export default async (client: AeonaBot, member: Member) => {
 		const messageData = await Schema2.findOne({ Guild: member.guildId });
 
 		if (messageData) {
-			const tier = {
-				TIER_1: `1 `,
-				TIER_2: `2`,
-				TIER_3: `3`,
-				NONE: `0`,
-			};
 			const guild = await client.cache.guilds.get(member.guildId);
 			if (!guild) return;
 			let boostMessage = messageData.boostMessage!;

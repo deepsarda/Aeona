@@ -43,7 +43,7 @@ export default {
 					);
 				}
 			})
-			.catch((error) => {
+			.catch((_error) => {
 				client.extras.errNormal(
 					{
 						error: `There was an error by checking this vote!`,

@@ -4,7 +4,7 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
 export default {
 	name: 'revive',
-	description: 'Set a reminder',
+	description: 'Revive your chat',
 	commandType: ['application', 'message'],
 	category: 'tools',
 	args: [],

@@ -79,7 +79,7 @@ export default {
 										},
 										ctx,
 									)
-									.then(async (msg) => {
+									.then(async (_msg) => {
 										if (TicketData.TicketCount) {
 											TicketData.TicketCount += 1;
 											TicketData.save();

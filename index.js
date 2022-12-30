@@ -30,7 +30,7 @@ ls.stderr.on('data', (data) => {
 	console.error(data.toString('ascii').trim());
 });
 
-const ls1 = exec('npm run devb');
+const ls1 = exec('npm run startb');
 
 ls1.stdout.on('data', (data) => {
 	console.log(data.toString('ascii').trim());
