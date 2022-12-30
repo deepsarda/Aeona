@@ -9,6 +9,7 @@ import ticketSchema from '../database/models/tickets.js';
 import { createTranscript } from '../transcripts/index.js';
 import embeds from './embed.js';
 import levels from '../database/models/levels.js';
+import { Message } from 'discordeno/transformers';
 
 export interface AeonaBot extends AmethystBot {
 	extras: ReturnType<typeof additionalProps>;
@@ -133,23 +134,15 @@ export function additionalProps(client: AeonaBot) {
 					emoji: '1049292172479955024',
 					disabled: btn2,
 				});
-			let msg: Context;
-			if (interaction.replied) {
-				msg = await interaction.editReply({
-					embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-					components: comp,
-				});
-			} else {
-				msg = await interaction.reply({
-					embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-					components: comp,
-				});
-			}
+			const msg = await client.helpers.sendMessage(interaction.channel!.id, {
+				embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
+				components: comp,
+			});
 
 			if (lb.length <= 10) return;
 			client.amethystUtils
-				// eslint-disable-next-line
-				.awaitComponent(msg.message!.id, {
+
+				.awaitComponent(msg.id, {
 					timeout: 60_000,
 					type: 'Button',
 				})
