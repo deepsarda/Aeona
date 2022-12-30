@@ -82,11 +82,10 @@ export default {
 									.then((_i: any) => {
 										wait(60);
 										client.extras
-											.embed(
+											.editEmbed(
 												{
 													title: 'Hacking',
 													desc: `Searching for Discord login...`,
-													type: 'edit',
 												},
 												msg,
 											)
