@@ -1,6 +1,8 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'serverinfo',
 	description: 'Get information about this server',
@@ -15,24 +17,6 @@ export default {
 			MEDIUM: 'Medium',
 			HIGH: '(╯°□°）╯︵  ┻━┻',
 			VERY_HIGH: '┻━┻ミヽ(ಠ益ಠ)ノ彡┻━┻',
-		};
-
-		const region = {
-			brazil: `:flag_br: `,
-			'eu-central': `:flag_eu: `,
-			singapore: `:flag_sg: `,
-			'us-central': `:flag_us: `,
-			sydney: `:flag_au: `,
-			'us-east': `:flag_us: `,
-			'us-south': `:flag_us: `,
-			'us-west': `:flag_us: `,
-			'eu-west': `:flag_eu: `,
-			'vip-us-east': `:flag_us: `,
-			europe: `:flag_gb:`,
-			amsterdam: `:flag_nl:`,
-			hongkong: `:flag_hk: `,
-			russia: `:flag_ru: `,
-			southafrica: `:flag_za: `,
 		};
 
 		const tier = {

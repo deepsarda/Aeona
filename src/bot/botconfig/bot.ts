@@ -1,5 +1,6 @@
 import embedconfig from './embed.js';
 import emotes from './emojis.js';
+
 export default {
 	colors: {
 		succes: embedconfig.color,

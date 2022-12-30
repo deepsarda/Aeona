@@ -1,7 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Guild } from 'discordeno';
 
 import Schema from '../../database/models/stats.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
 	try {

@@ -9,7 +9,6 @@ import ticketSchema from '../database/models/tickets.js';
 import { createTranscript } from '../transcripts/index.js';
 import embeds from './embed.js';
 import levels from '../database/models/levels.js';
-import { Message } from 'discordeno/transformers';
 
 export interface AeonaBot extends AmethystBot {
 	extras: ReturnType<typeof additionalProps>;

@@ -1,8 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
-
 import moment from 'moment-timezone';
 
 import Schema from '../../database/models/stats.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
 	try {
@@ -19,9 +18,11 @@ export default async (client: AeonaBot) => {
 					let channelName = await client.extras.getTemplate(guild?.id!);
 					channelName = channelName.replace(`{emoji}`, '⏰');
 					channelName = channelName.replace(`{name}`, `${timeNow}`);
-					client.helpers.editChannel(d.Time, {
-						name: channelName,
-					});
+					client.helpers
+						.editChannel(d.Time, {
+							name: channelName,
+						})
+						.catch();
 				} catch (err) {
 					console.log(err);
 				}
