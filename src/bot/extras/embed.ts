@@ -1,8 +1,10 @@
 import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { Message, ActionRow } from 'discordeno';
-import Schema from '../database/models/functions.js';
+import { ActionRow, Message } from 'discordeno';
+
 import config from '../botconfig/bot.js';
+import Schema from '../database/models/functions.js';
 import { AeonaBot } from './index.js';
+
 /* Exporting a function that takes a client as a parameter. */
 export default (client: AeonaBot) => {
 	const templateEmbed = function () {
@@ -460,7 +462,7 @@ export default (client: AeonaBot) => {
 				guildDB = new Schema({
 					Guild: ctx.guildId + '',
 				});
-			if (guildDB.isPremium === 'true') s = [];
+			if (guildDB.isPremium === 'true') s = [""];
 
 			//Generate a random number between 1 to 10;
 			const randomNumber = Math.floor(Math.random() * 50);

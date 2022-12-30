@@ -1,7 +1,7 @@
 import { Point } from '@influxdata/influxdb-client';
-import { AeonaBot } from '../../extras/index.js';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
+
 import afk from '../../database/models/afk.js';
 import chatBotSchema from '../../database/models/chatbot-channel.js';
 import Functions from '../../database/models/functions.js';
@@ -11,7 +11,9 @@ import levelRewards from '../../database/models/levelRewards.js';
 import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
+import { AeonaBot } from '../../extras/index.js';
 import { Influx } from '../client/commandStart.js';
+
 export default async (client: AeonaBot, message: Message) => {
 	if (message.content == '<@!' + client.user?.id + '>' || message.content == '<@' + client.user?.id + '>') {
 		let guild = await Functions.findOne({
@@ -218,10 +220,8 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 			message.authorId +
 			'&key=' +
 			process.env.apiKey +
-			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
-				context2 ? `&context2=${context2}` : ''
-			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
-				context5 ? `&context5=${context5}` : ''
+			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${context2 ? `&context2=${context2}` : ''
+			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${context5 ? `&context5=${context5}` : ''
 			}`;
 
 		const options = {
@@ -240,7 +240,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 					Guild: message.guildId,
 				});
 				if (!guild) guild = new Functions({ Guild: message.guildId });
-				if (guild.isPremium === 'true') s = [];
+				if (guild.isPremium === 'true') s = [""];
 				const randomNumber = Math.floor(Math.random() * 30);
 				json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 				await client.helpers.sendMessage(message.channelId, {

@@ -1,10 +1,12 @@
 import { Point } from '@influxdata/influxdb-client';
-import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno/transformers';
-import { Influx } from './commandStart.js';
 import fetch from 'node-fetch';
-import Schema from '../../database/models/votecredits.js';
+
 import Functions from '../../database/models/functions.js';
+import Schema from '../../database/models/votecredits.js';
+import { AeonaBot } from '../../extras/index.js';
+import { Influx } from './commandStart.js';
+
 export default async (bot: AeonaBot, message: Message, _commandName: string) => {
 	const url =
 		'https://DumBotApi.aeona.repl.co?text=' +
@@ -29,7 +31,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
 				Guild: message.guildId,
 			});
 			if (!guild) guild = new Functions({ Guild: message.guildId });
-			if (guild.isPremium === 'true') s = [];
+			if (guild.isPremium === 'true') s = [""];
 			const randomNumber = Math.floor(Math.random() * 30);
 			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 			await bot.helpers.sendMessage(message.channelId, {
