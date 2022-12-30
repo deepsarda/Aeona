@@ -462,7 +462,7 @@ export default (client: AeonaBot) => {
 				guildDB = new Schema({
 					Guild: ctx.guildId + '',
 				});
-			if (guildDB.isPremium === 'true') s = [""];
+			if (guildDB.isPremium === 'true') s = [''];
 
 			//Generate a random number between 1 to 10;
 			const randomNumber = Math.floor(Math.random() * 50);
