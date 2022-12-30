@@ -158,10 +158,10 @@ export function additionalProps(client: AeonaBot) {
 
 					btn.data?.customId === 'back_button' ? (currentIndex -= 10) : (currentIndex += 10);
 					client.extras.createLeaderboard(title, lb, interaction, currentIndex);
-				}).catch(err => {
+				})
+				.catch((err) => {
 					console.error(err);
-				}
-				);;
+				});
 		},
 		getTemplate: async (guild: bigint) => {
 			try {

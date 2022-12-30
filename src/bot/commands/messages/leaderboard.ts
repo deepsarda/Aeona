@@ -25,7 +25,8 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${e.User
+				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${
+					e.User
 				}> - Messages: \`${e.Messages}\``,
 		);
 		try {
