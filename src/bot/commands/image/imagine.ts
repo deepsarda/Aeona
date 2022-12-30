@@ -278,7 +278,7 @@ export default {
 */
 
 async function query(data) {
-	const response = await fetch('https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0', {
+	const response = await fetch('https://api-inference.huggingface.co/models/prompthero/openjourney', {
 		headers: { Authorization: `Bearer ${process.env.APIKEY}` },
 		method: 'POST',
 		body: JSON.stringify(data),
@@ -474,7 +474,7 @@ export default {
 			}
 
 			query({
-				inputs: prompt + ' dreamlikeart ' + modifiers,
+				inputs: prompt + ' mdjrny-v4 style ' + modifiers,
 				options: {
 					wait_for_model: true,
 					use_cache: false,
