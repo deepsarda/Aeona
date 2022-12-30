@@ -250,7 +250,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, openticket.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -267,7 +267,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, close.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -284,7 +284,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, claim.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -300,7 +300,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, transcript.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -317,7 +317,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, deleteTicket.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -333,7 +333,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					data: interaction.data?.options?.[0],
 				},
 			},
-			createOptionResults(client, [], {
+			createOptionResults(client, notice.args, {
 				interaction: interaction,
 			}),
 			client,
@@ -365,11 +365,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-							parse: options.allowedMentions?.parse,
-							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-							users: options.allowedMentions?.users?.map((id) => id.toString()),
-							replied_user: options.allowedMentions?.repliedUser,
-					  }
+						parse: options.allowedMentions?.parse,
+						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+						users: options.allowedMentions?.users?.map((id) => id.toString()),
+						replied_user: options.allowedMentions?.repliedUser,
+					}
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),

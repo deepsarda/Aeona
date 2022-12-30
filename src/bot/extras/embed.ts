@@ -498,7 +498,7 @@ export default (client: AeonaBot) => {
 				return c.message!;
 			} else if (type && type.toLowerCase() == 'ephemeral') {
 				const c = await ctx
-					.editReply({
+					.reply({
 						embeds: embeds,
 						content: content,
 						components: components,

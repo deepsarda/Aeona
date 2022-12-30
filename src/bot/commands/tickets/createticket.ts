@@ -45,7 +45,7 @@ export default {
 							const logsChannel = await client.helpers.getChannel(TicketData.Logs);
 							const ticketCategory = await client.helpers.getChannel(TicketData.Category);
 							const ticketRoles = await client.helpers.getRoles(ctx.guild!.id!);
-							const role = ticketRoles.find((r) => r.id === TicketData.Role);
+							const role = ticketRoles.find((r) => r.id + "" === TicketData.Role);
 
 							try {
 								let openTicket =
@@ -156,7 +156,7 @@ export default {
 																	inline: true,
 																},
 															],
-															type: type,
+															type: "editreply",
 														},
 														ctx,
 													);
@@ -202,7 +202,7 @@ export default {
 															fields: [
 																{
 																	name: '→ Creator',
-																	value: `${ctx.user}`,
+																	value: `<@${ctx.user!.id}>`,
 																	inline: true,
 																},
 																{
