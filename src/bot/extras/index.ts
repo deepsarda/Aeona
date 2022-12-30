@@ -126,7 +126,7 @@ export function additionalProps(client: AeonaBot) {
 			if (currentIndex + 10 < lb.length) btn2 = false;
 			const comp = new Components()
 				.addButton('Previous', 'Secondary', 'back_button', {
-					emoji: '1049292172479955024',
+					emoji: '1049292169535561819',
 					disabled: btn1,
 				})
 				.addButton('Next', 'Secondary', 'forward_button', {
