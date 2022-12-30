@@ -87,14 +87,16 @@ export default {
 							{
 								name: 'Server Images',
 								value: `${data.guild.icon && data.guild.banner && data.guild.splash ? `` : `No data`}
-          ${data.guild.icon
-										? `[Server Icon](https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=4096)`
-										: ``
-									}
-          ${data.guild.banner
-										? `[Server Banner](https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.png?size=4096)`
-										: ``
-									}`,
+          ${
+						data.guild.icon
+							? `[Server Icon](https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=4096)`
+							: ``
+					}
+          ${
+						data.guild.banner
+							? `[Server Banner](https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.png?size=4096)`
+							: ``
+					}`,
 								inline: true,
 							},
 							{
