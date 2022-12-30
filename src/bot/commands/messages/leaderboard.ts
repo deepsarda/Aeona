@@ -25,11 +25,13 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${
-					e.User
+				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${e.User
 				}> - Messages: \`${e.Messages}\``,
 		);
-
-		await client.extras.createLeaderboard(`Messages - ${ctx.guild.name}`, lb, ctx);
+		try {
+			await client.extras.createLeaderboard(`Messages - ${ctx.guild.name}`, lb, ctx);
+		} catch (err) {
+			console.error(err);
+		}
 	},
 } as CommandOptions;
