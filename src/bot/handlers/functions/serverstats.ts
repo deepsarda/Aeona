@@ -37,22 +37,22 @@ export default async (client: AeonaBot) => {
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 
-	client.on('guildMemberBoost', async (booster: Member) =>
+	client.on('guildMemberBoost', async (client: AeonaBot, booster: Member) =>
 		client.emit('updateBoosts', client, await client.helpers.getGuild(booster.guildId)),
 	);
-	client.on('guildMemberUnboost', async (booster: Member) =>
+	client.on('guildMemberUnboost', async (client: AeonaBot, booster: Member) =>
 		client.emit('updateBoosts', client, await client.helpers.getGuild(booster.guildId)),
 	);
 
-	client.on('guildBoostLevelUp', async (tier: Guild) => client.emit('updateTier', client, tier));
-	client.on('guildBoostLevelDown', async (tier: Guild) => client.emit('updateTier', client, tier));
+	client.on('guildBoostLevelUp', async (client: AeonaBot, tier: Guild) => client.emit('updateTier', client, tier));
+	client.on('guildBoostLevelDown', async (client: AeonaBot, tier: Guild) => client.emit('updateTier', client, tier));
 
-	client.on('emojiCreate', async (emoji) => {
+	client.on('emojiCreate', async (client: AeonaBot, emoji) => {
 		client.emit('updateEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 		client.emit('updateAEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 		client.emit('updateSEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 	});
-	client.on('emojiDelete', async (emoji) => {
+	client.on('emojiDelete', async (client: AeonaBot, emoji) => {
 		client.emit('updateEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 		client.emit('updateAEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));
 		client.emit('updateSEmojis', client, emoji, await client.helpers.getGuild(emoji.guildId));

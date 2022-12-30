@@ -142,7 +142,7 @@ export default {
 															fields: [
 																{
 																	name: '→ Creator',
-																	value: `${ctx.user}`,
+																	value: `<@${ctx.user!.id}>`,
 																	inline: true,
 																},
 																{
@@ -182,7 +182,7 @@ export default {
 																	},
 																	{
 																		name: '→ Channel',
-																		value: `${channel.name} is found at ${channel}`,
+																		value: `${channel.name} is found at <#${channel.id}>`,
 																		inline: false,
 																	},
 																	{
@@ -217,7 +217,7 @@ export default {
 																},
 															],
 															components: comp,
-															content: `${ctx.user}, <@&${role!.id}>`,
+															content: `<@${ctx.user!.id}>, <@&${role!.id}>`,
 														},
 														channel,
 													);
