@@ -126,18 +126,25 @@ export function additionalProps(client: AeonaBot) {
 			if (currentIndex + 10 < lb.length) btn2 = false;
 			const comp = new Components()
 				.addButton('Previous', 'Secondary', 'back_button', {
-					emoji: '⬅️',
+					emoji: '1049292172479955024',
 					disabled: btn1,
 				})
 				.addButton('Next', 'Secondary', 'forward_button', {
-					emoji: '⬅️',
+					emoji: '1049292172479955024',
 					disabled: btn2,
 				});
-
-			const msg = await interaction.reply({
-				embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-				components: comp,
-			});
+			let msg: Context;
+			if (interaction.replied) {
+				msg = await interaction.editReply({
+					embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
+					components: comp,
+				});
+			} else {
+				msg = await interaction.reply({
+					embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
+					components: comp,
+				});
+			}
 
 			if (lb.length <= 10) return;
 			client.amethystUtils
