@@ -37,7 +37,7 @@ export default {
 			.embed(
 				{
 					title: 'Hacking',
-					desc: `The hack on ${user} started...`,
+					desc: `The hack on <@${user.id}> started...`,
 					type: 'reply',
 				},
 				ctx,
@@ -157,7 +157,7 @@ export default {
 																								text: `${user} is succesfully hacked.`,
 																								type: 'edit',
 																							},
-																							msg,
+																							ctx,
 																						);
 																					});
 																			});
