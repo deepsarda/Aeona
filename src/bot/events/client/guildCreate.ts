@@ -12,7 +12,10 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Prefix: process.env.PREFIX,
 	}).save();
 
-	if (Date.now() > client.extras.startTime + 5 * 60 * 1000 && client.cache.guilds.memory.size > client.extras.lastguildcount) {
+	if (
+		Date.now() > client.extras.startTime + 5 * 60 * 1000 &&
+		client.cache.guilds.memory.size > client.extras.lastguildcount
+	) {
 		const embed = new AmethystEmbed()
 			.setTitle('Added to a new server!')
 			.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)

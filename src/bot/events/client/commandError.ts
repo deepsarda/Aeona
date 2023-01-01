@@ -27,10 +27,10 @@ export default async (
 			typeof guildPrefix == 'string'
 				? guildPrefix
 				: guildPrefix?.find((e) =>
-					bot.prefixCaseSensitive
-						? message.content.startsWith(e)
-						: message.content.toLowerCase().startsWith(e.toLowerCase()),
-				);
+						bot.prefixCaseSensitive
+							? message.content.startsWith(e)
+							: message.content.toLowerCase().startsWith(e.toLowerCase()),
+				  );
 
 		//If prefix is a string and not a array
 		if (typeof prefix == 'string')
@@ -60,38 +60,48 @@ export default async (
 
 		if (!command) return;
 
-		return bot.extras.errUsage({
-			usage: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${category.uniqueCommands ? command.name : category.name + ' ' + command.name
+		return bot.extras.errUsage(
+			{
+				usage: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
+					category.uniqueCommands ? command.name : category.name + ' ' + command.name
 				} ${command.args
 					.map((arg) => {
 						if (arg.required) return `[${arg.name}]`;
 						else return `(${arg.name})`;
 					})
 					.join(' ')} \` \n \n  ${command.args
-						.map((arg) => {
-							return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
-						})
-						.join(`\n`)}`
-		}, context)
-
+					.map((arg) => {
+						return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+					})
+					.join(`\n`)}`,
+			},
+			context,
+		);
 	}
 
 	if (data.error.type == ErrorEnums.COOLDOWN)
-		return await bot.extras.errWait({
-			time: 5,
-		}, context);
+		return await bot.extras.errWait(
+			{
+				time: 5,
+			},
+			context,
+		);
 
 	if (data.error.type == ErrorEnums.OWNER_ONLY)
-		return await bot.extras.errNormal({
-			error: 'Oh no! This is only meant for my owner.',
-		}, context);
+		return await bot.extras.errNormal(
+			{
+				error: 'Oh no! This is only meant for my owner.',
+			},
+			context,
+		);
 	if (data.error.type == ErrorEnums.OTHER) {
-
-
-		return await bot.extras.errNormal({
-			//@ts-ignore
-			error: data.error.value,
-		}, context);
+		return await bot.extras.errNormal(
+			{
+				//@ts-ignore
+				error: data.error.value,
+			},
+			context,
+		);
 	}
 
 	if (data.error.type == ErrorEnums.COMMANDRUNTIME) {
