@@ -25,7 +25,6 @@ export default {
 
 		const type = 'reply';
 
-
 		ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, TicketData) => {
 			if (TicketData) {
 				const logsChannel = await client.helpers.getChannel(TicketData.Logs);
@@ -230,6 +229,5 @@ export default {
 				);
 			}
 		});
-
 	},
 } as CommandOptions;
