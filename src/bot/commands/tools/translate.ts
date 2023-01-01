@@ -8,17 +8,20 @@ export default {
 	description: 'Translate text to another language',
 	commandType: ['application', 'message'],
 	category: 'tools',
-	args: [{
-		name: 'language',
-		type: 'String',
-		description: 'The language to translate text to',
-		required: true,
-	}, {
-		name: 'text',
-		type: 'String',
-		description: 'The text to translate text to',
-		required: true,
-	}],
+	args: [
+		{
+			name: 'language',
+			type: 'String',
+			description: 'The language to translate text to',
+			required: true,
+		},
+		{
+			name: 'text',
+			type: 'String',
+			description: 'The text to translate text to',
+			required: true,
+		},
+	],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const language = ctx.options.getString('language', true);

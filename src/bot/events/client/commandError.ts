@@ -12,7 +12,6 @@ export default async (
 	},
 	context: Context,
 ) => {
-
 	if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
 			content: 'Oh no. You seem to be missing some permissions.',
@@ -28,10 +27,10 @@ export default async (
 			typeof guildPrefix == 'string'
 				? guildPrefix
 				: guildPrefix?.find((e) =>
-					bot.prefixCaseSensitive
-						? message.content.startsWith(e)
-						: message.content.toLowerCase().startsWith(e.toLowerCase()),
-				);
+						bot.prefixCaseSensitive
+							? message.content.startsWith(e)
+							: message.content.toLowerCase().startsWith(e.toLowerCase()),
+				  );
 
 		//If prefix is a string and not a array
 		if (typeof prefix == 'string')
@@ -65,17 +64,18 @@ export default async (
 
 		return bot.extras.errNormal(
 			{
-				error: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${category.uniqueCommands ? command.name : category.name + ' ' + command.name
-					} ${command.args
-						.map((arg) => {
-							if (arg.required) return `[${arg.name}]`;
-							else return `(${arg.name})`;
-						})
-						.join(' ')} \` \n \n  ${command.args
-							.map((arg) => {
-								return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
-							})
-							.join(`\n`)}`,
+				error: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
+					category.uniqueCommands ? command.name : category.name + ' ' + command.name
+				} ${command.args
+					.map((arg) => {
+						if (arg.required) return `[${arg.name}]`;
+						else return `(${arg.name})`;
+					})
+					.join(' ')} \` \n \n  ${command.args
+					.map((arg) => {
+						return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+					})
+					.join(`\n`)}`,
 			},
 			context,
 		);
