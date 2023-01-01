@@ -1,9 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
-import { DiscordGuild, DiscordReady, DiscordUnavailableGuild } from 'discordeno';
 import colors from 'colors';
+import { DiscordGuild, DiscordReady, DiscordUnavailableGuild } from 'discordeno';
+import dotenv from 'dotenv';
+
 import { basebot } from './bot.js';
+
+dotenv.config();
 
 // Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
 const guildIds: Set<bigint> = new Set();
@@ -59,3 +60,4 @@ process.on('unhandledRejection', (error: Error) => {
 process.on('warning', (warn) => {
 	console.warn(warn);
 });
+
