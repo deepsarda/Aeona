@@ -1,13 +1,24 @@
 import translate from '@iamtraction/google-translate';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'translate',
 	description: 'Translate text to another language',
 	commandType: ['application', 'message'],
 	category: 'tools',
-	args: [],
+	args: [{
+		name: 'language',
+		type: 'String',
+		description: 'The language to translate text to',
+		required: true,
+	}, {
+		name: 'text',
+		type: 'String',
+		description: 'The text to translate text to',
+		required: true,
+	}],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const language = ctx.options.getString('language', true);

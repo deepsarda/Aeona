@@ -1,7 +1,8 @@
-import Schema from '../../database/models/reactionRoles.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/reactionRoles.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'add',
 	description: 'Create a reactionrole',
@@ -45,7 +46,6 @@ export default {
 			);
 
 		Schema.findOne({ Guild: ctx.guild!.id, Category: category }, async (err, data) => {
-			console.log('hmmm;...');
 			console.log(role);
 			if (data) {
 				data.Roles[emoji] = [

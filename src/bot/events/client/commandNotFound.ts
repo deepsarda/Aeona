@@ -31,7 +31,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
 				Guild: message.guildId,
 			});
 			if (!guild) guild = new Functions({ Guild: message.guildId });
-			if (guild.isPremium === 'true') s = [''];
+			if (guild.isPremium === 'true') s = ['', ''];
 			const randomNumber = Math.floor(Math.random() * 30);
 			json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 			await bot.helpers.sendMessage(message.channelId, {

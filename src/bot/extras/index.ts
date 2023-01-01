@@ -21,7 +21,7 @@ const id = parts.pop();
 export function additionalProps(client: AeonaBot) {
 	return {
 		...embeds(client),
-		version: 'v0.1.6',
+		version: 'v0.1.7',
 		webhook: async (content: any) => {
 			return await client.helpers.sendWebhookMessage(id as BigString, token, content);
 		},
@@ -295,7 +295,6 @@ export function additionalProps(client: AeonaBot) {
 
 			userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
 			userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
-			console.log(userReturn);
 			return userReturn;
 		},
 
