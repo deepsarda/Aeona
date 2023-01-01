@@ -27,10 +27,10 @@ export default async (
 			typeof guildPrefix == 'string'
 				? guildPrefix
 				: guildPrefix?.find((e) =>
-					bot.prefixCaseSensitive
-						? message.content.startsWith(e)
-						: message.content.toLowerCase().startsWith(e.toLowerCase()),
-				);
+						bot.prefixCaseSensitive
+							? message.content.startsWith(e)
+							: message.content.toLowerCase().startsWith(e.toLowerCase()),
+				  );
 
 		//If prefix is a string and not a array
 		if (typeof prefix == 'string')
@@ -53,9 +53,8 @@ export default async (
 			const data = bot.category.at(i)!.getCommand(commandName!, subCommandName);
 			command = data.command;
 			if (command) {
-				if ((bot.category.at(i)!.uniqueCommands) || !data.usedSubCommand)
-					if (subCommandName)
-						args.unshift(subCommandName);
+				if (bot.category.at(i)!.uniqueCommands || !data.usedSubCommand)
+					if (subCommandName) args.unshift(subCommandName);
 				category = bot.category.at(i);
 				break;
 			}
@@ -65,17 +64,18 @@ export default async (
 
 		return bot.extras.errUsage(
 			{
-				usage: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${category.uniqueCommands ? command.name : category.name + ' ' + command.name
-					} ${command.args
-						.map((arg) => {
-							if (arg.required) return `[${arg.name}]`;
-							else return `(${arg.name})`;
-						})
-						.join(' ')} \` \n \n  ${command.args
-							.map((arg) => {
-								return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
-							})
-							.join(`\n`)}`,
+				usage: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
+					category.uniqueCommands ? command.name : category.name + ' ' + command.name
+				} ${command.args
+					.map((arg) => {
+						if (arg.required) return `[${arg.name}]`;
+						else return `(${arg.name})`;
+					})
+					.join(' ')} \` \n \n  ${command.args
+					.map((arg) => {
+						return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+					})
+					.join(`\n`)}`,
 			},
 			context,
 		);

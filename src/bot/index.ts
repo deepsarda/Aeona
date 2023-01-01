@@ -60,4 +60,3 @@ process.on('unhandledRejection', (error: Error) => {
 process.on('warning', (warn) => {
 	console.warn(warn);
 });
-

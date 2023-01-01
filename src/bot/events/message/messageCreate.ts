@@ -4,7 +4,6 @@ import bumpreminder from '../../database/models/bumpreminder.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, message: Message) => {
-
 	client.extras.messageCount++;
 	if (!message.isFromBot) return;
 

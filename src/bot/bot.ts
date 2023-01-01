@@ -1,9 +1,9 @@
 import {
-    AmethystError,
-    CategoryOptions,
-    createProxyCache,
-    enableAmethystPlugin,
-    ErrorEnums,
+	AmethystError,
+	CategoryOptions,
+	createProxyCache,
+	enableAmethystPlugin,
+	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import { createBot, createRestManager, Shard, startBot } from 'discordeno';
 import dotenv from 'dotenv';
@@ -25,15 +25,13 @@ const db = new JsonDB(new Config('tmp/db', true, false, '/'));
 export const basebot = createBot({
 	token: DISCORD_TOKEN,
 	intents: INTENTS,
-
 });
 basebot.gateway.manager.createShardOptions.stopHeartbeating = (shard: Shard): void => {
-
-	clearInterval(shard.heart.intervalId)
-	shard.heart.intervalId = undefined
-	clearTimeout(shard.heart.timeoutId)
-	shard.heart.timeoutId = undefined
-}
+	clearInterval(shard.heart.intervalId);
+	shard.heart.intervalId = undefined;
+	clearTimeout(shard.heart.timeoutId);
+	shard.heart.timeoutId = undefined;
+};
 
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
