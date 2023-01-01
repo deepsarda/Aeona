@@ -1,8 +1,9 @@
+import { AmethystEmbed } from '@thereallonewolf/amethystframework';
 import { Guild } from 'discordeno/transformers';
+
 import Functions from '../../database/models/functions.js';
 import { AeonaBot } from '../../extras/index.js';
-import { AmethystEmbed } from '@thereallonewolf/amethystframework';
-let lastguildcount = 0;
+
 export default async (client: AeonaBot, guild: Guild) => {
 	if (guild == undefined) return;
 
@@ -11,7 +12,7 @@ export default async (client: AeonaBot, guild: Guild) => {
 		Prefix: process.env.PREFIX,
 	}).save();
 
-	if (Date.now() > client.extras.startTime + 30 * 60 * 1000 && client.cache.guilds.memory.size > lastguildcount) {
+	if (Date.now() > client.extras.startTime + 5 * 60 * 1000 && client.cache.guilds.memory.size > client.extras.lastguildcount) {
 		const embed = new AmethystEmbed()
 			.setTitle('Added to a new server!')
 			.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
@@ -29,6 +30,6 @@ export default async (client: AeonaBot, guild: Guild) => {
 				client.helpers.followAnnouncementChannel('1057248837238009946', channel.id + '');
 			}
 		}
-		lastguildcount = client.cache.guilds.memory.size;
+		client.extras.lastguildcount = client.cache.guilds.memory.size;
 	}
 };

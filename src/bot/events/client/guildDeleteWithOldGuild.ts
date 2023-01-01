@@ -29,12 +29,13 @@ import Schema38 from '../../database/models/warnings.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
+	client.extras.lastguildcount = client.cache.guilds.memory.size;
 	const embed = new AmethystEmbed()
 		.setTitle('🔴 Removed from a server!')
 		.addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
 		.addField('Server name', `${guild.name}`, true)
 		.addField('Server ID', `${guild.id}`, true)
-		.addField('Server members', `${guild.approximateMemberCount}`, true)
+		.addField('Server members', `${guild.memberCount}`, true)
 		.addField('Server owner', `<@!${guild.ownerId}> (${guild.ownerId})`, true)
 
 		.setColor(client.extras.config.colors.normal);

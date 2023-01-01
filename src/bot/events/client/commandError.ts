@@ -1,6 +1,8 @@
-import { AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
+import { AmethystError, Context, ErrorEnums } from '@thereallonewolf/amethystframework';
 import { Interaction, Message } from 'discordeno/transformers';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default async (
 	bot: AeonaBot,
 	data: {
@@ -8,6 +10,7 @@ export default async (
 		data?: Interaction;
 		message?: Message;
 	},
+	context: Context,
 ) => {
 	if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
@@ -24,10 +27,10 @@ export default async (
 			typeof guildPrefix == 'string'
 				? guildPrefix
 				: guildPrefix?.find((e) =>
-						bot.prefixCaseSensitive
-							? message.content.startsWith(e)
-							: message.content.toLowerCase().startsWith(e.toLowerCase()),
-				  );
+					bot.prefixCaseSensitive
+						? message.content.startsWith(e)
+						: message.content.toLowerCase().startsWith(e.toLowerCase()),
+				);
 
 		//If prefix is a string and not a array
 		if (typeof prefix == 'string')
@@ -56,44 +59,42 @@ export default async (
 		}
 
 		if (!command) return;
-		console.log(command.category.uniqueCommands);
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
-			content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
-				category.uniqueCommands ? command.name : category.name + ' ' + command.name
-			} ${command.args
-				.map((arg) => {
-					if (arg.required) return `[${arg.name}]`;
-					else return `(${arg.name})`;
-				})
-				.join(' ')} \` \n \n ${command.args
-				.map((arg) => {
-					return `${arg.name}:- Type: ${arg.type} Description: ${arg.description}`;
-				})
-				.join(`\n`)}`,
-		});
+
+		return bot.extras.errUsage({
+			usage: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${category.uniqueCommands ? command.name : category.name + ' ' + command.name
+				} ${command.args
+					.map((arg) => {
+						if (arg.required) return `[${arg.name}]`;
+						else return `(${arg.name})`;
+					})
+					.join(' ')} \` \n \n  ${command.args
+						.map((arg) => {
+							return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+						})
+						.join(`\n`)}`
+		}, context)
+
 	}
 
 	if (data.error.type == ErrorEnums.COOLDOWN)
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
-			content: 'Oh no! You are ratelimmited try again later',
-		});
+		return await bot.extras.errWait({
+			time: 5,
+		}, context);
 
 	if (data.error.type == ErrorEnums.OWNER_ONLY)
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
-			content: 'Oh no! This is only meant for my owner.',
-		});
+		return await bot.extras.errNormal({
+			error: 'Oh no! This is only meant for my owner.',
+		}, context);
 	if (data.error.type == ErrorEnums.OTHER) {
-		//@ts-ignore
-		if (!data.error.value) {
-			console.log(data);
-			return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
-				//@ts-ignore
-				content: 'An error occured and has been reported.',
-			});
-		}
-		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
+
+
+		return await bot.extras.errNormal({
 			//@ts-ignore
-			content: data.error.value,
-		});
+			error: data.error.value,
+		}, context);
+	}
+
+	if (data.error.type == ErrorEnums.COMMANDRUNTIME) {
+		console.log(data);
 	}
 };

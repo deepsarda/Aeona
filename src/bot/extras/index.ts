@@ -1,14 +1,15 @@
 import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
 import { Channel, Role } from 'discordeno/*';
 import { BigString } from 'discordeno/types';
+
 import botConfig from '../botconfig/bot.js';
+import levels from '../database/models/levels.js';
 import Schema from '../database/models/logChannels.js';
 import Stats from '../database/models/stats.js';
 import ticketChannels from '../database/models/ticketChannels.js';
 import ticketSchema from '../database/models/tickets.js';
 import { createTranscript } from '../transcripts/index.js';
 import embeds from './embed.js';
-import levels from '../database/models/levels.js';
 
 export interface AeonaBot extends AmethystBot {
 	extras: ReturnType<typeof additionalProps>;
@@ -29,6 +30,7 @@ export function additionalProps(client: AeonaBot) {
 		colors: botConfig.colors,
 		emotes: botConfig.emotes,
 		messageCount: 0,
+		lastguildcount: 0,
 		ready: false,
 		capitalizeFirstLetter: (string: string) => {
 			return string.charAt(0).toUpperCase() + string.slice(1);
