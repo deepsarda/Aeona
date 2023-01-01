@@ -1,7 +1,8 @@
-import inviteMessages from '../../database/models/inviteMessages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import inviteMessages from '../../database/models/inviteMessages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'welcomemessage',
 	description: 'Send a welcome message ',
@@ -19,7 +20,7 @@ export default {
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const message = ctx.options.getLongString('message');
+		const message = ctx.options.getLongString('message', true);
 		if (!message) return;
 		if (message.toUpperCase() == 'HELP') {
 			return client.extras.embed(

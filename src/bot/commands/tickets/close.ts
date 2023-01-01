@@ -1,10 +1,11 @@
-import ticketSchema from '../../database/models/tickets.js';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+
 import ticketChannels from '../../database/models/ticketChannels.js';
 import ticketMessageConfig from '../../database/models/ticketMessage.js';
-
-import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
 import { createTranscript } from '../../transcripts/index.js';
+
 export default {
 	name: 'close',
 	description: 'Close the ticket',
@@ -49,7 +50,7 @@ export default {
 						{
 							type: 1,
 							id: BigInt(ticketData.creator!),
-							allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'],
+							deny: ['VIEW_CHANNEL', 'SEND_MESSAGES'],
 						},
 					],
 				});
