@@ -1,19 +1,18 @@
-import dotenv from 'dotenv';
-dotenv.config();
-import express from 'express';
-
+import { InfluxDB, Point } from '@influxdata/influxdb-client';
+import bodyParser from 'body-parser';
+import colors from 'colors';
 import { HTTPResponseCodes } from 'discordeno/types';
+import dotenv from 'dotenv';
+import express from 'express';
+import fs from 'fs';
+import { inspect } from 'util';
 
 import { REST_URL } from '../configs.js';
-import { RequestHandler } from './RequestHandler.js';
-import bodyParser from 'body-parser';
-import { inspect } from 'util';
 import { DiscordHTTPError } from './errors/DiscordHTTPError.js';
 import { DiscordRESTError } from './errors/DiscordRESTError.js';
-import fs from 'fs';
-import colors from 'colors';
-import { InfluxDB, Point } from '@influxdata/influxdb-client';
+import { RequestHandler } from './RequestHandler.js';
 
+dotenv.config();
 const REST_PORT = process.env.REST_PORT as string;
 const reqHandler = new RequestHandler(`Bot ${process.env.DISCORD_TOKEN!}`);
 let requestCount = 0;
@@ -38,23 +37,23 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		//console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+		console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 		const result = await reqHandler.request(
 			req.method,
 			`/api${req.url.split('?')[0]}`,
 			req.body,
 			req.body?.file
 				? req?.body?.file?.map((f: any) => ({
-						file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-						name: f.name,
-				  }))
+					file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+					name: f.name,
+				}))
 				: undefined,
 		);
 		if (result) {
-			//console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(200).send(result);
 		} else {
-			//console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(204).send(undefined);
 		}
 	} catch (error) {
@@ -80,8 +79,7 @@ app.all('*', async (req, res): Promise<any> => {
 			if (err.status >= 400 && err.status < 500) {
 				fs.appendFileSync(
 					'4xx-errors.log',
-					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
-						req.url
+					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${req.url
 					}\nError: ${inspect(
 						err,
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
