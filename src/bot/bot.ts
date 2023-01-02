@@ -1,18 +1,18 @@
 import {
-    AmethystError,
-    CategoryOptions,
-    createProxyCache,
-    enableAmethystPlugin,
-    ErrorEnums,
+	AmethystError,
+	CategoryOptions,
+	createProxyCache,
+	enableAmethystPlugin,
+	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import {
-    createBot,
-    createRestManager,
-    GatewayOpcodes,
-    Shard,
-    ShardSocketCloseCodes,
-    ShardState,
-    startBot,
+	createBot,
+	createRestManager,
+	GatewayOpcodes,
+	Shard,
+	ShardSocketCloseCodes,
+	ShardState,
+	startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -39,7 +39,6 @@ basebot.gateway.manager.createShardOptions.stopHeartbeating = (shard: Shard): vo
 	shard.heart.intervalId = undefined;
 	clearTimeout(shard.heart.timeoutId);
 	shard.heart.timeoutId = undefined;
-
 };
 
 basebot.gateway.manager.createShardOptions.startHeartbeating = (shard, interval) => {
