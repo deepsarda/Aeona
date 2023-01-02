@@ -202,8 +202,9 @@ export default async (
 		}, 1000 * 60);
 
 		setInterval(async () => {
+			console.log('Reminders')
 			const reminders = await bumpreminder.find();
-			console.log('Reminders', reminders);
+			console.log(reminders);
 			for (const reminder of reminders) {
 				try {
 					if (!reminder.LastBump || !reminder.Channel) return;
@@ -226,7 +227,7 @@ export default async (
 					console.log(err);
 				}
 			}
-		}, 1000 * 60 * 10);
+		}, 1000 * 60);
 
 		setInterval(async () => {
 			await premium.deleteMany({
