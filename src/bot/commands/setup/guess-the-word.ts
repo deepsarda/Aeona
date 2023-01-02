@@ -1,7 +1,8 @@
-import GTW from '../../database/models/guessWord.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import GTW from '../../database/models/guessWord.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'guess-the-word',
 	description: 'Setup guess-the-word for your server.',

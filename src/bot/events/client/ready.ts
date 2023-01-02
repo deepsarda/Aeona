@@ -1,13 +1,15 @@
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
-import { AeonaBot } from '../../extras/index.js';
+import { getBotIdFromToken } from 'discordeno';
+import { User } from 'discordeno/transformers';
 import { ActivityTypes, DiscordReady } from 'discordeno/types';
 import { cpus } from 'os';
+
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
-import { User } from 'discordeno/transformers';
 import functions from '../../database/models/functions.js';
 import premium from '../../database/models/premium.js';
-import { getBotIdFromToken } from 'discordeno';
+import { AeonaBot } from '../../extras/index.js';
+
 export default async (
 	client: AeonaBot,
 	_payload: {
@@ -201,6 +203,7 @@ export default async (
 
 		setInterval(async () => {
 			const reminders = await bumpreminder.find();
+			console.log('Reminders', reminders);
 			for (const reminder of reminders) {
 				try {
 					if (!reminder.LastBump || !reminder.Channel) return;

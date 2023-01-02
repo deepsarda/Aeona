@@ -1,10 +1,11 @@
-import GTN from '../../database/models/guessNumber.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import GTN from '../../database/models/guessNumber.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'guess-the-number',
-	description: 'Setup guess-the-number chatbot for your server.',
+	description: 'Setup guess-the-number for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
 	args: [

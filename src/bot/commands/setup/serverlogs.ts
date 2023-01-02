@@ -1,9 +1,11 @@
-import logs from '../../database/models/logChannels.js';
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import logs from '../../database/models/logChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'serverlogs',
-	description: 'Setup the chatbot for your server.',
+	description: 'Setup the logging for your server for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
 	args: [

@@ -1,10 +1,11 @@
-import leaveChannel from '../../database/models/leaveChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import leaveChannel from '../../database/models/leaveChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'leavechannel',
-	description: 'Setup the chatbot for your server.',
+	description: 'Setup the leave channel for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
 	args: [

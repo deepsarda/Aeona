@@ -1,9 +1,11 @@
-import welcomeChannel from '../../database/models/welcomeChannels.js';
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import welcomeChannel from '../../database/models/welcomeChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'welcomechannel',
-	description: 'Setup the chatbot for your server.',
+	description: 'Setup the welcome channel for your server.',
 	commandType: ['application', 'message'],
 	category: 'setup',
 	args: [
