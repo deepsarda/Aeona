@@ -202,7 +202,7 @@ export default async (
 		}, 1000 * 60);
 
 		setInterval(async () => {
-			console.log('Reminders')
+			console.log('Reminders');
 			const reminders = await bumpreminder.find();
 			console.log(reminders);
 			for (const reminder of reminders) {
