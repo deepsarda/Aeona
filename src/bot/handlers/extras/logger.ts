@@ -1,16 +1,19 @@
-import { AeonaBot } from '../../extras/index.js';
+import {
+    ApplicationCommand,
+    AuditLogEvents,
+    BigString,
+    Channel,
+    DiscordAuditLog,
+    Integration,
+    ScheduledEvent,
+    User,
+    Webhook,
+} from 'discordeno';
+
 import logChannels from '../../database/models/logChannels.js';
+import { AeonaBot } from '../../extras/index.js';
 
 import type { Bot, DiscordAuditLogEntry, DiscordAutoModerationRule, Optionalize } from 'discordeno';
-import { ApplicationCommand } from 'discordeno';
-import { Channel } from 'discordeno';
-import { Integration } from 'discordeno';
-import { User } from 'discordeno';
-import { ScheduledEvent } from 'discordeno';
-import { Webhook } from 'discordeno';
-import { DiscordAuditLog } from 'discordeno';
-import { AuditLogEvents, BigString } from 'discordeno';
-
 export default (client: AeonaBot) => {
 	client.on('ready', () => {
 		setInterval(() => {
@@ -53,11 +56,10 @@ export default (client: AeonaBot) => {
 										},
 										{
 											name: `→ By`,
-											value: `${
-												user
+											value: `${user
 													? `${user.username}#${user.discriminator}(${user.id})`
 													: 'Unable to find the responsible user.'
-											}`,
+												}`,
 										},
 									],
 								};
@@ -102,11 +104,10 @@ export default (client: AeonaBot) => {
 											},
 											{
 												name: `→ Modified Settings`,
-												value: `${
-													auditLogEntry.options?.type == 1
+												value: `${auditLogEntry.options?.type == 1
 														? `<@${auditLogEntry.options?.id}>`
 														: auditLogEntry.options?.roleName
-												}`,
+													}`,
 											},
 										],
 									};
@@ -123,11 +124,10 @@ export default (client: AeonaBot) => {
 											},
 											{
 												name: `→ Modified Settings`,
-												value: `${
-													auditLogEntry.options?.type == 1
+												value: `${auditLogEntry.options?.type == 1
 														? `<@${auditLogEntry.options.id}>`
 														: auditLogEntry.options?.roleName
-												}`,
+													}`,
 											},
 										],
 									};
@@ -145,11 +145,10 @@ export default (client: AeonaBot) => {
 											},
 											{
 												name: `→ Modified Settings for`,
-												value: `${
-													auditLogEntry.options?.type == 1
+												value: `${auditLogEntry.options?.type == 1
 														? `<@${auditLogEntry.options?.id}>`
 														: auditLogEntry.options?.roleName
-												}`,
+													}`,
 											},
 										],
 									};
@@ -252,7 +251,7 @@ export default (client: AeonaBot) => {
 					}
 				}
 			});
-		}, 30 * 1000);
+		}, 60 * 1000);
 	});
 };
 
@@ -308,21 +307,21 @@ export async function getAuditLog(bot: Bot, guildId: BigString, options?: GetGui
 			user: integration.user ? bot.transformers.user(bot, integration.user) : undefined,
 			account: integration.account
 				? {
-						id: bot.transformers.snowflake(integration.account.id),
-						name: integration.account.name,
-				  }
+					id: bot.transformers.snowflake(integration.account.id),
+					name: integration.account.name,
+				}
 				: undefined,
 			syncedAt: integration.synced_at ? Date.parse(integration.synced_at) : undefined,
 			subscriberCount: integration.subscriber_count,
 			revoked: integration.revoked,
 			application: integration.application
 				? {
-						id: bot.transformers.snowflake(integration.application.id),
-						name: integration.application.name,
-						icon: integration.application.icon ? bot.utils.iconHashToBigInt(integration.application.icon) : undefined,
-						description: integration.application.description,
-						bot: integration.application.bot ? bot.transformers.user(bot, integration.application.bot) : undefined,
-				  }
+					id: bot.transformers.snowflake(integration.application.id),
+					name: integration.application.name,
+					icon: integration.application.icon ? bot.utils.iconHashToBigInt(integration.application.icon) : undefined,
+					description: integration.application.description,
+					bot: integration.application.bot ? bot.transformers.user(bot, integration.application.bot) : undefined,
+				}
 				: undefined,
 		})),
 		threads: result.threads.map((thread) => bot.transformers.channel(bot, { channel: thread, guildId: id })),
@@ -459,15 +458,15 @@ export function transformAuditLogEntry(bot: Bot, payload: DiscordAuditLogEntry) 
 		actionType: payload.action_type,
 		options: payload.options
 			? {
-					deleteMemberDays: payload.options.delete_member_days ? Number(payload.options.delete_member_days) : 0,
-					membersRemoved: payload.options.members_removed ? Number(payload.options.members_removed) : 0,
-					channelId: payload.options.channel_id ? bot.transformers.snowflake(payload.options.channel_id) : undefined,
-					messageId: payload.options.message_id ? bot.transformers.snowflake(payload.options.message_id) : undefined,
-					count: payload.options.count ? Number(payload.options.count) : 0,
-					id: payload.options.id ? bot.transformers.snowflake(payload.options.id) : undefined,
-					type: Number(payload.options.type),
-					roleName: payload.options.role_name,
-			  }
+				deleteMemberDays: payload.options.delete_member_days ? Number(payload.options.delete_member_days) : 0,
+				membersRemoved: payload.options.members_removed ? Number(payload.options.members_removed) : 0,
+				channelId: payload.options.channel_id ? bot.transformers.snowflake(payload.options.channel_id) : undefined,
+				messageId: payload.options.message_id ? bot.transformers.snowflake(payload.options.message_id) : undefined,
+				count: payload.options.count ? Number(payload.options.count) : 0,
+				id: payload.options.id ? bot.transformers.snowflake(payload.options.id) : undefined,
+				type: Number(payload.options.type),
+				roleName: payload.options.role_name,
+			}
 			: undefined,
 		reason: payload.reason,
 	};
@@ -475,7 +474,7 @@ export function transformAuditLogEntry(bot: Bot, payload: DiscordAuditLogEntry) 
 	return auditLogEntry as Optionalize<typeof auditLogEntry>;
 }
 //eslint-disable-next-line
-export interface AuditLogEntry extends ReturnType<typeof transformAuditLogEntry> {}
+export interface AuditLogEntry extends ReturnType<typeof transformAuditLogEntry> { }
 
 export function transformAutoModerationRule(bot: Bot, payload: DiscordAutoModerationRule) {
 	const rule = {
@@ -490,19 +489,19 @@ export function transformAutoModerationRule(bot: Bot, payload: DiscordAutoModera
 		exemptChannels: payload.exempt_channels.map((id) => bot.transformers.snowflake(id)),
 		triggerMetadata: payload.trigger_metadata
 			? {
-					keywordFilter: payload.trigger_metadata.keyword_filter,
-					presets: payload.trigger_metadata.presets,
-					allowList: payload.trigger_metadata.allow_list,
-					mentionTotalLimit: payload.trigger_metadata.mention_total_limit,
-			  }
+				keywordFilter: payload.trigger_metadata.keyword_filter,
+				presets: payload.trigger_metadata.presets,
+				allowList: payload.trigger_metadata.allow_list,
+				mentionTotalLimit: payload.trigger_metadata.mention_total_limit,
+			}
 			: undefined,
 		actions: payload.actions.map((action) => ({
 			type: action.type,
 			metadata: action.metadata
 				? {
-						channelId: action.metadata.channel_id ? bot.transformers.snowflake(action.metadata.channel_id) : undefined,
-						durationSeconds: action.metadata.duration_seconds,
-				  }
+					channelId: action.metadata.channel_id ? bot.transformers.snowflake(action.metadata.channel_id) : undefined,
+					durationSeconds: action.metadata.duration_seconds,
+				}
 				: undefined,
 		})),
 	};
@@ -510,4 +509,4 @@ export function transformAutoModerationRule(bot: Bot, payload: DiscordAutoModera
 	return rule as Optionalize<typeof rule>;
 }
 //eslint-disable-next-line
-export interface AutoModerationRule extends ReturnType<typeof transformAutoModerationRule> {}
+export interface AutoModerationRule extends ReturnType<typeof transformAutoModerationRule> { }
