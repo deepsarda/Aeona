@@ -5,7 +5,7 @@ import fetch from 'node-fetch';
 import { AeonaBot } from '../../extras/index.js';
 
 const filter = new Filter();
-filter.addWords('nake', 'naked', 'nude', 'nipples');
+filter.addWords('nake', 'naked', 'nude', 'nudes', 'nipples');
 /*
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {

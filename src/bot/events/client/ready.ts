@@ -200,7 +200,32 @@ export default async (
 			console.log('Updating clock');
 			client.emit('updateClock', client);
 		}, 1000 * 60);
+		{
+			console.log('Reminders');
+			const reminders = await bumpreminder.find();
+			for (const reminder of reminders) {
+				try {
+					if (!reminder.LastBump || !reminder.Channel) return;
+					if (Date.now() > reminder.LastBump + 7200000) {
+						reminder.LastBump = Date.now();
+						reminder.save();
 
+						const channel = await client.helpers.getChannel(reminder.Channel);
+						await client.extras.embed(
+							{
+								content: `<@&${reminder.Role}>`,
+								title: `Time to bump!`,
+								desc: reminder.Message ?? `Use /bump to bump this server!`,
+								type: 'reply',
+							},
+							channel,
+						);
+					}
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}
 		setInterval(async () => {
 			console.log('Reminders');
 			const reminders = await bumpreminder.find();
