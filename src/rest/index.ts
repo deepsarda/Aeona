@@ -37,23 +37,23 @@ app.all('*', async (req, res): Promise<any> => {
 		}
 
 		if (!Object.keys(req.body).length) req.body = undefined;
-		console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+		// console.log(req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 		const result = await reqHandler.request(
 			req.method,
 			`/api${req.url.split('?')[0]}`,
 			req.body,
 			req.body?.file
 				? req?.body?.file?.map((f: any) => ({
-						file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-						name: f.name,
-				  }))
+					file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+					name: f.name,
+				}))
 				: undefined,
 		);
 		if (result) {
-			console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			// console.log('RESOLVED'.green, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(200).send(result);
 		} else {
-			console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
+			// console.log('UNABLE TO RESOLVE'.red, req.method.yellow, `/api${req.url.split('?')[0]}`.magenta);
 			res.status(204).send(undefined);
 		}
 	} catch (error) {
@@ -79,8 +79,7 @@ app.all('*', async (req, res): Promise<any> => {
 			if (err.status >= 400 && err.status < 500) {
 				fs.appendFileSync(
 					'4xx-errors.log',
-					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
-						req.url
+					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${req.url
 					}\nError: ${inspect(
 						err,
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,
