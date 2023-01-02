@@ -1,18 +1,18 @@
 import {
-	AmethystError,
-	CategoryOptions,
-	createProxyCache,
-	enableAmethystPlugin,
-	ErrorEnums,
+    AmethystError,
+    CategoryOptions,
+    createProxyCache,
+    enableAmethystPlugin,
+    ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import {
-	createBot,
-	createRestManager,
-	GatewayOpcodes,
-	Shard,
-	ShardSocketCloseCodes,
-	ShardState,
-	startBot,
+    createBot,
+    createRestManager,
+    GatewayOpcodes,
+    Shard,
+    ShardSocketCloseCodes,
+    ShardState,
+    startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -67,6 +67,10 @@ basebot.gateway.manager.createShardOptions.startHeartbeating = (shard, interval)
 				}),
 			);
 		} catch {
+			console.log(`In direct send ${JSON.stringify({
+				op: GatewayOpcodes.Heartbeat,
+				d: shard.previousSequenceNumber,
+			})}`)
 			console.log('[ERROR] Hit the gateway reconnect error.');
 		}
 
@@ -104,6 +108,10 @@ basebot.gateway.manager.createShardOptions.startHeartbeating = (shard, interval)
 					}),
 				);
 			} catch {
+				console.log(`In direct send 2 ${JSON.stringify({
+					op: GatewayOpcodes.Heartbeat,
+					d: shard.previousSequenceNumber,
+				})}`)
 				console.log('[ERROR] Hit the gateway reconnect error.');
 			}
 
@@ -113,6 +121,7 @@ basebot.gateway.manager.createShardOptions.startHeartbeating = (shard, interval)
 		}, shard.heart.interval);
 	}, jitter);
 };
+
 const cachebot = createProxyCache(basebot, {
 	cacheInMemory: {
 		default: true,
