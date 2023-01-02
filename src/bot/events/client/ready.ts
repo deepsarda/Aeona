@@ -204,7 +204,6 @@ export default async (
 		setInterval(async () => {
 			console.log('Reminders');
 			const reminders = await bumpreminder.find();
-			console.log(reminders);
 			for (const reminder of reminders) {
 				try {
 					if (!reminder.LastBump || !reminder.Channel) return;
@@ -213,7 +212,7 @@ export default async (
 						reminder.save();
 
 						const channel = await client.helpers.getChannel(reminder.Channel);
-						client.extras.embed(
+						await client.extras.embed(
 							{
 								content: `<@&${reminder.Role}>`,
 								title: `Time to bump!`,
