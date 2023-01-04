@@ -83,10 +83,11 @@ export default async (client: AeonaBot) => {
 					client.extras.simpleMessageEmbed(
 						{
 							title: ``,
-							desc: `**${(await bot.helpers.getUser(message.authorId))?.username +
+							desc: `**${
+								(await bot.helpers.getUser(message.authorId))?.username +
 								'#' +
 								(await bot.helpers.getUser(message.authorId))?.discriminator
-								}**: ${message.content}`,
+							}**: ${message.content}`,
 						},
 						message,
 					);

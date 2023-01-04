@@ -1,19 +1,19 @@
 import {
-    AmethystError,
-    CategoryOptions,
-    createProxyCache,
-    enableAmethystPlugin,
-    ErrorEnums,
+	AmethystError,
+	CategoryOptions,
+	createProxyCache,
+	enableAmethystPlugin,
+	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import {
-    createBot,
-    createRestManager,
-    GatewayOpcodes,
-    Shard,
-    ShardSocketCloseCodes,
-    ShardState,
-    startBot,
+	createBot,
+	createRestManager,
+	GatewayOpcodes,
+	Shard,
+	ShardSocketCloseCodes,
+	ShardState,
+	startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -438,7 +438,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					};
 				}
 			} catch (e) {
-				console.log("Error in upvote:" + e);
+				console.log('Error in upvote:' + e);
 				return true;
 			}
 

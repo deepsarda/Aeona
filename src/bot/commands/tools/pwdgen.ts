@@ -24,7 +24,7 @@ export default {
 			},
 			ctx,
 		);
-		const channel = await client.helpers.getDmChannel(ctx.user.id)
+		const channel = await client.helpers.getDmChannel(ctx.user.id);
 		client.extras.succNormal(
 			{
 				text: `Your generated password`,

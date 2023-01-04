@@ -4,13 +4,13 @@ import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
-    AllowedMentions,
-    BigString,
-    DiscordChannel,
-    FileContent,
-    InteractionTypes,
-    MessageComponents,
-    WithReason,
+	AllowedMentions,
+	BigString,
+	DiscordChannel,
+	FileContent,
+	InteractionTypes,
+	MessageComponents,
+	WithReason,
 } from 'discordeno/types';
 
 import claim from '../../commands/tickets/claim.js';
@@ -362,11 +362,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-						parse: options.allowedMentions?.parse,
-						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-						users: options.allowedMentions?.users?.map((id) => id.toString()),
-						replied_user: options.allowedMentions?.repliedUser,
-					}
+							parse: options.allowedMentions?.parse,
+							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+							users: options.allowedMentions?.users?.map((id) => id.toString()),
+							replied_user: options.allowedMentions?.repliedUser,
+					  }
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),
