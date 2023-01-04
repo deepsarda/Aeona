@@ -1,5 +1,5 @@
 import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { ActionRow, Message } from 'discordeno';
+import { ActionRow, Channel, Interaction, Message } from 'discordeno';
 
 import config from '../botconfig/bot.js';
 import Schema from '../database/models/functions.js';
@@ -25,7 +25,7 @@ export default (client: AeonaBot) => {
 			content?: string;
 			components?: ActionRow[];
 		},
-		interaction: Context | { id: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`Something went wrong!`);
@@ -57,7 +57,7 @@ export default (client: AeonaBot) => {
 			content?: string;
 			components?: ActionRow[];
 		},
-		interaction: Context | { id: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You did not provide the correct arguments`);
@@ -89,7 +89,7 @@ export default (client: AeonaBot) => {
 			type?: string;
 			components?: ActionRow[];
 		},
-		interaction: Context | { id: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You've already done this once`);
@@ -205,7 +205,7 @@ export default (client: AeonaBot) => {
 			components?: ActionRow[];
 			type?: string;
 		},
-		interaction: Context | { id: bigint; guildId?: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
@@ -366,7 +366,7 @@ export default (client: AeonaBot) => {
 			components?: ActionRow[];
 			type?: string;
 		},
-		interaction: Context | { id: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		embed.setTitle(`${client.extras.emotes.normal.check}・Success!`);
 		embed.setDescription(`${text}`);
@@ -450,7 +450,7 @@ export default (client: AeonaBot) => {
 			components?: ActionRow[];
 			type?: string;
 		},
-		ctx: Context | { id: bigint },
+		ctx: Context | Channel | Interaction,
 	) {
 		if (ctx instanceof Context) {
 			let s = [

@@ -1,19 +1,17 @@
+import Captcha from '@haileybot/captcha-generator';
 import { AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
-	AllowedMentions,
-	BigString,
-	DiscordChannel,
-	FileContent,
-	InteractionTypes,
-	MessageComponents,
-	WithReason,
+    AllowedMentions,
+    BigString,
+    DiscordChannel,
+    FileContent,
+    InteractionTypes,
+    MessageComponents,
+    WithReason,
 } from 'discordeno/types';
-import { AeonaBot } from '../../extras/index.js';
-import Captcha from '@haileybot/captcha-generator';
-import reactionSchema from '../../database/models/reactionRoles.js';
-import verify from '../../database/models/verify.js';
 
 import claim from '../../commands/tickets/claim.js';
 import close from '../../commands/tickets/close.js';
@@ -21,8 +19,9 @@ import openticket from '../../commands/tickets/createticket.js';
 import deleteTicket from '../../commands/tickets/deleteticket.js';
 import notice from '../../commands/tickets/notice.js';
 import transcript from '../../commands/tickets/transcript.js';
-
-import { Blob } from 'buffer';
+import reactionSchema from '../../database/models/reactionRoles.js';
+import verify from '../../database/models/verify.js';
+import { AeonaBot } from '../../extras/index.js';
 
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
@@ -47,7 +46,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
 			// eslint-disable-next-line no-inner-declarations
 			function verifyUser(msg: Message) {
-				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then((response) => {
+				client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then(async (response) => {
 					if (response.content.toUpperCase() === captcha.value.toUpperCase()) {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 
@@ -71,16 +70,14 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 					} else {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 						client.helpers.deleteMessage(interaction.channelId!, msg.id);
-
+						const channel = await client.helpers.getChannel(interaction.channelId!);
 						client.extras
 							.errNormal(
 								{
 									error: "You have answered the captcha incorrectly! Don't worry you can try again",
 									type: 'reply',
 								},
-								{
-									id: interaction.channelId!,
-								},
+								channel,
 							)
 							.then((_msgError) => {
 								setTimeout(() => {
@@ -365,11 +362,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-							parse: options.allowedMentions?.parse,
-							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-							users: options.allowedMentions?.users?.map((id) => id.toString()),
-							replied_user: options.allowedMentions?.repliedUser,
-					  }
+						parse: options.allowedMentions?.parse,
+						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+						users: options.allowedMentions?.users?.map((id) => id.toString()),
+						replied_user: options.allowedMentions?.repliedUser,
+					}
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),

@@ -1,10 +1,9 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { Blob } from 'buffer';
 import Canvacord from 'canvacord';
 
 import Functions from '../../database/models/functions.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
-import { Blob } from 'buffer';
 
 export default {
 	name: 'rank',
@@ -46,7 +45,7 @@ export default {
 				.setRank(user.position);
 
 			const data = await rankCard.build({});
-			ctx.editReply({
+			ctx.reply({
 				file: [
 					{
 						name: 'image.png',

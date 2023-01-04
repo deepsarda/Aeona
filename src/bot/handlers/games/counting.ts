@@ -1,7 +1,8 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Message, MessageTypes } from 'discordeno';
+
 import count from '../../database/models/count.js';
 import countSchema from '../../database/models/countChannel.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
 	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
@@ -15,6 +16,7 @@ export default async (client: AeonaBot) => {
 
 		if (data && countData) {
 			if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
+			const channel = await client.helpers.getChannel(message.channelId);
 			if (message.authorId + '' == countData.User!) {
 				try {
 					client.extras.errNormal(
@@ -22,7 +24,7 @@ export default async (client: AeonaBot) => {
 							error: 'You cannot count twice in a row',
 							type: 'reply',
 						},
-						{ id: message.channelId },
+						channel,
 					);
 
 					return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
@@ -43,7 +45,7 @@ export default async (client: AeonaBot) => {
 								error: `The correct number was ${countData.Count}!`,
 								type: 'reply',
 							},
-							{ id: message.channelId },
+							channel,
 						);
 
 						return bot.helpers.addReaction(message.channelId, message.id + '', client.extras.emotes.normal.error);
@@ -81,11 +83,10 @@ export default async (client: AeonaBot) => {
 					client.extras.simpleMessageEmbed(
 						{
 							title: ``,
-							desc: `**${
-								(await bot.helpers.getUser(message.authorId))?.username +
+							desc: `**${(await bot.helpers.getUser(message.authorId))?.username +
 								'#' +
 								(await bot.helpers.getUser(message.authorId))?.discriminator
-							}**: ${message.content}`,
+								}**: ${message.content}`,
 						},
 						message,
 					);

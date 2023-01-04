@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import generator from 'generate-password';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'pwdgen',
 	description: 'Generate a password',
@@ -23,7 +24,7 @@ export default {
 			},
 			ctx,
 		);
-
+		const channel = await client.helpers.getDmChannel(ctx.user.id)
 		client.extras.succNormal(
 			{
 				text: `Your generated password`,
@@ -41,7 +42,7 @@ export default {
 				],
 				type: '',
 			},
-			ctx.user!,
+			channel,
 		);
 	},
 } as CommandOptions;

@@ -243,11 +243,12 @@ export default async (
 							const user = await client.cache.users.get(BigInt(result.Premium!.RedeemedBy!.id));
 
 							if (user) {
+								const channel = await client.helpers.getDmChannel(user.id);
 								client.extras.errNormal(
 									{
 										error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased.`,
 									},
-									user,
+									channel,
 								);
 							}
 
