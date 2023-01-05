@@ -1,20 +1,20 @@
 import {
-    AmethystError,
-    CategoryOptions,
-    Components,
-    createProxyCache,
-    enableAmethystPlugin,
-    ErrorEnums,
+	AmethystError,
+	CategoryOptions,
+	Components,
+	createProxyCache,
+	enableAmethystPlugin,
+	ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import {
-    createBot,
-    createRestManager,
-    GatewayOpcodes,
-    Shard,
-    ShardSocketCloseCodes,
-    ShardState,
-    startBot,
+	createBot,
+	createRestManager,
+	GatewayOpcodes,
+	Shard,
+	ShardSocketCloseCodes,
+	ShardState,
+	startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
