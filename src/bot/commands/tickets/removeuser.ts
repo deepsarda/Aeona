@@ -1,8 +1,9 @@
-import ticketSchema from '../../database/models/tickets.js';
-import ticketChannels from '../../database/models/ticketChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketChannels from '../../database/models/ticketChannels.js';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'removeuser',
 	description: 'Generate a chat message',
@@ -31,7 +32,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: 'Do the ticket setup!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -61,7 +62,7 @@ export default {
 				return client.extras.simpleEmbed(
 					{
 						desc: `Removed ${user}`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -69,7 +70,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: 'This is not a ticket!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

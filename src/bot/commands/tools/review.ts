@@ -1,7 +1,8 @@
-import Schema from '../../database/models/reviewChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/reviewChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'review',
 	description: 'Wrute a review',
@@ -30,7 +31,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `Stars must be a minimum of 1 and a maximum of 5`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -42,7 +43,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `No review channel set! Do \`reviewchannel\``,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -67,7 +68,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -95,7 +96,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: `No review channel set! Do \`reviewchannel\``,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

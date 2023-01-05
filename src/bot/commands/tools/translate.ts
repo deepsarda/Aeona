@@ -45,7 +45,7 @@ export default {
 								inline: false,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -55,7 +55,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: 'Please provide a valid ISO language code!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

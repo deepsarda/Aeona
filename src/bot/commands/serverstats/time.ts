@@ -1,10 +1,10 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { ChannelTypes } from 'discordeno/types';
 import moment from 'moment-timezone';
 
 import Schema from '../../database/models/stats.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
-import { ChannelTypes } from 'discordeno/types';
+
 export default {
 	name: 'time',
 	description: 'Create a stats channel for the time.',
@@ -26,7 +26,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `Timezone is not valid`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -73,7 +73,7 @@ export default {
 								value: `<#${channel.id}>`,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

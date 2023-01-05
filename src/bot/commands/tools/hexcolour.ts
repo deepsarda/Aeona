@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import axios from 'axios';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'hexcolor',
 	description: 'Get information about some hex colors',
@@ -24,7 +25,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'Color not found!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -47,7 +48,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

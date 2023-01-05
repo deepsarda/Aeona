@@ -1,8 +1,9 @@
-import Schema from '../../database/models/stats.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
+
+import Schema from '../../database/models/stats.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'members',
 	description: 'Create a stats channel for member count',
@@ -50,7 +51,7 @@ export default {
 								value: `<#${channel.id}>`,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

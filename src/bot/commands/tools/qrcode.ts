@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'qrcode',
 	description: 'Make a QR Code for a link',
@@ -24,7 +26,7 @@ export default {
 					new RegExp(' ', 'g'),
 					'%20',
 				)}`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

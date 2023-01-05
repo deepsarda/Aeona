@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import weather from 'weather-js';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'weather',
 	description: 'Get the latest weather',
@@ -24,7 +25,7 @@ export default {
 				return client.extras.errNormal(
 					{
 						error: '**Invalid** location',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -69,7 +70,7 @@ export default {
 							inline: true,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

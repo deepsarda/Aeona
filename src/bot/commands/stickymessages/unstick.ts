@@ -1,7 +1,8 @@
-import Schema from '../../database/models/stickymessages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'stick',
 	description: 'Generate a chat message',
@@ -35,7 +36,7 @@ export default {
 									value: `<#${channel.id}>`,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -44,7 +45,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: 'No message found!',
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

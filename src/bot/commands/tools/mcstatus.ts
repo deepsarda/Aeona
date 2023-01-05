@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import fetch from 'node-fetch';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'mcstatus',
 	description: 'Generate a chat message',
@@ -19,13 +20,13 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const ip = ctx.options.getString('ip', true);
 
-		if (ip == null) return client.extras.errUsage({ usage: 'mcstatus [ip]', type: 'editreply' }, ctx);
+		if (ip == null) return client.extras.errUsage({ usage: 'mcstatus [ip]', type: 'reply' }, ctx);
 
 		fetch(`https://api.mcsrvstat.us/2/${ip}`)
 			.then((res) => res.json())
 			.catch()
 			.then(async (json: any) => {
-				if (!json.players) return client.extras.errNormal({ error: "Can't find the server!", type: 'editreply' }, ctx);
+				if (!json.players) return client.extras.errNormal({ error: "Can't find the server!", type: 'reply' }, ctx);
 
 				return client.extras.embed(
 					{
@@ -48,7 +49,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

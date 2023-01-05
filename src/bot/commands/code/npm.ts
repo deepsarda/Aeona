@@ -1,6 +1,8 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
 import wrapper from '../../lib/popcat.js';
+
 export default {
 	name: 'npm',
 	description: 'Search npm for a package',
@@ -21,7 +23,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: 'Package not found!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'transcript',
 	description: 'Generate a transcript of this chat',
@@ -25,7 +27,7 @@ export default {
 					return client.extras.simpleEmbed(
 						{
 							desc: `Transcript saved`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);

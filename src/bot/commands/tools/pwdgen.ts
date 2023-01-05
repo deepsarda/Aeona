@@ -20,7 +20,7 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `I have generated a password and have it sent to your DM`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

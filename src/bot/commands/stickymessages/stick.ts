@@ -1,7 +1,8 @@
-import Schema from '../../database/models/stickymessages.js';
-
 import { AmethystEmbed, CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'stick',
 	description: 'Stick a message to be the last message in the channel',
@@ -54,7 +55,7 @@ export default {
 							value: `${content}`,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

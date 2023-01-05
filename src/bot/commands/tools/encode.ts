@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'encode',
 	description: 'Convert your text to binary format',
@@ -38,7 +40,7 @@ export default {
 						inline: false,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

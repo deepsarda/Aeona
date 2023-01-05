@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import fetch from 'node-fetch';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'anagram',
 	description: 'Generate a anagram',
@@ -24,7 +25,7 @@ export default {
 			.catch()
 			.then(async (json: any) => {
 				let content = ``;
-				if (!json.all[0]) return client.extras.errNormal({ error: 'No word found!', type: 'editreply' }, ctx);
+				if (!json.all[0]) return client.extras.errNormal({ error: 'No word found!', type: 'reply' }, ctx);
 
 				json.all.forEach((i) => {
 					content += `${i}\n`;
@@ -40,7 +41,7 @@ export default {
 								value: content,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

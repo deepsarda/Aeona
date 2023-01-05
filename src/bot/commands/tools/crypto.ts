@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import axios from 'axios';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'crypto',
 	description: 'See the latest crypto information',
@@ -37,7 +38,7 @@ export default {
 				{
 					title: `💹 Crypto stats`,
 					desc: `The current price of **1 ${coin}** = **${data[coin][currency]} ${currency}**`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -45,7 +46,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: 'Please check your inputs!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

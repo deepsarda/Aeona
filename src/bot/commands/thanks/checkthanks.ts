@@ -1,7 +1,8 @@
-import thanksSchema from '../../database/models/thanks.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import thanksSchema from '../../database/models/thanks.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'checkthanks',
 	description: 'Check how many times a user had been thanked',
@@ -25,7 +26,7 @@ export default {
 					{
 						title: `🤝 Thanks`,
 						desc: `**${member!.username + '#' + member!.discriminator}** has \`${data.Received}\` thanks`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -34,7 +35,7 @@ export default {
 					{
 						title: `🤝 Thanks`,
 						desc: `**${member!.username + '#' + member!.discriminator}** has \`0\` thanks`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

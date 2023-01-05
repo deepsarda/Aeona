@@ -1,8 +1,9 @@
-import Schema from '../../database/models/stats.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
+
+import Schema from '../../database/models/stats.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'emoji',
 	description: 'Create a stats channel for the emoji count',
@@ -52,7 +53,7 @@ export default {
 								value: `<#${channel.id}>`,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

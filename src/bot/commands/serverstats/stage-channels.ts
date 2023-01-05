@@ -1,8 +1,9 @@
-import Schema from '../../database/models/stats.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
+
+import Schema from '../../database/models/stats.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'stage-channels',
 	description: 'Create a stats channel for the number of stage channels',
@@ -56,7 +57,7 @@ export default {
 								value: `<#${channel.id}>`,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

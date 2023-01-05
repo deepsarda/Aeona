@@ -1,7 +1,8 @@
-import ticketSchema from '../../database/models/tickets.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'tickets',
 	description: 'Setup tickets',
@@ -62,7 +63,7 @@ export default {
 		client.extras.succNormal(
 			{
 				text: `Tickets has been set up successfully!`,
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

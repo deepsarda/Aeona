@@ -281,7 +281,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					},
 					{
 						name: `🕒 Ends at`,
-						value: `< t: ${(Date.now() / 1000 + track.duration / 1000).toFixed(0)}: f > `,
+						value: `<t:${(Date.now() / 1000 + track.duration / 1000).toFixed(0)}:f> `,
 						inline: true,
 					},
 					{

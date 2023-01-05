@@ -1,7 +1,8 @@
-import ticketSchema from '../../database/models/tickets.js';
-
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'ticketpanel',
 	description: 'Set up the tickets',
@@ -45,7 +46,7 @@ export default {
 				client.extras.succNormal(
 					{
 						text: `Ticket panel has been set up successfully!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -53,7 +54,7 @@ export default {
 				client.extras.errNormal(
 					{
 						error: `Run the ticket setup first!`,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/stickymessages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'messages',
 	description: 'See all the sticky messages of the server',
@@ -24,7 +25,7 @@ export default {
 				{
 					title: `Sticky messages`,
 					desc: list,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -32,7 +33,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: 'No data found!',
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

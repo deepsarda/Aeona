@@ -1,8 +1,9 @@
-import ticketSchema from '../../database/models/tickets.js';
-import ticketChannels from '../../database/models/ticketChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketChannels from '../../database/models/ticketChannels.js';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'information',
 	description: 'Gain info about this ticket.',
@@ -21,7 +22,7 @@ export default {
 							return client.extras.errNormal(
 								{
 									error: 'Do the setup!',
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							);
@@ -32,7 +33,7 @@ export default {
 								.embed(
 									{
 										desc: `${client.extras.emotes.animated.loading} Loading information...`,
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								)
@@ -69,7 +70,7 @@ export default {
 													inline: true,
 												},
 											],
-											type: 'editreply',
+											type: 'reply',
 										},
 										msg,
 									);
@@ -78,7 +79,7 @@ export default {
 							client.extras.errNormal(
 								{
 									error: 'This is not a ticket!',
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							);
@@ -87,7 +88,7 @@ export default {
 						return client.extras.errNormal(
 							{
 								error: 'Do the setup!',
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);

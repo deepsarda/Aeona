@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'enlarge',
 	description: 'Enlarge a emoji',
@@ -25,12 +27,12 @@ export default {
 			return client.extras.embed(
 				{
 					image: url,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
 		} else {
-			client.extras.errNormal({ error: 'Please supply a valid emoji!', type: 'editreply' }, ctx);
+			client.extras.errNormal({ error: 'Please supply a valid emoji!', type: 'reply' }, ctx);
 		}
 	},
 } as CommandOptions;

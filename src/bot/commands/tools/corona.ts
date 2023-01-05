@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import fetch from 'node-fetch';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'corona',
 	description: 'See the latest corona data',
@@ -46,13 +47,13 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
 			})
 			.catch(() => {
-				return client.extras.errNormal({ error: `Invalid country provided!`, type: 'editreply' }, ctx);
+				return client.extras.errNormal({ error: `Invalid country provided!`, type: 'reply' }, ctx);
 			});
 	},
 } as CommandOptions;

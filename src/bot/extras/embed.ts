@@ -373,7 +373,7 @@ export default (client: AeonaBot) => {
 		embed.setColor(client.extras.config.colors.succes);
 
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		type = 'editreply';
+		type = 'reply';
 		return client.extras.sendEmbed(
 			{
 				embeds: [embed],
@@ -467,18 +467,7 @@ export default (client: AeonaBot) => {
 			//Generate a random number between 1 to 10;
 			const randomNumber = Math.floor(Math.random() * 50);
 			content = randomNumber == 0 ? (content ?? '') + s[0] : randomNumber == 1 ? (content ?? '') + s[1] : content;
-			if (type && type.toLowerCase() == 'editreply' && ctx.replied) {
-				const c = await ctx
-					.editReply({
-						embeds: embeds,
-						content: content,
-						components: components,
-						fetchReply: true,
-					})
-					.catch();
-
-				return c.message!;
-			} else if (type && type.toLowerCase() == 'editreply') {
+			if (type && type.toLowerCase() == 'reply' && ctx.replied) {
 				const c = await ctx
 					.reply({
 						embeds: embeds,
@@ -487,6 +476,7 @@ export default (client: AeonaBot) => {
 						fetchReply: true,
 					})
 					.catch();
+
 				return c.message!;
 			} else if (type && type.toLowerCase() == 'reply') {
 				const c = await ctx

@@ -1,8 +1,9 @@
-import Schema from '../../database/models/reminder.js';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import ms from 'ms';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import Schema from '../../database/models/reminder.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'remind',
 	description: 'Set a reminder',
@@ -18,7 +19,7 @@ export default {
 
 		Schema.findOne({ Text: text, User: ctx.user.id, endTime: endtime }, async (err, data) => {
 			if (data) {
-				return client.extras.errNormal({ error: `You already made this reminder!`, type: 'editreply' }, ctx);
+				return client.extras.errNormal({ error: `You already made this reminder!`, type: 'reply' }, ctx);
 			} else {
 				return client.extras.succNormal(
 					{
@@ -35,7 +36,7 @@ export default {
 								inline: true,
 							},
 						],
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);

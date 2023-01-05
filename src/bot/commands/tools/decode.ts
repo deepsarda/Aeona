@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'decode',
 	description: 'Decode text from binary format',
@@ -21,7 +23,7 @@ export default {
 			return client.extras.errNormal(
 				{
 					error: `You can only decode binary code!`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -47,7 +49,7 @@ export default {
 						inline: false,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/suggestionChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/suggestionChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'accept',
 	description: 'Generate a chat message',
@@ -79,7 +80,7 @@ export default {
 							value: `${embedData.description}`,
 						},
 					],
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);
@@ -87,7 +88,7 @@ export default {
 			client.extras.errNormal(
 				{
 					error: `No suggestion channel set! Please do the setup`,
-					type: 'editreply',
+					type: 'reply',
 				},
 				ctx,
 			);

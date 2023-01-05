@@ -1,8 +1,9 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import thanksSchema from '../../database/models/thanks.js';
 import thanksAuthor from '../../database/models/thanksAuthor.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'thank',
 	description: 'Thank a user.',
@@ -20,14 +21,14 @@ export default {
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const target = await ctx.options.getUser('user');
-		if (!target) return client.extras.errUsage({ usage: 'thanks [mention user]', type: 'editreply' }, ctx);
+		if (!target) return client.extras.errUsage({ usage: 'thanks [mention user]', type: 'reply' }, ctx);
 
 		if (target.id === ctx.user.id)
-			return client.extras.errNormal({ error: `You cannot thank yourself!`, type: 'editreply' }, ctx);
+			return client.extras.errNormal({ error: `You cannot thank yourself!`, type: 'reply' }, ctx);
 
 		thanksAuthor.findOne({ User: target.id + '', Author: ctx.user.id + '' }, async (err, data) => {
 			if (data) {
-				client.extras.errNormal({ error: `You already thanked this user!`, type: 'editreply' }, ctx);
+				client.extras.errNormal({ error: `You already thanked this user!`, type: 'reply' }, ctx);
 			} else {
 				thanksSchema.findOne({ User: target.id + '' }, async (err, data) => {
 					if (data) {
@@ -36,7 +37,7 @@ export default {
 						client.extras.succNormal(
 							{
 								text: `You have thanked <@${target.id}>! They now have \`${data.Received}\` thanks`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);
@@ -49,7 +50,7 @@ export default {
 						client.extras.succNormal(
 							{
 								text: `You have thanked <@${target.id}>! They now have \`1\` thanks`,
-								type: 'editreply',
+								type: 'reply',
 							},
 							ctx,
 						);

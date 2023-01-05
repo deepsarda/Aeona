@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'bing',
 	description: 'Search bing for information',
@@ -28,7 +30,7 @@ export default {
 						inline: true,
 					},
 				],
-				type: 'editreply',
+				type: 'reply',
 			},
 			ctx,
 		);

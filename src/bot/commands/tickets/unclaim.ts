@@ -1,8 +1,9 @@
-import ticketSchema from '../../database/models/tickets.js';
-import ticketChannels from '../../database/models/ticketChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketChannels from '../../database/models/ticketChannels.js';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'unclaim',
 	description: 'Remove you claim from this ticket.',
@@ -37,7 +38,7 @@ export default {
 								return client.extras.errNormal(
 									{
 										error: 'Do the setup!',
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								);
@@ -50,7 +51,7 @@ export default {
 								return client.extras.simpleEmbed(
 									{
 										desc: `This ticket can now be claimed again!`,
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								);
@@ -58,7 +59,7 @@ export default {
 								client.extras.errNormal(
 									{
 										error: 'This is not a ticket!',
-										type: 'editreply',
+										type: 'reply',
 									},
 									ctx,
 								);
@@ -67,7 +68,7 @@ export default {
 							client.extras.errNormal(
 								{
 									error: 'You have not claimed this ticket!',
-									type: 'editreply',
+									type: 'reply',
 								},
 								ctx,
 							);
@@ -77,7 +78,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: 'Do the ticket setup!',
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
