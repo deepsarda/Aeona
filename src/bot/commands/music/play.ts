@@ -132,7 +132,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'reply',
+							type: 'editreply',
 						},
 						ctx,
 					);
@@ -179,7 +179,7 @@ export default {
 							},
 						],
 						components: components,
-						type: 'reply',
+						type: 'editreply',
 					},
 					ctx,
 				);
@@ -196,13 +196,13 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `You didn't provide a selection`,
-							type: 'reply',
+							type: 'editreply',
 						},
 						ctx,
 					);
 				}
 
-				const first = i.data?.customId!;
+				const first = i!.data?.customId!;
 
 				if (first.toLowerCase() === 'cancel') {
 					if (!player.queue.current) player.destroy();
@@ -248,7 +248,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'reply',
+							type: 'editreply',
 						},
 						ctx,
 					);
