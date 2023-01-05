@@ -35,11 +35,15 @@ export default async (client: AeonaBot) => {
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 
-	client.on('roleDelete', async (client: AeonaBot, role: {
-		guildId: bigint,
-		roleId: bigint,
-	}) =>
-		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
+	client.on(
+		'roleDelete',
+		async (
+			client: AeonaBot,
+			role: {
+				guildId: bigint;
+				roleId: bigint;
+			},
+		) => client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 
 	client.on('guildMemberBoost', async (client: AeonaBot, booster: Member) =>
