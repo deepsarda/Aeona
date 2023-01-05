@@ -56,9 +56,9 @@ export function additionalProps(client: AeonaBot) {
 			],
 			nodes: [
 				{
-					host: 'lavalink-replit.aeona.repl.co',
+					host: 'ssl.freelavalink.ga',
 					port: 443,
-					password: 'maybeiwasboring',
+					password: 'www.freelavalink.ga',
 					secure: true,
 				},
 			],
