@@ -1,5 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Channel, Guild, Member, Role, User } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
+
 export default async (client: AeonaBot) => {
 	client.on('guildMemberAdd', async (client: AeonaBot, member: Member) => {
 		if (!member.guildId) return;
@@ -33,7 +35,10 @@ export default async (client: AeonaBot) => {
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 
-	client.on('roleDeleteWithOldRole', async (client: AeonaBot, role: Role) =>
+	client.on('roleDelete', async (client: AeonaBot, role: {
+		guildId: bigint,
+		roleId: bigint,
+	}) =>
 		client.emit('updateRoles', client, await client.helpers.getGuild(role.guildId)),
 	);
 

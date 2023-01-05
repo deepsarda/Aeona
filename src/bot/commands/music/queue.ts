@@ -3,8 +3,8 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
-	name: '',
-	description: ' ',
+	name: 'queue',
+	description: 'See the queue',
 	commandType: ['application', 'message'],
 	category: 'music',
 	args: [],
@@ -55,9 +55,8 @@ export default {
 			status = player.queue
 				.map((track) => {
 					count += 1;
-					return `**[#${count}]**┆${
-						track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
-					} (Requested by ${track.requester})`;
+					return `**[#${count}]**┆${track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
+						} (Requested by ${track.requester})`;
 				})
 				.join('\n');
 		}
