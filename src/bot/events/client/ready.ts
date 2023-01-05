@@ -271,7 +271,6 @@ export default async (
 			}
 		}, 500000);
 
-
 		client.extras.ready = true;
 	}
 };

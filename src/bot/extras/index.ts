@@ -51,20 +51,19 @@ export function additionalProps(client: AeonaBot) {
 					clientID: process.env.SPOTIFY_CLIENT_ID!,
 					clientSecret: process.env.SPOTIFY_CLIENT_SECERT!,
 					playlistLimit: 100,
-					albumLimit: 100
-				})
+					albumLimit: 100,
+				}),
 			],
 			nodes: [
 				{
-					host: "lavalink-replit.aeona.repl.co",
+					host: 'lavalink-replit.aeona.repl.co',
 					port: 443,
-					password: "maybeiwasboring",
+					password: 'maybeiwasboring',
 				},
 			],
 			send(id, payload) {
 				const guild = client.cache.guilds.memory.get(BigInt(id));
-				if (guild)
-					client.gateway.manager.shards.get(guild.shardId)?.send(payload)
+				if (guild) client.gateway.manager.shards.get(guild.shardId)?.send(payload);
 			},
 		}),
 		capitalizeFirstLetter: (string: string) => {
