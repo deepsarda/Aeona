@@ -204,7 +204,6 @@ export default {
 
 				const first = i.data?.customId!;
 
-
 				if (first.toLowerCase() === 'cancel') {
 					if (!player.queue.current) player.destroy();
 					return ctx.reply({ content: 'Cancelled.' });
