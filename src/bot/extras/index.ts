@@ -1,6 +1,11 @@
-import { AmethystBot, Components, Context } from '@thereallonewolf/amethystframework';
-import { Channel, Role } from 'discordeno/*';
+import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
+import { Channel, Role, VoiceState } from 'discordeno';
 import { BigString } from 'discordeno/types';
+import { Manager } from 'erela.js';
+import AppleMusic from 'erela.js-apple';
+import Deezer from 'erela.js-deezer';
+import Facebook from 'erela.js-facebook';
+import Spotify from 'erela.js-spotify';
 
 import botConfig from '../botconfig/bot.js';
 import levels from '../database/models/levels.js';
@@ -32,6 +37,36 @@ export function additionalProps(client: AeonaBot) {
 		messageCount: 0,
 		lastguildcount: 0,
 		ready: false,
+		playerManager: new Map(),
+		triviaManager: new Map(),
+		queue: new Map(),
+		voiceStates: new AmethystCollection<string, VoiceState>(),
+		player: new Manager({
+			plugins: [
+				//@ts-ignore
+				new AppleMusic({}),
+				new Deezer({}),
+				new Facebook(),
+				new Spotify({
+					clientID: process.env.SPOTIFY_CLIENT_ID!,
+					clientSecret: process.env.SPOTIFY_CLIENT_SECERT!,
+					playlistLimit: 100,
+					albumLimit: 100
+				})
+			],
+			nodes: [
+				{
+					host: "lavalink-replit.aeona.repl.co",
+					port: 443,
+					password: "maybeiwasboring",
+				},
+			],
+			send(id, payload) {
+				const guild = client.cache.guilds.memory.get(BigInt(id));
+				if (guild)
+					client.gateway.manager.shards.get(guild.shardId)?.send(payload)
+			},
+		}),
 		capitalizeFirstLetter: (string: string) => {
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		},

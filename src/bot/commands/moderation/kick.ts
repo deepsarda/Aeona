@@ -1,4 +1,5 @@
 import { CommandOptions, Context, requireGuildPermissions } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -25,7 +26,7 @@ export default {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
 		const member = await client.helpers.getMember(ctx.guild!.id + '', (await ctx.options.getUser('user', true)).id);
-		const reason = ctx.options.getString('reason') || 'Not given';
+		const reason = ctx.options.getLongString('reason') || 'Not given';
 		try {
 			requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
 

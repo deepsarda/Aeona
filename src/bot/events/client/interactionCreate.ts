@@ -1,16 +1,16 @@
 import Captcha from '@haileybot/captcha-generator';
-import { AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, Components, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
-	AllowedMentions,
-	BigString,
-	DiscordChannel,
-	FileContent,
-	InteractionTypes,
-	MessageComponents,
-	WithReason,
+    AllowedMentions,
+    BigString,
+    DiscordChannel,
+    FileContent,
+    InteractionTypes,
+    MessageComponents,
+    WithReason,
 } from 'discordeno/types';
 
 import claim from '../../commands/tickets/claim.js';
@@ -51,16 +51,15 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 						client.helpers.deleteMessage(interaction.channelId!, response.id);
 
 						client.helpers.deleteMessage(interaction.channelId!, msg.id!);
-
+						const channel = await client.helpers.getDmChannel(interaction.user.id,
+						)
 						client.extras
 							.embed(
 								{
 									title: 'You have been successfully verified!',
 									type: '',
 								},
-								{
-									id: interaction.user.id,
-								},
+								channel,
 							)
 							.catch((error) => console.error(error));
 
@@ -337,6 +336,192 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 		);
 		notice.execute!(client, ctx);
 	}
+
+	if (interaction.data?.customId == "musicpause") {
+		const player = client.extras.player.players.get(interaction.guildId! + "");
+		if (!player) return;
+
+		player.pause(true)
+
+		const embedData = interaction.message?.embeds[0]!;
+
+		const components = new Components();
+		components.addButton("", "Secondary", "musicprev", {
+			emoji: "<:previous:1060474160163328000>"
+		})
+		components.addButton("", "Secondary", "musicpause", {
+			emoji: "<:pause:1060473490744029184>"
+		})
+		components.addButton("", "Secondary", "musicstop", {
+			emoji: "🛑"
+		})
+		components.addButton("", "Secondary", "musicnext", {
+			emoji: "<:next:1060474589349683270>"
+		});
+
+
+		client.extras.editEmbed({
+			title: embedData.title,
+			url: embedData.url,
+			desc: `Music is currently paused`,
+			thumbnail: embedData.thumbnail!.url,
+			fields: embedData.fields,
+			components: components,
+			color: client.extras.config.colors.error,
+		}, interaction.message!)
+	}
+
+	if (interaction.data?.customId == "musicstart") {
+
+
+		const player = client.extras.player.players.get(interaction.guildId! + "");
+		if (!player) return;
+
+		player.pause(false)
+
+		const embedData = interaction.message!.embeds[0];
+
+		const components = new Components();
+		components.addButton("", "Secondary", "musicprev", {
+			emoji: "<:previous:1060474160163328000>"
+		})
+		components.addButton("", "Secondary", "musicpause", {
+			emoji: "<:pause:1060473490744029184>"
+		})
+		components.addButton("", "Secondary", "musicstop", {
+			emoji: "🛑"
+		})
+		components.addButton("", "Secondary", "musicnext", {
+			emoji: "<:next:1060474589349683270>"
+		});
+
+		client.extras.editEmbed({
+			title: embedData.title,
+			url: embedData.url,
+			desc: `Music is currently resumed`,
+			thumbnail: embedData.thumbnail!.url,
+			fields: embedData.fields,
+			components: components,
+		}, interaction.message!)
+	}
+
+	if (interaction.data?.customId == "musicstop") {
+
+
+		const player = client.extras.player.players.get(interaction.guildId! + "");
+		if (!player) return;
+
+		player.destroy();
+
+		client.extras.sendEmbedMessage({
+			desc: `Music is currently stopped`,
+			color: client.extras.config.colors.error,
+			components: [],
+
+		}, interaction.message!)
+	}
+
+	if (interaction.data?.customId == "musicnext") {
+
+
+		const player = client.extras.player.players.get(interaction.guildId! + "");
+		if (!player) return;
+
+		player.stop();
+
+		const track = player.queue.current!;
+
+		const components = new Components();
+		components.addButton("", "Secondary", "musicprev", {
+			emoji: "<:previous:1060474160163328000>"
+		})
+		components.addButton("", "Secondary", "musicpause", {
+			emoji: "<:pause:1060473490744029184>"
+		})
+		components.addButton("", "Secondary", "musicstop", {
+			emoji: "🛑"
+		})
+		components.addButton("", "Secondary", "musicnext", {
+			emoji: "<:next:1060474589349683270>"
+		});
+
+		client.extras.editEmbed({
+			title: `${track.title}`,
+			url: track.uri!,
+			desc: `Music started in <#${player.voiceChannel}>!`,
+			thumbnail: track.thumbnail!,
+			fields: [
+				{
+					name: `👤 Requested By`,
+					value: `${track.requester}`,
+					inline: true
+				},
+				{
+					name: `🕒 Ends at`,
+					value: `<t:${((Date.now() / 1000) + (track.duration! / 1000)).toFixed(0)}:f>`,
+					inline: true
+				},
+				{
+					name: `🎬 Author`,
+					value: `${track.author}`,
+					inline: true
+				}
+			],
+			components: components,
+
+		}, interaction.message!)
+	}
+
+	if (interaction.data?.customId == "musicprev") {
+
+
+		const player = client.extras.player.players.get(interaction.guildId! + "");
+		if (!player || !player.queue.previous) return;
+
+		const track = player.queue.previous;
+
+		const components = new Components();
+		components.addButton("", "Secondary", "musicprev", {
+			emoji: "<:previous:1060474160163328000>"
+		})
+		components.addButton("", "Secondary", "musicpause", {
+			emoji: "<:pause:1060473490744029184>"
+		})
+		components.addButton("", "Secondary", "musicstop", {
+			emoji: "🛑"
+		})
+		components.addButton("", "Secondary", "musicnext", {
+			emoji: "<:next:1060474589349683270>"
+		});
+
+		client.extras.editEmbed({
+			title: `${track.title}`,
+			url: track.uri,
+			desc: `Music started in <#${player.voiceChannel}>!`,
+			thumbnail: track.thumbnail!,
+			fields: [
+				{
+					name: `👤 Requested By`,
+					value: `${track.requester}`,
+					inline: true
+				},
+				{
+					name: `🕒 Ends at`,
+					value: `<t:${((Date.now() / 1000) + (track.duration! / 1000)).toFixed(0)}:f>`,
+					inline: true
+				},
+				{
+					name: `🎬 Author`,
+					value: `${track.author}`,
+					inline: true
+				}
+			],
+			components: components,
+
+		}, interaction.message!)
+
+		player.play(player.queue.previous)
+	}
 };
 type Field = {
 	name: string;
@@ -362,11 +547,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-							parse: options.allowedMentions?.parse,
-							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-							users: options.allowedMentions?.users?.map((id) => id.toString()),
-							replied_user: options.allowedMentions?.repliedUser,
-					  }
+						parse: options.allowedMentions?.parse,
+						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+						users: options.allowedMentions?.users?.map((id) => id.toString()),
+						replied_user: options.allowedMentions?.repliedUser,
+					}
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),

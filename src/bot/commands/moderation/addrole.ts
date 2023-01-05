@@ -3,8 +3,8 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
-	name: 'ban',
-	description: 'Ban a user.',
+	name: 'addrole',
+	description: 'Add role to a user.',
 	commandType: ['application', 'message'],
 	category: 'moderation',
 	args: [
@@ -22,7 +22,7 @@ export default {
 		},
 		{
 			name: 'reason',
-			description: 'The reason for the ban.',
+			description: 'The reason to give the role.',
 			required: false,
 			type: 'String',
 		},
@@ -33,7 +33,7 @@ export default {
 		const user = await ctx.options.getUser('user', true);
 
 		const role = await ctx.options.getRole('role', true);
-		const reason = ctx.options.getString('reason') || `Not given`;
+		const reason = ctx.options.getLongString('reason') || `Not given`;
 
 		client.helpers
 			.addRole(ctx.guild.id, user.id, role.id, reason)

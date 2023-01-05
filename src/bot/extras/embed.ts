@@ -144,7 +144,7 @@ export default (client: AeonaBot) => {
 			footer?: string;
 			embed?: AmethystEmbed;
 		},
-		interaction: Context | { id: bigint; guildId?: bigint },
+		interaction: Context | Channel | Interaction,
 	) {
 		if (interaction.guildId == undefined) interaction.guildId = 0n;
 		const functiondata = await Schema.findOne({ Guild: interaction.guildId });

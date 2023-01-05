@@ -1,19 +1,20 @@
 import {
-	AmethystError,
-	CategoryOptions,
-	createProxyCache,
-	enableAmethystPlugin,
-	ErrorEnums,
+    AmethystError,
+    CategoryOptions,
+    Components,
+    createProxyCache,
+    enableAmethystPlugin,
+    ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import {
-	createBot,
-	createRestManager,
-	GatewayOpcodes,
-	Shard,
-	ShardSocketCloseCodes,
-	ShardState,
-	startBot,
+    createBot,
+    createRestManager,
+    GatewayOpcodes,
+    Shard,
+    ShardSocketCloseCodes,
+    ShardState,
+    startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -26,6 +27,7 @@ import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import Functions from './database/models/functions.js';
 import { additionalProps, AeonaBot } from './extras/index.js';
+
 
 dotenv.config();
 
@@ -194,12 +196,94 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 	});
 
 	bot.extras = additionalProps(bot);
+
+	bot.extras.player.on("nodeConnect", () => console.log("Lavalink is connected.".green))
+	bot.extras.player.on("nodeError", (node, error) => console.log(colors.red(colors.bold(`ERROR`)), (colors.white(`>>`)), colors.white(`Node`), colors.red(`${node.options.identifier}`), colors.white(`had an error:`), colors.red(`${error.message}`)))
+	bot.extras.player.on("playerDisconnect", async (player, _track) => {
+		player.destroy();
+
+		const channel = await bot.helpers.getChannel(player.textChannel!);
+		bot.extras.errNormal({
+			error: "Music has stopped. I'm disconnected from the channel"
+		}, channel)
+	});
+	bot.extras.player.on("playerMove", async (player, currentChannel, newChannel) => {
+		if (!newChannel) {
+			player.destroy();
+
+			const channel = await bot.helpers.getChannel(player.textChannel!);
+			bot.extras.errNormal({
+				error: "Music has stopped. I'm disconnected from the channel"
+			}, channel)
+		} else {
+			player.set('moved', true)
+			player.setVoiceChannel(newChannel);
+			if (player.paused) return;
+			setTimeout(() => {
+				player.pause(true);
+				setTimeout(() => player.pause(false), 1000 * 2);
+			}, 1000 * 2);
+		}
+	});
+	bot.extras.player.on("queueEnd", async (player, _track) => {
+		player.destroy(true);
+
+		const channel = await bot.helpers.getChannel(player.textChannel!);
+		bot.extras.errNormal({
+			error: "Queue is empty, Leaving voice channel"
+		}, channel)
+	});
+	bot.extras.player.on("trackStart", async (player, track) => {
+		const components = new Components();
+		components.addButton("", "Secondary", "musicprev", {
+			emoji: "<:previous:1060474160163328000>"
+		})
+		components.addButton("", "Secondary", "musicpause", {
+			emoji: "<:pause:1060473490744029184>"
+		})
+		components.addButton("", "Secondary", "musicstop", {
+			emoji: "🛑"
+		})
+		components.addButton("", "Secondary", "musicnext", {
+			emoji: "<:next:1060474589349683270>"
+		})
+
+
+
+
+		const channel = await bot.helpers.getChannel(player.textChannel!);
+
+		bot.extras.embed({
+			title: `${track.title}`,
+			url: track.uri,
+			desc: `Music started in <#${player.voiceChannel}>!`,
+			thumbnail: track.thumbnail!,
+			fields: [
+				{
+					name: `👤 Requested By`,
+					value: `${track.requester}`,
+					inline: true
+				},
+				{
+					name: `🕒 Ends at`,
+					value: `< t: ${((Date.now() / 1000) + (track.duration / 1000)).toFixed(0)}: f > `,
+					inline: true
+				},
+				{
+					name: `🎬 Author`,
+					value: `${track.author}`,
+					inline: true
+				}
+			],
+			components: components,
+		}, channel)
+	})
 	connect();
 
 	fs.readdirSync('./dist/bot/handlers/').forEach((dir) => {
 		fs.readdirSync(`./dist/bot/handlers/${dir}`).forEach(async (handler) => {
 			// eslint-disable-next-line @typescript-eslint/no-var-requires
-			const a = await import(`./handlers/${dir}/${handler}`);
+			const a = await import(`./ handlers/${dir}/${handler}`);
 
 			a.default(bot);
 		});
@@ -313,6 +397,12 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 			default: 'setup',
 		},
 		{
+			name: 'music',
+			description: 'Listen to some music',
+			uniqueCommands: true,
+			default: '',
+		},
+		{
 			name: 'serverstats',
 			description: 'Configure your server stats',
 			uniqueCommands: true,
@@ -396,6 +486,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 			uniqueCommands: true,
 			default: '',
 		},
+
 	];
 	for (let i = 0; i < categories.length; i++) {
 		bot.amethystUtils.createCategory(categories[i]);
