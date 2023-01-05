@@ -59,6 +59,7 @@ export function additionalProps(client: AeonaBot) {
 					host: 'lavalink-replit.aeona.repl.co',
 					port: 443,
 					password: 'maybeiwasboring',
+					secure: true,
 				},
 			],
 			send(id, payload) {
