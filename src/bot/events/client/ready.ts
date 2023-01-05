@@ -30,7 +30,7 @@ export default async (
 		client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
 
 		client.user = await client.helpers.getUser(getBotIdFromToken(process.env.DISCORD_TOKEN!));
-		client.extras.player.init(client.user.id + "");
+		client.extras.player.init(client.user.id + '');
 		const INFLUX_ORG = process.env.INFLUX_ORG as string;
 		const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 		const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
