@@ -1,4 +1,5 @@
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { Interaction } from 'discordeno/transformers';
 import { ChannelTypes } from 'discordeno/types';
 
 import { AeonaBot } from '../../extras/index.js';
@@ -182,7 +183,7 @@ export default {
 					},
 					ctx,
 				);
-				let i;
+				let i: Interaction | undefined;
 				try {
 					i = await client.amethystUtils.awaitComponent(message.id, {
 						filter: (bot, i) => i.user.id === ctx.user!.id,
@@ -201,9 +202,8 @@ export default {
 					);
 				}
 
-				const first = i.customId;
-				i.message.delete();
-				i.deferUpdate();
+				const first = i.data?.customId!;
+
 
 				if (first.toLowerCase() === 'cancel') {
 					if (!player.queue.current) player.destroy();
