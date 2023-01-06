@@ -148,10 +148,10 @@ export default {
 										);
 
 										new ticketChannels({
-											Guild: ctx.guild!.id + "",
+											Guild: ctx.guild!.id + '',
 											TicketID: ticketid,
-											channelID: channel.id + "",
-											creator: ctx.user!.id + "",
+											channelID: channel.id + '',
+											creator: ctx.user!.id + '',
 											claimed: 'None',
 										}).save();
 
