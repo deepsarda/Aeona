@@ -26,10 +26,10 @@ export default {
 			}
 		}
 
-		ctx.reply({ content: "Removing " + guildsToRemove.length + " guilds" })
+		ctx.reply({ content: 'Removing ' + guildsToRemove.length + ' guilds' });
 		for (let i = 0; i < guildsToRemove.length; i++) {
 			guildsToRemove[i].delete();
 		}
-		ctx.reply({ content: "Succesfully removed " + guildsToRemove.length + " guilds" })
+		ctx.reply({ content: 'Succesfully removed ' + guildsToRemove.length + ' guilds' });
 	},
 } as CommandOptions;
