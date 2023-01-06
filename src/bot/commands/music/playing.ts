@@ -8,7 +8,6 @@ export default {
 	commandType: ['application', 'message'],
 	category: 'music',
 	args: [],
-	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member)
 			return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
@@ -49,8 +48,8 @@ export default {
 		const musicLength = player.queue.current.isStream
 			? null
 			: !player.queue.current || !player.queue.current.duration || isNaN(player.queue.current.duration)
-			? null
-			: player.queue.current.duration;
+				? null
+				: player.queue.current.duration;
 		const nowTime = !player.position || isNaN(player.position) ? null : player.position;
 
 		const bar = await createProgressBar(musicLength, nowTime);

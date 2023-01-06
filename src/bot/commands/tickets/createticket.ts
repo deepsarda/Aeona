@@ -142,7 +142,7 @@ export default {
 														inline: true,
 													},
 												],
-												type: 'editreply',
+												type: 'ephemeraledit',
 											},
 											ctx,
 										);
