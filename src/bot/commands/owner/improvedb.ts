@@ -19,17 +19,24 @@ export default {
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const guilds = await functions.find();
-		const guildsToRemove: typeof guilds = [];
+		let guildsToRemove = 0;
 		for (let i = 0; i < guilds.length; i++) {
-			if (!client.cache.guilds.memory.has(BigInt(guilds[i].Guild!))) {
-				guildsToRemove.push(guilds[i]);
+			if (
+				guilds[i].isPremium == 'no' &&
+				!guilds[i].Levels &&
+				!guilds[i].AntiAlt &&
+				!guilds[i].AntiCaps &&
+				!guilds[i].AntiInvite &&
+				!guilds[i].AntiLinks &&
+				!guilds[i].AntiSpam &&
+				(guilds[i].Prefix == '+' || guilds[i].Prefix == ',')
+			) {
+				guilds[i].delete();
+				guildsToRemove++;
 			}
 		}
 
-		ctx.reply({ content: 'Removing ' + guildsToRemove.length + ' guilds' });
-		for (let i = 0; i < guildsToRemove.length; i++) {
-			guildsToRemove[i].delete();
-		}
-		ctx.reply({ content: 'Succesfully removed ' + guildsToRemove.length + ' guilds' });
+
+		ctx.reply({ content: 'Succesfully removed ' + guildsToRemove + ' guilds' });
 	},
 } as CommandOptions;
