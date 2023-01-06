@@ -1,16 +1,10 @@
 import { AmethystEmbed } from '@thereallonewolf/amethystframework';
 import { Guild } from 'discordeno/transformers';
 
-import Functions from '../../database/models/functions.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
 	if (guild == undefined) return;
-
-	new Functions({
-		Guild: guild.id + '',
-		Prefix: process.env.PREFIX,
-	}).save();
 
 	if (
 		Date.now() > client.extras.startTime + 5 * 60 * 1000 &&
