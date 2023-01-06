@@ -95,7 +95,7 @@ export default {
 						file: [file],
 					});
 				} catch (err) {
-					//Fix lint error
+					console.error(err);
 				}
 
 				if (logsChannel) {
