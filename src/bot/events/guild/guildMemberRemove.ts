@@ -1,9 +1,10 @@
-import { AeonaBot } from '../../extras/index.js';
 import { User } from 'discordeno/transformers';
+
 import invitedBy from '../../database/models/inviteBy.js';
 import messages from '../../database/models/inviteMessages.js';
 import invites from '../../database/models/invites.js';
 import leaveSchema from '../../database/models/leaveChannels.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, user: User, guildId: bigint) => {
 	const messageData = await messages.findOne({ Guild: guildId });
@@ -63,13 +64,16 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 					})
 					.catch(async () => {
 						if (channelData) {
+							leaveMessage = leaveMessage.replace(`{inviter:username}`, "UnknownUser");
+							leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, "#0000");
+							leaveMessage = leaveMessage.replace(`{inviter:tag}`, `UnknownUser#0000`);
 							const channel = await client.helpers.getChannel(channelData.Channel!);
 
 							await client.extras
 								.embed(
 									{
 										title: `👋 Bye`,
-										desc: `**${user.username + '#' + user.discriminator}** has left us`,
+										desc: leaveMessage,
 									},
 									channel,
 								)
@@ -86,9 +90,8 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 							.embed(
 								{
 									title: `👋 Bye`,
-									desc: `**${user.username + '#' + user.discriminator}** was invited by ${
-										user.username + '#' + user.discriminator
-									}`,
+									desc: `**${user.username + '#' + user.discriminator}** was invited by ${user.username + '#' + user.discriminator
+										}`,
 								},
 								channel,
 							)

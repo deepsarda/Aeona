@@ -416,6 +416,7 @@ export default {
 			const c = await client.amethystUtils.awaitComponent(msg.id, {
 				filter: (bot, data) => data.user.id == ctx.author?.id,
 			});
+
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
 				content: 'GENERATING.... \n Have you tried +quote yet?',
 				components: [],
