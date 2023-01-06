@@ -22,8 +22,9 @@ const Schema = new mongoose.Schema({
 	isPremium: {
 		type: mongoose.SchemaTypes.String,
 		required: false,
-		default: "no",
+		default: 'no',
 	},
+	chatbotFilter: { type: mongoose.SchemaTypes.Boolean, default: true },
 });
 
 export default mongoose.model('functions', Schema);

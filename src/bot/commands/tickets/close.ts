@@ -12,6 +12,7 @@ export default {
 	commandType: ['application', 'message'],
 	category: 'tickets',
 	args: [],
+	private: true,
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
@@ -64,7 +65,7 @@ export default {
 					if (ticketMessageData) {
 						closeMessageTicket = ticketMessageData.dmMessage!;
 					}
-
+					const channel = await client.helpers.getDmChannel(BigInt(ticketData.creator!));
 					client.extras.embed(
 						{
 							desc: closeMessageTicket,
@@ -86,11 +87,11 @@ export default {
 								},
 							],
 						},
-						{ id: BigInt(ticketData.creator!) },
+						channel,
 					);
 					client.extras.transcript(client, ctx.channel!).catch();
 					const file = await createTranscript(client, ctx.channel!);
-					client.helpers.sendMessage(BigInt(ticketData.creator!), {
+					client.helpers.sendMessage(channel.id, {
 						file: [file],
 					});
 				} catch (err) {

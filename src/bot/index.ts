@@ -541,7 +541,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 						//@ts-ignore
 						type: ErrorEnums.OTHER,
 						value:
-							'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at http://patreon.com/aeonadiscord __ and remove all ads.',
+							'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at https://patreon.com/aeonadiscord __ and remove all ads.',
 					};
 				}
 			} catch (e) {
@@ -553,7 +553,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 				//@ts-ignore
 				type: ErrorEnums.OTHER,
 				value:
-					'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at http://patreon.com/aeonadiscord __ and remove all ads.',
+					'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at https://patreon.com/aeonadiscord __ and remove all ads.',
 			};
 		}
 		return true;

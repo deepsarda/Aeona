@@ -44,6 +44,7 @@ export default {
 		});
 
 		setTimeout(async () => {
+			const channel = await client.helpers.getDmChannel(ctx.author!.id);
 			client.extras.embed(
 				{
 					title: `Reminder`,
@@ -56,7 +57,7 @@ export default {
 						},
 					],
 				},
-				ctx.user!,
+				channel,
 			);
 
 			await Schema.findOneAndDelete({

@@ -37,7 +37,7 @@ export default {
 									},
 									ctx,
 								)
-								.then((msg) => {
+								.then((_msg) => {
 									client.extras.transcript(client, ctx.channel!);
 
 									return client.extras.embed(
@@ -70,9 +70,9 @@ export default {
 													inline: true,
 												},
 											],
-											type: 'reply',
+											type: 'editreply',
 										},
-										msg,
+										ctx,
 									);
 								});
 						} else {

@@ -36,7 +36,6 @@ export default {
 			}
 		}
 
-
 		ctx.reply({ content: 'Succesfully removed ' + guildsToRemove + ' guilds' });
 	},
 } as CommandOptions;

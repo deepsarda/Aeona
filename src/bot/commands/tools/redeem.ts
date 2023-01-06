@@ -1,9 +1,11 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
-import Functions from '../../database/models/functions.js';
-import Premium from '../../database/models/premium.js';
 import moment from 'moment';
 import uniqui from 'uniqid';
+
+import Functions from '../../database/models/functions.js';
+import Premium from '../../database/models/premium.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'redeem',
 	description: 'Redeem a Premium code!',
@@ -54,6 +56,7 @@ export default {
 
 				const id = uniqui(undefined, `-${code}`);
 				const redeemtime = moment(new Date()).format('dddd, MMMM Do YYYY HH:mm:ss');
+				const channel = await client.helpers.getDmChannel(ctx.author!.id);
 				client.extras.embed(
 					{
 						desc: `**Premium Subscription**
@@ -65,7 +68,7 @@ export default {
                     **Guild Name:** ${ctx.guild.name}
                     **Guild ID:** ${ctx.guild.id}`,
 					},
-					ctx.author!,
+					channel,
 				);
 
 				client.extras.embed(

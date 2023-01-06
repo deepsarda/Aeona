@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'demote',
 	description: 'Demote a user.',
@@ -21,7 +23,8 @@ export default {
 
 		await client.helpers
 			.removeRole(ctx.guild!.id + '', member.id + '', member.roles[member.roles.length - 1])
-			.then((_r) => {
+			.then(async (_r) => {
+				const channel = await client.helpers.getDmChannel(member.id);
 				client.extras
 					.embed(
 						{
@@ -35,7 +38,7 @@ export default {
 								},
 							],
 						},
-						member,
+						channel,
 					)
 					.catch();
 

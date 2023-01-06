@@ -1,7 +1,8 @@
-import Schema from '../../database/models/warnings.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/warnings.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'warn',
 	description: 'Warn a user.',
@@ -36,7 +37,7 @@ export default {
 				}
 			},
 		);
-
+		const channel = await client.helpers.getDmChannel(member.id);
 		client.extras
 			.embed(
 				{
@@ -50,7 +51,7 @@ export default {
 						},
 					],
 				},
-				member,
+				channel,
 			)
 			.catch();
 

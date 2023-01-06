@@ -1,4 +1,6 @@
 import { Point } from '@influxdata/influxdb-client';
+import { Components } from '@thereallonewolf/amethystframework';
+import Filter from 'bad-words';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
 
@@ -14,6 +16,8 @@ import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
 import { Influx } from '../client/commandStart.js';
 
+const filter = new Filter();
+filter.addWords('nake', 'naked', 'nude', 'nudes', 'nipples');
 export default async (client: AeonaBot, message: Message) => {
 	if (message.content == '<@!' + client.user?.id + '>' || message.content == '<@' + client.user?.id + '>') {
 		let guild = await Functions.findOne({
@@ -245,8 +249,18 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 				if (guild.isPremium === 'true') s = ['', ''];
 				const randomNumber = Math.floor(Math.random() * 30);
 				json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
+				let component: any[] = [];
+				if (!guild.chatbotFilter) {
+					if (filter.isProfane(json)) {
+						const c = new Components();
+						c.addButton('Why *****?', 'Secondary', 'profane');
+						component = c;
+						json = filter.clean(json);
+					}
+				}
 				await client.helpers.sendMessage(message.channelId, {
 					content: json,
+					components: component,
 					messageReference: {
 						channelId: message.channelId,
 						messageId: message.id + '',

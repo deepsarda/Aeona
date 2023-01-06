@@ -1,12 +1,13 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { ChannelTypes } from 'discordeno/types';
+
 import boostLogs from '../../database/models/boostChannels.js';
 import levelLogs from '../../database/models/levelChannels.js';
 import logs from '../../database/models/logChannels.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
-import { ChannelTypes } from 'discordeno/types';
+
 export default {
-	name: 'log',
+	name: 'logs',
 	description: 'Setup logging channels',
 	commandType: ['application', 'message'],
 	category: 'autosetup',

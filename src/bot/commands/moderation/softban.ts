@@ -39,6 +39,7 @@ export default {
 				ctx,
 			);
 		} catch {
+			const channel = await client.helpers.getDmChannel(member.id);
 			client.extras
 				.embed(
 					{
@@ -57,7 +58,7 @@ export default {
 							},
 						],
 					},
-					member,
+					channel,
 				)
 				.then(function () {
 					client.helpers.banMember(ctx.guild!.id!, member.id + '', {

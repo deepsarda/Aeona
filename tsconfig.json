@@ -2,7 +2,10 @@
 	"compilerOptions": {
 		"target": "ES2020",
 		"module": "commonjs",
-		"lib": ["ES2020", "DOM"],
+		"lib": [
+			"ES2020",
+			"DOM"
+		],
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"importHelpers": true,
@@ -28,7 +31,7 @@
 		".env",
 		"src/bot/commands/stickymessages",
 		"src/bot/events/tools",
-		"src/bot/commands/thanks",
+		"src/bot/commands/thanksks",
 		"src/bot/commands/tools"
 	],
 	"ts-node": {

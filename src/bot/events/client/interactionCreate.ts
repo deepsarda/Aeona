@@ -134,6 +134,16 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				},
 			);
 		}
+
+		if (interaction.data?.customId == 'profane') {
+			await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+				type: 4,
+				data: {
+					content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $1 [here](https://patreon.com/aeonadiscord)`,
+					flags: 1 << 6,
+				},
+			});
+		}
 	}
 
 	// Reaction roles select
@@ -248,6 +258,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, openticket.args, {
 				interaction: interaction,
 			}),
+			openticket,
 			client,
 		);
 
@@ -265,6 +276,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, close.args, {
 				interaction: interaction,
 			}),
+			close,
 			client,
 		);
 
@@ -282,6 +294,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, claim.args, {
 				interaction: interaction,
 			}),
+			claim,
 			client,
 		);
 		claim.execute!(client, ctx);
@@ -298,6 +311,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, transcript.args, {
 				interaction: interaction,
 			}),
+			transcript,
 			client,
 		);
 
@@ -315,6 +329,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, deleteTicket.args, {
 				interaction: interaction,
 			}),
+			deleteTicket,
 			client,
 		);
 		deleteTicket.execute!(client, ctx);
@@ -331,6 +346,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 			createOptionResults(client, notice.args, {
 				interaction: interaction,
 			}),
+			notice,
 			client,
 		);
 		notice.execute!(client, ctx);

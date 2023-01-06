@@ -28,7 +28,7 @@ export default {
 			const suggestEmbed = await client.helpers.getMessage(suggestionchannel!.guildId, messageID);
 			const embedData = suggestEmbed.embeds[0];
 
-			client.extras.embed(
+			client.extras.editEmbed(
 				{
 					title: `Suggestion denied`,
 					desc: `\`\`\`${embedData.description}\`\`\``,
@@ -37,7 +37,6 @@ export default {
 						name: embedData.author!.name,
 						iconURL: embedData.author!.iconUrl,
 					},
-					type: 'edit',
 				},
 				suggestEmbed,
 			);
@@ -53,6 +52,7 @@ export default {
 				);
 
 				if (user) {
+					const channel = await client.helpers.getDmChannel(user.id);
 					client.extras
 						.embed(
 							{
@@ -65,7 +65,7 @@ export default {
 									},
 								],
 							},
-							user,
+							channel,
 						)
 						.catch();
 				}

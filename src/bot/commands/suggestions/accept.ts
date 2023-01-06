@@ -51,6 +51,7 @@ export default {
 					),
 				);
 				if (user) {
+					const channel = await client.helpers.getDmChannel(user.id);
 					client.extras
 						.embed(
 							{
@@ -63,7 +64,7 @@ export default {
 									},
 								],
 							},
-							user,
+							channel,
 						)
 						.catch();
 				}
