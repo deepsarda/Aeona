@@ -90,8 +90,9 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 							.embed(
 								{
 									title: `👋 Bye`,
-									desc: `**${user.username + '#' + user.discriminator}** was invited by ${user.username + '#' + user.discriminator
-										}`,
+									desc: `**${user.username + '#' + user.discriminator}** was invited by ${
+										user.username + '#' + user.discriminator
+									}`,
 								},
 								channel,
 							)
@@ -131,7 +132,6 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 			leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
 			leaveMessage = leaveMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
 
-
 			if (channelData) {
 				leaveMessage = leaveMessage.replace(`{inviter:username}`, 'UnknownUser');
 				leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, '#0000');
@@ -148,7 +148,6 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 					)
 					.catch();
 			}
-
 		} else {
 			if (channelData) {
 				const channel = await client.helpers.getChannel(channelData.Channel!);
@@ -165,5 +164,4 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
 			}
 		}
 	}
-
 };
