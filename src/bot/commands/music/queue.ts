@@ -55,8 +55,9 @@ export default {
 			status = player.queue
 				.map((track) => {
 					count += 1;
-					return `**[#${count}]**┆${track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
-						} (Requested by ${track.requester})`;
+					return `**[#${count}]**┆${
+						track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
+					} (Requested by ${track.requester})`;
 				})
 				.join('\n');
 		}

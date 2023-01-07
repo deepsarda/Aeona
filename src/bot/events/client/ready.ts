@@ -274,24 +274,23 @@ export default async (
 		}, 500000);
 
 		const categories: { name: string }[] = [];
-		const commands: { name: string, description: string, usage: string, category: string }[] = [];
-		client.category.forEach(c => {
+		const commands: { name: string; description: string; usage: string; category: string }[] = [];
+		client.category.forEach((c) => {
 			categories.push({
 				name: c.name,
 			});
-			c.commands.forEach(command => {
+			c.commands.forEach((command) => {
 				commands.push({
-					usage: `+${c.uniqueCommands ? command.name : c.name + ' ' + command.name
-						} ${command.args
-							.map((arg) => {
-								if (arg.required) return `${arg.name}`;
-								else return `${arg.name}(Optional)`;
-							})
-							.join(' ')}`,
+					usage: `+${c.uniqueCommands ? command.name : c.name + ' ' + command.name} ${command.args
+						.map((arg) => {
+							if (arg.required) return `${arg.name}`;
+							else return `${arg.name}(Optional)`;
+						})
+						.join(' ')}`,
 					name: command.name,
 					description: command.description,
 					category: command.category,
-				})
+				});
 			});
 		});
 
