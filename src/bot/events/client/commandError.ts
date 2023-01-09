@@ -27,10 +27,10 @@ export default async (
 			typeof guildPrefix == 'string'
 				? guildPrefix
 				: guildPrefix?.find((e) =>
-						bot.prefixCaseSensitive
-							? message.content.startsWith(e)
-							: message.content.toLowerCase().startsWith(e.toLowerCase()),
-				  );
+					bot.prefixCaseSensitive
+						? message.content.startsWith(e)
+						: message.content.toLowerCase().startsWith(e.toLowerCase()),
+				);
 
 		//If prefix is a string and not a array
 		if (typeof prefix == 'string')
@@ -62,18 +62,17 @@ export default async (
 
 		if (!command) return;
 		return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
-			content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
-				category.uniqueCommands ? command.name : category.name + ' ' + command.name
-			} ${command.args
-				.map((arg) => {
-					if (arg.required) return `[${arg.name}]`;
-					else return `(${arg.name})`;
-				})
-				.join(' ')} \` \n \n  ${command.args
-				.map((arg) => {
-					return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
-				})
-				.join(`\n`)}`,
+			content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${category.uniqueCommands ? command.name : category.name + ' ' + command.name
+				} ${command.args
+					.map((arg) => {
+						if (arg.required) return `[${arg.name}]`;
+						else return `(${arg.name})`;
+					})
+					.join(' ')} \` \n \n  ${command.args
+						.map((arg) => {
+							return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+						})
+						.join(`\n`)}`,
 		});
 	}
 
@@ -93,10 +92,10 @@ export default async (
 			context,
 		);
 	if (data.error.type == ErrorEnums.OTHER) {
-		return await bot.extras.errNormal(
+		return await bot.extras.embed(
 			{
 				//@ts-ignore
-				error: data.error.value,
+				desc: data.error.value,
 			},
 			context,
 		);
