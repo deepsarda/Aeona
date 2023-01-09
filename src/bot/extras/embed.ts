@@ -488,6 +488,16 @@ export default (client: AeonaBot) => {
 					})
 					.catch();
 				return c.message!;
+			} else if (type && type.toLowerCase() == 'editreply') {
+				const c = await ctx
+					.editReply({
+						embeds: embeds,
+						content: content,
+						components: components,
+						fetchReply: true,
+					})
+					.catch();
+				return c.message!;
 			} else if (type && type.toLowerCase() == 'ephemeral') {
 				const c = await ctx
 					.reply({
@@ -502,7 +512,7 @@ export default (client: AeonaBot) => {
 				return c.message!;
 			} else if (type && type.toLowerCase() == 'ephemeraledit') {
 				const c = await ctx
-					.reply({
+					.editReply({
 						embeds: embeds,
 						content: content,
 						components: components,
