@@ -1,6 +1,8 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
+
 import bumpreminder from '../../database/models/bumpreminder.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'setup',
 	description: 'Search npm for a package',
@@ -50,7 +52,7 @@ export default {
 					},
 					{
 						name: '→ Role',
-						value: `<@${role.id}>`,
+						value: `<@&${role.id}>`,
 						inline: true,
 					},
 				],
