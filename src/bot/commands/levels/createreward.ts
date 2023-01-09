@@ -1,7 +1,8 @@
-import Schema from '../../database/models/levelRewards.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/levelRewards.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'createreward',
 	description: 'Create a reward for reaching a role.',
@@ -50,6 +51,11 @@ export default {
 							{
 								name: '→ Role',
 								value: `<@&${role.id}>`,
+								inline: true,
+							},
+							{
+								name: '→ Level',
+								value: level + '',
 								inline: true,
 							},
 						],

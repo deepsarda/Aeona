@@ -1,7 +1,8 @@
-import Functions from '../../database/models/functions.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Functions from '../../database/models/functions.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'setxp',
 	description: 'Set xp of a user.',
@@ -42,7 +43,7 @@ export default {
 						},
 						{
 							name: '→ User',
-							value: `${target} (${target.username + '#' + target.discriminator})`,
+							value: `<@${target.id}> (${target.username + '#' + target.discriminator})`,
 							inline: true,
 						},
 					],
