@@ -403,7 +403,10 @@ export default (client: AeonaBot) => {
 			desc?: string;
 			color?: string;
 			image?: string;
-			author?: string;
+			author?: {
+				name?: string;
+				iconURL?: string;
+			};
 			thumbnail?: string;
 			fields?: {
 				name: string;
