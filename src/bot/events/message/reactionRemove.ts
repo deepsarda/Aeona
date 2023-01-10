@@ -1,4 +1,4 @@
-import { Emoji, Member, User } from 'discordeno/transformers';
+import { Emoji, User } from 'discordeno/transformers';
 
 import StarBoard from '../../database/models/starboardChannels.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -10,11 +10,11 @@ export default async (
 		channelId: bigint;
 		messageId: bigint;
 		guildId?: bigint;
-		member?: Member;
 		user?: User;
 		emoji: Emoji;
 	},
 ) => {
+
 	if (reaction.emoji.name === '⭐') {
 		const data = await StarBoard.findOne({ Guild: reaction.guildId });
 		if (!data) return;
@@ -35,17 +35,24 @@ export default async (
 			const foundStar = stars.embeds[0];
 			const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
 
-			const image = message.attachments.length > 0 ? await extension(reaction, message.attachments[0]?.url) : '';
+			const image = message.embeds[0].image?.url;
 			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
 
-			if (message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0) {
+			if (!message.reactions?.find((r) => r.emoji.name == '⭐')?.count || message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0) {
 				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
 			} else {
+				const user = await client.helpers.getUser(reaction.userId);
 				client.extras.editEmbed(
 					{
 						title: `Starboard`,
 						desc: foundStar.description,
 						image: image,
+						author: {
+							name: user.username + "#" + user.discriminator,
+							iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
+								avatar: user.avatar
+							})
+						},
 						fields: [
 							{
 								name: `→ Stars`,
@@ -63,6 +70,7 @@ export default async (
 								inline: true,
 							},
 						],
+						footer: message.embeds[0].footer?.text
 					},
 					starMsg,
 				);
@@ -70,21 +78,3 @@ export default async (
 		}
 	}
 };
-function extension(
-	reaction: {
-		userId: bigint;
-		channelId: bigint;
-		messageId: bigint;
-		guildId?: bigint;
-		member?: Member;
-		user?: User;
-		emoji: Emoji;
-	},
-	attachment: string,
-) {
-	const imageLink = attachment.split('.');
-	const typeOfImage = imageLink[imageLink.length - 1];
-	const image = /(jpg|jpeg|png|gif)/gi.test(typeOfImage);
-	if (!image) return '';
-	return attachment;
-}

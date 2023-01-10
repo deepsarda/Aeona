@@ -1,6 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Emoji, Member, User } from 'discordeno';
+
 import StarBoard from '../../database/models/starboardChannels.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (
 	client: AeonaBot,
@@ -29,7 +30,7 @@ export default async (
 				? true
 				: false;
 		});
-
+		const user = await client.helpers.getUser(payload.userId);
 		if (stars) {
 			const message = await client.helpers.getMessage(payload.channelId, payload.messageId);
 			const foundStar = stars.embeds[0];
@@ -42,6 +43,12 @@ export default async (
 					title: `Starboard`,
 					desc: foundStar.description,
 					image: image,
+					author: {
+						name: user.username + "#" + user.discriminator,
+						iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
+							avatar: user.avatar
+						})
+					},
 					fields: [
 						{
 							name: `→ Stars`,
@@ -59,7 +66,7 @@ export default async (
 							inline: true,
 						},
 					],
-					footer: `${client.extras.config.discord.footer} | ${payload.messageId}`,
+					footer: `${payload.messageId}`,
 				},
 				starboardChannel,
 			);
@@ -73,6 +80,12 @@ export default async (
 					title: `→ Starboard`,
 					desc: message.content,
 					image: image,
+					author: {
+						name: user.username + "#" + user.discriminator,
+						iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
+							avatar: user.avatar
+						})
+					},
 					fields: [
 						{
 							name: `→ Stars`,
