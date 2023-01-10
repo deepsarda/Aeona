@@ -56,3 +56,11 @@ We've put together some helpful guides for you to get setup with Aeona quickly a
 {% content-ref url="setting-up/levels/" %}
 [levels](setting-up/levels/)
 {% endcontent-ref %}
+
+{% content-ref url="setting-up/verification.md" %}
+[verification.md](setting-up/verification.md)
+{% endcontent-ref %}
+
+{% content-ref url="setting-up/logging/" %}
+[logging](setting-up/logging/)
+{% endcontent-ref %}

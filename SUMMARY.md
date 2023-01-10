@@ -30,3 +30,8 @@
   * [🎁 Adding And Removing Level Rewards](setting-up/levels/adding-and-removing-level-rewards.md)
   * [🔍 Seeing your rank and the leader board](setting-up/levels/seeing-your-rank-and-the-leader-board.md)
   * [🛠 Setting a user's xp manually](setting-up/levels/setting-a-users-xp-manually.md)
+* [🥸 Verification](setting-up/verification.md)
+* [📜 Logging](setting-up/logging/README.md)
+  * [📘 Server Logs](setting-up/logging/server-logs.md)
+  * [🔖 Boost Logging](setting-up/logging/boost-logging.md)
+  * [🗣 Level Logging](setting-up/logging/level-logging.md)
