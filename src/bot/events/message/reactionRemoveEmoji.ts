@@ -28,52 +28,7 @@ export default async (
 				: false;
 		});
 
-		if (stars) {
-			const foundStar = stars.embeds[0];
-			const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
-
-			const image = message.embeds[0].image?.url;
-			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
-
-			if (
-				!message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
-				message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0
-			) {
-				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
-			} else {
-				const user = await client.helpers.getUser(message.authorId);
-				client.extras.editEmbed(
-					{
-						desc: foundStar.description,
-						image: image,
-						author: {
-							name: user.username + '#' + user.discriminator,
-						},
-						thumbnail: client.helpers.getAvatarURL(user.id, user.discriminator, {
-							avatar: user.avatar,
-						}),
-						fields: [
-							{
-								name: `→ Stars`,
-								value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count || 1}`,
-								inline: true,
-							},
-							{
-								name: `→ Message`,
-								value: `[Jump to the message](https://discord.com/channels/${reaction.guildId}/${reaction.channelId}/${reaction.messageId})`,
-								inline: true,
-							},
-							{
-								name: `→ Author`,
-								value: `<@${message.authorId}>`,
-								inline: true,
-							},
-						],
-						footer: message.embeds[0].footer?.text,
-					},
-					starMsg,
-				);
-			}
-		}
+		if (stars)
+			client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
 	}
 };
