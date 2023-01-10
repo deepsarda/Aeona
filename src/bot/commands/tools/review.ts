@@ -38,7 +38,7 @@ export default {
 
 		Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
 			if (data) {
-				const channel = await client.cache.channels.get(data.Channel);
+				const channel = await client.helpers.getChannel(data.Channel);
 				if (!channel)
 					return client.extras.errNormal(
 						{

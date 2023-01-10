@@ -21,6 +21,7 @@ export default async (client: AeonaBot) => {
 			setInterval(async function () {
 				const Guilds = client.cache.guilds.memory.map((guild) => guild.id);
 				let i = 0;
+				
 				const interval = setInterval(async function () {
 					try {
 						const invites = await client.helpers.getInvites(Guilds[i]!);

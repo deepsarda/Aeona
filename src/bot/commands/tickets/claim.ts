@@ -1,8 +1,9 @@
-import ticketSchema from '../../database/models/tickets.js';
-import ticketChannels from '../../database/models/ticketChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketChannels from '../../database/models/ticketChannels.js';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'claim',
 	description: 'Generate a chat message',
@@ -24,7 +25,7 @@ export default {
 			if (ctx.user.id + '' !== ticketData.creator) {
 				if (data) {
 					if (ticketData.claimed == '' || ticketData.claimed == undefined || ticketData.claimed == 'None') {
-						const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
+						const ticketCategory = await client.helpers.getChannel(BigInt(data.Category!));
 
 						if (ticketCategory == undefined) {
 							return client.extras.errNormal(

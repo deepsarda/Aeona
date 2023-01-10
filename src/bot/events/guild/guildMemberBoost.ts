@@ -1,7 +1,8 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Member } from 'discordeno/transformers';
+
 import Schema from '../../database/models/boostChannels.js';
 import Schema2 from '../../database/models/boostMessage.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, member: Member) => {
 	try {
@@ -25,7 +26,7 @@ export default async (client: AeonaBot, member: Member) => {
 
 			if (channelData) {
 				try {
-					const channel = await client.cache.channels.get(BigInt(channelData.Channel!));
+					const channel = await client.helpers.getChannel(BigInt(channelData.Channel!));
 
 					client.extras.embed(
 						{
@@ -41,7 +42,7 @@ export default async (client: AeonaBot, member: Member) => {
 		} else {
 			if (channelData) {
 				try {
-					const channel = await client.cache.channels.get(BigInt(channelData.Channel!));
+					const channel = await client.helpers.getChannel(BigInt(channelData.Channel!));
 
 					client.extras.embed(
 						{

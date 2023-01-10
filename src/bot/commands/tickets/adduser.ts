@@ -22,7 +22,7 @@ export default {
 		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 
 		if (data) {
-			const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
+			const ticketCategory = await client.helpers.getChannel(BigInt(data.Category!));
 			if (ticketCategory == undefined) {
 				return client.extras.errNormal(
 					{

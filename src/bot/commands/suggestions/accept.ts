@@ -24,7 +24,7 @@ export default {
 
 		const data = await Schema.findOne({ Guild: ctx.guild!.id });
 		if (data) {
-			const suggestionchannel = await client.cache.channels.get(BigInt(data.Channel!));
+			const suggestionchannel = await client.helpers.getChannel(BigInt(data.Channel!));
 			const suggestEmbed = await client.helpers.getMessage(suggestionchannel!.guildId, messageID);
 			const embedData = suggestEmbed.embeds[0];
 

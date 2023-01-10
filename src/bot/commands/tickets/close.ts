@@ -34,8 +34,8 @@ export default {
 				);
 
 			if (data) {
-				const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
-				const logsChannel = await client.cache.channels.get(BigInt(data.Logs!));
+				const ticketCategory = await client.helpers.getChannel(BigInt(data.Category!));
+				const logsChannel = await client.helpers.getChannel(BigInt(data.Logs!));
 
 				if (ticketCategory == undefined) {
 					return client.extras.errNormal(

@@ -22,7 +22,7 @@ export default {
 
 		const data = await Schema.findOne({ Guild: ctx.guild!.id });
 		if (data) {
-			const channel = await client.cache.channels.get(BigInt(data.Channel!));
+			const channel = await client.helpers.getChannel(BigInt(data.Channel!));
 
 			client.extras
 				.embed(
