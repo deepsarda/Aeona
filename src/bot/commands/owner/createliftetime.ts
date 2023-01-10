@@ -9,13 +9,10 @@ export default {
 	description: 'Create premium codes',
 	commandType: ['application', 'message'],
 	category: 'owner',
-	args: [
-
-	],
+	args: [],
 	ownerOnly: true,
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
-
 
 		const expiresAt = Date.now() + 2592000000 * 999;
 		const array: string[] = [];
