@@ -155,7 +155,7 @@ export default (client: AeonaBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author[0], author[1]);
+		if (author) embed.setAuthor(author.name!, author.iconURL);
 		if (url) embed.url = url;
 		if (footer) embed.setFooter(footer);
 		if (color) embed.setColor(color);
@@ -217,7 +217,7 @@ export default (client: AeonaBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author[0], author[1]);
+		if (author) embed.setAuthor(author.name!, author.iconURL);
 		if (url) embed.url = url;
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
@@ -276,7 +276,7 @@ export default (client: AeonaBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author[0], author[1]);
+		if (author) embed.setAuthor(author.name!, author.iconURL);
 		if (url) embed.url = url;
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
@@ -334,8 +334,8 @@ export default (client: AeonaBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author[0], author[1]);
-		if (footer) embed.setFooter(footer)
+		if (author) embed.setAuthor(author.name!, author.iconURL);
+		if (footer) embed.setFooter(footer);
 		if (url) embed.url = url;
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
@@ -426,7 +426,7 @@ export default (client: AeonaBot) => {
 		if (image) embed.setImage(image);
 		if (thumbnail) embed.setThumbnail(thumbnail);
 		if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
-		if (author) embed.setAuthor(author[0], author[1]);
+		if (author) embed.setAuthor(author.name!, author.iconURL);
 		if (url) embed.url = url;
 		if (color) embed.setColor(color);
 		if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);

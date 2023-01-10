@@ -44,10 +44,10 @@ export default async (
 					desc: foundStar.description,
 					image: image,
 					author: {
-						name: user.username + "#" + user.discriminator,
+						name: user.username + '#' + user.discriminator,
 						iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
-							avatar: user.avatar
-						})
+							avatar: user.avatar,
+						}),
 					},
 					fields: [
 						{
@@ -81,10 +81,10 @@ export default async (
 					desc: message.content,
 					image: image,
 					author: {
-						name: user.username + "#" + user.discriminator,
+						name: user.username + '#' + user.discriminator,
 						iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
-							avatar: user.avatar
-						})
+							avatar: user.avatar,
+						}),
 					},
 					fields: [
 						{

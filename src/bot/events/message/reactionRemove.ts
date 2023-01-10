@@ -14,7 +14,6 @@ export default async (
 		emoji: Emoji;
 	},
 ) => {
-
 	if (reaction.emoji.name === '⭐') {
 		const data = await StarBoard.findOne({ Guild: reaction.guildId });
 		if (!data) return;
@@ -38,7 +37,10 @@ export default async (
 			const image = message.embeds[0].image?.url;
 			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
 
-			if (!message.reactions?.find((r) => r.emoji.name == '⭐')?.count || message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0) {
+			if (
+				!message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
+				message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0
+			) {
 				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
 			} else {
 				const user = await client.helpers.getUser(reaction.userId);
@@ -48,10 +50,10 @@ export default async (
 						desc: foundStar.description,
 						image: image,
 						author: {
-							name: user.username + "#" + user.discriminator,
+							name: user.username + '#' + user.discriminator,
 							iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
-								avatar: user.avatar
-							})
+								avatar: user.avatar,
+							}),
 						},
 						fields: [
 							{
@@ -70,7 +72,7 @@ export default async (
 								inline: true,
 							},
 						],
-						footer: message.embeds[0].footer?.text
+						footer: message.embeds[0].footer?.text,
 					},
 					starMsg,
 				);
