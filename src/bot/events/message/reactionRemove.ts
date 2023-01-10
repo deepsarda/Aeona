@@ -43,7 +43,7 @@ export default async (
 			) {
 				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
 			} else {
-				const user = await client.helpers.getUser(reaction.userId);
+				const user = await client.helpers.getUser(message.authorId);
 				client.extras.editEmbed(
 					{
 						title: `Starboard`,

@@ -30,10 +30,11 @@ export default async (
 				? true
 				: false;
 		});
-		const user = await client.helpers.getUser(payload.userId);
+
 		if (stars) {
 			const message = await client.helpers.getMessage(payload.channelId, payload.messageId);
 			const foundStar = stars.embeds[0];
+			const user = await client.helpers.getUser(message.authorId);
 			const image = message.attachments.length > 0 ? await extension(payload, message.attachments[0]?.url) : '';
 
 			client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
@@ -74,7 +75,7 @@ export default async (
 		if (!stars) {
 			const message = await client.helpers.getMessage(payload.channelId, payload.messageId);
 			const image = message.attachments.length > 0 ? await extension(payload, message.attachments[0]?.url) : '';
-
+			const user = await client.helpers.getUser(message.authorId);
 			client.extras.embed(
 				{
 					title: `→ Starboard`,
