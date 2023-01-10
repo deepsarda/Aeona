@@ -12,7 +12,6 @@ export default async (
 		emoji: Emoji;
 	},
 ) => {
-
 	if (reaction.emoji.name === '⭐') {
 		const data = await StarBoard.findOne({ Guild: reaction.guildId });
 		if (!data) return;
