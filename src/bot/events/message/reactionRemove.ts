@@ -51,10 +51,10 @@ export default async (
 						image: image,
 						author: {
 							name: user.username + '#' + user.discriminator,
-							iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
-								avatar: user.avatar,
-							}),
 						},
+						thumbnail: client.helpers.getAvatarURL(user.id, user.discriminator, {
+							avatar: user.avatar,
+						}),
 						fields: [
 							{
 								name: `→ Stars`,
