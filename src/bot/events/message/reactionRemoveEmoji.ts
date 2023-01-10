@@ -28,7 +28,6 @@ export default async (
 				: false;
 		});
 
-		if (stars)
-			client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
+		if (stars) client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
 	}
 };

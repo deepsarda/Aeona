@@ -34,9 +34,8 @@ export default async (
 			const foundStar = stars.embeds[0];
 			const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
 
-
 			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
-			const image = starMsg.embeds[0].image?.url;
+			const image = stars.embeds[0].image?.url;
 			if (
 				!message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
 				message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0
@@ -71,7 +70,7 @@ export default async (
 								inline: true,
 							},
 						],
-						footer: starMsg.embeds[0].footer?.text,
+						footer: stars.embeds[0].footer?.text,
 					},
 					starMsg,
 				);
