@@ -41,7 +41,7 @@ export default async (
 
 			client.extras.embed(
 				{
-					title: `Starboard`,
+
 					desc: foundStar.description,
 					image: image,
 					author: {
@@ -78,7 +78,6 @@ export default async (
 			const user = await client.helpers.getUser(message.authorId);
 			client.extras.embed(
 				{
-					title: `→ Starboard`,
 					desc: message.content,
 					image: image,
 					author: {

@@ -46,7 +46,7 @@ export default async (
 				const user = await client.helpers.getUser(message.authorId);
 				client.extras.editEmbed(
 					{
-						title: `Starboard`,
+
 						desc: foundStar.description,
 						image: image,
 						author: {
