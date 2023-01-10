@@ -1,4 +1,4 @@
-import { Emoji, User } from 'discordeno/transformers';
+import { Emoji } from 'discordeno/transformers';
 
 import StarBoard from '../../database/models/starboardChannels.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -6,14 +6,13 @@ import { AeonaBot } from '../../extras/index.js';
 export default async (
 	client: AeonaBot,
 	reaction: {
-		userId: bigint;
 		channelId: bigint;
 		messageId: bigint;
 		guildId?: bigint;
-		user?: User;
 		emoji: Emoji;
 	},
 ) => {
+
 	if (reaction.emoji.name === '⭐') {
 		const data = await StarBoard.findOne({ Guild: reaction.guildId });
 		if (!data) return;

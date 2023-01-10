@@ -15,6 +15,7 @@ export default async (
 		emoji: Emoji;
 	},
 ) => {
+	client.events.reactionRemoveEmoji
 	if (payload.emoji.name === '⭐') {
 		const data = await StarBoard.findOne({ Guild: payload.guildId });
 		if (!data) return;
@@ -41,7 +42,6 @@ export default async (
 
 			client.extras.embed(
 				{
-
 					desc: foundStar.description,
 					image: image,
 					author: {
