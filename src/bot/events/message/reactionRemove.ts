@@ -1,7 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Emoji, Member, User } from 'discordeno/transformers';
 
 import StarBoard from '../../database/models/starboardChannels.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (
 	client: AeonaBot,
@@ -38,7 +38,7 @@ export default async (
 			const image = message.attachments.length > 0 ? await extension(reaction, message.attachments[0]?.url) : '';
 			const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
 
-			if (message.reactions?.find((r) => r.emoji.name == '⭐')?.count) {
+			if (message.reactions?.find((r) => r.emoji.name == '⭐')?.count == 0) {
 				client.helpers.deleteMessage(starboardChannel.id + '', starMsg.id);
 			} else {
 				client.extras.editEmbed(
