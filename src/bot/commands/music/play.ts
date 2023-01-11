@@ -178,7 +178,7 @@ export default {
 							},
 						],
 						components: components,
-						type: 'editreply',
+						type: 'reply',
 					},
 					ctx,
 				);
@@ -195,7 +195,7 @@ export default {
 					return client.extras.errNormal(
 						{
 							error: `You didn't provide a selection`,
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
@@ -247,7 +247,7 @@ export default {
 									inline: true,
 								},
 							],
-							type: 'editreply',
+							type: 'reply',
 						},
 						ctx,
 					);
