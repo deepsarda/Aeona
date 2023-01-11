@@ -1,20 +1,20 @@
 import {
-	AmethystError,
-	CategoryOptions,
-	Components,
-	createProxyCache,
-	enableAmethystPlugin,
-	ErrorEnums,
+    AmethystError,
+    CategoryOptions,
+    Components,
+    createProxyCache,
+    enableAmethystPlugin,
+    ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import {
-	createBot,
-	createRestManager,
-	GatewayOpcodes,
-	Shard,
-	ShardSocketCloseCodes,
-	ShardState,
-	startBot,
+    createBot,
+    createRestManager,
+    GatewayOpcodes,
+    Shard,
+    ShardSocketCloseCodes,
+    ShardState,
+    startBot,
 } from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -167,8 +167,10 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 
 		setItem: async (table, item) => {
 			return await db.push(`${item.id}${item.guildid ? item.guildid : ''}`, JSON.stringify(item));
+			db.save();
 		},
 	});
+	db.reload();
 
 	const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 		owners: ['794921502230577182', '830231116660604951'],
