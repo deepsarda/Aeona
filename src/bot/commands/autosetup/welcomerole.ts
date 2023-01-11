@@ -15,8 +15,7 @@ export default {
 
 		const role = await client.helpers.createRole(ctx.guild!.id!, {
 			name: 'Member',
-			//@ts-ignore
-			color: client.extras.config.colors.normal,
+
 		});
 
 		client.extras.createRoleSetup(welcomeRole, role, ctx);
