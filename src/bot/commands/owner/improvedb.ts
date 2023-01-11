@@ -22,14 +22,8 @@ export default {
 		let guildsToRemove = 0;
 		for (let i = 0; i < guilds.length; i++) {
 			if (
-				guilds[i].isPremium == 'no' &&
-				!guilds[i].Levels &&
-				!guilds[i].AntiAlt &&
-				!guilds[i].AntiCaps &&
-				!guilds[i].AntiInvite &&
-				!guilds[i].AntiLinks &&
-				!guilds[i].AntiSpam &&
-				(guilds[i].Prefix == '+' || guilds[i].Prefix == ',')
+				(guilds[i].isPremium == undefined || guilds[i].isPremium == null || guilds[i].isPremium == 'false' || guilds[i].isPremium == 'no') &&
+				(guilds[i].Prefix == undefined || guilds[i].Prefix == null || guilds[i].Prefix == '+' || guilds[i].Prefix == ',')
 			) {
 				guilds[i].delete();
 				guildsToRemove++;

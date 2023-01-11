@@ -103,8 +103,6 @@
 		"printWidth": 120
 	},
 	"husky": {
-		"hooks": {
-			"pre-commit": "pretty-quick --staged"
-		}
+		"hooks": {}
 	}
 }

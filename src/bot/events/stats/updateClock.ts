@@ -24,7 +24,7 @@ export default async (client: AeonaBot) => {
 						})
 						.catch();
 				} catch (err) {
-					console.log(err);
+					// console.log(err);
 				}
 			});
 		}

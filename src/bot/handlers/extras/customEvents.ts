@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Guild, Member, Message } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
 	client.on('messageCreate', async (bot: AeonaBot, message: Message) => {
