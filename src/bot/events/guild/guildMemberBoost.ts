@@ -17,7 +17,7 @@ export default async (client: AeonaBot, member: Member) => {
 			boostMessage = boostMessage.replace(`{user:username}`, u.username!);
 			boostMessage = boostMessage.replace(`{user:discriminator}`, u.discriminator!);
 			boostMessage = boostMessage.replace(`{user:tag}`, u.username + '#' + u.discriminator);
-			boostMessage = boostMessage.replace(`{user:mention}`, '<@' + member.id + '>');
+			boostMessage = boostMessage.replace(`{user:mention}`, '<@' + u.id + '>');
 
 			boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
 			boostMessage = boostMessage.replace(`{guild:members}`, guild.approximateMemberCount! + '');
@@ -47,7 +47,7 @@ export default async (client: AeonaBot, member: Member) => {
 					client.extras.embed(
 						{
 							title: `🚀 New boost`,
-							desc: `${member} boosted the server!`,
+							desc: `<@${member.id}> boosted the server!`,
 						},
 						channel!,
 					);

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/stats.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'setstatchannelname',
 	description: 'Sets the channel name for stats',
@@ -10,7 +11,7 @@ export default {
 	args: [
 		{
 			name: 'message',
-			description: '<message>/help/default',
+			description: '<message>/help',
 			required: true,
 			type: 'String',
 		},
@@ -19,7 +20,7 @@ export default {
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
 
-		const name = ctx.options.getLongString('name', true);
+		const name = ctx.options.getString('name', true);
 		if (!name) return;
 
 		if (name.toUpperCase() == 'HELP') {

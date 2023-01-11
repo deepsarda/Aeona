@@ -242,7 +242,7 @@ export default (client: AeonaBot) => {
 							}
 						}
 					} catch (e) {
-						console.log(e);
+						// console.log(e);
 					}
 				}
 			});
