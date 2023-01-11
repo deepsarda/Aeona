@@ -1,8 +1,9 @@
-import StarBoard from '../../database/models/starboardChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno';
+
+import StarBoard from '../../database/models/starboardChannels.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'starboard',
 	description: 'Setup the starboard',
@@ -11,7 +12,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 			name: 'Starboard',

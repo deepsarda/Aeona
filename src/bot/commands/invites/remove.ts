@@ -1,7 +1,8 @@
-import Schema from '../../database/models/invites.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/invites.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'remove',
 	description: 'Remove invites from a user',
@@ -23,7 +24,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 		if (!user || !amount) return;
@@ -39,7 +40,7 @@ export default {
 		} else {
 			return client.extras.errNormal(
 				{
-					error: `No invite data found for ${user}`,
+					error: `No invite data found for <@${user.id}>`,
 					type: 'reply',
 				},
 				ctx,
@@ -48,7 +49,7 @@ export default {
 
 		client.extras.succNormal(
 			{
-				text: `Removed **${amount}** invites from ${user}`,
+				text: `Removed **${amount}** invites from <@${user.id}>`,
 				fields: [
 					{
 						name: '→ Total invites',

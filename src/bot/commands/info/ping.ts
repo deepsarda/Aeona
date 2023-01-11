@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import mongoose from 'mongoose';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'ping',
 	description: 'Get my ping',
@@ -9,7 +10,7 @@ export default {
 	category: 'info',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const time = new Date().getTime();
 		client.extras
 			.simpleEmbed(

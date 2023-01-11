@@ -1,7 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import Bdays from '../../database/models/bdays.js';
 import Schema from '../../database/models/birthday.js';
 import birthdayChannel from '../../database/models/birthdaychannels.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default (client: AeonaBot) => {
 	const checkBirthdays = async () => {
@@ -62,7 +62,7 @@ export default (client: AeonaBot) => {
 							client.extras.embed(
 								{
 									title: `${client.extras.emotes.normal.birthday} Birthday`,
-									desc: `Happy birthday to <@!${User}>!`,
+									desc: `Happy birthday to <@!<@${user.id}>>!`,
 									type: '',
 								},
 								channel!,
@@ -87,8 +87,8 @@ function suffixes(number: any) {
 	return lastChar == '1'
 		? `${converted}st`
 		: lastChar == '2'
-		? `${converted}nd`
-		: lastChar == '3'
-		? `${converted}rd`
-		: `${converted}th`;
+			? `${converted}nd`
+			: lastChar == '3'
+				? `${converted}rd`
+				: `${converted}th`;
 }

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/messages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/messages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'add',
 	description: 'Add messages to a user',
@@ -23,7 +24,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 
@@ -45,7 +46,7 @@ export default {
 
 		client.extras.succNormal(
 			{
-				text: `Added **${amount}** messages to ${user}`,
+				text: `Added **${amount}** messages to <@${user.id}>`,
 				fields: [
 					{
 						name: '→ Total messages',

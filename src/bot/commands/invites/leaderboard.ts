@@ -1,7 +1,8 @@
-import Schema from '../../database/models/invites.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/invites.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'leaderboard',
 	description: 'See the invite leaderboard',
@@ -9,7 +10,7 @@ export default {
 	category: 'invites',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const rawLeaderboard = await Schema.find({
 			Guild: ctx.guild!.id,
 		}).sort([['Invites', 'descending']]);
@@ -25,8 +26,7 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${
-					e.User
+				`**${rawLeaderboard.findIndex((i) => i.Guild === ctx.guild!.id + '' && i.User === e.User) + 1}** | <@!${e.User
 				}> - Invites: \`${e.Invites}\``,
 		);
 

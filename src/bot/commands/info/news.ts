@@ -10,7 +10,7 @@ export default {
 	category: 'info',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		let user = await Schema.findOne({ User: ctx.user.id });
 		if (!user) user = new Schema({ User: ctx.user.id });
 		user.LastVersion = client.extras.version;

@@ -14,7 +14,7 @@ export default {
 	args: [],
 	private: true,
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 		const ticketData = await ticketChannels.findOne({
 			Guild: ctx.guild!.id,
@@ -72,7 +72,7 @@ export default {
 							fields: [
 								{
 									name: '→ Closer',
-									value: `${ctx.user}`,
+									value: `<@${ctx.user.id}>`,
 									inline: true,
 								},
 								{

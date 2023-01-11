@@ -1,7 +1,8 @@
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 import Topgg from '@top-gg/sdk';
 
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'vote',
 	description: 'Generate a chat message',
@@ -9,7 +10,7 @@ export default {
 	category: 'info',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const dbl = new Topgg.Api(process.env.TOPGG_TOKEN!);
 
 		const row = new Components().addButton('Vote for me', 'Link', 'https://top.gg/bot/' + client.user.id + '/vote');

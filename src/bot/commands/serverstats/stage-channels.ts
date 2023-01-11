@@ -12,14 +12,13 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		let channelName = await client.extras.getTemplate(ctx.guild!.id);
 		channelName = channelName.replace(`{emoji}`, '🎤');
 		channelName = channelName.replace(
 			`{name}`,
-			`Stage Channels: ${
-				(await client.helpers.getChannels(ctx.guild!.id)).filter((ch) => ch.type == ChannelTypes.GuildStageVoice)
-					.size || 0
+			`Stage Channels: ${(await client.helpers.getChannels(ctx.guild!.id)).filter((ch) => ch.type == ChannelTypes.GuildStageVoice)
+				.size || 0
 			}`,
 		);
 

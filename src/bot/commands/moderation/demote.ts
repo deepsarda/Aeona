@@ -17,7 +17,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const member = await client.helpers.getMember(ctx.guild!.id + '', (await ctx.options.getUser('user', true)).id);
 
@@ -48,7 +48,7 @@ export default {
 						fields: [
 							{
 								name: '→ User',
-								value: `${member}`,
+								value: `<@${member.id}>`,
 								inline: true,
 							},
 						],

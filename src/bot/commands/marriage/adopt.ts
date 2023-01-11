@@ -1,8 +1,9 @@
-import Schema from '../../database/models/family.js';
-
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
+
+import Schema from '../../database/models/family.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'adopt',
 	description: 'Adopt a user',
@@ -17,7 +18,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
 

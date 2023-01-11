@@ -1,7 +1,8 @@
-import Schema from '../../database/models/levelMessages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/levelMessages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'levelmessage',
 	description: 'Set the level up message',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const message = ctx.options.getLongString('message', true);
 		if (!message) return;

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/messages.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/messages.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'remove',
 	description: 'Remove ',
@@ -23,7 +24,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const user = await ctx.options.getUser('user', true);
 		const amount = ctx.options.getNumber('amount', true);
 
@@ -38,7 +39,7 @@ export default {
 		} else {
 			return client.extras.errNormal(
 				{
-					error: `No message data found for ${user}`,
+					error: `No message data found for <@${user.id}>`,
 					type: 'reply',
 				},
 				ctx,
@@ -47,7 +48,7 @@ export default {
 
 		client.extras.succNormal(
 			{
-				text: `Removed **${amount}** messages from ${user}`,
+				text: `Removed **${amount}** messages from <@${user.id}>`,
 				fields: [
 					{
 						name: '→ Total messages',

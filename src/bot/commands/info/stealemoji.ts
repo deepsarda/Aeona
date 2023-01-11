@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'stealemoji',
 	description: 'Generate a chat message',
@@ -15,7 +17,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_EMOJIS_AND_STICKERS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const rawEmoji = ctx.options.getString('emoji', true);
 		const parsedEmoji = parseEmoji(rawEmoji);

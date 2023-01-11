@@ -1,7 +1,8 @@
-import Schema from '../../database/models/family.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'divorce',
 	description: 'Get a divorce from your spouse.',
@@ -16,7 +17,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const target = await ctx.options.getUser('user', true);
 		const author = ctx.user;
 

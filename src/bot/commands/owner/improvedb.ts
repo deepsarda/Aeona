@@ -17,7 +17,7 @@ export default {
 	],
 	ownerOnly: true,
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const guilds = await functions.find();
 		let guildsToRemove = 0;
 		for (let i = 0; i < guilds.length; i++) {

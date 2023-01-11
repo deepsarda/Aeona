@@ -11,7 +11,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		let guild = await Functions.findOne({ Guild: ctx.guild.id });
 		if (!guild)

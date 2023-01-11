@@ -1,7 +1,8 @@
-import Schema from '../../database/models/guessWord.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/guessWord.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'skipword',
 	description: 'skip the word in guess the word',
@@ -10,7 +11,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		Schema.findOne(
 			{ Guild: ctx.guild!.id, Channel: ctx.channel.id },

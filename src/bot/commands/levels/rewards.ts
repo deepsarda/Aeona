@@ -1,7 +1,8 @@
-import Schema from '../../database/models/levelRewards.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/levelRewards.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'rewards',
 	description: 'See all the level rewards.',
@@ -9,7 +10,7 @@ export default {
 	category: 'levels',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const rawLeaderboard = await Schema.find({ Guild: ctx.guild!.id });
 
 		if (rawLeaderboard.length < 1)

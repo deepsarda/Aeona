@@ -1,8 +1,9 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import generator from 'generate-password';
 import fetch from 'node-fetch';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'hack',
 	description: 'Hack a user',
@@ -17,7 +18,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const password = generator.generate({
 			length: 10,
 			symbols: true,
@@ -152,12 +153,12 @@ export default {
 																					)
 																					.then((_i: any) => {
 																						wait(180);
-																						client.extras.succNormal(
+																						client.extras.editEmbed(
 																							{
-																								text: `${user} is succesfully hacked.`,
-																								type: 'edit',
+																								desc: `$<@${user.id}> is succesfully hacked.`,
+
 																							},
-																							ctx,
+																							msg,
 																						);
 																					});
 																			});

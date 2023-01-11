@@ -50,8 +50,7 @@ export default {
 					ctx,
 				);
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch((_err) => {
 				client.extras.errNormal(
 					{
 						error: 'Please provide a valid ISO language code!',

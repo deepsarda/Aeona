@@ -1,7 +1,8 @@
-import Schema from '../../database/models/family.js';
-
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'deletefamily',
 	description: 'Delete your family',
@@ -9,7 +10,7 @@ export default {
 	category: 'marriage',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const row = new Components()
 			.addButton('Yes', 'Success', 'family_delete', { emoji: '✅' })
 			.addButton('No', 'Danger', 'family_stop', { emoji: '❌' });
@@ -58,8 +59,8 @@ export default {
 				if (!ctx.channel?.id) return;
 				client.helpers.deleteMessage(ctx.channel?.id + '', message.id + '');
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch((_err) => {
+
 				client.extras.errNormal({ error: "Time's up! Cancelled backup loading!", type: 'edit' }, ctx);
 			});
 	},

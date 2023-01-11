@@ -1,7 +1,8 @@
-import Birthdays from '../../database/models/birthdaychannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Birthdays from '../../database/models/birthdaychannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'birthdays',
 	description: 'Setup birthdays for your server.',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const channel = await ctx.options.getChannel('channel', true);
 
 		client.extras.createChannelSetup(Birthdays, channel, ctx);

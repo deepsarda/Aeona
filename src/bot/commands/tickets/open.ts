@@ -1,8 +1,9 @@
-import ticketSchema from '../../database/models/tickets.js';
-import ticketChannels from '../../database/models/ticketChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import ticketChannels from '../../database/models/ticketChannels.js';
+import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'open',
 	description: 'Open a closed ticket',
@@ -11,7 +12,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const type = 'reply';
 

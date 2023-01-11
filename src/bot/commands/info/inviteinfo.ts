@@ -1,7 +1,8 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import axios from 'axios';
 
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'inviteinfo',
 	description: 'Get information about a invite',
@@ -16,7 +17,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const invite = ctx.options.getString('invite', true);
 
 		if (!invite) return;
@@ -87,16 +88,14 @@ export default {
 							{
 								name: 'Server Images',
 								value: `${data.guild.icon && data.guild.banner && data.guild.splash ? `` : `No data`}
-          ${
-						data.guild.icon
-							? `[Server Icon](https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=4096)`
-							: ``
-					}
-          ${
-						data.guild.banner
-							? `[Server Banner](https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.png?size=4096)`
-							: ``
-					}`,
+          ${data.guild.icon
+										? `[Server Icon](https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=4096)`
+										: ``
+									}
+          ${data.guild.banner
+										? `[Server Banner](https://cdn.discordapp.com/banners/${data.guild.id}/${data.guild.banner}.png?size=4096)`
+										: ``
+									}`,
 								inline: true,
 							},
 							{

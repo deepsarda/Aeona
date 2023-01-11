@@ -1,7 +1,8 @@
-import Schema from '../../database/models/birthday.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/birthday.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'list',
 	description: 'See all the birthdays',
@@ -9,7 +10,7 @@ export default {
 	category: 'birthdays',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const rawBirthdayboard = await Schema.find({ Guild: ctx.guild!.id });
 
 		if (rawBirthdayboard.length < 1)

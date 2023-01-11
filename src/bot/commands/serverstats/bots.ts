@@ -12,7 +12,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const members = await client.helpers.getMembers(ctx.guild!.id, {});
 
 		let channelName = await client.extras.getTemplate(ctx.guild!.id);

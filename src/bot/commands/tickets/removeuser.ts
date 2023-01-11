@@ -19,7 +19,7 @@ export default {
 	],
 
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const data = await ticketSchema.findOne({ Guild: ctx.guild!.id });
 		const ticketData = await ticketChannels.findOne({
 			Guild: ctx.guild!.id,
@@ -61,7 +61,7 @@ export default {
 
 				return client.extras.simpleEmbed(
 					{
-						desc: `Removed ${user}`,
+						desc: `Removed <@${user.id}>`,
 						type: 'reply',
 					},
 					ctx,

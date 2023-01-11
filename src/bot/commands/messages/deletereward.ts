@@ -1,7 +1,8 @@
-import Schema from '../../database/models/messageRewards.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/messageRewards.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'deletereward',
 	description: 'Delete a reward ',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const messages = ctx.options.getNumber('amount');
 
 		Schema.findOne({ Guild: ctx.guild!.id, Messages: messages }, async (err: any, data: any) => {

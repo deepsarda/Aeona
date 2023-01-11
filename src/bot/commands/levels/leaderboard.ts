@@ -1,7 +1,8 @@
-import Schema from '../../database/models/levels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/levels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'leaderboard',
 	description: 'See the level leaderboard',
@@ -9,7 +10,7 @@ export default {
 	category: 'levels',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const rawLeaderboard = await Schema.find({ guildID: ctx.guild!.id })
 			.sort([['xp', 'descending']])
 			.exec();
@@ -25,8 +26,7 @@ export default {
 
 		const lb = rawLeaderboard.map(
 			(e) =>
-				`**${rawLeaderboard.findIndex((i) => i.guildID === ctx.guild!.id + '' && i.userID === e.userID) + 1}** | <@!${
-					e.userID
+				`**${rawLeaderboard.findIndex((i) => i.guildID === ctx.guild!.id + '' && i.userID === e.userID) + 1}** | <@!${e.userID
 				}> - Level: \`${e.level.toLocaleString()}\` (${e.xp.toLocaleString()} xp)`,
 		);
 

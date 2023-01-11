@@ -17,7 +17,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const name = await ctx.options.getLongString('package', true);
 		const r = await wrapper.npm(name).catch(() => {
 			return client.extras.errNormal(

@@ -10,7 +10,7 @@ export default {
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member)
-			return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			return;
 
 		const player = client.extras.player.players.get(ctx.guildId + '');
 
@@ -48,8 +48,8 @@ export default {
 		const musicLength = player.queue.current.isStream
 			? null
 			: !player.queue.current || !player.queue.current.duration || isNaN(player.queue.current.duration)
-			? null
-			: player.queue.current.duration;
+				? null
+				: player.queue.current.duration;
 		const nowTime = !player.position || isNaN(player.position) ? null : player.position;
 
 		const bar = await createProgressBar(musicLength, nowTime);

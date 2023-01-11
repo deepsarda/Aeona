@@ -1,6 +1,8 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import hmfull from 'hmfull';
+
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'tickle',
 	description: 'Tiiickle tickle tickle :3',
@@ -15,7 +17,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const user = await ctx.options.getUser('user', true);
 		client.extras.embed(
 			{

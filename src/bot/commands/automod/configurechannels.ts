@@ -1,7 +1,8 @@
-import Schema from '../../database/models/channelList.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/channelList.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'configurechannels',
 	description: 'Change the channels automod channels',
@@ -33,7 +34,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const type = ctx.options.getString('type', true);
 		const channel = await ctx.options.getChannel('channel', true);
 
@@ -41,7 +42,7 @@ export default {
 
 		if (type == 'add') {
 			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
-				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+				if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 				if (data) {
 					if (data.Channels.includes(channel.id)) {
@@ -79,7 +80,7 @@ export default {
 			);
 		} else if (type == 'remove') {
 			Schema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
-				if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+				if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 				if (data) {
 					if (!data.Channels.includes(channel.id)) {

@@ -23,7 +23,7 @@ export default {
 	],
 	userGuildPermissions: ['KICK_MEMBERS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const member = await client.helpers.getMember(ctx.guild!.id + '', (await ctx.options.getUser('user', true)).id);
 		const reason = ctx.options.getLongString('reason') || 'Not given';

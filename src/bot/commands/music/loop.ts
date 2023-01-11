@@ -11,7 +11,7 @@ export default {
 
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member)
-			return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			return;
 
 		if (!client.extras.voiceStates.get(ctx.guildId + '_' + ctx.user.id))
 			return client.extras.errNormal(

@@ -35,7 +35,7 @@ export default {
 	},
 	async execute(client: AeonaBot, ctx: Context) {
 		try {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
+			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 			const prompt = ctx.options.getLongString('prompt', true);
 			if (filter.isProfane(prompt))
 				return ctx.reply({
@@ -306,7 +306,7 @@ export default {
 	},
 	async execute(client: AeonaBot, ctx: Context) {
 		try {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
+			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 			const prompt = ctx.options.getLongString('prompt', true);
 
 			if (filter.isProfane(prompt))
@@ -518,7 +518,7 @@ export default {
 				});
 			});
 		} catch (e) {
-			console.log(e);
+			console.log("Imagine Error: " + e);
 		}
 	},
 } as CommandOptions;

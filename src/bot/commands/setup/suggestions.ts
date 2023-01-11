@@ -1,7 +1,8 @@
-import Suggestion from '../../database/models/suggestionChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Suggestion from '../../database/models/suggestionChannels.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'suggestions',
 	description: 'Setup suggestions for your server.',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const channel = await ctx.options.getChannel('channel', true);
 
 		client.extras.createChannelSetup(Suggestion, channel, ctx);

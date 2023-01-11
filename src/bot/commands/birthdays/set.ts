@@ -1,7 +1,8 @@
-import Schema from '../../database/models/birthday.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/birthday.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'set',
 	description: 'Set your birthdate.',
@@ -22,7 +23,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const months = {
 			1: 'January',
 			2: 'February',
@@ -64,7 +65,7 @@ export default {
 		const birthdayString = `${convertedDay} of ${convertedMonth}`;
 
 		Schema.findOne({ Guild: ctx.guild!.id, User: ctx.user.id }, async (err, data) => {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 			if (data) {
 				data.Birthday = birthdayString;
@@ -102,8 +103,8 @@ function suffixes(number) {
 	return lastChar == '1'
 		? `${converted}st`
 		: lastChar == '2'
-		? `${converted}nd`
-		: lastChar == '3'
-		? `${converted}rd`
-		: `${converted}th`;
+			? `${converted}nd`
+			: lastChar == '3'
+				? `${converted}rd`
+				: `${converted}th`;
 }

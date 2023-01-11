@@ -1,5 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'xmas',
 	description: 'See time to xmas',
@@ -7,7 +9,7 @@ export default {
 	category: 'fun',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const today = new Date();
 		const xmas = new Date(today.getFullYear(), 11, 24);
 		if (today.getMonth() == 11 && today.getDate() > 24) {

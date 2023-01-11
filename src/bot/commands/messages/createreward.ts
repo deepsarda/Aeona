@@ -1,7 +1,8 @@
-import Schema from '../../database/models/messageRewards.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/messageRewards.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'createreward',
 	description: 'Create a reward for a user reaching a certain amount of messages.',
@@ -23,7 +24,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_MESSAGES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const messages = ctx.options.getNumber('amount', true);
 		const role = await ctx.options.getRole('role', true);
 

@@ -1,8 +1,9 @@
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import blacklistedWords from '../../Collection/index.js';
 import Schema from '../../database/models/blacklist.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'remove',
 	description: 'Remove a blacklisted word',
@@ -18,11 +19,11 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const word = ctx.options.getString('word', true);
 
 		Schema.findOne({ Guild: ctx.guild!.id }, async (err: any, data: { Words: string[] }) => {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 			if (data) {
 				if (!data.Words.includes(word)) {

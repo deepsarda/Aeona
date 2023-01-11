@@ -1,7 +1,9 @@
-import voucher_codes from 'voucher-code-generator';
-import Premium from '../../database/models/premium.js';
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import voucher_codes from 'voucher-code-generator';
+
+import Premium from '../../database/models/premium.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'createcode',
 	description: 'Create premium codes',
@@ -16,7 +18,7 @@ export default {
 	],
 	ownerOnly: true,
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const code = ctx.options.getString('number', true);
 
 		const expiresAt = Date.now() + 2592000000;

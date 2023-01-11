@@ -1,8 +1,10 @@
-import Schema from '../../database/models/family.js';
-import { Canvas, loadImage } from 'canvas';
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
+import { Blob } from 'buffer';
+import { Canvas, loadImage } from 'canvas';
 import { BigString } from 'discordeno/types';
+
+import Schema from '../../database/models/family.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default {
 	name: 'family',
@@ -166,7 +168,6 @@ export default {
 		});
 	},
 } as CommandOptions;
-import { Blob } from 'buffer';
 function dataURItoBlob(dataURI) {
 	const byteString = atob(dataURI.split(',')[1]);
 	const ab = new ArrayBuffer(byteString.length);
@@ -179,12 +180,9 @@ function dataURItoBlob(dataURI) {
 }
 
 async function getFamily(userId: BigString, client: AeonaBot): Promise<family> {
-	console.log('User Id: ' + userId);
 	const data = await Schema.findOne({
 		User: userId + '',
 	});
-	console.log('Data:');
-	console.log(data);
 
 	const user = await client.helpers.getUser(userId);
 	if (!data)
@@ -195,7 +193,6 @@ async function getFamily(userId: BigString, client: AeonaBot): Promise<family> {
 	const children: any[] = [];
 	if (data.Children)
 		for (let i = 0; i < data.Children.length; i++) {
-			console.log('family: ' + (await getFamily(data.Children[i], client)));
 			children.push(await getFamily(data.Children[i], client));
 		}
 

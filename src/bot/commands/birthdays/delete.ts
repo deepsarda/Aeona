@@ -1,7 +1,8 @@
-import Schema from '../../database/models/birthday.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/birthday.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'delete',
 	description: 'Delete your birthday from me',
@@ -9,9 +10,9 @@ export default {
 	category: 'birthdays',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		Schema.findOne({ Guild: ctx.guild!.id, User: ctx.user.id }, async (err, data) => {
-			if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 			if (!data)
 				return client.extras.errNormal(

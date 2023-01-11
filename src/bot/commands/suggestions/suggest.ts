@@ -17,7 +17,7 @@ export default {
 		},
 	],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const suggestionQuery = await ctx.options.getString('suggestion', true);
 
 		const data = await Schema.findOne({ Guild: ctx.guild!.id });

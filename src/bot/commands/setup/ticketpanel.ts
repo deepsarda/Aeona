@@ -24,7 +24,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const name = ctx.options.getString('name', true);
 		const description = ctx.options.getString('description', true);
 

@@ -29,7 +29,7 @@ export default {
 	],
 	userGuildPermissions: ['MODERATE_MEMBERS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const user = await ctx.options.getUser('user', true);
 
 		const role = await ctx.options.getRole('role', true);

@@ -1,7 +1,8 @@
-import Schema from '../../database/models/verify.js';
-
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/verify.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'setverify',
 	description: 'Configure the verification system',
@@ -29,7 +30,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const boolean = ctx.options.getBoolean('enable', true);
 		const channel = await ctx.options.getChannel('channel', true);

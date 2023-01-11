@@ -11,7 +11,7 @@ export default {
 	args: [],
 
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log('Hmm');
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const url = await (await fetch('https://inspirobot.me/api?generate=true')).text();
 

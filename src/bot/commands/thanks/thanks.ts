@@ -19,7 +19,7 @@ export default {
 	],
 	aliases: ['thank'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const target = await ctx.options.getUser('user');
 		if (!target) return client.extras.errUsage({ usage: 'thanks [mention user]', type: 'reply' }, ctx);
 

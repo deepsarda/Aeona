@@ -20,7 +20,7 @@ export default {
 	],
 	private: true,
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		let reason = 'Not given';
 		if (ctx.options) reason = ctx.options.getString('reason') || 'Not given';
 
@@ -65,7 +65,7 @@ export default {
 							},
 							ctx,
 						)
-						.then(async (_msg) => {
+						.then(async (msg) => {
 							if (TicketData.TicketCount) {
 								TicketData.TicketCount += 1;
 								TicketData.save();
@@ -121,7 +121,7 @@ export default {
 										parentId: category.id,
 									})
 									.then(async (channel) => {
-										client.extras.embed(
+										client.extras.editEmbed(
 											{
 												title: `⚙️ System`,
 												desc: `Ticket has been created`,
@@ -142,9 +142,9 @@ export default {
 														inline: true,
 													},
 												],
-												type: 'ephemeraledit',
+
 											},
-											ctx,
+											msg,
 										);
 
 										new ticketChannels({

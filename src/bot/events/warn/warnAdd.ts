@@ -12,7 +12,7 @@ export default async (client: AeonaBot, user, mod) => {
 				fields: [
 					{
 						name: `→ User`,
-						value: `${user}`,
+						value: `<@${user.id}>`,
 					},
 					{
 						name: `→ Tag`,

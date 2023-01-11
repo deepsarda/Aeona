@@ -1,7 +1,8 @@
-import Schema from '../../database/models/reactionRoles.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import Schema from '../../database/models/reactionRoles.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'delete',
 	description: 'Delete a reaction role.',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_ROLES'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const category = ctx.options.getString('name', true);
 
 		Schema.findOne({ Guild: ctx.guild!.id, Category: category }, async (err, data) => {

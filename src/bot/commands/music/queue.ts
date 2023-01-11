@@ -11,7 +11,7 @@ export default {
 
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member)
-			return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			return;
 
 		const player = client.extras.player.players.get(ctx.guildId + '');
 
@@ -55,9 +55,8 @@ export default {
 			status = player.queue
 				.map((track) => {
 					count += 1;
-					return `**[#${count}]**┆${
-						track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
-					} (Requested by ${track.requester})`;
+					return `**[#${count}]**┆${track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
+						} (Requested by ${track.requester})`;
 				})
 				.join('\n');
 		}

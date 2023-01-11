@@ -10,7 +10,7 @@ export default {
 	category: 'info',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const verifLevels = {
 			NONE: 'None',
 			LOW: 'Low',

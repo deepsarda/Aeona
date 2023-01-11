@@ -19,7 +19,7 @@ export default {
 	],
 	async execute(client: AeonaBot, ctx: Context) {
 		if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member)
-			return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+			return;
 
 		const song = ctx.options.getLongString('song', true);
 

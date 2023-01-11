@@ -1,6 +1,8 @@
-import { Context, Components, CommandOptions } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 import { SelectOption } from 'discordeno';
+
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'help',
 	description: 'See the commands',
@@ -8,10 +10,9 @@ export default {
 	category: 'info',
 	args: [],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		let options: SelectOption[] = [];
 		const comp = new Components();
-		console.log(client.category.size);
 		try {
 			client.category.forEach((c) => {
 				options.push({
@@ -52,7 +53,7 @@ Use the dropdown to see all my commands.
 				ctx,
 			);
 		} catch (e) {
-			console.log(e);
+			console.log("Error Help: " + e);
 		}
 	},
 } as CommandOptions;

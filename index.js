@@ -1,5 +1,6 @@
 import { exec, execSync } from 'child_process';
 import fs from 'fs';
+
 try {
 	fs.rmdirSync('./dist', {
 		recursive: true,
@@ -29,21 +30,23 @@ ls.stdout.on('data', (data) => {
 ls.stderr.on('data', (data) => {
 	console.error(data.toString('ascii').trim());
 });
+function runBot() {
+	const ls1 = exec('npm run startb');
 
-const ls1 = exec('npm run startb');
+	ls1.stdout.on('data', (data) => {
+		console.log(data.toString('ascii').trim());
+	});
 
-ls1.stdout.on('data', (data) => {
-	console.log(data.toString('ascii').trim());
-});
+	ls1.stderr.on('data', (data) => {
+		console.error(data.toString('ascii').trim());
+	});
 
-ls1.stderr.on('data', (data) => {
-	console.error(data.toString('ascii').trim());
-});
-
-ls1.on('close', (code) => {
-	console.log(`child process exited with code ${code}`);
-});
-
+	ls1.on('close', (code) => {
+		console.log(`child process exited with code ${code}`);
+		runBot();
+	});
+}
+runBot();
 setInterval(() => {
 	try {
 		exec('git pull');

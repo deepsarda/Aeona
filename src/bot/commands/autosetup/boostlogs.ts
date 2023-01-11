@@ -1,8 +1,9 @@
-import boostLogs from '../../database/models/boostChannels.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
+
+import boostLogs from '../../database/models/boostChannels.js';
+import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'boostlogs',
 	description: 'Setup boostlog channel',
@@ -11,7 +12,7 @@ export default {
 	args: [],
 	userGuildPermissions: ['MANAGE_GUILD'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
 		const channel = await client.helpers.createChannel(ctx.guild!.id!, {
 			name: 'boostLogs',

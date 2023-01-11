@@ -223,7 +223,7 @@ export default async (
 						);
 					}
 				} catch (err) {
-					console.log(err);
+					//
 				}
 			}
 		}, 1000 * 60);

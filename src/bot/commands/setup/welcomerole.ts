@@ -1,7 +1,8 @@
-import welcomeRole from '../../database/models/joinRole.js';
-
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
+import welcomeRole from '../../database/models/joinRole.js';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'welcomerole',
 	description: 'Role to give to the members who join.',
@@ -17,7 +18,7 @@ export default {
 	],
 	userGuildPermissions: ['MANAGE_CHANNELS'],
 	async execute(client: AeonaBot, ctx: Context) {
-		if (!ctx.guild || !ctx.user || !ctx.channel) return console.log(ctx.guild + ' ' + ctx.channel + ' ' + ctx.user);
+		if (!ctx.guild || !ctx.user || !ctx.channel) return;
 		const role = await ctx.options.getRole('role', true);
 
 		client.extras.createRoleSetup(welcomeRole, role, ctx);
