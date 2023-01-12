@@ -9,6 +9,10 @@ coverY: 86
 **Aeona tip:** All the commands are there in slash commands and normal message command format.
 {% endhint %}
 
+{% hint style="warning" %}
+**Before using these docs, be sure to reload the page because there may be new changes that you haven't cached yet.**
+{% endhint %}
+
 ## Overview
 
 Here are a couple of things about Aeona.
@@ -64,3 +68,12 @@ We've put together some helpful guides for you to get setup with Aeona quickly a
 {% content-ref url="setting-up/logging/" %}
 [logging](setting-up/logging/)
 {% endcontent-ref %}
+
+{% content-ref url="setting-up/tickets.md" %}
+[tickets.md](setting-up/tickets.md)
+{% endcontent-ref %}
+
+{% content-ref url="setting-up/suggestions.md" %}
+[suggestions.md](setting-up/suggestions.md)
+{% endcontent-ref %}
+

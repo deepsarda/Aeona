@@ -35,3 +35,5 @@
   * [📘 Server Logs](setting-up/logging/server-logs.md)
   * [🔖 Boost Logging](setting-up/logging/boost-logging.md)
   * [🗣 Level Logging](setting-up/logging/level-logging.md)
+* [🔓 Tickets](setting-up/tickets.md)
+* [💬 Suggestions](setting-up/suggestions.md)
