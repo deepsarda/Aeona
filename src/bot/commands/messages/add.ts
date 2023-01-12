@@ -49,7 +49,7 @@ export default {
 				text: `Added **${amount}** messages to <@${user.id}>`,
 				fields: [
 					{
-						name: '→ Total messages',
+						name: '💬 Total messages',
 						value: `${data!.Messages}`,
 						inline: true,
 					},

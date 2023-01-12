@@ -59,7 +59,7 @@ export default {
 								desc: `Your suggestion in ${ctx.guild.name} has been accepted by a moderator!`,
 								fields: [
 									{
-										name: `→ Suggestion`,
+										name: `💬 Suggestion`,
 										value: `${embedData.description}`,
 									},
 								],
@@ -68,8 +68,9 @@ export default {
 						)
 						.catch();
 				}
-			} catch {
-				//stop lint error
+			} catch (e) {
+				console.log("Error in suggestion accept")
+				console.error(e);
 			}
 
 			client.extras.succNormal(
@@ -77,7 +78,7 @@ export default {
 					text: 'Suggestion successfully accepted',
 					fields: [
 						{
-							name: `→ Suggestion`,
+							name: `💬 Suggestion`,
 							value: `${embedData.description}`,
 						},
 					],

@@ -38,12 +38,12 @@ export default {
 					text: `Level has been modified successfully`,
 					fields: [
 						{
-							name: '→ New Level',
+							name: '💬 New Level',
 							value: `${user.level}`,
 							inline: true,
 						},
 						{
-							name: '→ User',
+							name: '<:members:1063116392762712116> User',
 							value: `<@${target.id}> (${target.username + '#' + target.discriminator})`,
 							inline: true,
 						},

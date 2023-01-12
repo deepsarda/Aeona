@@ -108,7 +108,7 @@ export function additionalProps(client: AeonaBot) {
 					desc: `Channel has been set up successfully!`,
 					fields: [
 						{
-							name: `→ Channel`,
+							name: `<:channel:1049292166343688192> Channel`,
 							value: `<#${channel.id}> (${channel.id})`,
 						},
 					],
@@ -136,7 +136,7 @@ export function additionalProps(client: AeonaBot) {
 					desc: `Role has been set up successfully!`,
 					fields: [
 						{
-							name: `→ Role`,
+							name: `<:role:1062978537436491776> Role`,
 							value: `<@&${role.id}> (${role.id})`,
 						},
 					],

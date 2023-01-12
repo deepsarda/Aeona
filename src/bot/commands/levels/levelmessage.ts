@@ -72,7 +72,7 @@ export default {
 						text: `The level message has been set successfully`,
 						fields: [
 							{
-								name: `→ Message`,
+								name: `💬 Message`,
 								value: `${message}`,
 								inline: true,
 							},

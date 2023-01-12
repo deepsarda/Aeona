@@ -51,7 +51,7 @@ export default {
 					text: 'Sticky message created',
 					fields: [
 						{
-							name: `→ Message`,
+							name: `💬 Message`,
 							value: `${content}`,
 						},
 					],

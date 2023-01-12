@@ -34,37 +34,37 @@ export default {
 				title: `${r.name}`,
 				fields: [
 					{
-						name: '→ Name',
+						name: '<:name:1062774821190111272>  Name',
 						value: `${r.name}`,
 						inline: true,
 					},
 					{
-						name: '→ Version',
+						name: 'Version',
 						value: `${r.version}`,
 						inline: true,
 					},
 					{
-						name: '→ Description',
+						name: 'Description',
 						value: `${r.description}`,
 						inline: true,
 					},
 					{
-						name: '→ Keywords',
+						name: 'Keywords',
 						value: `${r.keywords}`,
 						inline: true,
 					},
 					{
-						name: '→ Author',
+						name: 'Author',
 						value: `${r.author}`,
 						inline: true,
 					},
 					{
-						name: '→ Downloads',
+						name: 'Downloads',
 						value: `${r.downloads_this_year}`,
 						inline: true,
 					},
 					{
-						name: '→ Last publish',
+						name: 'Last publish',
 						value: `<t:${Math.round(new Date(r.last_published).getTime() / 1000)}>`,
 						inline: true,
 					},

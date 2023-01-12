@@ -52,7 +52,7 @@ export default {
 					text: `The channel name has been set successfully`,
 					fields: [
 						{
-							name: `→ Name`,
+							name: `<:name:1062774821190111272>  Name`,
 							value: `${name}`,
 							inline: true,
 						},

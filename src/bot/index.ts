@@ -166,8 +166,9 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 		},
 
 		setItem: async (table, item) => {
-			return await db.push(`${item.id}${item.guildid ? item.guildid : ''}`, JSON.stringify(item));
+			const i = await db.push(`${item.id}${item.guildid ? item.guildid : ''}`, JSON.stringify(item));
 			db.save();
+			return i;
 		},
 	});
 	db.reload();
@@ -271,7 +272,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 
 		bot.extras.embed(
 			{
-				title: `${track.title}`,
+				title: `<:Pink_music:1062773191107416094> ${track.title}`,
 				url: track.uri,
 				desc: `Music started in <#${player.voiceChannel}>!`,
 				thumbnail: track.thumbnail!,
@@ -563,6 +564,37 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 
 	startBot(bot);
 
+	let content = "";
+	const builtins = {
+		log: console.log,
+		warn: console.warn,
+		error: console.error,
+	};
+
+	for (const printFunction in builtins) {
+		console[printFunction] = function () {
+			// eslint-disable-next-line prefer-rest-params
+			builtins[printFunction].apply(console, [...arguments]);
+			try {
+				// eslint-disable-next-line prefer-rest-params
+				const message = [...arguments]
+					.reduce((accumulator, current) => `[${bot.user.username}] ${accumulator} ${current} `, "")
+					.replace(/\s+$/, "");
+
+				content += message;
+
+				if (content.length > 1000) {
+					bot.helpers.sendMessage("1063124831211630622", {
+						content: content
+					});
+					content = "";
+				}
+
+			} catch (e) {
+				console.error(e);
+			}
+		};
+	}
 	console.log(colors.green('STARTING'));
 
 	process.on('unhandledRejection', (error: Error) => {

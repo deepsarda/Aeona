@@ -31,7 +31,7 @@ export default {
 								inline: true,
 							},
 							{
-								name: `→ Reminder`,
+								name: `Reminder`,
 								value: `${text}`,
 								inline: true,
 							},
@@ -51,7 +51,7 @@ export default {
 					desc: `Your reminder just ended!`,
 					fields: [
 						{
-							name: `→ Reminder`,
+							name: `Reminder`,
 							value: `${text}`,
 							inline: true,
 						},

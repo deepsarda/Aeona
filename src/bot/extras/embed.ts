@@ -29,7 +29,7 @@ export default (client: AeonaBot) => {
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`Something went wrong!`);
-		embed.addField('→ Error comment', `\`\`\`${error}\`\`\``);
+		embed.addField('Error comment', `\`\`\`${error}\`\`\``);
 		embed.setColor(config.colors.error);
 
 		return await sendEmbed(
@@ -61,7 +61,7 @@ export default (client: AeonaBot) => {
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You did not provide the correct arguments`);
-		embed.addField('→ Required arguments', `\`\`\`${usage}\`\`\``);
+		embed.addField('Required arguments', `\`\`\`${usage}\`\`\``);
 		embed.setColor(config.colors.error);
 
 		return await sendEmbed(
@@ -93,7 +93,7 @@ export default (client: AeonaBot) => {
 	) {
 		embed.setTitle(`${config.emotes.normal.error} Error!`);
 		embed.setDescription(`You've already done this once`);
-		embed.addField('→ Try again on', `<t:${time}:f>`);
+		embed.addField('Try again on', `<t:${time}:f>`);
 		embed.setColor(config.colors.error);
 
 		return await sendEmbed(

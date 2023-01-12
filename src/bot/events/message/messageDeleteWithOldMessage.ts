@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno/transformers';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, messageDeleted: Message) => {
 	if (!messageDeleted) return;
@@ -20,19 +21,19 @@ export default async (client: AeonaBot, messageDeleted: Message) => {
 				desc: `A message has been deleted`,
 				fields: [
 					{
-						name: `→ Author`,
+						name: `<:members:1063116392762712116> Author`,
 						value: `<@${messageDeleted.authorId}>`,
 					},
 					{
-						name: `→ Date`,
+						name: `🕒 Date`,
 						value: `${new Date(messageDeleted.timestamp).toUTCString()}`,
 					},
 					{
-						name: `→ Channel`,
+						name: `<:channel:1049292166343688192> Channel`,
 						value: `<#${messageDeleted.channelId}>`,
 					},
 					{
-						name: `→ Message`,
+						name: `💬 Message`,
 						value: `\`\`\`${content.replace(/`/g, "'")}\`\`\``,
 					},
 				],

@@ -1,5 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Channel } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
+
 export default async (client: AeonaBot, channel: Channel) => {
 	const logsChannel = await client.extras.getLogs(channel.guildId);
 	if (!logsChannel) return;
@@ -11,15 +13,15 @@ export default async (client: AeonaBot, channel: Channel) => {
 				desc: `A thread has been deleted`,
 				fields: [
 					{
-						name: `→ Name`,
+						name: `<:name:1062774821190111272>  Name`,
 						value: `${channel.name}`,
 					},
 					{
-						name: `→ ID`,
+						name: `<:id:1062774182892552212> ID`,
 						value: `${channel.id}`,
 					},
 					{
-						name: `→ Type`,
+						name: `💬 Type`,
 						value: `${channel.type}`,
 					},
 				],

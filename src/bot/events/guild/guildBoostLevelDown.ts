@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Guild } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild, oldLevel: number, newLevel: number) => {
 	const logsChannel = await client.extras.getLogs(guild.id);
@@ -12,11 +13,11 @@ export default async (client: AeonaBot, guild: Guild, oldLevel: number, newLevel
 				desc: `This server has returned to a new boost level`,
 				fields: [
 					{
-						name: `→ Old level`,
+						name: `Old level`,
 						value: `${oldLevel}`,
 					},
 					{
-						name: `→ New level`,
+						name: `New level`,
 						value: `${newLevel}`,
 					},
 				],

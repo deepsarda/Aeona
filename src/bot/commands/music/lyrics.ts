@@ -47,7 +47,7 @@ export default {
 
 		client.extras.embed(
 			{
-				title: `Lyrics For ${player.queue.current.title}`,
+				title: `<:Pink_music:1062773191107416094> Lyrics For ${player.queue.current.title}`,
 				desc: lyrics,
 				type: 'reply',
 			},

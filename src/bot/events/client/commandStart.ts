@@ -2,7 +2,6 @@ import { InfluxDB, Point } from '@influxdata/influxdb-client';
 import { CommandClass } from '@thereallonewolf/amethystframework';
 import { Interaction, Message } from 'discordeno/transformers';
 
-import Schema from '../../database/models/votecredits.js';
 import { AeonaBot } from '../../extras/index.js';
 
 const INFLUX_ORG = process.env.INFLUX_ORG as string;
@@ -14,11 +13,7 @@ export const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET);
 export default async (bot: AeonaBot, command: CommandClass, data: Interaction | Message) => {
 	Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 	Influx?.writePoint(new Point('commands').tag('action', 'addition').tag('command', command.name).intField('value', 1));
-	let user = await Schema.findOne({ User: data.member?.id });
-	console.log(`BOT`.blue.bold, `>>`.white, `Command Run: `.red, command.name.yellow,);
-	if (!user) user = new Schema({ User: data.member?.id });
-	if (user.LastVersion != bot.extras.version)
-		bot.helpers.sendMessage(data.channelId!, {
-			content: 'You have unread news. Use `+news` to read it',
-		});
+
+	console.log(`BOT`.blue.bold, `>>`.white, `Command Run: `.red, command.name.yellow, (data as unknown as Interaction).data ? "Command ran using slash command".green : "command ran using normal commands".green);
+
 };

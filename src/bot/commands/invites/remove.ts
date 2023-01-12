@@ -52,7 +52,7 @@ export default {
 				text: `Removed **${amount}** invites from <@${user.id}>`,
 				fields: [
 					{
-						name: '→ Total invites',
+						name: '📨 Total invites',
 						value: `${data.Invites}`,
 						inline: true,
 					},

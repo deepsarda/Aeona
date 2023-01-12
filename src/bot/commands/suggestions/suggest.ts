@@ -44,12 +44,12 @@ export default {
 							text: `Suggestion successfully submitted!`,
 							fields: [
 								{
-									name: `→ Suggestion`,
+									name: `💬 Suggestion`,
 									value: `${suggestionQuery}`,
 									inline: true,
 								},
 								{
-									name: `→ Channel`,
+									name: `<:channel:1049292166343688192> Channel`,
 									value: `<#${data.Channel}>`,
 									inline: true,
 								},

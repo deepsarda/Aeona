@@ -37,7 +37,7 @@ export default {
 						desc: `I formed a word with the given letters`,
 						fields: [
 							{
-								name: `→ Word(s)`,
+								name: `💬 Word(s)`,
 								value: content,
 							},
 						],

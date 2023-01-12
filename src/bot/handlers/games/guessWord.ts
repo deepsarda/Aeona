@@ -1,6 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
+
 import Schema from '../../database/models/guessWord.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
 	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
@@ -25,16 +26,16 @@ export default async (client: AeonaBot) => {
 				const user = await client.helpers.getUser(message.authorId);
 				client.extras.sendEmbedMessage(
 					{
-						title: `→ Guess the word`,
+						title: `Guess the word`,
 						desc: `The word is guessed.`,
 						fields: [
 							{
-								name: `→ Guessed by`,
+								name: `<:members:1063116392762712116> Guessed by`,
 								value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 								inline: true,
 							},
 							{
-								name: `→ Correct word`,
+								name: `💬 Correct word`,
 								value: `${data.Word}`,
 								inline: true,
 							},
@@ -52,7 +53,7 @@ export default async (client: AeonaBot) => {
 						desc: `Put the letters in the right position!`,
 						fields: [
 							{
-								name: `→ Word`,
+								name: `💬 Word`,
 								value: `${shuffled.toLowerCase()}`,
 							},
 						],

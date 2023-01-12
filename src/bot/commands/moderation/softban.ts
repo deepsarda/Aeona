@@ -47,12 +47,12 @@ export default {
 						desc: `You've been banned in **${ctx.guild.name}**`,
 						fields: [
 							{
-								name: '→ Banned by',
+								name: '<:members:1063116392762712116> Banned by',
 								value: ctx.user.username + '#' + ctx.user.discriminator,
 								inline: true,
 							},
 							{
-								name: '→ Reason',
+								name: '💬 Reason',
 								value: reason,
 								inline: true,
 							},
@@ -70,12 +70,12 @@ export default {
 							text: 'The specified user has been successfully banned and successfully received a notification!',
 							fields: [
 								{
-									name: '→ Banned user',
+									name: '<:members:1063116392762712116> Banned user',
 									value: member.user?.username + '#' + member.user?.discriminator,
 									inline: true,
 								},
 								{
-									name: '→ Reason',
+									name: '💬 Reason',
 									value: reason,
 									inline: true,
 								},

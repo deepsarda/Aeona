@@ -78,12 +78,12 @@ export default {
 					text: 'Reaction role successfully created! Create a panel in the following way',
 					fields: [
 						{
-							name: `→ Menu panel`,
+							name: `Menu panel`,
 							value: `\`/reactionroles menu [category name]\``,
 							inline: true,
 						},
 						{
-							name: `→ Button panel`,
+							name: `Button panel`,
 							value: `\`/reactionroles button [category name]\``,
 							inline: true,
 						},

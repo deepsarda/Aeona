@@ -1,6 +1,7 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Message } from 'discordeno';
+
 import Schema from '../../database/models/guessNumber.js';
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
 	client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
@@ -24,12 +25,12 @@ export default async (client: AeonaBot) => {
 						desc: `The number is guessed!!`,
 						fields: [
 							{
-								name: `→ Guessed by`,
+								name: `<:members:1063116392762712116> Guessed by`,
 								value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 								inline: true,
 							},
 							{
-								name: `→ Correct number`,
+								name: `🔢 Correct number`,
 								value: `${data.Number}`,
 								inline: true,
 							},

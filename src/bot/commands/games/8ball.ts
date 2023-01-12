@@ -44,12 +44,12 @@ export default {
 				desc: `See the answer on your question!`,
 				fields: [
 					{
-						name: `→ Your Question`,
+						name: `💬 Your Question`,
 						value: `\`\`\`${question}\`\`\``,
 						inline: false,
 					},
 					{
-						name: `→ Bot Answer`,
+						name: `💬 Bot Answer`,
 						value: `\`\`\`${antwoorden[resultaat]}\`\`\``,
 						inline: false,
 					},

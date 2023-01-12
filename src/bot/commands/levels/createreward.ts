@@ -49,12 +49,12 @@ export default {
 						text: `Level reward created`,
 						fields: [
 							{
-								name: '→ Role',
+								name: '<:role:1062978537436491776> Role',
 								value: `<@&${role.id}>`,
 								inline: true,
 							},
 							{
-								name: '→ Level',
+								name: '📈 Level',
 								value: level + '',
 								inline: true,
 							},

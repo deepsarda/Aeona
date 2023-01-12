@@ -1,4 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -21,43 +22,43 @@ export default {
 				}),
 				fields: [
 					{
-						name: '→ Information ℹ️',
+						name: 'Information ℹ️',
 						value: `I am  a bot with which you can run your entire server! With plenty of commands and features, you can create the perfect discord experience.`,
 						inline: false,
 					},
 					{
-						name: '→ Servers 🌐',
+						name: 'Servers 🌐',
 						value: `\`${totalGuilds}\` servers`,
 						inline: true,
 					},
 					{
-						name: '→ Members 👥 ',
+						name: 'Members 👥 ',
 						value: `\`${totalMembers}\` members`,
 						inline: true,
 					},
 					{
-						name: '→ Channels 📺',
+						name: 'Channels 📺',
 						value: `\`${totalChannels}\` channels`,
 						inline: true,
 					},
 					{
-						name: '→ Node.js Version 🏷',
+						name: 'Node.js Version 🏷',
 						value: `\`${process.version}\``,
 						inline: true,
 					},
 					{
-						name: '→ Using Discordeno 📂',
+						name: 'Using Discordeno 📂',
 						value: `And Amethyst Framework`,
 						inline: true,
 					},
 					{
-						name: '→ Bot memory 💾',
+						name: 'Bot memory 💾',
 						value: `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}\` MB`,
 						inline: true,
 					},
 					{
-						name: 'Special Thanks ',
-						value: 'Green Bot Developers for letting us use thier bot as our base.',
+						name: 'Special Thanks 💬',
+						value: 'Green Bot Developers for letting us use their bot as our base.',
 						inline: true,
 					},
 				],

@@ -45,7 +45,7 @@ export default {
 					desc: `You've been warned in **${ctx.guild.name}**`,
 					fields: [
 						{
-							name: '→ Moderator',
+							name: '<:members:1063116392762712116> Moderator',
 							value: ctx.user.username + '#' + ctx.user.discriminator,
 							inline: true,
 						},
@@ -61,7 +61,7 @@ export default {
 				text: `User has received a warning!`,
 				fields: [
 					{
-						name: '→ User',
+						name: '<:members:1063116392762712116> User',
 						value: `<@${member.id}>`,
 						inline: true,
 					},

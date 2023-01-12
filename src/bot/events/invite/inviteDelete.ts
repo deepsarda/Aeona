@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Invite } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, invite: Invite) => {
 	const logsChannel = await client.extras.getLogs(invite.guildId);
@@ -11,7 +12,7 @@ export default async (client: AeonaBot, invite: Invite) => {
 				desc: `A invite has been deleted`,
 				fields: [
 					{
-						name: `→ Code`,
+						name: `💬 Code`,
 						value: `${invite.code}`,
 					},
 				],

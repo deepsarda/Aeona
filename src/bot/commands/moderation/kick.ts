@@ -46,12 +46,12 @@ export default {
 						desc: `You've been kicked in **${ctx.guild.name}**`,
 						fields: [
 							{
-								name: '→ Kicked by',
+								name: '<:members:1063116392762712116> Kicked by',
 								value: ctx.user.username + '#' + ctx.user.discriminator,
 								inline: true,
 							},
 							{
-								name: '→ Reason',
+								name: '💬 Reason',
 								value: reason,
 								inline: true,
 							},
@@ -67,12 +67,12 @@ export default {
 							text: 'The specified user has been successfully kicked and successfully received a notification!',
 							fields: [
 								{
-									name: '→ Kicked user',
+									name: '<:members:1063116392762712116> Kicked user',
 									value: member.user?.username + '#' + member.user?.discriminator,
 									inline: true,
 								},
 								{
-									name: '→ Reason',
+									name: '💬 Reason',
 									value: reason,
 									inline: true,
 								},

@@ -56,160 +56,150 @@ export default {
 							emoji: '🔔',
 						});
 
-					client.extras
-						.embed(
+					if (TicketData.TicketCount) {
+						TicketData.TicketCount += 1;
+						TicketData.save();
+					} else {
+						TicketData.TicketCount = 1;
+						TicketData.save();
+					}
+
+					if (ticketCategory == undefined) {
+						return client.extras.errNormal(
 							{
-								title: `${client.extras.emotes.animated.loading} Progress`,
-								desc: `Your ticket is being created...`,
-								type: 'ephemeral',
+								error: 'Do the setup!',
+								type: type,
 							},
 							ctx,
-						)
-						.then(async (msg) => {
-							if (TicketData.TicketCount) {
-								TicketData.TicketCount += 1;
-								TicketData.save();
-							} else {
-								TicketData.TicketCount = 1;
-								TicketData.save();
-							}
+						);
+					} else {
+						const category = await client.helpers.getChannel(ticketCategory.id);
 
-							if (ticketCategory == undefined) {
-								return client.extras.errNormal(
+						const ticketid = String(TicketData.TicketCount).padStart(4, '0');
+						await client.helpers
+							.createChannel(ctx.guild!.id!, {
+								name: `ticket-${ticketid}`,
+								permissionOverwrites: [
 									{
-										error: 'Do the setup!',
-										type: type,
+										type: 0,
+										deny: ['VIEW_CHANNEL'],
+										id: ctx.guild!.id!,
+									},
+									{
+										type: 1,
+										allow: [
+											'VIEW_CHANNEL',
+											'SEND_MESSAGES',
+											'ATTACH_FILES',
+											'READ_MESSAGE_HISTORY',
+											'ADD_REACTIONS',
+										],
+										id: ctx.user!.id,
+									},
+									{
+										type: 0,
+										allow: [
+											'VIEW_CHANNEL',
+											'SEND_MESSAGES',
+											'ATTACH_FILES',
+											'READ_MESSAGE_HISTORY',
+											'ADD_REACTIONS',
+										],
+										id: role!.id,
+									},
+								],
+								parentId: category.id,
+							})
+							.then(async (channel) => {
+								client.extras.embed(
+									{
+										title: `⚙️ System`,
+										desc: `Ticket has been created`,
+										fields: [
+											{
+												name: '<:members:1063116392762712116> Creator',
+												value: `<@${ctx.user!.id}>`,
+												inline: true,
+											},
+											{
+												name: '<:channel:1049292166343688192> Channel',
+												value: `<#${channel.id}>`,
+												inline: true,
+											},
+											{
+												name: '🕒 Created at',
+												value: `<t:${(Date.now() / 1000).toFixed(0)}:f>`,
+												inline: true,
+											},
+										],
+										type: 'ephemeral'
 									},
 									ctx,
 								);
-							} else {
-								const category = await client.helpers.getChannel(ticketCategory.id);
 
-								const ticketid = String(TicketData.TicketCount).padStart(4, '0');
-								await client.helpers
-									.createChannel(ctx.guild!.id!, {
-										name: `ticket-${ticketid}`,
-										permissionOverwrites: [
+								new ticketChannels({
+									Guild: ctx.guild!.id + '',
+									TicketID: ticketid,
+									channelID: channel.id + '',
+									creator: ctx.user!.id + '',
+									claimed: 'None',
+								}).save();
+
+								if (logsChannel) {
+									client.extras.embed(
+										{
+											title: `📝 Open ticket`,
+											desc: `A new ticket has been created`,
+											fields: [
+												{
+													name: '<:members:1063116392762712116> Creator',
+													value: `${ctx.user!.username + '#' + ctx.user!.discriminator} (${ctx.user!.id})`,
+													inline: false,
+												},
+												{
+													name: '<:channel:1049292166343688192> Channel',
+													value: `${channel.name} is found at <#${channel.id}>`,
+													inline: false,
+												},
+												{
+													name: '🕒 Created at',
+													value: `<t:${(Date.now() / 1000).toFixed(0)}:F>`,
+													inline: false,
+												},
+											],
+										},
+										logsChannel,
+									);
+								}
+
+								await client.extras.embed(
+									{
+										desc: openTicket,
+										fields: [
 											{
-												type: 0,
-												deny: ['VIEW_CHANNEL'],
-												id: ctx.guild!.id!,
+												name: '<:members:1063116392762712116> Creator',
+												value: `<@${ctx.user!.id}>`,
+												inline: true,
 											},
 											{
-												type: 1,
-												allow: [
-													'VIEW_CHANNEL',
-													'SEND_MESSAGES',
-													'ATTACH_FILES',
-													'READ_MESSAGE_HISTORY',
-													'ADD_REACTIONS',
-												],
-												id: ctx.user!.id,
+												name: '💬 Subject',
+												value: `${reason}`,
+												inline: true,
 											},
 											{
-												type: 0,
-												allow: [
-													'VIEW_CHANNEL',
-													'SEND_MESSAGES',
-													'ATTACH_FILES',
-													'READ_MESSAGE_HISTORY',
-													'ADD_REACTIONS',
-												],
-												id: role!.id,
+												name: '🕒 Created at',
+												value: `<t:${(Date.now() / 1000).toFixed(0)}:F>`,
+												inline: true,
 											},
 										],
-										parentId: category.id,
-									})
-									.then(async (channel) => {
-										client.extras.editEmbed(
-											{
-												title: `⚙️ System`,
-												desc: `Ticket has been created`,
-												fields: [
-													{
-														name: '→ Creator',
-														value: `<@${ctx.user!.id}>`,
-														inline: true,
-													},
-													{
-														name: '→ Channel',
-														value: `<#${channel.id}>`,
-														inline: true,
-													},
-													{
-														name: '→ Created at',
-														value: `<t:${(Date.now() / 1000).toFixed(0)}:f>`,
-														inline: true,
-													},
-												],
+										components: comp,
+										content: `<@${ctx.user!.id}>, <@&${role!.id}>`,
+									},
+									channel,
+								);
+							});
+					}
 
-											},
-											msg,
-										);
-
-										new ticketChannels({
-											Guild: ctx.guild!.id + '',
-											TicketID: ticketid,
-											channelID: channel.id + '',
-											creator: ctx.user!.id + '',
-											claimed: 'None',
-										}).save();
-
-										if (logsChannel) {
-											client.extras.embed(
-												{
-													title: `📝 Open ticket`,
-													desc: `A new ticket has been created`,
-													fields: [
-														{
-															name: '→ Creator',
-															value: `${ctx.user!.username + '#' + ctx.user!.discriminator} (${ctx.user!.id})`,
-															inline: false,
-														},
-														{
-															name: '→ Channel',
-															value: `${channel.name} is found at <#${channel.id}>`,
-															inline: false,
-														},
-														{
-															name: '→ Created at',
-															value: `<t:${(Date.now() / 1000).toFixed(0)}:F>`,
-															inline: false,
-														},
-													],
-												},
-												logsChannel,
-											);
-										}
-
-										await client.extras.embed(
-											{
-												desc: openTicket,
-												fields: [
-													{
-														name: '→ Creator',
-														value: `<@${ctx.user!.id}>`,
-														inline: true,
-													},
-													{
-														name: '→ Subject',
-														value: `${reason}`,
-														inline: true,
-													},
-													{
-														name: '→ Created at',
-														value: `<t:${(Date.now() / 1000).toFixed(0)}:F>`,
-														inline: true,
-													},
-												],
-												components: comp,
-												content: `<@${ctx.user!.id}>, <@&${role!.id}>`,
-											},
-											channel,
-										);
-									});
-							}
-						});
 				} catch (err) {
 					client.extras.errNormal(
 						{

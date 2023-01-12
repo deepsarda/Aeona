@@ -72,7 +72,7 @@ export default {
 											desc: `The users ip address was found!`,
 											fields: [
 												{
-													name: '→ IP Adress',
+													name: ' IP Adress',
 													value: `\`\`\`127.0.0.1\`\`\``,
 													inline: true,
 												},

@@ -52,7 +52,7 @@ export default {
 						text: `Stage channel count created!`,
 						fields: [
 							{
-								name: `→ Channel`,
+								name: `<:channel:1049292166343688192> Channel`,
 								value: `<#${channel.id}>`,
 							},
 						],

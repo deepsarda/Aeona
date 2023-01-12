@@ -16,7 +16,7 @@ export default {
 			if (data && data.Words.length > 0) {
 				client.extras.embed(
 					{
-						title: '→ Blacklisted words 🤬 ',
+						title: ' Blacklisted words 🤬 ',
 						desc: data.Words.join(', '),
 						type: 'reply',
 					},

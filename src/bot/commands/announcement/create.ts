@@ -40,7 +40,7 @@ export default {
 				text: `Announcement has been sent successfully!`,
 				fields: [
 					{
-						name: `→ Channel`,
+						name: `<:channel:1049292166343688192> Channel`,
 						value: `${channel} (${channel?.name})`,
 					},
 				],

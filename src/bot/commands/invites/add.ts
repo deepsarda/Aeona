@@ -51,7 +51,7 @@ export default {
 				text: `Added **${amount}** invites to <@${user.id}>`,
 				fields: [
 					{
-						name: '→ Total invites',
+						name: '📨 Total invites',
 						value: `${data!.Invites}`,
 						inline: true,
 					},

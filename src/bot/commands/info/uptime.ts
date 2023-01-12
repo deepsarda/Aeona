@@ -24,12 +24,12 @@ export default {
 				desc: `See the uptime of Aeona`,
 				fields: [
 					{
-						name: '→ Uptime',
+						name: '🕒 Uptime',
 						value: `${duration}`,
 						inline: true,
 					},
 					{
-						name: '→ Up Since',
+						name: '⏲️ Up Since',
 						value: `<t:${upvalue}>`,
 						inline: true,
 					},

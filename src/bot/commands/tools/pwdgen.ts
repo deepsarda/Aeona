@@ -30,12 +30,12 @@ export default {
 				text: `Your generated password`,
 				fields: [
 					{
-						name: '→ Password',
+						name: 'Password',
 						value: `${password}`,
 						inline: true,
 					},
 					{
-						name: '→ Length',
+						name: 'Length',
 						value: `12`,
 						inline: true,
 					},

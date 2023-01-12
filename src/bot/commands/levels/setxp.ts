@@ -37,12 +37,12 @@ export default {
 					text: `XP has been modified successfully`,
 					fields: [
 						{
-							name: '→ New XP',
+							name: '📈 New XP',
 							value: `${user.xp}`,
 							inline: true,
 						},
 						{
-							name: '→ User',
+							name: '<:members:1063116392762712116> User',
 							value: `<@${target.id}> (${target.username + '#' + target.discriminator})`,
 							inline: true,
 						},

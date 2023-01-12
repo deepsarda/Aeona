@@ -30,21 +30,21 @@ export default {
 
 				return client.extras.embed(
 					{
-						title: `→ ${ip}`,
+						title: `${ip}`,
 						thumbnail: `https://eu.mc-api.net/v3/server/favicon/${ip}`,
 						fields: [
 							{
-								name: '→ Online',
+								name: 'Online',
 								value: `${json.online}`,
 								inline: true,
 							},
 							{
-								name: '→Version',
+								name: 'Version',
 								value: `${json.version}`,
 								inline: true,
 							},
 							{
-								name: '→ Players online',
+								name: 'Players online',
 								value: `${json.players.online}/${json.players.max}`,
 								inline: true,
 							},

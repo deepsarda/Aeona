@@ -47,18 +47,18 @@ export default (client: AeonaBot) => {
 									type: '',
 									fields: [
 										{
-											name: `→ ID`,
+											name: `<:id:1062774182892552212> ID`,
 											value: `${auditLogEntry.targetId}`,
 										},
 										{
-											name: `→ Reason`,
+											name: `💬 Reason`,
 											value: `${auditLogEntry.reason ?? 'No reason given'}`,
 										},
 										{
-											name: `→ By`,
+											name: `<:members:1063116392762712116> By`,
 											value: `${user
-													? `${user.username}#${user.discriminator}(${user.id})`
-													: 'Unable to find the responsible user.'
+												? `${user.username}#${user.discriminator}(${user.id})`
+												: 'Unable to find the responsible user.'
 												}`,
 										},
 									],
@@ -71,7 +71,7 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Channel`,
+												name: `<:channel:1049292166343688192> Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 										],
@@ -93,14 +93,14 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Channel`,
+												name: `<:channel:1049292166343688192> Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings`,
+												name: `⚙️ Modified Settings`,
 												value: `${auditLogEntry.options?.type == 1
-														? `<@${auditLogEntry.options?.id}>`
-														: auditLogEntry.options?.roleName
+													? `<@${auditLogEntry.options?.id}>`
+													: auditLogEntry.options?.roleName
 													}`,
 											},
 										],
@@ -113,14 +113,14 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Channel`,
+												name: `<:channel:1049292166343688192> Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings`,
+												name: `⚙️ Modified Settings`,
 												value: `${auditLogEntry.options?.type == 1
-														? `<@${auditLogEntry.options.id}>`
-														: auditLogEntry.options?.roleName
+													? `<@${auditLogEntry.options.id}>`
+													: auditLogEntry.options?.roleName
 													}`,
 											},
 										],
@@ -134,14 +134,14 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Channel`,
+												name: `<:channel:1049292166343688192> Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings for`,
+												name: `⚙️ Modified Settings for`,
 												value: `${auditLogEntry.options?.type == 1
-														? `<@${auditLogEntry.options?.id}>`
-														: auditLogEntry.options?.roleName
+													? `<@${auditLogEntry.options?.id}>`
+													: auditLogEntry.options?.roleName
 													}`,
 											},
 										],
@@ -155,11 +155,11 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Channel`,
+												name: `<:channel:1049292166343688192> Channel`,
 												value: `<#${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings`,
+												name: `⚙️ Modified Settings`,
 												value: `${auditLogEntry.changes
 													?.map(
 														(change) =>
@@ -178,7 +178,7 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Modified Settings`,
+												name: `⚙️ Modified Settings`,
 												value: `${auditLogEntry.changes
 													?.map(
 														(change) =>
@@ -197,7 +197,7 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Role`,
+												name: `<:role:1062978537436491776> Role`,
 												value: `<@&${auditLogEntry.targetId}>`,
 											},
 										],
@@ -210,7 +210,7 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Role`,
+												name: `<:role:1062978537436491776> Role`,
 												value: `<@&${auditLogEntry.targetId}>`,
 											},
 										],
@@ -223,11 +223,11 @@ export default (client: AeonaBot) => {
 										fields: [
 											...data.fields,
 											{
-												name: `→ Role`,
+												name: `<:role:1062978537436491776> Role`,
 												value: `<@&${auditLogEntry.targetId}>`,
 											},
 											{
-												name: `→ Modified Settings`,
+												name: `⚙️ Modified Settings`,
 												value: `${auditLogEntry.changes
 													?.map(
 														(change) =>

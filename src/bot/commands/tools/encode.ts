@@ -30,12 +30,12 @@ export default {
 				desc: `I converted text to binary text`,
 				fields: [
 					{
-						name: '→ Input',
+						name: 'Input',
 						value: `\`\`\`${text}\`\`\``,
 						inline: false,
 					},
 					{
-						name: '→ Output',
+						name: 'Output',
 						value: `\`\`\`${encode}\`\`\``,
 						inline: false,
 					},

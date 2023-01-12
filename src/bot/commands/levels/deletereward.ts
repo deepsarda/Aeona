@@ -32,7 +32,7 @@ export default {
 							text: `Level reward removed`,
 							fields: [
 								{
-									name: '→ Level',
+									name: '📈 Level',
 									value: `${level}`,
 									inline: true,
 								},

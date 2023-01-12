@@ -45,6 +45,7 @@ Our hosting partner and premium hosting provider.
 <:Indionic:1053595994769592370> **__IndionicHost__ - Think, Build and Deploy**
 \`+sponser\` to see more about them.
 
+**[To learn how to use me read my documentation](https://docs.aeona.xyz/)**
 Use the dropdown to see all my commands.
 				`,
 					components: comp,

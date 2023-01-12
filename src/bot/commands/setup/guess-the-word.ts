@@ -35,7 +35,7 @@ export default {
 				desc: `Put the letters in the right position!`,
 				fields: [
 					{
-						name: `→ Word`,
+						name: `💬 Word`,
 						value: `${shuffled.toLowerCase()}`,
 					},
 				],

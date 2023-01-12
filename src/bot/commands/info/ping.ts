@@ -34,12 +34,12 @@ export default {
 							desc: `Check out how fast our bot is`,
 							fields: [
 								{
-									name: '→ Bot Ping',
+									name: '🤖 Bot Ping',
 									value: `${ping}ms (${pingSeconds}s)`,
 									inline: true,
 								},
 								{
-									name: '→ Database Latency',
+									name: '📂 Database Latency',
 									value: `${result.ok}ms (${mongooseSeconds}s)`,
 									inline: true,
 								},

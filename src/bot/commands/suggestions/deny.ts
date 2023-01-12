@@ -60,7 +60,7 @@ export default {
 								desc: `Your suggestion in ${ctx.guild.name} has been denied by a moderator!`,
 								fields: [
 									{
-										name: `→ Suggestion`,
+										name: `💬 Suggestion`,
 										value: `${embedData.description}`,
 									},
 								],
@@ -78,7 +78,7 @@ export default {
 					text: 'Suggestion successfully denied',
 					fields: [
 						{
-							name: `→ Suggestion`,
+							name: `💬 Suggestion`,
 							value: `${embedData.description}`,
 						},
 					],

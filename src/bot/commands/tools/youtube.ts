@@ -25,7 +25,7 @@ export default {
 				text: `I have found the following for: \`${name}\``,
 				fields: [
 					{
-						name: `→ Link`,
+						name: `Link`,
 						value: `[Click here to see the link](${link})`,
 						inline: true,
 					},

@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Channel, Guild } from 'discordeno/transformers';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild, afkChannel: Channel) => {
 	const logsChannel = await client.extras.getLogs(guild.id);
@@ -12,15 +13,15 @@ export default async (client: AeonaBot, guild: Guild, afkChannel: Channel) => {
 				desc: `An AFK channel has been added to the server`,
 				fields: [
 					{
-						name: `→ Channel`,
+						name: `<:channel:1049292166343688192> Channel`,
 						value: `${afkChannel}`,
 					},
 					{
-						name: `→ Name`,
+						name: `<:name:1062774821190111272>  Name`,
 						value: `${afkChannel.name}`,
 					},
 					{
-						name: `→ ID`,
+						name: `<:id:1062774182892552212> ID`,
 						value: `${afkChannel.id}`,
 					},
 				],

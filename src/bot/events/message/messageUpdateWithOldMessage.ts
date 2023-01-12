@@ -16,23 +16,23 @@ export default async (client: AeonaBot, oldMessage, newMessage) => {
 					desc: `A message has been updated`,
 					fields: [
 						{
-							name: `→ Author`,
+							name: `<:members:1063116392762712116> Author`,
 							value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
 						},
 						{
-							name: `→ Date`,
+							name: `🕒 Date`,
 							value: `${newMessage.createdAt}`,
 						},
 						{
-							name: `→ Channel`,
+							name: `<:channel:1049292166343688192> Channel`,
 							value: `${newMessage.channel} (${newMessage.channel.name})`,
 						},
 						{
-							name: `→ Old message`,
+							name: `💬 Old message`,
 							value: `\`\`\`${oldMessage.content.replace(/`/g, "'")}\`\`\``,
 						},
 						{
-							name: `→ New message`,
+							name: `💬 New message`,
 							value: `\`\`\`${newMessage.content.replace(/`/g, "'")}\`\`\``,
 						},
 					],

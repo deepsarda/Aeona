@@ -32,17 +32,17 @@ export default {
 						title: `COVID-19 - ${countries}`,
 						fields: [
 							{
-								name: '→ Confirmed Cases',
+								name: 'Confirmed Cases',
 								value: `${confirmed}`,
 								inline: true,
 							},
 							{
-								name: '→ Recovered',
+								name: 'Recovered',
 								value: `${recovered}`,
 								inline: true,
 							},
 							{
-								name: '→ Deaths',
+								name: 'Deaths',
 								value: `${deaths}`,
 								inline: true,
 							},

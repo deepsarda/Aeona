@@ -46,12 +46,12 @@ export default {
 				desc: `I will automatically start reminding after next successful bump.`,
 				fields: [
 					{
-						name: '→ Channel',
+						name: '<:channel:1049292166343688192> Channel',
 						value: `<#${channel.id}>`,
 						inline: true,
 					},
 					{
-						name: '→ Role',
+						name: '<:role:1062978537436491776> Role',
 						value: `<@&${role.id}>`,
 						inline: true,
 					},

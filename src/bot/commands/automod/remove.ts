@@ -53,7 +53,7 @@ export default {
 						text: `Word is removed from the blacklist!`,
 						fields: [
 							{
-								name: `→ Word`,
+								name: `💬 Word`,
 								value: `${word}`,
 							},
 						],

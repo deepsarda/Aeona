@@ -11,20 +11,20 @@ export default async (client: AeonaBot, user, mod) => {
 				desc: `A user has been unwarned`,
 				fields: [
 					{
-						name: `→ User`,
+						name: `<:members:1063116392762712116> User`,
 						value: `<@${user.id}>`,
 					},
 					{
-						name: `→ Tag`,
+						name: `<:name:1062774821190111272> Tag`,
 						value: `${user.user.username}#${user.user.discriminator}`,
 					},
 					{
-						name: `→ ID`,
+						name: `<:id:1062774182892552212> ID`,
 						value: `${user.id}`,
 					},
 					{
-						name: `→ Moderator`,
-						value: `${mod} (${mod.id})`,
+						name: `<:members:1063116392762712116> Moderator`,
+						value: `<@${mod.id}> (${mod.id})`,
 					},
 				],
 			},

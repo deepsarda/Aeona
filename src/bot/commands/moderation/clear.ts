@@ -53,7 +53,7 @@ export default {
 						text: `I have successfully deleted the messages`,
 						fields: [
 							{
-								name: '→ Amount',
+								name: '📈 Amount',
 								value: `${amount}`,
 								inline: true,
 							},

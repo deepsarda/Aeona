@@ -55,12 +55,12 @@ export default {
 							text: `The ticket message has been set successfully`,
 							fields: [
 								{
-									name: `→ Message type`,
+									name: `💬 Message type`,
 									value: `${type}`,
 									inline: true,
 								},
 								{
-									name: `→ Message`,
+									name: `💬 Message`,
 									value: `${data.openTicket}`,
 									inline: true,
 								},
@@ -99,12 +99,12 @@ export default {
 					text: `The ticket message has been set successfully`,
 					fields: [
 						{
-							name: `→ Message type`,
+							name: `💬 Message type`,
 							value: `${type}`,
 							inline: true,
 						},
 						{
-							name: `→ Message`,
+							name: `💬 Message`,
 							value: `${message}`,
 							inline: true,
 						},
@@ -126,12 +126,12 @@ export default {
 							text: `The ticket message has been set successfully`,
 							fields: [
 								{
-									name: `→ Message type`,
+									name: `💬 Message type`,
 									value: `${type}`,
 									inline: true,
 								},
 								{
-									name: `→ Message`,
+									name: `💬 Message`,
 									value: `${data.dmMessage}`,
 									inline: true,
 								},
@@ -170,12 +170,12 @@ export default {
 					text: `The ticket message has been set successfully`,
 					fields: [
 						{
-							name: `→ Message type`,
+							name: `💬 Message type`,
 							value: `${type}`,
 							inline: true,
 						},
 						{
-							name: `→ Message`,
+							name: `💬 Message`,
 							value: `${message}`,
 							inline: true,
 						},

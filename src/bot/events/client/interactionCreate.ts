@@ -4,13 +4,13 @@ import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
 import {
-	AllowedMentions,
-	BigString,
-	DiscordChannel,
-	FileContent,
-	InteractionTypes,
-	MessageComponents,
-	WithReason,
+    AllowedMentions,
+    BigString,
+    DiscordChannel,
+    FileContent,
+    InteractionTypes,
+    MessageComponents,
+    WithReason,
 } from 'discordeno/types';
 
 import claim from '../../commands/tickets/claim.js';
@@ -184,7 +184,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				for (let i = 0; i < c.commands.size; i++) {
 					const command = c.commands.at(i)!;
 					fields.push({
-						name: '➯ ' + command.description,
+						name: '<:F_Arrow:1049291677359153202> ' + command.description,
 						value: `\`${process.env.PREFIX!}${command.name}\``,
 					});
 				}
@@ -192,7 +192,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 				for (let i = 0; i < c.commands.size; i++) {
 					const command = c.commands.at(i)!;
 					fields.push({
-						name: '➯ ' + command.description,
+						name: '<:F_Arrow:1049291677359153202> ' + command.description,
 						value: `\`${process.env.PREFIX!}${c.name} ${command.name}\``,
 					});
 				}
@@ -463,7 +463,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
 		client.extras.editEmbed(
 			{
-				title: `${track.title}`,
+				title: `<:Pink_music:1062773191107416094> ${track.title}`,
 				url: track.uri!,
 				desc: `Music started in <#${player.voiceChannel}>!`,
 				thumbnail: track.thumbnail!,
@@ -512,7 +512,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
 		client.extras.editEmbed(
 			{
-				title: `${track.title}`,
+				title: `<:Pink_music:1062773191107416094> ${track.title}`,
 				url: track.uri,
 				desc: `Music started in <#${player.voiceChannel}>!`,
 				thumbnail: track.thumbnail!,
@@ -565,11 +565,11 @@ export async function createForumThread(
 				embeds: options.embeds?.map((embed) => bot.transformers.reverse.embed(bot, embed)),
 				allowed_mentions: options.allowedMentions
 					? {
-							parse: options.allowedMentions?.parse,
-							roles: options.allowedMentions?.roles?.map((id) => id.toString()),
-							users: options.allowedMentions?.users?.map((id) => id.toString()),
-							replied_user: options.allowedMentions?.repliedUser,
-					  }
+						parse: options.allowedMentions?.parse,
+						roles: options.allowedMentions?.roles?.map((id) => id.toString()),
+						users: options.allowedMentions?.users?.map((id) => id.toString()),
+						replied_user: options.allowedMentions?.repliedUser,
+					}
 					: undefined,
 				file: options.file,
 				components: options.components?.map((component) => bot.transformers.reverse.component(bot, component)),

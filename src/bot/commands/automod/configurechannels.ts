@@ -70,7 +70,7 @@ export default {
 					text: `Channel has been added to the whitelist!`,
 					fields: [
 						{
-							name: `→ Channel`,
+							name: ` <:channel:1049292166343688192> Channel`,
 							value: `${channel} (${channel.name})`,
 						},
 					],
@@ -108,7 +108,7 @@ export default {
 							text: `Channel has been removed from the whitelist!`,
 							fields: [
 								{
-									name: `→ Channel`,
+									name: ` <:channel:1049292166343688192> Channel`,
 									value: `${channel} (${channel.name})`,
 								},
 							],

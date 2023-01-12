@@ -1,5 +1,6 @@
-import { AeonaBot } from '../../extras/index.js';
 import { Guild } from 'discordeno';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild, url: string) => {
 	const logsChannel = await client.extras.getLogs(guild.id);
@@ -12,7 +13,7 @@ export default async (client: AeonaBot, guild: Guild, url: string) => {
 				desc: `The server vanity URL has been updated`,
 				fields: [
 					{
-						name: `→ URL`,
+						name: `URL`,
 						value: `${url}`,
 					},
 				],

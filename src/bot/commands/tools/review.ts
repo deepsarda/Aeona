@@ -58,12 +58,12 @@ export default {
 						text: 'Your review has been successfully submitted',
 						fields: [
 							{
-								name: `→ Stars`,
+								name: `:star: Stars`,
 								value: `${stars}`,
 								inline: true,
 							},
 							{
-								name: `→ Channel`,
+								name: `<:channel:1049292166343688192> Channel`,
 								value: `<#${data.Channel}>`,
 								inline: true,
 							},

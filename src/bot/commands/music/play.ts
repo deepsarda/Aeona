@@ -110,7 +110,7 @@ export default {
 				} else {
 					client.extras.embed(
 						{
-							title: `${track.title}`,
+							title: `<:Pink_music:1062773191107416094> ${track.title}`,
 							url: track.uri,
 							desc: `The song has been added to the queue!`,
 							thumbnail: track.thumbnail!,
@@ -226,7 +226,7 @@ export default {
 				} else {
 					client.extras.embed(
 						{
-							title: `${track.title}`,
+							title: `<:Pink_music:1062773191107416094> ${track.title}`,
 							url: track.uri,
 							desc: `The song has been added to the queue!`,
 							thumbnail: track.thumbnail!,

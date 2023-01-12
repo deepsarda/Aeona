@@ -50,7 +50,7 @@ export default {
 
 		client.extras.succNormal(
 			{
-				text: `Loop is **${trackRepeat}** for the current song`,
+				text: `<:Pink_music:1062773191107416094> Loop is **${trackRepeat}** for the current song`,
 				type: 'reply',
 			},
 			ctx,

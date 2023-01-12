@@ -32,7 +32,7 @@ export default {
 							text: `Message reward removed`,
 							fields: [
 								{
-									name: '→ Messages',
+									name: '💬 Messages',
 									value: `${messages}`,
 									inline: true,
 								},

@@ -51,7 +51,7 @@ export default {
 				text: `Removed **${amount}** messages from <@${user.id}>`,
 				fields: [
 					{
-						name: '→ Total messages',
+						name: '💬 Total messages',
 						value: `${data.Messages}`,
 						inline: true,
 					},

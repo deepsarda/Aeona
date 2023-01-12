@@ -1,9 +1,10 @@
 /* Importing the blacklisted words from the Collection.ts file and the database model. */
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+
 import blacklistedWords from '../../Collection/index.js';
 import Schema from '../../database/models/blacklist.js';
-
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { AeonaBot } from '../../extras/index.js';
+
 export default {
 	name: 'add',
 	description: 'Add a blacklisted word',
@@ -54,7 +55,7 @@ export default {
 				text: `Word is now blacklisted!`,
 				fields: [
 					{
-						name: `→ Word`,
+						name: `💬 Word`,
 						value: `${word}`,
 					},
 				],

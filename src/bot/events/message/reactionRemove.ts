@@ -55,17 +55,17 @@ export default async (
 						}),
 						fields: [
 							{
-								name: `→ Stars`,
+								name: `:star: Stars`,
 								value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count || 1}`,
 								inline: true,
 							},
 							{
-								name: `→ Message`,
+								name: `💬 Message`,
 								value: `[Jump to the message](https://discord.com/channels/${reaction.guildId}/${reaction.channelId}/${reaction.messageId})`,
 								inline: true,
 							},
 							{
-								name: `→ Author`,
+								name: `<:members:1063116392762712116> Author`,
 								value: `<@${message.authorId}>`,
 								inline: true,
 							},

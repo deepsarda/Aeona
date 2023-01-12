@@ -79,7 +79,7 @@ export default {
 						text: `The welcome message has been set successfully`,
 						fields: [
 							{
-								name: `→ Message`,
+								name: `💬 Message`,
 								value: `${message}`,
 								inline: true,
 							},

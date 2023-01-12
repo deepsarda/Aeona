@@ -32,20 +32,25 @@ export default {
 							text: `Emoji successfully added to the server`,
 							fields: [
 								{
-									name: '→ Emoji',
+									name: 'Emoji',
 									value: `<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${parsedEmoji.id}>`,
 									inline: true,
 								},
 								{
-									name: '→ Emoji name',
+									name: 'Emoji name',
 									value: `${emoji.name}`,
 									inline: true,
 								},
 								{
-									name: '→ Emoji id',
+									name: 'Emoji id',
 									value: `${emoji.id}`,
 									inline: true,
 								},
+								{
+									name: `Usage`,
+									value: `\`<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${parsedEmoji.id}>\``,
+									inline: true,
+								}
 							],
 							type: 'reply',
 						},

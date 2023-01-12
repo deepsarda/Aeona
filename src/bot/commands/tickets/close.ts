@@ -71,17 +71,17 @@ export default {
 							desc: closeMessageTicket,
 							fields: [
 								{
-									name: '→ Closer',
+									name: '<:members:1063116392762712116> Closer',
 									value: `<@${ctx.user.id}>`,
 									inline: true,
 								},
 								{
-									name: '→ Ticket id',
+									name: '<:id:1062774182892552212> Ticket id',
 									value: `${ticketData.TicketID}`,
 									inline: true,
 								},
 								{
-									name: '→ Server',
+									name: '🏛️ Server',
 									value: `${ctx.guild.name}`,
 									inline: true,
 								},
@@ -106,23 +106,23 @@ export default {
 							color: client.extras.config.colors.error,
 							fields: [
 								{
-									name: '→ Ticket id',
+									name: '<:id:1062774182892552212> Ticket id',
 									value: `${ticketData.TicketID}`,
 								},
 								{
-									name: '→ Closer',
+									name: '<:members:1063116392762712116> Closer',
 									value: `${ctx.user.username + '#' + ctx.user.discriminator} (${ctx.user.id})`,
 								},
 								{
-									name: '→ Creator',
+									name: '<:members:1063116392762712116> Creator',
 									value: `<@!${ticketData.creator}>`,
 								},
 								{
-									name: '→ Claimed by',
+									name: '<:members:1063116392762712116> Claimed by',
 									value: `<@!${ticketData.creator}>`,
 								},
 								{
-									name: '→ Date',
+									name: '🕒 Date',
 									value: `<t:${(Date.now() / 1000).toFixed(0)}:F>`,
 								},
 							],

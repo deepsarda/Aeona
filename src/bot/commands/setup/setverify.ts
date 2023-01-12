@@ -55,12 +55,12 @@ export default {
 					text: `Verify panel has been successfully created`,
 					fields: [
 						{
-							name: `→ Channel`,
+							name: `<:channel:1049292166343688192> Channel`,
 							value: `<#${channel.id}> (${channel.name})`,
 							inline: true,
 						},
 						{
-							name: `→ Role`,
+							name: `<:role:1062978537436491776> Role`,
 							value: `<@&${role.id}> (${role.name})`,
 							inline: true,
 						},
