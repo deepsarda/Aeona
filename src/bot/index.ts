@@ -581,7 +581,9 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					.reduce((accumulator, current) => `${accumulator} ${current} `, "")
 					.replace(/\s+$/, "");
 
-				content += "\n" + message;
+				content += "\n" + message.replace(
+					// eslint-disable-next-line no-control-regex
+					/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 
 				if (content.length > 1000) {
 					bot.helpers.sendMessage("1063124831211630622", {
