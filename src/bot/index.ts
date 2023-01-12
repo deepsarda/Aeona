@@ -578,7 +578,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 			try {
 				// eslint-disable-next-line prefer-rest-params
 				const message = [...arguments]
-					.reduce((accumulator, current) => `[${bot.user.username}] ${accumulator} ${current} `, "")
+					.reduce((accumulator, current) => `${accumulator} ${current} `, "")
 					.replace(/\s+$/, "");
 
 				content += message;
