@@ -585,7 +585,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					// eslint-disable-next-line no-control-regex
 					/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 
-				if (content.length > 1000) {
+				if (content.length > 500) {
 					bot.helpers.sendMessage("1063124831211630622", {
 						content: "```diff \n" + content + "\n ```"
 					});

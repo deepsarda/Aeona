@@ -257,20 +257,14 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 						json = filter.clean(json);
 					}
 				}
-				await client.helpers.sendMessage(message.channelId, {
+				client.helpers.sendMessage(message.channelId, {
 					content: json,
 					components: component,
-					messageReference: {
-						channelId: message.channelId,
-						messageId: message.id + '',
-						guildId: message.guildId,
-						failIfNotExists: false,
-					},
 				});
 
 				Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 			})
-			.catch((err) => console.error('error:' + err));
+			.catch();
 	});
 
 	// Sticky messages
