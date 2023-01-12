@@ -587,7 +587,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 
 				if (content.length > 500) {
 					bot.helpers.sendMessage("1063124831211630622", {
-						content: "```diff \n" + content + "\n ```"
+						content: "```diff\n" + content + "\n ```"
 					});
 					content = "";
 				}
