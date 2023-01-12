@@ -581,7 +581,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					.reduce((accumulator, current) => `${accumulator} ${current} `, "")
 					.replace(/\s+$/, "");
 
-				content += "\n" + (printFunction == "log" ? " + " : printFunction == "error" ? " - " : "") + message.replace(
+				content += "\n" + (printFunction == "log" ? "+ " : printFunction == "error" ? "- " : "") + message.replace(
 					// eslint-disable-next-line no-control-regex
 					/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
 
