@@ -56,9 +56,9 @@ export function additionalProps(client: AeonaBot) {
 			],
 			nodes: [
 				{
-					host: 'ssl.freelavalink.ga',
+					host: 'node1.kartadharta.xyz',
 					port: 443,
-					password: 'www.freelavalink.ga',
+					password: 'kdlavalink',
 					secure: true,
 				},
 			],

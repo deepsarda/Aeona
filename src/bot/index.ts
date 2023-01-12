@@ -581,7 +581,7 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 					.reduce((accumulator, current) => `${accumulator} ${current} `, "")
 					.replace(/\s+$/, "");
 
-				content += message;
+				content += "\n" + message;
 
 				if (content.length > 1000) {
 					bot.helpers.sendMessage("1063124831211630622", {
