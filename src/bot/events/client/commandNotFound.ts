@@ -3,7 +3,6 @@ import { Message } from 'discordeno/transformers';
 import fetch from 'node-fetch';
 
 import Functions from '../../database/models/functions.js';
-import Schema from '../../database/models/votecredits.js';
 import { AeonaBot } from '../../extras/index.js';
 import { Influx } from './commandStart.js';
 
@@ -43,12 +42,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
 					failIfNotExists: false,
 				},
 			});
-			let user = await Schema.findOne({ User: message.member?.id });
-			if (!user) user = new Schema({ User: message.member?.id });
-			if (user.LastVersion != bot.extras.version)
-				bot.helpers.sendMessage(message.channelId, {
-					content: 'You have unread news. Use `+news` to read it',
-				});
+			console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 			Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
 		})
 

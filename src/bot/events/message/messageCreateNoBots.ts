@@ -194,7 +194,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 		if (!data) return;
 
 		if (message.channelId != data.Channel) return;
-		const msgs = Array.from(
+		const msgs: Message[] = Array.from(
 			(
 				await client.helpers.getMessages(message.channelId, {
 					limit: 6,
@@ -224,10 +224,8 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 			message.authorId +
 			'&key=' +
 			process.env.apiKey +
-			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
-				context2 ? `&context2=${context2}` : ''
-			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
-				context5 ? `&context5=${context5}` : ''
+			`${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${context2 ? `&context2=${context2}` : ''
+			} ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${context5 ? `&context5=${context5}` : ''
 			}`;
 
 		const options = {
@@ -247,6 +245,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 				});
 				if (!guild) guild = new Functions({ Guild: message.guildId });
 				if (guild.isPremium === 'true') s = ['', ''];
+				console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 				const randomNumber = Math.floor(Math.random() * 30);
 				json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
 				let component: any[] = [];
