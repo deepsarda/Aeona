@@ -39,7 +39,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
 					channelId: message.channelId,
 					messageId: message.id + '',
 					guildId: message.guildId,
-					failIfNotExists: false,
+					failIfNotExists: true,
 				},
 			});
 			console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);

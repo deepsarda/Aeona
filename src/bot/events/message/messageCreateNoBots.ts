@@ -260,6 +260,12 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 				client.helpers.sendMessage(message.channelId, {
 					content: json,
 					components: component,
+					messageReference: {
+						channelId: message.channelId,
+						messageId: message.id + '',
+						guildId: message.guildId,
+						failIfNotExists: true,
+					},
 				});
 
 				Influx?.writePoint(new Point('commandruncount').tag('action', 'addition').intField('usage', 1));
