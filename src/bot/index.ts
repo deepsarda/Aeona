@@ -139,12 +139,12 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 		cacheInMemory: {
 			default: true,
 			channels: false,
-			members: false,
+			members: true,
 			roles: false,
 		},
 		cacheOutsideMemory: {
 			default: false,
-			members: true,
+			members: false,
 			messages: false,
 		},
 		fetchIfMissing: {

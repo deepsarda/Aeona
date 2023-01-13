@@ -9,6 +9,7 @@ export default async (client: AeonaBot) => {
 		client.emit('messageCreateNoBots', bot, message);
 	});
 	client.on('guildMemberUpdateWithOldMember', (client: AeonaBot, oldMember: Member, newMember: Member) => {
+		if (!oldMember) return;
 		if (!oldMember.premiumSince && newMember.premiumSince) {
 			client.emit('guildMemberBoost', client, newMember);
 		}
