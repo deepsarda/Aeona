@@ -60,3 +60,10 @@ app.all("/*", async (req, res) => {
 app.listen(REST_PORT, () => {
 	console.log(`REST listening at ${REST_URL}`);
 });
+process.on('unhandledRejection', (error: Error) => {
+	console.error(error);
+});
+
+process.on('warning', (warn) => {
+	console.warn(warn);
+});
