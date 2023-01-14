@@ -7,14 +7,22 @@ import {
     ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
-import { createBot, GatewayOpcodes, Shard, ShardSocketCloseCodes, ShardState, startBot } from 'discordeno';
+import {
+    createBot,
+    createRestManager,
+    GatewayOpcodes,
+    Shard,
+    ShardSocketCloseCodes,
+    ShardState,
+    startBot,
+} from 'discordeno';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import JSON from 'json-bigint';
 import fetch from 'node-fetch';
 import { Config, JsonDB } from 'node-json-db';
 
-import { INTENTS } from '../configs.js';
+import { INTENTS, REST_URL } from '../configs.js';
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import Functions from './database/models/functions.js';
@@ -503,7 +511,11 @@ b.helpers.getGatewayBot().then((gatewayBot) => {
 		bot.amethystUtils.createCategory(categories[i]);
 	}
 
-
+	bot.rest = createRestManager({
+		token: DISCORD_TOKEN,
+		secretKey: REST_AUTHORIZATION,
+		customUrl: REST_URL,
+	});
 
 	bot.inhibitors.set('upvoteonly', async (b, command, options): Promise<true | AmethystError> => {
 		if (command.extras.upvoteOnly) {
