@@ -44,9 +44,9 @@ app.all('*', async (req, res): Promise<any> => {
 			req.body,
 			req.body?.file
 				? req?.body?.file?.map((f: any) => ({
-						file: Buffer.from(f.blob.split('base64')[1], 'base64'),
-						name: f.name,
-				  }))
+					file: Buffer.from(f.blob.split('base64')[1], 'base64'),
+					name: f.name,
+				}))
 				: undefined,
 		);
 		if (result) {
@@ -79,8 +79,7 @@ app.all('*', async (req, res): Promise<any> => {
 			if (err.status >= 400 && err.status < 500) {
 				fs.appendFileSync(
 					'4xx-errors.log',
-					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${
-						req.url
+					`Received a 4xx response!\nStatus Code: ${err.status}\nMethod: ${req.method}\nRoute: ${req.url
 					}\nError: ${inspect(
 						err,
 					)}\nTimeStamp: ${Date.now()}\nTime: ${new Date().toUTCString()}\n------------------------------------\n`,

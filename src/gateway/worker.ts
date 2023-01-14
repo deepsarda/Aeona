@@ -1,34 +1,26 @@
 import {
-	createShardManager,
-	DiscordGuild,
-	DiscordReady,
-	DiscordUnavailableGuild,
-	GatewayEventNames,
-	Shard,
-	ShardSocketRequest,
-	ShardState,
+    ActivityTypes,
+    createShardManager,
+    DiscordUnavailableGuild,
+    GatewayOpcodes,
+    Shard,
+    ShardSocketCloseCodes,
+    ShardState,
 } from 'discordeno';
-import { createLogger } from 'discordeno/logger';
-import dotenv from 'dotenv';
-import fetch from 'node-fetch';
 import { parentPort, workerData } from 'worker_threads';
 
-import { ManagerMessage } from './index.js';
+const script = workerData;
+// eslint-disable-next-line no-console
+const log = { info: console.log, debug: console.log, error: console.error };
 
-dotenv.config();
-
-if (!parentPort) {
-	throw new Error('Parent port is null');
-}
-
-const script: WorkerCreateData = workerData;
-
-const log = createLogger({ name: `[WORKER #${script.workerId}]` });
+if (!parentPort) throw new Error('Worker has no parent port');
 
 const identifyPromises = new Map<number, () => void>();
-// Store guild ids, loading guild ids to change GUILD_CREATE event to GUILD_LOADED_DD if needed.
-const guildIds: Set<bigint> = new Set();
-const loadingGuildIds: Set<bigint> = new Set();
+
+let guildsIn = 0;
+const guildsPerShards = new Map<number, number>();
+
+const statedAt = Date.now();
 
 const manager = createShardManager({
 	gatewayConfig: {
@@ -36,54 +28,131 @@ const manager = createShardManager({
 		token: script.token,
 	},
 	shardIds: [],
-	totalShards: script.totalShards,
-	handleMessage: async (shard, message) => {
-		const url = script.handlerUrls[shard.id % script.handlerUrls.length];
-		if (!url) return console.log('ERROR: NO URL FOUND TO SEND MESSAGE');
+	createShardOptions: {
+		stopHeartbeating: (shard) => {
+			clearInterval(shard.heart.intervalId);
+			shard.heart.intervalId = undefined;
+			clearTimeout(shard.heart.timeoutId);
+			shard.heart.timeoutId = undefined;
+		},
+		startHeartbeating: (shard, interval) => {
+			shard.heart.interval = interval;
 
-		if (message.t === 'READY') {
-			console.log('READY');
-			// Marks which guilds the bot in when initial loading in cache.
-			(message.d as DiscordReady).guilds.forEach((g) => loadingGuildIds.add(BigInt(g.id)));
-		}
-
-		// If GUILD_CREATE event came from a shard loaded event, change event to GUILD_LOADED_DD.
-		if (message.t === 'GUILD_CREATE') {
-			const guild = message.d as DiscordGuild;
-			const id = BigInt(guild.id);
-
-			const existing = guildIds.has(id);
-			if (existing) return;
-
-			if (loadingGuildIds.has(id)) {
-				(message.t as GatewayEventNames | 'GUILD_LOADED_DD') = 'GUILD_LOADED_DD';
-
-				loadingGuildIds.delete(id);
+			// Only set the shard's state to `Unidentified`
+			// if heartbeating has not been started due to an identify or resume action.
+			if ([ShardState.Disconnected, ShardState.Offline].includes(shard.state)) {
+				shard.state = ShardState.Unidentified;
 			}
 
-			guildIds.add(id);
+			// The first heartbeat needs to be send with a random delay between `0` and `interval`
+			// Using a `setTimeout(_, jitter)` here to accomplish that.
+			// `Math.random()` can be `0` so we use `0.5` if this happens
+			// Reference: https://discord.com/developers/docs/topics/gateway#heartbeating
+			const jitter = Math.ceil(shard.heart.interval * (Math.random() || 0.5));
+
+			// @ts-expect-error Type error here lol
+			shard.heart.timeoutId = setTimeout(() => {
+				// Using a direct socket.send call here because heartbeat requests are reserved by us.
+				try {
+					shard.socket?.send(
+						JSON.stringify({
+							op: GatewayOpcodes.Heartbeat,
+							d: shard.previousSequenceNumber,
+						}),
+					);
+				} catch {
+					log.info('[ERRROR] Hit the gateway reconnect error UwU');
+				}
+
+				shard.heart.lastBeat = Date.now();
+				shard.heart.acknowledged = false;
+
+				// After the random heartbeat jitter we can start a normal interval.
+				// @ts-expect-error Type error here lol
+				shard.heart.intervalId = setInterval(async () => {
+					// gateway.debug("GW DEBUG", `Running setInterval in heartbeat file. Shard: ${shardId}`);
+
+					// gateway.debug("GW HEARTBEATING", { shardId, shard: currentShard });
+
+					// The Shard did not receive a heartbeat ACK from Discord in time,
+					// therefore we have to assume that the connection has failed or got "zombied".
+					// The Shard needs to start a re-identify action accordingly.
+					// Reference: https://discord.com/developers/docs/topics/gateway#heartbeating-example-gateway-heartbeat-ack
+					if (!shard.heart.acknowledged) {
+						shard.close(
+							ShardSocketCloseCodes.ZombiedConnection,
+							'Zombied connection, did not receive an heartbeat ACK in time.',
+						);
+
+						return shard.identify();
+					}
+
+					shard.heart.acknowledged = false;
+
+					// Using a direct socket.send call here because heartbeat requests are reserved by us.
+					try {
+						shard.socket?.send(
+							JSON.stringify({
+								op: GatewayOpcodes.Heartbeat,
+								d: shard.previousSequenceNumber,
+							}),
+						);
+					} catch {
+						log.info('[ERRROR] Hit the gateway reconnect error UwU');
+					}
+
+					shard.heart.lastBeat = Date.now();
+
+					shard.events.heartbeat?.(shard);
+				}, shard.heart.interval);
+			}, jitter);
+		},
+		makePresence: async (shardId) => {
+			return {
+				activities: [
+					{
+						name: `+help | docs.aeona.xyz | Shard ${shardId} `,
+						type: ActivityTypes.Game,
+						createdAt: Date.now(),
+					},
+				],
+				status: 'idle',
+			};
+		},
+	},
+	totalShards: script.totalShards,
+	handleMessage: async (shard, message) => {
+		if (message.t === 'READY') {
+			log.info(`[WORKER] Shard ${shard.id} is online`);
+			parentPort?.postMessage({ type: 'SHARD_READY' });
 		}
 
-		// Delete guild id from cache so GUILD_CREATE from the same guild later works properly.
 		if (message.t === 'GUILD_DELETE') {
 			const guild = message.d as DiscordUnavailableGuild;
-
-			guildIds.delete(BigInt(guild.id));
+			if (!guild.unavailable) {
+				guildsIn -= 1;
+				const oldValue = guildsPerShards.get(shard.id) ?? 0;
+				guildsPerShards.set(shard.id, oldValue - 1);
+			}
 		}
 
-		await fetch(url, {
-			method: 'POST',
-			body: JSON.stringify({ message, shardId: shard.id }),
-			headers: { 'Content-Type': 'application/json', Authorization: script.handlerAuthorization },
-		}).catch();
+		if (message.t === 'GUILD_CREATE') {
+			guildsIn += 1;
+			const oldValue = guildsPerShards.get(shard.id) ?? 0;
+			guildsPerShards.set(shard.id, oldValue + 1);
+		}
 
-		log.debug({ shardId: shard.id + '', message });
+		if (['GUILD_DELETE', 'INTERACTION_CREATE'].includes(message.t ?? ''))
+			parentPort?.postMessage({
+				type: 'BROADCAST_EVENT',
+				data: { shardId: shard.id, data: message },
+			});
 	},
-	requestIdentify: async function (shardId: number): Promise<void> {
-		return await new Promise((resolve) => {
-			identifyPromises.set(shardId, resolve);
+	requestIdentify: async (shardId) => {
+		return new Promise((res) => {
+			identifyPromises.set(shardId, res);
 
-			const identifyRequest: ManagerMessage = {
+			const identifyRequest = {
 				type: 'REQUEST_IDENTIFY',
 				shardId,
 			};
@@ -93,78 +162,45 @@ const manager = createShardManager({
 	},
 });
 
-function buildShardInfo(shard: Shard): WorkerShardInfo {
+const buildShardInfo = (shard: Shard) => {
 	return {
 		workerId: script.workerId,
 		shardId: shard.id,
-		rtt: shard.heart.rtt || -1,
-		state: shard.state,
+		ping: shard.heart.rtt ?? -1,
+		guilds: guildsPerShards.get(shard.id) ?? 0,
+		uptime: Date.now() - statedAt,
 	};
-}
+};
 
-parentPort.on('message', async (data: WorkerMessage) => {
-	switch (data.type) {
+parentPort?.on('message', async (message) => {
+	switch (message.type) {
 		case 'IDENTIFY_SHARD': {
-			log.info(`starting to identify shard #${data.shardId}`);
-			await manager.identify(data.shardId);
-
+			await manager.identify(message.shardId);
 			break;
 		}
 		case 'ALLOW_IDENTIFY': {
-			identifyPromises.get(data.shardId)?.();
-			identifyPromises.delete(data.shardId);
+			identifyPromises.get(message.shardId)?.();
+			identifyPromises.delete(message.shardId);
 
 			break;
 		}
-		case 'SHARD_PAYLOAD': {
-			manager.shards.get(data.shardId)?.send(data.data);
-
+		case 'GET_GUILD_COUNT': {
+			parentPort?.postMessage({
+				type: 'NONCE_REPLY',
+				nonce: message.nonce,
+				data: { guilds: guildsIn },
+			});
 			break;
 		}
-		case 'GET_SHARD_INFO': {
+		case 'GET_SHARDS_INFO': {
 			const infos = manager.shards.map(buildShardInfo);
 
-			parentPort?.postMessage({ type: 'NONCE_REPLY', nonce: data.nonce, data: infos });
+			parentPort?.postMessage({
+				type: 'NONCE_REPLY',
+				nonce: message.nonce,
+				data: infos,
+			});
+			break;
 		}
 	}
 });
-
-export type WorkerMessage = WorkerIdentifyShard | WorkerAllowIdentify | WorkerShardPayload | WorkerGetShardInfo;
-
-export type WorkerIdentifyShard = {
-	type: 'IDENTIFY_SHARD';
-	shardId: number;
-};
-
-export type WorkerAllowIdentify = {
-	type: 'ALLOW_IDENTIFY';
-	shardId: number;
-};
-
-export type WorkerShardPayload = {
-	type: 'SHARD_PAYLOAD';
-	shardId: number;
-	data: ShardSocketRequest;
-};
-
-export type WorkerGetShardInfo = {
-	type: 'GET_SHARD_INFO';
-	nonce: string;
-};
-
-export type WorkerCreateData = {
-	intents: number;
-	token: string;
-	handlerUrls: string[];
-	handlerAuthorization: string;
-	path: string;
-	totalShards: number;
-	workerId: number;
-};
-
-export type WorkerShardInfo = {
-	workerId: number;
-	shardId: number;
-	rtt: number;
-	state: ShardState;
-};

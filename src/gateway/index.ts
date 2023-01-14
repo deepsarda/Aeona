@@ -1,72 +1,338 @@
+/* eslint-disable no-console */
+import {
+    Collection,
+    createGatewayManager,
+    delay,
+    DISCORDENO_VERSION,
+    DiscordGatewayPayload,
+    DiscordInteraction,
+    GatewayManager,
+    Intents,
+    routes,
+} from 'discordeno';
 import dotenv from 'dotenv';
-dotenv.config();
-
-process.on('unhandledRejection', (error: Error) => {
-	console.error(error);
-});
-
-process.on('warning', (warn) => {
-	console.warn(warn);
-});
-
-import { Collection, createBot, createGatewayManager, createRestManager } from 'discordeno';
-import { createLogger } from 'discordeno/logger';
-import fastify from 'fastify';
 import { nanoid } from 'nanoid';
+import { Client, Connection, Server } from 'net-ipc';
+import os from 'node:os';
 import { Worker } from 'worker_threads';
-import { EVENT_HANDLER_URL, INTENTS, REST_URL } from '../configs.js';
-import { WorkerCreateData, WorkerGetShardInfo, WorkerMessage, WorkerShardInfo, WorkerShardPayload } from './worker.js';
+
+
+dotenv.config();
+type EventClientConnection = {
+	id: string;
+	conn: Connection;
+	isMaster: boolean;
+	version: string;
+};
+
+
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN as string;
-const EVENT_HANDLER_AUTHORIZATION = process.env.EVENT_HANDLER_AUTHORIZATION as string;
-const GATEWAY_AUTHORIZATION = process.env.GATEWAY_AUTHORIZATION as string;
-const GATEWAY_PORT = Number(process.env.GATEWAY_PORT as string);
 const REST_AUTHORIZATION = process.env.REST_AUTHORIZATION as string;
-const SHARDS_PER_WORKER = Number(process.env.SHARDS_PER_WORKER as string);
-const TOTAL_SHARDS = process.env.TOTAL_SHARDS ? Number(process.env.TOTAL_SHARDS) : undefined;
-const TOTAL_WORKERS = Number(process.env.TOTAL_WORKERS as string);
-export async function start() {
-	const log = createLogger({ name: '[MANAGER]' });
-	log.info(DISCORD_TOKEN);
-	const bot = createBot({
+const EVENT_HANDLER_SOCKET_PATH = process.env.EVENT_HANDLER_SOCKET_PATH as string;
+const REST_SOCKET_PATH = process.env.REST_SOCKET_PATH as string;
+const restClient = new Client({ path: REST_SOCKET_PATH });
+const eventsServer = new Server({ path: EVENT_HANDLER_SOCKET_PATH });
+
+let retries = 0;
+let readyShards = 0;
+let gatewayOn = false;
+let shardingEnded = false;
+
+let currentVersion: string;
+let swappingVersions = false;
+let waitingForSwap: EventClientConnection[] = [];
+
+const eventClientConnections: EventClientConnection[] = [];
+
+let gatewayManager: GatewayManager;
+const workers = new Collection<number, Worker>();
+const nonces = new Map<string, (data: unknown) => void>();
+
+const panic = (err: Error) => {
+	console.error(err);
+
+
+};
+
+restClient.on('close', () => {
+	console.log('[GATEWAY] REST Client closed');
+
+	const reconnectLogic = () => {
+		console.log('[GATEWAY] Trying to reconnect to REST server');
+		restClient.connect().catch(() => {
+			setTimeout(reconnectLogic, 1000);
+
+			console.log(`[GATEWAY] Fail when reconnecting... ${retries} retries`);
+
+			if (retries >= 5) {
+				console.log(`[GATEWAY] Couldn't reconnect to REST server.`);
+				process.exit(1);
+			}
+
+			retries += 1;
+		});
+	};
+
+	setTimeout(reconnectLogic, 2000);
+});
+
+eventsServer.on('message', async (msg, conn) => {
+	if (msg.type === 'IDENTIFY') {
+		if (!currentVersion) currentVersion = msg.version;
+
+		if (currentVersion === msg.version) {
+			eventClientConnections.push({
+				id: conn.id,
+				conn,
+				version: msg.version,
+				isMaster: false,
+			});
+
+			if (eventClientConnections.length === 1) {
+				conn.request({ type: 'YOU_ARE_THE_MASTER' });
+				eventClientConnections[0].isMaster = true;
+			}
+
+			return;
+		}
+
+		if (swappingVersions) {
+			waitingForSwap.push({ id: conn.id, conn, version: msg.version, isMaster: false });
+			return;
+		}
+
+		swappingVersions = true;
+
+		await Promise.all(
+			eventClientConnections.map((a) => a.conn.request({ type: 'REQUEST_TO_SHUTDOWN' })),
+		);
+
+		await delay(1000);
+
+		swappingVersions = false;
+		currentVersion = msg.version;
+
+		eventClientConnections.push({
+			id: conn.id,
+			conn,
+			version: msg.version,
+			isMaster: true,
+		});
+
+		await conn.request({ type: 'YOU_ARE_THE_MASTER' }).catch(() => null);
+
+		waitingForSwap.forEach((c) => eventClientConnections.push(c));
+
+		waitingForSwap = [];
+	}
+});
+
+eventsServer.on('request', async (req, res) => {
+	if (req.type === 'GUILD_COUNT') {
+		if (!shardingEnded) return res(null);
+
+		const infos = await Promise.all(
+			workers.map(async (worker) => {
+				const nonce = nanoid();
+
+				return new Promise((resolve) => {
+					worker.postMessage({ type: 'GET_GUILD_COUNT', nonce });
+
+					nonces.set(nonce, resolve);
+				});
+			}),
+		).then((guilds) =>
+			guilds.reduce(
+				(acc, cur) =>
+					// @ts-expect-error it will work
+					acc + cur.guilds,
+				0,
+			),
+		);
+
+		return res({ guilds: infos, shards: gatewayManager.manager.totalShards });
+	}
+
+	if (req.type === 'SHARDS_INFO') {
+		if (!shardingEnded) return res(null);
+
+		const infos = await Promise.all(
+			workers.map(async (worker) => {
+				const nonce = nanoid();
+
+				return new Promise((resolve) => {
+					worker.postMessage({ type: 'GET_SHARDS_INFO', nonce });
+
+					nonces.set(nonce, resolve);
+				});
+			}),
+		).then((results) =>
+			results.reduce((acc, cur) => {
+				// @ts-expect-error uai
+				acc.push(...cur);
+				return acc;
+			}, []),
+		);
+
+		return res(infos);
+	}
+});
+
+eventsServer.on('disconnect', (conn) => {
+	const eventClient = eventClientConnections.find((a) => a.id === conn.id);
+
+	eventClientConnections.splice(
+		eventClientConnections.findIndex((c) => c.id === conn.id),
+		1,
+	);
+
+	if (swappingVersions) return;
+
+	if (eventClientConnections.length === 0) return;
+
+	if (eventClient?.isMaster) {
+		eventClientConnections[0].conn.request({ type: 'YOU_ARE_THE_MASTER' });
+		eventClientConnections[0].isMaster = true;
+	}
+});
+
+eventsServer.on('ready', () => {
+	console.log('[GATEWAY] Event Handler Server started');
+	retries = 0;
+});
+
+restClient.connect().catch(panic);
+eventsServer.start().catch(panic);
+
+const createWorker = (workerId: number) => {
+	const workerData = {
+		intents: Intents.Guilds,
 		token: DISCORD_TOKEN,
+		totalShards: gatewayManager.manager.totalShards,
+		workerId,
+	};
+
+	const worker = new Worker('./dist/worker.js', { env: process.env, workerData });
+
+	worker.on('message', async (data) => {
+		switch (data.type) {
+			case 'REQUEST_IDENTIFY': {
+				await gatewayManager.manager.requestIdentify(data.shardId);
+
+				const allowIdentify = {
+					type: 'ALLOW_IDENTIFY',
+					shardId: data.shardId,
+				};
+
+				worker.postMessage(allowIdentify);
+				break;
+			}
+			case 'BROADCAST_EVENT': {
+				const { shardId, data: payload } = data.data as {
+					shardId: number;
+					data: DiscordGatewayPayload;
+				};
+
+				if (eventClientConnections.length === 0) {
+					// @ts-expect-error Payload.d is never because of ready event
+					if (payload.t === 'INTERACTION_CREATE' && [2, 3, 5].includes(payload.d.type)) {
+						restClient
+							.request({
+								type: 'SEND_REQUEST',
+								data: {
+									Authorization: REST_AUTHORIZATION,
+									url: `/interactions/${(payload.d as DiscordInteraction).id}/${(payload.d as DiscordInteraction).token
+										}/callback`,
+									method: 'POST',
+									payload: {
+										headers: {
+											'user-agent': `DiscordBot (https://github.com/discordeno/discordeno, v${DISCORDENO_VERSION})`,
+											authorization: '',
+											'Content-Type': 'application/json',
+										},
+										body: '{"type":4,"data":{"flags": 64,"content":"A Menhera está reiniciando! Espere um pouco. \\n Menhera is rebooting! Wait one moment.","allowed_mentions":{"parse":[]}}}',
+										method: 'POST',
+									},
+								},
+							})
+							.catch(() => null);
+					}
+
+					return;
+				}
+
+				const clientIndex = shardId % eventClientConnections.length;
+				const toSendClient = eventClientConnections[clientIndex];
+
+				toSendClient.conn.send(data.data);
+				break;
+			}
+			case 'NONCE_REPLY':
+				nonces.get(data.nonce)?.(data.data);
+				break;
+			case 'SHARD_READY':
+				readyShards += 1;
+				if (readyShards === gatewayManager.manager.totalShards) {
+					shardingEnded = true;
+					console.log('[SHARDING] - All shards ready!');
+				}
+				break;
+		}
 	});
 
-	const gatewayBot = await bot.helpers.getGatewayBot();
+	return worker;
+};
 
-	bot.rest = createRestManager({
-		token: DISCORD_TOKEN,
-		secretKey: REST_AUTHORIZATION,
-		customUrl: REST_URL,
-		debug: (text) => {
-			log.info(text);
-		},
-	});
-	const gateway = createGatewayManager({
-		gatewayBot,
+async function startGateway() {
+	const results = await restClient
+		.request({
+			type: 'RUN_METHOD',
+			data: {
+				Authorization: REST_AUTHORIZATION,
+				body: undefined,
+				method: 'GET',
+				url: routes.GATEWAY_BOT(),
+			},
+		})
+		.then((res) => ({
+			url: res.url,
+			shards: res.shards,
+			sessionStartLimit: {
+				total: res.session_start_limit.total,
+				remaining: res.session_start_limit.remaining,
+				resetAfter: res.session_start_limit.reset_after,
+				maxConcurrency: res.session_start_limit.max_concurrency,
+			},
+		}));
+
+	const workersAmount = os.cpus().length;
+	const totalShards = results.shards;
+
+	console.log(
+		`[GATEWAY] - Starting sessions. ${totalShards} shards in ${workersAmount} workers with ${results.sessionStartLimit.maxConcurrency} concurrency`,
+	);
+
+	gatewayManager = createGatewayManager({
+		gatewayBot: results,
 		gatewayConfig: {
 			token: DISCORD_TOKEN,
-			intents: INTENTS,
+			intents: Intents.Guilds,
 		},
-		// force the total amount of shards
-		totalShards: TOTAL_SHARDS,
-		shardsPerWorker: SHARDS_PER_WORKER,
-		totalWorkers: TOTAL_WORKERS,
-
-		handleDiscordPayload: () => {
-			//
-		},
-
-		tellWorkerToIdentify: async (_gateway, workerId, shardId, _bucketId) => {
-			log.info('TELL TO IDENTIFY', { workerId, shardId, _bucketId });
-
+		totalShards,
+		shardsPerWorker: Math.ceil(totalShards / workersAmount),
+		totalWorkers: workersAmount,
+		handleDiscordPayload: () => null,
+		tellWorkerToIdentify: async (_, workerId, shardId) => {
 			let worker = workers.get(workerId);
+
 			if (!worker) {
+				console.log(`[GATEWAY] - Spawning worker ${workerId}`);
 				worker = createWorker(workerId);
 				workers.set(workerId, worker);
 			}
 
-			const identify: WorkerMessage = {
+			const identify = {
 				type: 'IDENTIFY_SHARD',
 				shardId,
 			};
@@ -75,139 +341,16 @@ export async function start() {
 		},
 	});
 
-	const workers = new Collection<number, Worker>();
-	const nonces = new Collection<string, (data: any) => void>();
-
-	function createWorker(workerId: number) {
-		console.log(TOTAL_SHARDS, gateway.manager.totalShards, 'SHARDS');
-
-		const workerData: WorkerCreateData = {
-			intents: gateway.manager.gatewayConfig.intents ?? 0,
-			token: DISCORD_TOKEN,
-			handlerUrls: [EVENT_HANDLER_URL],
-			handlerAuthorization: EVENT_HANDLER_AUTHORIZATION,
-			path: './worker.js',
-			totalShards: gateway.manager.totalShards,
-			workerId,
-		};
-
-		const worker = new Worker('./dist/gateway/worker.js', {
-			workerData,
-		});
-
-		worker.on('message', async (data: ManagerMessage) => {
-			log.info({ data });
-			switch (data.type) {
-				case 'REQUEST_IDENTIFY': {
-					log.info('REQUESTING IDENTIFY #', data.shardId);
-					await gateway.manager.requestIdentify(data.shardId);
-
-					const allowIdentify: WorkerMessage = {
-						type: 'ALLOW_IDENTIFY',
-						shardId: data.shardId,
-					};
-
-					worker.postMessage(allowIdentify);
-
-					break;
-				}
-				case 'NONCE_REPLY': {
-					nonces.get(data.nonce)?.(data.data);
-				}
-			}
-		});
-
-		return worker;
-	}
-
-	gateway.spawnShards();
-
-	const server = fastify();
-
-	server.post('/', async (request, reply) => {
-		if (request.headers.authorization !== GATEWAY_AUTHORIZATION) {
-			reply.code(StatusCodes.Unauthorized);
-
-			return reply.send({ processing: false, error: false, message: 'Invalid authorization header.' });
-		}
-
-		if (!request.body) {
-			reply.code(StatusCodes.BadRequest);
-
-			return reply.send({ processing: false, error: false, message: 'Empty body.' });
-		}
-
-		try {
-			const data = request.body as WorkerShardPayload | Omit<WorkerGetShardInfo, 'nonce'>;
-			switch (data.type) {
-				case 'SHARD_PAYLOAD': {
-					const workerId = gateway.calculateWorkerId(data.shardId);
-					const worker = workers.get(workerId);
-
-					worker?.postMessage(data);
-
-					break;
-				}
-				case 'GET_SHARD_INFO': {
-					const infos = await Promise.all(
-						workers.map(async (worker) => {
-							const nonce = nanoid();
-
-							return new Promise<WorkerShardInfo[]>((resolve) => {
-								worker.postMessage({ type: 'GET_SHARD_INFO', nonce });
-
-								nonces.set(nonce, resolve);
-							});
-						}),
-					).then((res) =>
-						res.reduce((acc, cur) => {
-							acc.push(...cur);
-							return acc;
-						}, [] as WorkerShardInfo[]),
-					);
-
-					reply.code(StatusCodes.Ok);
-
-					return reply.send(infos);
-				}
-			}
-
-			reply.code(StatusCodes.Ok);
-
-			return reply.send({ processing: true });
-		} catch {
-			reply.code(StatusCodes.BadRequest);
-
-			return reply.send({ processing: false, error: true, message: 'Failed to parse body.' });
-		}
-	});
-
-	server.listen({ port: GATEWAY_PORT }).catch((error) => {
-		log.error(['[FASTIFY ERROR', error].join('\n'));
-		process.exit(1);
-	});
-
-	console.log('Server listening on port ' + GATEWAY_PORT);
+	gatewayManager.spawnShards();
 }
-start();
-export type ManagerMessage = ManagerRequestIdentify | ManagerNonceReply<WorkerShardInfo[]>;
 
-export type ManagerRequestIdentify = {
-	type: 'REQUEST_IDENTIFY';
-	shardId: number;
-};
+restClient.on('ready', async () => {
+	console.log('[GATEWAY] REST IPC connected');
+	restClient.send({ type: 'IDENTIFY', package: 'GATEWAY', id: '0' });
 
-export type ManagerNonceReply<T> = {
-	type: 'NONCE_REPLY';
-	nonce: string;
-	data: T;
-};
+	if (gatewayOn) return;
 
-enum StatusCodes {
-	Ok = 200,
+	gatewayOn = true;
 
-	BadRequest = 400,
-	Unauthorized = 401,
-
-	InternalServerError = 500,
-}
+	startGateway();
+});
