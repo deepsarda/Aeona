@@ -14,7 +14,6 @@ export const setupAnalyticsHooks = (rest: RestManager) => {
 	if (Influx) {
 		rest.fetching = function (options) {
 			if (options.url.includes('webhook')) return;
-			console.log(options.url);
 			Influx?.writePoint(
 				new Point('restEvents')
 					// MARK THE TIME WHEN EVENT ARRIVED

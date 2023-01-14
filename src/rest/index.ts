@@ -15,7 +15,6 @@ const rest = createRestManager({
 	token: DISCORD_TOKEN,
 	secretKey: REST_AUTHORIZATION,
 	customUrl: REST_URL,
-	debug: console.log,
 });
 
 // Add send fetching analytics hook to rest
