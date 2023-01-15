@@ -495,19 +495,21 @@ const runMethod = async <T = any>(
     headers?: Record<string, string>;
   },
 ): Promise<T> => {
-  const response = await client.request({
-    type: 'RUN_METHOD',
-    data: {
-      Authorization: rest.secretKey,
-      url: route,
-      body,
-      method,
-      options,
+  const response = await client.request(
+    {
+      type: 'RUN_METHOD',
+      data: {
+        Authorization: rest.secretKey,
+        url: route,
+        body,
+        method,
+        options,
+      },
     },
-  });
+    0,
+  );
 
   if (response?.statusCode >= 400) logger.error(`[${response.status}] - ${response.error}`);
-
   return response;
 };
 
@@ -525,17 +527,20 @@ const sendRequest = async <T = any>(
     body: unknown;
   },
 ): Promise<T> => {
-  const response = await client.request({
-    type: 'SEND_REQUEST',
-    data: {
-      Authorization: rest.secretKey,
-      url: route,
-      method,
-      bucketId,
-      retryCount,
-      payload,
+  const response = await client.request(
+    {
+      type: 'SEND_REQUEST',
+      data: {
+        Authorization: rest.secretKey,
+        url: route,
+        method,
+        bucketId,
+        retryCount,
+        payload,
+      },
     },
-  });
+    0,
+  );
 
   if (response?.statusCode >= 400) logger.error(`[${response.status}] - ${response.error}`);
 
