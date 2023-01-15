@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BASE_URL, RestManager } from 'discordeno';
-import { Blob } from 'node:buffer';
 
 import config from '../config';
 import { RunMethod } from '../types';
@@ -15,17 +14,6 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
         error: 'Unauthorized',
       },
     };
-  }
-
-  if (
-    data.body &&
-    typeof (data.body as any)?.file !== 'undefined' &&
-    typeof data.body &&
-    typeof (data.body as any)?.file?.length === 'undefined'
-  ) {
-    (data.body as any).file.blob = new Blob([Buffer.from((data.body as any).file.blob, 'base64')], {
-      encoding: 'base64',
-    });
   }
 
   const result = await rest

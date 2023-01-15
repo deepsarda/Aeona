@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RestManager } from 'discordeno/rest';
-import { Blob } from 'node:buffer';
 
 import config from '../config';
 import { SendRequest } from '../types';
@@ -18,17 +17,6 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
   }
 
   const body = data.payload?.body;
-
-  if (
-    body &&
-    typeof (body as any)?.file !== 'undefined' &&
-    typeof body &&
-    typeof (body as any)?.file?.length === 'undefined'
-  ) {
-    (body as any).file.blob = new Blob([Buffer.from((body as any).file.blob, 'base64')], {
-      encoding: 'base64',
-    });
-  }
 
   const result = await rest
     .sendRequest(rest, {
