@@ -100,7 +100,9 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         .sendMessage(interaction.channelId!, {
           file: [
             {
-              blob: dataURItoBlob(captcha.dataURL),
+              //@ts-ignore
+
+              blob: await dataURItoBlob(captcha.dataURL).text(),
               name: 'captcha.jpeg',
             },
           ],

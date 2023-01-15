@@ -167,7 +167,7 @@ export default {
     context.reply({
       file: [
         {
-          blob: dataURItoBlob(canvas.toDataURL()),
+          blob: await dataURItoBlob(canvas.toDataURL()).text(),
           name: 'family.png',
         },
       ],

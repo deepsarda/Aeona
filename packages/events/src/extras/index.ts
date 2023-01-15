@@ -248,8 +248,10 @@ export function additionalProps(client: AeonaBot) {
 
     async transcript(client: AeonaBot, channel: Channel) {
       const file = await createTranscript(client, channel);
+      //@ts-ignore
+      file.blob = await file.blob.text();
       client.helpers.sendMessage(`${channel.id}`, {
-        file: [file],
+        file: file,
       });
     },
     async setXP(userId: bigint, guildId: bigint, xp: number) {

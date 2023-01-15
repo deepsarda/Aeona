@@ -91,8 +91,10 @@ export default {
           );
           client.extras.transcript(client, ctx.channel!).catch();
           const file = await createTranscript(client, ctx.channel!);
+          //@ts-ignore
+          file.blob = await file.blob.text();
           client.helpers.sendMessage(channel.id, {
-            file: [file],
+            file: file,
           });
         } catch (err) {
           console.error(err);

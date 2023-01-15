@@ -279,20 +279,16 @@ export default {
 */
 
 async function query(data) {
-  //@ts-ignore
-  const result = (
-    await (
-      await fetch('https://thewolf-dreamlikeart-diffusion-1-0.hf.space/run/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          data: [data, 0.1],
-        }),
-      })
-    ).json()
-  ).data[0];
-  const byteArray = new Uint8Array(result);
-  return new Blob([byteArray]);
+  const response = await fetch(
+    'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
+    {
+      headers: { Authorization: `Bearer ${process.env.APIKEY}` },
+      method: 'POST',
+      body: JSON.stringify(data),
+    },
+  );
+  const result = await response.blob();
+  return await result.text();
 }
 
 export default {
@@ -483,12 +479,19 @@ export default {
           break;
       }
 
-      query(`${prompt} dreamlikeart ${modifiers}`).then(async (response) => {
+      query({
+        inputs: prompt + ' dreamlikeart ' + modifiers,
+        options: {
+          wait_for_model: true,
+          use_cache: false,
+        },
+      }).then(async (response) => {
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
-          content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
+          content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
             {
+              // @ts-ignore
               blob: response,
               name: 'image.jpg',
             },
@@ -497,7 +500,7 @@ export default {
         const component = new Components();
         component.addSelectComponent(
           'Share your image!',
-          `share-imagine_${ctx.user?.id}`,
+          'share-imagine_' + ctx.user?.id,
           [
             {
               label: 'Official Server',
@@ -509,7 +512,7 @@ export default {
           'Share this image.',
         );
         ctx.reply({
-          content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
+          content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
             {
               blob: response,
@@ -520,7 +523,7 @@ export default {
         });
       });
     } catch (e) {
-      console.log(`Imagine Error: ${e}`);
+      console.log('Imagine Error: ' + e);
     }
   },
 } as CommandOptions;

@@ -49,9 +49,9 @@ export default {
         file: [
           {
             name: 'image.png',
-            blob: new Blob([data], {
+            blob: await new Blob([data], {
               type: 'image/png',
-            }),
+            }).text(),
           },
         ],
       });
