@@ -2,9 +2,8 @@
 import { BASE_URL, RestManager } from 'discordeno';
 import { Blob } from 'node:buffer';
 
-import { RunMethod } from '../types';
-
 import config from '../config';
+import { RunMethod } from '../types';
 
 const { REST_AUTHORIZATION } = config(['REST_AUTHORIZATION']);
 
@@ -26,7 +25,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
   ) {
     (data.body as any).file.blob = new Blob([Buffer.from((data.body as any).file.blob, 'base64')], {
       encoding: 'base64',
-      type: 'image/png',
+      type: 'image/jpg',
     });
   }
 

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { RestManager } from 'discordeno/rest';
 import { Blob } from 'node:buffer';
 
-import { RestManager } from 'discordeno/rest';
-import { SendRequest } from '../types';
-
 import config from '../config';
+import { SendRequest } from '../types';
 
 const { REST_AUTHORIZATION } = config(['REST_AUTHORIZATION']);
 
@@ -28,7 +27,7 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
   ) {
     (body as any).file.blob = new Blob([Buffer.from((body as any).file.blob, 'base64')], {
       encoding: 'base64',
-      type: 'image/png',
+      type: 'image/jpg',
     });
   }
 
