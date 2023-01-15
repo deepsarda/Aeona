@@ -9,7 +9,6 @@ import Schema7 from '../../database/models/chatbot-channel.js';
 import Schema8 from '../../database/models/count.js';
 import Schema9 from '../../database/models/countChannel.js';
 import Schema13 from '../../database/models/family.js';
-import Schema14 from '../../database/models/functions.js';
 import Schema15 from '../../database/models/guessNumber.js';
 import Schema16 from '../../database/models/guessWord.js';
 import Schema17 from '../../database/models/levelChannels.js';
@@ -50,7 +49,6 @@ export default async (client: AeonaBot, guild: Guild) => {
   await Schema8.deleteMany({ Guild: guild.id });
   await Schema9.deleteMany({ Guild: guild.id });
   await Schema13.deleteMany({ Guild: guild.id });
-  await Schema14.deleteMany({ Guild: guild.id });
   await Schema15.deleteMany({ Guild: guild.id });
   await Schema16.deleteMany({ Guild: guild.id });
   await Schema17.deleteMany({ Guild: guild.id });
