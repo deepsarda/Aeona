@@ -25,7 +25,6 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
   ) {
     (data.body as any).file.blob = new Blob([Buffer.from((data.body as any).file.blob, 'base64')], {
       encoding: 'base64',
-      type: 'image/jpg',
     });
   }
 
