@@ -112,6 +112,7 @@ export default async (
   }
 
   if (data.error.type == ErrorEnums.COMMANDRUNTIME) {
-    console.log(data);
+    console.log('Error during runtime.');
+    console.error(data);
   }
 };
