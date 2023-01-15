@@ -216,7 +216,7 @@ export default async (
         if (!message.timestamp) client.cache.messages.delete(messageId);
         if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
       }
-    }, 1000 * 60 * 2);
+    }, 1000 * 10);
 
     setInterval(() => {
       client.emit('updateClock', client);
