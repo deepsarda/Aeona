@@ -26,48 +26,57 @@ try {
 } catch (e) {
   console.log(e);
 }
+function runRest() {
+  const ls = exec('yarn rest dev');
 
-const ls = exec('yarn rest dev');
-
-ls.stdout.on('data', (data) => {
-  console.log(data.toString('ascii').trim());
-});
-
-ls.stderr.on('data', (data) => {
-  console.error(data.toString('ascii').trim());
-});
-function runBot() {
-  const ls1 = exec('yarn events dev');
-
-  ls1.stdout.on('data', (data) => {
+  ls.stdout.on('data', (data) => {
     console.log(data.toString('ascii').trim());
   });
 
-  ls1.stderr.on('data', (data) => {
+  ls.stderr.on('data', (data) => {
     console.error(data.toString('ascii').trim());
   });
 
-  ls1.on('close', (code) => {
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    runRest();
+  });
+}
+runRest();
+function runBot() {
+  const ls = exec('yarn events dev');
+
+  ls.stdout.on('data', (data) => {
+    console.log(data.toString('ascii').trim());
+  });
+
+  ls.stderr.on('data', (data) => {
+    console.error(data.toString('ascii').trim());
+  });
+
+  ls.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
     runBot();
   });
 }
 runBot();
+function runGateWay() {
+  const ls = exec('yarn gateway dev');
 
-const ls2 = exec('yarn gateway dev');
+  ls.stdout.on('data', (data) => {
+    console.log(data.toString('ascii').trim());
+  });
 
-ls2.stdout.on('data', (data) => {
-  console.log(data.toString('ascii').trim());
-});
+  ls.stderr.on('data', (data) => {
+    console.error(data.toString('ascii').trim());
+  });
 
-ls2.stderr.on('data', (data) => {
-  console.error(data.toString('ascii').trim());
-});
-
-ls2.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-  runBot();
-});
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`);
+    runGateWay();
+  });
+}
+runGateWay();
 setInterval(() => {
   try {
     exec('git pull');
