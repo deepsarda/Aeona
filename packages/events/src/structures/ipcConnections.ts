@@ -18,7 +18,7 @@ const createIpcConnections = async (bot: AeonaBot): Promise<Client> => {
     `Creating IPC connections to REST ${REST_SOCKET_PATH} and EVENTS ${EVENT_SOCKET_PATH}`,
   );
 
-  const restClient = new Client({ path: REST_SOCKET_PATH, port: 8123 });
+  const restClient = new Client({ path: REST_SOCKET_PATH, port: 20000 });
   eventsClient = new Client({ path: EVENT_SOCKET_PATH });
 
   eventsClient.on('close', () => {

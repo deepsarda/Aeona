@@ -31,8 +31,8 @@ const { DISCORD_TOKEN, REST_AUTHORIZATION, REST_SOCKET_PATH, EVENT_SOCKET_PATH }
   'EVENT_SOCKET_PATH',
 ]);
 
-const restClient = new Client({ path: REST_SOCKET_PATH, port: 8123 });
-const eventsServer = new Server({ path: EVENT_SOCKET_PATH, port: 8123 });
+const restClient = new Client({ path: REST_SOCKET_PATH, port: 20000 });
+const eventsServer = new Server({ path: EVENT_SOCKET_PATH, port: 20000 });
 
 let retries = 0;
 let readyShards = 0;

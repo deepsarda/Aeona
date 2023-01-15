@@ -12,7 +12,7 @@ const connections: ConnectionInfo[] = [];
 
 const server = new Server({
   path: REST_SOCKET_PATH,
-  port: 8123,
+  port: 20000,
 });
 
 server.on('error', console.error);
