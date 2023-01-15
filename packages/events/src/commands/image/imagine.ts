@@ -279,16 +279,20 @@ export default {
 */
 
 async function query(data) {
-  const response = await fetch(
-    'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
-    {
-      headers: { Authorization: `Bearer ${process.env.APIKEY}` },
-      method: 'POST',
-      body: JSON.stringify(data),
-    },
-  );
-  const result = await response.blob();
-  return result;
+  //@ts-ignore
+  const result = (
+    await (
+      await fetch('https://thewolf-dreamlikeart-diffusion-1-0.hf.space/run/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: [data, 0.1],
+        }),
+      })
+    ).json()
+  ).data[0];
+  const byteArray = new Uint8Array(result);
+  return new Blob([byteArray]);
 }
 
 export default {
@@ -479,13 +483,7 @@ export default {
           break;
       }
 
-      query({
-        inputs: `${prompt} dreamlikeart ${modifiers}`,
-        options: {
-          wait_for_model: true,
-          use_cache: false,
-        },
-      }).then(async (response) => {
+      query(`${prompt} dreamlikeart ${modifiers}`).then(async (response) => {
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
           content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
