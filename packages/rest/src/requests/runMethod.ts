@@ -15,7 +15,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
       },
     };
   }
-
+  console.log(data.body);
   const result = await rest
     .runMethod(
       rest,

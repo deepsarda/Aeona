@@ -17,7 +17,7 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
   }
 
   const body = data.payload?.body;
-
+  console.log(body);
   const result = await rest
     .sendRequest(rest, {
       method: data.method,
