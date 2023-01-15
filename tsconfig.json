@@ -1,39 +1,41 @@
 {
-	"compilerOptions": {
-		"target": "ES2020",
-		"module": "commonjs",
-		"lib": ["ES2020", "DOM"],
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"importHelpers": true,
-		"strict": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"alwaysStrict": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitAny": false,
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
-		"pretty": true,
-		"jsx": "react",
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"allowJs": true,
-		"useUnknownInCatchVariables": false
-	},
-	"include": [
-		"./src/**/*",
-		"./src/**/*.json",
-		".env",
-		"src/bot/commands/stickymessages",
-		"src/bot/events/tools",
-		"src/bot/commands/thanksks",
-		"src/bot/commands/tools"
-	],
-	"ts-node": {
-		"esm": true,
-		"experimentalSpecifierResolution": "node",
-		"swc": true
-	}
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": [
+      "ESNext"
+    ],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "importHelpers": true,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "preserveConstEnums": true,
+    "pretty": true,
+    "removeComments": true,
+    "strict": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "jsx": "react",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "useUnknownInCatchVariables": false
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "@aeona/rest",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "typecheck": " tsc --project tsconfig.json --noEmit",
+    "dev": "node --no-warnings -r dotenv/config .",
+    "start": "node --no-warnings ."
+  },
+  "dependencies": {
+    "net-ipc": "^2.0.1"
+  },
+  "license": "MIT"
+}

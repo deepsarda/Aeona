@@ -15,6 +15,7 @@ Aeona supports slash-based commands as well as message-based commands.
 - Every aspect is customizable.
 - The most recent version of Discordenoas soon as possible.
 
+**Repository is based on [Menhera Bot](https://github.com/MenheraBot/MenheraBot)**
 ## Features/Goals
 
 PS: Check back often for new updates to this list.
