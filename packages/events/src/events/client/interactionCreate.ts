@@ -1,10 +1,5 @@
 import Captcha from '@haileybot/captcha-generator';
-import {
-  AmethystEmbed,
-  Components,
-  createContext,
-  createOptionResults,
-} from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, Components, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Channel, Embed, Interaction } from 'discordeno/transformers';
@@ -102,7 +97,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             {
               //@ts-ignore
 
-              blob: await dataURItoBlob(captcha.dataURL).text(),
+              blob:  dataURItoBlob(captcha.dataURL),
               name: 'captcha.jpeg',
             },
           ],

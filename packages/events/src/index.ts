@@ -7,10 +7,9 @@ import {
   ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
-import { createBot, createRestManager, Intents, RestManager } from 'discordeno';
+import { createBot, Intents } from 'discordeno';
 import fs from 'fs';
 import JSON from 'json-bigint';
-import { Client } from 'net-ipc';
 import fetch from 'node-fetch';
 import { Config, JsonDB } from 'node-json-db';
 
@@ -481,6 +480,7 @@ bot.inhibitors.set('upvoteonly', async (b, command, options): Promise<true | Ame
 logger.info('Creating IPC connection');
 const restClient = await createIpcConnections(bot);
 
+/*
 logger.info('Setting up the custom rest manager');
 
 const runMethod = async <T = any>(
@@ -563,6 +563,7 @@ bot.rest = createRestManager({
       options.payload,
     ),
 });
+*/
 
 logger.info('[READY] Events are being processed!');
 

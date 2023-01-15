@@ -288,7 +288,7 @@ async function query(data) {
     },
   );
   const result = await response.blob();
-  return await result.text();
+  return result;
 }
 
 export default {
@@ -491,7 +491,6 @@ export default {
           content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
             {
-              // @ts-ignore
               blob: response,
               name: 'image.jpg',
             },
