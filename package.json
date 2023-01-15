@@ -26,8 +26,6 @@
     "@types/jest": "^29.2.1",
     "concurrently": "^7.6.0",
     "dotenv": "^16.0.3",
-    "jest": "^29.2.2",
-    "ts-jest": "^29.0.3",
     "typescript": "^5.0.0-dev.20221101"
   },
   "dependencies": {
