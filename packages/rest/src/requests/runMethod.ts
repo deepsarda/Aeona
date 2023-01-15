@@ -19,7 +19,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
 
   if (data.body && (data.body as any)?.file != undefined) {
     (data.body as any).file[0].blob = new Blob(
-      [Buffer.from(((data.body as any).file[0].blob as any).file[0].blob, 'base64')],
+      [Buffer.from((data.body as any).file[0].blob, 'base64')],
       {
         encoding: 'base64',
       },
