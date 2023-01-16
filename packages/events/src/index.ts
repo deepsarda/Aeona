@@ -480,9 +480,6 @@ bot.inhibitors.set('upvoteonly', async (b, command, options): Promise<true | Ame
 });
 logger.info('Creating IPC connection');
 const restClient = await createIpcConnections(bot);
-const fallbackRest = createRestManager({
-  token: DISCORD_TOKEN,
-});
 
 logger.info('Setting up the custom rest manager');
 
@@ -499,11 +496,9 @@ const runMethod = async <T = any>(
   },
 ): Promise<T> => {
   if (body && (body as any).file) {
-    (body as any).files = (body as any).file;
-    const response = await fallbackRest.runMethod(rest, method, route, body, options);
-
-    if (response?.statusCode >= 400) logger.error(`[${response.status}] - ${response.error}`);
-    return response;
+    const buffer = Buffer.from(await (body as any).file[0].blob.text());
+    (body as any).file[0].blob =
+      'data:' + (body as any).file[0].blob?.type + ';base64,' + buffer.toString('base64');
   }
   const response = await client.request(
     {
