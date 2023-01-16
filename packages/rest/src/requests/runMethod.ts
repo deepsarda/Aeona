@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BASE_URL, RestManager } from 'discordeno';
 
 import config from '../config';
@@ -17,7 +16,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
   if (body && body.file) {
-    body.file[0].blob = new Blob([Buffer.from(body.file[0].blob, 'utf-8')]);
+    body.file[0].blob = new Blob([Buffer.from(body.file[0].blob, 'base64')]);
   }
   const result = await rest
     .runMethod(rest, data.method, `${BASE_URL}/v${rest.version}/${data.url}`, body, data.options)
