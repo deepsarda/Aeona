@@ -496,9 +496,17 @@ const runMethod = async <T = any>(
   },
 ): Promise<T> => {
   if (body && (body as any).file) {
-    const buffer = Buffer.from(await (body as any).file[0].blob.text());
+    fs.createWriteStream('image.jpg').write(Buffer.from(await (body as any).file[0].blob.text()));
+    let buffer = Buffer.from(await (body as any).file[0].blob.text());
     (body as any).file[0].blob =
       'data:' + (body as any).file[0].blob?.type + ';base64,' + buffer.toString('base64');
+
+    const regex = /^data:.+\/(.+);base64,(.*)$/;
+    const matches = (body as any).file[0].blob.match(regex);
+    const ext = matches[1];
+    const data = matches[2];
+    buffer = Buffer.from(data, 'base64');
+    fs.writeFileSync('image1.jpg', buffer);
   }
   const response = await client.request(
     {
