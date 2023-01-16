@@ -15,7 +15,9 @@ const rest = createRestManager({
 
     for (const [key, value] of rest.rateLimitedPaths.entries()) {
       rest.debug(
-        `[REST - processRateLimitedPaths] Running for of loop. ${value.resetTimestamp - now}`,
+        `[REST - processRateLimitedPaths] Running for of loop. ${
+          value.resetTimestamp - now
+        } ${key}`,
       );
       // IF THE TIME HAS NOT REACHED CANCEL
       if (value.resetTimestamp > now) continue;
@@ -35,8 +37,11 @@ const rest = createRestManager({
       setTimeout(() => {
         rest.debug(`[REST - processRateLimitedPaths] Running setTimeout.`);
         rest.processRateLimitedPaths(rest);
-      }, 10);
+      }, 1000);
     }
+  },
+  debug: (s) => {
+    if (!s.includes('[REST - fetch')) console.log(s);
   },
 });
 
