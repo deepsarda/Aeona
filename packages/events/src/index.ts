@@ -496,8 +496,10 @@ const runMethod = async <T = any>(
   },
 ): Promise<T> => {
   if (body && (body as any).file) {
-    fs.createWriteStream('image.jpg').write(Buffer.from(await (body as any).file[0].blob.text()));
-    let buffer = Buffer.from(await (body as any).file[0].blob.text());
+    fs.createWriteStream('image.jpg').write(
+      Buffer.from(await (body as any).file[0].blob.arrayBuffer()),
+    );
+    let buffer = Buffer.from(await (body as any).file[0].blob.arrayBuffer());
     (body as any).file[0].blob =
       'data:' + (body as any).file[0].blob?.type + ';base64,' + buffer.toString('base64');
 
