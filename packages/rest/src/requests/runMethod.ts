@@ -15,9 +15,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
-  if (body && body.file) {
-    console.log(body.file);
-  }
+
   const result = await rest
     .runMethod(rest, data.method, `${BASE_URL}/v${rest.version}/${data.url}`, body, data.options)
     .catch((e) => {

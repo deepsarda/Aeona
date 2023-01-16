@@ -1,6 +1,5 @@
 import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 import Filter from 'bad-words';
-import fs from 'fs';
 import fetch from 'node-fetch';
 
 import { AeonaBot } from '../../extras/index.js';
@@ -289,7 +288,6 @@ async function query(data) {
     },
   );
   const result = await response.blob();
-  fs.createWriteStream('test.jpg').write(Buffer.from(await result.arrayBuffer()));
   return result;
 }
 
