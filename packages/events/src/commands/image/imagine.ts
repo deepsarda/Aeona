@@ -288,6 +288,7 @@ async function query(data) {
     },
   );
   const result = await response.blob();
+  console.log(result);
   return result;
 }
 
