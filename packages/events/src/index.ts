@@ -503,7 +503,6 @@ const runMethod = async <T = any>(
 
     const regex = /^data:.+\/(.+);base64,(.*)$/;
     const matches = (body as any).file[0].blob.match(regex);
-    const ext = matches[1];
     const data = matches[2];
     buffer = Buffer.from(data, 'base64');
     fs.writeFileSync('image1.jpg', buffer);
