@@ -7,9 +7,10 @@ import {
   ErrorEnums,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
-import { createBot, Intents } from 'discordeno';
+import { createBot, createRestManager, Intents, RestManager } from 'discordeno';
 import fs from 'fs';
 import JSON from 'json-bigint';
+import { Client } from 'net-ipc';
 import fetch from 'node-fetch';
 import { Config, JsonDB } from 'node-json-db';
 
@@ -479,7 +480,10 @@ bot.inhibitors.set('upvoteonly', async (b, command, options): Promise<true | Ame
 });
 logger.info('Creating IPC connection');
 const restClient = await createIpcConnections(bot);
-/*
+const fallbackRest = createRestManager({
+  token: DISCORD_TOKEN,
+});
+
 logger.info('Setting up the custom rest manager');
 
 const runMethod = async <T = any>(
@@ -494,6 +498,13 @@ const runMethod = async <T = any>(
     headers?: Record<string, string>;
   },
 ): Promise<T> => {
+  if (body && (body as any).file) {
+    (body as any).files = (body as any).file;
+    const response = await fallbackRest.runMethod(rest, method, route, body, options);
+
+    if (response?.statusCode >= 400) logger.error(`[${response.status}] - ${response.error}`);
+    return response;
+  }
   const response = await client.request(
     {
       type: 'RUN_METHOD',
@@ -564,7 +575,7 @@ bot.rest = createRestManager({
 });
 
 logger.info('[READY] Events are being processed!');
-*/
+
 let content = '';
 const builtins = {
   log: console.log,
