@@ -497,9 +497,7 @@ const runMethod = async <T = any>(
 ): Promise<T> => {
   if ((body as any)?.file) {
     (body as any).file[0].type = (body as any).file[0].blob.type;
-    (body as any).file[0].blob = Buffer.from(await (body as any)?.file[0].blob.text()).toString(
-      'base64',
-    );
+    (body as any).file[0].blob = await (body as any)?.file[0].blob.text();
     console.log((body as any).file[0]);
   }
   const response = await client.request(
