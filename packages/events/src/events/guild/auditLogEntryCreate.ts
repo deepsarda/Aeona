@@ -9,7 +9,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
 
   try {
     if (!logChannel.Guild) return;
-    const guild = await client.helpers.getGuild(logChannel.Guild);
+    const guild = await client.cache.guilds.get(BigInt(logChannel.Guild));
 
     if (guild) {
       const channel = await client.extras.getLogs(guild.id);

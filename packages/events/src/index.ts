@@ -69,6 +69,25 @@ const cachebot = createProxyCache(b, {
     users: true,
     roles: true,
   },
+  undesiredProps: {
+    guilds: [
+      'afkChannelId',
+      'afkTimeout',
+      'approximatePresenceCount',
+      'emojis',
+      'widgetChannelId',
+      'roles',
+      'description',
+      'discoverySplash',
+      'welcomeScreen',
+      'permissions',
+      'rulesChannelId',
+      'systemChannelFlags',
+      'stageInstances',
+      'toggles',
+      'channels',
+    ],
+  },
   getItem: async (table, id, guildid?) => {
     const item = await db.getData(`${id}${guildid || ''}`);
     if (!item) return;

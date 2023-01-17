@@ -278,7 +278,7 @@ export default {
 } as CommandOptions;
 */
 
-async function query(data) {
+async function query(data: string) {
   const response = await fetch(
     'https://api-inference.huggingface.co/models/prompthero/openjourney-v2',
     {
@@ -287,8 +287,16 @@ async function query(data) {
       body: JSON.stringify(data),
     },
   );
-  const result = await response.blob();
-  return result;
+
+  fetch(process.env.APIURL!, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      data: [data, 0.1],
+    }),
+  });
+  const json: any = await response.json();
+  return await (await fetch(json.data)).blob();
 }
 
 export default {
@@ -479,13 +487,7 @@ export default {
           break;
       }
 
-      query({
-        inputs: prompt + modifiers,
-        options: {
-          wait_for_model: true,
-          use_cache: false,
-        },
-      }).then(async (response) => {
+      query(prompt + ' dreamlikeart ' + modifiers).then(async (response) => {
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
           content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
