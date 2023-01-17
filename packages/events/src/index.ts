@@ -52,7 +52,7 @@ const b = createBot({
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: true,
-    channels: true,
+    channels: false,
     members: true,
     roles: false,
   },
