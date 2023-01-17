@@ -296,9 +296,10 @@ async function query(data: string) {
     }),
   });
   const json: any = await response.json();
+  console.log(json.data);
   const match = json.data.match(/^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/);
   if (match?.groups === undefined) {
-    return undefined;
+    throw new Error('Unable to find the MIME type');
   }
   const { mimeType, content } = match.groups;
   return new Blob([decode(content)], { type: mimeType });
