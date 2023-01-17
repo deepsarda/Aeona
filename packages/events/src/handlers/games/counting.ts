@@ -1,4 +1,4 @@
-import { Message, MessageTypes } from 'discordeno';
+import { Channel, Message, MessageTypes } from 'discordeno';
 
 import count from '../../database/models/count.js';
 import countSchema from '../../database/models/countChannel.js';
@@ -16,7 +16,7 @@ export default async (client: AeonaBot) => {
 
     if (data && countData) {
       if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
-      const channel = await client.helpers.getChannel(message.channelId);
+
       if (`${message.authorId}` == countData.User!) {
         try {
           client.extras.errNormal(
@@ -24,7 +24,7 @@ export default async (client: AeonaBot) => {
               error: 'You cannot count twice in a row',
               type: 'reply',
             },
-            channel,
+            { id: message.channelId } as Channel,
           );
 
           return bot.helpers.addReaction(
@@ -56,7 +56,7 @@ export default async (client: AeonaBot) => {
               error: `The correct number was ${countData.Count}!`,
               type: 'reply',
             },
-            channel,
+            { id: message.channelId } as Channel,
           );
 
           return bot.helpers.addReaction(
