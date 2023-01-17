@@ -106,7 +106,7 @@ function createInvalidRequestBucket(options: InvalidRequestBucketOptions): Inval
           // Resolve the next item in the queue
           bucket.waiting.shift()?.();
         } else {
-          await delay(10);
+          await delay(100);
         }
       }
 
