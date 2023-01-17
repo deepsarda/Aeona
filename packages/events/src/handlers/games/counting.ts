@@ -16,7 +16,7 @@ export default async (client: AeonaBot) => {
 
     if (data && countData) {
       if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
-
+      client.emit('logFeatureUse', 'counting');
       if (`${message.authorId}` == countData.User!) {
         try {
           client.extras.errNormal(

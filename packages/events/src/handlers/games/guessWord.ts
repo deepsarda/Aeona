@@ -14,6 +14,7 @@ export default async (client: AeonaBot) => {
     });
 
     if (data) {
+      client.emit('logFeatureUse', 'guess-the-word');
       if (message.content.toLowerCase() == data.Word.toLowerCase()) {
         bot.helpers.addReaction(
           message.channelId,
