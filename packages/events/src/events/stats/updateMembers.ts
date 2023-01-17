@@ -5,6 +5,9 @@ import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
   try {
+    const data = await Schema.findOne({ Guild: guild.id });
+    if (!data || !data.Members) return;
+
     let channelName = await client.extras.getTemplate(guild.id);
     channelName = channelName.replace(`{emoji}`, '👤');
     channelName = channelName.replace(
@@ -12,8 +15,6 @@ export default async (client: AeonaBot, guild: Guild) => {
       `Members: ${guild.approximateMemberCount?.toLocaleString()}`,
     );
 
-    const data = await Schema.findOne({ Guild: guild.id });
-    if (!data || !data.Members) return;
     client.helpers.editChannel(data.Members, {
       name: channelName,
     });
