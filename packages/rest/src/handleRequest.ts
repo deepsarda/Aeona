@@ -41,7 +41,7 @@ const rest = createRestManager({
     }
   },
   debug: (s) => {
-    if (!s.includes('[REST - fetch')) console.log(s);
+    // if (!s.includes('[REST - fetch')) console.log(s);
   },
 });
 

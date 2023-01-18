@@ -76,7 +76,6 @@ const cachebot = createProxyCache(b, {
       'approximatePresenceCount',
       'emojis',
       'widgetChannelId',
-      'roles',
       'description',
       'discoverySplash',
       'welcomeScreen',
@@ -85,7 +84,6 @@ const cachebot = createProxyCache(b, {
       'systemChannelFlags',
       'stageInstances',
       'toggles',
-      'channels',
     ],
   },
   getItem: async (table, id, guildid?) => {

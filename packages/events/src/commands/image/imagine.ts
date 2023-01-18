@@ -6,6 +6,7 @@ import { AeonaBot } from '../../extras/index.js';
 
 const filter = new Filter();
 filter.addWords('nake', 'naked', 'nude', 'nudes', 'nipples');
+let count = 1;
 /*
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
@@ -282,11 +283,12 @@ async function query(data) {
   const response = await fetch(
     'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
     {
-      headers: { Authorization: `Bearer ${process.env.APIKEY}` },
+      headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
       method: 'POST',
       body: JSON.stringify(data),
     },
   );
+  count = count == 1 ? count++ : 1;
   const result = await response.blob();
   return result;
 }
