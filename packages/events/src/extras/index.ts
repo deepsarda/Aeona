@@ -1,9 +1,4 @@
-import {
-  AmethystBot,
-  AmethystCollection,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
 import { Channel, Role, VoiceState } from 'discordeno';
 import { BigString } from 'discordeno/types';
 import { Manager } from 'erela.js';
@@ -31,7 +26,7 @@ const id = parts.pop();
 export function additionalProps(client: AeonaBot) {
   return {
     ...embeds(client),
-    version: 'v0.1.7',
+    version: 'v0.2.0',
     webhook: async (content: any) => {
       return await client.helpers.sendWebhookMessage(id as BigString, token, content);
     },

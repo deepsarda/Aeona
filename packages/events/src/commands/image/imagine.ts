@@ -280,15 +280,16 @@ export default {
 */
 
 async function query(data) {
+  console.log(process.env[`APIKEY${count}`]);
   const response = await fetch(
     'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
     {
-      headers: { Authorization: `Bearer ${process.env.APIKEY2}` },
+      headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
       method: 'POST',
       body: JSON.stringify(data),
     },
   );
-  count = count == 1 ? count++ : 1;
+  count = count == 2 ? 1 : count++;
   const result = await response.blob();
   return result;
 }
