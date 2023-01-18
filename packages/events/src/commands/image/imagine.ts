@@ -283,7 +283,7 @@ async function query(data) {
   const response = await fetch(
     'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
     {
-      headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
+      headers: { Authorization: `Bearer ${process.env.APIKEY2}` },
       method: 'POST',
       body: JSON.stringify(data),
     },
