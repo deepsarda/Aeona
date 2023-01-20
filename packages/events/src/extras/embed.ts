@@ -3,6 +3,7 @@ import { ActionRow, Channel, Interaction, Message } from 'discordeno';
 
 import config from '../botconfig/bot.js';
 import Schema from '../database/models/functions.js';
+import embedbuilder from './embedbuilder.js';
 import { AeonaBot } from './index.js';
 
 /* Exporting a function that takes a client as a parameter. */
@@ -557,7 +558,9 @@ export default (client: AeonaBot) => {
   };
 
   // Return all the functions
+  const builders = embedbuilder(client);
   return {
+    ...builders,
     templateEmbed,
     errNormal,
     errUsage,
