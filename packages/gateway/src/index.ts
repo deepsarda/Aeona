@@ -1,20 +1,11 @@
-import {
-  Collection,
-  createGatewayManager,
-  delay,
-  DISCORDENO_VERSION,
-  DiscordGatewayPayload,
-  DiscordInteraction,
-  GatewayManager,
-  Intents,
-  routes,
-} from 'discordeno';
+// eslint-disable-next-line prettier/prettier
+import { Collection, createGatewayManager, delay, DiscordGatewayPayload, GatewayManager, Intents, routes } from 'discordeno';
 import { nanoid } from 'nanoid';
 import { Client, Connection, Server } from 'net-ipc';
 import os from 'node:os';
 import { Worker } from 'worker_threads';
 
-import config from './config';
+import config from './config.js';
 
 /* eslint-disable no-console */
 type EventClientConnection = {
@@ -93,6 +84,10 @@ eventsServer.on('message', async (msg, conn) => {
         console.log('[GATEWAY] Client made master. Version: ' + msg.version + ' ID: ' + conn.id);
         conn.request({ type: 'YOU_ARE_THE_MASTER' });
         eventClientConnections[0].isMaster = true;
+
+        eventsToSend.forEach((event) => {
+          conn.send(event);
+        });
       }
 
       return;
@@ -206,7 +201,7 @@ eventsServer.on('ready', () => {
 
 restClient.connect().catch(panic);
 eventsServer.start().catch(panic);
-
+const eventsToSend: any[] = [];
 const createWorker = (workerId: number) => {
   const workerData = {
     intents:
@@ -224,7 +219,6 @@ const createWorker = (workerId: number) => {
       Intents.GuildVoiceStates |
       Intents.GuildMessages |
       Intents.GuildMessageReactions |
-      Intents.GuildMessageTyping |
       Intents.DirectMessageTyping |
       Intents.GuildScheduledEvents,
     token: DISCORD_TOKEN,
@@ -248,37 +242,13 @@ const createWorker = (workerId: number) => {
         break;
       }
       case 'BROADCAST_EVENT': {
-        const { shardId, data: payload } = data.data as {
+        const { shardId } = data.data as {
           shardId: number;
           data: DiscordGatewayPayload;
         };
 
         if (eventClientConnections.length === 0) {
-          // @ts-expect-error Payload.d is never because of ready event
-          if (payload.t === 'INTERACTION_CREATE' && [2, 3, 5].includes(payload.d.type)) {
-            restClient
-              .request({
-                type: 'SEND_REQUEST',
-                data: {
-                  Authorization: REST_AUTHORIZATION,
-                  url: `/interactions/${(payload.d as DiscordInteraction).id}/${
-                    (payload.d as DiscordInteraction).token
-                  }/callback`,
-                  method: 'POST',
-                  payload: {
-                    headers: {
-                      'user-agent': `DiscordBot (https://github.com/discordeno/discordeno, v${DISCORDENO_VERSION})`,
-                      authorization: '',
-                      'Content-Type': 'application/json',
-                    },
-                    body: '{"type":4,"data":{"flags": 64,"content":" Aeona is rebooting! Wait one moment.","allowed_mentions":{"parse":[]}}}',
-                    method: 'POST',
-                  },
-                },
-              })
-              .catch(() => null);
-          }
-
+          eventsToSend.push(data.data);
           return;
         }
 
@@ -352,7 +322,6 @@ async function startGateway() {
         Intents.GuildVoiceStates |
         Intents.GuildMessages |
         Intents.GuildMessageReactions |
-        Intents.GuildMessageTyping |
         Intents.DirectMessageTyping |
         Intents.GuildScheduledEvents,
     },

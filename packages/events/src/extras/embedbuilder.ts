@@ -1,4 +1,4 @@
-import { AmethystEmbed, Components } from '@thereallonewolf/amethystframework';
+import { Components } from '@thereallonewolf/amethystframework';
 import { Guild, User } from 'discordeno/transformers';
 import { AeonaBot } from 'extras';
 
@@ -26,17 +26,20 @@ export default (client: AeonaBot) => {
     return comp;
   }
 
-  function generateEmbed(options: {
-    user: User;
-    guild: Guild;
-    levels?: { level: number; xp: number };
-    inviter?: {
-      user?: User;
-      invites?: number;
-      left?: number;
-    };
-  }) {
-    const embed = new AmethystEmbed();
+  function generateEmbed(
+    options: {
+      user: User;
+      guild: Guild;
+      levels?: { level: number; xp: number };
+      inviter?: {
+        user?: User;
+        invites?: number;
+        left?: number;
+      };
+    },
+    embedData: Embed,
+  ) {
+    createComponents();
   }
 
   return {

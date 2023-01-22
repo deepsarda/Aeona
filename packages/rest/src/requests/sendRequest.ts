@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { RestManager } from 'discordeno/rest';
+import { RestManager } from '@discordeno/rest';
 
 import config from '../config';
 import { SendRequest } from '../types';
@@ -18,26 +17,15 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
 
   const body = data.payload?.body;
 
-  const result = await rest
-    .sendRequest(rest, {
-      method: data.method,
-      url: data.url,
-      bucketId: data.bucketId,
-      payload: {
-        body: body as string,
-        headers: data.payload?.headers as Record<string, string>,
-      },
-      retryCount: data.retryCount,
-    })
-    .catch((e) => {
-      if (e instanceof Error) {
-        if (e.message.includes('[404]')) return e;
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-      console.error(e);
-      return e;
-    });
+  const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {
+    if (e instanceof Error) {
+      if (e.message.includes('[404]')) return e;
+      // eslint-disable-next-line no-console
+      console.log(e);
+    }
+    console.error(e);
+    return e;
+  });
 
   return result;
 };

@@ -12,19 +12,19 @@ console.log('Building Rest');
 try {
   execSync('yarn rest build');
 } catch (e) {
-  console.log(e);
+  console.log(e.toString('ascii').trim());
 }
 console.log('Building Events');
 try {
   execSync('yarn events build');
 } catch (e) {
-  console.log(e);
+  console.log(e.toString('ascii').trim());
 }
 console.log('Building Gateway');
 try {
   execSync('yarn gateway build');
 } catch (e) {
-  console.log(e);
+  console.log(e.toString('ascii').trim());
 }
 function runRest() {
   const ls = exec('yarn rest dev');

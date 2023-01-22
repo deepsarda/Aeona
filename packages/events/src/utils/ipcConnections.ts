@@ -2,8 +2,8 @@ import { DiscordGatewayPayload } from 'discordeno/types';
 import { Client } from 'net-ipc';
 
 import { AeonaBot } from '../extras/index.js';
-import { getEnviroments } from '../utils/getEnviroments.js';
-import { logger } from '../utils/logger.js';
+import { getEnviroments } from './getEnviroments.js';
+import { logger } from './logger.js';
 
 let eventsClient: Client;
 let retries = 0;
@@ -63,7 +63,6 @@ const createIpcConnections = async (bot: AeonaBot): Promise<Client> => {
 
   eventsClient.on('message', (msg: { data: DiscordGatewayPayload; shardId: number }) => {
     if (!msg.data.t) return;
-
     if (msg.data.t !== 'RESUMED') bot.handlers[msg.data.t]?.(bot, msg.data, msg.shardId);
   });
 

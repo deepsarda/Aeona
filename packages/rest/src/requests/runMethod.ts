@@ -1,4 +1,5 @@
-import { BASE_URL, RestManager } from 'discordeno';
+import { RestManager } from '@discordeno/rest';
+import { BASE_URL } from 'discordeno';
 
 import config from '../config';
 import { RunMethod } from '../types';
@@ -15,9 +16,9 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
-
+  console.log(`${BASE_URL}/v${rest.version}${data.url}`);
   const result = await rest
-    .runMethod(rest, data.method, `${BASE_URL}/v${rest.version}/${data.url}`, body, data.options)
+    .makeRequest(data.method, `${BASE_URL}/v${rest.version}${data.url}`, body, data.options)
     .catch((e) => {
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;

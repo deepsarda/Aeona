@@ -18,8 +18,8 @@ import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import Functions from './database/models/functions.js';
 import { additionalProps, AeonaBot } from './extras/index.js';
-import { createIpcConnections } from './structures/ipcConnections.js';
 import { getEnviroments } from './utils/getEnviroments.js';
+import { createIpcConnections } from './utils/ipcConnections.js';
 import { logger } from './utils/logger.js';
 
 const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
@@ -45,7 +45,6 @@ const b = createBot({
     Intents.GuildVoiceStates |
     Intents.GuildMessages |
     Intents.GuildMessageReactions |
-    Intents.GuildMessageTyping |
     Intents.DirectMessageTyping |
     Intents.GuildScheduledEvents,
 });
@@ -84,6 +83,8 @@ const cachebot = createProxyCache(b, {
       'systemChannelFlags',
       'stageInstances',
       'toggles',
+      'roles',
+      'channels',
     ],
   },
   getItem: async (table, id, guildid?) => {
