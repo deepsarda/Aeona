@@ -24,7 +24,7 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
       return false;
     }
     const { mimeType, content } = match.groups;
-    body.file[0].blob = new Blob([decode(content)], { type: mimeType });
+    body.file[0].blob = new Blob([decode(content)], { type: mimeType })[0];
     (data.payload!.body as any) = body;
   }
   const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {

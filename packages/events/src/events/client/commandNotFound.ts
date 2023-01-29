@@ -18,7 +18,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
   const options = {
     method: 'GET',
   };
-
+  if (!message.id) return;
   fetch(url, options)
     .then((res) => res.text())
     .then(async (json) => {

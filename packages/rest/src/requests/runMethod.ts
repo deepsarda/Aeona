@@ -24,8 +24,9 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
       return false;
     }
     const { mimeType, content } = match.groups;
-    body.file[0].blob = new Blob([decode(content)], { type: mimeType });
+    body.file[0].blob = new Blob([decode(content)], { type: mimeType })[0];
     data.body = body;
+    console.log(body);
   }
 
   const result = await rest

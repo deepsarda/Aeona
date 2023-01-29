@@ -27,6 +27,7 @@ export default async (
   console.log('READY!');
   client.helpers.sendMessage('1034710126675898389', { content: 'READY!' });
   if (!client.extras.ready) {
+    client.extras.ready = true;
     console.log('Running loops');
     client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
 
@@ -317,6 +318,5 @@ export default async (
     //Write to json file.
     fs.writeFileSync('./categories.json', JSON.stringify(categories));
     fs.writeFileSync('./commands.json', JSON.stringify(commands));
-    client.extras.ready = true;
   }
 };
