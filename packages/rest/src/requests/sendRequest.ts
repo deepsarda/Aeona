@@ -1,6 +1,6 @@
 import { RestManager } from '@discordeno/rest';
 import { FileContent } from 'discordeno/types';
-import FormData from 'form-data';
+import { FormData } from 'undici';
 
 import config from '../config';
 import { SendRequest } from '../types';

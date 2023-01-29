@@ -1,6 +1,6 @@
 import { RestManager } from '@discordeno/rest';
 import { BASE_URL, FileContent } from 'discordeno';
-import FormData from 'form-data';
+import { FormData } from 'undici';
 
 import config from '../config';
 import { RunMethod } from '../types';
