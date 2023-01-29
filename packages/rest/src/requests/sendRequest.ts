@@ -1,4 +1,5 @@
 import { RestManager } from '@discordeno/rest';
+import fetch from 'node-fetch';
 
 import config from '../config';
 import { SendRequest } from '../types';
@@ -15,7 +16,8 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
     };
   }
 
-  const body = data.payload?.body;
+  const body = data.payload?.body as any;
+  if (body && body.file) body.file = await (await fetch(body.file)).blob();
 
   const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {
     if (e instanceof Error) {

@@ -489,6 +489,7 @@ export default {
           use_cache: false,
         },
       }).then(async (response) => {
+        console.log(response);
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
           content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
