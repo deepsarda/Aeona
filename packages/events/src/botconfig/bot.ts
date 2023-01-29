@@ -13,7 +13,7 @@ export default {
     footerUrl: embedconfig.footericon,
     serverInvite: '',
   },
-  prefix: process.env.PREFIX,
+  prefix: process.env.BOTPREFIX,
   emotes,
   wordList: `Airplane
 Ears

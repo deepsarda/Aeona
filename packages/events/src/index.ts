@@ -119,7 +119,7 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
     if (!guild) guild = new Functions({ Guild: message.guildId });
 
     if (!guild.Prefix) {
-      guild.Prefix = process.env.PREFIX!;
+      guild.Prefix = process.env.BOTPREFIX!;
       guild.save();
     }
     if (message.mentionedUserIds.includes(bot.applicationId)) {

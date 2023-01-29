@@ -186,7 +186,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           const command = c.commands.at(i)!;
           fields.push({
             name: '<:F_Arrow:1049291677359153202> ' + command.description,
-            value: `\`${process.env.PREFIX!}${command.name}\``,
+            value: `\`${process.env.BOTPREFIX!}${command.name}\``,
           });
         }
       } else {
@@ -194,7 +194,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           const command = c.commands.at(i)!;
           fields.push({
             name: '<:F_Arrow:1049291677359153202> ' + command.description,
-            value: `\`${process.env.PREFIX!}${c.name} ${command.name}\``,
+            value: `\`${process.env.BOTPREFIX!}${c.name} ${command.name}\``,
           });
         }
       }
