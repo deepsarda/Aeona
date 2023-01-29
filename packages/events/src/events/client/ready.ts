@@ -192,7 +192,7 @@ export default async (
     }, 60000);
 
     setInterval(() => {
-      if (client.cache.members.memory.size > 5000) {
+      if (client.cache.members.memory.size > 500) {
         for (const [_userId, user] of client.cache.members.memory) {
           if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
         }
@@ -207,7 +207,7 @@ export default async (
           client.cache.messages.delete(messageId);
         }
       }
-      if (client.cache.channels.memory.size > 500) {
+      if (client.cache.channels.memory.size > 5000) {
         for (const [channelId, _channe] of client.cache.channels.memory) {
           client.cache.channels.delete(channelId);
         }

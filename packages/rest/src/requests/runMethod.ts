@@ -24,6 +24,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     const { mimeType, content } = match.groups;
     body.file.blob = new Blob([decode(content)], { type: mimeType });
     data.body = body;
+    console.log(data.body);
   }
 
   console.log(`${BASE_URL}/v${rest.version}${data.url}`);
