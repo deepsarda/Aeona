@@ -1,6 +1,6 @@
 import { RestManager } from '@discordeno/rest';
 import { BASE_URL, FileContent } from 'discordeno';
-import { FormData } from 'undici';
+import * as dntShim from 'discordeno/_dnt.shims.js';
 
 import config from '../config';
 import { RunMethod } from '../types';
@@ -19,14 +19,13 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
   const body = data.body ? JSON.parse(data.body as any) : undefined;
   if (body && body.file) {
     const files = findFiles(body.file);
-    const form = new FormData();
+    const form = new (dntShim as any).FormData();
 
     for (let i = 0; i < files.length; i++) {
       form.append(`file${i}`, files[i].blob, files[i].name);
     }
     form.append('payload_json', JSON.stringify({ ...body, file: undefined }));
     body.file = form;
-    console.log(body.file);
   }
 
   const result = await rest
