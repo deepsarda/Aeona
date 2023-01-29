@@ -9,7 +9,7 @@ import { ConnectionInfo, MessageTypes, RequestTypes } from './types';
 const { REST_SOCKET_PATH } = config(['REST_SOCKET_PATH']);
 
 const connections: ConnectionInfo[] = [];
-
+console.debug = console.log;
 const server = new Server({
   path: REST_SOCKET_PATH,
   port: 20000,

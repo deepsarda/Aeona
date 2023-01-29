@@ -27,7 +27,6 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
     body.file[0].blob = new Blob([decode(content)], { type: mimeType });
     (data.payload!.body as any) = body;
   }
-  console.log(body);
   const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {
     if (e instanceof Error) {
       if (e.message.includes('[404]')) return e;

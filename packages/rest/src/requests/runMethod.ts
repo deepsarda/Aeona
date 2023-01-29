@@ -16,7 +16,6 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
-  console.log(body);
   if (body && body.file) {
     const match = body.file[0].blob.match(
       /^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/,
