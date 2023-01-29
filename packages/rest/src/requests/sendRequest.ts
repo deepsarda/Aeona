@@ -1,4 +1,6 @@
 import { RestManager } from '@discordeno/rest';
+import { FileContent } from 'discordeno/types';
+import FormData from 'form-data';
 
 import config from '../config';
 import { SendRequest } from '../types';
@@ -17,17 +19,16 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
 
   const body = data.payload?.body as any;
   if (body && body.file) {
-    const match = body.file[0].blob.match(
-      /^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/,
-    );
-    if (match?.groups === undefined) {
-      return false;
+    const files = findFiles(body.file);
+    const form = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      form.append(`file${i}`, files[i].blob, files[i].name);
     }
-    const { mimeType, content } = match.groups;
-    body.file[0].blob = new Blob([decode(content)], { type: mimeType })[0];
-    (data.payload!.body as any) = body;
+    form.append('payload_json', JSON.stringify({ ...body, file: undefined }));
+    body.file = form;
   }
-  const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {
+  const result = await rest.makeRequest(data.method, data.url, body).catch((e) => {
     if (e instanceof Error) {
       if (e.message.includes('[404]')) return e;
       // eslint-disable-next-line no-console
@@ -39,6 +40,43 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
 
   return result;
 };
+
+function findFiles(file: unknown): FileContent[] {
+  if (!file) {
+    return [];
+  }
+
+  const files: unknown[] = Array.isArray(file) ? file : [file];
+  return files.filter(coerceToFileContent);
+}
+
+function coerceToFileContent(value: unknown): value is FileContent {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const file = value as Record<string, unknown>;
+  if (typeof file.name !== 'string') {
+    return false;
+  }
+
+  switch (typeof file.blob) {
+    case 'string': {
+      const match = file.blob.match(/^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/);
+      if (match?.groups === undefined) {
+        return false;
+      }
+      const { mimeType, content } = match.groups;
+      file.blob = new Blob([decode(content)], { type: mimeType });
+      return true;
+    }
+    case 'object':
+      return file.blob instanceof Blob;
+    default:
+      return false;
+  }
+}
+
 /**
  * CREDIT: https://gist.github.com/enepomnyaschih/72c423f727d395eeaa09697058238727
  * Decodes RFC4648 base64 string into an Uint8Array
