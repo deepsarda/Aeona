@@ -9,7 +9,7 @@ try {
 }
 
 function runGateWay() {
-  const ls = exec('gateway events dev');
+  const ls = exec('yarn gateway dev');
 
   ls.stdout.on('data', (data) => {
     console.log(data.toString('ascii').trim());
@@ -21,7 +21,7 @@ function runGateWay() {
 
   ls.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-    runBot();
+    runGateWay();
   });
 }
 runGateWay();
