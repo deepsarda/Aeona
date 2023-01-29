@@ -26,6 +26,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     }
     form.append('payload_json', JSON.stringify({ ...body, file: undefined }));
     body.file = form;
+    console.log(body.file);
   }
 
   const result = await rest
