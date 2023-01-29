@@ -16,18 +16,19 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
+  console.log(body);
   if (body && body.file) {
-    const match = body.file.blob.match(/^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/);
+    const match = body.file[0].blob.match(
+      /^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/,
+    );
     if (match?.groups === undefined) {
       return false;
     }
     const { mimeType, content } = match.groups;
-    body.file.blob = new Blob([decode(content)], { type: mimeType });
+    body.file[0].blob = new Blob([decode(content)], { type: mimeType });
     data.body = body;
-    console.log(data.body);
   }
 
-  console.log(`${BASE_URL}/v${rest.version}${data.url}`);
   const result = await rest
     .makeRequest(data.method, `${BASE_URL}/v${rest.version}${data.url}`, body, data.options)
     .catch((e) => {

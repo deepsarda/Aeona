@@ -17,16 +17,17 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
 
   const body = data.payload?.body as any;
   if (body && body.file) {
-    const match = body.file.blob.match(/^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/);
+    const match = body.file[0].blob.match(
+      /^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/,
+    );
     if (match?.groups === undefined) {
       return false;
     }
     const { mimeType, content } = match.groups;
-    body.file.blob = new Blob([decode(content)], { type: mimeType });
+    body.file[0].blob = new Blob([decode(content)], { type: mimeType });
     (data.payload!.body as any) = body;
-    console.log(data.payload!.body);
   }
-
+  console.log(body);
   const result = await rest.makeRequest(data.method, data.url, body as any).catch((e) => {
     if (e instanceof Error) {
       if (e.message.includes('[404]')) return e;

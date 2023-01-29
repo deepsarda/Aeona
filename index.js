@@ -1,12 +1,6 @@
 const fs = require('fs');
 require('dotenv').config();
 const { exec, execSync } = require('child_process');
-console.log('Installing yarn.');
-try {
-  execSync('npm i -g yarn');
-} catch (e) {
-  console.log(e);
-}
 
 console.log('Building Rest');
 try {
