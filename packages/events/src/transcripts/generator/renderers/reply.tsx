@@ -5,7 +5,8 @@ import React from 'react';
 import { AeonaBot } from '../../../extras/index.js';
 import renderContent, { RenderType } from './content.js';
 
-import type { RenderMessageContext } from '../index.js';
+// eslint-disable-next-line require-extensions/require-extensions
+import type { RenderMessageContext } from '..';
 export default async function renderReply(
   bot: AeonaBot,
   message: Message,

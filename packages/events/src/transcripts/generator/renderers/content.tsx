@@ -17,7 +17,8 @@ import React, { Fragment, ReactNode } from 'react';
 import { parseDiscordEmoji } from '../../utils/utils.js';
 
 import type { ASTNode, SingleASTNode } from 'simple-markdown';
-import type { RenderMessageContext } from '../index.js';
+// eslint-disable-next-line require-extensions/require-extensions
+import type { RenderMessageContext } from '..';
 export enum RenderType {
   EMBED,
   REPLY,

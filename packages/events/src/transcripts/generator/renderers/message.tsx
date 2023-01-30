@@ -19,7 +19,8 @@ import { renderEmbed } from './embed.js';
 import renderReply from './reply.js';
 import renderSystemMessage from './systemMessage.js';
 
-import type { RenderMessageContext } from '../index.js';
+// eslint-disable-next-line require-extensions/require-extensions
+import type { RenderMessageContext } from '..';
 export default async function renderMessage(
   bot: AeonaBot,
   message: Message,
