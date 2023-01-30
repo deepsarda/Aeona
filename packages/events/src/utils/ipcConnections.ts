@@ -1,3 +1,4 @@
+import { createRestManager, RestManager } from 'discordeno/rest';
 import { DiscordGatewayPayload } from 'discordeno/types';
 import { Client } from 'net-ipc';
 
@@ -8,7 +9,11 @@ import { logger } from './logger.js';
 let eventsClient: Client;
 let retries = 0;
 
-const createIpcConnections = async (bot: AeonaBot): Promise<Client> => {
+const createIpcConnections = async (
+  bot: AeonaBot,
+  DISCORD_TOKEN: string,
+  REST_AUTHORIZATION: string,
+): Promise<Client> => {
   const { REST_SOCKET_PATH, EVENT_SOCKET_PATH } = getEnviroments([
     'REST_SOCKET_PATH',
     'EVENT_SOCKET_PATH',
@@ -61,10 +66,14 @@ const createIpcConnections = async (bot: AeonaBot): Promise<Client> => {
     restClient.send({ type: 'IDENTIFY', package: 'EVENTS', id: process.pid });
   });
 
-  eventsClient.on('message', (msg: { data: DiscordGatewayPayload; shardId: number }) => {
-    if (!msg.data.t) return;
-    if (msg.data.t !== 'RESUMED') bot.handlers[msg.data.t]?.(bot, msg.data, msg.shardId);
-  });
+  eventsClient.on(
+    'message',
+    (msg: { data: DiscordGatewayPayload; shardId: number }) => {
+      if (!msg.data.t) return;
+      if (msg.data.t !== 'RESUMED')
+        bot.handlers[msg.data.t]?.(bot, msg.data, msg.shardId);
+    },
+  );
 
   eventsClient.on('request', async (msg, ack) => {
     switch (msg.type) {
@@ -96,6 +105,103 @@ const createIpcConnections = async (bot: AeonaBot): Promise<Client> => {
     .connect()
     .catch(logger.panic)
     .then(() => logger.info('[BOT] Connected to gateway.'));
+
+  logger.info('Setting up the custom rest manager');
+
+  const runMethod = async <T = any>(
+    client: Client,
+    rest: RestManager,
+    method: RequestMethod,
+    route: string,
+    body?: unknown,
+    options?: {
+      retryCount?: number;
+      bucketId?: string;
+      headers?: Record<string, string>;
+    },
+  ): Promise<T> => {
+    if (body && (body as any).file) {
+      const buffer = Buffer.from(
+        await (body as any).file[0].blob.arrayBuffer(),
+      );
+      (body as any).file[0].blob =
+        'data:' +
+        (body as any).file[0].blob?.type +
+        ';base64,' +
+        buffer.toString('base64');
+    }
+    const response = await client.request(
+      {
+        type: 'RUN_METHOD',
+        data: {
+          Authorization: rest.secretKey,
+          url: route,
+          body: JSON.stringify(body),
+          method,
+          options,
+        },
+      },
+      0,
+    );
+
+    if (response?.statusCode >= 400)
+      logger.error(`[${response.status}] - ${response.error}`);
+    return response;
+  };
+
+  type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+  const sendRequest = async <T = any>(
+    client: Client,
+    rest: RestManager,
+    method: RequestMethod,
+    route: string,
+    bucketId?: string,
+    retryCount?: number,
+    payload?: {
+      headers: Record<string, string>;
+      body: unknown;
+    },
+  ): Promise<T> => {
+    const response = await client.request(
+      {
+        type: 'SEND_REQUEST',
+        data: {
+          Authorization: rest.secretKey,
+          url: route,
+          method,
+          bucketId,
+          retryCount,
+          payload,
+        },
+      },
+      0,
+    );
+
+    if (response?.statusCode >= 400)
+      logger.error(`[${response.status}] - ${response.error}`);
+
+    return response;
+  };
+
+  bot.rest = createRestManager({
+    token: DISCORD_TOKEN,
+    secretKey: REST_AUTHORIZATION,
+    runMethod: async (rest, method, route, body, options) =>
+      runMethod(restClient, rest, method, route, body, options),
+    sendRequest: async (rest, options) =>
+      sendRequest(
+        restClient,
+        rest,
+        options.method,
+        options.url,
+        options.bucketId,
+        options.retryCount,
+        options.payload,
+      ),
+  });
+
+  logger.info('[READY] Events are being processed!');
 
   return restClient;
 };

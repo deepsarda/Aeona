@@ -5,7 +5,10 @@ import runMethod from './requests/runMethod.js';
 import sendRequest from './requests/sendRequest.js';
 import { RequestTypes } from './types.js';
 
-const { DISCORD_TOKEN, REST_AUTHORIZATION } = config(['DISCORD_TOKEN', 'REST_AUTHORIZATION']);
+const { DISCORD_TOKEN, REST_AUTHORIZATION } = config([
+  'DISCORD_TOKEN',
+  'REST_AUTHORIZATION',
+]);
 
 const rest = createRestManager({
   token: DISCORD_TOKEN,
@@ -41,7 +44,7 @@ const rest = createRestManager({
     }
   },
   debug: (s) => {
-    if (!s.includes('[REST - fetch')) console.log(s);
+    // if (!s.includes('[REST - fetch')) console.log(s);
   },
 });
 
@@ -55,7 +58,9 @@ const handleRequest = async (req: RequestTypes): Promise<unknown> => {
 };
 rest.invalidBucket = createInvalidRequestBucket({});
 export { handleRequest };
-function createInvalidRequestBucket(options: InvalidRequestBucketOptions): InvalidRequestBucket {
+function createInvalidRequestBucket(
+  options: InvalidRequestBucketOptions,
+): InvalidRequestBucket {
   const bucket: InvalidRequestBucket = {
     current: options.current ?? 0,
     max: options.max ?? 10000,

@@ -53,6 +53,7 @@
     "erela.js-deezer": "^1.0.7",
     "erela.js-facebook": "^1.0.4",
     "erela.js-spotify": "^1.2.0",
+    "eslint-plugin-require-extensions": "^0.1.1",
     "express": "^4.18.2",
     "fastify": "^4.12.0",
     "figlet": "^1.5.2",

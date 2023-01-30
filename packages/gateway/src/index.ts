@@ -7,6 +7,13 @@ import { Worker } from 'worker_threads';
 
 import config from './config.js';
 
+process.on('unhandledRejection', (error: Error) => {
+  console.error(error);
+});
+
+process.on('warning', (warn) => {
+  console.warn(warn);
+});
 /* eslint-disable no-console */
 type EventClientConnection = {
   id: string;
@@ -15,7 +22,12 @@ type EventClientConnection = {
   version: string;
 };
 
-const { DISCORD_TOKEN, REST_AUTHORIZATION, REST_SOCKET_PATH, EVENT_SOCKET_PATH } = config([
+const {
+  DISCORD_TOKEN,
+  REST_AUTHORIZATION,
+  REST_SOCKET_PATH,
+  EVENT_SOCKET_PATH,
+} = config([
   'DISCORD_TOKEN',
   'REST_AUTHORIZATION',
   'REST_SOCKET_PATH',
@@ -72,7 +84,12 @@ eventsServer.on('message', async (msg, conn) => {
     if (!currentVersion) currentVersion = msg.version;
 
     if (currentVersion === msg.version) {
-      console.log('[GATEWAY] Client connected. Version: ' + msg.version + ' ID: ' + conn.id);
+      console.log(
+        '[GATEWAY] Client connected. Version: ' +
+          msg.version +
+          ' ID: ' +
+          conn.id,
+      );
       eventClientConnections.push({
         id: conn.id,
         conn,
@@ -81,7 +98,12 @@ eventsServer.on('message', async (msg, conn) => {
       });
 
       if (eventClientConnections.length === 1) {
-        console.log('[GATEWAY] Client made master. Version: ' + msg.version + ' ID: ' + conn.id);
+        console.log(
+          '[GATEWAY] Client made master. Version: ' +
+            msg.version +
+            ' ID: ' +
+            conn.id,
+        );
         conn.request({ type: 'YOU_ARE_THE_MASTER' });
         eventClientConnections[0].isMaster = true;
 
@@ -94,14 +116,21 @@ eventsServer.on('message', async (msg, conn) => {
     }
 
     if (swappingVersions) {
-      waitingForSwap.push({ id: conn.id, conn, version: msg.version, isMaster: false });
+      waitingForSwap.push({
+        id: conn.id,
+        conn,
+        version: msg.version,
+        isMaster: false,
+      });
       return;
     }
 
     swappingVersions = true;
 
     await Promise.all(
-      eventClientConnections.map((a) => a.conn.request({ type: 'REQUEST_TO_SHUTDOWN' })),
+      eventClientConnections.map((a) =>
+        a.conn.request({ type: 'REQUEST_TO_SHUTDOWN' }),
+      ),
     ).catch();
 
     await delay(1000);
@@ -118,7 +147,12 @@ eventsServer.on('message', async (msg, conn) => {
 
     await conn.request({ type: 'YOU_ARE_THE_MASTER' }).catch(() => null);
 
-    console.log('[GATEWAY] Client made master. Version: ' + msg.version + ' ID: ' + conn.id);
+    console.log(
+      '[GATEWAY] Client made master. Version: ' +
+        msg.version +
+        ' ID: ' +
+        conn.id,
+    );
     waitingForSwap.forEach((c) => eventClientConnections.push(c));
 
     waitingForSwap = [];
@@ -226,7 +260,10 @@ const createWorker = (workerId: number) => {
     workerId,
   };
 
-  const worker = new Worker('./dist/worker.js', { env: process.env, workerData });
+  const worker = new Worker('./dist/worker.js', {
+    env: process.env,
+    workerData,
+  });
 
   worker.on('message', async (data) => {
     switch (data.type) {

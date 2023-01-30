@@ -28,7 +28,11 @@ export function additionalProps(client: AeonaBot) {
     ...embeds(client),
     version: 'v0.2.0',
     webhook: async (content: any) => {
-      return await client.helpers.sendWebhookMessage(id as BigString, token, content);
+      return await client.helpers.sendWebhookMessage(
+        id as BigString,
+        token,
+        content,
+      );
     },
     startTime: new Date().getTime(),
     config: botConfig,
@@ -64,7 +68,8 @@ export function additionalProps(client: AeonaBot) {
       ],
       send(id, payload) {
         const guild = client.cache.guilds.memory.get(BigInt(id));
-        if (guild) client.gateway.manager.shards.get(guild.shardId)?.send(payload);
+        if (guild)
+          client.gateway.manager.shards.get(guild.shardId)?.send(payload);
       },
     }),
     capitalizeFirstLetter: (string: string) => {
@@ -88,7 +93,11 @@ export function additionalProps(client: AeonaBot) {
       }
       return false;
     },
-    async createChannelSetup(Schema: any, channel: Channel, interaction: Context) {
+    async createChannelSetup(
+      Schema: any,
+      channel: Channel,
+      interaction: Context,
+    ) {
       Schema.findOne(
         { Guild: interaction.guildId },
         async (err: any, data: { Channel: bigint; save: () => void }) => {
@@ -162,7 +171,12 @@ export function additionalProps(client: AeonaBot) {
       return embed;
     },
 
-    async createLeaderboard(title: any, lb: any[], interaction: Context, currentIndex?: number) {
+    async createLeaderboard(
+      title: any,
+      lb: any[],
+      interaction: Context,
+      currentIndex?: number,
+    ) {
       if (!currentIndex) currentIndex = 0;
       let btn1 = true;
       let btn2 = true;
@@ -179,7 +193,14 @@ export function additionalProps(client: AeonaBot) {
           disabled: btn2,
         });
       const msg = await client.helpers.sendMessage(interaction.channel!.id, {
-        embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
+        embeds: [
+          await client.extras.generateEmbed(
+            currentIndex,
+            currentIndex,
+            lb,
+            title,
+          ),
+        ],
         components: comp,
       });
 
@@ -193,7 +214,9 @@ export function additionalProps(client: AeonaBot) {
         .then(async (btn) => {
           if (!currentIndex) return;
 
-          btn.data?.customId === 'back_button' ? (currentIndex -= 10) : (currentIndex += 10);
+          btn.data?.customId === 'back_button'
+            ? (currentIndex -= 10)
+            : (currentIndex += 10);
           client.extras.createLeaderboard(title, lb, interaction, currentIndex);
         })
         .catch((err) => {
@@ -332,7 +355,8 @@ export function additionalProps(client: AeonaBot) {
           .sort([['xp', -1]])
           .exec();
 
-        userReturn.position = leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
+        userReturn.position =
+          leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
       }
 
       userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);

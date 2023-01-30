@@ -9,7 +9,13 @@ import { ConnectionInfo, MessageTypes, RequestTypes } from './types';
 const { REST_SOCKET_PATH } = config(['REST_SOCKET_PATH']);
 
 const connections: ConnectionInfo[] = [];
-console.debug = console.log;
+process.on('unhandledRejection', (error: Error) => {
+  console.error(error);
+});
+
+process.on('warning', (warn) => {
+  console.warn(warn);
+});
 const server = new Server({
   path: REST_SOCKET_PATH,
   port: 20000,
@@ -44,7 +50,9 @@ server.on('disconnect', (conn, reason) => {
     identified.connectedAt = -1;
     identified.disconnectedAt = Date.now();
     identified.connected = false;
-    console.log(`[IPC] Client ${identified.package} - ${identified.id} disconnected`);
+    console.log(
+      `[IPC] Client ${identified.package} - ${identified.id} disconnected`,
+    );
     return;
   }
 
@@ -52,7 +60,8 @@ server.on('disconnect', (conn, reason) => {
 });
 
 server.on('message', (info: MessageTypes, connection) => {
-  if (info.type === 'IDENTIFY') return handleIdentify(connections, info, connection);
+  if (info.type === 'IDENTIFY')
+    return handleIdentify(connections, info, connection);
 });
 
 server.on('request', async (req: RequestTypes, res) => {

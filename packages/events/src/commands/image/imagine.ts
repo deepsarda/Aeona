@@ -280,7 +280,6 @@ export default {
 */
 
 async function query(data) {
-  console.log(process.env[`APIKEY${count}`]);
   const response = await fetch(
     'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
     {
@@ -323,7 +322,8 @@ export default {
       comp.addSelectComponent('Choose your style', 'style', [
         {
           label: 'accurate',
-          description: 'Generates the image most accurate to your prompt but will be less amazing.',
+          description:
+            'Generates the image most accurate to your prompt but will be less amazing.',
           value: 'accurate',
         },
         {
@@ -399,7 +399,8 @@ export default {
         },
         {
           label: 'comic',
-          description: 'Make your image in a comic strip style does not work all the time!',
+          description:
+            'Make your image in a comic strip style does not work all the time!',
           value: 'comic',
         },
         {
@@ -468,14 +469,16 @@ export default {
           modifiers = ' synthwave neon retro';
           break;
         case '3d':
-          modifiers = ' trending on Artstation Unreal Engine 3D shading shadow depth';
+          modifiers =
+            ' trending on Artstation Unreal Engine 3D shading shadow depth';
           break;
         case 'epic':
           modifiers =
             ' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting';
           break;
         case 'comic':
-          modifiers = ' Mark Brooks and Dan Mumford, comic book art, perfect, smooth';
+          modifiers =
+            ' Mark Brooks and Dan Mumford, comic book art, perfect, smooth';
           break;
         case 'charcoal':
           modifiers = ' hyperdetailed charcoal drawing';
@@ -492,7 +495,8 @@ export default {
         console.log(response);
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
-          content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
+          content:
+            '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
             {
               blob: response,
@@ -515,7 +519,8 @@ export default {
           'Share this image.',
         );
         ctx.reply({
-          content: '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
+          content:
+            '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
             {
               blob: response,

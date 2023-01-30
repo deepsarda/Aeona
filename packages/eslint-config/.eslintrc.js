@@ -9,6 +9,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:require-extensions/recommended',
   ],
   parserOptions: {
     ecmaVersion: 12,
@@ -16,7 +17,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['import', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': 'off',
     'consistent-return': 'off',
     'class-methods-use-this': ['error', { exceptMethods: ['run'] }],
     'no-param-reassign': ['error', { props: false }],
