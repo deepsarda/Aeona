@@ -5,6 +5,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
+
 import { AeonaBot } from '../../extras/index.js';
 import { scrollToMessage } from '../static/client.js';
 import { buildProfiles } from '../utils/buildProfiles.js';
@@ -18,7 +19,8 @@ try {
   const packagePath = path.join(__dirname, '..', '..', 'package.json');
   const packageJSON = JSON.parse(readFileSync(packagePath, 'utf8'));
   discordComponentsVersion =
-    packageJSON.dependencies['@derockdev/discord-components-core'] ?? discordComponentsVersion;
+    packageJSON.dependencies['@derockdev/discord-components-core'] ??
+    discordComponentsVersion;
   // eslint-disable-next-line no-empty
 } catch {} // ignore errors
 
@@ -64,7 +66,9 @@ export default async function renderMessages(
             ? 'Direct Messages'
             : (await bot.cache.guilds.get(channel.guildId))!.name
         }
-        channel={channel.type == ChannelTypes.DM ? 'Unknown Recipient' : channel.name}
+        channel={
+          channel.type == ChannelTypes.DM ? 'Unknown Recipient' : channel.name
+        }
         icon={
           channel.type == ChannelTypes.DM
             ? undefined
@@ -77,7 +81,8 @@ export default async function renderMessages(
               ) ?? undefined
         }
       >
-        {channel.type == ChannelTypes.PublicThread || channel.type == ChannelTypes.PrivateThread
+        {channel.type == ChannelTypes.PublicThread ||
+        channel.type == ChannelTypes.PrivateThread
           ? `Thread channel in ${
               (await bot.cache.channels.get(channel.parentId!))
                 ? (await bot.cache.channels.get(channel.parentId!))?.name
@@ -85,7 +90,8 @@ export default async function renderMessages(
             }`
           : channel.type == ChannelTypes.DM
           ? `Direct Messages`
-          : channel.type == ChannelTypes.GuildVoice || channel.type == ChannelTypes.GuildStageVoice
+          : channel.type == ChannelTypes.GuildVoice ||
+            channel.type == ChannelTypes.GuildStageVoice
           ? `Voice Text Channel for ${channel.name}`
           : channel.type === ChannelTypes.GuildCategory
           ? `Category Channel`
@@ -125,7 +131,7 @@ export default async function renderMessages(
   return ReactDOMServer.renderToStaticMarkup(
     <html>
       <head>
-        <meta name='viewport' content='width=device-width' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
 
         {/* favicon */}
         <link
@@ -148,7 +154,9 @@ export default async function renderMessages(
         />
 
         {/* title */}
-        <title>{channel.type == ChannelTypes.DM ? 'Direct Messages' : channel.name}</title>
+        <title>
+          {channel.type == ChannelTypes.DM ? 'Direct Messages' : channel.name}
+        </title>
 
         {/* profiles */}
         <script

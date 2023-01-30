@@ -9,8 +9,8 @@ import {
 } from '@derockdev/discord-components-react';
 import { Message, MessageTypes } from 'discordeno';
 import React from 'react';
+
 import { AeonaBot } from '../../../extras/index.js';
-import type { RenderMessageContext } from '..';
 import { parseDiscordEmoji } from '../../utils/utils.js';
 import renderAttachments from './attachment.js';
 import renderComponentRow from './components.js';
@@ -19,6 +19,7 @@ import { renderEmbed } from './embed.js';
 import renderReply from './reply.js';
 import renderSystemMessage from './systemMessage.js';
 
+import type { RenderMessageContext } from '../index.js';
 export default async function renderMessage(
   bot: AeonaBot,
   message: Message,
@@ -37,12 +38,13 @@ export default async function renderMessage(
     return renderSystemMessage(bot, message);
 
   const isCrosspost =
-    message.messageReference && message.messageReference.guildId !== message.guildId;
+    message.messageReference &&
+    message.messageReference.guildId !== message.guildId;
 
   return (
     <DiscordMessage
       id={`m-${message.id}`}
-      timestamp={new Date(message.timestamp)}
+      timestamp={new Date(message.timestamp).toISOString()}
       key={`${message.id}`}
       edited={message.editedTimestamp !== null}
       server={isCrosspost ?? undefined}
@@ -75,7 +77,8 @@ export default async function renderMessage(
         message.embeds.length > 0 &&
         (await Promise.all(
           message.embeds.map(
-            async (embed, id) => await renderEmbed(embed, { ...context, index: id, message }),
+            async (embed, id) =>
+              await renderEmbed(embed, { ...context, index: id, message }),
           ),
         ))}
 
@@ -118,14 +121,19 @@ export default async function renderMessage(
         >
           {message.thread.lastMessageId ? (
             <DiscordThreadMessage
-              profile={`${(await bot.cache.messages.get(message.thread.lastMessageId))?.id}`}
+              profile={`${
+                (await bot.cache.messages.get(message.thread.lastMessageId))?.id
+              }`}
             >
               {await renderContent(
-                (await bot.cache.messages.get(message.thread.lastMessageId))!.content.length > 128
+                (await bot.cache.messages.get(message.thread.lastMessageId))!
+                  .content.length > 128
                   ? `${(await bot.cache.messages.get(
                       message.thread.lastMessageId,
                     ))!.content.substring(0, 125)}...`
-                  : (await bot.cache.messages.get(message.thread.lastMessageId))!.content,
+                  : (await bot.cache.messages.get(
+                      message.thread.lastMessageId,
+                    ))!.content,
                 { ...context, type: RenderType.REPLY },
               )}
             </DiscordThreadMessage>

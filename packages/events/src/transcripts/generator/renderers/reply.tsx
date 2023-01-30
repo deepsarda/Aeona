@@ -1,10 +1,11 @@
 import { DiscordReply } from '@derockdev/discord-components-react';
 import { ChannelTypes, Errors, Guild, Member, Message, Role } from 'discordeno';
 import React from 'react';
+
 import { AeonaBot } from '../../../extras/index.js';
-import type { RenderMessageContext } from '..';
 import renderContent, { RenderType } from './content.js';
 
+import type { RenderMessageContext } from '../index.js';
 export default async function renderReply(
   bot: AeonaBot,
   message: Message,
@@ -18,7 +19,9 @@ export default async function renderReply(
   );
 
   if (!referencedMessage)
-    return <DiscordReply slot='reply'>Message could not be loaded.</DiscordReply>;
+    return (
+      <DiscordReply slot='reply'>Message could not be loaded.</DiscordReply>
+    );
 
   const isCrosspost =
     referencedMessage.messageReference &&
@@ -30,18 +33,33 @@ export default async function renderReply(
       slot='reply'
       edited={!isCommand && referencedMessage.editedTimestamp !== null}
       attachment={referencedMessage.attachments.length > 0}
-      author={referencedMessage.member?.nick ?? referencedMessage.member?.user?.username}
-      avatar={bot.helpers.getAvatarURL(referencedMessage.authorId, user ? user.discriminator : '', {
-        avatar: `${referencedMessage.member?.avatar}`,
-      })}
+      author={
+        referencedMessage.member?.nick ??
+        referencedMessage.member?.user?.username
+      }
+      avatar={bot.helpers.getAvatarURL(
+        referencedMessage.authorId,
+        user ? user.discriminator : '',
+        {
+          avatar: `${referencedMessage.member?.avatar}`,
+        },
+      )}
       roleColor={rgbToHex(
-        (await highestRole(bot, referencedMessage.guildId!, referencedMessage.member!)).color,
+        (
+          await highestRole(
+            bot,
+            referencedMessage.guildId!,
+            referencedMessage.member!,
+          )
+        ).color,
       )}
       bot={!isCrosspost && referencedMessage.member?.user?.toggles.bot}
       verified={false}
       op={
-        (await bot.cache.channels.get(message.channelId))!.type == ChannelTypes.DM &&
-        referencedMessage.authorId === (await bot.cache.channels.get(message.channelId))!.ownerId
+        (await bot.cache.channels.get(message.channelId))!.type ==
+          ChannelTypes.DM &&
+        referencedMessage.authorId ===
+          (await bot.cache.channels.get(message.channelId))!.ownerId
       }
       server={isCrosspost ?? undefined}
       command={isCommand}
@@ -73,12 +91,17 @@ export async function highestRole(
   guildOrId: bigint | Guild,
   memberOrId: bigint | Member,
 ) {
-  const guild = typeof guildOrId === 'bigint' ? await bot.cache.guilds.get(guildOrId) : guildOrId;
+  const guild =
+    typeof guildOrId === 'bigint'
+      ? await bot.cache.guilds.get(guildOrId)
+      : guildOrId;
   if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
 
   // Get the roles from the member
   const memberRoles = (
-    typeof memberOrId === 'bigint' ? await bot.cache.members.get(memberOrId, guild.id) : memberOrId
+    typeof memberOrId === 'bigint'
+      ? await bot.cache.members.get(memberOrId, guild.id)
+      : memberOrId
   )?.roles;
   // This member has no roles so the highest one is the @everyone role
   if (!memberRoles) return guild.roles.get(guild.id)!;

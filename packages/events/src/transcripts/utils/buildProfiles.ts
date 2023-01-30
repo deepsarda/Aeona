@@ -2,7 +2,8 @@ import { AmethystCollection } from '@thereallonewolf/amethystframework';
 import { BigString, Member, Message, User } from 'discordeno';
 import { BotWithCache } from 'discordeno/cache-plugin';
 import { highestRole } from 'discordeno/permissions-plugin';
-import { AeonaBot } from '../../extras/index';
+
+import { AeonaBot } from '../../extras/index.js';
 
 export type Profile = {
   author: string; // author of the message
@@ -24,7 +25,10 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
     const author = await bot.helpers.getUser(message.authorId);
     if (!profiles.has(author.id)) {
       // add profile
-      profiles.set(`${author.id}`, await buildProfile(bot, message.member!, author));
+      profiles.set(
+        `${author.id}`,
+        await buildProfile(bot, message.member!, author),
+      );
     }
 
     // add interaction users
@@ -36,10 +40,17 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
 
     // threads
     if (message.thread && message.thread.lastMessageId) {
-      const m = await bot.helpers.getMessage(`${message.thread.id}`, message.thread.lastMessageId);
+      const m = await bot.helpers.getMessage(
+        `${message.thread.id}`,
+        message.thread.lastMessageId,
+      );
       profiles.set(
         m.authorId,
-        await buildProfile(bot, m.member!, await bot.helpers.getUser(m.authorId)),
+        await buildProfile(
+          bot,
+          m.member!,
+          await bot.helpers.getUser(m.authorId),
+        ),
       );
     }
   }
@@ -64,7 +75,11 @@ async function buildProfile(
   };
 
   if (member) {
-    const role = highestRole(bot as unknown as BotWithCache, member.guildId, author.id);
+    const role = highestRole(
+      bot as unknown as BotWithCache,
+      member.guildId,
+      author.id,
+    );
 
     u.roleColor = rgbToHex(role.color);
     u.roleIcon = `https://cdn.discordapp.com/role-icons/${role.id}/${role.icon}.png`;

@@ -10,13 +10,14 @@ import {
   DiscordTime,
   DiscordUnderlined,
 } from '@derockdev/discord-components-react';
-import { type RuleTypesExtended, parse } from 'discord-markdown-parser';
+import { parse, RuleTypesExtended } from 'discord-markdown-parser';
 import { ChannelTypes } from 'discordeno';
-import React, { Fragment, type ReactNode } from 'react';
-import type { ASTNode, SingleASTNode } from 'simple-markdown';
-import type { RenderMessageContext } from '..';
+import React, { Fragment, ReactNode } from 'react';
+
 import { parseDiscordEmoji } from '../../utils/utils.js';
 
+import type { ASTNode, SingleASTNode } from 'simple-markdown';
+import type { RenderMessageContext } from '../index.js';
 export enum RenderType {
   EMBED,
   REPLY,
@@ -32,7 +33,10 @@ type RenderContentContext = RenderMessageContext & {
   };
 };
 
-export default async function renderContent(content: string, context: RenderContentContext) {
+export default async function renderContent(
+  content: string,
+  context: RenderContentContext,
+) {
   if (context.type === RenderType.REPLY && content.length > 180)
     content = `${content.slice(0, 180)}...`;
 
@@ -52,7 +56,9 @@ export default async function renderContent(content: string, context: RenderCont
   );
   if (isOnlyEmojis) {
     // now check if there are less than or equal to 25 emojis
-    const emojis = parsed.filter((node) => ['emoji', 'twemoji'].includes(node.type));
+    const emojis = parsed.filter((node) =>
+      ['emoji', 'twemoji'].includes(node.type),
+    );
     if (emojis.length <= 25) {
       context._internal = {
         largeEmojis: true,
@@ -68,9 +74,9 @@ const renderNodes = async (
   context: RenderContentContext,
 ): Promise<React.ReactNode[]> =>
   Array.isArray(nodes)
-    ? (await Promise.all(nodes.map((node) => renderASTNode(node, context)))).map((each, i) => (
-        <Fragment key={i}>{each}</Fragment>
-      ))
+    ? (
+        await Promise.all(nodes.map((node) => renderASTNode(node, context)))
+      ).map((each, i) => <Fragment key={i}>{each}</Fragment>)
     : [await renderASTNode(nodes, context)];
 
 export async function renderASTNode(
@@ -86,7 +92,9 @@ export async function renderASTNode(
       return node.content;
 
     case 'link':
-      return <a href={node.target}>{await renderNodes(node.content, context)}</a>;
+      return (
+        <a href={node.target}>{await renderNodes(node.content, context)}</a>
+      );
 
     case 'url':
     case 'autolink':
@@ -101,7 +109,9 @@ export async function renderASTNode(
         return await renderNodes(node.content, context);
       }
 
-      return <DiscordQuote>{await renderNodes(node.content, context)}</DiscordQuote>;
+      return (
+        <DiscordQuote>{await renderNodes(node.content, context)}</DiscordQuote>
+      );
 
     case 'br':
     case 'newline':
@@ -122,7 +132,11 @@ export async function renderASTNode(
               : 'channel'
           }
         >
-          {channel ? (channel.type == ChannelTypes.DM ? 'DM Channel' : channel.name) : `<#${id}>`}
+          {channel
+            ? channel.type == ChannelTypes.DM
+              ? 'DM Channel'
+              : channel.name
+            : `<#${id}>`}
         </DiscordMention>
       );
     }
@@ -134,7 +148,9 @@ export async function renderASTNode(
       return (
         <DiscordMention
           type='role'
-          color={context.type === RenderType.REPLY ? undefined : `${role?.color}`}
+          color={
+            context.type === RenderType.REPLY ? undefined : `${role?.color}`
+          }
         >
           {role ? role.name : `<@&${id}>`}
         </DiscordMention>
@@ -145,7 +161,11 @@ export async function renderASTNode(
       const id = node.id as string;
       const user = await context.callbacks.resolveUser(id);
 
-      return <DiscordMention type='user'>{user ? user.username : `<@${id}>`}</DiscordMention>;
+      return (
+        <DiscordMention type='user'>
+          {user ? user.username : `<@${id}>`}
+        </DiscordMention>
+      );
     }
 
     case 'here':
@@ -166,13 +186,23 @@ export async function renderASTNode(
       return <DiscordInlineCode>{node.content}</DiscordInlineCode>;
 
     case 'em':
-      return <DiscordItalic>{await renderNodes(node.content, context)}</DiscordItalic>;
+      return (
+        <DiscordItalic>
+          {await renderNodes(node.content, context)}
+        </DiscordItalic>
+      );
 
     case 'strong':
-      return <DiscordBold>{await renderNodes(node.content, context)}</DiscordBold>;
+      return (
+        <DiscordBold>{await renderNodes(node.content, context)}</DiscordBold>
+      );
 
     case 'underline':
-      return <DiscordUnderlined>{await renderNodes(node.content, context)}</DiscordUnderlined>;
+      return (
+        <DiscordUnderlined>
+          {await renderNodes(node.content, context)}
+        </DiscordUnderlined>
+      );
 
     case 'strikethrough':
       return <s>{await renderNodes(node.content, context)}</s>;
@@ -183,7 +213,11 @@ export async function renderASTNode(
         : await renderNodes(node.content, context);
 
     case 'spoiler':
-      return <DiscordSpoiler>{await renderNodes(node.content, context)}</DiscordSpoiler>;
+      return (
+        <DiscordSpoiler>
+          {await renderNodes(node.content, context)}
+        </DiscordSpoiler>
+      );
 
     case 'emoji':
     case 'twemoji':
@@ -199,7 +233,12 @@ export async function renderASTNode(
       );
 
     case 'timestamp':
-      return <DiscordTime timestamp={parseInt(node.timestamp) * 1000} format={node.format} />;
+      return (
+        <DiscordTime
+          timestamp={parseInt(node.timestamp) * 1000}
+          format={node.format}
+        />
+      );
 
     default: {
       console.log(`Unknown node type: ${type}`, node);

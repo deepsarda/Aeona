@@ -1,28 +1,38 @@
-import {
-  DiscordReaction,
-  DiscordReactions,
-  DiscordSystemMessage,
-} from '@derockdev/discord-components-react';
-
+import { DiscordReaction, DiscordReactions, DiscordSystemMessage } from '@derockdev/discord-components-react';
 import { Errors, Guild, Member, Message, MessageTypes, Role, User } from 'discordeno';
-
 import React from 'react';
+
 import { AeonaBot } from '../../../extras/index.js';
 import { parseDiscordEmoji } from '../../utils/utils.js';
 
-export default async function renderSystemMessage(bot: AeonaBot, message: Message) {
+export default async function renderSystemMessage(
+  bot: AeonaBot,
+  message: Message,
+) {
   switch (message.type) {
     case MessageTypes.RecipientAdd:
     case MessageTypes.UserJoin:
       return (
-        <DiscordSystemMessage id={`m-${message.id}`} key={`${message.id}`} type='join'>
-          {await JoinMessage(bot, message.member, (await bot.cache.users.get(message.authorId))!)}
+        <DiscordSystemMessage
+          id={`m-${message.id}`}
+          key={`${message.id}`}
+          type='join'
+        >
+          {await JoinMessage(
+            bot,
+            message.member,
+            (await bot.cache.users.get(message.authorId))!,
+          )}
         </DiscordSystemMessage>
       );
 
     case MessageTypes.ChannelPinnedMessage:
       return (
-        <DiscordSystemMessage id={`m-${message.id}`} key={`${message.id}`} type='edit'>
+        <DiscordSystemMessage
+          id={`m-${message.id}`}
+          key={`${message.id}`}
+          type='pin'
+        >
           <Highlight
             color={rgbToHex(
               (
@@ -36,7 +46,9 @@ export default async function renderSystemMessage(bot: AeonaBot, message: Messag
           >
             {message.member?.user?.username}
           </Highlight>{' '}
-          pinned <i data-goto={message.messageReference?.messageId}>a message</i> to this channel.
+          pinned{' '}
+          <i data-goto={message.messageReference?.messageId}>a message</i> to
+          this channel.
           {/* reactions */}
           {message.reactions!.length > 0 && (
             <DiscordReactions slot='reactions'>
@@ -58,7 +70,11 @@ export default async function renderSystemMessage(bot: AeonaBot, message: Messag
     case MessageTypes.GuildBoostTier2:
     case MessageTypes.GuildBoostTier3:
       return (
-        <DiscordSystemMessage id={`m-${message.id}`} key={`${message.id}`} type='boost'>
+        <DiscordSystemMessage
+          id={`m-${message.id}`}
+          key={`${message.id}`}
+          type='boost'
+        >
           <Highlight
             color={rgbToHex(
               (
@@ -78,7 +94,11 @@ export default async function renderSystemMessage(bot: AeonaBot, message: Messag
 
     case MessageTypes.ThreadStarterMessage:
       return (
-        <DiscordSystemMessage id={`ms-${message.id}`} key={`${message.id}`} type='thread'>
+        <DiscordSystemMessage
+          id={`ms-${message.id}`}
+          key={`${message.id}`}
+          type='thread'
+        >
           <Highlight
             color={rgbToHex(
               (
@@ -92,7 +112,10 @@ export default async function renderSystemMessage(bot: AeonaBot, message: Messag
           >
             {message.member?.user?.username}
           </Highlight>{' '}
-          started a thread: <i data-goto={message.messageReference?.messageId}>{message.content}</i>
+          started a thread:{' '}
+          <i data-goto={message.messageReference?.messageId}>
+            {message.content}
+          </i>
         </DiscordSystemMessage>
       );
 
@@ -101,7 +124,13 @@ export default async function renderSystemMessage(bot: AeonaBot, message: Messag
   }
 }
 
-export function Highlight({ children, color }: { children: React.ReactNode; color?: string }) {
+export function Highlight({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color?: string;
+}) {
   return <i style={{ color: color ?? 'white' }}>{children}</i>;
 }
 
@@ -150,13 +179,20 @@ export async function JoinMessage(
   member: Member | undefined,
   fallbackUser: User,
 ): Promise<string> {
-  const randomMessage = allJoinMessages[Math.floor(Math.random() * allJoinMessages.length)]!;
+  const randomMessage =
+    allJoinMessages[Math.floor(Math.random() * allJoinMessages.length)]!;
 
   randomMessage.replace(
     '{user}',
     `<Highlight
     color={${rgbToHex(
-      (await highestRole(bot, member?.guildId ? member.guildId : BigInt(0), member!)).color,
+      (
+        await highestRole(
+          bot,
+          member?.guildId ? member.guildId : BigInt(0),
+          member!,
+        )
+      ).color,
     )}}
   >
     {${member?.nick ?? fallbackUser.username}}
@@ -178,12 +214,17 @@ export async function highestRole(
   guildOrId: bigint | Guild,
   memberOrId: bigint | Member,
 ) {
-  const guild = typeof guildOrId === 'bigint' ? await bot.cache.guilds.get(guildOrId) : guildOrId;
+  const guild =
+    typeof guildOrId === 'bigint'
+      ? await bot.cache.guilds.get(guildOrId)
+      : guildOrId;
   if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
 
   // Get the roles from the member
   const memberRoles = (
-    typeof memberOrId === 'bigint' ? await bot.cache.members.get(memberOrId, guild.id) : memberOrId
+    typeof memberOrId === 'bigint'
+      ? await bot.cache.members.get(memberOrId, guild.id)
+      : memberOrId
   )?.roles;
   // This member has no roles so the highest one is the @everyone role
   if (!memberRoles) return guild.roles.get(guild.id)!;

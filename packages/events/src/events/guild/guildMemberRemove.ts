@@ -9,14 +9,14 @@ import { AeonaBot } from '../../extras/index.js';
 export default async (client: AeonaBot, user: User, guildId: bigint) => {
   const messageData = await messages.findOne({ Guild: guildId });
   const inviteByData = await invitedBy.findOne({
-    Guild: guildId,
+    Guild: guildId + '',
     User: user.id + '',
   });
   const channelData = await leaveSchema.findOne({ Guild: guildId });
 
   if (inviteByData) {
     const inviteData = await invites.findOne({
-      Guild: guildId,
+      Guild: guildId + '',
       User: inviteByData.inviteUser,
     });
 
@@ -32,28 +32,54 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
         if (!guild) return;
         let leaveMessage = messageData.inviteLeave;
         leaveMessage = leaveMessage.replace(`{user:username}`, user.username);
-        leaveMessage = leaveMessage.replace(`{user:discriminator}`, user.discriminator);
-        leaveMessage = leaveMessage.replace(`{user:tag}`, user.username + '#' + user.discriminator);
+        leaveMessage = leaveMessage.replace(
+          `{user:discriminator}`,
+          user.discriminator,
+        );
+        leaveMessage = leaveMessage.replace(
+          `{user:tag}`,
+          user.username + '#' + user.discriminator,
+        );
         leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
 
-        leaveMessage = leaveMessage.replace(`{inviter:mention}`, `<@!${inviteByData.inviteUser}>`);
-        leaveMessage = leaveMessage.replace(`{inviter:invites}`, inviteData?.Invites! + '');
-        leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, inviteData?.Left! + '');
+        leaveMessage = leaveMessage.replace(
+          `{inviter:mention}`,
+          `<@!${inviteByData.inviteUser}>`,
+        );
+        leaveMessage = leaveMessage.replace(
+          `{inviter:invites}`,
+          inviteData?.Invites! + '',
+        );
+        leaveMessage = leaveMessage.replace(
+          `{inviter:invites:left}`,
+          inviteData?.Left! + '',
+        );
 
         leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-        leaveMessage = leaveMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
+        leaveMessage = leaveMessage.replace(
+          `{guild:members}`,
+          guild.approximateMemberCount + '',
+        );
 
         client.helpers
           .getUser(inviteData?.User!)
           .then(async (user) => {
-            leaveMessage = leaveMessage.replace(`{inviter:username}`, user.username);
-            leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, user.discriminator);
+            leaveMessage = leaveMessage.replace(
+              `{inviter:username}`,
+              user.username,
+            );
+            leaveMessage = leaveMessage.replace(
+              `{inviter:discriminator}`,
+              user.discriminator,
+            );
             leaveMessage = leaveMessage.replace(
               `{inviter:tag}`,
               `${user.username}#${user.discriminator}`,
             );
 
-            const channel = await client.helpers.getChannel(channelData.Channel!);
+            const channel = await client.helpers.getChannel(
+              channelData.Channel!,
+            );
 
             await client.extras
               .embed(
@@ -67,10 +93,21 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
           })
           .catch(async () => {
             if (channelData) {
-              leaveMessage = leaveMessage.replace(`{inviter:username}`, 'UnknownUser');
-              leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, '#0000');
-              leaveMessage = leaveMessage.replace(`{inviter:tag}`, `UnknownUser#0000`);
-              const channel = await client.helpers.getChannel(channelData.Channel!);
+              leaveMessage = leaveMessage.replace(
+                `{inviter:username}`,
+                'UnknownUser',
+              );
+              leaveMessage = leaveMessage.replace(
+                `{inviter:discriminator}`,
+                '#0000',
+              );
+              leaveMessage = leaveMessage.replace(
+                `{inviter:tag}`,
+                `UnknownUser#0000`,
+              );
+              const channel = await client.helpers.getChannel(
+                channelData.Channel!,
+              );
 
               await client.extras
                 .embed(
@@ -87,13 +124,17 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
         client.helpers
           .getUser(inviteData?.User! + '')
           .then(async (user) => {
-            const channel = await client.helpers.getChannel(channelData.Channel!);
+            const channel = await client.helpers.getChannel(
+              channelData.Channel!,
+            );
 
             await client.extras
               .embed(
                 {
                   title: `👋 Bye`,
-                  desc: `**${user.username + '#' + user.discriminator}** was invited by ${
+                  desc: `**${
+                    user.username + '#' + user.discriminator
+                  }** was invited by ${
                     user.username + '#' + user.discriminator
                   }`,
                 },
@@ -103,7 +144,9 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
           })
           .catch(async () => {
             if (channelData) {
-              const channel = await client.helpers.getChannel(channelData.Channel!);
+              const channel = await client.helpers.getChannel(
+                channelData.Channel!,
+              );
 
               await client.extras
                 .embed(
@@ -126,8 +169,14 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
       if (!guild) return;
       let leaveMessage = messageData.inviteLeave;
       leaveMessage = leaveMessage.replace(`{user:username}`, user.username);
-      leaveMessage = leaveMessage.replace(`{user:discriminator}`, user.discriminator);
-      leaveMessage = leaveMessage.replace(`{user:tag}`, user.username + '#' + user.discriminator);
+      leaveMessage = leaveMessage.replace(
+        `{user:discriminator}`,
+        user.discriminator,
+      );
+      leaveMessage = leaveMessage.replace(
+        `{user:tag}`,
+        user.username + '#' + user.discriminator,
+      );
       leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
 
       leaveMessage = leaveMessage.replace(`{inviter:mention}`, `Unkown`);
@@ -135,12 +184,21 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
       leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, '0');
 
       leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-      leaveMessage = leaveMessage.replace(`{guild:members}`, guild.approximateMemberCount + '');
+      leaveMessage = leaveMessage.replace(
+        `{guild:members}`,
+        guild.approximateMemberCount + '',
+      );
 
       if (channelData) {
-        leaveMessage = leaveMessage.replace(`{inviter:username}`, 'UnknownUser');
+        leaveMessage = leaveMessage.replace(
+          `{inviter:username}`,
+          'UnknownUser',
+        );
         leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, '#0000');
-        leaveMessage = leaveMessage.replace(`{inviter:tag}`, `UnknownUser#0000`);
+        leaveMessage = leaveMessage.replace(
+          `{inviter:tag}`,
+          `UnknownUser#0000`,
+        );
         const channel = await client.helpers.getChannel(channelData.Channel!);
 
         await client.extras
