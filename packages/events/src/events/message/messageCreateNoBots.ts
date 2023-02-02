@@ -240,7 +240,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
   // Chat bot
   chatBotSchema.findOne({ Guild: message.guildId }, async (err, data) => {
     if (!data) return;
-    if (message.mentionedUserIds.includes(client.user.id)) return;
+
     if (message.channelId != data.Channel) return;
     const msgs: Message[] = Array.from(
       (
