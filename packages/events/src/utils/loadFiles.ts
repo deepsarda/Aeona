@@ -11,7 +11,6 @@ export default async function (bot: AeonaBot) {
 
     for (let j = 0; j < dirs1.length; j++) {
       const a = await import(`../handlers/${dir}/${dirs1[j]}`);
-
       a.default(bot);
     }
   }
