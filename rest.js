@@ -1,6 +1,16 @@
 const fs = require('fs');
 require('dotenv').config();
 const { exec, execSync } = require('child_process');
+try {
+  execSync('rm -rf packages/rest/dist');
+} catch (e) {
+  console.log(e.toString('ascii').trim());
+  try {
+    execSync('rd /s /q packages\\rest\\dist');
+  } catch (e) {
+    console.log(e.toString('ascii').trim());
+  }
+}
 console.log('Building Rest');
 try {
   execSync('yarn rest build');

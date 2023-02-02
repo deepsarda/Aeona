@@ -1,6 +1,16 @@
 const fs = require('fs');
 require('dotenv').config();
 const { exec, execSync } = require('child_process');
+try {
+  execSync('rm -rf packages/gateway/dist');
+} catch (e) {
+  console.log(e.toString('ascii').trim());
+  try {
+    execSync('rd /s /q packages\\gateway\\dist');
+  } catch (e) {
+    console.log(e.toString('ascii').trim());
+  }
+}
 console.log('Building Gateway');
 try {
   execSync('yarn gateway build');

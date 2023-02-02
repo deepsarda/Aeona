@@ -3,6 +3,16 @@ require('dotenv').config();
 const { exec, execSync } = require('child_process');
 console.log('Building Bot');
 try {
+  execSync('rm -rf packages/events/dist');
+} catch (e) {
+  console.log(e.toString('ascii').trim());
+  try {
+    execSync('rd /s /q packages\\events\\dist');
+  } catch (e) {
+    console.log(e.toString('ascii').trim());
+  }
+}
+try {
   execSync('yarn events build');
 } catch (e) {
   console.log(e.toString('ascii').trim());
