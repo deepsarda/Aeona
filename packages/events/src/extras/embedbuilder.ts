@@ -6,25 +6,33 @@ import inviteBy from '../database/models/inviteBy.js';
 import invites from '../database/models/invites.js';
 
 export default (client: AeonaBot) => {
+  /*
+  _   _      _
+ | | | | ___| |_ __   ___ _ __ ___
+ | |_| |/ _ \ | '_ \ / _ \ '__/ __|
+ |  _  |  __/ | |_) |  __/ |  \__ \
+ |_| |_|\___|_| .__/ \___|_|  |___/
+              |_|
+  */
   function createComponents() {
     const comp = new Components();
-    comp.addButton('Set/Delete Author', 'Success', 'setauthor');
-    comp.addButton('Set/Delete Thumbnail', 'Success', 'setthumbnail');
-    comp.addButton('Set/Delete Url', 'Success', 'seturl');
-    comp.addButton('Set/Delete Content', 'Success', 'setcontent');
+    comp.addButton('Set/Delete Author', 'Secondary', 'setauthor');
+    comp.addButton('Set/Delete Thumbnail', 'Secondary', 'setthumbnail');
+    comp.addButton('Set/Delete Url', 'Secondary', 'seturl');
+    comp.addButton('Set/Delete Content', 'Secondary', 'setcontent');
     comp.addActionRow();
-    comp.addButton('Add Field', 'Success', 'addfield');
-    comp.addButton('Remove Field', 'Success', 'removefield');
+    comp.addButton('Add Field', 'Secondary', 'addfield');
+    comp.addButton('Remove Field', 'Secondary', 'removefield');
     comp.addActionRow();
-    comp.addButton('Set/Delete Title', 'Success', 'settitle');
-    comp.addButton('Set/Delete Description', 'Success', 'setdescription');
-    comp.addButton('Set/Delete Image', 'Success', 'setimage');
-    comp.addButton('Set/Delete Footer', 'Success', 'setfooter');
-    comp.addButton('Set/Delete Color', 'Success', 'setcolor');
+    comp.addButton('Set/Delete Title', 'Secondary', 'settitle');
+    comp.addButton('Set/Delete Description', 'Secondary', 'setdescription');
+    comp.addButton('Set/Delete Image', 'Secondary', 'setimage');
+    comp.addButton('Set/Delete Footer', 'Secondary', 'setfooter');
+    comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
     comp.addActionRow();
-    comp.addButton('Send/Edit Embed', 'Success', 'sendembed');
-    comp.addButton('Save/Delete Embed', 'Success', 'saveembed');
-    comp.addButton('Load Saved Embed', 'Success', 'loadembed');
+    comp.addButton('Send/Edit Embed', 'Secondary', 'sendembed');
+    comp.addButton('Save/Delete Embed', 'Secondary', 'saveembed');
+    comp.addButton('Load Saved Embed', 'Secondary', 'loadembed');
 
     return comp;
   }
@@ -46,6 +54,14 @@ export default (client: AeonaBot) => {
     };
   }
 
+  /*
+  ____                   __  __      _   _               _
+ | __ )  __ _ ___  ___  |  \/  | ___| |_| |__   ___   __| |
+ |  _ \ / _` / __|/ _ \ | |\/| |/ _ \ __| '_ \ / _ \ / _` |
+ | |_) | (_| \__ \  __/ | |  | |  __/ |_| | | | (_) | (_| |
+ |____/ \__,_|___/\___| |_|  |_|\___|\__|_| |_|\___/ \__,_|
+
+  */
   async function createInterface(
     ctx: Context,
     defaultContent: string,
@@ -110,6 +126,13 @@ export default (client: AeonaBot) => {
     updateEmbed(message, embedData, config);
   }
 
+  /*
+   __  __      _   _               _
+ |  \/  | ___| |_| |__   ___   __| |___
+ | |\/| |/ _ \ __| '_ \ / _ \ / _` / __|
+ | |  | |  __/ |_| | | | (_) | (_| \__ \
+ |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
+ */
   async function updateEmbed(
     message: Message,
     embedData: Embed,
@@ -200,6 +223,14 @@ export default (client: AeonaBot) => {
       });
   }
 
+  /**
+   _   _ _   _ _
+ | | | | |_(_) |___
+ | | | | __| | / __|
+ | |_| | |_| | \__ \
+  \___/ \__|_|_|___/
+
+   */
   function generateEmbed(options: Config, embedData: Embed) {
     const replace = (s: string) => {
       return replaceStringVariables(
@@ -237,6 +268,7 @@ export default (client: AeonaBot) => {
     if (embedData.image) embed.setImage(replace(embedData.image));
     if (embedData.thumbnail) embed.setDescription(replace(embedData.thumbnail));
     if (embedData.color) embed.setColor(embedData.color);
+    else embed.setColor(client.extras.config.colors.normal);
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
       embeds: [embed],
