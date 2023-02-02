@@ -178,6 +178,7 @@ export default (client: AeonaBot) => {
       .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar');
     client.helpers.editMessage(message.channelId, message.id, {
       content: 'Choose your choice from below.',
+      embeds:[],
       components: comp,
     });
 
