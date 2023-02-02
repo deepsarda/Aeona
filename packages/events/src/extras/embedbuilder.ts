@@ -259,6 +259,12 @@ export default (client: AeonaBot) => {
         embed.addField(replace(field.name), replace(field.value), field.inline);
       }
 
+    if (embedData.author) {
+      embed.setAuthor(
+        replace(embedData.author.name),
+        embedData.author.url ? replace(embedData.author.url) : undefined,
+      );
+    }
     if (embedData.footer)
       embed.setFooter(
         replace(embedData.footer.text),
