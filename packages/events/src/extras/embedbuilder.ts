@@ -175,8 +175,7 @@ export default (client: AeonaBot) => {
       .addButton('Set Author To User', 'Primary', 'setauthoruser')
       .addButton('Set Author To Inviter', 'Secondary', 'setauthorinviter')
       .addButton('Set Author Name', 'Secondary', 'setauthorname')
-      .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar')
-      .addButton('Set Url', 'Secondary', 'setauthorurl');
+      .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar');
     client.helpers.editMessage(message.channelId, message.id, {
       content: 'Choose your choice from below.',
       components: comp,
@@ -262,7 +261,7 @@ export default (client: AeonaBot) => {
     if (embedData.author) {
       embed.setAuthor(
         replace(embedData.author.name),
-        embedData.author.url ? replace(embedData.author.url) : undefined,
+        embedData.author.icon ? replace(embedData.author.icon) : undefined,
       );
     }
     if (embedData.footer)
