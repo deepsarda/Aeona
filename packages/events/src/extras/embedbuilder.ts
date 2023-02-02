@@ -1,5 +1,5 @@
 import { AmethystEmbed, Components, Context } from '@thereallonewolf/amethystframework';
-import { Guild, User } from 'discordeno/transformers';
+import { Guild, Interaction, Message, User } from 'discordeno/transformers';
 import { AeonaBot } from 'extras';
 
 import inviteBy from '../database/models/inviteBy.js';
@@ -28,10 +28,32 @@ export default (client: AeonaBot) => {
 
     return comp;
   }
+  async function fetchData(userId: bigint, guildId: bigint) {
+    const user = await client.extras.fetchLevels(userId, guildId);
+    const inviteData = await invites.findOne({
+      Guild: guildId + '',
+      User: userId,
+    });
+    return {
+      levels: {
+        level: user.level,
+        xp: user.cleanXp,
+        rank: user.position,
+      },
+      invites: inviteData?.Invites,
+      left: inviteData?.Left,
+      user: await client.helpers.getUser(userId),
+    };
+  }
 
-  async function createInterface(ctx: Context, embedData?: Embed) {
+  async function createInterface(
+    ctx: Context,
+    defaultContent: string,
+    embedData?: Embed,
+  ) {
     if (!embedData)
       embedData = {
+        content: defaultContent,
         title: 'Variables for you to use.',
         description: `
         <:F_txt1:1049288903263277086><:ayyy:1056627813286952980>  **User Variables**
@@ -76,43 +98,109 @@ export default (client: AeonaBot) => {
     let inviterData;
     if (inviter)
       inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guildId!);
+    const config = {
+      user: userData.user,
+      guild: ctx.guild!,
+      inviter: inviterData,
+      levels: userData.levels,
+      userInvites: { invites: userData.invites, left: userData.left },
+    };
+
+    const message = (await ctx.reply({ content: 'Loading Embed...' })).message!;
+    updateEmbed(message, embedData, config);
   }
 
-  async function fetchData(userId: bigint, guildId: bigint) {
-    const user = await client.extras.fetchLevels(userId, guildId);
-    const inviteData = await invites.findOne({
-      Guild: guildId + '',
-      User: userId,
-    });
-    return {
-      levels: {
-        level: user.level,
-        xp: user.cleanXp,
-        rank: user.position,
-      },
-      invites: inviteData?.Invites,
-      left: inviteData?.Left,
-      user: await client.helpers.getUser(userId),
-    };
-  }
-  function generateEmbed(
-    options: {
-      user: User;
-      guild: Guild;
-      levels?: { level: number; xp: number; rank: number };
-      inviter?: {
-        user?: User;
-        invites?: number;
-        left?: number;
-        levels?: { level: number; xp: number; rank: number };
-      };
-      userInvites?: {
-        invites?: number;
-        left?: number;
-      };
-    },
+  async function updateEmbed(
+    message: Message,
     embedData: Embed,
+    config: Config,
   ) {
+    const embed = generateEmbed(config, embedData);
+
+    const comp = createComponents();
+    client.helpers.editMessage(message.channelId, message.id, {
+      ...embed,
+      components: comp,
+    });
+
+    client.amethystUtils
+      .awaitComponent(message.id, {
+        filter(bot, data) {
+          return data.user.id === config.user.id;
+        },
+      })
+      .then((interaction) => {
+        if (interaction.data?.customId == 'setauthor') {
+          setAuthor(message, interaction, embedData!, config);
+        }
+      })
+      .catch(() => {
+        client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          components: [],
+        });
+      });
+  }
+  async function setAuthor(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    const comp = new Components();
+    comp
+      .addButton('Set Author To User', 'Primary', 'setauthoruser')
+      .addButton('Set Author To Inviter', 'Secondary', 'setauthorinviter')
+      .addButton('Set Author Name', 'Secondary', 'setauthorname')
+      .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar')
+      .addButton('Set Url', 'Secondary', 'setauthorurl');
+    client.helpers.editMessage(message.channelId, message.id, {
+      content: 'Choose your choice from below.',
+      components: comp,
+    });
+
+    client.amethystUtils
+      .awaitComponent(message.id, {
+        filter(bot, data) {
+          return data.user.id === interaction.user.id;
+        },
+      })
+      .then((interaction) => {
+        if (interaction.data?.customId == 'setauthoruser') {
+          if (!embedData.author)
+            embedData.author = {
+              name: '{user:tag}',
+              icon: '{user:avatar}',
+            };
+          else {
+            embedData.author.name = '{user:tag}';
+            embedData.author.icon = '{user:avatar}';
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setauthorinviter') {
+          if (!embedData.author)
+            embedData.author = {
+              name: '{user:tag}',
+              icon: '{user:avatar}',
+            };
+          else {
+            embedData.author.name = '{user:tag}';
+            embedData.author.icon = '{user:avatar}';
+          }
+
+          updateEmbed(message, embedData, config);
+        }
+      })
+      .catch(() => {
+        client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          components: [],
+        });
+      });
+  }
+
+  function generateEmbed(options: Config, embedData: Embed) {
     const replace = (s: string) => {
       return replaceStringVariables(
         s,
@@ -154,6 +242,7 @@ export default (client: AeonaBot) => {
       embeds: [embed],
     };
   }
+
   function replaceStringVariables(
     s: string,
     user: User,
@@ -176,29 +265,41 @@ export default (client: AeonaBot) => {
   }
   function replaceGuildVariables(s: string, guild: Guild) {
     s = s
-      .replaceAll(/[^`]{guild:name}/gm, guild.name)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:name}/gm, guild.name)
       .replaceAll(
-        /[^`]{guild:icon}/gm,
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:icon}/gm,
         client.helpers.getGuildIconURL(guild.id, guild.icon) ??
           'https://cdn.discordapp.com/embed/avatars/1.png',
       )
-      .replaceAll(/[^`]{guild:owner}/gm, `<@${guild.ownerId}>`)
       .replaceAll(
-        /[^`]{guild:banner}/gm,
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:owner}/gm,
+        `<@${guild.ownerId}>`,
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:banner}/gm,
         client.helpers.getGuildBannerURL(guild.id, { banner: guild.banner }) ??
           'https://cdn.discordapp.com/embed/avatars/1.png',
       )
-      .replaceAll(/[^`]{guild:tier}/gm, guild.premiumTier + '')
-      .replaceAll(/[^`]{guild:members}/gm, guild.memberCount + '')
       .replaceAll(
-        /[^`]{guild:boosts}/gm,
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:tier}/gm,
+        guild.premiumTier + '',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:members}/gm,
+        guild.memberCount + '',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:boosts}/gm,
         (guild.premiumSubscriptionCount ?? 0) + '',
       )
       .replaceAll(
-        /[^`]{guild:rules}/gm,
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:rules}/gm,
         guild.rulesChannelId ? `<#${guild.rulesChannelId}>` : '',
       )
-      .replaceAll(/[^`]{guild:description}/gm, guild.description + '');
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:description}/gm,
+        guild.description + '',
+      );
     return s;
   }
   function replaceUserVariables(
@@ -217,12 +318,21 @@ export default (client: AeonaBot) => {
     },
   ) {
     s = s
-      .replaceAll(/[^`]{user:username}/gm, user.username)
-      .replaceAll(/[^`]{user:discriminator}/gm, user.discriminator)
-      .replaceAll(/[^`]{user:tag}/gm, `${user.username}#${user.discriminator}`)
-      .replaceAll(/[^`]{user:mention}/gm, `<@${user.id}>`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:username}/gm, user.username)
       .replaceAll(
-        /[^`]{user:avatar}/gm,
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:discriminator}/gm,
+        user.discriminator,
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:tag}/gm,
+        `${user.username}#${user.discriminator}`,
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:mention}/gm,
+        `<@${user.id}>`,
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:avatar}/gm,
         client.helpers.getAvatarURL(user.id, user.discriminator, {
           avatar: user.avatar,
         }),
@@ -230,29 +340,50 @@ export default (client: AeonaBot) => {
 
     if (userInvites)
       s = s
-        .replaceAll(/[^`]{user:invites}/gm, userInvites.invites + '' ?? '0')
-        .replaceAll(/[^`]{user:invites:left}/gm, userInvites.left + '' ?? '0');
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites}/gm,
+          userInvites.invites + '' ?? '0',
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites:left}/gm,
+          userInvites.left + '' ?? '0',
+        );
     s = s
-      .replaceAll(/[^`]{user:level}/gm, levels?.level + '' ?? '0')
-      .replaceAll(/[^`]{user:xp}/gm, levels?.xp + '' ?? '0')
-      .replaceAll(/[^`]{user:rank}/gm, levels?.rank + '' ?? '0');
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:level}/gm,
+        levels?.level + '' ?? '0',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:xp}/gm,
+        levels?.xp + '' ?? '0',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:rank}/gm,
+        levels?.rank + '' ?? '0',
+      );
 
     //Inviter
     if (inviter) {
       if (inviter.user)
         s = s
-          .replaceAll(/[^`]{inviter:username}/gm, inviter.user.username)
           .replaceAll(
-            /[^`]{inviter:discriminator}/gm,
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
+            inviter.user.username,
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
             inviter.user.discriminator,
           )
           .replaceAll(
-            /[^`]{inviter:tag}/gm,
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
             `${inviter.user.username}#${inviter.user.discriminator}`,
           )
-          .replaceAll(/[^`]{inviter:mention}/gm, `<@${inviter.user.id}>`)
           .replaceAll(
-            /[^`]{inviter:avatar}/gm,
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
+            `<@${inviter.user.id}>`,
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
             client.helpers.getAvatarURL(
               inviter.user.id,
               inviter.user.discriminator,
@@ -263,32 +394,71 @@ export default (client: AeonaBot) => {
           );
       else
         s = s
-          .replaceAll(/[^`]{inviter:username}/gm, 'UnkownUser')
-          .replaceAll(/[^`]{inviter:discriminator}/gm, '0000')
-          .replaceAll(/[^`]{inviter:tag}/gm, `UnkownUser#0000`)
-          .replaceAll(/[^`]{inviter:mention}/gm, `UnkownUser`)
           .replaceAll(
-            /[^`]{inviter:avatar}/gm,
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
+            'UnkownUser',
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
+            '0000',
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
+            `UnkownUser#0000`,
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
+            `UnkownUser`,
+          )
+          .replaceAll(
+            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
             'https://cdn.discordapp.com/embed/avatars/1.png',
           );
     } else
       s = s
-        .replaceAll(/[^`]{inviter:username}/gm, 'UnkownUser')
-        .replaceAll(/[^`]{inviter:discriminator}/gm, '0000')
-        .replaceAll(/[^`]{inviter:tag}/gm, `UnkownUser#0000`)
-        .replaceAll(/[^`]{inviter:mention}/gm, `UnkownUser`)
         .replaceAll(
-          /[^`]{inviter:avatar}/gm,
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
+          'UnkownUser',
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
+          '0000',
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
+          `UnkownUser#0000`,
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
+          `UnkownUser`,
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
           'https://cdn.discordapp.com/embed/avatars/1.png',
         );
     if (userInvites)
       s = s
-        .replaceAll(/[^`]{inviter:invites}/gm, inviter?.invites + '' ?? '0')
-        .replaceAll(/[^`]{inviter:invites:left}/gm, inviter?.left + '' ?? '0');
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites}/gm,
+          inviter?.invites + '' ?? '0',
+        )
+        .replaceAll(
+          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites:left}/gm,
+          inviter?.left + '' ?? '0',
+        );
     s = s
-      .replaceAll(/[^`]{inviter:level}/gm, inviter?.levels?.level + '' ?? '0')
-      .replaceAll(/[^`]{inviter:xp}/gm, inviter?.levels?.xp + '' ?? '0')
-      .replaceAll(/[^`]{inviter:rank}/gm, inviter?.levels?.rank + '' ?? '0');
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:level}/gm,
+        inviter?.levels?.level + '' ?? '0',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:xp}/gm,
+        inviter?.levels?.xp + '' ?? '0',
+      )
+      .replaceAll(
+        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:rank}/gm,
+        inviter?.levels?.rank + '' ?? '0',
+      );
 
     return s;
   }
@@ -304,7 +474,7 @@ type Embed = {
   author?: {
     name: string;
     icon?: string;
-    url: string;
+    url?: string;
   };
   color?: string;
   fields?: {
@@ -320,5 +490,21 @@ type Embed = {
   footer?: {
     text: string;
     icon?: string;
+  };
+};
+
+type Config = {
+  user: User;
+  guild: Guild;
+  levels?: { level: number; xp: number; rank: number };
+  inviter?: {
+    user?: User;
+    invites?: number;
+    left?: number;
+    levels?: { level: number; xp: number; rank: number };
+  };
+  userInvites?: {
+    invites?: number;
+    left?: number;
   };
 };

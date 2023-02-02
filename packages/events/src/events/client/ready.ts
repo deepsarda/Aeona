@@ -29,9 +29,13 @@ export default async (
   if (!client.extras.ready) {
     client.extras.ready = true;
     console.log('Running loops');
-    client.helpers.sendMessage('1034710126675898389', { content: 'Running loops' });
+    client.helpers.sendMessage('1034710126675898389', {
+      content: 'Running loops',
+    });
 
-    client.user = await client.helpers.getUser(getBotIdFromToken(process.env.DISCORD_TOKEN!));
+    client.user = await client.helpers.getUser(
+      getBotIdFromToken(process.env.DISCORD_TOKEN!),
+    );
     client.extras.player.init(client.user.id + '');
     const INFLUX_ORG = process.env.INFLUX_ORG as string;
     const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
@@ -193,11 +197,6 @@ export default async (
     }, 60000);
 
     setInterval(() => {
-      if (client.cache.members.memory.size > 500) {
-        for (const [_userId, user] of client.cache.members.memory) {
-          if (user.id != client.user.id) client.cache.members.delete(user.id, user.guildId);
-        }
-      }
       if (client.cache.users.memory.size > 500) {
         for (const [_userId, user] of client.cache.users.memory) {
           if (user.id != client.user.id) client.cache.users.delete(user.id);
@@ -208,14 +207,15 @@ export default async (
           client.cache.messages.delete(messageId);
         }
       }
-      if (client.cache.channels.memory.size > 5000) {
+      if (client.cache.channels.memory.size > 500) {
         for (const [channelId, _channe] of client.cache.channels.memory) {
           client.cache.channels.delete(channelId);
         }
       }
       for (const [messageId, message] of client.cache.messages.memory) {
         if (!message.timestamp) client.cache.messages.delete(messageId);
-        if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
+        if (Date.now() - message.timestamp > 1000 * 60 * 2)
+          client.cache.messages.delete(messageId);
       }
     }, 1000 * 10);
 
@@ -260,10 +260,17 @@ export default async (
 
       if (results && results.length) {
         for (const result of results) {
-          if (Number(result.Premium!.RedeemedAt) >= Number(result.Premium!.ExpiresAt)) {
-            const guildPremium = await client.cache.guilds.get(BigInt(result.Guild!));
+          if (
+            Number(result.Premium!.RedeemedAt) >=
+            Number(result.Premium!.ExpiresAt)
+          ) {
+            const guildPremium = await client.cache.guilds.get(
+              BigInt(result.Guild!),
+            );
             if (guildPremium) {
-              const user = await client.cache.users.get(BigInt(result.Premium!.RedeemedBy!.id));
+              const user = await client.cache.users.get(
+                BigInt(result.Premium!.RedeemedBy!.id),
+              );
 
               if (user) {
                 const channel = await client.helpers.getDmChannel(user.id);
@@ -295,14 +302,21 @@ export default async (
     }, 500000);
 
     const categories: { name: string }[] = [];
-    const commands: { name: string; description: string; usage: string; category: string }[] = [];
+    const commands: {
+      name: string;
+      description: string;
+      usage: string;
+      category: string;
+    }[] = [];
     client.category.forEach((c) => {
       categories.push({
         name: c.name,
       });
       c.commands.forEach((command) => {
         commands.push({
-          usage: `+${c.uniqueCommands ? command.name : c.name + ' ' + command.name} ${command.args
+          usage: `+${
+            c.uniqueCommands ? command.name : c.name + ' ' + command.name
+          } ${command.args
             .map((arg) => {
               if (arg.required) return `${arg.name}`;
               else return `${arg.name}(Optional)`;
