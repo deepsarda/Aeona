@@ -16,6 +16,12 @@ export default (client: AeonaBot) => {
   */
   function createComponents() {
     const comp = new Components();
+    comp.addButton('Set/Delete Title', 'Secondary', 'settitle');
+    comp.addButton('Set/Delete Description', 'Secondary', 'setdescription');
+    comp.addButton('Set/Delete Image', 'Secondary', 'setimage');
+    comp.addButton('Set/Delete Footer', 'Secondary', 'setfooter');
+    comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
+    comp.addActionRow();
     comp.addButton('Set/Delete Author', 'Secondary', 'setauthor');
     comp.addButton('Set/Delete Thumbnail', 'Secondary', 'setthumbnail');
     comp.addButton('Set/Delete Url', 'Secondary', 'seturl');
@@ -24,15 +30,9 @@ export default (client: AeonaBot) => {
     comp.addButton('Add Field', 'Secondary', 'addfield');
     comp.addButton('Remove Field', 'Secondary', 'removefield');
     comp.addActionRow();
-    comp.addButton('Set/Delete Title', 'Secondary', 'settitle');
-    comp.addButton('Set/Delete Description', 'Secondary', 'setdescription');
-    comp.addButton('Set/Delete Image', 'Secondary', 'setimage');
-    comp.addButton('Set/Delete Footer', 'Secondary', 'setfooter');
-    comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
-    comp.addActionRow();
-    comp.addButton('Send/Edit Embed', 'Secondary', 'sendembed');
-    comp.addButton('Save/Delete Embed', 'Secondary', 'saveembed');
-    comp.addButton('Load Saved Embed', 'Secondary', 'loadembed');
+    comp.addButton('Send/Edit Embed', 'Success', 'sendembed');
+    comp.addButton('Save/Delete Embed', 'Danger', 'saveembed');
+    comp.addButton('Load Saved Embed', 'Primary', 'loadembed');
 
     return comp;
   }
@@ -330,7 +330,7 @@ export default (client: AeonaBot) => {
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:description}/gm,
-        guild.description + '',
+        (guild.description ?? 'No description') + '',
       );
     return s;
   }
@@ -374,24 +374,24 @@ export default (client: AeonaBot) => {
       s = s
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites}/gm,
-          userInvites.invites + '' ?? '0',
+          (userInvites.invites ?? '0') + '',
         )
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites:left}/gm,
-          userInvites.left + '' ?? '0',
+          (userInvites.left ?? '0') + '',
         );
     s = s
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:level}/gm,
-        levels?.level + '' ?? '0',
+        (levels?.level ?? '0') + '',
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:xp}/gm,
-        levels?.xp + '' ?? '0',
+        (levels?.xp ?? '0') + '',
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:rank}/gm,
-        levels?.rank + '' ?? '0',
+        (levels?.rank ?? '0') + '',
       );
 
     //Inviter
@@ -472,24 +472,24 @@ export default (client: AeonaBot) => {
       s = s
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites}/gm,
-          inviter?.invites + '' ?? '0',
+          (inviter?.invites ?? '0') + '',
         )
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites:left}/gm,
-          inviter?.left + '' ?? '0',
+          (inviter?.left ?? '0') + '',
         );
     s = s
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:level}/gm,
-        inviter?.levels?.level + '' ?? '0',
+        (inviter?.levels?.level ?? '0') + '',
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:xp}/gm,
-        inviter?.levels?.xp + '' ?? '0',
+        (inviter?.levels?.xp ?? '0') + '',
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:rank}/gm,
-        inviter?.levels?.rank + '' ?? '0',
+        (inviter?.levels?.rank ?? '0') + '',
       );
 
     return s;
