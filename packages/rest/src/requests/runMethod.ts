@@ -15,7 +15,7 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
-  if (body && body.embed) console.log(body);
+  if (body && body.embeds) console.log(body);
   const result = await rest
     .runMethod(
       rest,
