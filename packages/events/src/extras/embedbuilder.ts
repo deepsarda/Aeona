@@ -355,17 +355,13 @@ export default (client: AeonaBot) => {
     if (embedData.author) {
       embed.setAuthor(
         replace(embedData.author.name),
-        embedData.author.icon
-          ? replace(embedData.author.icon).split('?')[0]
-          : undefined,
+        embedData.author.icon ? replace(embedData.author.icon) : undefined,
       );
     }
     if (embedData.footer)
       embed.setFooter(
         replace(embedData.footer.text),
-        embedData.footer.icon
-          ? replace(embedData.footer.icon).split('?')[0]
-          : undefined,
+        embedData.footer.icon ? replace(embedData.footer.icon) : undefined,
       );
 
     if (embedData.image) embed.setImage(replace(embedData.image));

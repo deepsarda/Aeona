@@ -15,9 +15,15 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
     };
   }
   const body = data.body ? JSON.parse(data.body as any) : undefined;
-
+  if (body && body.embed) console.log(body);
   const result = await rest
-    .runMethod(rest, data.method, `${BASE_URL}/v${rest.version}/${data.url}`, body, data.options)
+    .runMethod(
+      rest,
+      data.method,
+      `${BASE_URL}/v${rest.version}/${data.url}`,
+      body,
+      data.options,
+    )
     .catch((e) => {
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;
