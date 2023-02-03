@@ -1,4 +1,7 @@
-import { createProxyCache, enableAmethystPlugin } from '@thereallonewolf/amethystframework';
+import {
+  createProxyCache,
+  enableAmethystPlugin,
+} from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
 import JSON from 'json-bigint';
@@ -139,12 +142,6 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 setupLogging(bot);
 bot.extras = additionalProps(bot);
 await loadFiles(bot);
-console.log(
-  bot.eventHandler.events
-    .get('messageCreate')
-    ?.map((e) => e.toString())
-    .join('\n'),
-);
 setupMusic(bot);
 setupInhibitors(bot);
 setupCategories(bot);

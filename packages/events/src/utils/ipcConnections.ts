@@ -136,7 +136,7 @@ const createIpcConnections = async (
         data: {
           Authorization: rest.secretKey,
           url: route,
-          body: JSON.stringify(body),
+          body: body,
           method,
           options,
         },
