@@ -174,11 +174,12 @@ export default (client: AeonaBot) => {
     comp
       .addButton('Set Author To User', 'Primary', 'setauthoruser')
       .addButton('Set Author To Inviter', 'Secondary', 'setauthorinviter')
+      .addButton('Set Author To Server', 'Secondary', 'setauthorguild')
       .addButton('Set Author Name', 'Secondary', 'setauthorname')
       .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar');
     client.helpers.editMessage(message.channelId, message.id, {
       content: 'Choose your choice from below.',
-      embeds:[],
+      embeds: [],
       components: comp,
     });
 
@@ -213,11 +214,22 @@ export default (client: AeonaBot) => {
           }
 
           updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setauthorguild') {
+          if (!embedData.author)
+            embedData.author = {
+              name: '{guild:name}',
+              icon: '{user:avatar}',
+            };
+          else {
+            embedData.author.name = '{guild:name}';
+            embedData.author.icon = '{user:avatar}';
+          }
         }
       })
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
           content: 'This command has expired.',
+          embeds: [],
           components: [],
         });
       });
@@ -260,6 +272,9 @@ export default (client: AeonaBot) => {
       }
 
     if (embedData.author) {
+      console.log(
+        embedData.author.icon ? replace(embedData.author.icon) : undefined,
+      );
       embed.setAuthor(
         replace(embedData.author.name),
         embedData.author.icon ? replace(embedData.author.icon) : undefined,
@@ -275,9 +290,10 @@ export default (client: AeonaBot) => {
     if (embedData.thumbnail) embed.setDescription(replace(embedData.thumbnail));
     if (embedData.color) embed.setColor(embedData.color);
     else embed.setColor(client.extras.config.colors.normal);
+
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
-      embeds: [embed],
+      embeds: embed.currentTotal > 10 ? [embed] : [],
     };
   }
 
