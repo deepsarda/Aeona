@@ -240,7 +240,7 @@ export default (client: AeonaBot) => {
           });
 
           const m = await client.amethystUtils
-            .awaitMessage(message.authorId, message.channelId)
+            .awaitMessage(interaction.user.id, message.channelId)
             .catch();
 
           if (!m)
@@ -270,7 +270,7 @@ export default (client: AeonaBot) => {
             });
 
             const m = await client.amethystUtils
-              .awaitMessage(message.authorId, message.channelId)
+              .awaitMessage(interaction.user.id, message.channelId)
               .catch();
 
             if (!m)
@@ -353,25 +353,25 @@ export default (client: AeonaBot) => {
       }
 
     if (embedData.author) {
-      console.log(
-        embedData.author.icon ? replace(embedData.author.icon) : undefined,
-      );
       embed.setAuthor(
         replace(embedData.author.name),
-        embedData.author.icon ? replace(embedData.author.icon) : undefined,
+        embedData.author.icon
+          ? replace(embedData.author.icon).split('?')[0]
+          : undefined,
       );
     }
     if (embedData.footer)
       embed.setFooter(
         replace(embedData.footer.text),
-        embedData.footer.icon ? replace(embedData.footer.icon) : undefined,
+        embedData.footer.icon
+          ? replace(embedData.footer.icon).split('?')[0]
+          : undefined,
       );
 
     if (embedData.image) embed.setImage(replace(embedData.image));
     if (embedData.thumbnail) embed.setDescription(replace(embedData.thumbnail));
     if (embedData.color) embed.setColor(embedData.color);
     else embed.setColor(client.extras.config.colors.normal);
-    console.log(embed);
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
       embeds: embedData.title || embedData.description ? [embed] : [],
