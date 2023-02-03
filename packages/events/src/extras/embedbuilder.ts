@@ -371,7 +371,7 @@ export default (client: AeonaBot) => {
     if (embedData.thumbnail) embed.setDescription(replace(embedData.thumbnail));
     if (embedData.color) embed.setColor(embedData.color);
     else embed.setColor(client.extras.config.colors.normal);
-
+    console.log(embed);
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
       embeds: embedData.title || embedData.description ? [embed] : [],
