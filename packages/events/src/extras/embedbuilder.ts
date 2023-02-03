@@ -1,4 +1,8 @@
-import { AmethystEmbed, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  AmethystEmbed,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import { Guild, Interaction, Message, User } from 'discordeno/transformers';
 import { AeonaBot } from 'extras';
 
@@ -176,7 +180,8 @@ export default (client: AeonaBot) => {
       .addButton('Set Author To Inviter', 'Secondary', 'setauthorinviter')
       .addButton('Set Author To Server', 'Secondary', 'setauthorguild')
       .addButton('Set Author Name', 'Secondary', 'setauthorname')
-      .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar');
+      .addButton('Set Author Avatar', 'Secondary', 'setauthoravatar')
+      .addButton('Remove Author', 'Danger', 'removeauthor');
     client.helpers.editMessage(message.channelId, message.id, {
       content: 'Choose your choice from below.',
       embeds: [],
@@ -189,7 +194,7 @@ export default (client: AeonaBot) => {
           return data.user.id === interaction.user.id;
         },
       })
-      .then((interaction) => {
+      .then(async (interaction) => {
         if (interaction.data?.customId == 'setauthoruser') {
           if (!embedData.author)
             embedData.author = {
@@ -205,12 +210,12 @@ export default (client: AeonaBot) => {
         } else if (interaction.data?.customId == 'setauthorinviter') {
           if (!embedData.author)
             embedData.author = {
-              name: '{user:tag}',
-              icon: '{user:avatar}',
+              name: '{inviter:tag}',
+              icon: '{inviter:avatar}',
             };
           else {
-            embedData.author.name = '{user:tag}';
-            embedData.author.icon = '{user:avatar}';
+            embedData.author.name = '{inviter:tag}';
+            embedData.author.icon = '{inviter:avatar}';
           }
 
           updateEmbed(message, embedData, config);
@@ -218,12 +223,88 @@ export default (client: AeonaBot) => {
           if (!embedData.author)
             embedData.author = {
               name: '{guild:name}',
-              icon: '{user:avatar}',
+              icon: '{guild:icon}',
             };
           else {
             embedData.author.name = '{guild:name}';
-            embedData.author.icon = '{user:avatar}';
+            embedData.author.icon = '{guild:icon}';
           }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setauthorname') {
+          client.helpers.editMessage(message.channelId, message.id, {
+            content:
+              '**Send the name of the author.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables`',
+            embeds: [],
+            components: [],
+          });
+
+          const m = await client.amethystUtils
+            .awaitMessage(message.authorId, message.channelId)
+            .catch();
+
+          if (!m)
+            return client.helpers.editMessage(message.channelId, message.id, {
+              content: 'This command has expired.',
+              embeds: [],
+              components: [],
+            });
+
+          if (!embedData.author)
+            embedData.author = {
+              name: m.content,
+            };
+          else embedData.author.name = m.content;
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setauthoravatar') {
+          let failed = false;
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            client.helpers.editMessage(message.channelId, message.id, {
+              content:
+                (failed ? 'The message you sent was not a link.\n' : '') +
+                "**Send the url to set as the author's avatar.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**",
+              embeds: [],
+              components: [],
+            });
+
+            const m = await client.amethystUtils
+              .awaitMessage(message.authorId, message.channelId)
+              .catch();
+
+            if (!m)
+              return client.helpers.editMessage(message.channelId, message.id, {
+                content: 'This command has expired.',
+                embeds: [],
+                components: [],
+              });
+            m.content = m.content.trim();
+            if (
+              m.content.startsWith('http://') ||
+              m.content.startsWith('https://') ||
+              m.content == '{user:avatar}' ||
+              m.content == '{inviter:avatar}' ||
+              m.content == '{guild:icon}' ||
+              m.content == '{guild:banner}'
+            ) {
+              if (embedData.author) embedData.author.icon = m.content;
+              else
+                embedData.author = {
+                  name: 'No author name given. Please set it.',
+                  icon: m.content,
+                };
+
+              break;
+            }
+
+            failed = true;
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'removeauthor') {
+          embedData.author = undefined;
+          updateEmbed(message, embedData, config);
         }
       })
       .catch(() => {
@@ -293,7 +374,7 @@ export default (client: AeonaBot) => {
 
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
-      embeds: embed.currentTotal > 10 ? [embed] : [],
+      embeds: embedData.title || embedData.description ? [embed] : [],
     };
   }
 
