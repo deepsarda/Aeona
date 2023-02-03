@@ -130,6 +130,8 @@ const createIpcConnections = async (
         ';base64,' +
         buffer.toString('base64');
     }
+
+    if (body && (body as any).embeds) console.log((body as any).embeds[0]);
     const response = await client.request(
       {
         type: 'RUN_METHOD',
