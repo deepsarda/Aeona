@@ -4,6 +4,7 @@ import {
   Context,
 } from '@thereallonewolf/amethystframework';
 import { Guild, Interaction, Message, User } from 'discordeno/transformers';
+import { InteractionResponseTypes } from 'discordeno/types';
 import { AeonaBot } from 'extras';
 
 import inviteBy from '../database/models/inviteBy.js';
@@ -157,7 +158,17 @@ export default (client: AeonaBot) => {
         },
       })
       .then((interaction) => {
+        client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: InteractionResponseTypes.Pong,
+          },
+        );
         if (interaction.data?.customId == 'setauthor') {
+          setAuthor(message, interaction, embedData!, config);
+        }
+        if (interaction.data?.customId == 'setfooter') {
           setAuthor(message, interaction, embedData!, config);
         }
       })
@@ -195,6 +206,13 @@ export default (client: AeonaBot) => {
         },
       })
       .then(async (interaction) => {
+        client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: InteractionResponseTypes.Pong,
+          },
+        );
         if (interaction.data?.customId == 'setauthoruser') {
           if (!embedData.author)
             embedData.author = {
@@ -315,7 +333,160 @@ export default (client: AeonaBot) => {
         });
       });
   }
+  async function setFooter(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    const comp = new Components();
+    comp
+      .addButton('Set Footer To User', 'Primary', 'setfooteruser')
+      .addButton('Set Footer To Inviter', 'Secondary', 'setfooterinviter')
+      .addButton('Set Footer To Server', 'Secondary', 'setfooterguild')
+      .addButton('Set Footer Text', 'Secondary', 'setfootername')
+      .addButton('Set Footer Avatar', 'Secondary', 'setauthorfooter')
+      .addButton('Remove Footer', 'Danger', 'removefooter');
+    client.helpers.editMessage(message.channelId, message.id, {
+      content: 'Choose your choice from below.',
+      embeds: [],
+      components: comp,
+    });
 
+    client.amethystUtils
+      .awaitComponent(message.id, {
+        filter(bot, data) {
+          return data.user.id === interaction.user.id;
+        },
+      })
+      .then(async (interaction) => {
+        client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: InteractionResponseTypes.Pong,
+          },
+        );
+        if (interaction.data?.customId == 'setfooteruser') {
+          if (!embedData.footer)
+            embedData.footer = {
+              text: '{user:tag}',
+              icon: '{user:avatar}',
+            };
+          else {
+            embedData.footer.text = '{user:tag}';
+            embedData.footer.icon = '{user:avatar}';
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setfooterinviter') {
+          if (!embedData.footer)
+            embedData.footer = {
+              text: '{inviter:tag}',
+              icon: '{inviter:avatar}',
+            };
+          else {
+            embedData.footer.text = '{inviter:tag}';
+            embedData.footer.icon = '{inviter:avatar}';
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setfooterguild') {
+          if (!embedData.footer)
+            embedData.footer = {
+              text: '{guild:name}',
+              icon: '{guild:icon}',
+            };
+          else {
+            embedData.footer.text = '{guild:name}';
+            embedData.footer.icon = '{guild:icon}';
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setfootername') {
+          client.helpers.editMessage(message.channelId, message.id, {
+            content:
+              '**Send the text of the footer.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables`',
+            embeds: [],
+            components: [],
+          });
+
+          const m = await client.amethystUtils
+            .awaitMessage(interaction.user.id, message.channelId)
+            .catch();
+
+          if (!m)
+            return client.helpers.editMessage(message.channelId, message.id, {
+              content: 'This command has expired.',
+              embeds: [],
+              components: [],
+            });
+
+          if (!embedData.footer)
+            embedData.footer = {
+              text: m.content,
+            };
+          else embedData.footer.text = m.content;
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'setfooteravatar') {
+          let failed = false;
+          // eslint-disable-next-line no-constant-condition
+          while (true) {
+            client.helpers.editMessage(message.channelId, message.id, {
+              content:
+                (failed ? 'The message you sent was not a link.\n' : '') +
+                "**Send the url to set as the footer's icon.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**",
+              embeds: [],
+              components: [],
+            });
+
+            const m = await client.amethystUtils
+              .awaitMessage(interaction.user.id, message.channelId)
+              .catch();
+
+            if (!m)
+              return client.helpers.editMessage(message.channelId, message.id, {
+                content: 'This command has expired.',
+                embeds: [],
+                components: [],
+              });
+            m.content = m.content.trim();
+            if (
+              m.content.startsWith('http://') ||
+              m.content.startsWith('https://') ||
+              m.content == '{user:avatar}' ||
+              m.content == '{inviter:avatar}' ||
+              m.content == '{guild:icon}' ||
+              m.content == '{guild:banner}'
+            ) {
+              if (embedData.footer) embedData.footer.icon = m.content;
+              else
+                embedData.footer = {
+                  text: 'No footer text given. Please set it.',
+                  icon: m.content,
+                };
+
+              break;
+            }
+
+            failed = true;
+          }
+
+          updateEmbed(message, embedData, config);
+        } else if (interaction.data?.customId == 'removefooter') {
+          embedData.footer = undefined;
+          updateEmbed(message, embedData, config);
+        }
+      })
+      .catch(() => {
+        client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          embeds: [],
+          components: [],
+        });
+      });
+  }
   /**
    _   _ _   _ _
  | | | | |_(_) |___
