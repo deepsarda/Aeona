@@ -23,7 +23,7 @@ export default {
       client.extras.errNormal(
         {
           error:
-            'This guild is not a premium. \n You can buy it for just $1 [here](https://patreon.com/aeonadiscord)',
+            'This guild is not a premium. \n You can buy it for just $1 [here](https://patreon.com/aeonicdiscord)',
         },
         ctx,
       );

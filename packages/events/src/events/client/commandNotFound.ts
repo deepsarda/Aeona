@@ -36,7 +36,7 @@ export default async (
           .intField('value', 1),
       );
       let s = [
-        '\n discord.gg/qURxRRHPwa',
+        '\n discord.gg/W8hssA32C9',
         '\n Generate beautiful images using /imagine \n ',
       ];
       let guild = await Functions.findOne({

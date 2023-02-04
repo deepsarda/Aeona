@@ -151,16 +151,20 @@ export default (client: AeonaBot) => {
     const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048)
+      embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (footer) embed.setFooter(footer);
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
+    if (functiondata && functiondata.Color && !color)
+      embed.setColor(functiondata.Color);
 
     return await sendEmbed(
       {
@@ -213,15 +217,19 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048)
+      embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
+    if (functiondata && functiondata.Color && !color)
+      embed.setColor(functiondata.Color);
 
     return await sendEmbed(
       {
@@ -272,15 +280,19 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048)
+      embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
+    if (functiondata && functiondata.Color && !color)
+      embed.setColor(functiondata.Color);
     return await client.helpers
       .sendMessage(ctx.channelId, {
         embeds: [embed],
@@ -330,16 +342,20 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048)
+      embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (footer) embed.setFooter(footer);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
+    if (functiondata && functiondata.Color && !color)
+      embed.setColor(functiondata.Color);
 
     return await client.helpers
       .editMessage(ctx.channelId, `${ctx.id}`, {
@@ -375,7 +391,9 @@ export default (client: AeonaBot) => {
     embed.setDescription(`${text}`);
     embed.setColor(client.extras.config.colors.succes);
 
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     type = 'reply';
     return client.extras.sendEmbed(
       {
@@ -425,15 +443,19 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048)
+      embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
+    if (fields)
+      for (const field of fields)
+        embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color) embed.setColor(functiondata.Color);
+    if (functiondata && functiondata.Color && !color)
+      embed.setColor(functiondata.Color);
 
     return await client.helpers
       .sendMessage(ctx.channelId, {
@@ -460,7 +482,7 @@ export default (client: AeonaBot) => {
   ) {
     if (ctx instanceof Context) {
       let s = [
-        '\n discord.gg/qURxRRHPwa',
+        '\n discord.gg/W8hssA32C9',
         '\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
       ];
       let guildDB = await Schema.findOne({ Guild: `${ctx.guildId}` });

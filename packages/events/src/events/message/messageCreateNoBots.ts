@@ -295,7 +295,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
         );
 
         let s = [
-          '\n discord.gg/qURxRRHPwa',
+          '\n discord.gg/W8hssA32C9',
           '\n Generate beautiful images using /imagine \n ',
         ];
         let guild = await Functions.findOne({

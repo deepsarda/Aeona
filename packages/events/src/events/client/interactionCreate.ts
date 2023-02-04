@@ -1,5 +1,10 @@
 import Captcha from '@haileybot/captcha-generator';
-import { AmethystEmbed, Components, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
+import {
+  AmethystEmbed,
+  Components,
+  createContext,
+  createOptionResults,
+} from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import { Message } from 'discordeno';
 import { Interaction } from 'discordeno/transformers';
@@ -44,11 +49,15 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         client.amethystUtils
           .awaitMessage(interaction.user.id, interaction.channelId!, {})
           .then(async (response) => {
-            if (response.content.toUpperCase() === captcha.value.toUpperCase()) {
+            if (
+              response.content.toUpperCase() === captcha.value.toUpperCase()
+            ) {
               client.helpers.deleteMessage(interaction.channelId!, response.id);
 
               client.helpers.deleteMessage(interaction.channelId!, msg.id!);
-              const channel = await client.helpers.getDmChannel(interaction.user.id);
+              const channel = await client.helpers.getDmChannel(
+                interaction.user.id,
+              );
               client.extras
                 .embed(
                   {
@@ -65,7 +74,9 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             } else {
               client.helpers.deleteMessage(interaction.channelId!, response.id);
               client.helpers.deleteMessage(interaction.channelId!, msg.id);
-              const channel = await client.helpers.getChannel(interaction.channelId!);
+              const channel = await client.helpers.getChannel(
+                interaction.channelId!,
+              );
               client.extras
                 .errNormal(
                   {
@@ -77,7 +88,10 @@ export default async (client: AeonaBot, interaction: Interaction) => {
                 )
                 .then((_msgError) => {
                   setTimeout(() => {
-                    client.helpers.deleteMessage(interaction.channelId!, msg.id);
+                    client.helpers.deleteMessage(
+                      interaction.channelId!,
+                      msg.id,
+                    );
                   }, 20000);
                 });
             }
@@ -96,7 +110,8 @@ export default async (client: AeonaBot, interaction: Interaction) => {
     } else {
       client.extras.errNormal(
         {
-          error: 'Verify is disabled in this server! Or you are using the wrong channel!',
+          error:
+            'Verify is disabled in this server! Or you are using the wrong channel!',
           type: 'ephemeral',
         },
         interaction,
@@ -117,30 +132,50 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           const [roleid] = data.Roles[buttonID[1]];
 
           if (interaction.member?.roles.includes(roleid)) {
-            await client.helpers.removeRole(interaction.guildId!, interaction.user?.id!, roleid);
-            await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-              type: 4,
-              data: { content: `<@&${roleid}> was removed!`, flags: 1 << 6 },
-            });
+            await client.helpers.removeRole(
+              interaction.guildId!,
+              interaction.user?.id!,
+              roleid,
+            );
+            await client.helpers.sendInteractionResponse(
+              interaction.id,
+              interaction.token,
+              {
+                type: 4,
+                data: { content: `<@&${roleid}> was removed!`, flags: 1 << 6 },
+              },
+            );
           } else {
-            await client.helpers.addRole(interaction.guildId!, interaction.user?.id!, roleid);
-            await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-              type: 4,
-              data: { content: `<@&${roleid}> was added!`, flags: 1 << 6 },
-            });
+            await client.helpers.addRole(
+              interaction.guildId!,
+              interaction.user?.id!,
+              roleid,
+            );
+            await client.helpers.sendInteractionResponse(
+              interaction.id,
+              interaction.token,
+              {
+                type: 4,
+                data: { content: `<@&${roleid}> was added!`, flags: 1 << 6 },
+              },
+            );
           }
         },
       );
     }
 
     if (interaction.data?.customId == 'profane') {
-      await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-        type: 4,
-        data: {
-          content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $1 [here](https://patreon.com/aeonadiscord)`,
-          flags: 1 << 6,
+      await client.helpers.sendInteractionResponse(
+        interaction.id,
+        interaction.token,
+        {
+          type: 4,
+          data: {
+            content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $1 [here](https://patreon.com/aeonicdiscord)`,
+            flags: 1 << 6,
+          },
         },
-      });
+      );
     }
   }
 
@@ -160,19 +195,31 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             roles += `<@&${roleid}> `;
 
             if (interaction.member?.roles.includes(roleid)) {
-              client.helpers.removeRole(interaction.guildId!, interaction.user?.id!, roleid);
+              client.helpers.removeRole(
+                interaction.guildId!,
+                interaction.user?.id!,
+                roleid,
+              );
             } else {
-              client.helpers.addRole(interaction.guildId!, interaction.user?.id!, roleid);
+              client.helpers.addRole(
+                interaction.guildId!,
+                interaction.user?.id!,
+                roleid,
+              );
             }
 
             if (i + 1 === interaction.data.values.length) {
-              await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-                type: 4,
-                data: {
-                  content: `I have updated the following roles for you: ${roles}`,
-                  flags: 1 << 6,
+              await client.helpers.sendInteractionResponse(
+                interaction.id,
+                interaction.token,
+                {
+                  type: 4,
+                  data: {
+                    content: `I have updated the following roles for you: ${roles}`,
+                    flags: 1 << 6,
+                  },
                 },
-              });
+              );
             }
           }
         },
@@ -201,48 +248,65 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       const embed = new AmethystEmbed()
         .setColor(client.extras.config.colors.normal)
         .setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
-        .setDescription(`*${c.description.trim()}* \n Total of ${c.commands.size} commands. `);
+        .setDescription(
+          `*${c.description.trim()}* \n Total of ${c.commands.size} commands. `,
+        );
       for (let i = 0; i < fields.length; i++) {
         embed.addField(fields[i].name, fields[i].value, fields[i].inline);
       }
-      await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-        type: 4,
-        data: {
-          embeds: [embed],
-          flags: 1 << 6,
+      await client.helpers.sendInteractionResponse(
+        interaction.id,
+        interaction.token,
+        {
+          type: 4,
+          data: {
+            embeds: [embed],
+            flags: 1 << 6,
+          },
         },
-      });
+      );
     } else if (interaction.data?.customId?.startsWith('share-imagine')) {
       if (
         interaction.data?.values![0] == 'share-discord' &&
         interaction.data?.customId?.split('_')[1] == interaction.user.id + ''
       ) {
-        const channel = await client.helpers.createForumThread('1042413922138980352', {
-          name:
-            interaction.message?.content.split('\n')[0].split(':**')[1] +
-            ' by ' +
-            interaction.user.username +
-            '(' +
-            interaction.member?.id +
-            ')',
-          autoArchiveDuration: 60,
-          content: interaction.message?.attachments[0].proxyUrl,
-        });
+        const channel = await client.helpers.createForumThread(
+          '1042413922138980352',
+          {
+            name:
+              interaction.message?.content.split('\n')[0].split(':**')[1] +
+              ' by ' +
+              interaction.user.username +
+              '(' +
+              interaction.member?.id +
+              ')',
+            autoArchiveDuration: 60,
+            content: interaction.message?.attachments[0].proxyUrl,
+          },
+        );
         client.helpers.sendMessage(channel.id, {
           content: interaction.message?.content,
         });
-        await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
-          type: 4,
-          data: {
-            content:
-              'I have successfully posted your art in my support server. \n To see it join discord.gg/qURxRRHPwa and see <#1045332279943233667>',
-            flags: 1 << 6,
+        await client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: 4,
+            data: {
+              content:
+                'I have successfully posted your art in my support server. \n To see it join discord.gg/W8hssA32C9 and see <#1045332279943233667>',
+              flags: 1 << 6,
+            },
           },
-        });
+        );
 
-        await client.helpers.editMessage(interaction.channelId!, interaction.message?.id!, {
-          components: [],
-        });
+        await client.helpers.editMessage(
+          interaction.channelId!,
+          interaction.message?.id!,
+          {
+            components: [],
+          },
+        );
       }
     }
   }
@@ -476,7 +540,9 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           },
           {
             name: `🕒 Ends at`,
-            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(0)}:f>`,
+            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(
+              0,
+            )}:f>`,
             inline: true,
           },
           {
@@ -525,7 +591,9 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           },
           {
             name: `🕒 Ends at`,
-            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(0)}:f>`,
+            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(
+              0,
+            )}:f>`,
             inline: true,
           },
           {
