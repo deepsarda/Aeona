@@ -524,7 +524,7 @@ export default {
           ],
           'Share this image.',
         );
-        ctx.reply({
+        client.helpers.sendMessage(ctx.channel?.id, {
           content:
             '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
           file: [
