@@ -184,6 +184,10 @@ export default (client: AeonaBot) => {
 
         if (interaction.data?.customId == 'setthumbnail')
           setThumbnail(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'sendembed')
+          if (embedData.callback)
+            embedData.callback({ ...embedData, callback: undefined });
       })
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
@@ -1027,6 +1031,29 @@ type Embed = {
     text: string;
     icon?: string;
   };
+  callback?: (data: {
+    content?: string;
+    author?: {
+      name: string;
+      icon?: string;
+      url?: string;
+    };
+    color?: string;
+    fields?: {
+      name: string;
+      value: string;
+      inline?: boolean;
+    }[];
+    title?: string;
+    url?: string;
+    description?: string;
+    thumbnail?: string;
+    image?: string;
+    footer?: {
+      text: string;
+      icon?: string;
+    };
+  }) => unknown;
 };
 
 type Config = {
