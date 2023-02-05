@@ -58,6 +58,8 @@ export default {
           message.id,
           client.extras.generateEmbedFromData(config, data),
         );
+
+        ctx.reply({ content: 'Successfully edited embed.' });
       },
     });
   },

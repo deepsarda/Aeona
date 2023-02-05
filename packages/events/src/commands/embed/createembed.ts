@@ -27,6 +27,8 @@ export default {
           channel.id,
           client.extras.generateEmbedFromData(config, data),
         );
+
+        ctx.reply({ content: 'Successfully created embed.' });
       },
     });
   },
