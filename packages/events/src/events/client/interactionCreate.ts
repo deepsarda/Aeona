@@ -84,7 +84,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
                       "You have answered the captcha incorrectly! Don't worry you can try again",
                     type: 'reply',
                   },
-                  channel,
+                  channel!,
                 )
                 .then((_msgError) => {
                   setTimeout(() => {
