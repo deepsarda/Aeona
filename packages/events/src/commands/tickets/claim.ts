@@ -29,7 +29,9 @@ export default {
             ticketData.claimed == undefined ||
             ticketData.claimed == 'None'
           ) {
-            const ticketCategory = await client.helpers.getChannel(BigInt(data.Category!));
+            const ticketCategory = await client.cache.channels.get(
+              BigInt(data.Category!),
+            );
 
             if (ticketCategory == undefined) {
               return client.extras.errNormal(

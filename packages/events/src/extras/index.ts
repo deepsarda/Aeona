@@ -1,4 +1,9 @@
-import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  AmethystBot,
+  AmethystCollection,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import { Channel, Role, VoiceState } from 'discordeno';
 import { BigString } from 'discordeno/types';
 import { Manager } from 'erela.js';
@@ -88,7 +93,7 @@ export function additionalProps(client: AeonaBot) {
     async getLogs(guildId: any) {
       const data = await Schema.findOne({ Guild: guildId });
       if (data && data.Channel) {
-        const channel = await client.helpers.getChannel(BigInt(data.Channel));
+        const channel = await client.cache.channels.get(BigInt(data.Channel));
         return channel;
       }
       return false;

@@ -56,11 +56,13 @@ export default {
         ctx,
       );
 
-    const channel = await client.helpers.getChannel(
-      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)?.channelId!,
-    );
-
-    if (player && `${channel.id}` !== player?.voiceChannel)
+    if (
+      player &&
+      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)
+        ?.channelId +
+        '' !==
+        player?.voiceChannel
+    )
       return client.extras.errNormal(
         {
           error: `You're not in the same voice channel!`,
@@ -78,7 +80,9 @@ export default {
         ctx,
       );
 
-    const bands = new Array(3).fill(null).map((_, i) => ({ band: i, gain: levels[level!] }));
+    const bands = new Array(3)
+      .fill(null)
+      .map((_, i) => ({ band: i, gain: levels[level!] }));
 
     player.setEQ(...bands);
 

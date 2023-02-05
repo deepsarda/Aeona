@@ -21,12 +21,12 @@ export default function (bot: AeonaBot) {
   bot.extras.player.on('playerDisconnect', async (player, _track) => {
     player.destroy();
 
-    const channel = await bot.helpers.getChannel(player.textChannel!);
+    const channel = await bot.cache.channels.get(BigInt(player.textChannel!));
     bot.extras.errNormal(
       {
         error: "Music has stopped. I'm disconnected from the channel",
       },
-      channel,
+      channel!,
     );
   });
   bot.extras.player.on(
@@ -35,12 +35,14 @@ export default function (bot: AeonaBot) {
       if (!newChannel) {
         player.destroy();
 
-        const channel = await bot.helpers.getChannel(player.textChannel!);
+        const channel = await bot.cache.channels.get(
+          BigInt(player.textChannel!),
+        );
         bot.extras.errNormal(
           {
             error: "Music has stopped. I'm disconnected from the channel",
           },
-          channel,
+          channel!,
         );
       } else {
         player.set('moved', true);
@@ -56,12 +58,12 @@ export default function (bot: AeonaBot) {
   bot.extras.player.on('queueEnd', async (player, _track) => {
     player.destroy(true);
 
-    const channel = await bot.helpers.getChannel(player.textChannel!);
+    const channel = await bot.cache.channels.get(BigInt(player.textChannel!))!;
     bot.extras.errNormal(
       {
         error: 'Queue is empty, Leaving voice channel',
       },
-      channel,
+      channel!,
     );
   });
   bot.extras.player.on('trackStart', async (player, track) => {
@@ -79,7 +81,7 @@ export default function (bot: AeonaBot) {
       emoji: '<:next:1060474589349683270>',
     });
 
-    const channel = await bot.helpers.getChannel(player.textChannel!);
+    const channel = await bot.cache.channels.get(BigInt(player.textChannel!));
 
     bot.extras.embed(
       {
@@ -108,7 +110,7 @@ export default function (bot: AeonaBot) {
         ],
         components,
       },
-      channel,
+      channel!,
     );
   });
 

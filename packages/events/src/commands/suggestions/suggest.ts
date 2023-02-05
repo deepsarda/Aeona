@@ -22,7 +22,7 @@ export default {
 
     const data = await Schema.findOne({ Guild: ctx.guild!.id });
     if (data) {
-      const channel = await client.helpers.getChannel(BigInt(data.Channel!));
+      const channel = await client.cache.channels.get(BigInt(data.Channel!));
 
       client.extras
         .embed(
@@ -31,9 +31,13 @@ export default {
             desc: `${suggestionQuery}`,
             author: {
               name: `${ctx.user.username}#${ctx.user.discriminator}(${ctx.user.id})`,
-              iconURL: client.helpers.getAvatarURL(`${ctx.user.id}`, ctx.user.discriminator, {
-                avatar: ctx.user.avatar,
-              }),
+              iconURL: client.helpers.getAvatarURL(
+                `${ctx.user.id}`,
+                ctx.user.discriminator,
+                {
+                  avatar: ctx.user.avatar,
+                },
+              ),
             },
           },
           channel!,

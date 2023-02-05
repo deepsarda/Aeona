@@ -207,7 +207,7 @@ export default async (
           client.cache.messages.delete(messageId);
         }
       }
-      if (client.cache.channels.memory.size > 500) {
+      if (client.cache.channels.memory.size > 5000) {
         for (const [channelId, _channe] of client.cache.channels.memory) {
           client.cache.channels.delete(channelId);
         }
@@ -232,16 +232,19 @@ export default async (
             reminder.LastBump = Date.now();
             reminder.save();
 
-            const channel = await client.helpers.getChannel(reminder.Channel);
-            await client.extras.embed(
-              {
-                content: `<@&${reminder.Role}>`,
-                title: `Time to bump!`,
-                desc: reminder.Message ?? `Use /bump to bump this server!`,
-                type: 'reply',
-              },
-              channel,
+            const channel = await client.cache.channels.get(
+              BigInt(reminder.Channel!),
             );
+            if (channel)
+              await client.extras.embed(
+                {
+                  content: `<@&${reminder.Role}>`,
+                  title: `Time to bump!`,
+                  desc: reminder.Message ?? `Use /bump to bump this server!`,
+                  type: 'reply',
+                },
+                channel,
+              );
           }
         } catch (err) {
           //

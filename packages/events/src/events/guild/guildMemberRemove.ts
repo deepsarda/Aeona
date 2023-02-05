@@ -77,8 +77,8 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
               `${user.username}#${user.discriminator}`,
             );
 
-            const channel = await client.helpers.getChannel(
-              channelData.Channel!,
+            const channel = await client.cache.channels.get(
+              BigInt(channelData.Channel!),
             );
 
             await client.extras
@@ -87,7 +87,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                   title: `👋 Bye`,
                   desc: leaveMessage,
                 },
-                channel,
+                channel!,
               )
               .catch();
           })
@@ -105,8 +105,8 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                 `{inviter:tag}`,
                 `UnknownUser#0000`,
               );
-              const channel = await client.helpers.getChannel(
-                channelData.Channel!,
+              const channel = await client.cache.channels.get(
+                BigInt(channelData.Channel!),
               );
 
               await client.extras
@@ -115,7 +115,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                     title: `👋 Bye`,
                     desc: leaveMessage,
                   },
-                  channel,
+                  channel!,
                 )
                 .catch();
             }
@@ -124,8 +124,8 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
         client.helpers
           .getUser(inviteData?.User! + '')
           .then(async (user) => {
-            const channel = await client.helpers.getChannel(
-              channelData.Channel!,
+            const channel = await client.cache.channels.get(
+              BigInt(channelData.Channel!),
             );
 
             await client.extras
@@ -138,14 +138,14 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                     user.username + '#' + user.discriminator
                   }`,
                 },
-                channel,
+                channel!,
               )
               .catch();
           })
           .catch(async () => {
             if (channelData) {
-              const channel = await client.helpers.getChannel(
-                channelData.Channel!,
+              const channel = await client.cache.channels.get(
+                BigInt(channelData.Channel!),
               );
 
               await client.extras
@@ -156,7 +156,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                       user.username + '#' + user.discriminator
                     }** was invited by I could not find that person`,
                   },
-                  channel,
+                  channel!,
                 )
                 .catch();
             }
@@ -199,7 +199,9 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
           `{inviter:tag}`,
           `UnknownUser#0000`,
         );
-        const channel = await client.helpers.getChannel(channelData.Channel!);
+        const channel = await client.cache.channels.get(
+          BigInt(channelData.Channel!),
+        );
 
         await client.extras
           .embed(
@@ -207,13 +209,15 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
               title: `👋 Bye`,
               desc: leaveMessage,
             },
-            channel,
+            channel!,
           )
           .catch();
       }
     } else {
       if (channelData) {
-        const channel = await client.helpers.getChannel(channelData.Channel!);
+        const channel = await client.cache.channels.get(
+          BigInt(channelData.Channel!),
+        );
 
         await client.extras
           .embed(
@@ -223,7 +227,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
                 user.username + '#' + user.discriminator
               }** was invited by I could not find that person`,
             },
-            channel,
+            channel!,
           )
           .catch();
       }

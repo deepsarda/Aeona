@@ -18,7 +18,9 @@ export default async (
     const data = await StarBoard.findOne({ Guild: reaction.guildId });
     if (!data) return;
 
-    const starboardChannel = await client.helpers.getChannel(data.Channel!);
+    const starboardChannel = await client.cache.channels.get(
+      BigInt(data.Channel!),
+    );
     if (!starboardChannel) return;
 
     const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
@@ -34,9 +36,15 @@ export default async (
 
     if (stars) {
       const foundStar = stars.embeds[0];
-      const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
+      const message = await client.helpers.getMessage(
+        reaction.channelId,
+        reaction.messageId,
+      );
 
-      const starMsg = await client.helpers.getMessage(starboardChannel.id + '', stars.id);
+      const starMsg = await client.helpers.getMessage(
+        starboardChannel.id + '',
+        stars.id,
+      );
       const image = stars.embeds[0].image?.url;
       if (
         !message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
@@ -52,13 +60,20 @@ export default async (
             author: {
               name: user.username + '#' + user.discriminator,
             },
-            thumbnail: client.helpers.getAvatarURL(user.id, user.discriminator, {
-              avatar: user.avatar,
-            }),
+            thumbnail: client.helpers.getAvatarURL(
+              user.id,
+              user.discriminator,
+              {
+                avatar: user.avatar,
+              },
+            ),
             fields: [
               {
                 name: `:star: Stars`,
-                value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count || 1}`,
+                value: `${
+                  message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
+                  1
+                }`,
                 inline: true,
               },
               {

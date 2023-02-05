@@ -16,7 +16,9 @@ export default async (
     const data = await StarBoard.findOne({ Guild: reaction.guildId });
     if (!data) return;
 
-    const starboardChannel = await client.helpers.getChannel(data.Channel!);
+    const starboardChannel = await client.cache.channels.get(
+      BigInt(data.Channel!),
+    );
     if (!starboardChannel) return;
 
     const fetch = await client.helpers.getMessages(starboardChannel.id + '', {

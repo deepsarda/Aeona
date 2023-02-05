@@ -13,11 +13,14 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel || !ctx.member) return;
 
     const player = client.extras.player.players.get(`${ctx.guildId}`);
-    const channel = await client.helpers.getChannel(
-      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)?.channelId!,
-    );
 
-    if (player && `${channel.id}` !== player?.voiceChannel)
+    if (
+      player &&
+      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)
+        ?.channelId +
+        '' !==
+        player?.voiceChannel
+    )
       return client.extras.errNormal(
         {
           error: `You're not in the same voice channel!`,
@@ -39,7 +42,8 @@ export default {
 
     try {
       lyrics = await lyricsFinder(player.queue.current.title, '');
-      if (!lyrics) lyrics = `No lyrics found for ${player.queue.current.title} :x:`;
+      if (!lyrics)
+        lyrics = `No lyrics found for ${player.queue.current.title} :x:`;
     } catch (error) {
       lyrics = `No lyrics found for ${player.queue.current.title} :x:`;
     }

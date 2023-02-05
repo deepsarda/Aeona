@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import ticketChannels from '../../database/models/ticketChannels.js';
 import ticketMessageConfig from '../../database/models/ticketMessage.js';
@@ -28,8 +32,10 @@ export default {
 
     ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, TicketData) => {
       if (TicketData) {
-        const logsChannel = await client.helpers.getChannel(TicketData.Logs);
-        const ticketCategory = await client.helpers.getChannel(TicketData.Category);
+        const logsChannel = await client.cache.channels.get(TicketData.Logs);
+        const ticketCategory = await client.cache.channels.get(
+          TicketData.Category,
+        );
         const ticketRoles = await client.helpers.getRoles(ctx.guild!.id!);
         const role = ticketRoles.find((r) => `${r.id}` === TicketData.Role);
 
@@ -73,7 +79,7 @@ export default {
               ctx,
             );
           }
-          const category = await client.helpers.getChannel(ticketCategory.id);
+          const category = await client.cache.channels.get(ticketCategory.id);
 
           const ticketid = String(TicketData.TicketCount).padStart(4, '0');
           await client.helpers
@@ -108,7 +114,7 @@ export default {
                   id: role!.id,
                 },
               ],
-              parentId: category.id,
+              parentId: category!.id,
             })
             .then(async (channel) => {
               client.extras.embed(
@@ -153,9 +159,9 @@ export default {
                     fields: [
                       {
                         name: '<:members:1063116392762712116> Creator',
-                        value: `${`${ctx.user!.username}#${ctx.user!.discriminator}`} (${
-                          ctx.user!.id
-                        })`,
+                        value: `${`${ctx.user!.username}#${
+                          ctx.user!.discriminator
+                        }`} (${ctx.user!.id})`,
                         inline: false,
                       },
                       {

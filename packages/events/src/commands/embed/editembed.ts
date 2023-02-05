@@ -50,13 +50,16 @@ export default {
     const embed = message.embeds[0];
     ctx.reply({ content: 'Send the title for the embed.' });
 
-    const title = (await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id)).content;
+    const title = (
+      await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id)
+    ).content;
     embed.title = title;
 
     ctx.reply({ content: 'Send the description for the embed.' });
 
-    const description = (await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id))
-      .content;
+    const description = (
+      await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id)
+    ).content;
     embed.description = description;
 
     message.embeds[0] = embed;

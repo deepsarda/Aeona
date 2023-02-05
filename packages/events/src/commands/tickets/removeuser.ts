@@ -27,8 +27,10 @@ export default {
     });
 
     if (data) {
-      const ticketCategory = await client.helpers.getChannel(data.Category!);
-      if (ticketCategory == undefined) {
+      const ticketCategory = await client.cache.channels.get(
+        BigInt(data.Category!),
+      );
+      if (!ticketCategory) {
         return client.extras.errNormal(
           {
             error: 'Do the ticket setup!',

@@ -19,7 +19,9 @@ export default async (
     const data = await StarBoard.findOne({ Guild: payload.guildId });
     if (!data) return;
 
-    const starboardChannel = await client.helpers.getChannel(data.Channel!).catch();
+    const starboardChannel = await client.cache.channels
+      .get(BigInt(data.Channel!))
+      .catch();
     if (!starboardChannel) return;
 
     const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
@@ -34,11 +36,16 @@ export default async (
     });
 
     if (stars) {
-      const message = await client.helpers.getMessage(payload.channelId, payload.messageId);
+      const message = await client.helpers.getMessage(
+        payload.channelId,
+        payload.messageId,
+      );
       const foundStar = stars.embeds[0];
       const user = await client.helpers.getUser(message.authorId);
       const image =
-        message.attachments.length > 0 ? await extension(payload, message.attachments[0]?.url) : '';
+        message.attachments.length > 0
+          ? await extension(payload, message.attachments[0]?.url)
+          : '';
 
       client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
 
@@ -55,7 +62,9 @@ export default async (
           fields: [
             {
               name: `:star: Stars`,
-              value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count ?? 1}`,
+              value: `${
+                message.reactions?.find((r) => r.emoji.name == '⭐')?.count ?? 1
+              }`,
               inline: true,
             },
             {
@@ -75,9 +84,14 @@ export default async (
       );
     }
     if (!stars) {
-      const message = await client.helpers.getMessage(payload.channelId, payload.messageId);
+      const message = await client.helpers.getMessage(
+        payload.channelId,
+        payload.messageId,
+      );
       const image =
-        message.attachments.length > 0 ? await extension(payload, message.attachments[0]?.url) : '';
+        message.attachments.length > 0
+          ? await extension(payload, message.attachments[0]?.url)
+          : '';
       const user = await client.helpers.getUser(message.authorId);
       client.extras.embed(
         {
@@ -92,7 +106,9 @@ export default async (
           fields: [
             {
               name: `:star: Stars`,
-              value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count ?? 1}`,
+              value: `${
+                message.reactions?.find((r) => r.emoji.name == '⭐')?.count ?? 1
+              }`,
               inline: true,
             },
             {

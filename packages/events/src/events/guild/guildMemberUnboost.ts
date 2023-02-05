@@ -17,25 +17,45 @@ export default async (client: AeonaBot, member: Member) => {
 
       let boostMessage = messageData.unboostMessage!;
       boostMessage = boostMessage.replace(`{user:username}`, u.username!);
-      boostMessage = boostMessage.replace(`{user:discriminator}`, u.discriminator!);
-      boostMessage = boostMessage.replace(`{user:tag}`, u.username! + '#' + u.discriminator!);
-      boostMessage = boostMessage.replace(`{user:mention}`, '<@' + member.id + '>');
+      boostMessage = boostMessage.replace(
+        `{user:discriminator}`,
+        u.discriminator!,
+      );
+      boostMessage = boostMessage.replace(
+        `{user:tag}`,
+        u.username! + '#' + u.discriminator!,
+      );
+      boostMessage = boostMessage.replace(
+        `{user:mention}`,
+        '<@' + member.id + '>',
+      );
 
       boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
-      boostMessage = boostMessage.replace(`{guild:members}`, guild.approximateMemberCount! + '');
-      boostMessage = boostMessage.replace(`{guild:boosts}`, guild.premiumSubscriptionCount! + '');
-      boostMessage = boostMessage.replace(`{guild:booststier}`, PremiumTiers[guild.premiumTier!]);
+      boostMessage = boostMessage.replace(
+        `{guild:members}`,
+        guild.approximateMemberCount! + '',
+      );
+      boostMessage = boostMessage.replace(
+        `{guild:boosts}`,
+        guild.premiumSubscriptionCount! + '',
+      );
+      boostMessage = boostMessage.replace(
+        `{guild:booststier}`,
+        PremiumTiers[guild.premiumTier!],
+      );
 
       if (channelData) {
         try {
-          const channel = await client.helpers.getChannel(channelData.Channel!);
+          const channel = await client.cache.channels.get(
+            BigInt(channelData.Channel!),
+          );
 
           client.extras.embed(
             {
               title: `🚀 New unboost`,
               desc: boostMessage,
             },
-            channel,
+            channel!,
           );
         } catch {
           //prevent lint errors
@@ -44,7 +64,9 @@ export default async (client: AeonaBot, member: Member) => {
     } else {
       if (channelData) {
         try {
-          const channel = await client.helpers.getChannel(BigInt(channelData.Channel!));
+          const channel = await client.cache.channels.get(
+            BigInt(channelData.Channel!),
+          );
           if (!channel) return;
           client.extras.embed(
             {

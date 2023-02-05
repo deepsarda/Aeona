@@ -16,7 +16,8 @@ export default async (client: AeonaBot, channel: Channel, guild: Guild) => {
       channelName = channelName.replace(
         `{name}`,
         `Text Channels: ${
-          channels.filter((channel) => channel.type === ChannelTypes.GuildVoice).size || 0
+          channels.filter((channel) => channel.type === ChannelTypes.GuildVoice)
+            .size || 0
         }`,
       );
 

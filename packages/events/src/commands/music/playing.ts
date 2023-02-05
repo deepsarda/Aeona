@@ -22,11 +22,13 @@ export default {
         ctx,
       );
 
-    const channel = await client.helpers.getChannel(
-      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)?.channelId!,
-    );
-
-    if (player && `${channel.id}` !== player?.voiceChannel)
+    if (
+      player &&
+      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)
+        ?.channelId +
+        '' !==
+        player?.voiceChannel
+    )
       return client.extras.errNormal(
         {
           error: `You're not in the same voice channel!`,
@@ -51,7 +53,8 @@ export default {
         isNaN(player.queue.current.duration)
       ? null
       : player.queue.current.duration;
-    const nowTime = !player.position || isNaN(player.position) ? null : player.position;
+    const nowTime =
+      !player.position || isNaN(player.position) ? null : player.position;
 
     const bar = await createProgressBar(musicLength, nowTime);
 
@@ -59,7 +62,9 @@ export default {
       {
         title: `${player.queue.current.title}`,
         url: player.queue.current.uri,
-        thumbnail: player.queue.current?.thumbnail ? player.queue.current?.thumbnail : '',
+        thumbnail: player.queue.current?.thumbnail
+          ? player.queue.current?.thumbnail
+          : '',
         fields: [
           {
             name: `👤Requested By`,
@@ -82,7 +87,9 @@ export default {
           },
           {
             name: `Progress`,
-            value: `${new Date(player.position).toISOString().slice(11, 19)} ┃ ${bar} ┃ ${new Date(
+            value: `${new Date(player.position)
+              .toISOString()
+              .slice(11, 19)} ┃ ${bar} ┃ ${new Date(
               player.queue.current.duration!,
             )
               .toISOString()
@@ -97,7 +104,13 @@ export default {
   },
 } as CommandOptions;
 
-async function createProgressBar(total, current, size = 10, line = '▬', slider = '🔘') {
+async function createProgressBar(
+  total,
+  current,
+  size = 10,
+  line = '▬',
+  slider = '🔘',
+) {
   if (current > total) {
     const bar = line.repeat(size + 2);
     const percentage = (current / total) * 100;

@@ -21,11 +21,47 @@ export default {
       async (err, ticketData) => {
         if (ticketData) {
           if (ctx.user!.id !== ticketData.creator) {
-            ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
-              if (data) {
-                const ticketCategory = await client.helpers.getChannel(data.Category);
+            ticketSchema.findOne(
+              { Guild: ctx.guild!.id },
+              async (err, data) => {
+                if (data) {
+                  const ticketCategory = await client.cache.channels.get(
+                    data.Category,
+                  );
 
-                if (ticketCategory == undefined) {
+                  if (ticketCategory == undefined) {
+                    return client.extras.errNormal(
+                      {
+                        error: 'Do the setup!',
+                        type,
+                      },
+                      ctx,
+                    );
+                  }
+
+                  if (ctx.channel!.parentId == ticketCategory.id) {
+                    client.extras.simpleEmbed(
+                      {
+                        desc: `Hey <@${
+                          ticketData.creator
+                        }>, \n\nCan we still help you? \nIf there is no response within **24 hours**, we will close this ticket \n\n- Team ${
+                          ctx.guild!.name
+                        }`,
+                        content: `<@${ticketData.creator}>`,
+                        type,
+                      },
+                      ctx,
+                    );
+                  } else {
+                    client.extras.errNormal(
+                      {
+                        error: 'This is not a ticket!',
+                        type,
+                      },
+                      ctx,
+                    );
+                  }
+                } else {
                   return client.extras.errNormal(
                     {
                       error: 'Do the setup!',
@@ -34,39 +70,8 @@ export default {
                     ctx,
                   );
                 }
-
-                if (ctx.channel!.parentId == ticketCategory.id) {
-                  client.extras.simpleEmbed(
-                    {
-                      desc: `Hey <@${
-                        ticketData.creator
-                      }>, \n\nCan we still help you? \nIf there is no response within **24 hours**, we will close this ticket \n\n- Team ${
-                        ctx.guild!.name
-                      }`,
-                      content: `<@${ticketData.creator}>`,
-                      type,
-                    },
-                    ctx,
-                  );
-                } else {
-                  client.extras.errNormal(
-                    {
-                      error: 'This is not a ticket!',
-                      type,
-                    },
-                    ctx,
-                  );
-                }
-              } else {
-                return client.extras.errNormal(
-                  {
-                    error: 'Do the setup!',
-                    type,
-                  },
-                  ctx,
-                );
-              }
-            });
+              },
+            );
           } else {
             return client.extras.errNormal(
               {

@@ -17,7 +17,9 @@ export default {
     channelName = channelName.replace(`{emoji}`, '🔧');
     channelName = channelName.replace(
       `{name}`,
-      `Channels: ${(await client.helpers.getChannels(ctx.guild!.id)).size.toLocaleString()}`,
+      `Channels: ${(
+        await client.helpers.getChannels(ctx.guild!.id)
+      ).size.toLocaleString()}`,
     );
 
     client.helpers

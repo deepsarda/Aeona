@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import { Interaction } from 'discordeno/transformers';
 import { ChannelTypes } from 'discordeno/types';
 
@@ -32,8 +36,9 @@ export default {
       );
 
     const channel = await client.helpers.getChannel(
-      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)?.channelId!,
-    );
+      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)
+        ?.channelId!,
+    )!;
 
     let player = client.extras.player.players.get(`${ctx.guild.id}`);
 
@@ -124,7 +129,10 @@ export default {
                 },
                 {
                   name: `🕒 Ends at`,
-                  value: `<t:${(Date.now() / 1000 + track.duration / 1000).toFixed(0)}:f>`,
+                  value: `<t:${(
+                    Date.now() / 1000 +
+                    track.duration / 1000
+                  ).toFixed(0)}:f>`,
                   inline: true,
                 },
                 {
@@ -165,7 +173,9 @@ export default {
           .map(
             (track, index) =>
               `**[#${++index}]** ${
-                track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
+                track.title.length >= 45
+                  ? `${track.title.slice(0, 45)}...`
+                  : track.title
               }`,
           )
           .join('\n');
@@ -242,7 +252,10 @@ export default {
                 },
                 {
                   name: `🕒 Ends at`,
-                  value: `<t:${(Date.now() / 1000 + track.duration / 1000).toFixed(0)}:f>`,
+                  value: `<t:${(
+                    Date.now() / 1000 +
+                    track.duration / 1000
+                  ).toFixed(0)}:f>`,
                   inline: true,
                 },
                 {

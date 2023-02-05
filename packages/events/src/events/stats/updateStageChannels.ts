@@ -17,7 +17,9 @@ export default async (client: AeonaBot, channel: Channel, guild: Guild) => {
       channelName = channelName.replace(
         `{name}`,
         `Stage Channels: ${
-          channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).size || 0
+          channels.filter(
+            (channel) => channel.type === ChannelTypes.GuildStageVoice,
+          ).size || 0
         }`,
       );
 

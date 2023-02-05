@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import ticketSchema from '../../database/models/tickets.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -30,7 +34,7 @@ export default {
 
     ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, ticketData) => {
       if (ticketData) {
-        const channel = await client.helpers.getChannel(ticketData.Channel);
+        const channel = await client.cache.channels.get(ticketData.Channel);
         const comp = new Components();
         comp.addButton(name, 'Primary', 'openticket', { emoji: '🎫' });
 
@@ -40,7 +44,7 @@ export default {
             desc: description,
             components: comp,
           },
-          channel,
+          channel!,
         );
 
         client.extras.succNormal(

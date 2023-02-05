@@ -31,7 +31,9 @@ export default {
 
           ticketSchema.findOne({ Guild: ctx.guild!.id }, async (err, data) => {
             if (data) {
-              const ticketCategory = await client.helpers.getChannel(data.Category);
+              const ticketCategory = await client.cache.channels.get(
+                data.Category,
+              );
 
               if (ticketCategory == undefined) {
                 return client.extras.errNormal(

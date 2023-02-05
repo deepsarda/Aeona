@@ -30,7 +30,10 @@ export default {
       {
         title: `Server Information`,
         desc: `Information about the server ${ctx.guild.name}`,
-        thumbnail: client.helpers.getGuildIconURL(`${ctx.guild!.id}`, undefined),
+        thumbnail: client.helpers.getGuildIconURL(
+          `${ctx.guild!.id}`,
+          undefined,
+        ),
         image: client.helpers.getGuildIconURL(`${ctx.guild!.id}`, undefined),
         fields: [
           {
@@ -73,42 +76,54 @@ export default {
           {
             name: 'Text Channels: ',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.GuildText).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.GuildText,
+              ).size
             } channels!`,
             inline: true,
           },
           {
             name: 'Voice Channels:',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.GuildVoice).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.GuildVoice,
+              ).size
             } channels!`,
             inline: true,
           },
           {
             name: 'Stage Channels:',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.GuildStageVoice,
+              ).size
             } channels!`,
             inline: true,
           },
           {
             name: 'News Channels:',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.GuildAnnouncement).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.GuildAnnouncement,
+              ).size
             } channels!`,
             inline: true,
           },
           {
             name: 'Public Threads:',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.PublicThread).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.PublicThread,
+              ).size
             } threads!`,
             inline: true,
           },
           {
             name: 'Private Threads:',
             value: `${
-              channels.filter((channel) => channel.type === ChannelTypes.PrivateThread).size
+              channels.filter(
+                (channel) => channel.type === ChannelTypes.PrivateThread,
+              ).size
             } threads!`,
             inline: true,
           },
@@ -124,7 +139,9 @@ export default {
           },
           {
             name: 'Sticker count:',
-            value: `${(await client.helpers.getGuildStickers(ctx.guild!.id!)).size} stickers`,
+            value: `${
+              (await client.helpers.getGuildStickers(ctx.guild!.id!)).size
+            } stickers`,
             inline: true,
           },
         ],

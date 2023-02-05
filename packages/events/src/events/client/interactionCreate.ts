@@ -74,7 +74,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             } else {
               client.helpers.deleteMessage(interaction.channelId!, response.id);
               client.helpers.deleteMessage(interaction.channelId!, msg.id);
-              const channel = await client.helpers.getChannel(
+              const channel = await client.cache.channels.get(
                 interaction.channelId!,
               );
               client.extras

@@ -35,9 +35,11 @@ export default {
               ctx,
             );
           } else if (ticketData.claimed == `${ctx.user.id}`) {
-            const ticketCategory = await client.helpers.getChannel(data.Category!);
+            const ticketCategory = await client.cache.channels.get(
+              BigInt(data.Category!),
+            );
 
-            if (ticketCategory == undefined) {
+            if (!ticketCategory) {
               return client.extras.errNormal(
                 {
                   error: 'Do the setup!',

@@ -23,11 +23,13 @@ export default {
         ctx,
       );
 
-    const channel = await client.helpers.getChannel(
-      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)?.channelId!,
-    );
-
-    if (player && `${channel.id}` !== player?.voiceChannel)
+    if (
+      player &&
+      client.extras.voiceStates.get(`${ctx.guildId}_${ctx.user.id}`)
+        ?.channelId +
+        '' !==
+        player?.voiceChannel
+    )
       return client.extras.errNormal(
         {
           error: `You're not in the same voice channel!`,
@@ -55,13 +57,16 @@ export default {
         .map((track) => {
           count += 1;
           return `**[#${count}]**┆${
-            track.title.length >= 45 ? `${track.title.slice(0, 45)}...` : track.title
+            track.title.length >= 45
+              ? `${track.title.slice(0, 45)}...`
+              : track.title
           } (Requested by ${track.requester})`;
         })
         .join('\n');
     }
     let thumbnail;
-    if (player.queue.current.thumbnail) thumbnail = player.queue.current.thumbnail;
+    if (player.queue.current.thumbnail)
+      thumbnail = player.queue.current.thumbnail;
 
     client.extras.embed(
       {

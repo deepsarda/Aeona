@@ -57,7 +57,7 @@ const cachebot = createProxyCache(b, {
     members: false,
     messages: false,
   },
-  //@ts-ignore
+
   fetchIfMissing: {
     channels: true,
     guilds: true,
@@ -81,8 +81,6 @@ const cachebot = createProxyCache(b, {
       'systemChannelFlags',
       'stageInstances',
       'toggles',
-      'roles',
-      'channels',
     ],
   },
   getItem: async (table, id, guildid?) => {
