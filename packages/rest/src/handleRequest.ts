@@ -38,13 +38,12 @@ const rest = createRestManager({
       rest.processingRateLimitedPaths = true;
       // RECHECK IN 1 SECOND
       setTimeout(() => {
-        rest.debug(`[REST - processRateLimitedPaths] Running setTimeout.`);
         rest.processRateLimitedPaths(rest);
       }, 1000);
     }
   },
   debug: (s) => {
-    if (!s.includes('[REST - fetch')) console.log(s);
+    if (!s.includes('processRateLimitedPaths')) console.log(s);
   },
 });
 
