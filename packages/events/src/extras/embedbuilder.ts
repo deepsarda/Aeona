@@ -169,7 +169,7 @@ export default (client: AeonaBot) => {
           setAuthor(message, interaction, embedData!, config);
         }
         if (interaction.data?.customId == 'setfooter') {
-          setAuthor(message, interaction, embedData!, config);
+          setFooter(message, interaction, embedData!, config);
         }
       })
       .catch(() => {
