@@ -965,8 +965,7 @@ export default (client: AeonaBot) => {
       );
 
     if (embedData.image) embed.setImage(replace(embedData.image.url));
-    if (embedData.thumbnail)
-      embed.setDescription(replace(embedData.thumbnail.url));
+    if (embedData.thumbnail) embed.setImage(replace(embedData.thumbnail.url));
     if (embedData.color) embed.setColor(embedData.color.toString(16));
     else embed.setColor(client.extras.config.colors.normal);
     return {
