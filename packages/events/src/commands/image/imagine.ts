@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import Filter from 'bad-words';
 import fetch from 'node-fetch';
 
@@ -412,14 +416,16 @@ export default {
       let modifiers =
         ' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
 
-      const msg = await client.helpers.sendMessage(ctx.channel.id, {
-        content: 'Choose your style...',
-        components: comp,
-        messageReference: {
-          messageId: ctx.message?.id,
-          failIfNotExists: false,
-        },
-      });
+      const msg = (
+        await ctx.reply({
+          content: 'Choose your style...',
+          components: comp,
+          messageReference: {
+            messageId: ctx.message?.id,
+            failIfNotExists: false,
+          },
+        })
+      ).message!;
 
       const c = await client.amethystUtils.awaitComponent(msg.id, {
         filter: (bot, data) => data.user.id == ctx.author?.id,
