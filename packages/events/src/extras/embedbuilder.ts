@@ -162,7 +162,7 @@ export default (client: AeonaBot) => {
           interaction.id,
           interaction.token,
           {
-            type: InteractionResponseTypes.Pong,
+            type: InteractionResponseTypes.DeferredUpdateMessage,
           },
         );
         if (interaction.data?.customId == 'setauthor') {
@@ -210,7 +210,7 @@ export default (client: AeonaBot) => {
           interaction.id,
           interaction.token,
           {
-            type: InteractionResponseTypes.Pong,
+            type: InteractionResponseTypes.DeferredUpdateMessage,
           },
         );
         if (interaction.data?.customId == 'setauthoruser') {
@@ -364,7 +364,7 @@ export default (client: AeonaBot) => {
           interaction.id,
           interaction.token,
           {
-            type: InteractionResponseTypes.Pong,
+            type: InteractionResponseTypes.DeferredUpdateMessage,
           },
         );
         if (interaction.data?.customId == 'setfooteruser') {
