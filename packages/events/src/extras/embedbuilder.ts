@@ -24,20 +24,16 @@ export default (client: AeonaBot) => {
     comp.addButton('Set/Delete Title', 'Secondary', 'settitle');
     comp.addButton('Set/Delete Description', 'Secondary', 'setdescription');
     comp.addButton('Set/Delete Image', 'Secondary', 'setimage');
-    comp.addButton('Set/Delete Footer', 'Secondary', 'setfooter');
-    comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
+    comp.addButton('Set/Delete Thumbnail', 'Secondary', 'setthumbnail');
     comp.addActionRow();
     comp.addButton('Set/Delete Author', 'Secondary', 'setauthor');
-    comp.addButton('Set/Delete Thumbnail', 'Secondary', 'setthumbnail');
-    comp.addButton('Set/Delete Url', 'Secondary', 'seturl');
+    comp.addButton('Set/Delete Footer', 'Secondary', 'setfooter');
     comp.addButton('Set/Delete Content', 'Secondary', 'setcontent');
+    comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
     comp.addActionRow();
     comp.addButton('Add Field', 'Secondary', 'addfield');
     comp.addButton('Remove Field', 'Secondary', 'removefield');
-    comp.addActionRow();
-    comp.addButton('Send/Edit Embed', 'Success', 'sendembed');
-    comp.addButton('Save/Delete Embed', 'Danger', 'saveembed');
-    comp.addButton('Load Saved Embed', 'Primary', 'loadembed');
+    comp.addButton('Save', 'Success', 'sendembed');
 
     return comp;
   }
@@ -60,13 +56,13 @@ export default (client: AeonaBot) => {
   }
 
   /*
-  ____                   __  __      _   _               _
- | __ )  __ _ ___  ___  |  \/  | ___| |_| |__   ___   __| |
- |  _ \ / _` / __|/ _ \ | |\/| |/ _ \ __| '_ \ / _ \ / _` |
- | |_) | (_| \__ \  __/ | |  | |  __/ |_| | | | (_) | (_| |
- |____/ \__,_|___/\___| |_|  |_|\___|\__|_| |_|\___/ \__,_|
+              ____                   __  __      _   _               _
+             | __ )  __ _ ___  ___  |  \/  | ___| |_| |__   ___   __| |
+             |  _ \ / _` / __|/ _ \ | |\/| |/ _ \ __| '_ \ / _ \ / _` |
+             | |_) | (_| \__ \  __/ | |  | |  __/ |_| | | | (_) | (_| |
+             |____/ \__,_|___/\___| |_|  |_|\___|\__|_| |_|\___/ \__,_|
 
-  */
+              */
   async function createInterface(
     ctx: Context,
     defaultContent: string,
@@ -77,39 +73,39 @@ export default (client: AeonaBot) => {
         content: defaultContent,
         title: 'Variables for you to use.',
         description: `
-        <:ayyy:1056627813286952980> **User Variables**
-         __Variable <:F_Arrow:1049291677359153202> Description <:F_Arrow:1049291677359153202> Example__
-         \`{user:username}\` <:F_Arrow:1049291677359153202> User's Name <:F_Arrow:1049291677359153202> {user:username}
-         \`{user:discriminator}\` <:F_Arrow:1049291677359153202> User's Discriminator<:F_Arrow:1049291677359153202> {user:discriminator}
-         \`{user:tag}\` <:F_Arrow:1049291677359153202> User's Tag<:F_Arrow:1049291677359153202> {user:tag}
-         \`{user:mention}\` <:F_Arrow:1049291677359153202> User ping<:F_Arrow:1049291677359153202> {user:mention}
-         \`{user:invites}\` <:F_Arrow:1049291677359153202> Number of users invited<:F_Arrow:1049291677359153202> {user:invites}
-         \`{user:invites:left}\` <:F_Arrow:1049291677359153202> Number of users left after inviting <:F_Arrow:1049291677359153202> {user:invites:left}
-         \`{user:level}\` <:F_Arrow:1049291677359153202> User's level<:F_Arrow:1049291677359153202> {user:level}
-         \`{user:xp}\` <:F_Arrow:1049291677359153202> User's xp <:F_Arrow:1049291677359153202> {user:xp}
-         \`{user:rank}\` <:F_Arrow:1049291677359153202> User's rank<:F_Arrow:1049291677359153202> {user:rank}
-         \`{user:avatar}\` <:F_Arrow:1049291677359153202> Link to user's avatar
-       <:YaeSmug:1062031989714198678> **Inviter Variables** *The user who invited the user*
-         \`{inviter:username}\` <:F_Arrow:1049291677359153202> User's Name <:F_Arrow:1049291677359153202> {inviter:username}
-         \`{inviter:discriminator}\` <:F_Arrow:1049291677359153202> User's Discriminator<:F_Arrow:1049291677359153202> {inviter:discriminator}
-         \`{inviter:tag}\` <:F_Arrow:1049291677359153202> User's Tag <:F_Arrow:1049291677359153202> {inviter:tag}
-         \`{inviter:mention}\` <:F_Arrow:1049291677359153202> User ping<:F_Arrow:1049291677359153202> {inviter:mention}
-         \`{inviter:invites}\` <:F_Arrow:1049291677359153202> Number of users invited<:F_Arrow:1049291677359153202> {inviter:invites}
-         \`{inviter:invites:left}\` <:F_Arrow:1049291677359153202> Number of users left after inviting <:F_Arrow:1049291677359153202> {inviter:invites:left}
-         \`{inviter:level}\` <:F_Arrow:1049291677359153202> User's level <:F_Arrow:1049291677359153202> {inviter:level}
-         \`{inviter:xp}\` <:F_Arrow:1049291677359153202> User's xp <:F_Arrow:1049291677359153202> {inviter:xp}
-         \`{inviter:rank}\` <:F_Arrow:1049291677359153202> User's rank<:F_Arrow:1049291677359153202> {inviter:rank}
-         \`{inviter:avatar}\` <:F_Arrow:1049291677359153202> Link to user's avatar
-       <:AH_LoveCat:1050681792060985414> **Server Variables**
-         \`{guild:name}\` <:F_Arrow:1049291677359153202> Server's Name <:F_Arrow:1049291677359153202> {guild:name}
-         \`{guild:owner}\` <:F_Arrow:1049291677359153202> Ping to the server's owner <:F_Arrow:1049291677359153202> {guild:owner}
-         \`{guild:tier}\` <:F_Arrow:1049291677359153202> Server's boosting tier <:F_Arrow:1049291677359153202> {guild:tier}
-         \`{guild:description}\` <:F_Arrow:1049291677359153202> Server's description <:F_Arrow:1049291677359153202> {guild:description}
-         \`{guild:boosts}\` <:F_Arrow:1049291677359153202>The number of boosts this server has <:F_Arrow:1049291677359153202>3 {guild:boosts}
-         \`{guild:rules}\` <:F_Arrow:1049291677359153202> The ping of the channel setup for rules <:F_Arrow:1049291677359153202> {guild:rules}
-         \`{guild:icon}\` <:F_Arrow:1049291677359153202> Link to server's icon
-         \`{guild:banner}\` <:F_Arrow:1049291677359153202> Link to server's banner
-        `,
+                    <:ayyy:1056627813286952980> **User Variables**
+                     __Variable <:F_Arrow:1049291677359153202> Description <:F_Arrow:1049291677359153202> Example__
+                     \`{user:username}\` <:F_Arrow:1049291677359153202> User's Name <:F_Arrow:1049291677359153202> {user:username}
+                     \`{user:discriminator}\` <:F_Arrow:1049291677359153202> User's Discriminator<:F_Arrow:1049291677359153202> {user:discriminator}
+                     \`{user:tag}\` <:F_Arrow:1049291677359153202> User's Tag<:F_Arrow:1049291677359153202> {user:tag}
+                     \`{user:mention}\` <:F_Arrow:1049291677359153202> User ping<:F_Arrow:1049291677359153202> {user:mention}
+                     \`{user:invites}\` <:F_Arrow:1049291677359153202> Number of users invited<:F_Arrow:1049291677359153202> {user:invites}
+                     \`{user:invites:left}\` <:F_Arrow:1049291677359153202> Number of users left after inviting <:F_Arrow:1049291677359153202> {user:invites:left}
+                     \`{user:level}\` <:F_Arrow:1049291677359153202> User's level<:F_Arrow:1049291677359153202> {user:level}
+                     \`{user:xp}\` <:F_Arrow:1049291677359153202> User's xp <:F_Arrow:1049291677359153202> {user:xp}
+                     \`{user:rank}\` <:F_Arrow:1049291677359153202> User's rank<:F_Arrow:1049291677359153202> {user:rank}
+                     \`{user:avatar}\` <:F_Arrow:1049291677359153202> Link to user's avatar
+                   <:YaeSmug:1062031989714198678> **Inviter Variables** *The user who invited the user*
+                     \`{inviter:username}\` <:F_Arrow:1049291677359153202> User's Name <:F_Arrow:1049291677359153202> {inviter:username}
+                     \`{inviter:discriminator}\` <:F_Arrow:1049291677359153202> User's Discriminator<:F_Arrow:1049291677359153202> {inviter:discriminator}
+                     \`{inviter:tag}\` <:F_Arrow:1049291677359153202> User's Tag <:F_Arrow:1049291677359153202> {inviter:tag}
+                     \`{inviter:mention}\` <:F_Arrow:1049291677359153202> User ping<:F_Arrow:1049291677359153202> {inviter:mention}
+                     \`{inviter:invites}\` <:F_Arrow:1049291677359153202> Number of users invited<:F_Arrow:1049291677359153202> {inviter:invites}
+                     \`{inviter:invites:left}\` <:F_Arrow:1049291677359153202> Number of users left after inviting <:F_Arrow:1049291677359153202> {inviter:invites:left}
+                     \`{inviter:level}\` <:F_Arrow:1049291677359153202> User's level <:F_Arrow:1049291677359153202> {inviter:level}
+                     \`{inviter:xp}\` <:F_Arrow:1049291677359153202> User's xp <:F_Arrow:1049291677359153202> {inviter:xp}
+                     \`{inviter:rank}\` <:F_Arrow:1049291677359153202> User's rank<:F_Arrow:1049291677359153202> {inviter:rank}
+                     \`{inviter:avatar}\` <:F_Arrow:1049291677359153202> Link to user's avatar
+                   <:AH_LoveCat:1050681792060985414> **Server Variables**
+                     \`{guild:name}\` <:F_Arrow:1049291677359153202> Server's Name <:F_Arrow:1049291677359153202> {guild:name}
+                     \`{guild:owner}\` <:F_Arrow:1049291677359153202> Ping to the server's owner <:F_Arrow:1049291677359153202> {guild:owner}
+                     \`{guild:tier}\` <:F_Arrow:1049291677359153202> Server's boosting tier <:F_Arrow:1049291677359153202> {guild:tier}
+                     \`{guild:description}\` <:F_Arrow:1049291677359153202> Server's description <:F_Arrow:1049291677359153202> {guild:description}
+                     \`{guild:boosts}\` <:F_Arrow:1049291677359153202>The number of boosts this server has <:F_Arrow:1049291677359153202>3 {guild:boosts}
+                     \`{guild:rules}\` <:F_Arrow:1049291677359153202> The ping of the channel setup for rules <:F_Arrow:1049291677359153202> {guild:rules}
+                     \`{guild:icon}\` <:F_Arrow:1049291677359153202> Link to server's icon
+                     \`{guild:banner}\` <:F_Arrow:1049291677359153202> Link to server's banner
+                    `,
       };
     const userData = await fetchData(ctx.user!.id, ctx.guildId!);
     const inviter = await inviteBy.findOne({
@@ -132,12 +128,12 @@ export default (client: AeonaBot) => {
   }
 
   /*
-   __  __      _   _               _
- |  \/  | ___| |_| |__   ___   __| |___
- | |\/| |/ _ \ __| '_ \ / _ \ / _` / __|
- | |  | |  __/ |_| | | | (_) | (_| \__ \
- |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
- */
+               __  __      _   _               _
+             |  \/  | ___| |_| |__   ___   __| |___
+             | |\/| |/ _ \ __| '_ \ / _ \ / _` / __|
+             | |  | |  __/ |_| | | | (_) | (_| \__ \
+             |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
+             */
   async function updateEmbed(
     message: Message,
     embedData: Embed,
@@ -165,12 +161,29 @@ export default (client: AeonaBot) => {
             type: InteractionResponseTypes.DeferredUpdateMessage,
           },
         );
-        if (interaction.data?.customId == 'setauthor') {
+        if (interaction.data?.customId == 'setauthor')
           setAuthor(message, interaction, embedData!, config);
-        }
-        if (interaction.data?.customId == 'setfooter') {
+
+        if (interaction.data?.customId == 'setfooter')
           setFooter(message, interaction, embedData!, config);
-        }
+
+        if (interaction.data?.customId == 'settitle')
+          setTitle(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'setdescription')
+          setDescription(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'setcontent')
+          setContent(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'setimage')
+          setImage(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'setcolor')
+          setColor(message, interaction, embedData!, config);
+
+        if (interaction.data?.customId == 'setthumbnail')
+          setThumbnail(message, interaction, embedData!, config);
       })
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
@@ -179,6 +192,227 @@ export default (client: AeonaBot) => {
         });
       });
   }
+  async function setTitle(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    client.helpers.editMessage(message.channelId, message.id, {
+      content:
+        '**Send the title** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
+      embeds: [],
+      components: [],
+    });
+
+    const m = await client.amethystUtils
+      .awaitMessage(interaction.user.id, message.channelId)
+      .catch();
+
+    if (!m)
+      return client.helpers.editMessage(message.channelId, message.id, {
+        content: 'This command has expired.',
+        embeds: [],
+        components: [],
+      });
+    if (m.content.trim().toLowerCase() == 'cancel') embedData.title = undefined;
+    else embedData.title = m.content;
+
+    updateEmbed(message, embedData, config);
+  }
+  async function setDescription(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    client.helpers.editMessage(message.channelId, message.id, {
+      content:
+        '**Send the description for the embed.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
+      embeds: [],
+      components: [],
+    });
+
+    const m = await client.amethystUtils
+      .awaitMessage(interaction.user.id, message.channelId)
+      .catch();
+
+    if (!m)
+      return client.helpers.editMessage(message.channelId, message.id, {
+        content: 'This command has expired.',
+        embeds: [],
+        components: [],
+      });
+    if (m.content.trim().toLowerCase() == 'cancel')
+      embedData.description = undefined;
+    else embedData.description = m.content;
+
+    updateEmbed(message, embedData, config);
+  }
+  async function setContent(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    client.helpers.editMessage(message.channelId, message.id, {
+      content:
+        '**Send the content for the embed.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
+      embeds: [],
+      components: [],
+    });
+
+    const m = await client.amethystUtils
+      .awaitMessage(interaction.user.id, message.channelId)
+      .catch();
+
+    if (!m)
+      return client.helpers.editMessage(message.channelId, message.id, {
+        content: 'This command has expired.',
+        embeds: [],
+        components: [],
+      });
+    if (m.content.trim().toLowerCase() == 'cancel')
+      embedData.content = undefined;
+    else embedData.content = m.content;
+
+    updateEmbed(message, embedData, config);
+  }
+  async function setThumbnail(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    let failed = false;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      client.helpers.editMessage(message.channelId, message.id, {
+        content:
+          (failed ? 'The message you sent was not a link.\n' : '') +
+          '**Send the url to set as the thumbnail.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send `cancel`',
+        embeds: [],
+        components: [],
+      });
+
+      const m = await client.amethystUtils
+        .awaitMessage(interaction.user.id, message.channelId)
+        .catch();
+
+      if (!m)
+        return client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          embeds: [],
+          components: [],
+        });
+      m.content = m.content.trim();
+      if (m.content.trim().toLowerCase() == 'cancel') {
+        embedData.thumbnail = undefined;
+        break;
+      } else if (
+        m.content.startsWith('http://') ||
+        m.content.startsWith('https://') ||
+        m.content == '{user:avatar}' ||
+        m.content == '{inviter:avatar}' ||
+        m.content == '{guild:icon}' ||
+        m.content == '{guild:banner}'
+      ) {
+        embedData.thumbnail = m.content;
+        break;
+      }
+
+      failed = true;
+    }
+    updateEmbed(message, embedData, config);
+  }
+  async function setImage(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    let failed = false;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      client.helpers.editMessage(message.channelId, message.id, {
+        content:
+          (failed ? 'The message you sent was not a link.\n' : '') +
+          '**Send the url to set as the image** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send `cancel`',
+        embeds: [],
+        components: [],
+      });
+
+      const m = await client.amethystUtils
+        .awaitMessage(interaction.user.id, message.channelId)
+        .catch();
+
+      if (!m)
+        return client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          embeds: [],
+          components: [],
+        });
+      m.content = m.content.trim();
+      if (m.content.trim().toLowerCase() == 'cancel') {
+        embedData.image = undefined;
+        break;
+      } else if (
+        m.content.startsWith('http://') ||
+        m.content.startsWith('https://') ||
+        m.content == '{user:avatar}' ||
+        m.content == '{inviter:avatar}' ||
+        m.content == '{guild:icon}' ||
+        m.content == '{guild:banner}'
+      ) {
+        embedData.image = m.content;
+        break;
+      }
+
+      failed = true;
+    }
+    updateEmbed(message, embedData, config);
+  }
+  async function setColor(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    let failed = false;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      client.helpers.editMessage(message.channelId, message.id, {
+        content:
+          (failed ? 'The message you sent was not a link.\n' : '') +
+          '**Send the hex value to set as the color for the embed.** \n\n <:pInfo:1071022668066865162> This value must be a valid hexadecimal color. Example: #ffffff\n :x: To remove it send `cancel`',
+        embeds: [],
+        components: [],
+      });
+
+      const m = await client.amethystUtils
+        .awaitMessage(interaction.user.id, message.channelId)
+        .catch();
+
+      if (!m)
+        return client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          embeds: [],
+          components: [],
+        });
+      m.content = m.content.trim();
+      if (m.content.trim().toLowerCase() == 'cancel') {
+        embedData.image = undefined;
+        break;
+      } else if (/^#[0-9A-F]{6}$/i.test(m.content)) {
+        embedData.image = m.content;
+        break;
+      }
+
+      failed = true;
+    }
+    updateEmbed(message, embedData, config);
+  }
+
   async function setAuthor(
     message: Message,
     interaction: Interaction,
@@ -488,13 +722,13 @@ export default (client: AeonaBot) => {
       });
   }
   /**
-   _   _ _   _ _
- | | | | |_(_) |___
- | | | | __| | / __|
- | |_| | |_| | \__ \
-  \___/ \__|_|_|___/
+               _   _ _   _ _
+             | | | | |_(_) |___
+             | | | | __| | / __|
+             | |_| | |_| | \__ \
+              \___/ \__|_|_|___/
 
-   */
+               */
   function generateEmbed(options: Config, embedData: Embed) {
     const replace = (s: string) => {
       return replaceStringVariables(
