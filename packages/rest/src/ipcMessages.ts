@@ -1,13 +1,16 @@
 /* eslint-disable no-console */
 import { Connection } from 'net-ipc';
-import { ConnectionInfo, IdentifyMessage } from './types';
+
+import { ConnectionInfo, IdentifyMessage } from './types.js';
 
 const handleIdentify = (
   connections: ConnectionInfo[],
   info: IdentifyMessage,
   connection: Connection,
 ): void => {
-  const isReconnect = connections.find((a) => a.id === info.id && a.package === info.package);
+  const isReconnect = connections.find(
+    (a) => a.id === info.id && a.package === info.package,
+  );
 
   if (isReconnect) {
     console.log(

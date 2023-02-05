@@ -1,9 +1,9 @@
 import { Server } from 'net-ipc';
 
-import config from './config';
-import { handleRequest } from './handleRequest';
-import { handleIdentify } from './ipcMessages';
-import { ConnectionInfo, MessageTypes, RequestTypes } from './types';
+import config from './config.js';
+import { handleRequest } from './handleRequest.js';
+import { handleIdentify } from './ipcMessages.js';
+import { ConnectionInfo, MessageTypes, RequestTypes } from './types.js';
 
 /* eslint-disable no-console */
 const { REST_SOCKET_PATH } = config(['REST_SOCKET_PATH']);
