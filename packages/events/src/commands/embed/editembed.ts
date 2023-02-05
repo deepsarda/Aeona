@@ -37,46 +37,28 @@ export default {
         },
         ctx,
       );
-
-    if (!message.embeds || message.embeds.length == 0)
+    if (message.authorId != client.user.id)
       return client.extras.errNormal(
         {
-          error: 'That message has no embed.',
+          error: 'That message was not sent by me.',
           type: 'reply',
         },
         ctx,
       );
+    const embed =
+      message.embeds && message.embeds.length > 0 ? message.embeds[0] : {};
 
-    const embed = message.embeds[0];
-    ctx.reply({ content: 'Send the title for the embed.' });
-
-    const title = (
-      await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id)
-    ).content;
-    embed.title = title;
-
-    ctx.reply({ content: 'Send the description for the embed.' });
-
-    const description = (
-      await client.amethystUtils.awaitMessage(ctx.user.id, ctx.channel.id)
-    ).content;
-    embed.description = description;
-
-    message.embeds[0] = embed;
-    try {
-      await client.helpers.editMessage(channel.id, messageId, {
-        embeds: message.embeds,
-      });
-
-      ctx.reply({ content: 'Updated message.' });
-    } catch (e) {
-      return client.extras.errNormal(
-        {
-          error: 'Unable to update message. Was it sent by me?',
-          type: 'reply',
-        },
-        ctx,
-      );
-    }
+    client.extras.createInterface(ctx, '', {
+      ...embed,
+      content: message.content,
+      callback: async (data) => {
+        const config = await client.extras.getEmbedConfig(ctx);
+        client.helpers.editMessage(
+          channel.id,
+          message.id,
+          client.extras.generateEmbedFromData(config, data),
+        );
+      },
+    });
   },
 } as CommandOptions;

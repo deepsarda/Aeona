@@ -31,8 +31,7 @@ export default (client: AeonaBot) => {
     comp.addButton('Set/Delete Content', 'Secondary', 'setcontent');
     comp.addButton('Set/Delete Color', 'Secondary', 'setcolor');
     comp.addActionRow();
-    comp.addButton('Add Field', 'Secondary', 'addfield');
-    comp.addButton('Remove Field', 'Secondary', 'removefield');
+    comp.addButton('Modify Fields', 'Secondary', 'setfields');
     comp.addButton('Save', 'Success', 'sendembed');
 
     return comp;
@@ -54,7 +53,23 @@ export default (client: AeonaBot) => {
       user: await client.helpers.getUser(userId),
     };
   }
-
+  async function getEmbedConfig(ctx: Context) {
+    const userData = await fetchData(ctx.user!.id, ctx.guildId!);
+    const inviter = await inviteBy.findOne({
+      Guild: ctx.guildId + '',
+      User: ctx.user!.id + '',
+    });
+    let inviterData;
+    if (inviter)
+      inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guildId!);
+    return {
+      user: userData.user,
+      guild: ctx.guild!,
+      inviter: inviterData,
+      levels: userData.levels,
+      userInvites: { invites: userData.invites, left: userData.left },
+    };
+  }
   /*
               ____                   __  __      _   _               _
              | __ )  __ _ ___  ___  |  \/  | ___| |_| |__   ___   __| |
@@ -66,9 +81,9 @@ export default (client: AeonaBot) => {
   async function createInterface(
     ctx: Context,
     defaultContent: string,
-    embedData?: Embed,
+    embedData: Embed,
   ) {
-    if (!embedData)
+    if (!embedData.title && !embedData.description)
       embedData = {
         content: defaultContent,
         title: 'Variables for you to use.',
@@ -105,23 +120,14 @@ export default (client: AeonaBot) => {
                      \`{guild:rules}\` <:F_Arrow:1049291677359153202> The ping of the channel setup for rules <:F_Arrow:1049291677359153202> {guild:rules}
                      \`{guild:icon}\` <:F_Arrow:1049291677359153202> Link to server's icon
                      \`{guild:banner}\` <:F_Arrow:1049291677359153202> Link to server's banner
+
+
+                     **Remove remove this click on \`Set/Delete Description\` and then send \`cancel\`.**
                     `,
+        callback: embedData.callback,
       };
-    const userData = await fetchData(ctx.user!.id, ctx.guildId!);
-    const inviter = await inviteBy.findOne({
-      Guild: ctx.guildId + '',
-      User: ctx.user!.id + '',
-    });
-    let inviterData;
-    if (inviter)
-      inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guildId!);
-    const config = {
-      user: userData.user,
-      guild: ctx.guild!,
-      inviter: inviterData,
-      levels: userData.levels,
-      userInvites: { invites: userData.invites, left: userData.left },
-    };
+
+    const config = await getEmbedConfig(ctx);
 
     const message = (await ctx.reply({ content: 'Loading Embed...' })).message!;
     updateEmbed(message, embedData, config);
@@ -139,7 +145,7 @@ export default (client: AeonaBot) => {
     embedData: Embed,
     config: Config,
   ) {
-    const embed = generateEmbed(config, embedData);
+    const embed = generateEmbedFromData(config, embedData);
 
     const comp = createComponents();
     client.helpers.editMessage(message.channelId, message.id, {
@@ -162,32 +168,34 @@ export default (client: AeonaBot) => {
           },
         );
         if (interaction.data?.customId == 'setauthor')
-          setAuthor(message, interaction, embedData!, config);
+          setAuthor(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setfooter')
           setFooter(message, interaction, embedData!, config);
 
         if (interaction.data?.customId == 'settitle')
-          setTitle(message, interaction, embedData!, config);
+          setTitle(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setdescription')
-          setDescription(message, interaction, embedData!, config);
+          setDescription(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setcontent')
-          setContent(message, interaction, embedData!, config);
+          setContent(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setimage')
-          setImage(message, interaction, embedData!, config);
+          setImage(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setcolor')
-          setColor(message, interaction, embedData!, config);
+          setColor(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'setthumbnail')
-          setThumbnail(message, interaction, embedData!, config);
+          setThumbnail(message, interaction, embedData, config);
 
         if (interaction.data?.customId == 'sendembed')
-          if (embedData.callback)
-            embedData.callback({ ...embedData, callback: undefined });
+          if (embedData.callback) embedData.callback({ ...embedData });
+
+        if (interaction.data?.customId == 'setfields')
+          setFields(message, interaction, embedData, config);
       })
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
@@ -321,7 +329,7 @@ export default (client: AeonaBot) => {
         m.content == '{guild:icon}' ||
         m.content == '{guild:banner}'
       ) {
-        embedData.thumbnail = m.content;
+        embedData.thumbnail = { url: m.content };
         break;
       }
 
@@ -368,7 +376,7 @@ export default (client: AeonaBot) => {
         m.content == '{guild:icon}' ||
         m.content == '{guild:banner}'
       ) {
-        embedData.image = m.content;
+        embedData.image = { url: m.content };
         break;
       }
 
@@ -405,10 +413,10 @@ export default (client: AeonaBot) => {
         });
       m.content = m.content.trim();
       if (m.content.trim().toLowerCase() == 'cancel') {
-        embedData.image = undefined;
+        embedData.color = undefined;
         break;
       } else if (/^#[0-9A-F]{6}$/i.test(m.content)) {
-        embedData.image = m.content;
+        embedData.color = Number(m.content.replace('#', '0x'));
         break;
       }
 
@@ -563,6 +571,189 @@ export default (client: AeonaBot) => {
           updateEmbed(message, embedData, config);
         }
       })
+      .catch(() => {
+        client.helpers.editMessage(message.channelId, message.id, {
+          content: 'This command has expired.',
+          embeds: [],
+          components: [],
+        });
+      });
+  }
+  async function setField(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+    index?: number,
+  ) {
+    const embed = new AmethystEmbed(true);
+    embed.setTitle('Field Visualizer');
+    if (index && embedData.fields) {
+      embed.addField(
+        embedData.fields[index].name,
+        embedData.fields[index].value,
+        embedData.fields[index].inline,
+      );
+    } else {
+      if (!embedData.fields)
+        embedData.fields = [
+          {
+            name: 'Default Title. Change me.',
+            value: 'Default Description. Change Me',
+          },
+        ];
+      embed.addField(
+        'Default Title. Change me.',
+        'Default Description. Change Me',
+      );
+    }
+
+    if (!index) index = embedData.fields!.length - 1;
+    const comp = new Components();
+    comp.addButton('Save Field', 'Success', 'savefield');
+    comp.addButton('Change Title', 'Secondary', 'changetitle');
+    comp.addButton('Change Description', 'Secondary', 'changedescription');
+    comp.addButton('Toggle Inline', 'Secondary', 'toggleinline');
+    comp.addButton('Remove Field', 'Danger', 'removefield');
+
+    client.helpers.editMessage(message.channelId, message.id, {
+      content: 'Choose your choice from below.',
+      embeds: [embed],
+      components: comp,
+    });
+
+    client.amethystUtils
+      .awaitComponent(message.id, {
+        filter(bot, data) {
+          return data.user.id === interaction.user.id;
+        },
+      })
+      .then(async (interaction) => {
+        client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: InteractionResponseTypes.DeferredUpdateMessage,
+          },
+        );
+
+        if (interaction.data?.customId == 'savefield')
+          updateEmbed(message, embedData, config);
+        if (interaction.data?.customId == 'removefield') {
+          embedData.fields!.slice(index, 1);
+          updateEmbed(message, embedData, config);
+        }
+        if (interaction.data?.customId == 'changetitle') {
+          client.helpers.editMessage(message.channelId, message.id, {
+            content:
+              '**Send the title of the field.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables`',
+            embeds: [],
+            components: [],
+          });
+
+          const m = await client.amethystUtils
+            .awaitMessage(interaction.user.id, message.channelId)
+            .catch();
+
+          if (!m)
+            return client.helpers.editMessage(message.channelId, message.id, {
+              content: 'This command has expired.',
+              embeds: [],
+              components: [],
+            });
+          embedData.fields![0].name = m.content;
+          setField(message, interaction, embedData, config);
+        }
+        if (interaction.data?.customId == 'changedescription') {
+          client.helpers.editMessage(message.channelId, message.id, {
+            content:
+              '**Send the description of the field.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables`',
+            embeds: [],
+            components: [],
+          });
+
+          const m = await client.amethystUtils
+            .awaitMessage(interaction.user.id, message.channelId)
+            .catch();
+
+          if (!m)
+            return client.helpers.editMessage(message.channelId, message.id, {
+              content: 'This command has expired.',
+              embeds: [],
+              components: [],
+            });
+          embedData.fields![0].value = m.content;
+          setField(message, interaction, embedData, config);
+        }
+      });
+  }
+  async function setFields(
+    message: Message,
+    interaction: Interaction,
+    embedData: Embed,
+    config: Config,
+  ) {
+    const comp = new Components();
+    const options = [
+      {
+        label: 'Add a field.',
+        description: 'Add a field to the end.',
+        value: 'add',
+      },
+    ];
+    if (embedData.fields)
+      options.push(
+        ...embedData.fields.map((field, index) => {
+          return {
+            label: field.name,
+            value: index + '',
+            description: 'modify or delete this field',
+          };
+        }),
+      );
+
+    comp.addSelectComponent(
+      'Customise the fields. ',
+      'fields',
+      options,
+      'Customise the fields by choosing from below.',
+    );
+
+    client.helpers.editMessage(message.channelId, message.id, {
+      content: 'Choose your choice from below.',
+      embeds: [],
+      components: comp,
+    });
+
+    client.amethystUtils
+      .awaitComponent(message.id, {
+        filter(bot, data) {
+          return data.user.id === interaction.user.id;
+        },
+      })
+      .then(async (interaction) => {
+        client.helpers.sendInteractionResponse(
+          interaction.id,
+          interaction.token,
+          {
+            type: InteractionResponseTypes.DeferredUpdateMessage,
+          },
+        );
+        if (interaction.data?.values) {
+          if (interaction.data?.values[0] == 'add') {
+            setField(message, interaction, embedData, config);
+          } else {
+            setField(
+              message,
+              interaction,
+              embedData,
+              config,
+              Number(interaction.data?.values[0]),
+            );
+          }
+        }
+      })
+
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
           content: 'This command has expired.',
@@ -733,7 +924,7 @@ export default (client: AeonaBot) => {
               \___/ \__|_|_|___/
 
                */
-  function generateEmbed(options: Config, embedData: Embed) {
+  function generateEmbedFromData(options: Config, embedData: Embed) {
     const replace = (s: string) => {
       return replaceStringVariables(
         s,
@@ -773,9 +964,10 @@ export default (client: AeonaBot) => {
         embedData.footer.icon ? replace(embedData.footer.icon) : undefined,
       );
 
-    if (embedData.image) embed.setImage(replace(embedData.image));
-    if (embedData.thumbnail) embed.setDescription(replace(embedData.thumbnail));
-    if (embedData.color) embed.setColor(embedData.color);
+    if (embedData.image) embed.setImage(replace(embedData.image.url));
+    if (embedData.thumbnail)
+      embed.setDescription(replace(embedData.thumbnail.url));
+    if (embedData.color) embed.setColor(embedData.color.toString(16));
     else embed.setColor(client.extras.config.colors.normal);
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
@@ -1003,9 +1195,10 @@ export default (client: AeonaBot) => {
     return s;
   }
   return {
-    generateEmbed,
+    generateEmbedFromData,
     createComponents,
     createInterface,
+    getEmbedConfig,
   };
 };
 
@@ -1016,7 +1209,7 @@ type Embed = {
     icon?: string;
     url?: string;
   };
-  color?: string;
+  color?: number;
   fields?: {
     name: string;
     value: string;
@@ -1025,8 +1218,12 @@ type Embed = {
   title?: string;
   url?: string;
   description?: string;
-  thumbnail?: string;
-  image?: string;
+  thumbnail?: {
+    url: string;
+  };
+  image?: {
+    url: string;
+  };
   footer?: {
     text: string;
     icon?: string;
@@ -1038,7 +1235,7 @@ type Embed = {
       icon?: string;
       url?: string;
     };
-    color?: string;
+    color?: number;
     fields?: {
       name: string;
       value: string;
@@ -1047,8 +1244,12 @@ type Embed = {
     title?: string;
     url?: string;
     description?: string;
-    thumbnail?: string;
-    image?: string;
+    thumbnail?: {
+      url: string;
+    };
+    image?: {
+      url: string;
+    };
     footer?: {
       text: string;
       icon?: string;
