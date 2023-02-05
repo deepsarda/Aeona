@@ -207,6 +207,11 @@ export default async (
           client.cache.messages.delete(messageId);
         }
       }
+      if (client.cache.channels.memory.size > 50000) {
+        for (const [channelId, _channe] of client.cache.channels.memory) {
+          client.cache.channels.delete(channelId);
+        }
+      }
       for (const [messageId, message] of client.cache.messages.memory) {
         if (!message.timestamp) client.cache.messages.delete(messageId);
         if (Date.now() - message.timestamp > 1000 * 60 * 2)
