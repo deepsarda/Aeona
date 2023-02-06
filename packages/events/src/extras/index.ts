@@ -121,7 +121,7 @@ export function additionalProps(client: AeonaBot) {
       client.extras.embed(
         {
           title: 'Successful!',
-          desc: `Channel has been set up successfully!`,
+          desc: `Channel has been set up successfully! \n **[To learn how to use me read my documentation](https://docs.aeona.xyz/)**`,
           fields: [
             {
               name: `<:channel:1049292166343688192> Channel`,
