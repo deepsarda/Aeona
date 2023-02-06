@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import { SelectOption } from 'discordeno';
 
 import { AeonaBot } from '../../extras/index.js';
@@ -23,13 +27,21 @@ export default {
       });
       const options2 = options.slice(0, options.length / 2);
       options = options.slice(options.length / 2);
-      comp.addSelectComponent('Choose which commands to see. (1/2)', 'help_select', options2);
-      comp.addSelectComponent('Choose which commands to see. (2/2)', 'help_select1', options);
+      comp.addSelectComponent(
+        'Choose which commands to see. (1/2)',
+        'help_select',
+        options2,
+      );
+      comp.addSelectComponent(
+        'Choose which commands to see. (2/2)',
+        'help_select1',
+        options,
+      );
       client.extras.embed(
         {
           title: `My Help menu!`,
-          desc: `Oh, Hi there. <:kanna_wave:1053256324084928562> 
-Let me help you get your server going.	
+          desc: `Oh, Hi there. <:kanna_wave:1053256324084928562>
+Let me help you get your server going.
 
 **Want to setup chatbot?**
 Use \`+setup chatbot <channel>\` or
@@ -41,9 +53,9 @@ Well then run \`+bumpreminder setup <channel> <role>\`
 **Want to generate some art?**
 Use \`+imagine <prompt>\`
 
-Our hosting partner and premium hosting provider.
-<:Indionic:1053595994769592370> **__IndionicHost__ - Think, Build and Deploy**
-\`+sponser\` to see more about them.
+Our hosting partner and premium hosting provider.**
+__Datalix__ - Secure, fast and reliable
+Use this [link](https://datalix.eu/a/aeona) to get VPS at cheap prices.
 
 **[To learn how to use me read my documentation](https://docs.aeona.xyz/)**
 Use the dropdown to see all my commands.
