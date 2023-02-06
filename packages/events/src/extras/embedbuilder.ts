@@ -227,6 +227,7 @@ export default (client: AeonaBot) => {
         embeds: [],
         components: [],
       });
+    client.helpers.deleteMessage(m.channelId, m.id);
     if (m.content.trim().toLowerCase() == 'cancel') embedData.title = undefined;
     else embedData.title = m.content;
 
@@ -255,6 +256,7 @@ export default (client: AeonaBot) => {
         embeds: [],
         components: [],
       });
+    client.helpers.deleteMessage(m.channelId, m.id);
     if (m.content.trim().toLowerCase() == 'cancel')
       embedData.description = undefined;
     else embedData.description = m.content;
@@ -284,6 +286,8 @@ export default (client: AeonaBot) => {
         embeds: [],
         components: [],
       });
+
+    client.helpers.deleteMessage(m.channelId, m.id);
     if (m.content.trim().toLowerCase() == 'cancel')
       embedData.content = undefined;
     else embedData.content = m.content;
@@ -317,6 +321,7 @@ export default (client: AeonaBot) => {
           embeds: [],
           components: [],
         });
+      client.helpers.deleteMessage(m.channelId, m.id);
       m.content = m.content.trim();
       if (m.content.trim().toLowerCase() == 'cancel') {
         embedData.thumbnail = undefined;
@@ -364,6 +369,7 @@ export default (client: AeonaBot) => {
           embeds: [],
           components: [],
         });
+      client.helpers.deleteMessage(m.channelId, m.id);
       m.content = m.content.trim();
       if (m.content.trim().toLowerCase() == 'cancel') {
         embedData.image = undefined;
@@ -411,6 +417,7 @@ export default (client: AeonaBot) => {
           embeds: [],
           components: [],
         });
+      client.helpers.deleteMessage(m.channelId, m.id);
       m.content = m.content.trim();
       if (m.content.trim().toLowerCase() == 'cancel') {
         embedData.color = undefined;
@@ -513,7 +520,7 @@ export default (client: AeonaBot) => {
               embeds: [],
               components: [],
             });
-
+          client.helpers.deleteMessage(m.channelId, m.id);
           if (!embedData.author)
             embedData.author = {
               name: m.content,
@@ -543,6 +550,7 @@ export default (client: AeonaBot) => {
                 embeds: [],
                 components: [],
               });
+            client.helpers.deleteMessage(m.channelId, m.id);
             m.content = m.content.trim();
             if (
               m.content.startsWith('http://') ||
@@ -661,8 +669,9 @@ export default (client: AeonaBot) => {
               embeds: [],
               components: [],
             });
-          embedData.fields![0].name = m.content;
-          setField(message, interaction, embedData, config);
+          client.helpers.deleteMessage(m.channelId, m.id);
+          embedData.fields![index!].name = m.content;
+          setField(message, interaction, embedData, config, index);
         }
         if (interaction.data?.customId == 'changedescription') {
           client.helpers.editMessage(message.channelId, message.id, {
@@ -682,8 +691,9 @@ export default (client: AeonaBot) => {
               embeds: [],
               components: [],
             });
-          embedData.fields![0].value = m.content;
-          setField(message, interaction, embedData, config);
+          client.helpers.deleteMessage(m.channelId, m.id);
+          embedData.fields![index!].value = m.content;
+          setField(message, interaction, embedData, config, index);
         }
       });
   }
@@ -850,7 +860,7 @@ export default (client: AeonaBot) => {
               embeds: [],
               components: [],
             });
-
+          client.helpers.deleteMessage(m.channelId, m.id);
           if (!embedData.footer)
             embedData.footer = {
               text: m.content,
@@ -880,6 +890,7 @@ export default (client: AeonaBot) => {
                 embeds: [],
                 components: [],
               });
+            client.helpers.deleteMessage(m.channelId, m.id);
             m.content = m.content.trim();
             if (
               m.content.startsWith('http://') ||
