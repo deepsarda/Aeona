@@ -14,7 +14,7 @@ export default async (
   inviter: User | null,
 ) => {
   const messageData = await messages.findOne({ Guild: member.guildId });
-  client.events;
+
   if (!invite || !inviter) {
     if (messageData && messageData.inviteJoin) {
       const guild = await client.cache.guilds.get(member.guildId);
@@ -207,7 +207,7 @@ export default async (
         { Guild: member.guildId, Invites: data.Invites },
         async (err: any, data: { Role: any }) => {
           if (data) {
-            client.helpers.addRole(member.guildId, member.id + '', data.Role);
+            client.helpers.addRole(member.guildId, inviter.id + '', data.Role);
           }
         },
       );
@@ -219,6 +219,14 @@ export default async (
         Total: 1,
         Left: 0,
       }).save();
+      rewards.findOne(
+        { Guild: member.guildId, Invites: 1 },
+        async (err: any, data: { Role: any }) => {
+          if (data) {
+            client.helpers.addRole(member.guildId, inviter.id + '', data.Role);
+          }
+        },
+      );
 
       if (messageData) {
         const u = await client.helpers.getUser(member.id);
