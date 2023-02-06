@@ -56,6 +56,11 @@ export default {
                 value: `<@&${role.id}>`,
                 inline: true,
               },
+              {
+                name: '📈 Invites Amount',
+                value: `${messages}`,
+                inline: true,
+              },
             ],
             type: 'reply',
           },

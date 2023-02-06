@@ -21,36 +21,44 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     const messages = ctx.options.getNumber('amount');
 
-    Schema.findOne({ Guild: ctx.guild!.id, Messages: messages }, async (err: any, data: any) => {
-      if (data) {
-        Schema.findOneAndDelete({
-          Guild: ctx.guild!.id,
-          Messages: messages,
-        }).then(() => {
-          client.extras.succNormal(
+    Schema.findOne(
+      { Guild: ctx.guild!.id, Messages: messages },
+      async (err: any, data: any) => {
+        if (data) {
+          Schema.findOneAndDelete({
+            Guild: ctx.guild!.id,
+            Messages: messages,
+          }).then(() => {
+            client.extras.succNormal(
+              {
+                text: `Message reward removed`,
+                fields: [
+                  {
+                    name: '💬 Messages',
+                    value: `${messages}`,
+                    inline: true,
+                  },
+                  {
+                    name: '📈 Messages Amount',
+                    value: `${messages}`,
+                    inline: true,
+                  },
+                ],
+                type: 'reply',
+              },
+              ctx,
+            );
+          });
+        } else {
+          return client.extras.errNormal(
             {
-              text: `Message reward removed`,
-              fields: [
-                {
-                  name: '💬 Messages',
-                  value: `${messages}`,
-                  inline: true,
-                },
-              ],
+              error: 'No message reward found at this message amount!',
               type: 'reply',
             },
             ctx,
           );
-        });
-      } else {
-        return client.extras.errNormal(
-          {
-            error: 'No message reward found at this message amount!',
-            type: 'reply',
-          },
-          ctx,
-        );
-      }
-    });
+        }
+      },
+    );
   },
 } as CommandOptions;

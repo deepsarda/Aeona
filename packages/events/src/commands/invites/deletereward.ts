@@ -34,7 +34,12 @@ export default {
                 text: `Invite reward removed`,
                 fields: [
                   {
-                    name: '💬 Messages',
+                    name: '💬 Invites',
+                    value: `${messages}`,
+                    inline: true,
+                  },
+                  {
+                    name: '📈 Invites Amount',
                     value: `${messages}`,
                     inline: true,
                   },
