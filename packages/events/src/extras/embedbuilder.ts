@@ -596,6 +596,8 @@ export default (client: AeonaBot) => {
   ) {
     const embed = new AmethystEmbed(true);
     embed.setTitle('Field Visualizer');
+    console.log(embedData.fields);
+    console.log(index);
     if (index && embedData.fields) {
       embed.addField(
         embedData.fields[index].name,
@@ -616,7 +618,7 @@ export default (client: AeonaBot) => {
       );
     }
 
-    if (!index) index = embedData.fields!.length - 1;
+    if (!index) index = 0;
     const comp = new Components();
     comp.addButton('Save Field', 'Success', 'savefield');
     comp.addButton('Change Title', 'Secondary', 'changetitle');
@@ -753,6 +755,7 @@ export default (client: AeonaBot) => {
           if (interaction.data?.values[0] == 'add') {
             setField(message, interaction, embedData, config);
           } else {
+            console.log(Number(interaction.data?.values[0]));
             setField(
               message,
               interaction,
