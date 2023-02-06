@@ -596,27 +596,21 @@ export default (client: AeonaBot) => {
   ) {
     const embed = new AmethystEmbed(true);
     embed.setTitle('Field Visualizer');
-    console.log(embedData.fields);
-    console.log(index);
-    if (index && embedData.fields) {
-      embed.addField(
-        embedData.fields[index].name,
-        embedData.fields[index].value,
-        embedData.fields[index].inline,
-      );
-    } else {
-      if (!embedData.fields)
-        embedData.fields = [
-          {
-            name: 'Default Title. Change me.',
-            value: 'Default Description. Change Me',
-          },
-        ];
-      embed.addField(
-        'Default Title. Change me.',
-        'Default Description. Change Me',
-      );
+    if (index == undefined) {
+      if (!embedData.fields) embedData.fields = [];
+
+      embedData.fields.push({
+        name: 'Default Title. Change me.',
+        value: 'Default Description. Change Me',
+      });
+      index = embedData.fields.length - 1;
     }
+
+    embed.addField(
+      embedData.fields![index].name,
+      embedData.fields![index].value,
+      embedData.fields![index].inline,
+    );
 
     if (!index) index = 0;
     const comp = new Components();
@@ -650,7 +644,10 @@ export default (client: AeonaBot) => {
         if (interaction.data?.customId == 'savefield')
           updateEmbed(message, embedData, config);
         if (interaction.data?.customId == 'removefield') {
-          embedData.fields!.slice(index, 1);
+          (embedData.fields = embedData.fields!.filter((value, i) => {
+            return i != index!;
+          })),
+            console.log(embedData.fields);
           updateEmbed(message, embedData, config);
         }
         if (interaction.data?.customId == 'changetitle') {

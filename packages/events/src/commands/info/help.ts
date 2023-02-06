@@ -53,7 +53,7 @@ Well then run \`+bumpreminder setup <channel> <role>\`
 **Want to generate some art?**
 Use \`+imagine <prompt>\`
 
-Our hosting partner and premium hosting provider.**
+Our hosting partner and premium hosting provider.
 __Datalix__ - Secure, fast and reliable
 Use this [link](https://datalix.eu/a/aeona) to get VPS at cheap prices.
 

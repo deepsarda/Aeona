@@ -43,7 +43,7 @@ const rest = createRestManager({
     }
   },
   debug: (s) => {
-    if (!s.includes('processRateLimitedPaths')) console.log(s);
+    // if (!s.includes('processRateLimitedPaths')) console.log(s);
   },
 });
 
