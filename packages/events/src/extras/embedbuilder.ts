@@ -982,7 +982,8 @@ export default (client: AeonaBot) => {
     else embed.setColor(client.extras.config.colors.normal);
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
-      embeds: embedData.title || embedData.description ? [embed] : [],
+      embeds:
+        embedData.title || embedData.description || embed.image ? [embed] : [],
     };
   }
 
