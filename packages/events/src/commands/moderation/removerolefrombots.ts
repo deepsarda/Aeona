@@ -27,9 +27,9 @@ export default {
 
     const role = await ctx.options.getRole('role', true);
     const reason = ctx.options.getLongString('reason') || `Not given`;
-    const members = (await client.helpers.getMembers(ctx.guild.id, {})).filter(
-      (member) => member.user?.toggles.bot || false,
-    );
+    const members = (
+      await client.helpers.getMembers(ctx.guild.id, { limit: 1000 })
+    ).filter((member) => member.user?.toggles.bot || false);
     const seconds = Number(members.size) * 1500;
 
     const message = await client.extras.embed(
