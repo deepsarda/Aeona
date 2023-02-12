@@ -12,7 +12,9 @@ export default async (client: AeonaBot) => {
         if (!d.TimeZone || !d.Time || !d.Guild) return;
 
         try {
-          const timeNow = moment().tz(d.TimeZone).format('HH:mm (z)');
+          const timeNow = moment()
+            .tz(getTimezone(d.TimeZone))
+            .format('HH:mm (z)');
           const guild = await client.cache.guilds.get(BigInt(d.Guild));
 
           let channelName = await client.extras.getTemplate(guild?.id!);
