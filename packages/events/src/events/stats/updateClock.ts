@@ -1301,7 +1301,7 @@ function getTimezone(s: string) {
   for (let i = 0; i < timezones.length; i++) {
     const zone = timezones[i];
 
-    if (s == zone.abbr) return zone.utc[0];
+    if (s.toUpperCase() == zone.abbr) return zone.utc[0];
     else if (s == zone.value) return zone.utc[0];
     else if (zone.utc.includes(s)) return zone.utc[0];
   }
