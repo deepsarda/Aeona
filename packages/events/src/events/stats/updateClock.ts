@@ -1301,8 +1301,9 @@ function getTimezone(s: string) {
   for (let i = 0; i < timezones.length; i++) {
     const zone = timezones[i];
 
-    if (s == zone.abbr) return zone.value;
-    else if (s == zone.value) return zone.value;
+    if (s == zone.abbr) return zone.utc[0];
+    else if (s == zone.value) return zone.utc[0];
+    else if (zone.utc.includes(s)) return zone.utc[0];
   }
-  return 'Greenwich Standard Time';
+  return 'Etc/GMT+0';
 }
