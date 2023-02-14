@@ -4,7 +4,7 @@
   * [Website](https://www.aeona.xyz/)
   * [Invite](https://www.aeona.xyz/invite)
   * [Support](https://www.aeona.xyz/)
-  * [Premium](https://www.aeona.xyz/premium)
+  * [Premium](https://patreon.com/aeonicdiscord)
   * [Commands](https://www.aeona.xyz/commands)
 
 ## Overview
