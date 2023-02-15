@@ -7,7 +7,7 @@ export default {
   name: 'npm',
   description: 'Search npm for a package',
   commandType: ['application', 'message'],
-  category: 'code',
+  category: 'tools',
   args: [
     {
       name: 'package',
@@ -65,7 +65,9 @@ export default {
           },
           {
             name: 'Last publish',
-            value: `<t:${Math.round(new Date(r.last_published).getTime() / 1000)}>`,
+            value: `<t:${Math.round(
+              new Date(r.last_published).getTime() / 1000,
+            )}>`,
             inline: true,
           },
         ],

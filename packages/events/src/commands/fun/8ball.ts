@@ -6,7 +6,7 @@ export default {
   name: '8ball',
   description: 'use the 8ball',
   commandType: ['application', 'message'],
-  category: 'game',
+  category: 'fun',
   args: [
     {
       name: 'question',

@@ -1,7 +1,7 @@
 import { AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
 import fetch from 'node-fetch';
 
-import Functions from '../database/models/functions.js';
+import GuildDB from '../database/models/guild.js';
 import { AeonaBot } from '../extras/index.js';
 
 export default function (bot: AeonaBot) {
@@ -11,11 +11,11 @@ export default function (bot: AeonaBot) {
     async (b, command, options): Promise<true | AmethystError> => {
       if (command.extras.upvoteOnly) {
         if (options && options.guildId) {
-          let guildDB = await Functions.findOne({
+          let guildDB = await GuildDB.findOne({
             Guild: `${options.guildId}`,
           });
           if (!guildDB)
-            guildDB = new Functions({
+            guildDB = new GuildDB({
               Guild: `${options.guildId}`,
             });
           if (guildDB.isPremium === 'true') return true;
@@ -42,7 +42,7 @@ export default function (bot: AeonaBot) {
               // @ts-ignore
               type: ErrorEnums.OTHER,
               value:
-                'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at https://patreon.com/aeonicdiscord __ and remove all ads.',
+              'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
             };
           }
         } catch (e) {
@@ -54,7 +54,7 @@ export default function (bot: AeonaBot) {
           //@ts-ignore
           type: ErrorEnums.OTHER,
           value:
-            'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n Or \n __Get premium for 1 month for this server for just $1 at https://patreon.com/aeonicdiscord __ and remove all ads.',
+            'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
         };
       }
       return true;

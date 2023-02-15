@@ -1,10 +1,9 @@
-import { BigString, Member, User } from 'discordeno';
+import { Member, User } from 'discordeno';
 
-import invitedBy from '../../database/models/inviteBy.js';
-import messages from '../../database/models/inviteMessages.js';
+import inviteBy from '../../database/models/inviteBy.js';
 import rewards from '../../database/models/inviteRewards.js';
 import invites from '../../database/models/invites.js';
-import welcomeSchema from '../../database/models/welcomeChannels.js';
+import welcome from '../../database/models/welcome.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (
@@ -13,92 +12,10 @@ export default async (
   invite: User | null,
   inviter: User | null,
 ) => {
-  const messageData = await messages.findOne({ Guild: member.guildId });
-
-  if (!invite || !inviter) {
-    if (messageData && messageData.inviteJoin) {
-      const guild = await client.cache.guilds.get(member.guildId);
-      if (!guild) return;
-
-      let joinMessage = messageData.inviteJoin;
-      if (!joinMessage) return;
-      const u = await client.helpers.getUser(member.id);
-      joinMessage = joinMessage.replace(`{user:username}`, u.username);
-      joinMessage = joinMessage.replace(
-        `{user:discriminator}`,
-        u.discriminator,
-      );
-
-      joinMessage = joinMessage.replace(
-        `{user:tag}`,
-        u.username + '#' + u.discriminator,
-      );
-      joinMessage = joinMessage.replace(
-        `{user:mention}`,
-        '<@' + member.id + '>',
-      );
-
-      joinMessage = joinMessage.replace(`{inviter:username}`, 'System');
-      joinMessage = joinMessage.replace(`{inviter:discriminator}`, '#0000');
-      joinMessage = joinMessage.replace(`{inviter:tag}`, 'System#0000');
-      joinMessage = joinMessage.replace(`{inviter:mention}`, 'System');
-      joinMessage = joinMessage.replace(`{inviter:invites}`, '∞');
-      joinMessage = joinMessage.replace(`{inviter:invites:left}`, '∞');
-
-      joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-      joinMessage = joinMessage.replace(
-        `{guild:members}`,
-        guild.approximateMemberCount + '',
-      );
-
-      welcomeSchema.findOne(
-        { Guild: member.guildId },
-        async (err: any, channelData: { Channel: BigString }) => {
-          if (channelData) {
-            const channel = await client.cache.channels.get(
-              BigInt(channelData.Channel),
-            );
-
-            await client.extras
-              .embed(
-                {
-                  title: `👋 Welcome`,
-                  desc: joinMessage,
-                },
-                channel!,
-              )
-              .catch();
-          }
-        },
-      );
-    } else {
-      welcomeSchema.findOne(
-        { Guild: member.guildId },
-        async (err: any, channelData: { Channel: any }) => {
-          if (channelData) {
-            const channel = await client.cache.channels.get(
-              channelData.Channel,
-            );
-            const u = await client.helpers.getUser(member.id);
-            client.extras
-              .embed(
-                {
-                  title: `👋 Welcome`,
-                  desc: `I cannot trace how **<@${member.id}> | ${
-                    u.username + '#' + u.discriminator
-                  }** has been joined`,
-                },
-                channel!,
-              )
-              .catch();
-          }
-        },
-      );
-    }
-  } else {
-    const data = await invites.findOne({
+  if (invite && inviter) {
+    let data = await invites.findOne({
       Guild: member.guildId,
-      User: inviter.id + '',
+      User: `${inviter.id  }`,
     });
 
     if (data) {
@@ -107,222 +24,18 @@ export default async (
       data.Invites += 1;
       data.Total += 1;
       data.save();
-
-      if (messageData) {
-        let joinMessage = messageData.inviteJoin;
-        const guild = await client.cache.guilds.get(member.guildId);
-        const u = await client.helpers.getUser(member.id);
-        if (!guild || !joinMessage) return;
-        joinMessage = joinMessage.replace(`{user:username}`, u.username);
-        joinMessage = joinMessage.replace(
-          `{user:discriminator}`,
-          u.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{user:tag}`,
-          u.username + '#' + u.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{user:mention}`,
-          '<@' + member.id + '>',
-        );
-
-        joinMessage = joinMessage.replace(
-          `{inviter:username}`,
-          inviter.username,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:discriminator}`,
-          inviter.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:tag}`,
-          inviter.username + '#' + inviter.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:mention}`,
-          '<@' + inviter.id + '>',
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:invites}`,
-          data.Invites + '',
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:invites:left}`,
-          data.Left + '',
-        );
-
-        joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-        joinMessage = joinMessage.replace(
-          `{guild:members}`,
-          guild.approximateMemberCount + '',
-        );
-
-        welcomeSchema.findOne(
-          { Guild: member.guildId },
-          async (err: any, channelData: { Channel: any }) => {
-            if (channelData) {
-              const channel = await client.cache.channels.get(
-                channelData.Channel,
-              );
-
-              await client.extras
-                .embed(
-                  {
-                    title: `👋 Welcome`,
-                    desc: joinMessage,
-                  },
-                  channel!,
-                )
-                .catch();
-            }
-          },
-        );
-      } else {
-        welcomeSchema.findOne(
-          { Guild: member.guildId },
-          async (err: any, channelData: { Channel: any }) => {
-            const u = await client.helpers.getUser(member.id);
-            if (channelData) {
-              const channel = await client.cache.channels.get(
-                channelData.Channel,
-              );
-              client.extras.embed(
-                {
-                  title: `👋 Welcome`,
-                  desc: `**<@${member.id}> | ${
-                    u.username + '#' + u.discriminator
-                  }** was invited by ${
-                    inviter.username + '#' + inviter.discriminator
-                  } **(${data.Invites} invites)**`,
-                },
-                channel!,
-              );
-            }
-          },
-        );
-      }
-
-      rewards.findOne(
-        { Guild: member.guildId, Invites: data.Invites },
-        async (err: any, data: { Role: any }) => {
-          if (data) {
-            client.helpers.addRole(member.guildId, inviter.id + '', data.Role);
-          }
-        },
-      );
     } else {
-      new invites({
+      data = await new invites({
         Guild: member.guildId,
-        User: inviter.id + '',
+        User: `${inviter.id  }`,
         Invites: 1,
         Total: 1,
         Left: 0,
-      }).save();
-      rewards.findOne(
-        { Guild: member.guildId, Invites: 1 },
-        async (err: any, data: { Role: any }) => {
-          if (data) {
-            client.helpers.addRole(member.guildId, inviter.id + '', data.Role);
-          }
-        },
-      );
-
-      if (messageData) {
-        const u = await client.helpers.getUser(member.id);
-        let joinMessage = messageData.inviteJoin;
-        if (!joinMessage) return;
-        joinMessage = joinMessage.replace(`{user:username}`, u.username!);
-        joinMessage = joinMessage.replace(
-          `{user:discriminator}`,
-          u.discriminator!,
-        );
-        const guild = await client.cache.guilds.get(member.guildId);
-        if (!guild) return;
-        joinMessage = joinMessage.replace(
-          `{user:tag}`,
-          u.username + '#' + u.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{user:mention}`,
-          '<@' + member.id + '>',
-        );
-
-        joinMessage = joinMessage.replace(
-          `{inviter:username}`,
-          inviter.username,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:discriminator}`,
-          inviter.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:tag}`,
-          inviter.username + '#' + inviter.discriminator,
-        );
-        joinMessage = joinMessage.replace(
-          `{inviter:mention}`,
-          '<@' + inviter.id + '>',
-        );
-        joinMessage = joinMessage.replace(`{inviter:invites}`, '1');
-        joinMessage = joinMessage.replace(`{inviter:invites:left}`, '0');
-
-        joinMessage = joinMessage.replace(`{guild:name}`, guild.name);
-        joinMessage = joinMessage.replace(
-          `{guild:members}`,
-          guild.approximateMemberCount + '',
-        );
-
-        welcomeSchema.findOne(
-          { Guild: member.guildId },
-          async (err: any, channelData: { Channel: any }) => {
-            if (channelData) {
-              const channel = await client.cache.channels.get(
-                channelData.Channel,
-              );
-
-              await client.extras
-                .embed(
-                  {
-                    title: `👋 Welcome`,
-                    desc: joinMessage,
-                  },
-                  channel!,
-                )
-                .catch();
-            }
-          },
-        );
-      } else {
-        welcomeSchema.findOne(
-          { Guild: member.guildId },
-          async (err: any, channelData: { Channel: any }) => {
-            if (channelData) {
-              const u = await client.helpers.getUser(member.id);
-              const channel = await client.cache.channels.get(
-                channelData.Channel,
-              );
-
-              await client.extras
-                .embed(
-                  {
-                    title: `👋 Welcome`,
-                    desc: `**<@${member.id}> | ${
-                      u.username + '#' + u.discriminator
-                    }** was invited by ${
-                      inviter.username + '#' + inviter.discriminator
-                    } **(1 invites)**`,
-                  },
-                  channel!,
-                )
-                .catch();
-            }
-          },
-        );
-      }
+      });
+      data.save();
     }
 
-    invitedBy.findOne(
+    inviteBy.findOne(
       { Guild: member.guildId },
       async (
         err: any,
@@ -332,13 +45,61 @@ export default async (
           (data2.inviteUser = inviter.id), (data2.User = member.id);
           data2.save();
         } else {
-          new invitedBy({
+          new inviteBy({
             Guild: member.guildId,
-            inviteUser: inviter.id + '',
-            User: member.id + '',
+            inviteUser: `${inviter.id  }`,
+            User: `${member.id  }`,
           }).save();
         }
       },
     );
+
+    rewards.findOne(
+      { Guild: member.guildId, Invites: data.Invites },
+      async (err: any, data: { Role: any }) => {
+        if (data) {
+          client.helpers.addRole(member.guildId, `${inviter.id  }`, data.Role);
+        }
+      },
+    );
+  }
+
+  const welcomeSchema = await welcome.find({
+    Guild: `${member.guildId  }`,
+  });
+
+  if (welcomeSchema.length == 0) return;
+  const config = await client.extras.getEmbedConfig({
+    guild: (await client.cache.guilds.get(member.guildId))!,
+    user: (await client.cache.users.get(member.id))!,
+  });
+
+  for (let i = 0; i < welcomeSchema.length; i++) {
+    const schema = welcomeSchema[i];
+
+    let message = {
+      content:
+        'Welcome {user:mention} to {guild:name}. \n We now have {guild:members} members.',
+    };
+
+    if (schema.Message) {
+      try {
+        message = JSON.parse(schema.Message);
+      } catch (e) {
+        //
+      }
+    }
+    if (schema.Channel)
+      client.helpers
+        .sendMessage(
+          schema.Channel,
+          client.extras.generateEmbedFromData(config, message),
+        )
+        .catch();
+
+    if (schema.Role)
+      client.helpers
+        .addRole(member.guildId, `${member.id  }`, schema.Role!)
+        .catch();
   }
 };

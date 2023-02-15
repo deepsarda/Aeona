@@ -7,7 +7,7 @@ export default {
   name: 'skipword',
   description: 'skip the word in guess the word',
   commandType: ['application', 'message'],
-  category: 'game',
+  category: 'fun',
   args: [],
   userGuildPermissions: ['MANAGE_GUILD'],
   async execute(client: AeonaBot, ctx: Context) {

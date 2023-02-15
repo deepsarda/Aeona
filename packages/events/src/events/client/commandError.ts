@@ -1,4 +1,8 @@
-import { AmethystError, Context, ErrorEnums } from '@thereallonewolf/amethystframework';
+import {
+  AmethystError,
+  Context,
+  ErrorEnums,
+} from '@thereallonewolf/amethystframework';
 import { Interaction, Message } from 'discordeno/transformers';
 
 import { AeonaBot } from '../../extras/index.js';
@@ -25,7 +29,9 @@ export default async (
     if (!data.message) return;
     const message = data.message;
     const guildPrefix =
-      typeof bot.prefix == 'function' ? await bot.prefix(bot, message) : bot.prefix;
+      typeof bot.prefix == 'function'
+        ? await bot.prefix(bot, message)
+        : bot.prefix;
 
     //Else get the string prefix and check if it works.
     let prefix =
@@ -41,13 +47,16 @@ export default async (
     if (typeof prefix == 'string')
       if (bot.prefixCaseSensitive)
         if (!message.content.startsWith(prefix)) prefix = undefined;
-        else if (!message.content.toLowerCase().startsWith(prefix.toLowerCase()))
+        else if (
+          !message.content.toLowerCase().startsWith(prefix.toLowerCase())
+        )
           prefix = undefined;
 
     //If the bot.botMentionAsPrefix is a prefix.
     if (!prefix && bot.botMentionAsPrefix) {
       if (message.content.startsWith(`<@${bot.id}>`)) prefix = `<@${bot.id}>`;
-      else if (message.content.startsWith(`<@!${bot.id}>`)) prefix = `<@!${bot.id}>`;
+      else if (message.content.startsWith(`<@!${bot.id}>`))
+        prefix = `<@!${bot.id}>`;
     }
 
     const args = message.content.split(' ').filter((e) => Boolean(e.length));
@@ -71,7 +80,9 @@ export default async (
       data.message ? data.message.channelId : data.data?.channelId!,
       {
         content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
-          category.uniqueCommands ? command.name : category.name + ' ' + command.name
+          category.uniqueCommands
+            ? command.name
+            : `${category.name} ${command.name}`
         } ${command.args
           .map((arg) => {
             if (arg.required) return `[${arg.name}]`;

@@ -9,7 +9,7 @@ export default {
   name: 'lint-rule',
   description: 'Responds with information on an ESLint rule.',
   commandType: ['application', 'message'],
-  category: 'code',
+  category: 'tools',
   args: [
     {
       name: 'rule',

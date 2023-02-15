@@ -2,7 +2,6 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { ChannelTypes } from 'discordeno/types';
 
 import boostLogs from '../../database/models/boostChannels.js';
-import levelLogs from '../../database/models/levelChannels.js';
 import logs from '../../database/models/logChannels.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -24,7 +23,7 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     const choice = ctx.options.getString('setup', true).toLowerCase();
 
-    if (!['serverlogs', 'levellogs', 'boostlogs'].includes(choice))
+    if (!['serverlogs','boostlogs'].includes(choice))
       return client.extras.errUsage(
         { usage: 'autosetup log serverlogs/levellogs/boostlogs', type: 'edit' },
         ctx,
@@ -40,15 +39,7 @@ export default {
       client.extras.createChannelSetup(logs, channel, ctx);
     }
 
-    if (choice == 'levellogs') {
-      const channel = await client.helpers.createChannel(ctx.guild!.id!, {
-        name: 'levelLogs',
-        // @ts-ignore
-        type: ChannelTypes.GuildText,
-      });
-
-      client.extras.createChannelSetup(levelLogs, channel, ctx);
-    }
+    
 
     if (choice == 'boostlogs') {
       const channel = await client.helpers.createChannel(ctx.guild!.id!, {

@@ -1,84 +1,39 @@
 import { Member } from 'discordeno';
-import { PremiumTiers } from 'discordeno/types';
 
 import Schema from '../../database/models/boostChannels.js';
-import Schema2 from '../../database/models/boostMessage.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, member: Member) => {
   try {
-    const channelData = await Schema.findOne({ Guild: member.guildId });
-    const messageData = await Schema2.findOne({ Guild: member.guildId });
+    const data = await Schema.find({ Guild: member.guildId });
+    if (data.length == 0) return;
+    const config = await client.extras.getEmbedConfig({
+      guild: (await client.cache.guilds.get(member.guildId))!,
+      user: (await client.cache.users.get(member.id))!,
+    });
 
-    if (messageData) {
-      const guild = await client.cache.guilds.get(member.guildId);
-      if (!guild) return;
-      const u = await client.helpers.getUser(member.id);
+    for (let i = 0; i < data.length; i++) {
+      const schema = data[i];
 
-      let boostMessage = messageData.unboostMessage!;
-      boostMessage = boostMessage.replace(`{user:username}`, u.username!);
-      boostMessage = boostMessage.replace(
-        `{user:discriminator}`,
-        u.discriminator!,
-      );
-      boostMessage = boostMessage.replace(
-        `{user:tag}`,
-        u.username! + '#' + u.discriminator!,
-      );
-      boostMessage = boostMessage.replace(
-        `{user:mention}`,
-        '<@' + member.id + '>',
-      );
+      let message = {
+        content: 'Sadly {user:mention} has stopped boosting us.',
+      };
 
-      boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
-      boostMessage = boostMessage.replace(
-        `{guild:members}`,
-        guild.approximateMemberCount! + '',
-      );
-      boostMessage = boostMessage.replace(
-        `{guild:boosts}`,
-        guild.premiumSubscriptionCount! + '',
-      );
-      boostMessage = boostMessage.replace(
-        `{guild:booststier}`,
-        PremiumTiers[guild.premiumTier!],
-      );
-
-      if (channelData) {
+      if (schema.unboostMessage) {
         try {
-          const channel = await client.cache.channels.get(
-            BigInt(channelData.Channel!),
-          );
-
-          client.extras.embed(
-            {
-              title: `🚀 New unboost`,
-              desc: boostMessage,
-            },
-            channel!,
-          );
-        } catch {
+          message = JSON.parse(schema.unboostMessage);
+        } catch (e) {
           //prevent lint errors
         }
       }
-    } else {
-      if (channelData) {
-        try {
-          const channel = await client.cache.channels.get(
-            BigInt(channelData.Channel!),
-          );
-          if (!channel) return;
-          client.extras.embed(
-            {
-              title: `🚀 New unboost`,
-              desc: `<@${member.id}> unboosted the server!`,
-            },
-            channel,
-          );
-        } catch {
-          //prevent lint errors
-        }
-      }
+
+      if (schema.Channel)
+        client.helpers
+          .sendMessage(
+            schema.Channel,
+            client.extras.generateEmbedFromData(config, message),
+          )
+          .catch();
     }
   } catch {
     //prevent lint errors

@@ -2,7 +2,7 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import Canvacord from 'canvacord';
 
-import Functions from '../../database/models/functions.js';
+import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -20,7 +20,7 @@ export default {
   ],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const data = await Functions.findOne({ Guild: ctx.guild!.id });
+    const data = await GuildDB.findOne({ Guild: ctx.guild!.id });
 
     if (data && data.Levels == true) {
       const target = (await ctx.options.getUser('user')) || ctx.user;

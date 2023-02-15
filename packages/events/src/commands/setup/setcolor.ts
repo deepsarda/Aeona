@@ -1,6 +1,6 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
-import Schema from '../../database/models/functions.js';
+import Schema from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -71,5 +71,7 @@ export default {
 } as CommandOptions;
 
 function isHexColor(hex: string | any[]) {
-  return typeof hex === 'string' && hex.length === 6 && !isNaN(Number(`0x${hex}`));
+  return (
+    typeof hex === 'string' && hex.length === 6 && !isNaN(Number(`0x${hex}`))
+  );
 }

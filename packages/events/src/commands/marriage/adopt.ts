@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import { Message } from 'discordeno';
 
 import Schema from '../../database/models/family.js';

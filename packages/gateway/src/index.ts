@@ -1,5 +1,13 @@
 // eslint-disable-next-line prettier/prettier
-import { Collection, createGatewayManager, delay, DiscordGatewayPayload, GatewayManager, Intents, routes } from 'discordeno';
+import {
+  Collection,
+  createGatewayManager,
+  delay,
+  DiscordGatewayPayload,
+  GatewayManager,
+  Intents,
+  routes,
+} from 'discordeno';
 import { nanoid } from 'nanoid';
 import { Client, Connection, Server } from 'net-ipc';
 import os from 'node:os';
@@ -85,10 +93,7 @@ eventsServer.on('message', async (msg, conn) => {
 
     if (currentVersion === msg.version) {
       console.log(
-        '[GATEWAY] Client connected. Version: ' +
-          msg.version +
-          ' ID: ' +
-          conn.id,
+        `[GATEWAY] Client connected. Version: ${msg.version} ID: ${conn.id}`,
       );
       eventClientConnections.push({
         id: conn.id,
@@ -99,10 +104,7 @@ eventsServer.on('message', async (msg, conn) => {
 
       if (eventClientConnections.length === 1) {
         console.log(
-          '[GATEWAY] Client made master. Version: ' +
-            msg.version +
-            ' ID: ' +
-            conn.id,
+          `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`,
         );
         conn.request({ type: 'YOU_ARE_THE_MASTER' });
         eventClientConnections[0].isMaster = true;
@@ -148,10 +150,7 @@ eventsServer.on('message', async (msg, conn) => {
     await conn.request({ type: 'YOU_ARE_THE_MASTER' }).catch(() => null);
 
     console.log(
-      '[GATEWAY] Client made master. Version: ' +
-        msg.version +
-        ' ID: ' +
-        conn.id,
+      `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`,
     );
     waitingForSwap.forEach((c) => eventClientConnections.push(c));
 

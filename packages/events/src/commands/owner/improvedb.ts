@@ -1,6 +1,6 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
-import functions from '../../database/models/functions.js';
+import functions from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {

@@ -30,7 +30,6 @@ export default {
           desc: `These are the channel name options: \n
             \`{emoji}\` - Channel emoji
             \`{name}\` - Channel name`,
-          type: 'reply',
         },
         ctx,
       );
@@ -57,7 +56,6 @@ export default {
               inline: true,
             },
           ],
-          type: 'reply',
         },
         ctx,
       );

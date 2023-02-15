@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
   Guild: String,
+  Channel: String,
   Role: String,
+  Message: String,
 });
 
-export default mongoose.model('joinRole', Schema);
+export default mongoose.model('welcomeChannels', Schema);

@@ -11,7 +11,7 @@ export default async (client: AeonaBot, ban: User, guildId: bigint) => {
       {
         title: `🔧 Member unbanned`,
         desc: `A user has been unbanned`,
-        thumbnail: client.helpers.getAvatarURL(ban.id + '', ban.discriminator, {
+        thumbnail: client.helpers.getAvatarURL(`${ban.id}`, ban.discriminator, {
           avatar: ban.avatar,
         }),
         fields: [
@@ -21,7 +21,7 @@ export default async (client: AeonaBot, ban: User, guildId: bigint) => {
           },
           {
             name: `<:name:1062774821190111272> Tag`,
-            value: `${ban.username + '' + ban.discriminator}`,
+            value: `${`${ban.username}${ban.discriminator}`}`,
           },
           {
             name: `<:id:1062774182892552212> ID`,

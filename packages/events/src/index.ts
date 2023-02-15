@@ -4,12 +4,11 @@ import {
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
-import JSON from 'json-bigint';
 import { Config, JsonDB } from 'node-json-db';
 
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
-import Functions from './database/models/functions.js';
+import GuildDB from './database/models/guild.js';
 import { additionalProps, AeonaBot } from './extras/index.js';
 import { getEnviroments } from './utils/getEnviroments.js';
 import { createIpcConnections } from './utils/ipcConnections.js';
@@ -17,14 +16,13 @@ import loadFiles from './utils/loadFiles.js';
 import { setupLogging } from './utils/logger.js';
 import setupCategories from './utils/setupCategories.js';
 import setupInhibitors from './utils/setupInhibitors.js';
-import setupMusic from './utils/setupMusic.js';
 
 const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
   'DISCORD_TOKEN',
   'REST_AUTHORIZATION',
 ]);
 
-const db = new JsonDB(new Config('tmp/db', true, false, '/'));
+const db = new JsonDB(new Config('tmp/db', false, false, '/'));
 const b = createBot({
   token: DISCORD_TOKEN,
   intents:
@@ -48,14 +46,15 @@ const b = createBot({
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: true,
-    channels: true,
-    members: true,
+    channels: false,
+    members: false,
     roles: false,
   },
   cacheOutsideMemory: {
     default: false,
-    members: false,
+    members: true,
     messages: false,
+    channels: true,
   },
 
   fetchIfMissing: {
@@ -84,41 +83,67 @@ const cachebot = createProxyCache(b, {
     ],
   },
   getItem: async (table, id, guildid?) => {
-    const item = await db.getData(`${id}${guildid || ''}`);
-    if (!item) return;
-    return JSON.parse(item);
+    try {
+      let item;
+      if (table == 'channel') item = await db.getObject(`/channel/${id}`);
+      if (table == 'guild') item = await db.getObject(`/guild/${id}`);
+      if (table == 'user') item = await db.getObject(`/user/${id}`);
+      if (table == 'message') item = await db.getObject(`/message/${id}`);
+      if (table == 'member')
+        item = await db.getObject(`/member/${guildid}/${id}`);
+      if (table == 'role') item = await db.getObject(`/role/${guildid}/${id}`);
+
+      return item;
+    } catch (e) {
+      return undefined;
+    }
   },
 
   removeItem: async (table, id, guildid?) => {
-    // eslint-disable-next-line no-return-await
-    return await db.delete(`${id}${guildid || ''}`);
+    let item;
+    if (table == 'channel') item = await db.delete(`/channel/${id}`);
+    if (table == 'guild') item = await db.delete(`/guild/${id}`);
+    if (table == 'user') item = await db.delete(`/user/${id}`);
+    if (table == 'message') item = await db.delete(`/message/${id}`);
+    if (table == 'member') item = await db.delete(`/member/${guildid}/${id}`);
+    if (table == 'role') item = await db.delete(`/role/${guildid}/${id}`);
+
+    return item;
   },
 
   setItem: async (table, item) => {
-    const i = await db.push(
-      `${item.id}${item.guildid ? item.guildid : ''}`,
-      JSON.stringify(item),
-    );
-    db.save();
-    return i;
+    if (table == 'channel') item = await db.push(`/channel/${item.id}`, item);
+    if (table == 'guild') item = await db.push(`/guild/${item.id}`, item);
+    if (table == 'user') item = await db.push(`/user/${item.id}`, item);
+    if (table == 'message') item = await db.push(`/message/${item.id}`, item);
+    if (table == 'member')
+      item = await db.push(`/member/${item.guildId}/${item.id}`, item);
+    if (table == 'role')
+      item = await db.push(`/role/${item.guildId}/${item.idid}`, item);
+
+    return item;
   },
 });
 db.reload();
-
+setInterval(() => {
+  db.save();
+}, 60000);
 const bot: AeonaBot = enableAmethystPlugin(cachebot, {
   owners: ['794921502230577182', '830231116660604951'],
   prefix: async (bot, message) => {
-    if (process.env.DEV === 'true' && message.channelId != 1034419695794794562n)
+    if (process.env.DEV === 'true' && message.channelId != 1073654475652333568n)
       return 'asdasdasdasdasdasdasdasdasdq3w12341234';
-    const schema = await chatBotSchema.findOne({ Guild: message.guildId });
-    if (schema)
-      if (schema.Channel == `${message.channelId}`)
-        return 'asdasdasdasdasdasdasdasdasdq3w12341234';
 
-    let guild = await Functions.findOne({
+    const schema = await chatBotSchema.findOne({
+      Guild: `${message.guildId}`,
+      Channel: `${message.channelId}`,
+    });
+    if (schema) return 'asdasdasdasdasdasdasdasdasdq3w12341234';
+
+    let guild = await GuildDB.findOne({
       Guild: message.guildId,
     });
-    if (!guild) guild = new Functions({ Guild: message.guildId });
+    if (!guild) guild = new GuildDB({ Guild: message.guildId });
 
     if (!guild.Prefix) {
       guild.Prefix = process.env.BOTPREFIX!;
@@ -142,7 +167,6 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
 setupLogging(bot);
 bot.extras = additionalProps(bot);
 await loadFiles(bot);
-setupMusic(bot);
 setupInhibitors(bot);
 setupCategories(bot);
 
@@ -160,3 +184,8 @@ process.on('unhandledRejection', (error: Error) => {
 process.on('warning', (warn) => {
   console.warn(warn);
 });
+
+//@ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};

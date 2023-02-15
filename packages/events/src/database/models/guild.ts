@@ -27,4 +27,4 @@ const Schema = new mongoose.Schema({
   chatbotFilter: { type: mongoose.SchemaTypes.Boolean, default: true },
 });
 
-export default mongoose.model('functions', Schema);
+export default mongoose.model('guild', Schema);

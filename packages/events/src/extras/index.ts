@@ -6,13 +6,9 @@ import {
 } from '@thereallonewolf/amethystframework';
 import { Channel, Role, VoiceState } from 'discordeno';
 import { BigString } from 'discordeno/types';
-import { Manager } from 'erela.js';
-import AppleMusic from 'erela.js-apple';
-import Deezer from 'erela.js-deezer';
-import Facebook from 'erela.js-facebook';
-import Spotify from 'erela.js-spotify';
 
 import botConfig from '../botconfig/bot.js';
+import GuildDB from '../database/models/guild.js';
 import levels from '../database/models/levels.js';
 import Schema from '../database/models/logChannels.js';
 import Stats from '../database/models/stats.js';
@@ -50,33 +46,6 @@ export function additionalProps(client: AeonaBot) {
     triviaManager: new Map(),
     queue: new Map(),
     voiceStates: new AmethystCollection<string, VoiceState>(),
-    player: new Manager({
-      plugins: [
-        // @ts-ignore
-        new AppleMusic({}),
-        new Deezer({}),
-        new Facebook(),
-        new Spotify({
-          clientID: process.env.SPOTIFY_CLIENT_ID!,
-          clientSecret: process.env.SPOTIFY_CLIENT_SECERT!,
-          playlistLimit: 100,
-          albumLimit: 100,
-        }),
-      ],
-      nodes: [
-        {
-          host: 'node1.kartadharta.xyz',
-          port: 443,
-          password: 'kdlavalink',
-          secure: true,
-        },
-      ],
-      send(id, payload) {
-        const guild = client.cache.guilds.memory.get(BigInt(id));
-        if (guild)
-          client.gateway.manager.shards.get(guild.shardId)?.send(payload);
-      },
-    }),
     capitalizeFirstLetter: (string: string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
@@ -97,6 +66,14 @@ export function additionalProps(client: AeonaBot) {
         return channel;
       }
       return false;
+    },
+    async isPremium(guildId: bigint) {
+      let guildDB = await GuildDB.findOne({ Guild: `${guildId}` });
+      if (!guildDB)
+        guildDB = new GuildDB({
+          Guild: `${guildId}`,
+        });
+      return guildDB.isPremium === 'true';
     },
     async createChannelSetup(
       Schema: any,
@@ -343,6 +320,8 @@ export function additionalProps(client: AeonaBot) {
         guildID: guildId,
       });
 
+      
+      if (!user) return false;
       const userReturn = {
         // @ts-ignore
         ...user!._doc,
@@ -350,8 +329,6 @@ export function additionalProps(client: AeonaBot) {
         cleanXp: 0,
         cleanNextLevelXp: 0,
       };
-      if (!user) return false;
-
       if (fetchPosition === true) {
         const leaderboard = await levels
           .find({

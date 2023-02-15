@@ -1,6 +1,6 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
-import Schema from '../../database/models/functions.js';
+import Schema from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -34,7 +34,9 @@ export default {
 
     client.extras.succNormal(
       {
-        text: `Anti links is now **${boolean ? 'enabled' : 'disabled'}** in this guild`,
+        text: `Anti links is now **${
+          boolean ? 'enabled' : 'disabled'
+        }** in this guild`,
         type: 'reply',
       },
       ctx,

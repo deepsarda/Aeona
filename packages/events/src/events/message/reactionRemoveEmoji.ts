@@ -13,25 +13,28 @@ export default async (
   },
 ) => {
   if (reaction.emoji.name === '⭐') {
-    const data = await StarBoard.findOne({ Guild: reaction.guildId });
-    if (!data) return;
+    const schemas = await StarBoard.find({ Guild: reaction.guildId });
+    for (let i = 0; i < schemas.length; i++) {
+      const data = schemas[i];
 
-    const starboardChannel = await client.cache.channels.get(
-      BigInt(data.Channel!),
-    );
-    if (!starboardChannel) return;
+      const starboardChannel = await client.cache.channels.get(
+        BigInt(data.Channel!),
+      );
+      if (!starboardChannel) return;
 
-    const fetch = await client.helpers.getMessages(starboardChannel.id + '', {
-      limit: 100,
-    });
-    const stars = fetch.find((m) => {
-      return m.embeds[0] &&
-        m.embeds[0].footer &&
-        m.embeds[0].footer.text.endsWith(reaction.messageId + '')
-        ? true
-        : false;
-    });
+      const fetch = await client.helpers.getMessages(`${starboardChannel.id  }`, {
+        limit: 100,
+      });
+      const stars = fetch.find((m) => {
+        return m.embeds[0] &&
+          m.embeds[0].footer &&
+          m.embeds[0].footer.text.endsWith(`${reaction.messageId  }`)
+          ? true
+          : false;
+      });
 
-    if (stars) client.helpers.deleteMessage(starboardChannel.id + '', stars.id);
+      if (stars)
+        client.helpers.deleteMessage(`${starboardChannel.id  }`, stars.id);
+    }
   }
 };

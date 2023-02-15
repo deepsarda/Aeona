@@ -4,25 +4,27 @@ import {
   Context,
 } from '@thereallonewolf/amethystframework';
 
-import GTW from '../../database/models/guessWord.js';
+import leaveChannel from '../../database/models/leave.js';
 import { AeonaBot } from '../../extras/index.js';
 import { ChannelTypes } from 'discordeno/types';
 
 export default {
-  name: 'guess-the-word',
-  description: 'Setup guess-the-word for your server.',
+  name: 'leave',
+  description: 'Setup the leave channel for your server.',
   commandType: ['application', 'message'],
   category: 'setup',
   args: [],
   userGuildPermissions: ['MANAGE_CHANNELS'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-
     async function sendMessage() {
-      const data = await GTW.find({ Guild: `${ctx.guild!.id}` });
+      const data = await leaveChannel.find({ Guild: `${ctx.guild!.id}` });
       const comp = new Components();
       comp.addButton('Auto Create', 'Primary', 'autocreate');
       comp.addButton('Create', 'Success', 'createconfig');
+      comp.addButton('Test', 'Secondary', 'testconfig', {
+        disabled: data.length == 0,
+      });
       if (data.length > 0)
         comp.addSelectComponent(
           'Edit/Delete a system.',
@@ -35,7 +37,7 @@ export default {
             };
           }),
 
-          'Edit/Delete the settings for your Guess The Word Systems',
+          'Edit/Delete the settings for your Leave Systems',
         );
       else
         comp.addSelectComponent(
@@ -57,7 +59,7 @@ export default {
       const message = await client.extras.embed(
         {
           content: '',
-          title: 'Guess The Word Setup',
+          title: 'Leave Setup',
           desc: `Choose a to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. `,
           components: comp,
           type: 'editreply',
@@ -81,7 +83,7 @@ export default {
                 {
                   type: 4,
                   data: {
-                    content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*`,
+                    content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use \`+perks\` to see all the perks of premium. `,
                     flags: 1 << 6,
                   },
                 },
@@ -105,42 +107,22 @@ export default {
 
           if (interaction.data?.customId == 'autocreate') {
             const channel = await client.helpers.createChannel(ctx.guild!.id!, {
-              name: 'Guess-The-Word',
+              name: 'bye-bye',
               type: ChannelTypes.GuildText,
             });
 
-            new GTW({
+            new leaveChannel({
               Guild: `${ctx.guildId}`,
               Channel: `${channel.id}`,
             }).save();
-            const word = 'start';
-            const shuffled = word
-              .split('')
-              .sort(function () {
-                return 0.5 - Math.random();
-              })
-              .join('');
 
-            client.extras.embed(
-              {
-                title: `Guess the word`,
-                desc: `Put the letters in the right position!`,
-                fields: [
-                  {
-                    name: `💬 Word`,
-                    value: `${shuffled.toLowerCase()}`,
-                  },
-                ],
-              },
-              channel,
-            );
             await client.helpers.sendInteractionResponse(
               interaction.id,
               interaction.token,
               {
                 type: 4,
                 data: {
-                  content: `I have successfully setup <#${channel.id}> as a guess the word channel.`,
+                  content: `I have successfully setup <#${channel.id}> as a leave channel.`,
                   flags: 1 << 6,
                 },
               },
@@ -205,37 +187,15 @@ export default {
                   .deleteMessage(message.channelId, message.id)
                   .catch();
 
-                new GTW({
+                new leaveChannel({
                   Guild: `${ctx.guildId}`,
                   Channel: `${message.mentionedChannelIds[0]}`,
                 }).save();
-                const word = 'start';
-                const shuffled = word
-                  .split('')
-                  .sort(function () {
-                    return 0.5 - Math.random();
-                  })
-                  .join('');
 
-                client.extras.embed(
-                  {
-                    title: `Guess the word`,
-                    desc: `Put the letters in the right position!`,
-                    fields: [
-                      {
-                        name: `💬 Word`,
-                        value: `${shuffled.toLowerCase()}`,
-                      },
-                    ],
-                  },
-                  (await client.cache.channels.get(
-                    message.mentionedChannelIds[0],
-                  ))!,
-                );
                 await client.helpers.sendFollowupMessage(interaction.token, {
                   type: 4,
                   data: {
-                    content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
+                    content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a leave channel.`,
                     flags: 1 << 6,
                   },
                 });
@@ -251,6 +211,7 @@ export default {
             const components = new Components();
 
             components.addButton('Set Channel', 'Primary', 'setchannel');
+            components.addButton('Set Message', 'Primary', 'setmessage');
             components.addButton(
               'Delete this Setting',
               'Danger',
@@ -268,7 +229,28 @@ export default {
               },
               ctx,
             );
-
+            const config = await client.extras.getEmbedConfig(ctx);
+            let m = {
+              content:
+                '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
+            };
+            
+            if (schema.Message) {
+              try {
+                m = JSON.parse(schema.Message);
+              } catch (e) {
+                //
+              }
+            }
+            
+            m.content = `**<:chatbot:1049292165282541638> Leave Message :small_red_triangle_down:** \n ${m.content}`;
+           
+            client.helpers
+              .sendMessage(
+                ctx.channel!.id,
+                client.extras.generateEmbedFromData(config, m),
+              )
+              .catch((e) => console.error(e));
             client.amethystUtils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
@@ -328,29 +310,7 @@ export default {
                       client.helpers
                         .deleteMessage(message.channelId, message.id)
                         .catch();
-                      const word = schema.Word;
-                      const shuffled = word
-                        .split('')
-                        .sort(function () {
-                          return 0.5 - Math.random();
-                        })
-                        .join('');
 
-                      client.extras.embed(
-                        {
-                          title: `Guess the word`,
-                          desc: `Put the letters in the right position!`,
-                          fields: [
-                            {
-                              name: `💬 Word`,
-                              value: `${shuffled.toLowerCase()}`,
-                            },
-                          ],
-                        },
-                        (await client.cache.channels.get(
-                          message.mentionedChannelIds[0],
-                        ))!,
-                      );
                       schema.Channel = `${message.mentionedChannelIds[0]}`;
                       schema.save();
 
@@ -359,7 +319,7 @@ export default {
                         {
                           type: 4,
                           data: {
-                            content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
+                            content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a leave channel.`,
                             flags: 1 << 6,
                           },
                         },
@@ -370,6 +330,52 @@ export default {
                   }
 
                   return sendMessage();
+                } else if (interaction.data?.customId == 'setmessage') {
+                  await client.helpers.sendInteractionResponse(
+                    interaction.id,
+                    interaction.token,
+                    {
+                      type: 4,
+                      data: {
+                        content: `I am loading the message editor. To see a list of variables you can use look at \`/embed variables\``,
+                        flags: 1 << 6,
+                      },
+                    },
+                  );
+                  let message = {
+                    content:
+                      '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
+                  };
+
+                  if (schema.Message) {
+                    try {
+                      message = JSON.parse(schema.Message);
+                    } catch (e) {
+                      //
+                    }
+                  }
+
+                  client.extras.createInterface(ctx, '', {
+                    ...message,
+
+                    callback: async (data) => {
+                      schema.Message = JSON.stringify(data);
+
+                      schema.save();
+                      await client.helpers.sendFollowupMessage(
+                        interaction.token,
+                        {
+                          type: 4,
+                          data: {
+                            content: `I have successfully updated the message for that config.`,
+                            flags: 1 << 6,
+                          },
+                        },
+                      );
+
+                      sendMessage();
+                    },
+                  });
                 } else if (interaction.data?.customId == 'deleteconfig') {
                   schema.delete();
                   await client.helpers.sendInteractionResponse(
@@ -383,7 +389,7 @@ export default {
                       },
                     },
                   );
-
+                    
                   return sendMessage();
                 }
               })
@@ -393,6 +399,23 @@ export default {
                   components: [],
                 });
               });
+          } else if (interaction.data?.customId == 'testconfig') {
+            client.emit('guildMemberRemove', client, ctx.user!, ctx.guildId!);
+            await client.helpers.sendInteractionResponse(
+              interaction.id,
+              interaction.token,
+              {
+                type: 4,
+                data: {
+                  content: `I have successfully tested that config. Look for the messages in ${data
+                    .map((value) => `<#${value.Channel}>`)
+                    .join(', ')}.`,
+                  flags: 1 << 6,
+                },
+              },
+            );
+
+            return sendMessage();
           }
         })
         .catch((e) => {

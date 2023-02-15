@@ -7,7 +7,8 @@ import { AeonaBot } from '../../extras/index.js';
 export default async (client: AeonaBot) => {
   client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
     if (!message.guildId) return;
-    if (!message.content || message.type == MessageTypes.ChannelPinnedMessage) return;
+    if (!message.content || message.type == MessageTypes.ChannelPinnedMessage)
+      return;
     const data = await countSchema.findOne({
       Guild: message.guildId,
       Channel: message.channelId,
@@ -15,7 +16,8 @@ export default async (client: AeonaBot) => {
     const countData = await count.findOne({ Guild: message.guildId });
 
     if (data && countData) {
-      if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
+      if (!Number(message.content) || Number.isNaN(Number(message.content)))
+        return;
       client.emit('logFeatureUse', 'counting');
       if (`${message.authorId}` == countData.User!) {
         try {
@@ -95,30 +97,35 @@ export default async (client: AeonaBot) => {
     }
   });
 
-  client.on('messageDeleteWithOldMessage', async (bot: AeonaBot, message: Message) => {
-    try {
-      const data = await countSchema.findOne({
-        Guild: message.guildId,
-        Channel: message.channelId,
-      });
-      const countData = await count.findOne({ Guild: message.guildId });
+  client.on(
+    'messageDeleteWithOldMessage',
+    async (bot: AeonaBot, message: Message) => {
+      try {
+        const data = await countSchema.findOne({
+          Guild: message.guildId,
+          Channel: message.channelId,
+        });
+        const countData = await count.findOne({ Guild: message.guildId });
 
-      if (data && countData) {
-        const lastCount = countData.Count! - 1;
-        if (Number(message.content) == lastCount) {
-          client.extras.simpleMessageEmbed(
-            {
-              title: ``,
-              desc: `**${`${(await bot.helpers.getUser(message.authorId))?.username}#${
-                (await bot.helpers.getUser(message.authorId))?.discriminator
-              }`}**: ${message.content}`,
-            },
-            message,
-          );
+        if (data && countData) {
+          const lastCount = countData.Count! - 1;
+          if (Number(message.content) == lastCount) {
+            client.extras.simpleMessageEmbed(
+              {
+                title: ``,
+                desc: `**${`${
+                  (await bot.helpers.getUser(message.authorId))?.username
+                }#${
+                  (await bot.helpers.getUser(message.authorId))?.discriminator
+                }`}**: ${message.content}`,
+              },
+              message,
+            );
+          }
         }
+      } catch {
+        //
       }
-    } catch {
-      //
-    }
-  });
+    },
+  );
 };

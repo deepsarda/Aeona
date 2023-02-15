@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -54,7 +58,10 @@ export default {
             partner.save();
           }
 
-          client.extras.succNormal({ text: `Your family has been deleted!`, type: 'edit' }, ctx);
+          client.extras.succNormal(
+            { text: `Your family has been deleted!`, type: 'edit' },
+            ctx,
+          );
         }
         if (!ctx.channel?.id) return;
         client.helpers.deleteMessage(`${ctx.channel?.id}`, `${message.id}`);

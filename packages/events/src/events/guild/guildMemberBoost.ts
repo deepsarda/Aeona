@@ -1,79 +1,40 @@
 import { Member } from 'discordeno/transformers';
 
 import Schema from '../../database/models/boostChannels.js';
-import Schema2 from '../../database/models/boostMessage.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, member: Member) => {
   try {
-    const channelData = await Schema.findOne({ Guild: member.guildId });
-    const messageData = await Schema2.findOne({ Guild: member.guildId });
+    const data = await Schema.find({ Guild: member.guildId });
+    if (data.length == 0) return;
+    const config = await client.extras.getEmbedConfig({
+      guild: (await client.cache.guilds.get(member.guildId))!,
+      user: (await client.cache.users.get(member.id))!,
+    });
 
-    if (messageData) {
-      const guild = await client.cache.guilds.get(member.guildId);
-      if (!guild) return;
-      let boostMessage = messageData.boostMessage!;
-      const u = await client.helpers.getUser(member.id);
-      boostMessage = boostMessage.replace(`{user:username}`, u.username!);
-      boostMessage = boostMessage.replace(
-        `{user:discriminator}`,
-        u.discriminator!,
-      );
-      boostMessage = boostMessage.replace(
-        `{user:tag}`,
-        u.username + '#' + u.discriminator,
-      );
-      boostMessage = boostMessage.replace(`{user:mention}`, '<@' + u.id + '>');
+    for (let i = 0; i < data.length; i++) {
+      const schema = data[i];
 
-      boostMessage = boostMessage.replace(`{guild:name}`, guild.name);
-      boostMessage = boostMessage.replace(
-        `{guild:members}`,
-        guild.approximateMemberCount! + '',
-      );
-      boostMessage = boostMessage.replace(
-        `{guild:boosts}`,
-        guild.premiumSubscriptionCount! + '',
-      );
-      boostMessage = boostMessage.replace(
-        `{guild:booststier}`,
-        guild.premiumTier + '',
-      );
+      let message = {
+        content:
+          '<:AH_LoveCat:1050681792060985414> Thank you {user:mention}, for <:F_Boost:1049289262429900830> boosting us.',
+      };
 
-      if (channelData) {
+      if (schema.boostMessage) {
         try {
-          const channel = await client.cache.channels.get(
-            BigInt(channelData.Channel!),
-          );
-
-          client.extras.embed(
-            {
-              title: `🚀 New boost`,
-              desc: boostMessage,
-            },
-            channel!,
-          );
-        } catch {
+          message = JSON.parse(schema.boostMessage);
+        } catch (e) {
           //prevent lint errors
         }
       }
-    } else {
-      if (channelData) {
-        try {
-          const channel = await client.cache.channels.get(
-            BigInt(channelData.Channel!),
-          );
 
-          client.extras.embed(
-            {
-              title: `🚀 New boost`,
-              desc: `<@${member.id}> boosted the server!`,
-            },
-            channel!,
-          );
-        } catch {
-          //prevent lint errors
-        }
-      }
+      if (schema.Channel)
+        client.helpers
+          .sendMessage(
+            schema.Channel,
+            client.extras.generateEmbedFromData(config, message),
+          )
+          .catch();
     }
   } catch {
     //prevent lint errors

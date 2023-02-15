@@ -1,22 +1,19 @@
 import { User } from 'discordeno/transformers';
 
 import invitedBy from '../../database/models/inviteBy.js';
-import messages from '../../database/models/inviteMessages.js';
 import invites from '../../database/models/invites.js';
-import leaveSchema from '../../database/models/leaveChannels.js';
+import leave from '../../database/models/leave.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, user: User, guildId: bigint) => {
-  const messageData = await messages.findOne({ Guild: guildId });
   const inviteByData = await invitedBy.findOne({
-    Guild: guildId + '',
-    User: user.id + '',
+    Guild: `${guildId}`,
+    User: `${user.id}`,
   });
-  const channelData = await leaveSchema.findOne({ Guild: guildId });
 
   if (inviteByData) {
     const inviteData = await invites.findOne({
-      Guild: guildId + '',
+      Guild: `${guildId}`,
       User: inviteByData.inviteUser,
     });
 
@@ -25,212 +22,38 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
       inviteData.Left += 1;
       inviteData.save();
     }
+  }
 
-    if (channelData) {
-      if (messageData && messageData.inviteLeave) {
-        const guild = await client.cache.guilds.get(guildId);
-        if (!guild) return;
-        let leaveMessage = messageData.inviteLeave;
-        leaveMessage = leaveMessage.replace(`{user:username}`, user.username);
-        leaveMessage = leaveMessage.replace(
-          `{user:discriminator}`,
-          user.discriminator,
-        );
-        leaveMessage = leaveMessage.replace(
-          `{user:tag}`,
-          user.username + '#' + user.discriminator,
-        );
-        leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
+  const leaveSchema = await leave.find({
+    Guild: `${guildId}`,
+  });
+  if (leaveSchema.length == 0) return;
+  const config = await client.extras.getEmbedConfig({
+    guild: (await client.cache.guilds.get(guildId))!,
+    user: (await client.cache.users.get(user.id))!,
+  });
 
-        leaveMessage = leaveMessage.replace(
-          `{inviter:mention}`,
-          `<@!${inviteByData.inviteUser}>`,
-        );
-        leaveMessage = leaveMessage.replace(
-          `{inviter:invites}`,
-          inviteData?.Invites! + '',
-        );
-        leaveMessage = leaveMessage.replace(
-          `{inviter:invites:left}`,
-          inviteData?.Left! + '',
-        );
+  for (let i = 0; i < leaveSchema.length; i++) {
+    const schema = leaveSchema[i];
 
-        leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-        leaveMessage = leaveMessage.replace(
-          `{guild:members}`,
-          guild.approximateMemberCount + '',
-        );
+    let message = {
+      content:
+        '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
+    };
 
-        client.helpers
-          .getUser(inviteData?.User!)
-          .then(async (user) => {
-            leaveMessage = leaveMessage.replace(
-              `{inviter:username}`,
-              user.username,
-            );
-            leaveMessage = leaveMessage.replace(
-              `{inviter:discriminator}`,
-              user.discriminator,
-            );
-            leaveMessage = leaveMessage.replace(
-              `{inviter:tag}`,
-              `${user.username}#${user.discriminator}`,
-            );
-
-            const channel = await client.cache.channels.get(
-              BigInt(channelData.Channel!),
-            );
-
-            await client.extras
-              .embed(
-                {
-                  title: `👋 Bye`,
-                  desc: leaveMessage,
-                },
-                channel!,
-              )
-              .catch();
-          })
-          .catch(async () => {
-            if (channelData) {
-              leaveMessage = leaveMessage.replace(
-                `{inviter:username}`,
-                'UnknownUser',
-              );
-              leaveMessage = leaveMessage.replace(
-                `{inviter:discriminator}`,
-                '#0000',
-              );
-              leaveMessage = leaveMessage.replace(
-                `{inviter:tag}`,
-                `UnknownUser#0000`,
-              );
-              const channel = await client.cache.channels.get(
-                BigInt(channelData.Channel!),
-              );
-
-              await client.extras
-                .embed(
-                  {
-                    title: `👋 Bye`,
-                    desc: leaveMessage,
-                  },
-                  channel!,
-                )
-                .catch();
-            }
-          });
-      } else {
-        client.helpers
-          .getUser(inviteData?.User! + '')
-          .then(async (user) => {
-            const channel = await client.cache.channels.get(
-              BigInt(channelData.Channel!),
-            );
-
-            await client.extras
-              .embed(
-                {
-                  title: `👋 Bye`,
-                  desc: `**${
-                    user.username + '#' + user.discriminator
-                  }** was invited by ${
-                    user.username + '#' + user.discriminator
-                  }`,
-                },
-                channel!,
-              )
-              .catch();
-          })
-          .catch(async () => {
-            if (channelData) {
-              const channel = await client.cache.channels.get(
-                BigInt(channelData.Channel!),
-              );
-
-              await client.extras
-                .embed(
-                  {
-                    title: `👋 Bye`,
-                    desc: `**${
-                      user.username + '#' + user.discriminator
-                    }** was invited by I could not find that person`,
-                  },
-                  channel!,
-                )
-                .catch();
-            }
-          });
+    if (schema.Message) {
+      try {
+        message = JSON.parse(schema.Message);
+      } catch (e) {
+        //
       }
     }
-  } else {
-    if (messageData && messageData.inviteLeave) {
-      const guild = await client.cache.guilds.get(guildId);
-      if (!guild) return;
-      let leaveMessage = messageData.inviteLeave;
-      leaveMessage = leaveMessage.replace(`{user:username}`, user.username);
-      leaveMessage = leaveMessage.replace(
-        `{user:discriminator}`,
-        user.discriminator,
-      );
-      leaveMessage = leaveMessage.replace(
-        `{user:tag}`,
-        user.username + '#' + user.discriminator,
-      );
-      leaveMessage = leaveMessage.replace(`{user:mention}`, `<@!${user.id}>`);
-
-      leaveMessage = leaveMessage.replace(`{inviter:mention}`, `Unkown`);
-      leaveMessage = leaveMessage.replace(`{inviter:invites}`, '0');
-      leaveMessage = leaveMessage.replace(`{inviter:invites:left}`, '0');
-
-      leaveMessage = leaveMessage.replace(`{guild:name}`, guild.name);
-      leaveMessage = leaveMessage.replace(
-        `{guild:members}`,
-        guild.approximateMemberCount + '',
-      );
-
-      if (channelData) {
-        leaveMessage = leaveMessage.replace(
-          `{inviter:username}`,
-          'UnknownUser',
-        );
-        leaveMessage = leaveMessage.replace(`{inviter:discriminator}`, '#0000');
-        leaveMessage = leaveMessage.replace(
-          `{inviter:tag}`,
-          `UnknownUser#0000`,
-        );
-        const channel = await client.cache.channels.get(
-          BigInt(channelData.Channel!),
-        );
-
-        await client.extras
-          .embed(
-            {
-              title: `👋 Bye`,
-              desc: leaveMessage,
-            },
-            channel!,
-          )
-          .catch();
-      }
-    } else {
-      if (channelData) {
-        const channel = await client.cache.channels.get(
-          BigInt(channelData.Channel!),
-        );
-
-        await client.extras
-          .embed(
-            {
-              title: `👋 Bye`,
-              desc: `**${
-                user.username + '#' + user.discriminator
-              }** was invited by I could not find that person`,
-            },
-            channel!,
-          )
-          .catch();
-      }
-    }
+    if (schema.Channel)
+      client.helpers
+        .sendMessage(
+          schema.Channel,
+          client.extras.generateEmbedFromData(config, message),
+        )
+        .catch((e) => console.error(e));
   }
 };

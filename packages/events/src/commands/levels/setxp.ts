@@ -1,6 +1,6 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
-import Functions from '../../database/models/functions.js';
+import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -24,7 +24,7 @@ export default {
   ],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const data = await Functions.findOne({ Guild: ctx.guild!.id });
+    const data = await GuildDB.findOne({ Guild: ctx.guild!.id });
 
     if (data && data.Levels == true) {
       const target = await ctx.options.getUser('user', true);
@@ -43,7 +43,9 @@ export default {
             },
             {
               name: '<:members:1063116392762712116> User',
-              value: `<@${target.id}> (${`${target.username}#${target.discriminator}`})`,
+              value: `<@${
+                target.id
+              }> (${`${target.username}#${target.discriminator}`})`,
               inline: true,
             },
           ],

@@ -6,7 +6,7 @@ export default {
   name: 'roll',
   description: 'Roll a dice',
   commandType: ['application', 'message'],
-  category: 'game',
+  category: 'fun',
   args: [],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;

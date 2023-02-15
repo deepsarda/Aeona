@@ -42,12 +42,6 @@ export default function (bot: AeonaBot) {
       default: 'list',
     },
     {
-      name: 'game',
-      description: 'Play some games.',
-      uniqueCommands: true,
-      default: 'list',
-    },
-    {
       name: 'levels',
       description: 'Configure the rank system',
       uniqueCommands: true,
@@ -90,12 +84,6 @@ export default function (bot: AeonaBot) {
       default: 'setup',
     },
     {
-      name: 'music',
-      description: 'Listen to some music',
-      uniqueCommands: true,
-      default: '',
-    },
-    {
       name: 'serverstats',
       description: 'Configure your server stats',
       uniqueCommands: true,
@@ -110,12 +98,6 @@ export default function (bot: AeonaBot) {
     {
       name: 'image',
       description: 'Enjoy image magic',
-      uniqueCommands: true,
-      default: '',
-    },
-    {
-      name: 'code',
-      description: 'Some useful coding commands',
       uniqueCommands: true,
       default: '',
     },

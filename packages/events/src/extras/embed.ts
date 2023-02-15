@@ -2,7 +2,7 @@ import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
 import { ActionRow, Channel, Interaction, Message } from 'discordeno';
 
 import config from '../botconfig/bot.js';
-import Schema from '../database/models/functions.js';
+import Schema from '../database/models/guild.js';
 import embedbuilder from './embedbuilder.js';
 import { AeonaBot } from './index.js';
 
@@ -168,7 +168,7 @@ export default (client: AeonaBot) => {
 
     return await sendEmbed(
       {
-        embeds: [embed],
+        embeds: title || desc || image ? [embed] : [],
         content,
         components,
         type,
@@ -492,6 +492,38 @@ export default (client: AeonaBot) => {
         });
       if (guildDB.isPremium === 'true') s = ['', ''];
 
+      for (const embed of embeds) {
+        try {
+          if (embed.author == undefined)
+            embed.setAuthor(
+              'Aeona',
+              'https://www.aeona.xyz/logo.png',
+              'https://docs.aeona.xyz',
+            );
+          if (embed.footer == undefined)
+            embed.setFooter(
+              ctx.user
+                ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks`
+                : '',
+
+              client.helpers.getAvatarURL(
+                ctx.user!.id,
+                ctx.user!.discriminator,
+                {
+                  avatar: ctx.user?.avatar,
+                },
+              ),
+            );
+          if (embed.thumbnail == undefined) {
+            embed.setThumbnail(
+              client.helpers.getGuildIconURL(ctx.guildId!, ctx.guild!.icon) ??
+                'https://cdn.discordapp.com/embed/avatars/1.png',
+            );
+          }
+        } catch (e) {
+          //
+        }
+      }
       // Generate a random number between 1 to 10;
       const randomNumber = Math.floor(Math.random() * 50);
       content =
@@ -569,6 +601,19 @@ export default (client: AeonaBot) => {
         })
         .catch();
       return c.message!;
+    }
+
+    for (const embed of embeds) {
+      try {
+        if (embed.author == undefined)
+          embed.setAuthor(
+            'Aeona',
+            'https://www.aeona.xyz/logo.png',
+            'https://docs.aeona.xyz',
+          );
+      } catch (e) {
+        //
+      }
     }
     return await client.helpers
       .sendMessage(ctx.id, {

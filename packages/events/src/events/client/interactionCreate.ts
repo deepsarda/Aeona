@@ -1,7 +1,6 @@
 import Captcha from '@haileybot/captcha-generator';
 import {
   AmethystEmbed,
-  Components,
   createContext,
   createOptionResults,
 } from '@thereallonewolf/amethystframework';
@@ -232,7 +231,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         for (let i = 0; i < c.commands.size; i++) {
           const command = c.commands.at(i)!;
           fields.push({
-            name: '<:F_Arrow:1049291677359153202> ' + command.description,
+            name: `<:F_Arrow:1049291677359153202> ${command.description}`,
             value: `\`${process.env.BOTPREFIX!}${command.name}\``,
           });
         }
@@ -240,7 +239,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         for (let i = 0; i < c.commands.size; i++) {
           const command = c.commands.at(i)!;
           fields.push({
-            name: '<:F_Arrow:1049291677359153202> ' + command.description,
+            name: `<:F_Arrow:1049291677359153202> ${command.description}`,
             value: `\`${process.env.BOTPREFIX!}${c.name} ${command.name}\``,
           });
         }
@@ -268,18 +267,14 @@ export default async (client: AeonaBot, interaction: Interaction) => {
     } else if (interaction.data?.customId?.startsWith('share-imagine')) {
       if (
         interaction.data?.values![0] == 'share-discord' &&
-        interaction.data?.customId?.split('_')[1] == interaction.user.id + ''
+        interaction.data?.customId?.split('_')[1] == `${interaction.user.id}`
       ) {
         const channel = await client.helpers.createForumThread(
           '1042413922138980352',
           {
-            name:
-              interaction.message?.content.split('\n')[0].split(':**')[1] +
-              ' by ' +
-              interaction.user.username +
-              '(' +
-              interaction.member?.id +
-              ')',
+            name: `${
+              interaction.message?.content.split('\n')[0].split(':**')[1]
+            } by ${interaction.user.username}(${interaction.member?.id})`,
             autoArchiveDuration: 60,
             content: interaction.message?.attachments[0].proxyUrl,
           },
@@ -415,199 +410,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       client,
     );
     notice.execute!(client, ctx);
-  }
-
-  if (interaction.data?.customId == 'musicpause') {
-    const player = client.extras.player.players.get(interaction.guildId! + '');
-    if (!player) return;
-
-    player.pause(true);
-
-    const embedData = interaction.message?.embeds[0]!;
-
-    const components = new Components();
-    components.addButton('', 'Secondary', 'musicprev', {
-      emoji: '<:previous:1060474160163328000>',
-    });
-    components.addButton('', 'Secondary', 'musicpause', {
-      emoji: '<:pause:1060473490744029184>',
-    });
-    components.addButton('', 'Secondary', 'musicstop', {
-      emoji: '🛑',
-    });
-    components.addButton('', 'Secondary', 'musicnext', {
-      emoji: '<:next:1060474589349683270>',
-    });
-
-    client.extras.editEmbed(
-      {
-        title: embedData.title,
-        url: embedData.url,
-        desc: `Music is currently paused`,
-        thumbnail: embedData.thumbnail!.url,
-        fields: embedData.fields,
-        components: components,
-        color: client.extras.config.colors.error,
-      },
-      interaction.message!,
-    );
-  }
-
-  if (interaction.data?.customId == 'musicstart') {
-    const player = client.extras.player.players.get(interaction.guildId! + '');
-    if (!player) return;
-
-    player.pause(false);
-
-    const embedData = interaction.message!.embeds[0];
-
-    const components = new Components();
-    components.addButton('', 'Secondary', 'musicprev', {
-      emoji: '<:previous:1060474160163328000>',
-    });
-    components.addButton('', 'Secondary', 'musicpause', {
-      emoji: '<:pause:1060473490744029184>',
-    });
-    components.addButton('', 'Secondary', 'musicstop', {
-      emoji: '🛑',
-    });
-    components.addButton('', 'Secondary', 'musicnext', {
-      emoji: '<:next:1060474589349683270>',
-    });
-
-    client.extras.editEmbed(
-      {
-        title: embedData.title,
-        url: embedData.url,
-        desc: `Music is currently resumed`,
-        thumbnail: embedData.thumbnail!.url,
-        fields: embedData.fields,
-        components: components,
-      },
-      interaction.message!,
-    );
-  }
-
-  if (interaction.data?.customId == 'musicstop') {
-    const player = client.extras.player.players.get(interaction.guildId! + '');
-    if (!player) return;
-
-    player.destroy();
-
-    client.extras.sendEmbedMessage(
-      {
-        desc: `Music is currently stopped`,
-        color: client.extras.config.colors.error,
-        components: [],
-      },
-      interaction.message!,
-    );
-  }
-
-  if (interaction.data?.customId == 'musicnext') {
-    const player = client.extras.player.players.get(interaction.guildId! + '');
-    if (!player) return;
-
-    player.stop();
-
-    const track = player.queue.current!;
-
-    const components = new Components();
-    components.addButton('', 'Secondary', 'musicprev', {
-      emoji: '<:previous:1060474160163328000>',
-    });
-    components.addButton('', 'Secondary', 'musicpause', {
-      emoji: '<:pause:1060473490744029184>',
-    });
-    components.addButton('', 'Secondary', 'musicstop', {
-      emoji: '🛑',
-    });
-    components.addButton('', 'Secondary', 'musicnext', {
-      emoji: '<:next:1060474589349683270>',
-    });
-
-    client.extras.editEmbed(
-      {
-        title: `<:Pink_music:1062773191107416094> ${track.title}`,
-        url: track.uri!,
-        desc: `Music started in <#${player.voiceChannel}>!`,
-        thumbnail: track.thumbnail!,
-        fields: [
-          {
-            name: `👤 Requested By`,
-            value: `${track.requester}`,
-            inline: true,
-          },
-          {
-            name: `🕒 Ends at`,
-            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(
-              0,
-            )}:f>`,
-            inline: true,
-          },
-          {
-            name: `🎬 Author`,
-            value: `${track.author}`,
-            inline: true,
-          },
-        ],
-        components: components,
-      },
-      interaction.message!,
-    );
-  }
-
-  if (interaction.data?.customId == 'musicprev') {
-    const player = client.extras.player.players.get(interaction.guildId! + '');
-    if (!player || !player.queue.previous) return;
-
-    const track = player.queue.previous;
-
-    const components = new Components();
-    components.addButton('', 'Secondary', 'musicprev', {
-      emoji: '<:previous:1060474160163328000>',
-    });
-    components.addButton('', 'Secondary', 'musicpause', {
-      emoji: '<:pause:1060473490744029184>',
-    });
-    components.addButton('', 'Secondary', 'musicstop', {
-      emoji: '🛑',
-    });
-    components.addButton('', 'Secondary', 'musicnext', {
-      emoji: '<:next:1060474589349683270>',
-    });
-
-    client.extras.editEmbed(
-      {
-        title: `<:Pink_music:1062773191107416094> ${track.title}`,
-        url: track.uri,
-        desc: `Music started in <#${player.voiceChannel}>!`,
-        thumbnail: track.thumbnail!,
-        fields: [
-          {
-            name: `👤 Requested By`,
-            value: `${track.requester}`,
-            inline: true,
-          },
-          {
-            name: `🕒 Ends at`,
-            value: `<t:${(Date.now() / 1000 + track.duration! / 1000).toFixed(
-              0,
-            )}:f>`,
-            inline: true,
-          },
-          {
-            name: `🎬 Author`,
-            value: `${track.author}`,
-            inline: true,
-          },
-        ],
-        components: components,
-      },
-      interaction.message!,
-    );
-
-    player.play(player.queue.previous);
   }
 };
 type Field = {

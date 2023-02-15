@@ -492,7 +492,7 @@ export default {
       }
 
       query({
-        inputs: prompt + ' dreamlikeart ' + modifiers,
+        inputs: `${prompt} dreamlikeart ${modifiers}`,
         options: {
           wait_for_model: true,
           use_cache: false,
@@ -501,8 +501,7 @@ export default {
         console.log(response);
         await client.helpers.deleteMessage(msg.channelId, msg.id);
         client.helpers.sendMessage('1044575489118978068', {
-          content:
-            '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
+          content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
           file: [
             {
               blob: response,
@@ -513,7 +512,7 @@ export default {
         const component = new Components();
         component.addSelectComponent(
           'Share your image!',
-          'share-imagine_' + ctx.user?.id,
+          `share-imagine_${ctx.user?.id}`,
           [
             {
               label: 'Official Server',
@@ -525,8 +524,7 @@ export default {
           'Share this image.',
         );
         client.helpers.sendMessage(ctx.channel?.id!, {
-          content:
-            '**Prompt:** ' + prompt + '\n **Mode:** ' + c.data?.values![0],
+          content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
           file: [
             {
               blob: response,
@@ -537,7 +535,7 @@ export default {
         });
       });
     } catch (e) {
-      console.log('Imagine Error: ' + e);
+      console.log(`Imagine Error: ${e}`);
     }
   },
 } as CommandOptions;

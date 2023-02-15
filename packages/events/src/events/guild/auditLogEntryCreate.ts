@@ -5,7 +5,7 @@ import logChannels from '../../database/models/logChannels.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: bigint) => {
-  const logChannel = (await logChannels.findOne({ Guild: guildId + '' }))!;
+  const logChannel = (await logChannels.findOne({ Guild: `${guildId  }` }))!;
 
   try {
     if (!logChannel.Guild) return;

@@ -1,6 +1,6 @@
 {
   "name": "aeona",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -10,7 +10,8 @@
     "lint": "yarn workspace @aeona/eslint-config",
     "test": "TESTING=true node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "build:all": "concurrently \"yarn rest build\" \"yarn gateway build\" \"yarn events build\"",
-    "run:lint": "eslint . --fix"
+    "run:lint": "eslint . --fix",
+    "typecheck": "yarn rest typecheck && yarn gateway typecheck && yarn events typecheck"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "@types/jest": "^29.4.0",
     "concurrently": "^7.6.0",
     "dotenv": "^16.0.3",
+    "mongodb-memory-server": "^8.11.4",
     "typescript": "^5.0.0-dev.20221101"
   },
   "dependencies": {
@@ -36,7 +38,7 @@
     "@haileybot/captcha-generator": "^1.7.0",
     "@iamtraction/google-translate": "^1.1.2",
     "@influxdata/influxdb-client": "^1.33.1",
-    "@thereallonewolf/amethystframework": "^6.2.9",
+    "@thereallonewolf/amethystframework": "^7.0.4",
     "@top-gg/sdk": "^3.1.3",
     "axios": "^0.24.0",
     "bad-words": "^3.0.4",
@@ -48,11 +50,6 @@
     "discord-markdown-parser": "~1.1.0",
     "discordeno": "^18.0.0",
     "dotenv": "^16.0.3",
-    "erela.js": "^2.4.0",
-    "erela.js-apple": "^1.2.6",
-    "erela.js-deezer": "^1.0.7",
-    "erela.js-facebook": "^1.0.4",
-    "erela.js-spotify": "^1.2.0",
     "eslint-plugin-require-extensions": "^0.1.2",
     "express": "^4.18.2",
     "fastify": "^4.12.0",
@@ -62,8 +59,6 @@
     "generate-password": "^1.7.0",
     "hmfull": "^2.4.3",
     "jsdom": "^18.1.1",
-    "json-bigint": "^1.0.0",
-    "lyrics-finder": "^21.7.0",
     "markov-generator": "^1.2.3",
     "mathjs": "^10.6.4",
     "moment": "^2.29.4",
@@ -79,6 +74,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recachegoose": "^9.1.0",
+    "safe-stable-stringify": "^2.4.2",
     "simple-markdown": "^0.7.3",
     "twemoji": "^14.0.2",
     "uniqid": "^5.4.0",

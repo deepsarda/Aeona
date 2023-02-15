@@ -36,7 +36,9 @@ export default async (client: AeonaBot) => {
             fields: [
               {
                 name: `<:members:1063116392762712116> Guessed by`,
-                value: `<@${user.id}> (${`${user.username}#${user.discriminator}`})`,
+                value: `<@${
+                  user.id
+                }> (${`${user.username}#${user.discriminator}`})`,
                 inline: true,
               },
               {

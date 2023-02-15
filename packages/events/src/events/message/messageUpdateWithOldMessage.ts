@@ -17,7 +17,9 @@ export default async (client: AeonaBot, oldMessage, newMessage) => {
           fields: [
             {
               name: `<:members:1063116392762712116> Author`,
-              value: `<@${user.id}> (${user.username + '#' + user.discriminator})`,
+              value: `<@${
+                user.id
+              }> (${`${user.username}#${user.discriminator}`})`,
             },
             {
               name: `🕒 Date`,

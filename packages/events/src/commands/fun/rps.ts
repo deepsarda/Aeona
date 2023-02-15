@@ -6,7 +6,7 @@ export default {
   name: 'rps',
   description: 'Play a game of rock paper scissors',
   commandType: ['application', 'message'],
-  category: 'game',
+  category: 'fun',
   args: [
     {
       name: 'option',
@@ -22,7 +22,10 @@ export default {
     const options = ['rock', 'paper', 'scissors'];
 
     if (!['rock', 'paper', 'scissors'].includes(option))
-      return client.extras.errUsage({ usage: 'rps rock/paper/scissors', type: 'edit' }, ctx);
+      return client.extras.errUsage(
+        { usage: 'rps rock/paper/scissors', type: 'edit' },
+        ctx,
+      );
 
     const result = options[Math.floor(Math.random() * options.length)];
 

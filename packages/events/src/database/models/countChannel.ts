@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = new mongoose.Schema({
   Guild: String,
   Channel: String,
-  Mode: { type: String, default: 'hard' },
+  Count: String,
 });
 
 export default mongoose.model('countChannel', Schema);

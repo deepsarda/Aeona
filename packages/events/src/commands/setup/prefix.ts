@@ -1,6 +1,6 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
-import Functions from '../../database/models/functions.js';
+import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -21,9 +21,9 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     const prefix = ctx.options.getString('prefix', true);
 
-    const guild = await Functions.findOne({ Guild: ctx.guild.id });
+    const guild = await GuildDB.findOne({ Guild: ctx.guild.id });
     if (!guild)
-      new Functions({
+      new GuildDB({
         Guild: ctx.guild.id,
         Prefix: prefix,
       }).save();

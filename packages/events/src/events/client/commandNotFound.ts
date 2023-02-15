@@ -3,7 +3,7 @@ import { Message } from 'discordeno/transformers';
 import fetch from 'node-fetch';
 
 import chatBotSchema from '../../database/models/chatbot-channel.js';
-import Functions from '../../database/models/functions.js';
+import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 import { Influx } from './commandStart.js';
 
@@ -14,13 +14,9 @@ export default async (
 ) => {
   const schema = await chatBotSchema.findOne({ Guild: message.guildId });
   if (schema) if (schema.Channel == `${message.channelId}`) return;
-  const url =
-    'https://DumBotApi.aeona.repl.co?text=' +
-    encodeURIComponent(message.content) +
-    '&userId=' +
-    message.authorId +
-    '&key=' +
-    process.env.apiKey;
+  const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(
+    message.content,
+  )}&userId=${message.authorId}&key=${process.env.apiKey}`;
 
   const options = {
     method: 'GET',
@@ -39,10 +35,10 @@ export default async (
         '\n discord.gg/W8hssA32C9',
         '\n Generate beautiful images using /imagine \n ',
       ];
-      let guild = await Functions.findOne({
+      let guild = await GuildDB.findOne({
         Guild: message.guildId,
       });
-      if (!guild) guild = new Functions({ Guild: message.guildId });
+      if (!guild) guild = new GuildDB({ Guild: message.guildId });
       if (guild.isPremium === 'true') s = ['', ''];
       const randomNumber = Math.floor(Math.random() * 30);
       json =
@@ -55,7 +51,7 @@ export default async (
         content: json,
         messageReference: {
           channelId: message.channelId,
-          messageId: message.id + '',
+          messageId: `${message.id}`,
           guildId: message.guildId,
           failIfNotExists: true,
         },
@@ -72,5 +68,5 @@ export default async (
       );
     })
 
-    .catch((err) => console.error('error:' + err));
+    .catch((err) => console.error(`error:${err}`));
 };

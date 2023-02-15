@@ -39,7 +39,7 @@ export default (client: AeonaBot) => {
   async function fetchData(userId: bigint, guildId: bigint) {
     const user = await client.extras.fetchLevels(userId, guildId);
     const inviteData = await invites.findOne({
-      Guild: guildId + '',
+      Guild: `${guildId}`,
       User: userId,
     });
     return {
@@ -56,8 +56,8 @@ export default (client: AeonaBot) => {
   async function getEmbedConfig(ctx: { guild?: Guild; user?: User }) {
     const userData = await fetchData(ctx.user!.id, ctx.guild!.id);
     const inviter = await inviteBy.findOne({
-      Guild: ctx.guild!.id + '',
-      User: ctx.user!.id + '',
+      Guild: `${ctx.guild!.id}`,
+      User: `${ctx.user!.id}`,
     });
     let inviterData;
     if (inviter)
@@ -83,7 +83,7 @@ export default (client: AeonaBot) => {
     defaultContent: string,
     embedData: Embed,
   ) {
-    if (!embedData.title && !embedData.description)
+    if (!embedData.title && !embedData.description && !embedData.content)
       embedData = {
         content: defaultContent,
         title: 'Variables for you to use.',
@@ -305,9 +305,9 @@ export default (client: AeonaBot) => {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       client.helpers.editMessage(message.channelId, message.id, {
-        content:
-          (failed ? 'The message you sent was not a link.\n' : '') +
-          '**Send the url to set as the thumbnail.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send `cancel`',
+        content: `${
+          failed ? 'The message you sent was not a link.\n' : ''
+        }**Send the url to set as the thumbnail.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send \`cancel\``,
         embeds: [],
         components: [],
       });
@@ -353,9 +353,9 @@ export default (client: AeonaBot) => {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       client.helpers.editMessage(message.channelId, message.id, {
-        content:
-          (failed ? 'The message you sent was not a link.\n' : '') +
-          '**Send the url to set as the image** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send `cancel`',
+        content: `${
+          failed ? 'The message you sent was not a link.\n' : ''
+        }**Send the url to set as the image** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**\n :x: To remove it send \`cancel\``,
         embeds: [],
         components: [],
       });
@@ -401,9 +401,9 @@ export default (client: AeonaBot) => {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       client.helpers.editMessage(message.channelId, message.id, {
-        content:
-          (failed ? 'The message you sent was not a link.\n' : '') +
-          '**Send the hex value to set as the color for the embed.** \n\n <:pInfo:1071022668066865162> This value must be a valid hexadecimal color. Example: #ffffff\n :x: To remove it send `cancel`',
+        content: `${
+          failed ? 'The message you sent was not a link.\n' : ''
+        }**Send the hex value to set as the color for the embed.** \n\n <:pInfo:1071022668066865162> This value must be a valid hexadecimal color. Example: #ffffff\n :x: To remove it send \`cancel\``,
         embeds: [],
         components: [],
       });
@@ -534,9 +534,9 @@ export default (client: AeonaBot) => {
           // eslint-disable-next-line no-constant-condition
           while (true) {
             client.helpers.editMessage(message.channelId, message.id, {
-              content:
-                (failed ? 'The message you sent was not a link.\n' : '') +
-                "**Send the url to set as the author's avatar.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**",
+              content: `${
+                failed ? 'The message you sent was not a link.\n' : ''
+              }**Send the url to set as the author's avatar.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**`,
               embeds: [],
               components: [],
             });
@@ -716,7 +716,7 @@ export default (client: AeonaBot) => {
         ...embedData.fields.map((field, index) => {
           return {
             label: field.name,
-            value: index + '',
+            value: `${index}`,
             description: 'modify or delete this field',
           };
         }),
@@ -874,9 +874,9 @@ export default (client: AeonaBot) => {
           // eslint-disable-next-line no-constant-condition
           while (true) {
             client.helpers.editMessage(message.channelId, message.id, {
-              content:
-                (failed ? 'The message you sent was not a link.\n' : '') +
-                "**Send the url to set as the footer's icon.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**",
+              content: `${
+                failed ? 'The message you sent was not a link.\n' : ''
+              }**Send the url to set as the footer's icon.** \n\n <:pInfo:1071022668066865162> This value must be a **link** or **{user:avatar}** or **{guild:icon}** or **{guild:banner}** or **{inviter:avatar}**`,
               embeds: [],
               components: [],
             });
@@ -981,6 +981,7 @@ export default (client: AeonaBot) => {
       embed.setThumbnail(replace(embedData.thumbnail.url));
     if (embedData.color) embed.setColor(embedData.color.toString(16));
     else embed.setColor(client.extras.config.colors.normal);
+   
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
       embeds:
@@ -1027,15 +1028,15 @@ export default (client: AeonaBot) => {
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:tier}/gm,
-        guild.premiumTier + '',
+        `${guild.premiumTier}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:members}/gm,
-        guild.memberCount + '',
+        `${guild.memberCount}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:boosts}/gm,
-        (guild.premiumSubscriptionCount ?? 0) + '',
+        `${guild.premiumSubscriptionCount ?? 0}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:rules}/gm,
@@ -1043,7 +1044,7 @@ export default (client: AeonaBot) => {
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:description}/gm,
-        (guild.description ?? 'No description') + '',
+        `${guild.description ?? 'No description'}`,
       );
     return s;
   }
@@ -1087,24 +1088,24 @@ export default (client: AeonaBot) => {
       s = s
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites}/gm,
-          (userInvites.invites ?? '0') + '',
+          `${userInvites.invites ?? '0'}`,
         )
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites:left}/gm,
-          (userInvites.left ?? '0') + '',
+          `${userInvites.left ?? '0'}`,
         );
     s = s
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:level}/gm,
-        (levels?.level ?? '0') + '',
+        `${levels?.level ?? '0'}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:xp}/gm,
-        (levels?.xp ?? '0') + '',
+        `${levels?.xp ?? '0'}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:rank}/gm,
-        (levels?.rank ?? '0') + '',
+        `${levels?.rank ?? '0'}`,
       );
 
     //Inviter
@@ -1185,24 +1186,24 @@ export default (client: AeonaBot) => {
       s = s
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites}/gm,
-          (inviter?.invites ?? '0') + '',
+          `${inviter?.invites ?? '0'}`,
         )
         .replaceAll(
           /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites:left}/gm,
-          (inviter?.left ?? '0') + '',
+          `${inviter?.left ?? '0'}`,
         );
     s = s
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:level}/gm,
-        (inviter?.levels?.level ?? '0') + '',
+        `${inviter?.levels?.level ?? '0'}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:xp}/gm,
-        (inviter?.levels?.xp ?? '0') + '',
+        `${inviter?.levels?.xp ?? '0'}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:rank}/gm,
-        (inviter?.levels?.rank ?? '0') + '',
+        `${inviter?.levels?.rank ?? '0'}`,
       );
 
     return s;

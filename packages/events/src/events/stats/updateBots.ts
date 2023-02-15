@@ -7,7 +7,7 @@ export default async (client: AeonaBot, guild: Guild) => {
   try {
     const data = await Schema.findOne({ Guild: guild.id });
     if (!data || !data.Bots) return;
-    const members = await client.helpers.getMembers(guild.id + '', {});
+    const members = await client.helpers.getMembers(`${guild.id  }`, {});
 
     let channelName = await client.extras.getTemplate(guild.id);
     channelName = channelName.replace(`{emoji}`, '🤖');

@@ -2,7 +2,7 @@ import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import moment from 'moment';
 import uniqui from 'uniqid';
 
-import Functions from '../../database/models/functions.js';
+import GuildDB from '../../database/models/guild.js';
 import Premium from '../../database/models/premium.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -22,9 +22,9 @@ export default {
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     const code = ctx.options.getLongString('text', true);
-    let guildDB = await Functions.findOne({ Guild: `${ctx.guildId}` });
+    let guildDB = await GuildDB.findOne({ Guild: `${ctx.guildId}` });
     if (!guildDB)
-      guildDB = new Functions({
+      guildDB = new GuildDB({
         Guild: `${ctx.guildId}`,
       });
     if (guildDB.isPremium === 'true') {
@@ -39,7 +39,9 @@ export default {
         code,
       });
       if (premium) {
-        const expires = moment(Number(premium.ExpiresAt)).format('dddd, MMMM Do YYYY HH:mm:ss');
+        const expires = moment(Number(premium.ExpiresAt)).format(
+          'dddd, MMMM Do YYYY HH:mm:ss',
+        );
         guildDB.isPremium = 'true';
         const data = {
           RedeemedBy: {
@@ -55,7 +57,9 @@ export default {
         await premium.deleteOne();
 
         const id = uniqui(undefined, `-${code}`);
-        const redeemtime = moment(new Date()).format('dddd, MMMM Do YYYY HH:mm:ss');
+        const redeemtime = moment(new Date()).format(
+          'dddd, MMMM Do YYYY HH:mm:ss',
+        );
         const channel = await client.helpers.getDmChannel(ctx.author!.id);
         client.extras.embed(
           {

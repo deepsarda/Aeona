@@ -7,7 +7,7 @@ import { cpus } from 'os';
 
 import bot from '../../botconfig/bot.js';
 import bumpreminder from '../../database/models/bumpreminder.js';
-import functions from '../../database/models/functions.js';
+import functions from '../../database/models/guild.js';
 import premium from '../../database/models/premium.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -36,7 +36,6 @@ export default async (
     client.user = await client.helpers.getUser(
       getBotIdFromToken(process.env.DISCORD_TOKEN!),
     );
-    client.extras.player.init(client.user.id + '');
     const INFLUX_ORG = process.env.INFLUX_ORG as string;
     const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
     const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
@@ -263,10 +262,7 @@ export default async (
 
       if (results && results.length) {
         for (const result of results) {
-          if (
-            Number(result.Premium!.RedeemedAt) >=
-            Number(result.Premium!.ExpiresAt)
-          ) {
+          if (Date.now() >= Number(result.Premium!.ExpiresAt)) {
             const guildPremium = await client.cache.guilds.get(
               BigInt(result.Guild!),
             );
@@ -279,7 +275,7 @@ export default async (
                 const channel = await client.helpers.getDmChannel(user.id);
                 client.extras.errNormal(
                   {
-                    error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased.`,
+                    error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased. \n\n If your still a premium member you can request a renewal in my server.`,
                   },
                   channel,
                 );
@@ -318,7 +314,7 @@ export default async (
       c.commands.forEach((command) => {
         commands.push({
           usage: `+${
-            c.uniqueCommands ? command.name : c.name + ' ' + command.name
+            c.uniqueCommands ? command.name : `${c.name} ${command.name}`
           } ${command.args
             .map((arg) => {
               if (arg.required) return `${arg.name}`;
