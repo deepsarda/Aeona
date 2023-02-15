@@ -35,12 +35,11 @@ export default {
       });
 
       if (!find) {
-        Premium.create({
+        new Premium({
           code: c,
           expiresAt,
           plan: 'month',
-        });
-
+        }).save();
         array.push(`\`${i + 1}-\` ${c}`);
       }
     }
