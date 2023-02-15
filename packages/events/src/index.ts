@@ -163,7 +163,7 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
   botMentionAsPrefix: true,
   ignoreBots: true,
 });
-
+connect();
 setupLogging(bot);
 bot.extras = additionalProps(bot);
 await loadFiles(bot);
@@ -171,7 +171,6 @@ setupInhibitors(bot);
 setupCategories(bot);
 
 createIpcConnections(bot, DISCORD_TOKEN, REST_AUTHORIZATION);
-connect();
 
 console.log(colors.green('STARTING'));
 
