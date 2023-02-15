@@ -30,18 +30,12 @@ export default {
 
       const c = codePremium.toString().toUpperCase();
 
-      const find = await Premium.findOne({
+      new Premium({
         code: c,
-      });
-
-      if (!find) {
-        new Premium({
-          code: c,
-          expiresAt,
-          plan: 'month',
-        }).save();
-        array.push(`\`${i + 1}-\` ${c}`);
-      }
+        expiresAt,
+        plan: 'month',
+      }).save();
+      array.push(`\`${i + 1}-\` ${c}`);
     }
     client.extras.succNormal(
       {

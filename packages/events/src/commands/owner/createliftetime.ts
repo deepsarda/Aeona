@@ -23,19 +23,13 @@ export default {
 
     const c = codePremium.toString().toUpperCase();
 
-    const find = await Premium.findOne({
+    Premium.create({
       code: c,
+      expiresAt,
+      plan: 'lifetime',
     });
 
-    if (!find) {
-      Premium.create({
-        code: c,
-        expiresAt,
-        plan: 'lifetime',
-      });
-
-      array.push(` ${c}`);
-    }
+    array.push(` ${c}`);
 
     client.extras.succNormal(
       {
