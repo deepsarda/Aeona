@@ -18,7 +18,7 @@ export default async (
     };
   }
 
-  const body: any = data.payload?.body;
+  const body: any = JSON.parse(data.payload?.body as any);
 
   const result = await rest
     .makeRequest(data.method, data.url, body as any)
@@ -26,9 +26,12 @@ export default async (
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;
         // eslint-disable-next-line no-console
-        console.log(e);
+        console.log('Send Request');
+        console.error(e);
         return e;
       }
+      console.log('Send Request');
+      console.log(body);
       console.error(e);
       return e;
     });
