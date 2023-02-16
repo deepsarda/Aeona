@@ -18,6 +18,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.11.18"
+    "@types/node": "^18.13.0"
   }
 }

@@ -4,8 +4,8 @@ import {
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
-import { Config, JsonDB } from 'node-json-db';
-
+import { createClient } from 'redis';
+import JSONBigInt from 'json-bigint';
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
@@ -22,7 +22,13 @@ const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
   'REST_AUTHORIZATION',
 ]);
 
-const db = new JsonDB(new Config('tmp/db', false, false, '/'));
+const db = createClient();
+const JSON = JSONBigInt({ useNativeBigInt: true });
+
+db.on('error', (err) => console.log('Redis Client Error', err));
+
+await db.connect();
+
 const b = createBot({
   token: DISCORD_TOKEN,
   intents:
@@ -85,49 +91,45 @@ const cachebot = createProxyCache(b, {
   getItem: async (table, id, guildid?) => {
     try {
       let item;
-      if (table == 'channel') item = await db.getObject(`/channel/${id}`);
-      if (table == 'guild') item = await db.getObject(`/guild/${id}`);
-      if (table == 'user') item = await db.getObject(`/user/${id}`);
-      if (table == 'message') item = await db.getObject(`/message/${id}`);
-      if (table == 'member')
-        item = await db.getObject(`/member/${guildid}/${id}`);
-      if (table == 'role') item = await db.getObject(`/role/${guildid}/${id}`);
+      if (table == 'channel') item = await db.get(`/channel/${id}`);
+      if (table == 'guild') item = await db.get(`/guild/${id}`);
+      if (table == 'user') item = await db.get(`/user/${id}`);
+      if (table == 'message') item = await db.get(`/message/${id}`);
+      if (table == 'member') item = await db.get(`/member/${guildid}/${id}`);
+      if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
 
-      return item;
+      return item ? JSON.parse(item) : undefined;
     } catch (e) {
       return undefined;
     }
   },
 
   removeItem: async (table, id, guildid?) => {
-    let item;
-    if (table == 'channel') item = await db.delete(`/channel/${id}`);
-    if (table == 'guild') item = await db.delete(`/guild/${id}`);
-    if (table == 'user') item = await db.delete(`/user/${id}`);
-    if (table == 'message') item = await db.delete(`/message/${id}`);
-    if (table == 'member') item = await db.delete(`/member/${guildid}/${id}`);
-    if (table == 'role') item = await db.delete(`/role/${guildid}/${id}`);
+    if (table == 'channel') await db.del(`/channel/${id}`);
+    if (table == 'guild') await db.del(`/guild/${id}`);
+    if (table == 'user') await db.del(`/user/${id}`);
+    if (table == 'message') await db.del(`/message/${id}`);
+    if (table == 'member') await db.del(`/member/${guildid}/${id}`);
+    if (table == 'role') await db.del(`/role/${guildid}/${id}`);
 
-    return item;
+    return undefined;
   },
 
   setItem: async (table, item) => {
-    if (table == 'channel') item = await db.push(`/channel/${item.id}`, item);
-    if (table == 'guild') item = await db.push(`/guild/${item.id}`, item);
-    if (table == 'user') item = await db.push(`/user/${item.id}`, item);
-    if (table == 'message') item = await db.push(`/message/${item.id}`, item);
+    const t = JSON.stringify(item);
+    if (table == 'channel') item = await db.set(`/channel/${item.id}`, t);
+    if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
+    if (table == 'user') item = await db.set(`/user/${item.id}`, t);
+    if (table == 'message') item = await db.set(`/message/${item.id}`, t);
     if (table == 'member')
-      item = await db.push(`/member/${item.guildId}/${item.id}`, item);
+      item = await db.set(`/member/${item.guildId}/${item.id}`, t);
     if (table == 'role')
-      item = await db.push(`/role/${item.guildId}/${item.idid}`, item);
+      item = await db.set(`/role/${item.guildId}/${item.id}`, t);
 
     return item;
   },
 });
-db.reload();
-setInterval(() => {
-  db.save();
-}, 60000);
+
 const bot: AeonaBot = enableAmethystPlugin(cachebot, {
   owners: ['794921502230577182', '830231116660604951'],
   prefix: async (bot, message) => {
