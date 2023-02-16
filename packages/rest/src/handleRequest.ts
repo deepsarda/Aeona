@@ -7,10 +7,16 @@ import { RequestTypes } from './types.js';
 
 const { DISCORD_TOKEN } = config(['DISCORD_TOKEN']);
 
-const rest = createRestManager({
+let rest = createRestManager({
   token: DISCORD_TOKEN,
 });
 
+//Set a interval for 1 hour
+setInterval(() => {
+  rest = createRestManager({
+    token: DISCORD_TOKEN,
+  });
+}, 3600000);
 const handleRequest = async (req: RequestTypes): Promise<unknown> => {
   switch (req.type) {
     case 'RUN_METHOD':
