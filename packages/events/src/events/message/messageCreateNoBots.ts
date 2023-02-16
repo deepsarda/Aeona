@@ -325,7 +325,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           data.LastMessage,
         );
         if (!lastStickyMessage) return;
-        await client.helpers.deleteMessage(message.channelId, data.LastMessage);
+        client.helpers.deleteMessage(message.channelId, data.LastMessage);
 
         const newMessage = await client.extras.simpleMessageEmbed(
           { desc: `${data.Content}` },

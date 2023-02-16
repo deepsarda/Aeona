@@ -1,12 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { RestManager } from 'discordeno/rest';
+import { RestManager } from '@discordeno/rest';
 
 import config from '../config.js';
 import { SendRequest } from '../types.js';
 
 const { REST_AUTHORIZATION } = config(['REST_AUTHORIZATION']);
 
-export default async (data: SendRequest, rest: RestManager): Promise<unknown> => {
+export default async (
+  data: SendRequest,
+  rest: RestManager,
+): Promise<unknown> => {
   if (data.Authorization !== REST_AUTHORIZATION) {
     return {
       status: 401,
@@ -16,24 +18,16 @@ export default async (data: SendRequest, rest: RestManager): Promise<unknown> =>
     };
   }
 
-  const body = data.payload?.body;
+  const body: any = data.payload?.body;
 
   const result = await rest
-    .sendRequest(rest, {
-      method: data.method,
-      url: data.url,
-      bucketId: data.bucketId,
-      payload: {
-        body: body as string,
-        headers: data.payload?.headers as Record<string, string>,
-      },
-      retryCount: data.retryCount,
-    })
+    .makeRequest(data.method, data.url, body as any)
     .catch((e) => {
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;
         // eslint-disable-next-line no-console
         console.log(e);
+        return e;
       }
       console.error(e);
       return e;

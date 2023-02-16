@@ -53,6 +53,7 @@ export const setupLogging = (bot: AeonaBot) => {
           bot.helpers.sendMessage('1063124831211630622', {
             content: `\`\`\`diff\n${content}\n \`\`\``,
           });
+
           content = '';
         }
       } catch (e) {

@@ -33,8 +33,8 @@
   "dependencies": {
     "@derockdev/discord-components-core": "^3.5.2",
     "@derockdev/discord-components-react": "^3.5.2",
-    "@discordeno/gateway": "^19.0.0-next.f5f97e0",
-    "@discordeno/rest": "^19.0.0-next.f5f97e0",
+    "@discordeno/gateway": "^19.0.0-next.4451608",
+    "@discordeno/rest": "^19.0.0-next.4451608",
     "@haileybot/captcha-generator": "^1.7.0",
     "@iamtraction/google-translate": "^1.1.2",
     "@influxdata/influxdb-client": "^1.33.1",

@@ -1,4 +1,5 @@
-import { BASE_URL, RestManager } from 'discordeno';
+import { RestManager } from '@discordeno/rest';
+import { BASE_URL } from 'discordeno';
 
 import config from '../config.js';
 import { RunMethod } from '../types.js';
@@ -14,13 +15,13 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
       },
     };
   }
+
   const body = data.body ? (data.body as any) : undefined;
 
   const result = await rest
-    .runMethod(
-      rest,
+    .makeRequest(
       data.method,
-      `${BASE_URL}/v${rest.version}/${data.url}`,
+      `${BASE_URL}/v${rest.version}${data.url}`,
       body,
       data.options,
     )
@@ -29,9 +30,9 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
         if (e.message.includes('[404]')) return e;
         // eslint-disable-next-line no-console
         console.log(e);
+        return e;
       }
       return e;
     });
-
   return result;
 };

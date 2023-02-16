@@ -124,11 +124,9 @@ const createIpcConnections = async (
       const buffer = Buffer.from(
         await (body as any).file[0].blob.arrayBuffer(),
       );
-      (body as any).file[0].blob =
-        `data:${ 
-        (body as any).file[0].blob?.type 
-        };base64,${ 
-        buffer.toString('base64')}`;
+      (body as any).file[0].blob = `data:${
+        (body as any).file[0].blob?.type
+      };base64,${buffer.toString('base64')}`;
     }
 
     const response = await client.request(
