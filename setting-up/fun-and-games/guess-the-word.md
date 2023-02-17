@@ -6,15 +6,7 @@ description: >-
 
 # ⁉ Guess The Word
 
-To have Aeona make a channel for you to use it then run `+autosetup guess-the-word`&#x20;
-
-**Or**&#x20;
-
-If you wish to set it to a particular channel then then run `+setup guess-the-word`
-
-{% hint style="danger" %}
-If you are setting the channel make sure it is a text channel.
-{% endhint %}
+To setup the guess the word simple run `/setup guess-the-word` and use the menu
 
 <figure><img src="https://media.discordapp.net/attachments/1034419695794794561/1061920429041795122/image.png" alt=""><figcaption></figcaption></figure>
 

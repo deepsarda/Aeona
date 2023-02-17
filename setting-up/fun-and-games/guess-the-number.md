@@ -6,11 +6,7 @@ description: >-
 
 # ❓ Guess The Number
 
-To have Aeona make a channel for you to use it then run `+autosetup guess-the-number`&#x20;
-
-**Or**&#x20;
-
-If you wish to set it to a particular channel then then run `+setup guess-the-number`
+To setup the chatbot simple run `/setup guess-the-number` and use the menu.
 
 {% hint style="danger" %}
 If you are setting the channel make sure it is a text channel.

@@ -4,11 +4,7 @@ description: Count with your server members upto to infinity as fun group activi
 
 # 🔢 Counting
 
-To have Aeona make a channel for you to use it then run `+autosetup counting`&#x20;
-
-**Or**&#x20;
-
-If you wish to set it to a particular channel then then run `+setup counting`
+To setup the counting simple run `/setup counting` and use the menu.
 
 {% hint style="danger" %}
 If you are setting the channel make sure it is a text channel.
