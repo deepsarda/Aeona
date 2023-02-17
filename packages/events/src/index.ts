@@ -55,14 +55,12 @@ const cachebot = createProxyCache(b, {
     channels: false,
     members: false,
     roles: false,
-    guilds: false,
   },
   cacheOutsideMemory: {
     default: false,
     members: true,
     messages: false,
     channels: true,
-    guilds: true,
   },
 
   fetchIfMissing: {
