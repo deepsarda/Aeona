@@ -981,7 +981,7 @@ export default (client: AeonaBot) => {
       embed.setThumbnail(replace(embedData.thumbnail.url));
     if (embedData.color) embed.setColor(embedData.color.toString(16));
     else embed.setColor(client.extras.config.colors.normal);
-   
+
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
       embeds:
@@ -1032,7 +1032,7 @@ export default (client: AeonaBot) => {
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:members}/gm,
-        `${guild.memberCount}`,
+        `${guild.approximateMemberCount ?? guild.memberCount ?? 1}`,
       )
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:boosts}/gm,

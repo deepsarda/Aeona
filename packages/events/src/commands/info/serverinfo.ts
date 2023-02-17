@@ -32,9 +32,9 @@ export default {
         desc: `Information about the server ${ctx.guild.name}`,
         thumbnail: client.helpers.getGuildIconURL(
           `${ctx.guild!.id}`,
-          undefined,
+          ctx.guild.icon,
         ),
-        image: client.helpers.getGuildIconURL(`${ctx.guild!.id}`, undefined),
+
         fields: [
           {
             name: 'Server name:',
@@ -69,7 +69,9 @@ export default {
 
           {
             name: 'Members:',
-            value: `${ctx.guild.approximateMemberCount} members!`,
+            value: `${
+              ctx.guild.approximateMemberCount ?? ctx.guild.memberCount ?? 1
+            } members!`,
             inline: true,
           },
 

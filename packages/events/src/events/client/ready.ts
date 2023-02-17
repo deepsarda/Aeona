@@ -218,9 +218,7 @@ export default async (
       }
     }, 1000 * 10);
 
-    setInterval(() => {
-      client.emit('updateClock', client);
-    }, 1000 * 60);
+    client.emit('updateClock', client);
 
     setInterval(async () => {
       const reminders = await bumpreminder.find();

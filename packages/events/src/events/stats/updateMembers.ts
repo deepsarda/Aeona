@@ -12,7 +12,11 @@ export default async (client: AeonaBot, guild: Guild) => {
     channelName = channelName.replace(`{emoji}`, '👤');
     channelName = channelName.replace(
       `{name}`,
-      `Members: ${guild.approximateMemberCount?.toLocaleString()}`,
+      `Members: ${(
+        guild.approximateMemberCount ??
+        guild.memberCount ??
+        1
+      )?.toLocaleString()}`,
     );
 
     client.helpers.editChannel(data.Members, {

@@ -15,7 +15,11 @@ export default async (client: AeonaBot, guild: Guild) => {
       .addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
       .addField('Server name', `${guild.name}`, true)
       .addField('Server ID', `${guild.id}`, true)
-      .addField('Server members', `${guild.memberCount}`, true)
+      .addField(
+        'Server members',
+        `${guild.approximateMemberCount ?? guild.memberCount ?? 1}`,
+        true,
+      )
       .addField('Server owner', `<@${guild.ownerId}> (${guild.ownerId})`, true)
       .setColor(client.extras.config.colors.normal);
     client.extras.webhook({
@@ -24,7 +28,10 @@ export default async (client: AeonaBot, guild: Guild) => {
     if (guild.publicUpdatesChannelId) {
       const channel = guild.channels.get(guild.publicUpdatesChannelId);
       if (channel) {
-        client.helpers.followAnnouncementChannel('1057248837238009946', `${channel.id  }`);
+        client.helpers.followAnnouncementChannel(
+          '1057248837238009946',
+          `${channel.id}`,
+        );
       }
     }
     client.extras.lastguildcount = client.cache.guilds.memory.size;

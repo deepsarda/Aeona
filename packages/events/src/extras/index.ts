@@ -207,7 +207,7 @@ export function additionalProps(client: AeonaBot) {
     },
     getTemplate: async (guild: bigint) => {
       try {
-        const data = await Stats.findOne({ Guild: guild });
+        const data = await Stats.findOne({ Guild: `${guild}` });
 
         if (data && data.ChannelTemplate) {
           return data.ChannelTemplate;
@@ -320,7 +320,6 @@ export function additionalProps(client: AeonaBot) {
         guildID: guildId,
       });
 
-      
       if (!user) return false;
       const userReturn = {
         // @ts-ignore

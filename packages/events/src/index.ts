@@ -55,12 +55,14 @@ const cachebot = createProxyCache(b, {
     channels: false,
     members: false,
     roles: false,
+    guilds: false,
   },
   cacheOutsideMemory: {
     default: false,
     members: true,
     messages: false,
     channels: true,
+    guilds: true,
   },
 
   fetchIfMissing: {
@@ -71,23 +73,7 @@ const cachebot = createProxyCache(b, {
     users: true,
     roles: true,
   },
-  undesiredProps: {
-    guilds: [
-      'afkChannelId',
-      'afkTimeout',
-      'approximatePresenceCount',
-      'emojis',
-      'widgetChannelId',
-      'description',
-      'discoverySplash',
-      'welcomeScreen',
-      'permissions',
-      'rulesChannelId',
-      'systemChannelFlags',
-      'stageInstances',
-      'toggles',
-    ],
-  },
+
   getItem: async (table, id, guildid?) => {
     try {
       let item;
