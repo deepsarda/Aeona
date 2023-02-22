@@ -64,7 +64,7 @@ export default (client: AeonaBot) => {
       inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guild!.id);
     return {
       user: userData.user,
-      guild: ctx.guild!,
+      guild: await client.helpers.getGuild(ctx.guild!.id),
       inviter: inviterData,
       levels: userData.levels,
       userInvites: { invites: userData.invites, left: userData.left },
