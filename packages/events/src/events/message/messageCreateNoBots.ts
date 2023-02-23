@@ -210,106 +210,103 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
   });
 
   // Chat bot
-  chatBotSchema.findOne(
-    { Guild: `${message.guildId}`, Channel: `${message.channelId}` },
-    async (err, data) => {
-      if (!data) return;
+  if (message.content)
+    chatBotSchema.findOne(
+      { Guild: `${message.guildId}`, Channel: `${message.channelId}` },
+      async (err, data) => {
+        if (!data) return;
 
-      if (message.channelId != data.Channel) return;
-      const msgs: Message[] = Array.from(
-        (
-          await client.helpers.getMessages(message.channelId, {
-            limit: 6,
-          })
-        ).values(),
-      ).sort((a, b) => b.timestamp - a.timestamp);
-      let context;
-      let context1;
-      let context2;
-      let context3;
-      let context4;
-      let context5;
-      try {
-        context = msgs[1].content;
-        context1 = msgs[2].content;
-        context2 = msgs[3].content;
-        context3 = msgs[4].content;
-        context4 = msgs[5].content;
-        context5 = msgs[6].content;
-      } catch (e) {
-        //ignore error
-      }
-      const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(
-        message.content,
-      )}&userId=${message.authorId}&key=${process.env.apiKey}${
-        context ? `&context=${context}` : ''
-      }${context1 ? `&context1=${context1}` : ''} ${
-        context2 ? `&context2=${context2}` : ''
-      } ${context3 ? `&context3=${context3}` : ''} ${
-        context4 ? `&context4=${context4}` : ''
-      } ${context5 ? `&context5=${context5}` : ''}`;
+        if (message.channelId != data.Channel) return;
+        const msgs: Message[] = Array.from(
+          (
+            await client.helpers.getMessages(message.channelId, {
+              limit: 6,
+            })
+          ).values(),
+        ).sort((a, b) => b.timestamp - a.timestamp);
+        let context;
+        let context1;
+        let context2;
+        let context3;
+        let context4;
+        let context5;
+        try {
+          context = msgs[1].content;
+          context1 = msgs[2].content;
+          context2 = msgs[3].content;
+          context3 = msgs[4].content;
+          context4 = msgs[5].content;
+          context5 = msgs[6].content;
+        } catch (e) {
+          //ignore error
+        }
+        const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(
+          message.content,
+        )}&userId=${message.authorId}&key=${process.env.apiKey}${context ? `&context=${context}` : ''
+          }${context1 ? `&context1=${context1}` : ''} ${context2 ? `&context2=${context2}` : ''
+          } ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''
+          } ${context5 ? `&context5=${context5}` : ''}`;
 
-      const options = {
-        method: 'GET',
-      };
+        const options = {
+          method: 'GET',
+        };
 
-      fetch(url, options)
-        .then((res) => res.text())
-        .then(async (json) => {
-          Influx?.writePoint(
-            new Point('commands')
-              .tag('action', 'addition')
-              .tag('command', 'chatbot')
-              .intField('value', 1),
-          );
+        fetch(url, options)
+          .then((res) => res.text())
+          .then(async (json) => {
+            Influx?.writePoint(
+              new Point('commands')
+                .tag('action', 'addition')
+                .tag('command', 'chatbot')
+                .intField('value', 1),
+            );
 
-          let s = [
-            '\n discord.gg/W8hssA32C9',
-            '\n Generate beautiful images using /imagine \n ',
-          ];
-          let guild = await GuildDB.findOne({
-            Guild: message.guildId,
-          });
-          if (!guild) guild = new GuildDB({ Guild: message.guildId });
-          if (guild.isPremium === 'true') s = ['', ''];
-          console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
-          const randomNumber = Math.floor(Math.random() * 30);
-          json =
-            randomNumber == 0
-              ? (json ?? '') + s[0]
-              : randomNumber == 1
-              ? (json ?? '') + s[1]
-              : json;
-          let component: any[] = [];
-          if (!guild.chatbotFilter) {
-            if (filter.isProfane(json)) {
-              const c = new Components();
-              c.addButton('Why *****?', 'Secondary', 'profane');
-              component = c;
-              json = filter.clean(json);
+            let s = [
+              '\n discord.gg/W8hssA32C9',
+              '\n Generate beautiful images using /imagine \n ',
+            ];
+            let guild = await GuildDB.findOne({
+              Guild: message.guildId,
+            });
+            if (!guild) guild = new GuildDB({ Guild: message.guildId });
+            if (guild.isPremium === 'true') s = ['', ''];
+            console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
+            const randomNumber = Math.floor(Math.random() * 30);
+            json =
+              randomNumber == 0
+                ? (json ?? '') + s[0]
+                : randomNumber == 1
+                  ? (json ?? '') + s[1]
+                  : json;
+            let component: any[] = [];
+            if (!guild.chatbotFilter) {
+              if (filter.isProfane(json)) {
+                const c = new Components();
+                c.addButton('Why *****?', 'Secondary', 'profane');
+                component = c;
+                json = filter.clean(json);
+              }
             }
-          }
-          client.helpers.sendMessage(message.channelId, {
-            content: json,
-            components: component,
-            messageReference: {
-              channelId: message.channelId,
-              messageId: `${message.id}`,
-              guildId: message.guildId,
-              failIfNotExists: true,
-            },
-          });
+            client.helpers.sendMessage(message.channelId, {
+              content: json,
+              components: component,
+              messageReference: {
+                channelId: message.channelId,
+                messageId: `${message.id}`,
+                guildId: message.guildId,
+                failIfNotExists: true,
+              },
+            });
 
-          Influx?.writePoint(
-            new Point('commandruncount')
-              .tag('action', 'addition')
-              .intField('usage', 1),
-          );
-        })
-        .catch();
-    },
-  );
-
+            Influx?.writePoint(
+              new Point('commandruncount')
+                .tag('action', 'addition')
+                .intField('usage', 1),
+            );
+          })
+          .catch();
+      },
+    );
   // Sticky messages
   try {
     Schema.findOne(
