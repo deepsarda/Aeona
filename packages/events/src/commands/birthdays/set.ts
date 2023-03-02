@@ -13,13 +13,13 @@ export default {
       name: 'day',
       description: 'The day of the month you where born in',
       required: true,
-      type: 'String',
+      type: 'Number',
     },
     {
       name: 'month',
       description: 'The month you where born in',
       required: true,
-      type: 'String',
+      type: 'Number',
     },
   ],
   async execute(client: AeonaBot, ctx: Context) {
