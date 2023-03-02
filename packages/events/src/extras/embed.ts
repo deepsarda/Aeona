@@ -514,12 +514,6 @@ export default (client: AeonaBot) => {
                 },
               ),
             );
-          if (embed.thumbnail == undefined) {
-            embed.setThumbnail(
-              client.helpers.getGuildIconURL(ctx.guildId!, ctx.guild!.icon) ??
-                'https://cdn.discordapp.com/embed/avatars/1.png',
-            );
-          }
         } catch (e) {
           //
         }
@@ -530,8 +524,8 @@ export default (client: AeonaBot) => {
         randomNumber == 0
           ? (content ?? '') + s[0]
           : randomNumber == 1
-          ? (content ?? '') + s[1]
-          : content;
+            ? (content ?? '') + s[1]
+            : content;
       if (type && type.toLowerCase() == 'reply' && ctx.replied) {
         const c = await ctx
           .reply({
