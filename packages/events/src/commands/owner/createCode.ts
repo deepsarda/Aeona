@@ -30,11 +30,12 @@ export default {
 
       const c = codePremium.toString().toUpperCase();
 
-      new Premium({
+      const code = new Premium({
         code: c,
-        expiresAt,
+        expiresAt: expiresAt,
         plan: 'month',
-      }).save();
+      });
+      code.save();
       array.push(`\`${i + 1}-\` ${c}`);
     }
     client.extras.succNormal(
