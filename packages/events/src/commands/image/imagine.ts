@@ -285,7 +285,7 @@ export default {
 
 async function query(data) {
 	const response = await fetch(
-		'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
+		'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-photoreal-2.0',
 		{
 			headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
 			method: 'POST',
@@ -450,7 +450,7 @@ export default {
 					break;
 				case 'photo':
 					modifiers =
-						' Professional photography, bokeh, natural lighting, canon lens, shot on dslr 64 megapixels sharp focus';
+						' Professional photography, bokeh, natural lighting, megapixels sharp focus';
 					break;
 				case 'fantasy':
 					modifiers =
@@ -497,7 +497,7 @@ export default {
 			}
 
 			query({
-				inputs: `${prompt} dreamlikeart ${modifiers}`,
+				inputs: `${prompt} ${modifiers}`,
 				options: {
 					wait_for_model: true,
 					use_cache: false,
