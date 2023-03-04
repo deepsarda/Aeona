@@ -492,7 +492,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response,
+							blob: response[0],
 							name: 'image.jpg',
 						},
 					],
