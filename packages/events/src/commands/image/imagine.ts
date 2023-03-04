@@ -494,7 +494,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response.results[0],
+							blob: response.response[0],
 							name: 'image.png',
 						},
 					],
@@ -517,7 +517,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response.results[0],
+							blob: response.response[0],
 							name: 'image.png',
 						},
 					],
