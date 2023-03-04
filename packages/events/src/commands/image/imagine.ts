@@ -495,7 +495,7 @@ export default {
 					file: [
 						{
 							blob: response,
-							name: 'image.jpg',
+							name: 'image.png',
 						},
 					],
 				});
@@ -518,7 +518,7 @@ export default {
 					file: [
 						{
 							blob: response,
-							name: 'image.jpg',
+							name: 'image.png',
 						},
 					],
 					components: component,
