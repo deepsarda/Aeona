@@ -288,7 +288,7 @@ async function query(prompt) {
 
 	);
 
-	return await response.text();
+	return await response.json();
 
 }
 
@@ -494,7 +494,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response,
+							blob: response.results[0],
 							name: 'image.png',
 						},
 					],
@@ -517,7 +517,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response,
+							blob: response.results[0],
 							name: 'image.png',
 						},
 					],
