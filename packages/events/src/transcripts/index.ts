@@ -72,7 +72,7 @@ export async function generateFromMessages<
 
   return {
     blob: `data:${blob?.type
-      };base64,${buffer.toString('base64')}`,
+      };base64,${buffer.toString()}`,
     name: options.filename ?? `transcript-${channel.id}.html`,
   } as unknown as ObjectType<T>;
 }

@@ -22,7 +22,7 @@ export default {
         ctx,
       );
 
-    const lb = rawLeaderboard.map((e) => `**${e.Level} invites** - <@&${e.Role}>`);
+    const lb = rawLeaderboard.map((e) => `**${e.Invites} invites** - <@&${e.Role}>`);
 
     await client.extras.createLeaderboard(`Invite rewards - ${ctx.guild.name}`, lb, ctx);
   },
