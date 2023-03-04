@@ -10,7 +10,6 @@ import { AeonaBot } from '../../extras/index.js';
 
 const filter = new Filter();
 filter.addWords('nake', 'naked', 'nude', 'nudes', 'nipples');
-let count = 1;
 /*
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
@@ -283,23 +282,14 @@ export default {
 } as CommandOptions;
 */
 
-async function query(data) {
+async function query(prompt) {
 	const response = await fetch(
-		'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
-		{
-			headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
-			method: 'POST',
-			body: JSON.stringify(data),
-		},
+		'http://localhost:8083/chatbot/image?prompt=' + prompt,
+
 	);
-	try {
-		console.error((await response.json()).toString());
-	} catch (e) {
-		//ignore error
-	}
-	count = count == 2 ? 1 : count++;
-	const result = await response.blob();
-	return result;
+
+	return await response.json();
+
 }
 
 export default {
@@ -496,13 +486,7 @@ export default {
 					break;
 			}
 
-			query({
-				inputs: `${prompt} ${modifiers}`,
-				options: {
-					wait_for_model: true,
-					use_cache: false,
-				},
-			}).then(async (response) => {
+			query(`${prompt}${modifiers}`).then(async (response) => {
 				client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
@@ -531,7 +515,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response,
+							blob: response[0],
 							name: 'image.jpg',
 						},
 					],
