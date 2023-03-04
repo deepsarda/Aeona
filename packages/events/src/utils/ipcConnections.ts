@@ -107,9 +107,7 @@ const createIpcConnections = async (
     .then(() => logger.info('[BOT] Connected to gateway.'));
 
   logger.info('Setting up the custom rest manager');
-  const rest2 = createRestManager({
-    token: DISCORD_TOKEN,
-  })
+
   const runMethod = async <T = any>(
     client: Client,
     rest: RestManager,
@@ -122,9 +120,6 @@ const createIpcConnections = async (
       headers?: Record<string, string>;
     },
   ): Promise<T> => {
-    if (body && (body as any).file) {
-      return await rest2.runMethod(rest2, method, route, body, options);
-    }
 
     const response = await client.request(
       {

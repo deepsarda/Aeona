@@ -44,7 +44,7 @@ export async function generateFromMessages<
         channel.type == ChannelTypes.DM
           ? () => null
           : async (id: any) =>
-              (await bot.cache.guilds.get(channel.guildId))?.roles.get(id)!,
+            (await bot.cache.guilds.get(channel.guildId))?.roles.get(id)!,
 
       ...(options.callbacks ?? {}),
     },
@@ -63,12 +63,16 @@ export async function generateFromMessages<
 
   if (options.returnType === ExportReturnType.String) {
     return html as unknown as ObjectType<T>;
-  }
+  } const blob = new Blob([Buffer.from(html)], {
+    type: 'text/html',
+  });
+
+  const buffer =
+    await blob.arrayBuffer();
 
   return {
-    blob: new Blob([Buffer.from(html)], {
-      type: 'text/html',
-    }),
+    blob: `data:${blob?.type
+      };base64,${buffer.toString('base64')}`,
     name: options.filename ?? `transcript-${channel.id}.html`,
   } as unknown as ObjectType<T>;
 }
