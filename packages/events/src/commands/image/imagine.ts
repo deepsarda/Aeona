@@ -487,6 +487,7 @@ export default {
 			}
 
 			query(`${prompt}${modifiers}`).then(async (response) => {
+				console.log(response)
 				client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
