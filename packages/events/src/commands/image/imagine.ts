@@ -285,7 +285,7 @@ export default {
 
 async function query(data) {
 	const response = await fetch(
-		'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-photoreal-2.0',
+		'https://api-inference.huggingface.co/models/dreamlike-art/dreamlike-diffusion-1.0',
 		{
 			headers: { Authorization: `Bearer ${process.env[`APIKEY${count}`]}` },
 			method: 'POST',
@@ -293,7 +293,7 @@ async function query(data) {
 		},
 	);
 	try {
-		console.log(await response.json());
+		console.error((await response.json()).toString());
 	} catch (e) {
 		//ignore error
 	}
