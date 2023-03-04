@@ -288,7 +288,7 @@ async function query(prompt) {
 
 	);
 
-	return await response.blob();
+	return await response.arrayBuffer();
 
 }
 
