@@ -29,11 +29,8 @@ export default async (data: RunMethod, rest: RestManager): Promise<unknown> => {
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;
         // eslint-disable-next-line no-console
-        console.log('run Method');
-        console.error(e);
         return e;
       }
-      console.log('run Method');
       console.error(e);
       return e;
     });

@@ -25,13 +25,8 @@ export default async (
     .catch((e) => {
       if (e instanceof Error) {
         if (e.message.includes('[404]')) return e;
-        // eslint-disable-next-line no-console
-        console.log('Send Request');
-        console.error(e);
         return e;
       }
-      console.log('Send Request');
-      console.log(body);
       console.error(e);
       return e;
     });

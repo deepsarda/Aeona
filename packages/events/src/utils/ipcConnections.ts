@@ -107,7 +107,9 @@ const createIpcConnections = async (
     .then(() => logger.info('[BOT] Connected to gateway.'));
 
   logger.info('Setting up the custom rest manager');
-
+  const rest2 = createRestManager({
+    token: DISCORD_TOKEN,
+  })
   const runMethod = async <T = any>(
     client: Client,
     rest: RestManager,
@@ -121,12 +123,7 @@ const createIpcConnections = async (
     },
   ): Promise<T> => {
     if (body && (body as any).file) {
-      const buffer = Buffer.from(
-        await (body as any).file[0].blob.arrayBuffer(),
-      );
-      (body as any).file[0].blob = `data:${
-        (body as any).file[0].blob?.type
-      };base64,${buffer.toString('base64')}`;
+      return await rest2.runMethod(rest2, method, route, body, options);
     }
 
     const response = await client.request(
