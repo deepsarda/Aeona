@@ -288,7 +288,7 @@ async function query(prompt) {
 
 	);
 
-	return await response.arrayBuffer();
+	return await response.text();
 
 }
 
