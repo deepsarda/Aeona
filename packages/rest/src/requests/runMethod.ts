@@ -75,5 +75,3 @@ function coerceToFileContent(value: unknown): value is FileContent {
       return false;
   }
 }
-
-/
