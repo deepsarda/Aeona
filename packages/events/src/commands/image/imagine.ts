@@ -487,13 +487,14 @@ export default {
 			}
 
 			query(`${prompt}${modifiers}`).then(async (response) => {
-				console.log(response)
+				console.log(response);
+				console.log(response.results[0][0])
 				client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response.result[0][0],
+							blob: response.results[0][0],
 							name: 'image.jpg',
 						},
 					],
@@ -516,7 +517,7 @@ export default {
 					content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
 					file: [
 						{
-							blob: response[0][0],
+							blob: response.results[0][0],
 							name: 'image.jpg',
 						},
 					],
