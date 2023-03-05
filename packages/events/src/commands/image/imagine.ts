@@ -165,71 +165,71 @@ export default {
 			switch (c.data?.values![0]) {
 				case 'accurate':
 					modifiers =
-						'| blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						'';
 					break;
 				case 'portrait':
 					modifiers =
-						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting ';
 					break;
 				case 'digital':
 					modifiers =
-						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!: 6 | bad art, strange colours, sketch, lacklustre, repetitive, cropped, lowres, deformed, old, nfsw, childish: -2';
+						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!| bad art, strange colours, sketch, lacklustre, repetitive, cropped, lowres, deformed, old, nfsw, childish: -2';
 					break;
 				case 'photo':
 					modifiers =
-						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait : 6 | blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, nfsw, repetitive, black and white : -2';
+						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait | blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, nfsw, repetitive, black and white : -2';
 					break;
 				case 'fantasy':
 					modifiers =
-						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!: 6 | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!';
 					break;
 				case 'sci-fi':
 					modifiers =
-						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave ';
 					break;
 				case 'anime':
 					modifiers =
-						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition ';
 					break;
 				case 'neo':
 					modifiers =
-						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint ';
 					break;
 				case 'oil':
 					modifiers =
-						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! ';
 					break;
 				case 'horror':
 					modifiers =
-						' horror Gustave Doré senior character artist | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' horror Gustave Doré senior character artist ';
 					break;
 				case 'steampunk':
 					modifiers =
-						' steampunk engine | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' steampunk engine ';
 					break;
 				case 'cyberpunk':
 					modifiers =
-						' cyberpunk 2099 blade runner 2049 neon | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' cyberpunk 2099 blade runner 2049 neon ';
 					break;
 				case 'synthwave':
 					modifiers =
-						' synthwave neon retro | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' synthwave neon retro ';
 					break;
 				case '3d':
 					modifiers =
-						' trending on Artstation Unreal Engine 3D shading shadow depth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' trending on Artstation Unreal Engine 3D shading shadow depth ';
 					break;
 				case 'epic':
 					modifiers =
-						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting ';
 					break;
 				case 'comic':
 					modifiers =
-						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth ';
 					break;
 				case 'charcoal':
 					modifiers =
-						' hyperdetailed charcoal drawing | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' hyperdetailed charcoal drawing ';
 					break;
 			}
 
@@ -432,7 +432,7 @@ export default {
 			const c = await client.amethystUtils.awaitComponent(msg.id, {
 				filter: (bot, data) => data.user.id == ctx.author?.id,
 			});
-			let negative = "nfsw, nude, low quality, cropped"
+			let negative = "blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame"
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
 				content: 'GENERATING.... \n Have you tried +quote yet?',
 				components: [],
@@ -440,78 +440,80 @@ export default {
 			switch (c.data?.values![0]) {
 				case 'accurate':
 					modifiers =
-						'| blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						'';
+					negative = 'blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame ';
 					break;
 				case 'portrait':
 					modifiers =
-						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting ';
 					break;
 				case 'digital':
 					modifiers =
-						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!: 6 | bad art, strange colours, sketch, lacklustre, repetitive, cropped, lowres, deformed, old, nfsw, childish: -2';
+						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!';
 					negative = `2d earrings, tribal dance, risograph, white orchids, Egyptian Sumerian features, large temples, childish, nsfw`;
 					break;
 				case 'photo':
 					modifiers =
-						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait : 6 | blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, nfsw, repetitive, black and white : -2';
+						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait';
+					negative = 'blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, nfsw, repetitive, black and white';
 					break;
 				case 'fantasy':
 					modifiers =
-						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!: 6 | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!';
 					negative = 'nsfw, blur, wood block print, in Africa, Kodak tri – x 35 mm, black lace,American flag, football players, house, mountain, woodblock print'
 					break;
 				case 'sci-fi':
 					modifiers =
-						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave ';
 					break;
 				case 'anime':
 					modifiers =
-						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition ';
 					break;
 				case 'neo':
 					modifiers =
-						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint ';
 					break;
 				case 'oil':
 					modifiers =
-						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! ';
 					break;
 				case 'horror':
 					modifiers =
-						' horror Gustave Doré senior character artist | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' horror Gustave Doré senior character artist ';
 					break;
 				case 'steampunk':
 					modifiers =
-						' steampunk engine | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' steampunk engine ';
 					break;
 				case 'cyberpunk':
 					modifiers =
-						' cyberpunk 2099 blade runner 2049 neon | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' cyberpunk 2099 blade runner 2049 neon ';
 					break;
 				case 'synthwave':
 					modifiers =
-						' synthwave neon retro | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' synthwave neon retro ';
 					break;
 				case '3d':
 					modifiers =
-						' trending on Artstation Unreal Engine 3D shading shadow depth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' trending on Artstation Unreal Engine 3D shading shadow depth ';
 					break;
 				case 'epic':
 					modifiers =
-						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting ';
 					break;
 				case 'comic':
 					modifiers =
-						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth ';
 					negative = 'text, landscape, black and white old photo'
 					break;
 				case 'charcoal':
 					modifiers =
-						' hyperdetailed charcoal drawing | blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame : -3';
+						' hyperdetailed charcoal drawing ';
 					break;
 			}
 
-			query(`${prompt}${modifiers}`, negative).then(async (response) => {
+			query(`${prompt}${modifiers}`, negative).then(async (response: any) => {
 				console.log(response);
 
 				client.helpers.deleteMessage(msg.channelId, msg.id);
