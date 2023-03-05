@@ -497,7 +497,11 @@ export default (client: AeonaBot) => {
           if (embed.author == undefined)
             embed.setAuthor(
               'Aeona',
-              'https://www.aeona.xyz/logo.png',
+              client.helpers.getAvatarURL(client.user!.id,
+                client.user!.discriminator,
+                {
+                  avatar: client.user?.avatar,
+                },),
               'https://docs.aeona.xyz',
             );
           if (embed.footer == undefined)

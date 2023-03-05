@@ -459,7 +459,7 @@ export default {
 					break;
 				case 'fantasy':
 					modifiers =
-						', !!!!!fantasy art!!!!!, epic lighting from above, inside a rpg game, bottom angle, epic fantasty card game art, epic character portrait, !!!!!glowing and epic!!!!!, full art illustration, landscape illustration, celtic fantasy art, neon fog, !!!!!!!concept art by senior environment artist!!!!!!!!!!!!!!Senior Character Artist!!!!!!!';
+						', a masterpiece, 8k resolution, dark fantasy concept art, by Greg Rutkowski, dynamic lighting, hyperdetailed, intricately detailed, Splash screen art, trending on Artstation, deep color, Unreal Engine, volumetric lighting, Alphonse Mucha, Jordan Grimmer, purple and yellow complementary colours';
 					negative = 'nsfw, blur, wood block print, in Africa, Kodak tri – x 35 mm, black lace,American flag, football players, house, mountain, woodblock print'
 					break;
 				case 'sci-fi':
