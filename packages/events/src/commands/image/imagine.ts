@@ -522,19 +522,19 @@ export default {
 					file: [
 						{
 							blob: response.response[0],
-							name: 'image1.png',
+							name: 'image1.jpg',
 						},
 						{
 							blob: response.response[1],
-							name: 'image2.png',
+							name: 'image2.jpg',
 						},
 						{
 							blob: response.response[2],
-							name: 'image2.png',
+							name: 'image2.jpg',
 						},
 						{
 							blob: response.response[3],
-							name: 'image4.png',
+							name: 'image4.jpg',
 						},
 					],
 				});
@@ -557,19 +557,19 @@ export default {
 					file: [
 						{
 							blob: response.response[0],
-							name: 'image1.png',
+							name: 'image1.jpg',
 						},
 						{
 							blob: response.response[1],
-							name: 'image2.png',
+							name: 'image2.jpg',
 						},
 						{
 							blob: response.response[2],
-							name: 'image2.png',
+							name: 'image2.jpg',
 						},
 						{
 							blob: response.response[3],
-							name: 'image4.png',
+							name: 'image4.jpg',
 						},
 					],
 					components: component,
