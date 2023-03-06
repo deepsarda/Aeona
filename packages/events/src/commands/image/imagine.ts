@@ -514,7 +514,6 @@ export default {
 			}
 
 			query(`${prompt}${modifiers}`, negative).then(async (response: any) => {
-				console.log(response.response)
 
 				client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
