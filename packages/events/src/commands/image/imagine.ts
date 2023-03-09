@@ -495,18 +495,6 @@ export default {
 							blob: response.response[0],
 							name: 'image1.jpg',
 						},
-						{
-							blob: response.response[1],
-							name: 'image2.jpg',
-						},
-						{
-							blob: response.response[2],
-							name: 'image2.jpg',
-						},
-						{
-							blob: response.response[3],
-							name: 'image4.jpg',
-						},
 					],
 				});
 				const component = new Components();
@@ -529,18 +517,6 @@ export default {
 						{
 							blob: response.response[0],
 							name: 'image1.jpg',
-						},
-						{
-							blob: response.response[1],
-							name: 'image2.jpg',
-						},
-						{
-							blob: response.response[2],
-							name: 'image2.jpg',
-						},
-						{
-							blob: response.response[3],
-							name: 'image4.jpg',
 						},
 					],
 					components: component,
