@@ -282,9 +282,9 @@ export default {
 } as CommandOptions;
 */
 
-async function query(prompt, negative) {
+async function query(prompt) {
 	const response = await fetch(
-		'http://localhost:8083/chatbot/image?prompt=' + prompt + '&negative=' + negative,
+		'http://localhost:8083/chatbot/image?prompt=' + prompt,
 
 	);
 
@@ -321,7 +321,8 @@ export default {
 			comp.addSelectComponent('Choose your style', 'style', [
 				{
 					label: 'accurate',
-					description: 'Generates the image most accurate to your prompt but will be less amazing.',
+					description:
+						'Generates the image most accurate to your prompt but will be less amazing.',
 					value: 'accurate',
 				},
 				{
@@ -330,29 +331,20 @@ export default {
 					value: 'dramatic',
 				},
 				{
-					label: 'digital art',
-					description: 'Best for generating images.',
-					value: 'digital',
-				},
-				{
 					label: 'portrait',
 					description: 'Best for images of a single living being.',
 					value: 'portrait',
 				},
 				{
 					label: 'photo',
-					description: 'One of the most accurate and best for real life images. Prefer this over accurate.',
+					description:
+						'One of the most accurate and best for real life images. Prefer this over accurate.',
 					value: 'photo',
 				},
 				{
 					label: 'fantasy',
 					description: 'Generate fantasy style images.',
 					value: 'fantasy',
-				},
-				{
-					label: 'sci-fi',
-					description: 'Generate fantasy style images.',
-					value: 'sci-fi',
 				},
 				{
 					label: 'anime',
@@ -406,7 +398,8 @@ export default {
 				},
 				{
 					label: 'comic',
-					description: 'Make your image in a comic strip style does not work all the time!',
+					description:
+						'Make your image in a comic strip style does not work all the time!',
 					value: 'comic',
 				},
 				{
@@ -432,88 +425,67 @@ export default {
 			const c = await client.amethystUtils.awaitComponent(msg.id, {
 				filter: (bot, data) => data.user.id == ctx.author?.id,
 			});
-			let negative = "blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame"
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
 				content: 'GENERATING.... \n Have you tried +quote yet?',
 				components: [],
 			});
-			switch (c.data?.values![0]) {
+			switch (c.data!.values![0]) {
 				case 'accurate':
-					modifiers =
-						'';
-					negative = 'blender, !!!!text!!!!, disfigured, repetitive, cropped, lowres, deformed, old, nfsw, childish, cropped, out of frame ';
+					modifiers = '';
 					break;
 				case 'portrait':
 					modifiers =
-						'  head and shoulders portrait, 8k resolution concept art portrait by senior artist, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting ';
-					break;
-				case 'digital':
-					modifiers =
-						', concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!!';
-					negative = `2d earrings, tribal dance, risograph, white orchids, Egyptian Sumerian features, large temples, childish, nsfw`;
+						' head and shoulders portrait, 8k resolution concept art portrait by Greg Rutkowski, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting';
 					break;
 				case 'photo':
 					modifiers =
-						', wide shot, ultrarealistic uhd faces, Kodak Ultra Max 800, pexels, 85mm, casual pose, 35mm film roll photo, hard light, detailed skin texture, masterpiece, sharp focus, pretty, lovely, adorable, attractive, hasselblad, candid street portrait';
-					negative = 'blender, cropped, lowres, poorly drawn face, out of frame, poorly drawn hands, double, blurred, disfigured, deformed, nfsw, repetitive, black and white';
+						' Professional photography, bokeh, natural lighting, megapixels sharp focus';
 					break;
 				case 'fantasy':
 					modifiers =
-						', a masterpiece, 8k resolution, dark fantasy concept art, by Greg Rutkowski, dynamic lighting, hyperdetailed, intricately detailed, Splash screen art, trending on Artstation, deep color, Unreal Engine, volumetric lighting, Alphonse Mucha, Jordan Grimmer, purple and yellow complementary colours';
-					negative = 'nsfw, blur, wood block print, in Africa, Kodak tri – x 35 mm, black lace,American flag, football players, house, mountain, woodblock print'
-					break;
-				case 'sci-fi':
-					modifiers =
-						', futuristic city backdrop, in a futuristic cyberpunk city, dark futuristic city, cybernetic city background, futuristic city background, photo of futuristic cityscape, in fantasy sci-fi city, night, cyberpunk city background, hd, artstation, blender, maya, unreal engine, good lighting, wide lens, neon lights, vaporwave ';
+						' a masterpiece, 8k resolution, dark fantasy concept art, by Greg Rutkowski, dynamic lighting, hyperdetailed, intricately detailed, Splash screen art, trending on Artstation, deep color, Unreal Engine, volumetric lighting, Alphonse Mucha, Jordan Grimmer, purple and yellow complementary colours';
 					break;
 				case 'anime':
 					modifiers =
-						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition ';
+						' Studio Ghibli, Anime Key Visual, by Makoto Shinkai, Deep Color, Intricate, 8k resolution concept art, Natural Lighting, Beautiful Composition';
 					break;
 				case 'neo':
 					modifiers =
-						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint ';
+						' neo-impressionism expressionist style oil painting, smooth post-impressionist impasto acrylic painting, thick layers of colourful textured paint';
 					break;
 				case 'oil':
-					modifiers =
-						' concept art by senior character artist, cgsociety, plasticien, unreal engine 5, artstation hd, concept art, an ambient occlusion render by Raphael, featured on zbrush central, photorealism, reimagined by industrial light and magic, rendered in maya, rendered in cinema4d !!!!!Centered composition!!!!! ';
+					modifiers = ' oil painting by James Gurney';
 					break;
 				case 'horror':
-					modifiers =
-						' horror Gustave Doré senior character artist ';
+					modifiers = ' horror Gustave Doré Greg Rutkowski';
 					break;
 				case 'steampunk':
-					modifiers =
-						' steampunk engine ';
+					modifiers = ' steampunk engine';
 					break;
 				case 'cyberpunk':
-					modifiers =
-						' cyberpunk 2099 blade runner 2049 neon ';
+					modifiers = ' cyberpunk 2099 blade runner 2049 neon';
 					break;
 				case 'synthwave':
-					modifiers =
-						' synthwave neon retro ';
+					modifiers = ' synthwave neon retro';
 					break;
 				case '3d':
 					modifiers =
-						' trending on Artstation Unreal Engine 3D shading shadow depth ';
+						' trending on Artstation Unreal Engine 3D shading shadow depth';
 					break;
 				case 'epic':
 					modifiers =
-						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting ';
+						' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting';
 					break;
 				case 'comic':
 					modifiers =
-						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth ';
-					negative = 'text, landscape, black and white old photo'
+						' Mark Brooks and Dan Mumford, comic book art, perfect, smooth';
 					break;
 				case 'charcoal':
-					modifiers =
-						' hyperdetailed charcoal drawing ';
+					modifiers = ' hyperdetailed charcoal drawing';
 					break;
 			}
 
-			query(`${prompt}${modifiers}`, negative).then(async (response: any) => {
+			query(`${prompt} dreamlikeart,${modifiers}`).then(async (response: any) => {
 
 				client.helpers.deleteMessage(msg.channelId, msg.id);
 				client.helpers.sendMessage('1044575489118978068', {
