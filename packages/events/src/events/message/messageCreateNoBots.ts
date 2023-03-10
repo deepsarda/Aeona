@@ -15,7 +15,7 @@ import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
 import { Influx } from '../client/commandStart.js';
 import badwords from '../../Collection/badwords.js';
-console.log(badwords);
+
 const filter = new Filter({
   list: badwords,
   useRegex: true
