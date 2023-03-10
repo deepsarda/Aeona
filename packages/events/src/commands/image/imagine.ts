@@ -3,7 +3,7 @@ import {
 	Components,
 	Context,
 } from '@thereallonewolf/amethystframework';
-import filter from 'leo-profanity';
+import * as filter from 'leo-profanity';
 import fetch from 'node-fetch';
 
 import GuildDB from '../../database/models/guild.js';

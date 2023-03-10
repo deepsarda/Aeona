@@ -1,6 +1,6 @@
 import { Point } from '@influxdata/influxdb-client';
 import { Components } from '@thereallonewolf/amethystframework';
-import filter from 'leo-profanity';
+import * as filter from 'leo-profanity';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
 
