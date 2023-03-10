@@ -3,12 +3,15 @@ import {
 	Components,
 	Context,
 } from '@thereallonewolf/amethystframework';
-import * as filter from 'leo-profanity';
+import Filter from 'badwords-filter';
 import fetch from 'node-fetch';
 
 import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
-
+import badwords from '../../Collection/badwords.js'
+const filter = new Filter({
+	list: badwords
+});
 /*
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
@@ -319,7 +322,7 @@ export default {
 				});
 			if (!(guild.isPremium === 'true')) {
 				if (!ctx.channel.nsfw)
-					if (filter.check(prompt))
+					if (filter.isUnclean(prompt))
 						return ctx.reply({
 							content: 'This prompt is either profane, nfsw or both.',
 						});

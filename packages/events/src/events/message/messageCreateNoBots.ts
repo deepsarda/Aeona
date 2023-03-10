@@ -1,6 +1,6 @@
 import { Point } from '@influxdata/influxdb-client';
 import { Components } from '@thereallonewolf/amethystframework';
-import * as filter from 'leo-profanity';
+import Filter from 'badwords-filter';
 import { BigString, Message } from 'discordeno';
 import fetch from 'node-fetch';
 
@@ -14,7 +14,10 @@ import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
 import { Influx } from '../client/commandStart.js';
-
+import badwords from '../../Collection/badwords.js'
+const filter = new Filter({
+  list: badwords
+});
 export default async (client: AeonaBot, message: Message) => {
   if (
     message.content == `<@!${client.user?.id}>` ||
@@ -278,7 +281,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
                   : json;
             let component: any[] = [];
             if (!guild.chatbotFilter) {
-              if (filter.check(json)) {
+              if (filter.isUnclean(json)) {
                 const c = new Components();
                 c.addButton('Why *****?', 'Secondary', 'profane');
                 component = c;
