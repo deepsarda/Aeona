@@ -10,7 +10,8 @@ import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 import badwords from '../../Collection/badwords.js'
 const filter = new Filter({
-	list: badwords
+	list: badwords,
+	useRegex: true
 });
 /*
 async function query(data: any) {
