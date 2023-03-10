@@ -6,6 +6,7 @@ import {
 import filter from 'leo-profanity';
 import fetch from 'node-fetch';
 
+import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
 /*

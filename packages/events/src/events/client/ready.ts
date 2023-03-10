@@ -202,8 +202,8 @@ export default async (
         }
       }
       if (client.cache.guilds.memory.size > 300) {
-        for (const [_userId, guild] of client.cache.guilds.memory) {
-          client.cache.guilds.delete(user.id);
+        for (const [_guildId, guild] of client.cache.guilds.memory) {
+          client.cache.guilds.delete(guild.id);
         }
       }
       if (client.cache.messages.memory.size > 500) {
