@@ -3,13 +3,11 @@ import {
 	Components,
 	Context,
 } from '@thereallonewolf/amethystframework';
-import Filter from 'bad-words';
+import filter from 'leo-profanity';
 import fetch from 'node-fetch';
 
 import { AeonaBot } from '../../extras/index.js';
 
-const filter = new Filter();
-filter.addWords('nake', 'naked', 'nude', 'nudes', 'nipples');
 /*
 async function query(data: any) {
 	const response = await fetch('https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1-base', {
@@ -313,10 +311,18 @@ export default {
 			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 			const prompt = ctx.options.getLongString('prompt', true);
 
-			if (filter.isProfane(prompt))
-				return ctx.reply({
-					content: 'This prompt is either profane, nfsw or both.',
+			let guild = await GuildDB.findOne({ Guild: ctx.guild.id });
+			if (!guild)
+				guild = new GuildDB({
+					Guild: ctx.guild.id,
 				});
+			if (!(guild.isPremium === 'true')) {
+				if (!ctx.channel.nsfw)
+					if (filter.badWordsUsed(prompt).length > 0)
+						return ctx.reply({
+							content: 'This prompt is either profane, nfsw or both.',
+						});
+			}
 			const comp = new Components();
 			comp.addSelectComponent('Choose your style', 'style', [
 				{

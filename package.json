@@ -18,9 +18,7 @@
   "license": "ISC",
   "workspaces": {
     "hoistDependencies": true,
-    "packages": [
-      "packages/*"
-    ]
+    "packages": ["packages/*"]
   },
   "homepage": "https://www.aeona.xyz",
   "devDependencies": {
@@ -42,7 +40,7 @@
     "@top-gg/sdk": "^3.1.3",
     "@types/json-bigint": "^1.0.1",
     "axios": "^0.24.0",
-    "bad-words": "^3.0.4",
+    "leo-profanity": "^1.7.0",
     "body-parser": "^1.20.1",
     "canvacord": "^5.4.8",
     "canvas": "^2.11.0",

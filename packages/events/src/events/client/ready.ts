@@ -201,6 +201,11 @@ export default async (
           if (user.id != client.user.id) client.cache.users.delete(user.id);
         }
       }
+      if (client.cache.guilds.memory.size > 300) {
+        for (const [_userId, guild] of client.cache.guilds.memory) {
+          client.cache.guilds.delete(user.id);
+        }
+      }
       if (client.cache.messages.memory.size > 500) {
         for (const [messageId, _message] of client.cache.messages.memory) {
           client.cache.messages.delete(messageId);
@@ -311,14 +316,13 @@ export default async (
       });
       c.commands.forEach((command) => {
         commands.push({
-          usage: `+${
-            c.uniqueCommands ? command.name : `${c.name} ${command.name}`
-          } ${command.args
-            .map((arg) => {
-              if (arg.required) return `${arg.name}`;
-              else return `${arg.name}(Optional)`;
-            })
-            .join(' ')}`,
+          usage: `+${c.uniqueCommands ? command.name : `${c.name} ${command.name}`
+            } ${command.args
+              .map((arg) => {
+                if (arg.required) return `${arg.name}`;
+                else return `${arg.name}(Optional)`;
+              })
+              .join(' ')}`,
           name: command.name,
           description: command.description,
           category: command.category,
