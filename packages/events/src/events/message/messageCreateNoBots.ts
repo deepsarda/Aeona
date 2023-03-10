@@ -18,6 +18,7 @@ import badwords from '../../Collection/badwords.js';
 
 const filter = new Filter({
   list: badwords,
+  cleanWith: "$",
   useRegex: true
 });
 export default async (client: AeonaBot, message: Message) => {
@@ -282,10 +283,10 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
                   ? (json ?? '') + s[1]
                   : json;
             let component: any[] = [];
-            if (!guild.chatbotFilter) {
+            if (guild.chatbotFilter) {
               if (filter.isUnclean(json)) {
                 const c = new Components();
-                c.addButton('Why *****?', 'Secondary', 'profane');
+                c.addButton('Why $$$$?', 'Secondary', 'profane');
                 component = c;
                 json = filter.clean(json);
               }
