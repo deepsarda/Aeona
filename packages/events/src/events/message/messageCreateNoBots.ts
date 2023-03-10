@@ -278,7 +278,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
                   : json;
             let component: any[] = [];
             if (!guild.chatbotFilter) {
-              if (filter.badWordsUsed(json).length > 0) {
+              if (filter.check(json)) {
                 const c = new Components();
                 c.addButton('Why *****?', 'Secondary', 'profane');
                 component = c;

@@ -319,7 +319,7 @@ export default {
 				});
 			if (!(guild.isPremium === 'true')) {
 				if (!ctx.channel.nsfw)
-					if (filter.badWordsUsed(prompt).length > 0)
+					if (filter.check(prompt))
 						return ctx.reply({
 							content: 'This prompt is either profane, nfsw or both.',
 						});
