@@ -16,7 +16,7 @@ export default {
       type: 'User',
     },
   ],
-  userGuildPermissions: ['MANAGE_MESSAGES'],
+  userGuildPermissions: ['MODERATE_MEMBERS'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 

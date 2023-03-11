@@ -21,7 +21,7 @@ export default {
       type: 'String',
     },
   ],
-  userGuildPermissions: ['MODERATE_MEMBERS'],
+  userGuildPermissions: ['MANAGE_ROLES'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 

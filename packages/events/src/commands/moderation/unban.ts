@@ -15,7 +15,7 @@ export default {
       type: 'String',
     },
   ],
-  userGuildPermissions: ['BAN_MEMBERS'],
+  userGuildPermissions: ['MANAGE_GUILD'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
