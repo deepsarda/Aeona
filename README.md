@@ -2,7 +2,7 @@
 
 ## Creating a new era of discord bots
 
-### By Freya Developement
+### By Aeonic Developement
 
 <a href="https://aeona.xyz/support"><img src="https://aeona.xyz/logo.png"></a>
 
@@ -55,7 +55,24 @@ Without previous approval from the repository owner, you are not permitted to ha
 
 See `src/config` folder.
 Rename `example.env` to `.env` and fill out the forms.
-If you need help join the [support server](https://www.aeona.xyz/support)
+
+
+
+##  Running
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/deepsarda/Aeona
+```
+
+2. Fill out the env files. 
+> Every package has a .env.example file with every entry needed. Just create a .env file with all the entries.
+3. Run index.js
+```bash
+yarn install
+node index.js
+```
 
 ## Development
 
