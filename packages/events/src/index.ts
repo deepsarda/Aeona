@@ -158,6 +158,11 @@ console.log(colors.green('STARTING'));
 
 setInterval(() => {
   console.log("Getting Cache Length...".yellow);
+  logDbCache();
+}, 60 * 1000 * 10)
+export { bot };
+async function logDbCache() {
+  console.log("Getting Cache Length...".yellow);
   console.table([{
     type: "channel",
     count: (await db.KEYS("/channel/*")).length
@@ -173,11 +178,9 @@ setInterval(() => {
   }, {
     type: "roles",
     count: (await db.KEYS("/role/*")).length
-  }])
-}, 60 * 1000 * 10)
-export { bot };
-
-
+  }]);
+}
+logDbCache();
 process.on('unhandledRejection', (error: Error) => {
   console.error(error);
 });
