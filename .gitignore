@@ -15,3 +15,4 @@ old/
 tmp/
 yarn.lock
 ]/
+.gitpod.yml
