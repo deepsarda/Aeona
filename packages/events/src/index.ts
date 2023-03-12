@@ -96,13 +96,6 @@ const cachebot = createProxyCache(b, {
           return value;
         });
 
-      if (item && table == 'guild') {
-        try {
-          console.log(item.roles);
-        } catch (e) {
-          console.error(e);
-        }
-      }
       return item ? item : undefined;
     } catch (e) {
       return undefined;
