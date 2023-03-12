@@ -80,10 +80,13 @@ const cachebot = createProxyCache(b, {
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
       if (item) item = JSON.parse(item);
       if (item && table == "guild") {
-
-        item.roles = new AmethystCollection(item.roles);
-        console.log(item.roles);
-        item.channels = new AmethystCollection(item.channels)
+        try {
+          item.roles = new AmethystCollection(item.roles);
+          console.log(item.roles);
+          item.channels = new AmethystCollection(item.channels);
+        } catch (e) {
+          console.error(e)
+        }
       }
       return item ? item : undefined;
     } catch (e) {
@@ -176,7 +179,7 @@ async function logDbCache() {
     count: (await db.KEYS("/user/*")).length
   }, {
     type: "member",
-    count: (await db.KEYS("/role/*")).length
+    count: (await db.KEYS("/member/*")).length
   }, {
     type: "roles",
     count: (await db.KEYS("/role/*")).length
