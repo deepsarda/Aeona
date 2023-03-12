@@ -1,6 +1,7 @@
 import {
   createProxyCache,
   enableAmethystPlugin,
+  AmethystCollection
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
@@ -53,7 +54,6 @@ const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: false,
     messages: true,
-    guilds: true,
   },
   cacheOutsideMemory: {
     default: true,
@@ -78,8 +78,12 @@ const cachebot = createProxyCache(b, {
       if (table == 'message') item = await db.get(`/message/${id}`);
       if (table == 'member') item = await db.get(`/member/${guildid}/${id}`);
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
-
-      return item ? JSON.parse(item) : undefined;
+      if (item) item = JSON.parse(item);
+      if (item && table == "guild") {
+        item.roles = new AmethystCollection(item.roles);
+        item.channels = new AmethystCollection(item.channels)
+      }
+      return item ? item : undefined;
     } catch (e) {
       return undefined;
     }
