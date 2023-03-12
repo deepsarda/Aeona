@@ -81,8 +81,9 @@ const cachebot = createProxyCache(b, {
       if (item) item = JSON.parse(item);
       if (item && table == "guild") {
         try {
+          console.log(item);
           item.roles = new AmethystCollection(item.roles);
-          console.log(item.roles);
+
           item.channels = new AmethystCollection(item.channels);
         } catch (e) {
           console.error(e)
