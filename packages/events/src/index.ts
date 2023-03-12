@@ -24,7 +24,7 @@ const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
 ]);
 
 const db = createClient();
-const JSON = JSONBigInt({ useNativeBigInt: true });
+const JSON1 = JSONBigInt({ useNativeBigInt: true });
 
 db.on('error', (err) => console.log('Redis Client Error', err));
 
@@ -78,7 +78,13 @@ const cachebot = createProxyCache(b, {
       if (table == 'message') item = await db.get(`/message/${id}`);
       if (table == 'member') item = await db.get(`/member/${guildid}/${id}`);
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
-      if (item) item = JSON.parse(item);
+      if (item) item = JSON.parse(item, (key, value) => {
+        if (typeof value === 'number' && !Number.isSafeInteger(value)) {
+          let strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1] // get the original value using regex expression 
+          return BigInt(strBig)  //should be BigInt(strBig) - BigInt function is not working in this snippet
+        }
+        return value
+      });
       if (item && table == "guild") {
         try {
           console.log(item);
@@ -107,7 +113,7 @@ const cachebot = createProxyCache(b, {
   },
 
   setItem: async (table, item) => {
-    const t = JSON.stringify(item);
+    const t = JSON1.stringify(item);
     if (table == 'channel') item = await db.set(`/channel/${item.id}`, t);
     if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
     if (table == 'user') item = await db.set(`/user/${item.id}`, t);
