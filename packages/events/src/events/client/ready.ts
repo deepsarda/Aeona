@@ -24,14 +24,9 @@ export default async (
   },
   _rawPayload: DiscordReady,
 ) => {
-  console.log('READY!');
-  client.helpers.sendMessage('1034710126675898389', { content: 'READY!' });
+
   if (!client.extras.ready) {
     client.extras.ready = true;
-    console.log('Running loops');
-    client.helpers.sendMessage('1034710126675898389', {
-      content: 'Running loops',
-    });
 
     client.user = await client.helpers.getUser(
       getBotIdFromToken(process.env.DISCORD_TOKEN!),

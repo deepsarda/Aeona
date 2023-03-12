@@ -5,27 +5,34 @@ import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot) => {
   setInterval(async () => {
-    const data = await Schema.find({});
+    try {
+      const data = await Schema.find({});
 
-    if (data) {
-      data.forEach(async (d) => {
-        if (!d.TimeZone || !d.Time || !d.Guild) return;
-
-        const timeNow = moment()
-          .tz(getTimezone(d.TimeZone))
-          .format('HH:mm (z)');
-        const guild = await client.cache.guilds.get(BigInt(d.Guild));
-        if (guild) {
-          let channelName = await client.extras.getTemplate(guild?.id!);
-          channelName = channelName.replace(`{emoji}`, '⏰');
-          channelName = channelName.replace(`{name}`, `${timeNow}`);
-          client.helpers
-            .editChannel(d.Time, {
-              name: channelName,
-            })
-            .catch();
-        }
-      });
+      if (data) {
+        console.log('Clock Data Lenght: ', data.length);
+        data.forEach(async (d) => {
+          if (!d.TimeZone || !d.Time || !d.Guild) return;
+          try {
+            const timeNow = moment()
+              .tz(getTimezone(d.TimeZone))
+              .format('HH:mm (z)');
+            const guild = await client.cache.guilds.get(BigInt(d.Guild));
+            if (guild) {
+              let channelName = await client.extras.getTemplate(guild?.id!);
+              channelName = channelName.replace(`{emoji}`, '⏰');
+              channelName = channelName.replace(`{name}`, `${timeNow}`);
+              client.helpers
+                .editChannel(d.Time, {
+                  name: channelName,
+                })
+                .catch();
+            }
+          } catch (err) {//
+          }
+        });
+      }
+    } catch (e) {
+      //
     }
   }, 1000 * 60 * 5);
 };
