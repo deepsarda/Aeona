@@ -6,7 +6,7 @@ import {
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
 import { createClient } from 'redis';
-import JSONBigInt from 'json-bigint';
+
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
@@ -24,7 +24,7 @@ const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
 ]);
 
 const db = createClient();
-const JSON1 = JSONBigInt({ useNativeBigInt: true });
+
 
 db.on('error', (err) => console.log('Redis Client Error', err));
 
