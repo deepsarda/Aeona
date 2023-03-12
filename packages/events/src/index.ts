@@ -106,7 +106,25 @@ const cachebot = createProxyCache(b, {
         });
       if (item && table == 'guild') {
         try {
-          
+          const roles = new AmethystCollection();
+          item.roles.forEach((value, key) => {
+            try {
+              roles.set(BigInt(key), value);
+            } catch (e) {
+              roles.set(key, value);
+            }
+          });
+          item.roles = roles;
+          const channels = new AmethystCollection();
+          item.channels.forEach((value, key) => {
+            try {
+              channels.set(BigInt(key), value);
+            } catch (e) {
+              channels.set(key, value);
+            }
+          });
+          item.channels = channels;
+          console.log(item.roles);
         } catch (e) {
           console.error(e);
         }
