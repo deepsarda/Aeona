@@ -141,14 +141,7 @@ const manager = createShardManager({
       const oldValue = guildsPerShards.get(shard.id) ?? 0;
       guildsPerShards.set(shard.id, oldValue + 1);
 
-      shard.send({
-        op: 8,
-        d: {
-          guild_id: (message.d as DiscordUnavailableGuild).id,
-          query: '',
-          limit: 0,
-        },
-      });
+      
 
     }
     parentPort?.postMessage({

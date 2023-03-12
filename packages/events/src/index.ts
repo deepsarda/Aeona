@@ -80,7 +80,7 @@ const cachebot = createProxyCache(b, {
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
       if (item) item = JSON.parse(item, (key, value) => {
         if (typeof value === 'number' && !Number.isSafeInteger(value)) {
-          let strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1] // get the original value using regex expression 
+          const strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1] // get the original value using regex expression 
           return BigInt(strBig)  //should be BigInt(strBig) - BigInt function is not working in this snippet
         }
         if (typeof value === 'object' && value !== null) {
@@ -93,8 +93,8 @@ const cachebot = createProxyCache(b, {
       if (item && table == "guild") {
         try {
 
-          let roles = new AmethystCollection();
-          item.roles.array.forEach(value, key => {
+          const roles = new AmethystCollection();
+          item.roles.forEach((value, key) => {
             try {
               roles.set(BigInt(key), value);
             } catch (e) {
@@ -102,8 +102,8 @@ const cachebot = createProxyCache(b, {
             }
           });
           item.roles = roles;
-          let channels = new AmethystCollection();
-          item.channels.array.forEach(value, key => {
+          const channels = new AmethystCollection();
+          item.channels.forEach((value, key) => {
             try {
               channels.set(BigInt(key), value);
             } catch (e) {
