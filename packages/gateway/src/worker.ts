@@ -121,10 +121,25 @@ const manager = createShardManager({
     },
   },
   totalShards: script.totalShards,
-  handleMessage: async (shard, message) => {
+  handleMessage: async (
+    shard: Shard & {
+      logging?: boolean;
+      requests?: any[];
+    },
+    message,
+  ) => {
     if (message.t === 'READY') {
       log.info(`[WORKER] Shard ${shard.id} is online`);
       parentPort?.postMessage({ type: 'SHARD_READY' });
+      if (!shard.logging) {
+        shard.logging = true;
+        shard.requests = [];
+
+        setInterval(() => {
+          if (shard.requests && shard.requests.length > 0)
+            shard.send(shard.requests.shift());
+        }, 100);
+      }
     }
 
     if (message.t === 'GUILD_DELETE') {
@@ -140,16 +155,13 @@ const manager = createShardManager({
       guildsIn += 1;
       const oldValue = guildsPerShards.get(shard.id) ?? 0;
       guildsPerShards.set(shard.id, oldValue + 1);
-
-      /*
-      shard.send({
+      if (!shard.requests) shard.requests = [];
+      shard.requests.push({
         op: 8,
         d: {
           guild_id: (message.d as DiscordUnavailableGuild).id,
-          
         },
       });
-*/
     }
     parentPort?.postMessage({
       type: 'BROADCAST_EVENT',
