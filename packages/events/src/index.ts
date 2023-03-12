@@ -1,7 +1,7 @@
 import {
   createProxyCache,
   enableAmethystPlugin,
-  AmethystCollection
+  AmethystCollection,
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
@@ -24,7 +24,6 @@ const { DISCORD_TOKEN, REST_AUTHORIZATION } = getEnviroments([
 ]);
 
 const db = createClient();
-
 
 db.on('error', (err) => console.log('Redis Client Error', err));
 
@@ -50,6 +49,7 @@ const b = createBot({
     Intents.DirectMessageTyping |
     Intents.GuildScheduledEvents,
 });
+
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: false,
@@ -78,42 +78,37 @@ const cachebot = createProxyCache(b, {
       if (table == 'message') item = await db.get(`/message/${id}`);
       if (table == 'member') item = await db.get(`/member/${guildid}/${id}`);
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
-      if (item) item = JSON.parse(item, (key, value) => {
-        if (typeof value === 'number' && !Number.isSafeInteger(value)) {
-          const strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1] // get the original value using regex expression 
-          return BigInt(strBig)  //should be BigInt(strBig) - BigInt function is not working in this snippet
-        }
-        if (typeof value === 'object' && value !== null) {
-          if (value.dataType === 'Map') {
-            return new Map(value.value);
+      if (item)
+        item = JSON.parse(item, (key, value) => {
+          if (typeof value === 'number' && !Number.isSafeInteger(value)) {
+            const strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1]; // get the original value using regex expression
+            return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
           }
-        }
-        return value
-      });
-      if (item && table == "guild") {
+          if (typeof value === 'object' && value !== null) {
+            if (value.dataType === 'Map') {
+              return new Map(
+                JSON.parse(JSON.stringify(value.value), (key, value) => {
+                  if (
+                    typeof value === 'number' &&
+                    !Number.isSafeInteger(value)
+                  ) {
+                    const strBig = item.match(
+                      new RegExp(`(?:"${key}":)(.*?)(?:,)`),
+                    )[1]; // get the original value using regex expression
+                    return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
+                  }
+                  return value;
+                }),
+              );
+            }
+          }
+          return value;
+        });
+      if (item && table == 'guild') {
         try {
-
-          const roles = new AmethystCollection();
-          item.roles.forEach((value, key) => {
-            try {
-              roles.set(BigInt(key), value);
-            } catch (e) {
-              roles.set(key, value);
-            }
-          });
-          item.roles = roles;
-          const channels = new AmethystCollection();
-          item.channels.forEach((value, key) => {
-            try {
-              channels.set(BigInt(key), value);
-            } catch (e) {
-              channels.set(key, value);
-            }
-          });
-          item.channels = channels;
-          console.log(item.roles)
+          
         } catch (e) {
-          console.error(e)
+          console.error(e);
         }
       }
       return item ? item : undefined;
@@ -205,34 +200,39 @@ createIpcConnections(bot, DISCORD_TOKEN, REST_AUTHORIZATION);
 console.log(colors.green('STARTING'));
 
 async function logDbCache() {
-  console.log("Getting Cache Length...".yellow);
-  console.table([{
-    type: "channel",
-    count: (await db.KEYS("/channel/*")).length
-  }, {
-    type: "guild",
-    count: (await db.KEYS("/guild/*")).length
-  }, {
-    type: "user",
-    count: (await db.KEYS("/user/*")).length
-  }, {
-    type: "member",
-    count: (await db.KEYS("/member/*")).length
-  }, {
-    type: "roles",
-    count: (await db.KEYS("/role/*")).length
-  }]);
+  console.log('Getting Cache Length...'.yellow);
+  console.table([
+    {
+      type: 'channel',
+      count: (await db.KEYS('/channel/*')).length,
+    },
+    {
+      type: 'guild',
+      count: (await db.KEYS('/guild/*')).length,
+    },
+    {
+      type: 'user',
+      count: (await db.KEYS('/user/*')).length,
+    },
+    {
+      type: 'member',
+      count: (await db.KEYS('/member/*')).length,
+    },
+    {
+      type: 'roles',
+      count: (await db.KEYS('/role/*')).length,
+    },
+  ]);
 }
 
 setInterval(() => {
-  console.log("Getting Cache Length...".yellow);
+  console.log('Getting Cache Length...'.yellow);
   logDbCache();
 }, 60 * 1000 * 10);
 
 logDbCache();
 
 export { bot };
-
 
 process.on('unhandledRejection', (error: Error) => {
   console.error(error);
