@@ -113,7 +113,7 @@ const cachebot = createProxyCache(b, {
   },
 
   setItem: async (table, item) => {
-    const t = JSON1.stringify(item);
+    const t = JSON.stringify(item);
     if (table == 'channel') item = await db.set(`/channel/${item.id}`, t);
     if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
     if (table == 'user') item = await db.set(`/user/${item.id}`, t);
