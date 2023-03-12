@@ -156,11 +156,6 @@ createIpcConnections(bot, DISCORD_TOKEN, REST_AUTHORIZATION);
 
 console.log(colors.green('STARTING'));
 
-setInterval(() => {
-  console.log("Getting Cache Length...".yellow);
-  logDbCache();
-}, 60 * 1000 * 10)
-export { bot };
 async function logDbCache() {
   console.log("Getting Cache Length...".yellow);
   console.table([{
@@ -180,7 +175,17 @@ async function logDbCache() {
     count: (await db.KEYS("/role/*")).length
   }]);
 }
+
+setInterval(() => {
+  console.log("Getting Cache Length...".yellow);
+  logDbCache();
+}, 60 * 1000 * 10);
+
 logDbCache();
+
+export { bot };
+
+
 process.on('unhandledRejection', (error: Error) => {
   console.error(error);
 });
