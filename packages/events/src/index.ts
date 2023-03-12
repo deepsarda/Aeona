@@ -111,6 +111,7 @@ const cachebot = createProxyCache(b, {
             }
           });
           item.channels = channels;
+          console.log(item.roles)
         } catch (e) {
           console.error(e)
         }
