@@ -38,9 +38,7 @@ export default {
       if (!data) return;
       try {
         client.helpers.sendMessage(ctx.channel!.id, {
-          content: `<@${
-            ctx.user!.id
-          }> To add another role to the reaction roles, send \`:emoji: @role\`. Example: \`:sunglasses: @announcementpings \` \n\n **If you have finished adding the roles send \`cancel\``,
+          content: `To add another role to the reaction roles, send \`:emoji: @role\`. Example: \`:sunglasses: @announcementpings \` \n\n **If you have finished adding the roles send \`cancel\` **`,
         });
 
         const message = await client.amethystUtils.awaitMessage(
@@ -82,9 +80,7 @@ export default {
         );
 
         client.helpers.sendMessage(ctx.channel!.id, {
-          content: `<@${
-            ctx.user!.id
-          }> Successfully added ${emoji} to the reaction roles.`,
+          content: `Successfully added ${emoji} to the reaction roles.`,
         });
 
         return await requestNextRole();
@@ -111,7 +107,7 @@ export default {
           ],
           type: 'reply',
         },
-        ctx,
+        ctx.channel,
       );
   },
 } as CommandOptions;
