@@ -80,9 +80,9 @@ const cachebot = createProxyCache(b, {
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
       if (item) item = JSON.parse(item);
       if (item && table == "guild") {
-        console.log(item.roles)
+        console.log(JSON.parse(JSON.stringify(item.roles)))
         item.roles = new AmethystCollection(item.roles);
-        console.log(item.roles)
+
         item.channels = new AmethystCollection(item.channels)
       }
       return item ? item : undefined;
