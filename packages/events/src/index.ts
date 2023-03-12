@@ -213,7 +213,7 @@ async function logDbCache() {
 setInterval(() => {
   console.log('Getting Cache Length...'.yellow);
   logDbCache();
-}, 60 * 1000 * 10);
+}, 60 * 1000);
 
 logDbCache();
 
