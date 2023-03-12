@@ -14,6 +14,8 @@ export default async (client: AeonaBot) => {
       if (oldMember.premiumSince && !newMember.premiumSince) {
         client.emit('guildMemberUnboost', client, newMember);
       }
+
+
     },
   );
 

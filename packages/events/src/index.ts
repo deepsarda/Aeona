@@ -51,16 +51,12 @@ const b = createBot({
 });
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
-    default: true,
-    channels: false,
-    members: false,
-    roles: false,
+    default: false,
+    messages: true,
   },
   cacheOutsideMemory: {
-    default: false,
-    members: true,
+    default: true,
     messages: false,
-    channels: true,
   },
 
   fetchIfMissing: {
