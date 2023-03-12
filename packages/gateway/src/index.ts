@@ -285,7 +285,7 @@ const createWorker = (workerId: number) => {
 
         if (eventClientConnections.length === 0) {
           //TODO: Filter Events
-          // eventsToSend.push(data.data);
+          eventsToSend.push(data.data);
           return;
         }
 

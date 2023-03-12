@@ -1,7 +1,7 @@
 import {
   createProxyCache,
   enableAmethystPlugin,
-  AmethystCollection,
+  
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
@@ -86,15 +86,17 @@ const cachebot = createProxyCache(b, {
           }
           if (typeof value === 'object' && value !== null) {
             if (value.dataType === 'Map') {
+              const c = JSON.stringify(value.value);
+              console.log(c )
               return new Map(
-                JSON.parse(JSON.stringify(value.value), (key, value) => {
+                JSON.parse(c , (key, value) => {
                   if (
                     typeof value === 'number' &&
                     !Number.isSafeInteger(value)
                   ) {
-                    const strBig = item.match(
+                    const strBig = c.match(
                       new RegExp(`(?:"${key}":)(.*?)(?:,)`),
-                    )[1]; // get the original value using regex expression
+                    )![1]; // get the original value using regex expression
                     return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
                   }
                   return value;
@@ -104,31 +106,7 @@ const cachebot = createProxyCache(b, {
           }
           return value;
         });
-      if (item && table == 'guild') {
-        try {
-          const roles = new AmethystCollection();
-          item.roles.forEach((value, key) => {
-            try {
-              roles.set(BigInt(key), value);
-            } catch (e) {
-              roles.set(key, value);
-            }
-          });
-          item.roles = roles;
-          const channels = new AmethystCollection();
-          item.channels.forEach((value, key) => {
-            try {
-              channels.set(BigInt(key), value);
-            } catch (e) {
-              channels.set(key, value);
-            }
-          });
-          item.channels = channels;
-          console.log(item.roles);
-        } catch (e) {
-          console.error(e);
-        }
-      }
+      
       return item ? item : undefined;
     } catch (e) {
       return undefined;
