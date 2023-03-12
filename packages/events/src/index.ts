@@ -83,11 +83,16 @@ const cachebot = createProxyCache(b, {
           let strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1] // get the original value using regex expression 
           return BigInt(strBig)  //should be BigInt(strBig) - BigInt function is not working in this snippet
         }
+        if (typeof value === 'object' && value !== null) {
+          if (value.dataType === 'Map') {
+            return new Map(value.value);
+          }
+        }
         return value
       });
       if (item && table == "guild") {
         try {
-          console.log(item);
+
           item.roles = new AmethystCollection(item.roles);
 
           item.channels = new AmethystCollection(item.channels);
@@ -113,8 +118,17 @@ const cachebot = createProxyCache(b, {
   },
 
   setItem: async (table, item) => {
-    const t = JSON.stringify(item);
-    if (table == 'guild') console.log(t);
+    const t = JSON.stringify(item, (key, value) => {
+      if (value instanceof Map) {
+        return {
+          dataType: 'Map',
+          value: Array.from(value.entries()), // or with spread: value: [...value]
+        };
+      } else {
+        return value;
+      }
+    });
+
     if (table == 'channel') item = await db.set(`/channel/${item.id}`, t);
     if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
     if (table == 'user') item = await db.set(`/user/${item.id}`, t);
