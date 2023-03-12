@@ -1,7 +1,6 @@
 import {
   createProxyCache,
   enableAmethystPlugin,
- 
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
@@ -80,35 +79,25 @@ const cachebot = createProxyCache(b, {
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
       if (item)
         item = JSON.parse(item, (key, value) => {
+          if (typeof value === 'string' ) {
+            try{
+              return BigInt(value)
+            }catch(e){
+              return value;
+            }
+          }
           if (typeof value === 'number' && !Number.isSafeInteger(value)) {
             const strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1]; // get the original value using regex expression
             return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
           }
-          if (typeof value === 'object' && value !== null) {
-            if (value.dataType === 'Map') {
-              const c = JSON.stringify(value.value);
-             
-              return new Map(
-                JSON.parse(c , (key, value) => {
-                  if (
-                    typeof value === 'number' &&
-                    !Number.isSafeInteger(value)
-                  ) {
-                    const strBig = c.match(
-                      new RegExp(`(?:"${key}":)(.*?)(?:,)`),
-                    )![1]; // get the original value using regex expression
-                    return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
-                  }
-                  return value;
-                }),
-              );
-            }
-          }
+          if (typeof value === 'object' && value !== null)
+            if (value.dataType === 'Map') return new Map(value.value);
+          
           return value;
         });
+
       if (item && table == 'guild') {
         try {
-          
           console.log(item.roles);
         } catch (e) {
           console.error(e);
