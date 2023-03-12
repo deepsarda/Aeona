@@ -1,7 +1,7 @@
 import {
   createProxyCache,
   enableAmethystPlugin,
-  
+ 
 } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
 import { createBot, Intents } from 'discordeno';
@@ -87,7 +87,7 @@ const cachebot = createProxyCache(b, {
           if (typeof value === 'object' && value !== null) {
             if (value.dataType === 'Map') {
               const c = JSON.stringify(value.value);
-              console.log(c )
+             
               return new Map(
                 JSON.parse(c , (key, value) => {
                   if (
@@ -106,7 +106,14 @@ const cachebot = createProxyCache(b, {
           }
           return value;
         });
-      
+      if (item && table == 'guild') {
+        try {
+          
+          console.log(item.roles);
+        } catch (e) {
+          console.error(e);
+        }
+      }
       return item ? item : undefined;
     } catch (e) {
       return undefined;
