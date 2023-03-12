@@ -156,7 +156,27 @@ createIpcConnections(bot, DISCORD_TOKEN, REST_AUTHORIZATION);
 
 console.log(colors.green('STARTING'));
 
+setInterval(() => {
+  console.log("Getting Cache Length...".yellow);
+  console.table([{
+    type: "channel",
+    count: (await db.KEYS("/channel/*")).length
+  }, {
+    type: "guild",
+    count: (await db.KEYS("/guild/*")).length
+  }, {
+    type: "user",
+    count: (await db.KEYS("/user/*")).length
+  }, {
+    type: "member",
+    count: (await db.KEYS("/role/*")).length
+  }, {
+    type: "roles",
+    count: (await db.KEYS("/role/*")).length
+  }])
+}, 60 * 1000 * 10)
 export { bot };
+
 
 process.on('unhandledRejection', (error: Error) => {
   console.error(error);
