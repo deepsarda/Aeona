@@ -94,7 +94,7 @@ const cachebot = createProxyCache(b, {
         try {
 
           item.roles = new AmethystCollection(item.roles);
-
+          console.log(item.roles)
           item.channels = new AmethystCollection(item.channels);
         } catch (e) {
           console.error(e)
