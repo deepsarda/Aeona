@@ -138,7 +138,7 @@ const manager = createShardManager({
         setInterval(() => {
           if (shard.requests && shard.requests.length > 0)
             shard.send(shard.requests.shift());
-        }, 400);
+        }, 1000);
       }
     }
 
