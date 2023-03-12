@@ -53,6 +53,7 @@ const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: false,
     messages: true,
+    guilds: true,
   },
   cacheOutsideMemory: {
     default: true,
