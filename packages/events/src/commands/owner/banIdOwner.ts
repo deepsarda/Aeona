@@ -4,7 +4,7 @@ import Banned from '../../database/models/banned.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
-  name: 'banIdOwner',
+  name: 'banidowner',
   description: 'Ban a server or user from Aeona.',
   commandType: ['application', 'message'],
   category: 'owner',
