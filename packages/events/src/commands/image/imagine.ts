@@ -315,7 +315,9 @@ export default {
 		try {
 			if (!ctx.guild || !ctx.user || !ctx.channel) return;
 			const prompt = ctx.options.getLongString('prompt', true);
-
+			if ([1080026325374476349n].includes(ctx.user.id)) return ctx.reply({
+				content: 'You have been banned from this command.',
+			})
 			let guild = await GuildDB.findOne({ Guild: ctx.guild.id });
 			if (!guild)
 				guild = new GuildDB({
