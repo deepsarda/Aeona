@@ -29,7 +29,7 @@ export default {
         },
         ctx,
       );
-    const code = ctx.options.getString('code', true);
+    const code = ctx.options.getString('id', true);
     const i = new Banned({
       ID: code,
     });
