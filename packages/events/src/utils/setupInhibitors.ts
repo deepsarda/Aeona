@@ -1,6 +1,6 @@
 import { AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
 import fetch from 'node-fetch';
-
+import Banned from '../database/models/banned.js';
 import GuildDB from '../database/models/guild.js';
 import { AeonaBot } from '../extras/index.js';
 
@@ -42,7 +42,7 @@ export default function (bot: AeonaBot) {
               // @ts-ignore
               type: ErrorEnums.OTHER,
               value:
-              'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
+                'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
             };
           }
         } catch (e) {
@@ -57,6 +57,38 @@ export default function (bot: AeonaBot) {
             'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
         };
       }
+      return true;
+    },
+  );
+
+  bot.inhibitors.set(
+    'banned',
+    async (b, command, options): Promise<true | AmethystError> => {
+      const bannedUser = await Banned.findOne({
+        ID: `${options.user!.id}`,
+      });
+      if (bannedUser)
+        return {
+          //@ts-ignore
+          type: ErrorEnums.OTHER,
+          value: 'You have been banned from this bot.',
+        };
+
+      const bannedServer = await Banned.findOne({
+        ID: `${options.guildId}`,
+      });
+      if (bannedServer)
+        return {
+          //@ts-ignore
+          type: ErrorEnums.OTHER,
+          value: 'This server has been banned from this bot.',
+        };
+      return true;
+    },
+  );
+  bot.inhibitors.set(
+    'workers',
+    async (b, command, options): Promise<true | AmethystError> => {
       return true;
     },
   );
