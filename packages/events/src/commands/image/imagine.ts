@@ -501,7 +501,11 @@ export default {
         async (response: any) => {
           client.helpers.deleteMessage(msg.channelId, msg.id);
           client.helpers.sendMessage('1044575489118978068', {
-            content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
+            content: `**User:**${ctx.user!.id} ${ctx.user!.username}#${
+              ctx.user!.discriminator
+            } \n **Guild:** ${ctx.guild!.name} ${
+              ctx.guildId
+            } \n**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
             file: [
               {
                 blob: response.response[0],

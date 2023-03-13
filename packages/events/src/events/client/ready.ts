@@ -24,10 +24,9 @@ export default async (
   },
   _rawPayload: DiscordReady,
 ) => {
-
   if (!client.extras.ready) {
     client.extras.ready = true;
-
+    client.amethystUtils.updateSlashCommands();
     client.user = await client.helpers.getUser(
       getBotIdFromToken(process.env.DISCORD_TOKEN!),
     );
@@ -311,13 +310,14 @@ export default async (
       });
       c.commands.forEach((command) => {
         commands.push({
-          usage: `+${c.uniqueCommands ? command.name : `${c.name} ${command.name}`
-            } ${command.args
-              .map((arg) => {
-                if (arg.required) return `${arg.name}`;
-                else return `${arg.name}(Optional)`;
-              })
-              .join(' ')}`,
+          usage: `+${
+            c.uniqueCommands ? command.name : `${c.name} ${command.name}`
+          } ${command.args
+            .map((arg) => {
+              if (arg.required) return `${arg.name}`;
+              else return `${arg.name}(Optional)`;
+            })
+            .join(' ')}`,
           name: command.name,
           description: command.description,
           category: command.category,

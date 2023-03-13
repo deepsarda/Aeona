@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import util from 'util';
+
 import Banned from '../../database/models/banned.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -15,7 +15,6 @@ export default {
       required: true,
     },
   ],
-
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     if (
