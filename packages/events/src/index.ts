@@ -79,10 +79,10 @@ const cachebot = createProxyCache(b, {
       if (table == 'role') item = await db.get(`/role/${guildid}/${id}`);
       if (item)
         item = JSON.parse(item, (key, value) => {
-          if (typeof value === 'string' ) {
-            try{
+          if (typeof value === 'string') {
+            try {
               return BigInt(value)
-            }catch(e){
+            } catch (e) {
               return value;
             }
           }
@@ -92,7 +92,7 @@ const cachebot = createProxyCache(b, {
           }
           if (typeof value === 'object' && value !== null)
             if (value.dataType === 'Map') return new Map(value.value);
-          
+
           return value;
         });
 
@@ -211,9 +211,9 @@ async function logDbCache() {
 }
 
 setInterval(() => {
-  console.log('Getting Cache Length...'.yellow);
+
   logDbCache();
-}, 60 * 1000);
+}, 60 * 1000 * 10);
 
 logDbCache();
 
