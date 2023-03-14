@@ -139,7 +139,7 @@ const cachebot = createProxyCache(b, {
 });
 
 const bot: AeonaBot = enableAmethystPlugin(cachebot, {
-  owners: ['794921502230577182', '830231116660604951'],
+  owners: ['794921502230577182', '830231116660604951', '980280857958965328'],
   prefix: async (bot, message) => {
     if (process.env.DEV === 'true' && message.channelId != 1073654475652333568n)
       return 'asdasdasdasdasdasdasdasdasdq3w12341234';
