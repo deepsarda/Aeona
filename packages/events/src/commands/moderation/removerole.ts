@@ -36,7 +36,7 @@ export default {
     const reason = ctx.options.getLongString('reason') || `Not given`;
 
     client.helpers
-      .addRole(ctx.guild.id, user.id, role.id, reason)
+      .removeRole(ctx.guild.id, user.id, role.id, reason)
       .then(() =>
         client.extras.succNormal(
           {
