@@ -19,6 +19,8 @@ export default {
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     const code = ctx.options.getLongString('code', true);
+    
+    if(code.includes('token')) return;
     let embed = ``;
     try {
       let output = eval(code);
