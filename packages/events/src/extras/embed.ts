@@ -1,10 +1,10 @@
-import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { ActionRow, Channel, Interaction, Message } from 'discordeno';
+import { AmethystEmbed, Context } from "@thereallonewolf/amethystframework";
+import { ActionRow, Channel, Interaction, Message } from "discordeno";
 
-import config from '../botconfig/bot.js';
-import Schema from '../database/models/guild.js';
-import embedbuilder from './embedbuilder.js';
-import { AeonaBot } from './index.js';
+import config from "../botconfig/bot.js";
+import Schema from "../database/models/guild.js";
+import embedbuilder from "./embedbuilder.js";
+import { AeonaBot } from "./index.js";
 
 /* Exporting a function that takes a client as a parameter. */
 export default (client: AeonaBot) => {
@@ -26,11 +26,11 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRow[];
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     embed.setTitle(`${config.emotes.normal.error} Error!`);
     embed.setDescription(`Something went wrong!`);
-    embed.addField('Error comment', `\`\`\`${error}\`\`\``);
+    embed.addField("Error comment", `\`\`\`${error}\`\`\``);
     embed.setColor(config.colors.error);
 
     return await sendEmbed(
@@ -40,7 +40,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
 
@@ -58,11 +58,11 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRow[];
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     embed.setTitle(`${config.emotes.normal.error} Error!`);
     embed.setDescription(`You did not provide the correct arguments`);
-    embed.addField('Required arguments', `\`\`\`${usage}\`\`\``);
+    embed.addField("Required arguments", `\`\`\`${usage}\`\`\``);
     embed.setColor(config.colors.error);
 
     return await sendEmbed(
@@ -72,7 +72,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
 
@@ -90,11 +90,11 @@ export default (client: AeonaBot) => {
       type?: string;
       components?: ActionRow[];
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     embed.setTitle(`${config.emotes.normal.error} Error!`);
     embed.setDescription(`You've already done this once`);
-    embed.addField('Try again on', `<t:${time}:f>`);
+    embed.addField("Try again on", `<t:${time}:f>`);
     embed.setColor(config.colors.error);
 
     return await sendEmbed(
@@ -104,7 +104,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
 
@@ -145,7 +145,7 @@ export default (client: AeonaBot) => {
       footer?: string;
       embed?: AmethystEmbed;
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     if (interaction.guildId == undefined) interaction.guildId = 0n;
     const functiondata = await Schema.findOne({ Guild: interaction.guildId });
@@ -173,7 +173,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
 
@@ -210,7 +210,7 @@ export default (client: AeonaBot) => {
       components?: ActionRow[];
       type?: string;
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
@@ -238,7 +238,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
 
@@ -273,7 +273,7 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRow[];
     },
-    ctx: Message,
+    ctx: Message
   ) {
     const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
@@ -335,7 +335,7 @@ export default (client: AeonaBot) => {
       footer?: string;
       components?: ActionRow[];
     },
-    ctx: Message,
+    ctx: Message
   ) {
     const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
@@ -385,7 +385,7 @@ export default (client: AeonaBot) => {
       components?: ActionRow[];
       type?: string;
     },
-    interaction: Context | Channel | Interaction,
+    interaction: Context | Channel | Interaction
   ) {
     embed.setTitle(`${client.extras.emotes.normal.check}・Success!`);
     embed.setDescription(`${text}`);
@@ -394,7 +394,7 @@ export default (client: AeonaBot) => {
     if (fields)
       for (const field of fields)
         embed.addField(field.name, field.value, field.inline);
-    type = 'reply';
+    type = "reply";
     return client.extras.sendEmbed(
       {
         embeds: [embed],
@@ -402,7 +402,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction,
+      interaction
     );
   };
   const sendEmbedMessage = async function (
@@ -436,7 +436,7 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRow[];
     },
-    ctx: Message,
+    ctx: Message
   ) {
     const functiondata = await Schema.findOne({ Guild: ctx.guildId });
 
@@ -478,45 +478,47 @@ export default (client: AeonaBot) => {
       components?: ActionRow[];
       type?: string;
     },
-    ctx: Context | Channel | Interaction,
+    ctx: Context | Channel | Interaction
   ) {
     if (ctx instanceof Context) {
       let s = [
-        '\n discord.gg/W8hssA32C9',
-        '\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
+        "\n discord.gg/W8hssA32C9",
+        "\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote",
       ];
       let guildDB = await Schema.findOne({ Guild: `${ctx.guildId}` });
       if (!guildDB)
         guildDB = new Schema({
           Guild: `${ctx.guildId}`,
         });
-      if (guildDB.isPremium === 'true') s = ['', ''];
+      if (guildDB.isPremium === "true") s = ["", ""];
 
       for (const embed of embeds) {
         try {
           if (embed.author == undefined)
             embed.setAuthor(
-              'Aeona',
-              client.helpers.getAvatarURL(client.user!.id,
+              "Aeona",
+              client.helpers.getAvatarURL(
+                client.user!.id,
                 client.user!.discriminator,
                 {
                   avatar: client.user?.avatar,
-                },),
-              'https://docs.aeona.xyz',
+                }
+              ),
+              "https://docs.aeona.xyz"
             );
           if (embed.footer == undefined)
             embed.setFooter(
               ctx.user
                 ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks`
-                : '',
+                : "",
 
               client.helpers.getAvatarURL(
                 ctx.user!.id,
                 ctx.user!.discriminator,
                 {
                   avatar: ctx.user?.avatar,
-                },
-              ),
+                }
+              )
             );
         } catch (e) {
           //
@@ -526,11 +528,11 @@ export default (client: AeonaBot) => {
       const randomNumber = Math.floor(Math.random() * 50);
       content =
         randomNumber == 0
-          ? (content ?? '') + s[0]
+          ? (content ?? "") + s[0]
           : randomNumber == 1
-            ? (content ?? '') + s[1]
-            : content;
-      if (type && type.toLowerCase() == 'reply' && ctx.replied) {
+          ? (content ?? "") + s[1]
+          : content;
+      if (type && type.toLowerCase() == "reply" && ctx.replied) {
         const c = await ctx
           .reply({
             embeds,
@@ -542,7 +544,7 @@ export default (client: AeonaBot) => {
 
         return c.message!;
       }
-      if (type && type.toLowerCase() == 'reply') {
+      if (type && type.toLowerCase() == "reply") {
         const c = await ctx
           .reply({
             embeds,
@@ -553,7 +555,7 @@ export default (client: AeonaBot) => {
           .catch();
         return c.message!;
       }
-      if (type && type.toLowerCase() == 'editreply') {
+      if (type && type.toLowerCase() == "editreply") {
         const c = await ctx
           .editReply({
             embeds,
@@ -564,7 +566,7 @@ export default (client: AeonaBot) => {
           .catch();
         return c.message!;
       }
-      if (type && type.toLowerCase() == 'ephemeral') {
+      if (type && type.toLowerCase() == "ephemeral") {
         const c = await ctx
           .reply({
             embeds,
@@ -577,7 +579,7 @@ export default (client: AeonaBot) => {
           .catch();
         return c.message!;
       }
-      if (type && type.toLowerCase() == 'ephemeraledit') {
+      if (type && type.toLowerCase() == "ephemeraledit") {
         const c = await ctx
           .editReply({
             embeds,
@@ -605,9 +607,15 @@ export default (client: AeonaBot) => {
       try {
         if (embed.author == undefined)
           embed.setAuthor(
-            'Aeona',
-            'https://www.aeona.xyz/logo.png',
-            'https://docs.aeona.xyz',
+            "Aeona",
+            client.helpers.getAvatarURL(
+              client.user!.id,
+              client.user!.discriminator,
+              {
+                avatar: client.user?.avatar,
+              }
+            ),
+            "https://docs.aeona.xyz"
           );
       } catch (e) {
         //

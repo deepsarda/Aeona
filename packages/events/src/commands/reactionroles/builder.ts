@@ -1,26 +1,26 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from "@thereallonewolf/amethystframework";
 
-import Schema from '../../database/models/reactionRoles.js';
-import { AeonaBot } from '../../extras/index.js';
+import Schema from "../../database/models/reactionRoles.js";
+import { AeonaBot } from "../../extras/index.js";
 
 export default {
-  name: 'builder',
-  description: 'Create a reactionrole',
-  commandType: ['application', 'message'],
-  category: 'reactionroles',
+  name: "builder",
+  description: "Create a reactionrole",
+  commandType: ["application", "message"],
+  category: "reactionroles",
   args: [
     {
-      name: 'name',
-      description: 'The name for the reaction role',
+      name: "name",
+      description: "The name for the reaction role",
       required: true,
-      type: 'String',
+      type: "String",
     },
   ],
-  userGuildPermissions: ['MANAGE_ROLES'],
+  userGuildPermissions: ["MANAGE_ROLES"],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-    const name = ctx.options.getString('name', true);
+    const name = ctx.options.getString("name", true);
 
     let data = await Schema.findOne({ Guild: ctx.guild!.id, Category: name });
     if (!data) {
@@ -43,10 +43,10 @@ export default {
 
         const message = await client.amethystUtils.awaitMessage(
           ctx.user!.id,
-          ctx.channel!.id,
+          ctx.channel!.id
         );
 
-        if (message.content.toLowerCase() === 'cancel') return;
+        if (message.content.toLowerCase() === "cancel") return;
 
         if (message.mentionedRoleIds.length === 0) {
           client.helpers.sendMessage(ctx.channel!.id, {
@@ -56,7 +56,7 @@ export default {
         }
 
         const role = message.mentionedRoleIds[0];
-        const emoji = message.content.replace(`<@&${role}>`, '');
+        const emoji = message.content.replace(`<@&${role}>`, "").trim();
         const parsedEmoji = parseEmoji(emoji);
 
         if (!parsedEmoji) {
@@ -76,7 +76,7 @@ export default {
 
         await Schema.findOneAndUpdate(
           { Guild: ctx.guild!.id, Category: name },
-          data,
+          data
         );
 
         client.helpers.sendMessage(ctx.channel!.id, {
@@ -91,29 +91,29 @@ export default {
     await requestNextRole();
 
     client.extras.succNormal(
-        {
-          text: 'Reaction role successfully created! Create a panel in the following way',
-          fields: [
-            {
-              name: `Menu panel`,
-              value: `\`/reactionroles menu ${name}\``,
-              inline: true,
-            },
-            {
-              name: `Button panel`,
-              value: `\`/reactionroles button ${name}\``,
-              inline: true,
-            },
-          ],
-          type: 'reply',
-        },
-        ctx.channel,
-      );
+      {
+        text: "Reaction role successfully created! Create a panel in the following way",
+        fields: [
+          {
+            name: `Menu panel`,
+            value: `\`/reactionroles menu ${name}\``,
+            inline: true,
+          },
+          {
+            name: `Button panel`,
+            value: `\`/reactionroles button ${name}\``,
+            inline: true,
+          },
+        ],
+        type: "reply",
+      },
+      ctx.channel
+    );
   },
 } as CommandOptions;
 function parseEmoji(text: string) {
-  if (text.includes('%')) text = decodeURIComponent(text);
-  if (!text.includes(':'))
+  if (text.includes("%")) text = decodeURIComponent(text);
+  if (!text.includes(":"))
     return {
       name: text,
       id: undefined,
