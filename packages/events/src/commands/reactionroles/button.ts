@@ -90,17 +90,3 @@ export default {
     );
   },
 } as CommandOptions;
-
-function parseEmoji(text: string) {
-  if (text.includes("%")) text = decodeURIComponent(text);
-  if (!text.includes(":"))
-    return {
-      name: text,
-      id: undefined,
-
-      animated: true,
-      requireColons: true,
-    };
-  const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
-  return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
-}
