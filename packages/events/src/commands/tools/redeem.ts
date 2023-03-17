@@ -67,12 +67,14 @@ export default {
               {
                 desc: `**Premium Subscription**
 
-                    You've recently redeemed a code in **${ctx.guild.name}** and here is your receipt:
+                    You've recently redeemed a code in **${
+                      ctx.guild!.name
+                    }** and here is your receipt:
 
                     **Reciept ID:** ${id}
                     **Redeem Time:** ${redeemtime}
-                    **Guild Name:** ${ctx.guild.name}
-                    **Guild ID:** ${ctx.guild.id}`,
+                    **Guild Name:** ${ctx.guild!.name}
+                    **Guild ID:** ${ctx.guild!.id}`,
               },
               channel
             )
