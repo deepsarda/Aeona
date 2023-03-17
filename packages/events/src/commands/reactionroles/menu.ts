@@ -51,7 +51,7 @@ export default {
         const role = roles.get(BigInt(data.Roles[b][0]));
         if (role) {
           map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
-          const emoji = parseEmoji(!data.Roles[b][1].raw);
+          const emoji = parseEmoji(data.Roles[b][1].raw)!;
           labels.push({
             label: `${data.Roles[b][1].raw} ${role.name}`,
             description: `Add or remove the role ${role.name}`,

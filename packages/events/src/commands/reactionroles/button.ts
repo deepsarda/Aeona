@@ -50,7 +50,7 @@ export default {
 
         const role = roles.get(BigInt(data.Roles[b][0]));
         if (role) {
-          const emoji = parseEmoji(!data.Roles[b][1].raw);
+          const emoji = parseEmoji(data.Roles[b][1].raw)!;
           mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
           comp.addButton(`${role.name}`,
             'Secondary',
