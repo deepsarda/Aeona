@@ -54,7 +54,7 @@ export default {
           mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
           comp.addButton(`${role.name}`,
             'Secondary',
-            !data.Roles[b][1].raw,
+            data.Roles[b][1].raw,
             { emoji: !emoji.id ? emoji.name : emoji.id },
           );
         }
