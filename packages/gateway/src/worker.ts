@@ -6,14 +6,14 @@ import {
   Shard,
   ShardSocketCloseCodes,
   ShardState,
-} from 'discordeno';
-import { parentPort, workerData } from 'worker_threads';
+} from "discordeno";
+import { parentPort, workerData } from "worker_threads";
 
 const script = workerData;
 // eslint-disable-next-line no-console
 const log = { info: console.log, debug: console.log, error: console.error };
 
-if (!parentPort) throw new Error('Ué, worker não tem uma parent port');
+if (!parentPort) throw new Error("Ué, worker não tem uma parent port");
 
 const identifyPromises = new Map<number, () => void>();
 
@@ -58,10 +58,10 @@ const manager = createShardManager({
             JSON.stringify({
               op: GatewayOpcodes.Heartbeat,
               d: shard.previousSequenceNumber,
-            }),
+            })
           );
         } catch {
-          log.info('[ERRROR] Hit the gateway reconnect error UwU');
+          log.info("[ERRROR] Hit the gateway reconnect error UwU");
         }
 
         shard.heart.lastBeat = Date.now();
@@ -81,7 +81,7 @@ const manager = createShardManager({
           if (!shard.heart.acknowledged) {
             shard.close(
               ShardSocketCloseCodes.ZombiedConnection,
-              'Zombied connection, did not receive an heartbeat ACK in time.',
+              "Zombied connection, did not receive an heartbeat ACK in time."
             );
 
             return shard.identify();
@@ -95,10 +95,10 @@ const manager = createShardManager({
               JSON.stringify({
                 op: GatewayOpcodes.Heartbeat,
                 d: shard.previousSequenceNumber,
-              }),
+              })
             );
           } catch {
-            log.info('[ERRROR] Hit the gateway reconnect error UwU');
+            log.info("[ERRROR] Hit the gateway reconnect error UwU");
           }
 
           shard.heart.lastBeat = Date.now();
@@ -116,7 +116,7 @@ const manager = createShardManager({
             createdAt: Date.now(),
           },
         ],
-        status: 'idle',
+        status: "idle",
       };
     },
   },
@@ -126,11 +126,11 @@ const manager = createShardManager({
       logging?: boolean;
       requests?: any[];
     },
-    message,
+    message
   ) => {
-    if (message.t === 'READY') {
+    if (message.t === "READY") {
       log.info(`[WORKER] Shard ${shard.id} is online`);
-      parentPort?.postMessage({ type: 'SHARD_READY' });
+      parentPort?.postMessage({ type: "SHARD_READY" });
       if (!shard.logging) {
         shard.logging = true;
         shard.requests = [];
@@ -142,7 +142,7 @@ const manager = createShardManager({
       }
     }
 
-    if (message.t === 'GUILD_DELETE') {
+    if (message.t === "GUILD_DELETE") {
       const guild = message.d as DiscordUnavailableGuild;
       if (!guild.unavailable) {
         guildsIn -= 1;
@@ -151,12 +151,12 @@ const manager = createShardManager({
       }
     }
 
-    if (message.t === 'GUILD_CREATE') {
+    if (message.t === "GUILD_CREATE") {
       guildsIn += 1;
       const oldValue = guildsPerShards.get(shard.id) ?? 0;
       guildsPerShards.set(shard.id, oldValue + 1);
       if (!shard.requests) shard.requests = [];
-      
+
       /* shard.requests.push({
         op: 8,
         d: {
@@ -165,8 +165,24 @@ const manager = createShardManager({
       });
       */
     }
+
+    if (
+      message.t === "APPLICATION_COMMAND_PERMISSIONS_UPDATE" ||
+      message.t === "AUTO_MODERATION_RULE_CREATE" ||
+      message.t === "AUTO_MODERATION_RULE_UPDATE" ||
+      message.t === "AUTO_MODERATION_RULE_DELETE" ||
+      message.t === "AUTO_MODERATION_ACTION_EXECUTION" ||
+      message.t === "GUILD_INTEGRATIONS_UPDATE" ||
+      message.t === "TYPING_START" ||
+      message.t === "WEBHOOKS_UPDATE" ||
+      message.t === "INTEGRATION_CREATE" ||
+      message.t === "INTEGRATION_UPDATE" ||
+      message.t === "INTEGRATION_DELETE" ||
+      message.t === "TYPING_START"
+    )
+      return;
     parentPort?.postMessage({
-      type: 'BROADCAST_EVENT',
+      type: "BROADCAST_EVENT",
       data: { shardId: shard.id, data: message },
     });
   },
@@ -175,7 +191,7 @@ const manager = createShardManager({
       identifyPromises.set(shardId, res);
 
       const identifyRequest = {
-        type: 'REQUEST_IDENTIFY',
+        type: "REQUEST_IDENTIFY",
         shardId,
       };
 
@@ -194,31 +210,31 @@ const buildShardInfo = (shard: Shard) => {
   };
 };
 
-parentPort?.on('message', async (message) => {
+parentPort?.on("message", async (message) => {
   switch (message.type) {
-    case 'IDENTIFY_SHARD': {
+    case "IDENTIFY_SHARD": {
       await manager.identify(message.shardId);
       break;
     }
-    case 'ALLOW_IDENTIFY': {
+    case "ALLOW_IDENTIFY": {
       identifyPromises.get(message.shardId)?.();
       identifyPromises.delete(message.shardId);
 
       break;
     }
-    case 'GET_GUILD_COUNT': {
+    case "GET_GUILD_COUNT": {
       parentPort?.postMessage({
-        type: 'NONCE_REPLY',
+        type: "NONCE_REPLY",
         nonce: message.nonce,
         data: { guilds: guildsIn },
       });
       break;
     }
-    case 'GET_SHARDS_INFO': {
+    case "GET_SHARDS_INFO": {
       const infos = manager.shards.map(buildShardInfo);
 
       parentPort?.postMessage({
-        type: 'NONCE_REPLY',
+        type: "NONCE_REPLY",
         nonce: message.nonce,
         data: infos,
       });

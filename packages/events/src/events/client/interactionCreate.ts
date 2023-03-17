@@ -1,40 +1,40 @@
-import Captcha from '@haileybot/captcha-generator';
+import Captcha from "@haileybot/captcha-generator";
 import {
   AmethystEmbed,
   createContext,
   createOptionResults,
-} from '@thereallonewolf/amethystframework';
-import { Blob } from 'buffer';
-import { Message } from 'discordeno';
-import { Interaction } from 'discordeno/transformers';
-import { InteractionTypes } from 'discordeno/types';
+} from "@thereallonewolf/amethystframework";
+import { Blob } from "buffer";
+import { Message } from "discordeno";
+import { Interaction } from "discordeno/transformers";
+import { InteractionTypes } from "discordeno/types";
 
-import claim from '../../commands/tickets/claim.js';
-import close from '../../commands/tickets/close.js';
-import openticket from '../../commands/tickets/createticket.js';
-import deleteTicket from '../../commands/tickets/deleteticket.js';
-import notice from '../../commands/tickets/notice.js';
-import transcript from '../../commands/tickets/transcript.js';
-import reactionSchema from '../../database/models/reactionRoles.js';
-import verify from '../../database/models/verify.js';
-import { AeonaBot } from '../../extras/index.js';
+import claim from "../../commands/tickets/claim.js";
+import close from "../../commands/tickets/close.js";
+import openticket from "../../commands/tickets/createticket.js";
+import deleteTicket from "../../commands/tickets/deleteticket.js";
+import notice from "../../commands/tickets/notice.js";
+import transcript from "../../commands/tickets/transcript.js";
+import reactionSchema from "../../database/models/reactionRoles.js";
+import verify from "../../database/models/verify.js";
+import { AeonaBot } from "../../extras/index.js";
 
 function dataURItoBlob(dataURI) {
-  const byteString = atob(dataURI.split(',')[1]);
+  const byteString = atob(dataURI.split(",")[1]);
   const ab = new ArrayBuffer(byteString.length);
   const ia = new Uint8Array(ab);
   for (let i = 0; i < byteString.length; i++) {
     ia[i] = byteString.charCodeAt(i);
   }
   //@ts-ignore
-  return new Blob([ab], { type: 'image/jpeg' });
+  return new Blob([ab], { type: "image/jpeg" });
 }
 export default async (client: AeonaBot, interaction: Interaction) => {
   // Commands
   // Verify system
   if (
     interaction.type == InteractionTypes.MessageComponent &&
-    interaction.data?.customId == 'verify'
+    interaction.data?.customId == "verify"
   ) {
     const data = await verify.findOne({
       Guild: interaction.guildId,
@@ -55,15 +55,15 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
               client.helpers.deleteMessage(interaction.channelId!, msg.id!);
               const channel = await client.helpers.getDmChannel(
-                interaction.user.id,
+                interaction.user.id
               );
               client.extras
                 .embed(
                   {
-                    title: 'You have been successfully verified!',
-                    type: '',
+                    title: "You have been successfully verified!",
+                    type: "",
                   },
-                  channel,
+                  channel
                 )
                 .catch((error) => console.error(error));
 
@@ -74,22 +74,22 @@ export default async (client: AeonaBot, interaction: Interaction) => {
               client.helpers.deleteMessage(interaction.channelId!, response.id);
               client.helpers.deleteMessage(interaction.channelId!, msg.id);
               const channel = await client.cache.channels.get(
-                interaction.channelId!,
+                interaction.channelId!
               );
               client.extras
                 .errNormal(
                   {
                     error:
                       "You have answered the captcha incorrectly! Don't worry you can try again",
-                    type: 'reply',
+                    type: "reply",
                   },
-                  channel!,
+                  channel!
                 )
                 .then((_msgError) => {
                   setTimeout(() => {
                     client.helpers.deleteMessage(
                       interaction.channelId!,
-                      msg.id,
+                      msg.id
                     );
                   }, 20000);
                 });
@@ -101,7 +101,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           file: [
             {
               blob: dataURItoBlob(captcha.dataURL),
-              name: 'captcha.jpeg',
+              name: "captcha.jpeg",
             },
           ],
         })
@@ -110,19 +110,19 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       client.extras.errNormal(
         {
           error:
-            'Verify is disabled in this server! Or you are using the wrong channel!',
-          type: 'ephemeral',
+            "Verify is disabled in this server! Or you are using the wrong channel!",
+          type: "ephemeral",
         },
-        interaction,
+        interaction
       );
     }
   }
 
   // Reaction roles button
   if (interaction.type == InteractionTypes.MessageComponent) {
-    const buttonID = interaction.data?.customId?.split('-');
+    const buttonID = interaction.data?.customId?.split("-");
     if (!buttonID) return;
-    if (buttonID[0] == 'reaction_button') {
+    if (buttonID[0] == "reaction_button") {
       reactionSchema.findOne(
         { Message: interaction.message?.id },
         async (err: any, data: { Roles: { [x: string]: [any] } }) => {
@@ -134,7 +134,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             await client.helpers.removeRole(
               interaction.guildId!,
               interaction.user?.id!,
-              roleid,
+              roleid
             );
             await client.helpers.sendInteractionResponse(
               interaction.id,
@@ -142,13 +142,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
               {
                 type: 4,
                 data: { content: `<@&${roleid}> was removed!`, flags: 1 << 6 },
-              },
+              }
             );
           } else {
             await client.helpers.addRole(
               interaction.guildId!,
               interaction.user?.id!,
-              roleid,
+              roleid
             );
             await client.helpers.sendInteractionResponse(
               interaction.id,
@@ -156,14 +156,14 @@ export default async (client: AeonaBot, interaction: Interaction) => {
               {
                 type: 4,
                 data: { content: `<@&${roleid}> was added!`, flags: 1 << 6 },
-              },
+              }
             );
           }
-        },
+        }
       );
     }
 
-    if (interaction.data?.customId == 'profane') {
+    if (interaction.data?.customId == "profane") {
       await client.helpers.sendInteractionResponse(
         interaction.id,
         interaction.token,
@@ -173,23 +173,21 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $1 [here](https://patreon.com/aeonicdiscord)`,
             flags: 1 << 6,
           },
-        },
+        }
       );
     }
   }
 
   // Reaction roles select
   if (interaction.type == InteractionTypes.MessageComponent) {
-    if (interaction.data?.customId == 'reaction_select') {
+    if (interaction.data?.customId == "reaction_select") {
       reactionSchema.findOne(
         { Message: interaction.message?.id },
         async (err: any, data: { Roles: { [x: string]: [any] } }) => {
           if (!data) return;
 
-          let roles = '';
+          let roles = "";
           if (!interaction.data?.values) return;
-          console.log(interaction.data);
-          console.log(data.Roles)
           for (let i = 0; i < interaction.data?.values.length; i++) {
             const [roleid] = data.Roles[interaction.data?.values[i]];
 
@@ -199,13 +197,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
               client.helpers.removeRole(
                 interaction.guildId!,
                 interaction.user?.id!,
-                roleid,
+                roleid
               );
             } else {
               client.helpers.addRole(
                 interaction.guildId!,
                 interaction.user?.id!,
-                roleid,
+                roleid
               );
             }
 
@@ -219,13 +217,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
                     content: `I have updated the following roles for you: ${roles}`,
                     flags: 1 << 6,
                   },
-                },
+                }
               );
             }
           }
-        },
+        }
       );
-    } else if (interaction.data?.customId?.startsWith('help_select')) {
+    } else if (interaction.data?.customId?.startsWith("help_select")) {
       const c = client.category.get(interaction.data?.values![0]);
       if (!c) return;
       const fields: Field[] = [];
@@ -250,7 +248,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         .setColor(client.extras.config.colors.normal)
         .setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
         .setDescription(
-          `*${c.description.trim()}* \n Total of ${c.commands.size} commands. `,
+          `*${c.description.trim()}* \n Total of ${c.commands.size} commands. `
         );
       for (let i = 0; i < fields.length; i++) {
         embed.addField(fields[i].name, fields[i].value, fields[i].inline);
@@ -264,21 +262,22 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             embeds: [embed],
             flags: 1 << 6,
           },
-        },
+        }
       );
-    } else if (interaction.data?.customId?.startsWith('share-imagine')) {
+    } else if (interaction.data?.customId?.startsWith("share-imagine")) {
       if (
-        interaction.data?.values![0] == 'share-discord' &&
-        interaction.data?.customId?.split('_')[1] == `${interaction.user.id}`
+        interaction.data?.values![0] == "share-discord" &&
+        interaction.data?.customId?.split("_")[1] == `${interaction.user.id}`
       ) {
         const channel = await client.helpers.createForumThread(
-          '1042413922138980352',
+          "1042413922138980352",
           {
-            name: `${interaction.message?.content.split('\n')[0].split(':**')[1]
-              } by ${interaction.user.username}(${interaction.member?.id})`,
+            name: `${
+              interaction.message?.content.split("\n")[0].split(":**")[1]
+            } by ${interaction.user.username}(${interaction.member?.id})`,
             autoArchiveDuration: 60,
             content: interaction.message?.attachments[0].proxyUrl,
-          },
+          }
         );
         client.helpers.sendMessage(channel.id, {
           content: interaction.message?.content,
@@ -290,10 +289,10 @@ export default async (client: AeonaBot, interaction: Interaction) => {
             type: 4,
             data: {
               content:
-                'I have successfully posted your art in my support server. \n To see it join discord.gg/W8hssA32C9 and see <#1045332279943233667>',
+                "I have successfully posted your art in my support server. \n To see it join discord.gg/W8hssA32C9 and see <#1045332279943233667>",
               flags: 1 << 6,
             },
-          },
+          }
         );
 
         await client.helpers.editMessage(
@@ -301,14 +300,14 @@ export default async (client: AeonaBot, interaction: Interaction) => {
           interaction.message?.id!,
           {
             components: [],
-          },
+          }
         );
       }
     }
   }
 
   // Tickets
-  if (interaction.data?.customId == 'openticket') {
+  if (interaction.data?.customId == "openticket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -320,13 +319,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       openticket,
-      client,
+      client
     );
 
     openticket.execute!(client, ctx);
   }
 
-  if (interaction.data?.customId == 'closeticket') {
+  if (interaction.data?.customId == "closeticket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -338,13 +337,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       close,
-      client,
+      client
     );
 
     close.execute!(client, ctx);
   }
 
-  if (interaction.data?.customId == 'claimTicket') {
+  if (interaction.data?.customId == "claimTicket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -356,12 +355,12 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       claim,
-      client,
+      client
     );
     claim.execute!(client, ctx);
   }
 
-  if (interaction.data?.customId == 'transcriptTicket') {
+  if (interaction.data?.customId == "transcriptTicket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -373,13 +372,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       transcript,
-      client,
+      client
     );
 
     transcript.execute!(client, ctx);
   }
 
-  if (interaction.data?.customId == 'deleteTicket') {
+  if (interaction.data?.customId == "deleteTicket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -391,12 +390,12 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       deleteTicket,
-      client,
+      client
     );
     deleteTicket.execute!(client, ctx);
   }
 
-  if (interaction.data?.customId == 'noticeTicket') {
+  if (interaction.data?.customId == "noticeTicket") {
     const ctx = await createContext(
       {
         interaction: {
@@ -408,7 +407,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         interaction: interaction,
       }),
       notice,
-      client,
+      client
     );
     notice.execute!(client, ctx);
   }
