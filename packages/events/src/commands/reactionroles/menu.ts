@@ -51,10 +51,11 @@ export default {
         const role = roles.get(BigInt(data.Roles[b][0]));
         if (role) {
           map.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+          const emoji = parseEmoji(!data.Roles[b][1].raw);
           labels.push({
             label: `${data.Roles[b][1].raw} ${role.name}`,
             description: `Add or remove the role ${role.name}`,
-            emoji: data.Roles[b][1].raw,
+            emoji: !emoji.id ? emoji.name : emoji.id,
             value: data.Roles[b][1].raw,
           });
         }
@@ -95,3 +96,17 @@ export default {
     });
   },
 } as CommandOptions;
+
+function parseEmoji(text: string) {
+  if (text.includes('%')) text = decodeURIComponent(text);
+  if (!text.includes(':'))
+    return {
+      name: text,
+      id: undefined,
+
+      animated: true,
+      requireColons: true,
+    };
+  const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
+  return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
+}

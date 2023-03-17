@@ -1,4 +1,4 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/reactionRoles.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -43,22 +43,33 @@ export default {
       const a = Object.keys(data.Roles);
       const roles = await client.helpers.getRoles(ctx.guild!.id);
       const mapped: string[] = [];
+
+      const comp = new Components();
       for (let i = 0; i < a.length; i++) {
         const b = a[i];
+
         const role = roles.get(BigInt(data.Roles[b][0]));
-        if (role) mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+        if (role) {
+          const emoji = parseEmoji(!data.Roles[b][1].raw);
+          mapped.push(`${data.Roles[b][1].raw} | <@&${role.id}>`);
+          comp.addButton(`${role.name}`,
+            'Secondary',
+            !data.Roles[b][1].raw,
+            { emoji: !emoji.id ? emoji.name : emoji.id },
+          );
+        }
       }
       const mappedstring = mapped.join('\n');
 
-      const reactions = Object.values(data.Roles).map((val: any) => val[1].raw);
-      const sendComponents = client.extras.buttonReactions('id', reactions);
+
+
 
       client.extras
         .embed(
           {
             title: `${upper} Roles`,
             desc: `Choose your roles by pressing the button! \n\n${mappedstring}`,
-            components: sendComponents,
+            components: comp,
             type: 'reply',
           },
           channel,
@@ -78,3 +89,17 @@ export default {
     });
   },
 } as CommandOptions;
+
+function parseEmoji(text: string) {
+  if (text.includes('%')) text = decodeURIComponent(text);
+  if (!text.includes(':'))
+    return {
+      name: text,
+      id: undefined,
+
+      animated: true,
+      requireColons: true,
+    };
+  const match = text.match(/<?(?:(a):)?(\w{2,32}):(\d{17,19})?>?/);
+  return match && { animated: Boolean(match[1]), name: match[2], id: match[3] };
+}

@@ -188,6 +188,8 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
           let roles = '';
           if (!interaction.data?.values) return;
+          console.log(interaction.data);
+          console.log(data.Roles)
           for (let i = 0; i < interaction.data?.values.length; i++) {
             const [roleid] = data.Roles[interaction.data?.values[i]];
 
@@ -272,9 +274,8 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         const channel = await client.helpers.createForumThread(
           '1042413922138980352',
           {
-            name: `${
-              interaction.message?.content.split('\n')[0].split(':**')[1]
-            } by ${interaction.user.username}(${interaction.member?.id})`,
+            name: `${interaction.message?.content.split('\n')[0].split(':**')[1]
+              } by ${interaction.user.username}(${interaction.member?.id})`,
             autoArchiveDuration: 60,
             content: interaction.message?.attachments[0].proxyUrl,
           },
