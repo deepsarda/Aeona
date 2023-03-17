@@ -1,39 +1,39 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from "@thereallonewolf/amethystframework";
 
-import { AeonaBot } from '../../extras/index.js';
+import { AeonaBot } from "../../extras/index.js";
 
 export default {
-  name: 'removerole',
-  description: 'Remove a role from a user.',
-  commandType: ['application', 'message'],
-  category: 'moderation',
+  name: "removerole",
+  description: "Remove a role from a user.",
+  commandType: ["application", "message"],
+  category: "moderation",
   args: [
     {
-      name: 'user',
-      description: 'The user to remove a role from.',
+      name: "user",
+      description: "The user to remove a role from.",
       required: true,
-      type: 'User',
+      type: "User",
     },
     {
-      name: 'role',
-      description: 'The role to be removed from the user',
+      name: "role",
+      description: "The role to be removed from the user",
       required: false,
-      type: 'Role',
+      type: "Role",
     },
     {
-      name: 'reason',
-      description: 'The reason to give the role.',
+      name: "reason",
+      description: "The reason to give the role.",
       required: false,
-      type: 'String',
+      type: "String",
     },
   ],
-  userGuildPermissions: ['MANAGE_ROLES'],
+  userGuildPermissions: ["MANAGE_ROLES"],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const user = await ctx.options.getUser('user', true);
+    const user = await ctx.options.getUser("user", true);
 
-    const role = await ctx.options.getRole('role', true);
-    const reason = ctx.options.getLongString('reason') || `Not given`;
+    const role = await ctx.options.getRole("role", true);
+    const reason = ctx.options.getLongString("reason") || `Not given`;
 
     client.helpers
       .removeRole(ctx.guild.id, user.id, role.id, reason)
@@ -42,16 +42,16 @@ export default {
           {
             text: `I have successfully removed the role from that user.`,
           },
-          ctx,
-        ),
+          ctx
+        )
       )
       .catch(() =>
         client.extras.errNormal(
           {
             error: `I was unable to remove the role from that user. Please check that the user does  have that role and I have premissions to remove it from them.`,
           },
-          ctx,
-        ),
+          ctx
+        )
       );
   },
 } as CommandOptions;

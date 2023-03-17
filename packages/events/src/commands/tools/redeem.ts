@@ -1,38 +1,38 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import moment from 'moment';
-import uniqui from 'uniqid';
+import { CommandOptions, Context } from "@thereallonewolf/amethystframework";
+import moment from "moment";
+import uniqui from "uniqid";
 
-import GuildDB from '../../database/models/guild.js';
-import Premium from '../../database/models/premium.js';
-import { AeonaBot } from '../../extras/index.js';
+import GuildDB from "../../database/models/guild.js";
+import Premium from "../../database/models/premium.js";
+import { AeonaBot } from "../../extras/index.js";
 
 export default {
-  name: 'redeem',
-  description: 'Redeem a Premium code!',
-  commandType: ['application', 'message'],
-  category: 'tools',
+  name: "redeem",
+  description: "Redeem a Premium code!",
+  commandType: ["application", "message"],
+  category: "tools",
   args: [
     {
-      name: 'code',
-      description: 'the premium code.',
+      name: "code",
+      description: "the premium code.",
       required: true,
-      type: 'String',
+      type: "String",
     },
   ],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const code = ctx.options.getLongString('text', true);
+    const code = ctx.options.getLongString("text", true);
     let guildDB = await GuildDB.findOne({ Guild: `${ctx.guildId}` });
     if (!guildDB)
       guildDB = new GuildDB({
         Guild: `${ctx.guildId}`,
       });
-    if (guildDB.isPremium === 'true') {
+    if (guildDB.isPremium === "true") {
       client.extras.errNormal(
         {
           error: `This guild is already premium.`,
         },
-        ctx,
+        ctx
       );
     } else {
       const premium = await Premium.findOne({
@@ -40,9 +40,9 @@ export default {
       });
       if (premium) {
         const expires = moment(Number(premium.ExpiresAt)).format(
-          'dddd, MMMM Do YYYY HH:mm:ss',
+          "dddd, MMMM Do YYYY HH:mm:ss"
         );
-        guildDB.isPremium = 'true';
+        guildDB.isPremium = "true";
         const data = {
           RedeemedBy: {
             id: `${ctx.author!.id}`,
@@ -58,12 +58,14 @@ export default {
 
         const id = uniqui(undefined, `-${code}`);
         const redeemtime = moment(new Date()).format(
-          'dddd, MMMM Do YYYY HH:mm:ss',
+          "dddd, MMMM Do YYYY HH:mm:ss"
         );
-        const channel = await client.helpers.getDmChannel(ctx.author!.id);
-        client.extras.embed(
-          {
-            desc: `**Premium Subscription**
+        client.helpers
+          .getDmChannel(ctx.author!.id)
+          .then((channel) =>
+            client.extras.embed(
+              {
+                desc: `**Premium Subscription**
 
                     You've recently redeemed a code in **${ctx.guild.name}** and here is your receipt:
 
@@ -71,9 +73,11 @@ export default {
                     **Redeem Time:** ${redeemtime}
                     **Guild Name:** ${ctx.guild.name}
                     **Guild ID:** ${ctx.guild.id}`,
-          },
-          channel,
-        );
+              },
+              channel
+            )
+          )
+          .catch();
 
         client.extras.embed(
           {
@@ -91,14 +95,14 @@ export default {
 
 **Expires At:** ${expires}`,
           },
-          ctx,
+          ctx
         );
       } else
         client.extras.errNormal(
           {
             error: `I was unable to find a premium code like that.`,
           },
-          ctx,
+          ctx
         );
     }
   },
