@@ -278,7 +278,7 @@ const createWorker = (workerId: number) => {
         break;
       }
       case "BROADCAST_EVENT": {
-        const { shardI } = data.data as {
+        const { shardId } = data.data as {
           shardId: number;
           data: DiscordGatewayPayload;
         };
