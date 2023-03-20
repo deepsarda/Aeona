@@ -278,14 +278,14 @@ const createWorker = (workerId: number) => {
         break;
       }
       case "BROADCAST_EVENT": {
-        const { shardId, data } = data.data as {
+        const { shardI } = data.data as {
           shardId: number;
           data: DiscordGatewayPayload;
         };
 
         if (eventClientConnections.length === 0) {
           //TODO: Filter Events
-          if (data.t == "GUILD_CREATE") eventsToSend.push(data.data);
+          if (data.data.t == "GUILD_CREATE") eventsToSend.push(data.data);
           return;
         }
 
