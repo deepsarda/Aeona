@@ -7,19 +7,19 @@ import {
   GatewayManager,
   Intents,
   routes,
-} from 'discordeno';
-import { nanoid } from 'nanoid';
-import { Client, Connection, Server } from 'net-ipc';
-import os from 'node:os';
-import { Worker } from 'worker_threads';
+} from "discordeno";
+import { nanoid } from "nanoid";
+import { Client, Connection, Server } from "net-ipc";
+import os from "node:os";
+import { Worker } from "worker_threads";
 
-import config from './config.js';
+import config from "./config.js";
 
-process.on('unhandledRejection', (error: Error) => {
+process.on("unhandledRejection", (error: Error) => {
   console.error(error);
 });
 
-process.on('warning', (warn) => {
+process.on("warning", (warn) => {
   console.warn(warn);
 });
 /* eslint-disable no-console */
@@ -36,10 +36,10 @@ const {
   REST_SOCKET_PATH,
   EVENT_SOCKET_PATH,
 } = config([
-  'DISCORD_TOKEN',
-  'REST_AUTHORIZATION',
-  'REST_SOCKET_PATH',
-  'EVENT_SOCKET_PATH',
+  "DISCORD_TOKEN",
+  "REST_AUTHORIZATION",
+  "REST_SOCKET_PATH",
+  "EVENT_SOCKET_PATH",
 ]);
 
 const restClient = new Client({ path: REST_SOCKET_PATH, port: 20000 });
@@ -65,11 +65,11 @@ const panic = (err: Error) => {
   process.exit(1);
 };
 
-restClient.on('close', () => {
-  console.log('[GATEWAY] REST Client closed');
+restClient.on("close", () => {
+  console.log("[GATEWAY] REST Client closed");
 
   const reconnectLogic = () => {
-    console.log('[GATEWAY] Trying to reconnect to REST server');
+    console.log("[GATEWAY] Trying to reconnect to REST server");
     restClient.connect().catch(() => {
       setTimeout(reconnectLogic, 1000);
 
@@ -87,13 +87,13 @@ restClient.on('close', () => {
   setTimeout(reconnectLogic, 2000);
 });
 
-eventsServer.on('message', async (msg, conn) => {
-  if (msg.type === 'IDENTIFY') {
+eventsServer.on("message", async (msg, conn) => {
+  if (msg.type === "IDENTIFY") {
     if (!currentVersion) currentVersion = msg.version;
 
     if (currentVersion === msg.version) {
       console.log(
-        `[GATEWAY] Client connected. Version: ${msg.version} ID: ${conn.id}`,
+        `[GATEWAY] Client connected. Version: ${msg.version} ID: ${conn.id}`
       );
       eventClientConnections.push({
         id: conn.id,
@@ -104,9 +104,9 @@ eventsServer.on('message', async (msg, conn) => {
 
       if (eventClientConnections.length === 1) {
         console.log(
-          `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`,
+          `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`
         );
-        conn.request({ type: 'YOU_ARE_THE_MASTER' });
+        conn.request({ type: "YOU_ARE_THE_MASTER" });
         eventClientConnections[0].isMaster = true;
 
         eventsToSend.forEach((event) => {
@@ -131,8 +131,8 @@ eventsServer.on('message', async (msg, conn) => {
 
     await Promise.all(
       eventClientConnections.map((a) =>
-        a.conn.request({ type: 'REQUEST_TO_SHUTDOWN' }),
-      ),
+        a.conn.request({ type: "REQUEST_TO_SHUTDOWN" })
+      )
     ).catch();
 
     await delay(1000);
@@ -147,10 +147,10 @@ eventsServer.on('message', async (msg, conn) => {
       isMaster: true,
     });
 
-    await conn.request({ type: 'YOU_ARE_THE_MASTER' }).catch(() => null);
+    await conn.request({ type: "YOU_ARE_THE_MASTER" }).catch(() => null);
 
     console.log(
-      `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`,
+      `[GATEWAY] Client made master. Version: ${msg.version} ID: ${conn.id}`
     );
     waitingForSwap.forEach((c) => eventClientConnections.push(c));
 
@@ -158,8 +158,8 @@ eventsServer.on('message', async (msg, conn) => {
   }
 });
 
-eventsServer.on('request', async (req, res) => {
-  if (req.type === 'GUILD_COUNT') {
+eventsServer.on("request", async (req, res) => {
+  if (req.type === "GUILD_COUNT") {
     if (!shardingEnded) return res(null);
 
     const infos = await Promise.all(
@@ -167,24 +167,24 @@ eventsServer.on('request', async (req, res) => {
         const nonce = nanoid();
 
         return new Promise((resolve) => {
-          worker.postMessage({ type: 'GET_GUILD_COUNT', nonce });
+          worker.postMessage({ type: "GET_GUILD_COUNT", nonce });
 
           nonces.set(nonce, resolve);
         });
-      }),
+      })
     ).then((guilds) =>
       guilds.reduce(
         (acc, cur) =>
           // @ts-expect-error it will work
           acc + cur.guilds,
-        0,
-      ),
+        0
+      )
     );
 
     return res({ guilds: infos, shards: gatewayManager.manager.totalShards });
   }
 
-  if (req.type === 'SHARDS_INFO') {
+  if (req.type === "SHARDS_INFO") {
     if (!shardingEnded) return res(null);
 
     const infos = await Promise.all(
@@ -192,29 +192,29 @@ eventsServer.on('request', async (req, res) => {
         const nonce = nanoid();
 
         return new Promise((resolve) => {
-          worker.postMessage({ type: 'GET_SHARDS_INFO', nonce });
+          worker.postMessage({ type: "GET_SHARDS_INFO", nonce });
 
           nonces.set(nonce, resolve);
         });
-      }),
+      })
     ).then((results) =>
       results.reduce((acc, cur) => {
         // @ts-expect-error uai
         acc.push(...cur);
         return acc;
-      }, []),
+      }, [])
     );
 
     return res(infos);
   }
 });
 
-eventsServer.on('disconnect', (conn) => {
+eventsServer.on("disconnect", (conn) => {
   const eventClient = eventClientConnections.find((a) => a.id === conn.id);
 
   eventClientConnections.splice(
     eventClientConnections.findIndex((c) => c.id === conn.id),
-    1,
+    1
   );
 
   if (swappingVersions) return;
@@ -222,13 +222,13 @@ eventsServer.on('disconnect', (conn) => {
   if (eventClientConnections.length === 0) return;
 
   if (eventClient?.isMaster) {
-    eventClientConnections[0].conn.request({ type: 'YOU_ARE_THE_MASTER' });
+    eventClientConnections[0].conn.request({ type: "YOU_ARE_THE_MASTER" });
     eventClientConnections[0].isMaster = true;
   }
 });
 
-eventsServer.on('ready', () => {
-  console.log('[GATEWAY] Event Handler Server started');
+eventsServer.on("ready", () => {
+  console.log("[GATEWAY] Event Handler Server started");
   retries = 0;
 });
 
@@ -259,33 +259,33 @@ const createWorker = (workerId: number) => {
     workerId,
   };
 
-  const worker = new Worker('./dist/worker.js', {
+  const worker = new Worker("./dist/worker.js", {
     env: process.env,
     workerData,
   });
 
-  worker.on('message', async (data) => {
+  worker.on("message", async (data) => {
     switch (data.type) {
-      case 'REQUEST_IDENTIFY': {
+      case "REQUEST_IDENTIFY": {
         await gatewayManager.manager.requestIdentify(data.shardId);
 
         const allowIdentify = {
-          type: 'ALLOW_IDENTIFY',
+          type: "ALLOW_IDENTIFY",
           shardId: data.shardId,
         };
 
         worker.postMessage(allowIdentify);
         break;
       }
-      case 'BROADCAST_EVENT': {
-        const { shardId } = data.data as {
+      case "BROADCAST_EVENT": {
+        const { shardId, data } = data.data as {
           shardId: number;
           data: DiscordGatewayPayload;
         };
 
         if (eventClientConnections.length === 0) {
           //TODO: Filter Events
-          // eventsToSend.push(data.data);
+          if (data.t == "GUILD_CREATE") eventsToSend.push(data.data);
           return;
         }
 
@@ -295,14 +295,14 @@ const createWorker = (workerId: number) => {
         toSendClient.conn.send(data.data);
         break;
       }
-      case 'NONCE_REPLY':
+      case "NONCE_REPLY":
         nonces.get(data.nonce)?.(data.data);
         break;
-      case 'SHARD_READY':
+      case "SHARD_READY":
         readyShards += 1;
         if (readyShards === gatewayManager.manager.totalShards) {
           shardingEnded = true;
-          console.log('[SHARDING] - All shards ready!');
+          console.log("[SHARDING] - All shards ready!");
         }
         break;
     }
@@ -314,11 +314,11 @@ const createWorker = (workerId: number) => {
 async function startGateway() {
   const results = await restClient
     .request({
-      type: 'RUN_METHOD',
+      type: "RUN_METHOD",
       data: {
         Authorization: REST_AUTHORIZATION,
         body: undefined,
-        method: 'GET',
+        method: "GET",
         url: routes.GATEWAY_BOT(),
       },
     })
@@ -337,7 +337,7 @@ async function startGateway() {
   const totalShards = results.shards;
 
   console.log(
-    `[GATEWAY] - Starting sessions. ${totalShards} shards in ${workersAmount} workers with ${results.sessionStartLimit.maxConcurrency} concurrency`,
+    `[GATEWAY] - Starting sessions. ${totalShards} shards in ${workersAmount} workers with ${results.sessionStartLimit.maxConcurrency} concurrency`
   );
 
   gatewayManager = createGatewayManager({
@@ -376,7 +376,7 @@ async function startGateway() {
       }
 
       const identify = {
-        type: 'IDENTIFY_SHARD',
+        type: "IDENTIFY_SHARD",
         shardId,
       };
 
@@ -387,9 +387,9 @@ async function startGateway() {
   gatewayManager.spawnShards();
 }
 
-restClient.on('ready', async () => {
-  console.log('[GATEWAY] REST IPC connected');
-  restClient.send({ type: 'IDENTIFY', package: 'GATEWAY', id: '0' });
+restClient.on("ready", async () => {
+  console.log("[GATEWAY] REST IPC connected");
+  restClient.send({ type: "IDENTIFY", package: "GATEWAY", id: "0" });
 
   if (gatewayOn) return;
 
