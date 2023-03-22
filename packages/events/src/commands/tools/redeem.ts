@@ -21,51 +21,52 @@ export default {
   ],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const code = ctx.options.getLongString("text", true);
-    let guildDB = await GuildDB.findOne({ Guild: `${ctx.guildId}` });
-    if (!guildDB)
-      guildDB = new GuildDB({
-        Guild: `${ctx.guildId}`,
-      });
-    if (guildDB.isPremium === "true") {
-      client.extras.errNormal(
-        {
-          error: `This guild is already premium.`,
-        },
-        ctx
-      );
-    } else {
-      const premium = await Premium.findOne({
-        code,
-      });
-      if (premium) {
-        const expires = moment(Number(premium.ExpiresAt)).format(
-          "dddd, MMMM Do YYYY HH:mm:ss"
-        );
-        guildDB.isPremium = "true";
-        const data = {
-          RedeemedBy: {
-            id: `${ctx.author!.id}`,
-            tag: `${ctx.author!.username}#${ctx.author!.discriminator}`,
+    try {
+      const code = ctx.options.getString("text", true);
+      let guildDB = await GuildDB.findOne({ Guild: `${ctx.guildId}` });
+      if (!guildDB)
+        guildDB = new GuildDB({
+          Guild: `${ctx.guildId}`,
+        });
+      if (guildDB.isPremium === "true") {
+        client.extras.errNormal(
+          {
+            error: `This guild is already premium.`,
           },
-          RedeemedAt: `${Date.now()}`,
-          ExpiresAt: premium.ExpiresAt,
-          Plan: premium.Plan,
-        };
-        guildDB.Premium = data;
-        await guildDB.save();
-        await premium.deleteOne();
-
-        const id = uniqui(undefined, `-${code}`);
-        const redeemtime = moment(new Date()).format(
-          "dddd, MMMM Do YYYY HH:mm:ss"
+          ctx
         );
-        client.helpers
-          .getDmChannel(ctx.author!.id)
-          .then((channel) =>
-            client.extras.embed(
-              {
-                desc: `**Premium Subscription**
+      } else {
+        const premium = await Premium.findOne({
+          code,
+        });
+        if (premium) {
+          const expires = moment(Number(premium.ExpiresAt)).format(
+            "dddd, MMMM Do YYYY HH:mm:ss"
+          );
+          guildDB.isPremium = "true";
+          const data = {
+            RedeemedBy: {
+              id: `${ctx.author!.id}`,
+              tag: `${ctx.author!.username}#${ctx.author!.discriminator}`,
+            },
+            RedeemedAt: `${Date.now()}`,
+            ExpiresAt: premium.ExpiresAt,
+            Plan: premium.Plan,
+          };
+          guildDB.Premium = data;
+          await guildDB.save();
+          await premium.deleteOne();
+
+          const id = uniqui(undefined, `-${code}`);
+          const redeemtime = moment(new Date()).format(
+            "dddd, MMMM Do YYYY HH:mm:ss"
+          );
+          client.helpers
+            .getDmChannel(ctx.author!.id)
+            .then((channel) =>
+              client.extras.embed(
+                {
+                  desc: `**Premium Subscription**
 
                     You've recently redeemed a code in **${
                       ctx.guild!.name
@@ -75,15 +76,15 @@ export default {
                     **Redeem Time:** ${redeemtime}
                     **Guild Name:** ${ctx.guild!.name}
                     **Guild ID:** ${ctx.guild!.id}`,
-              },
-              channel
+                },
+                channel
+              )
             )
-          )
-          .catch();
+            .catch();
 
-        client.extras.embed(
-          {
-            desc: `**Congratulations!**
+          client.extras.embed(
+            {
+              desc: `**Congratulations!**
 
 **${ctx.guild.name}** Is now a premium guild! Thanks a ton!
 
@@ -96,16 +97,19 @@ export default {
 **Please make sure to keep this information safe, you might need it if you ever wanna refund / transfer servers.**
 
 **Expires At:** ${expires}`,
-          },
-          ctx
-        );
-      } else
-        client.extras.errNormal(
-          {
-            error: `I was unable to find a premium code like that.`,
-          },
-          ctx
-        );
+            },
+            ctx
+          );
+        } else
+          client.extras.errNormal(
+            {
+              error: `I was unable to find a premium code like that.`,
+            },
+            ctx
+          );
+      }
+    } catch (e) {
+      console.error(e);
     }
   },
 } as CommandOptions;

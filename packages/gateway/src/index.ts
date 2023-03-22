@@ -285,7 +285,7 @@ const createWorker = (workerId: number) => {
 
         if (eventClientConnections.length === 0) {
           //TODO: Filter Events
-          if (data.data.t == "GUILD_CREATE") eventsToSend.push(data.data);
+          if (data.data.t! == "GUILD_CREATE") eventsToSend.push(data.data);
           return;
         }
 

@@ -2,10 +2,10 @@ import {
   AmethystError,
   Context,
   ErrorEnums,
-} from '@thereallonewolf/amethystframework';
-import { Interaction, Message } from 'discordeno/transformers';
+} from "@thereallonewolf/amethystframework";
+import { Interaction, Message } from "discordeno/transformers";
 
-import { AeonaBot } from '../../extras/index.js';
+import { AeonaBot } from "../../extras/index.js";
 
 export default async (
   bot: AeonaBot,
@@ -14,37 +14,37 @@ export default async (
     data?: Interaction;
     message?: Message;
   },
-  context: Context,
+  context: Context
 ) => {
   if (!data) return;
   if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
     return await bot.helpers.sendMessage(
       data.message ? data.message.channelId : data.data?.channelId!,
       {
-        content: 'Oh no. You seem to be missing some permissions.',
-      },
+        content: "Oh no. You seem to be missing some permissions.",
+      }
     );
   }
   if (data.error.type == ErrorEnums.MISSING_REQUIRED_ARGUMENTS) {
     if (!data.message) return;
     const message = data.message;
     const guildPrefix =
-      typeof bot.prefix == 'function'
+      typeof bot.prefix == "function"
         ? await bot.prefix(bot, message)
         : bot.prefix;
 
     //Else get the string prefix and check if it works.
     let prefix =
-      typeof guildPrefix == 'string'
+      typeof guildPrefix == "string"
         ? guildPrefix
         : guildPrefix?.find((e) =>
             bot.prefixCaseSensitive
               ? message.content.startsWith(e)
-              : message.content.toLowerCase().startsWith(e.toLowerCase()),
+              : message.content.toLowerCase().startsWith(e.toLowerCase())
           );
 
     //If prefix is a string and not a array
-    if (typeof prefix == 'string')
+    if (typeof prefix == "string")
       if (bot.prefixCaseSensitive)
         if (!message.content.startsWith(prefix)) prefix = undefined;
         else if (
@@ -59,7 +59,7 @@ export default async (
         prefix = `<@!${bot.id}>`;
     }
 
-    const args = message.content.split(' ').filter((e) => Boolean(e.length));
+    const args = message.content.split(" ").filter((e) => Boolean(e.length));
     const commandName = args.shift()?.slice(prefix?.length);
     const subCommandName = args.shift();
     let command;
@@ -88,12 +88,12 @@ export default async (
             if (arg.required) return `[${arg.name}]`;
             else return `(${arg.name})`;
           })
-          .join(' ')} \` \n \n  ${command.args
+          .join(" ")} \` \n \n  ${command.args
           .map((arg) => {
             return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
           })
           .join(`\n`)}`,
-      },
+      }
     );
   }
 
@@ -102,15 +102,15 @@ export default async (
       {
         time: 5,
       },
-      context,
+      context
     );
 
   if (data.error.type == ErrorEnums.OWNER_ONLY)
     return await bot.extras.errNormal(
       {
-        error: 'Oh no! This is only meant for my owner.',
+        error: "Oh no! This is only meant for my owner.",
       },
-      context,
+      context
     );
   if (data.error.type == ErrorEnums.OTHER) {
     return await bot.extras.embed(
@@ -118,12 +118,18 @@ export default async (
         //@ts-ignore
         desc: data.error.value,
       },
-      context,
+      context
     );
   }
 
   if (data.error.type == ErrorEnums.COMMANDRUNTIME) {
-    console.log('Error during runtime.');
-    console.error(data);
+    console.log("Error during runtime.");
+    console.error(data.error.error);
+    return await bot.helpers.sendMessage(
+      data.message ? data.message.channelId : data.data?.channelId!,
+      {
+        content: "Oh no. There seems to be an error. " + data.error.error,
+      }
+    );
   }
 };
