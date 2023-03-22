@@ -1,13 +1,13 @@
-import { AmethystError, ErrorEnums } from '@thereallonewolf/amethystframework';
-import fetch from 'node-fetch';
-import Banned from '../database/models/banned.js';
-import GuildDB from '../database/models/guild.js';
-import { AeonaBot } from '../extras/index.js';
+import { AmethystError, ErrorEnums } from "@thereallonewolf/amethystframework";
+import fetch from "node-fetch";
+import Banned from "../database/models/banned.js";
+import GuildDB from "../database/models/guild.js";
+import { AeonaBot } from "../extras/index.js";
 
 export default function (bot: AeonaBot) {
-  console.log('Setting up '.cyan + 'inhibitors'.yellow);
+  console.log("Setting up ".cyan + "inhibitors".yellow);
   bot.inhibitors.set(
-    'upvoteonly',
+    "upvoteonly",
     async (b, command, options): Promise<true | AmethystError> => {
       if (command.extras.upvoteOnly) {
         if (options && options.guildId) {
@@ -18,7 +18,7 @@ export default function (bot: AeonaBot) {
             guildDB = new GuildDB({
               Guild: `${options.guildId}`,
             });
-          if (guildDB.isPremium === 'true') return true;
+          if (guildDB.isPremium === "true") return true;
         }
         try {
           if (process.env.TOPGG_TOKEN) {
@@ -33,7 +33,7 @@ export default function (bot: AeonaBot) {
                 headers: {
                   authorization: process.env.TOPGG_TOKEN,
                 },
-              },
+              }
             );
             clearTimeout(timeoutId);
             const json: any = await response.json();
@@ -42,7 +42,7 @@ export default function (bot: AeonaBot) {
               // @ts-ignore
               type: ErrorEnums.OTHER,
               value:
-                'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
+                "You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.",
             };
           }
         } catch (e) {
@@ -54,15 +54,15 @@ export default function (bot: AeonaBot) {
           //@ts-ignore
           type: ErrorEnums.OTHER,
           value:
-            'You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.',
+            "You need to upvote me at https://top.gg/bot/931226824753700934/vote to use this command. \n **or** \n **You can skip upvoting by** getting premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use `+perks` to see all the perks of premium.",
         };
       }
       return true;
-    },
+    }
   );
 
   bot.inhibitors.set(
-    'banned',
+    "banned",
     async (b, command, options): Promise<true | AmethystError> => {
       const bannedUser = await Banned.findOne({
         ID: `${options.user!.id}`,
@@ -71,7 +71,7 @@ export default function (bot: AeonaBot) {
         return {
           //@ts-ignore
           type: ErrorEnums.OTHER,
-          value: 'You have been banned from this bot.',
+          value: "You have been banned from this bot.",
         };
 
       const bannedServer = await Banned.findOne({
@@ -81,16 +81,11 @@ export default function (bot: AeonaBot) {
         return {
           //@ts-ignore
           type: ErrorEnums.OTHER,
-          value: 'This server has been banned from this bot.',
+          value: "This server has been banned from this bot.",
         };
       return true;
-    },
+    }
   );
-  bot.inhibitors.set(
-    'workers',
-    async (b, command, options): Promise<true | AmethystError> => {
-      return true;
-    },
-  );
-  console.log('Finished setting up '.cyan + 'inhibitors'.yellow);
+
+  console.log("Finished setting up ".cyan + "inhibitors".yellow);
 }

@@ -22,7 +22,7 @@ export default {
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     try {
-      const code = ctx.options.getString("text", true);
+      const code = ctx.options.getString("code", true);
       let guildDB = await GuildDB.findOne({ Guild: `${ctx.guildId}` });
       if (!guildDB)
         guildDB = new GuildDB({
