@@ -6,6 +6,7 @@ import { config } from './config/index.js';
 import { getWebPages } from './controllers/pages/index.js';
 import session from 'express-session';
 import { AeonaBot } from '../../extras/index.js';
+import crypto from 'crypto';
 export function getServerConfig(bot: AeonaBot) {
   @Configuration({
     ...config,
@@ -53,7 +54,7 @@ export function getServerConfig(bot: AeonaBot) {
       this.app.getApp().set('trust proxy', 1); // trust first proxy
       this.app.use(
         session({
-          secret: process.env.SESSION_SECERT!,
+          secret: crypto.randomUUID(),
           resave: true,
           saveUninitialized: true,
           cookie: { secure: true },
