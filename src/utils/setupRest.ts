@@ -27,6 +27,8 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
           // eslint-disable-next-line no-console
           return e;
         }
+        console.log(`${BASE_URL}/v${rest.version}${route}`);
+        console.log(body);
         console.error(e);
         return e;
       });
@@ -43,6 +45,8 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
           // eslint-disable-next-line no-console
           return e;
         }
+        console.log(options.url);
+        console.log(options.payload?.body);
         console.error(e);
         return e;
       });
