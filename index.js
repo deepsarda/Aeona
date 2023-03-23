@@ -2,6 +2,16 @@ import { exec, execSync } from 'child_process';
 
 console.log('Building Bot...');
 try {
+  execSync('rm -rf dist');
+} catch (e) {
+  console.log(e.toString('ascii').trim());
+  try {
+    execSync('rd /s /q dist');
+  } catch (e) {
+    console.log(e.toString('ascii').trim());
+  }
+}
+try {
   console.log(execSync('yarn build').toString('ascii').trim());
 } catch (e) {
   console.log(e.toString('ascii').trim());
