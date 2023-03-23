@@ -1,8 +1,8 @@
-import { AeonaBot } from '../extras/index.js';
+import { AeonaBot } from "../extras/index.js";
 
 const logger = {
   debug: (...args: unknown[]): void => {
-    if (process.env.NODE_ENV === 'DEVELOPMENT') console.debug(...args);
+    if (process.env.NODE_ENV === "DEVELOPMENT") console.debug(...args);
   },
 
   error: (...args: unknown[]): void => {
@@ -23,7 +23,7 @@ export { logger };
 
 export const setupLogging = (bot: AeonaBot) => {
   /* eslint-disable no-console */
-  let content = '';
+  let content = "";
   const builtins = {
     log: console.log,
     warn: console.warn,
@@ -37,25 +37,23 @@ export const setupLogging = (bot: AeonaBot) => {
       try {
         // eslint-disable-next-line prefer-rest-params
         const message = [...arguments]
-          .reduce((accumulator, current) => `${accumulator} ${current} `, '')
-          .replace(/\s+$/, '');
+          .reduce((accumulator, current) => `${accumulator} ${current} `, "")
+          .replace(/\s+$/, "");
 
         content += `\n${
-          printFunction == 'log' ? '+ ' : printFunction == 'error' ? '- ' : ''
-        }${JSON.stringify(
-          message.replace(
-            // eslint-disable-next-line no-control-regex
-            /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-            '',
-          ),
+          printFunction == "log" ? "+ " : printFunction == "error" ? "- " : ""
+        }${message.replace(
+          // eslint-disable-next-line no-control-regex
+          /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+          ""
         )}`;
 
         if (content.length > 300) {
-          bot.helpers.sendMessage('1063124831211630622', {
+          bot.helpers.sendMessage("1063124831211630622", {
             content: `\`\`\`diff\n${content}\n \`\`\``,
           });
 
-          content = '';
+          content = "";
         }
       } catch (e) {
         console.error(JSON.stringify(e));

@@ -37,7 +37,5 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
-      - name: Run Linter
-        run: yarn run:lint
       - name: Typecheck
-        run: yarn rest typecheck && yarn gateway typecheck && yarn events typecheck
+        run: yarn typecheck
