@@ -391,7 +391,7 @@ export function getDashboardPages(bot: AeonaBot) {
       try {
         if (guild) return await rest.getGuild(guild.id);
       } catch (e) {
-        //
+        //prevent lint error
       }
       return false;
     }
