@@ -13,7 +13,7 @@ export function getWebPages(bot: AeonaBot) {
       .response(fluxQuery)
       .collectRows();
 
-    commandCount = response[0] as number;
+    commandCount = (response[0] as any)._value as number;
   }, 2 * 60 * 1000);
   const fluxQuery =
     'from(bucket: "Aeona") |> range(start: -1d) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
