@@ -6,11 +6,11 @@ import colors from 'colors';
 import { createBot, Intents, startBot } from 'discordeno';
 import { createClient } from 'redis';
 
+import { Config, configs } from './config.js';
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
 import { additionalProps, AeonaBot } from './extras/index.js';
-import { Config, configs } from './config.js';
 import { setupRest } from './utils/setupRest.js';
 import loadFiles from './utils/loadFiles.js';
 import { setupLogging } from './utils/logger.js';
