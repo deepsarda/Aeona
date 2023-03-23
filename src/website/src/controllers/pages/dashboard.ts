@@ -38,7 +38,7 @@ export function getDashboardPages(bot: AeonaBot) {
     @View('dashboard.ejs')
     async getIndex(@Context() context: Context, @Req() req: Req) {
       const guilds = await this.getGuilds((req.session as any).user);
-
+      console.log(req.session);
       if (!guilds) {
         (req.session as any).redirect = {
           url: '/dashboard',
