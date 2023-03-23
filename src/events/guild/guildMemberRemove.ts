@@ -54,6 +54,6 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
           schema.Channel,
           client.extras.generateEmbedFromData(config, message),
         )
-        .catch((e) => console.error(e));
+        .catch((e) => console.error(JSON.stringify(e)));
   }
 };

@@ -234,7 +234,7 @@ export default {
               content:
                 '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
             };
-            
+
             if (schema.Message) {
               try {
                 m = JSON.parse(schema.Message);
@@ -242,15 +242,15 @@ export default {
                 //
               }
             }
-            
+
             m.content = `**<:chatbot:1049292165282541638> Leave Message :small_red_triangle_down:** \n ${m.content}`;
-           
+
             client.helpers
               .sendMessage(
                 ctx.channel!.id,
                 client.extras.generateEmbedFromData(config, m),
               )
-              .catch((e) => console.error(e));
+              .catch((e) => console.error(JSON.stringify(e)));
             client.amethystUtils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
@@ -389,7 +389,7 @@ export default {
                       },
                     },
                   );
-                    
+
                   return sendMessage();
                 }
               })

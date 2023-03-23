@@ -194,7 +194,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.error(e);
+          console.error(JSON.stringify(e));
           client.extras.embed(
             {
               title: `Marriage proposal - Declined`,

@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/levelChannels.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -9,9 +13,7 @@ export default {
   description: 'Set the level up message',
   commandType: ['application', 'message'],
   category: 'levels',
-  args: [
-  
-  ],
+  args: [],
   userGuildPermissions: ['MANAGE_GUILD'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
@@ -230,7 +232,7 @@ export default {
               content:
                 '**GG** {user:mention}, you are now level **{user:level}**!',
             };
-            
+
             if (schema.Message) {
               try {
                 m = JSON.parse(schema.Message);
@@ -238,15 +240,15 @@ export default {
                 //
               }
             }
-            
+
             m.content = `**<:chatbot:1049292165282541638> Level Message :small_red_triangle_down:** \n ${m.content}`;
-           
+
             client.helpers
               .sendMessage(
                 ctx.channel!.id,
                 client.extras.generateEmbedFromData(config, m),
               )
-              .catch((e) => console.error(e));
+              .catch((e) => console.error(JSON.stringify(e)));
             client.amethystUtils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
@@ -395,7 +397,7 @@ export default {
                   components: [],
                 });
               });
-          } 
+          }
         })
         .catch((e) => {
           client.helpers.editMessage(message.channelId, message.id, {

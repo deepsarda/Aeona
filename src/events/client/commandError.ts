@@ -125,7 +125,8 @@ export default async (
   if (data.error.type == ErrorEnums.COMMANDRUNTIME) {
     console.log('Error during runtime.');
     //@ts-ignore
-    console.error(data.error.error);
+    console.error(JSON.stringify(data.error.error));
+
     return await bot.helpers.sendMessage(
       data.message ? data.message.channelId : data.data?.channelId!,
       {

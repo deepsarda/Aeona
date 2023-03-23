@@ -75,7 +75,7 @@ export default {
         }
       } catch (e) {
         console.log('Error in suggestion accept');
-        console.error(e);
+        console.error(JSON.stringify(e));
       }
 
       client.extras.succNormal(

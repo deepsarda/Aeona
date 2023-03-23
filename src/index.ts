@@ -234,7 +234,7 @@ logDbCache();
 export { bot };
 
 process.on('unhandledRejection', (error: Error) => {
-  console.error(error);
+  console.error(JSON.stringify(error));
 });
 
 process.on('warning', (warn) => {

@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import welcomeChannel from '../../database/models/welcome.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -9,9 +13,7 @@ export default {
   description: 'Setup the welcome channel for your server.',
   commandType: ['application', 'message'],
   category: 'setup',
-  args: [
-   
-  ],
+  args: [],
   userGuildPermissions: ['MANAGE_CHANNELS'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
@@ -222,7 +224,9 @@ export default {
                 desc: `
                 <:F_Settings:1049292164103938128> **Settings**
                 <:channel:1049292166343688192> Channel: <#${schema.Channel}>
-                <:role:1062978537436491776> Role: ${schema.Role? `<@&${schema.Role}>` : 'None'}
+                <:role:1062978537436491776> Role: ${
+                  schema.Role ? `<@&${schema.Role}>` : 'None'
+                }
                 `,
                 components: components,
                 type: 'editreply',
@@ -234,7 +238,7 @@ export default {
               content:
                 'Welcome {user:mention} to {guild:name}. \n We now have {guild:members} members.',
             };
-            
+
             if (schema.Message) {
               try {
                 m = JSON.parse(schema.Message);
@@ -242,15 +246,15 @@ export default {
                 //
               }
             }
-            
+
             m.content = `**<:chatbot:1049292165282541638> Welcome Message :small_red_triangle_down:** \n ${m.content}`;
-           
+
             client.helpers
               .sendMessage(
                 ctx.channel!.id,
                 client.extras.generateEmbedFromData(config, m),
               )
-              .catch((e) => console.error(e));
+              .catch((e) => console.error(JSON.stringify(e)));
             client.amethystUtils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
@@ -330,7 +334,7 @@ export default {
                   }
 
                   return sendMessage();
-                }else if (interaction.data?.customId == 'setrole') {
+                } else if (interaction.data?.customId == 'setrole') {
                   let success = false;
                   let invalidResponse = false;
 

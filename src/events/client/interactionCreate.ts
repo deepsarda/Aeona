@@ -65,11 +65,11 @@ export default async (client: AeonaBot, interaction: Interaction) => {
                   },
                   channel,
                 )
-                .catch((error) => console.error(error));
+                .catch((error) => console.error(JSON.stringify(error)));
 
               client.helpers
                 .addRole(interaction.guildId!, interaction.user.id, data?.Role!)
-                .catch((error) => console.error(error));
+                .catch((error) => console.error(JSON.stringify(error)));
             } else {
               client.helpers.deleteMessage(interaction.channelId!, response.id);
               client.helpers.deleteMessage(interaction.channelId!, msg.id);

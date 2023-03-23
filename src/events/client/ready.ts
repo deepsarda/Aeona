@@ -87,7 +87,7 @@ export default async (
         status: 'idle',
       });
     } catch (e) {
-      console.error(e);
+      console.error(JSON.stringify(e));
     }
     setInterval(async () => {
       try {
@@ -172,7 +172,7 @@ export default async (
             .intField('value', client.cache.guilds.memory.size),
         );
       } catch (e) {
-        console.error(e);
+        console.error(JSON.stringify(e));
       }
     }, 10000);
     setInterval(async () => {
@@ -186,7 +186,7 @@ export default async (
             .intField('value', value),
         );
       } catch (e) {
-        console.error(e);
+        console.error(JSON.stringify(e));
       }
     }, 60000);
 

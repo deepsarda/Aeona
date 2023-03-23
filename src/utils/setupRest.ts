@@ -29,7 +29,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
         }
         console.log(`${BASE_URL}/v${rest.version}${route}`);
         console.log(body);
-        console.error(e);
+        console.error(JSON.stringify(e));
         return e;
       });
     return result;

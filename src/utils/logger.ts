@@ -58,7 +58,7 @@ export const setupLogging = (bot: AeonaBot) => {
           content = '';
         }
       } catch (e) {
-        console.error(e);
+        console.error(JSON.stringify(e));
       }
     };
   }
