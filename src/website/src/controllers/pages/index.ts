@@ -12,13 +12,8 @@ export function getWebPages(bot: AeonaBot) {
       const formatter = Intl.NumberFormat('en', {
         notation: 'compact',
       });
-      const fluxQuery = `from(bucket: "Aeona")
-        |> range(start: -24hr)
-        |> filter(fn: (r) => r["_measurement"] == "commandruncount")
-        |> filter(fn: (r) => r["_field"] == "usage")
-        |> filter(fn: (r) => r["action"] == "addition")
-        |> aggregateWindow(every: 48h, fn: sum, createEmpty: false)
-        |> yield(name: "sum")`;
+      const fluxQuery =
+        'from(bucket: "Aeona") |> range(start: -24hr) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
 
       const response = await bot.extras.influxQuery
         .response(fluxQuery)
