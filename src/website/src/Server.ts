@@ -26,7 +26,7 @@ export function getServerConfig(bot: AeonaBot) {
       { use: 'urlencoded-parser', options: { extended: true } },
     ],
     views: {
-      root: `../views`,
+      root: process.cwd() + '/src/website/views',
       viewEngine: 'ejs',
       options: {
         ejs: {
@@ -40,7 +40,7 @@ export function getServerConfig(bot: AeonaBot) {
       },
     },
     statics: {
-      '/': ['./public'],
+      '/': [process.cwd() + '/src/website/public'],
     },
     exclude: ['**/*.spec.ts'],
   })
