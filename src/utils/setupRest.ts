@@ -34,28 +34,6 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
       });
     return result;
   };
-
-  bot.rest.sendRequest = async (r, options): Promise<any> => {
-    const result = await rest
-      //@ts-ignore
-      .makeRequest(
-        options.method,
-        options.url,
-        JSON.parse(JSON.stringify(options.payload?.body)),
-      )
-      .catch((e) => {
-        if (e instanceof Error) {
-          if (e.message.includes('[404]')) return e;
-          // eslint-disable-next-line no-console
-          return e;
-        }
-        console.log(options.url);
-        console.log(options.payload?.body);
-        console.error(e);
-        return e;
-      });
-    return result;
-  };
 };
 
 export { setupRest };
