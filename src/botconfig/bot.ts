@@ -4,7 +4,7 @@ import emotes from './emojis.js';
 export default {
   colors: {
     error: embedconfig.wrongcolor,
-    normal: undefined,
+    normal: '#2b2d31',
   },
 
   emotes,
