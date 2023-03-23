@@ -4,6 +4,19 @@ import { getDashboardPages } from './dashboard.js';
 import { AeonaBot } from '../../../../extras/index.js';
 
 export function getWebPages(bot: AeonaBot) {
+  let commandCount = 12123;
+  setInterval(async () => {
+    const fluxQuery =
+      'from(bucket: "Aeona") |> range(start: -24hr) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
+
+    const response = await bot.extras.influxQuery
+      .response(fluxQuery)
+      .collectRows();
+
+    console.log(response);
+    commandCount = response[0] as number;
+  }, 2 * 60 * 1000);
+
   @Controller('/')
   class Pages {
     @Get('')
@@ -12,15 +25,10 @@ export function getWebPages(bot: AeonaBot) {
       const formatter = Intl.NumberFormat('en', {
         notation: 'compact',
       });
-      const fluxQuery =
-        'from(bucket: "Aeona") |> range(start: -24hr) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
 
-      const response = await bot.extras.influxQuery
-        .response(fluxQuery)
-        .collectRows();
       return {
         guilds: formatter.format(bot.extras.guildcount),
-        commandsRun: response[0],
+        commandsRun: commandCount,
         guildsUnformatted: bot.extras.guildcount,
       };
     }
