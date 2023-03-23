@@ -22,7 +22,7 @@ import { AeonaBot } from '../../../../extras/index.js';
 
 export function getDashboardPages(bot: AeonaBot) {
   const oauth = new DiscordOauth2({
-    clientId: process.env.ID!,
+    clientId: bot.user.id + '',
     clientSecret: bot.extras.botConfig.website.CLIENT_SECRET,
     redirectUri:
       bot.extras.botConfig.website.url + '/dashboard/discord/callback',
@@ -390,7 +390,9 @@ export function getDashboardPages(bot: AeonaBot) {
         if (guilds[i].id == id) guild = guilds[i];
       try {
         if (guild) return await rest.getGuild(guild.id);
-      } catch (e) {}
+      } catch (e) {
+        //
+      }
       return false;
     }
   }
