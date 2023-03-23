@@ -11,8 +11,12 @@ try {
     console.log(e.toString('ascii').trim());
   }
 }
+console.log();
 try {
   console.log(execSync('yarn build').toString('ascii').trim());
+  console.log(
+    execSync('cp -R src/website/views dist/website/').toString('ascii').trim(),
+  );
 } catch (e) {
   console.log(e.toString('ascii').trim());
 }
