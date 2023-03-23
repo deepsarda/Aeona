@@ -5,7 +5,6 @@ import fetch from 'node-fetch';
 import chatBotSchema from '../../database/models/chatbot-channel.js';
 import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
-import { Influx } from './commandStart.js';
 
 export default async (
   bot: AeonaBot,
@@ -27,7 +26,7 @@ export default async (
   fetch(url, options)
     .then((res) => res.text())
     .then(async (json) => {
-      Influx?.writePoint(
+      bot.extras.influx?.writePoint(
         new Point('commands')
           .tag('action', 'addition')
           .tag('command', 'chatbot')
@@ -63,7 +62,7 @@ export default async (
         `>>`.white,
         `Chatbot Used Command Not Found`.red,
       );
-      Influx?.writePoint(
+      bot.extras.influx?.writePoint(
         new Point('commandruncount')
           .tag('action', 'addition')
           .intField('usage', 1),

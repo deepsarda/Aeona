@@ -14,7 +14,7 @@ export default async (client: AeonaBot) => {
       const number = parseInt(data.Number);
       const userNumber = parseInt(message.content);
       if (!userNumber || isNaN(userNumber)) return;
-      client.emit('logFeatureUse', 'guess-the-number');
+      client.emit('logFeatureUse', client, 'guess-the-number');
       if (userNumber == number) {
         bot.helpers.addReaction(
           message.channelId,

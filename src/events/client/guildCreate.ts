@@ -5,14 +5,11 @@ import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
   if (guild == undefined) return;
-
-  if (
-    Date.now() > client.extras.startTime + 5 * 60 * 1000 &&
-    client.cache.guilds.memory.size > client.extras.lastguildcount
-  ) {
+  client.extras.guildcount++;
+  if (Date.now() > client.extras.startTime + 10 * 60 * 1000) {
     const embed = new AmethystEmbed()
       .setTitle('Added to a new server!')
-      .addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
+      .addField('Total servers:', `${client.extras.guildcount}`, true)
       .addField('Server name', `${guild.name}`, true)
       .addField('Server ID', `${guild.id}`, true)
       .addField(
@@ -34,6 +31,5 @@ export default async (client: AeonaBot, guild: Guild) => {
         );
       }
     }
-    client.extras.lastguildcount = client.cache.guilds.memory.size;
   }
 };

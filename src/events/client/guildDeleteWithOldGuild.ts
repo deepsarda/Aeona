@@ -4,10 +4,10 @@ import { Guild } from 'discordeno/transformers';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
-  client.extras.lastguildcount = client.cache.guilds.memory.size;
+  client.extras.guildcount--;
   const embed = new AmethystEmbed()
     .setTitle('🔴 Removed from a server!')
-    .addField('Total servers:', `${client.cache.guilds.memory.size}`, true)
+    .addField('Total servers:', `${client.extras.guildcount}`, true)
     .addField('Server name', `${guild.name}`, true)
     .addField('Server ID', `${guild.id}`, true)
     .addField(

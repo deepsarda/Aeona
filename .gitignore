@@ -16,3 +16,4 @@ tmp/
 yarn.lock
 ]/
 .gitpod.yml
+.yarn.lock

@@ -11,7 +11,7 @@ import { calculateInlineIndex } from '../../utils/embeds.js';
 import renderContent, { RenderType } from './content.js';
 
 import type { Embed, Message } from 'discordeno';
-// eslint-disable-next-line require-extensions/require-extensions
+
 import type { RenderMessageContext } from '..';
 type RenderEmbedContext = RenderMessageContext & {
   index: number;

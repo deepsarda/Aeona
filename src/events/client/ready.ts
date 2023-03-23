@@ -1,4 +1,4 @@
-import { InfluxDB, Point } from '@influxdata/influxdb-client';
+import { Point } from '@influxdata/influxdb-client';
 import { getBotIdFromToken } from 'discordeno';
 import { User } from 'discordeno/transformers';
 import { ActivityTypes, DiscordReady } from 'discordeno/types';
@@ -9,6 +9,7 @@ import bumpreminder from '../../database/models/bumpreminder.js';
 import functions from '../../database/models/guild.js';
 import premium from '../../database/models/premium.js';
 import { AeonaBot } from '../../extras/index.js';
+import { bootstrap } from '../../website/src/index.js';
 
 export default async (
   client: AeonaBot,
@@ -25,19 +26,14 @@ export default async (
 ) => {
   if (!client.extras.ready) {
     client.extras.ready = true;
+
+    if (client.extras.botConfig.website.enabled) bootstrap(client);
+
     client.amethystUtils.updateSlashCommands();
     client.user = await client.helpers.getUser(
       getBotIdFromToken(client.extras.botConfig.TOKEN),
     );
-    const INFLUX_ORG = process.env.INFLUX_ORG as string;
-    const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
-    const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
-    const INFLUX_URL = process.env.INFLUX_URL as string;
-    const influxDB =
-      INFLUX_URL && INFLUX_TOKEN
-        ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN })
-        : undefined;
-    const Influx = influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET)!;
+
     client.extras.messageCount = 0;
     try {
       const point = new Point('per_core_cpu_load').tag('action', 'sync');
@@ -49,10 +45,10 @@ export default async (
           (times.user + times.nice + times.sys + times.irq) / times.idle,
         );
 
-      Influx.writePoint(point);
+      client.extras.influx.writePoint(point);
 
       const usage = process.memoryUsage();
-      Influx.writePoint(
+      client.extras.influx.writePoint(
         new Point('memory') //
           .tag('action', 'sync')
           .floatField('total', usage.heapTotal)
@@ -62,7 +58,7 @@ export default async (
       const value = client.extras.messageCount;
       client.extras.messageCount = 0;
 
-      Influx.writePoint(
+      client.extras.influx.writePoint(
         new Point('message_count') //
           .tag('action', 'sync')
           .intField('value', value),
@@ -76,10 +72,8 @@ export default async (
           {
             type: ActivityTypes.Game,
             name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(
-              client.cache.guilds.memory.size,
-            )} servers with ${client.category.reduce(
-              (a: number, c) => (a += c.commands.size),
-            )} commands.`,
+              client.extras.guildcount,
+            )} servers.`,
 
             createdAt: new Date().getTime(),
           },
@@ -100,9 +94,7 @@ export default async (
               type: ActivityTypes.Game,
               name: `${
                 client.extras.botConfig.PREFIX
-              }help on ${formatter.format(
-                client.cache.guilds.memory.size,
-              )} servers with 220+ commands.`,
+              }help on ${formatter.format(client.extras.guildcount)} servers.`,
 
               createdAt: new Date().getTime(),
             },
@@ -120,56 +112,56 @@ export default async (
           );
         }
 
-        Influx.writePoint(point);
+        client.extras.influx.writePoint(point);
 
         const usage = process.memoryUsage();
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('memory') //
             .tag('action', 'sync')
             .floatField('total', usage.heapTotal)
             .floatField('used', usage.heapUsed),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'guilds')
-            .intField('total', client.cache.guilds.memory.size),
+            .intField('total', client.extras.guildcount),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'channels')
             .intField('total', client.cache.channels.memory.size),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'users')
             .intField('total', client.cache.users.memory.size),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'members')
             .intField('total', client.cache.members.memory.size),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'messages')
             .intField('total', client.cache.messages.memory.size),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('cache') //
             .tag('type', 'roles')
             .intField('total', client.cache.roles.memory.size),
         );
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('guilds')
             .tag('action', 'sync')
-            .intField('value', client.cache.guilds.memory.size),
+            .intField('value', client.extras.guildcount),
         );
       } catch (e) {
         console.error(JSON.stringify(e));
@@ -180,7 +172,7 @@ export default async (
         const value = client.extras.messageCount;
         client.extras.messageCount = 0;
 
-        Influx.writePoint(
+        client.extras.influx.writePoint(
           new Point('message_count') //
             .tag('action', 'sync')
             .intField('value', value),

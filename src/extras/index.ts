@@ -17,6 +17,16 @@ import ticketSchema from '../database/models/tickets.js';
 import { createTranscript } from '../transcripts/index.js';
 import embeds from './embed.js';
 import { Config } from '../config.js';
+import { InfluxDB } from '@influxdata/influxdb-client';
+
+const INFLUX_ORG = process.env.INFLUX_ORG as string;
+const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
+const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
+const INFLUX_URL = process.env.INFLUX_URL as string;
+const influxDB =
+  INFLUX_URL && INFLUX_TOKEN
+    ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN })
+    : undefined;
 
 export interface AeonaBot extends AmethystBot {
   extras: ReturnType<typeof additionalProps>;
@@ -28,6 +38,8 @@ const id = parts.pop();
 export function additionalProps(botConfig: Config, client: AeonaBot) {
   return {
     ...embeds(client),
+    influxQuery: influxDB?.getQueryApi(INFLUX_ORG),
+    influx: influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET),
     version: 'v0.2.0',
     botConfig: botConfig,
     webhook: async (content: any) => {
@@ -42,7 +54,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     colors: config.colors,
     emotes: config.emotes,
     messageCount: 0,
-    lastguildcount: 0,
+    guildcount: 0,
     ready: false,
     playerManager: new Map(),
     triviaManager: new Map(),

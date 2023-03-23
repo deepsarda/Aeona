@@ -1,0 +1,255 @@
+<html data-theme="night">
+
+<head>
+    <title>
+        <%=title %>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="<%= options.url %>/logo.webp">
+    <meta name="title" content="<%=title %>">
+    <meta name="description" content="<%= options.name %> is a Multipurpose GPT Chatbot for Discord with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket and More.
+">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= options.url %>">
+    <meta property="og:title" content="<%=title %>">
+    <meta property="og:description" content="<%= options.name %> is a Multipurpose GPT Chatbot for Discord with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket and More. 
+">
+    <meta property="og:image" content="<%= options.url %>/banner.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= options.url %>">
+    <meta property="twitter:title" content="<%=title %>">
+    <meta property="twitter:description" content="<%= options.name %> is a Multipurpose GPT Chatbot with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket and More.
+">
+    <meta property="twitter:image" content="<%= options.url %>/banner.png">
+    </meta>
+    <script>
+        window.$discordMessage = { profiles: { "931226824753700934": { "author": "Aeona", "avatar": "/logo.webp", "roleColor": "#9b59b6", "roleName": "Aeona", "bot": true, "verified": true }, "794921502230577182": { "author": "LoneWolf", "avatar": "https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp?size=64", "bot": false, "verified": false } } }
+    </script>
+    <link href="<%= options.url %>/index.css" rel="stylesheet">
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@derockdev/discord-components-core@^3.5.2/dist/derockdev-discord-components-core/derockdev-discord-components-core.esm.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script>
+        document.documentElement.classList.add('js');
+        function run() { }
+        window.addEventListener("load", () => {
+
+            const animateButton = function (e) {
+                e.target.classList.remove("animate");
+
+                e.target.classList.add("animate");
+                setTimeout(() => {
+                    e.target.classList.remove("animate");
+                }, 700);
+            };
+
+            const bubblyButtons = document.getElementsByClassName("btn");
+
+            for (let i = 0; i < bubblyButtons.length; i++) {
+                bubblyButtons[i].addEventListener("mouseover", animateButton, false);
+                bubblyButtons[i].addEventListener("click", animateButton, false);
+            }
+
+
+
+            const particles = Particles.init({
+                selector: ".background",
+                color: ["#3abff8", "#f471b5", "#828df8"],
+                connectParticles: true,
+                responsive: [
+                    {
+                        breakpoint: 900,
+                        options: {
+                            color: ["#3abff8", "#f471b5", "#828df8"],
+                            maxParticles: 33,
+                            connectParticles: false,
+                        },
+                    },
+                ],
+            });
+
+            class countUp {
+                constructor(el) {
+                    this.el = el;
+                    this.setVars();
+                    this.init();
+                }
+
+                setVars() {
+                    this.number = this.el.querySelectorAll("[data-countup-number]");
+                    this.observerOptions = { root: null, rootMargin: "0px 0px", threshold: 0 };
+                    this.observer = new IntersectionObserver((entries) => {
+                        entries.forEach((entry) => {
+                            const end = parseFloat(
+                                entry.target.dataset.countupNumber.replace(/,/g, "")
+                            );
+                            const decimals = this.countDecimals(end);
+                            if (entry.isIntersecting) {
+                                this.iterateValue(entry.target, end, decimals);
+                            }
+                        });
+                    }, this.observerOptions);
+                }
+
+                init() {
+                    if (this.number.length > 0) {
+                        this.number.forEach((el) => {
+                            this.observer.observe(el);
+                        });
+                    }
+                }
+
+                iterateValue(el, end, decimals) {
+                    const start = 0;
+                    const duration = 2500;
+                    let startTimestamp = null;
+
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const elapsedPercent = (timestamp - startTimestamp) / duration;
+                        const easedProgress = Math.min(this.easeOutQuint(elapsedPercent), 1);
+                        let interimNumber = Math.abs(easedProgress * (end - start) + start);
+                        el.innerHTML = this.formatNumber(interimNumber, decimals);
+                        if (easedProgress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    };
+
+                    // requestAnimationFrame returns DOMHighResTimeStamp as a callback (used as timestamp)
+                    window.requestAnimationFrame(step);
+                }
+
+                easeOutQuad(x) {
+                    return 1 - Math.pow(1 - x, 3);
+                }
+
+                easeOutQuint(x) {
+                    return 1 - Math.pow(1 - x, 5);
+                }
+
+                countDecimals(val) {
+                    if (Math.floor(val) === val) return 0;
+                    return val.toString().split(".")[1].length || 0;
+                }
+
+                formatNumber(val, decimals) {
+                    return val.toLocaleString("en-US", {
+                        minimumFractionDigits: decimals,
+                        maximumFractionDigits: decimals
+                    });
+                }
+            }
+
+            // Simplifed version of Viget dynamic modules to attach instances for this demo
+            // https://www.viget.com/articles/how-does-viget-javascript/
+            // You CAN use this pattern, but it's single purpose right now
+            const dataModules = [...document.querySelectorAll('[data-module="countup"]')];
+
+            dataModules.forEach((element) => {
+                element.dataset.module.split(" ").forEach(function () {
+                    new countUp(element);
+                });
+            });
+            ScrollReveal().reveal('.scroll-show', { container: document.getElementById("main") });
+
+            const tiltSettings = {
+                max: 100,
+                perspective: 1500,
+                scale: 1.05
+            };
+
+            const cards = document.querySelectorAll(".mockup-window").forEach((card) => {
+                card.addEventListener("mousemove", (e) => mouseMove(e, card));
+                card.addEventListener("mouseleave", (e) => mouseLeave(e, card));
+            });
+
+            function mouseMove(event, card) {
+                const cardWidth = card.getBoundingClientRect().width;
+                const cardHeight = card.getBoundingClientRect().height;
+                const centerX = card.getBoundingClientRect().left + cardWidth / 2;
+                const centerY = card.getBoundingClientRect().top + cardHeight / 2;
+                const mouseX = event.clientX - centerX;
+                const mouseY = event.clientY - centerY;
+                const rotateX = (mouseY / cardHeight / 2) * tiltSettings.max;
+                const rotateY = (mouseX / cardWidth / 2) * tiltSettings.max * -1;
+
+
+
+                card.style.transform = `perspective(${tiltSettings.perspective}px)
+                            rotatex(${rotateX}deg)
+                            rotatey(${rotateY}deg)
+                            scale3d(${tiltSettings.scale}, ${tiltSettings.scale}, ${tiltSettings.scale})`;
+            }
+
+            function mouseLeave(event, card) {
+                card.style.transform = "";
+            }
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/c495091fd6.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-repeat w-screen h-screen" onload="run()">
+    <canvas class="background"></canvas>
+    <article
+        class="prose max-w-none text-white break-words box-border pt-10 lg:p-5 p-1 scroll-smooth h-screen overflow-x-hidden lg:prose-2xl"
+        id="main">
+        <div class=" w-full mx-auto ">
+            <div class="navbar not-prose">
+                <div class="navbar-start">
+                    <div class="dropdown">
+                        <label tabindex="0" class="btn btn-ghost lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </label>
+                        <ul tabindex="0"
+                            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a href="/premium" class="hover:scale-110">Premium</a></li>
+                            <li><a href="https://docs.aeona.xyz" class="hover:scale-110">Documentation</a></li>
+                            <li><a href="/support" class="hover:scale-110">Support</a></li>
+                            <li><a href="/dashboard" class="hover:scale-110">Dashboard</a></li>
+                        </ul>
+                    </div>
+                    <div class="flex-none">
+                        <button class="btn btn-square btn-ghost hover:scale-110" onclick="location.replace('/')">
+                            <div class="avatar w-full h-full ">
+                                <div class=" rounded-xl">
+                                    <img src="<%= options.url %>/logo.webp" class="!m-0 " />
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                    <div class=" flex-1">
+                        <a class="btn btn-ghost normal-case text-2xl hover:scale-110" href="/">
+                            <%= options.name %>
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-center hidden lg:flex">
+                    <ul class="menu menu-horizontal p-0 !m-0">
+                        <li><a href="/premium" class="hover:scale-110"> <svg viewBox="0 0 640 512"
+                                    class="fill-yellow-300 w-7 h-7" title="crown">
+                                    <path
+                                        d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z" />
+                                </svg> Premium</a></li>
+                        <li><a href="https://docs.aeona.xyz" class="hover:scale-110">Documentation</a></li>
+                        <li><a href="/support" class="hover:scale-110">Support</a></li>
+                        <li><a href="/dashboard" class="hover:scale-110">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-end hidden lg:flex">
+                    <a class="btn btn-secondary hover:scale-110 animate__animated animate__pulse animate__infinite animate__slower"
+                        href="/invite">Invite Me!</a>
+                </div>
+            </div>
+            <div class="min-h-screen w-full">

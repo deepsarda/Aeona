@@ -13,7 +13,6 @@ import messageRewards from '../../database/models/messageRewards.js';
 import messagesSchema from '../../database/models/messages.js';
 import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
-import { Influx } from '../client/commandStart.js';
 import badwords from '../../Collection/badwords.js';
 
 const filter = new Filter({
@@ -267,7 +266,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           fetch(url, options)
             .then((res) => res.text())
             .then(async (json) => {
-              Influx?.writePoint(
+              client.extras.influx?.writePoint(
                 new Point('commands')
                   .tag('action', 'addition')
                   .tag('command', 'chatbot')
@@ -311,7 +310,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
                 },
               });
 
-              Influx?.writePoint(
+              client.extras.influx?.writePoint(
                 new Point('commandruncount')
                   .tag('action', 'addition')
                   .intField('usage', 1),

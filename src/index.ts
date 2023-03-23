@@ -33,11 +33,12 @@ if (!id) {
   process.exit(1);
 }
 const botConfig: Config = configs[id];
+process.env.ID = id;
 
 const db = createClient();
 
-// db.on('error', (err) => console.log('Redis Client Error', err));
-db.on('error', (err) => {});
+db.on('error', (err) => console.log('Redis Client Error', err));
+
 db.connect();
 
 const b = createBot({

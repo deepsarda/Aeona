@@ -4,7 +4,7 @@ import React from 'react';
 
 import { downloadImageToDataURL, formatBytes } from '../../utils/utils.js';
 
-// eslint-disable-next-line require-extensions/require-extensions
+
 import type { RenderMessageContext } from '..';
 import type { AttachmentTypes } from '../../types.js';
 export default async function renderAttachments(

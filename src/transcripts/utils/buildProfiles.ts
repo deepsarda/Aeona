@@ -22,7 +22,7 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
   // loop through messages
   for (const message of messages) {
     // add all users
-    const author = await bot.helpers.getUser(message.authorId);
+    const author = await bot.cache.users.get(message.authorId);
     if (!profiles.has(author.id)) {
       // add profile
       profiles.set(
