@@ -1,173 +1,131 @@
-<%- include("./partials/head1", { guild,options, title: options.name+" | Editing
-"+guild.name }) %>
-<div class="container mx-auto">
-  <% if(alert){%>
-  <div class="alert alert-info max-w-md shadow-lg">
-    <div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="stroke-current flex-shrink-0 w-6 h-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        ></path>
-      </svg>
-      <span> <%= alert %> </span>
-    </div>
-  </div>
-  <% } %> <% if(alerterror){%>
-  <div class="alert alert-error max-w-md shadow-lg">
-    <div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="stroke-current flex-shrink-0 w-6 h-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        ></path>
-      </svg>
-      <span> <%= alerterror %> </span>
-    </div>
-  </div>
-  <% } %>
-
-  <form role="form" action="/dashboard/guild/<%= guild.id %>/" method="POST">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:mt-20 p-4">
-      <div class="card not-prose compact glass2 p-5">
-        <div class="card-body">
-          <h2 class="card-title">
-            <i class="fa-solid fa-wrench" style="color: #ffffff"></i> Quick
-            Settings
-          </h2>
-
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg"> Prefix: </span>
-            <input
-              type="text"
-              name="prefix"
-              placeholder="<%=data.Prefix%>"
-              value="<%=data.Prefix%>"
-              class="input input-bordered w-full max-w-xs input-ghost"
-              maxlength="15"
-            />
-          </label>
-          <br />
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Leveling: </span>
-            <% if(!data.Levels){ %>
-            <input type="checkbox" name="levels" class="toggle" />
-            <% }else{ %>
-            <input type="checkbox" name="levels" class="toggle" checked />
-            <%}%>
-          </label>
-          <br />
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Anti Spam: </span>
-            <% if(!data.AntiSpam){ %>
-            <input type="checkbox" name="antispam" class="toggle" />
-            <% }else{ %>
-            <input type="checkbox" name="antispam" class="toggle" checked />
-            <%}%>
-          </label>
-          <br />
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Anti Invite: </span>
-            <% if(!data.AntiInvite){ %>
-            <input type="checkbox" name="antiinvite" class="toggle" />
-            <% }else{ %>
-            <input type="checkbox" name="antiinvite" class="toggle" checked />
-            <%}%>
-          </label>
-          <br />
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Anti Links: </span>
-            <% if(!data.AntiLinks){ %>
-            <input type="checkbox" name="antilinks" class="toggle" />
-            <% }else{ %>
-            <input type="checkbox" name="antilinks" class="toggle" checked />
-            <%}%>
-          </label>
-          <div class="flex flex-row p-4 mx-auto">
-            <button class="btn btn-accent m-2" type="submit">Save</button>
-            <button class="btn btn-secondary m-2" type="reset">Reset</button>
-          </div>
+<%- include("./partials/head1", { guild,options, title: options.name+" | Editing"+guild.name }) %>
+  <div class="container mx-auto">
+    <% if(alert){%>
+      <div class="alert alert-info max-w-md shadow-lg">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            class="stroke-current flex-shrink-0 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>
+            <%= alert %>
+          </span>
         </div>
       </div>
-      <div class="card not-prose compact glass2 p-5">
-        <div class="card-body">
-          <h2 class="card-title">
-            <svg
-              viewBox="0 0 640 512"
-              class="fill-yellow-300 w-7 h-7"
-              title="crown"
-            >
-              <path
-                d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z"
-              />
-            </svg>
-            Premium Settings
-          </h2>
-
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Is Premium: </span>
-            <% if(data.isPremium ==="true"){ %>
-            <input
-              type="checkbox"
-              name="premium"
-              checked="checked"
-              class="checkbox checkbox-success"
-              disabled
-            />
-            <% }else{ %>
-            <input
-              type="checkbox"
-              name="premium"
-              class="checkbox checkbox-error"
-              disabled
-              id="premium"
-            />
-            <script>
-              document.getElementById('premium').indeterminate = true;
-            </script>
-            <%}%>
-          </label>
-          <label class="label cursor-pointer">
-            <span class="label-text text-lg">Chatbot Swearing: </span>
-            <% if(data.isPremium ==="true"){ %> <% if(!data.chatbotFilter){ %>
-            <input
-              type="checkbox"
-              name="chatbotprofane"
-              class="toggle"
-              checked
-            />
-            <% }else{ %>
-            <input type="checkbox" name="chatbotprofane" class="toggle" />
-            <%}%> <% }else{ %>
-            <input
-              type="checkbox"
-              name="chatbotprofane"
-              class="toggle"
-              disabled
-            />
-            <%}%>
-          </label>
-          <div class="flex flex-row p-4 mx-auto">
-            <button class="btn btn-accent m-2" type="submit">Save</button>
-            <button class="btn btn-secondary m-2" type="reset">Reset</button>
+      <% } %>
+        <% if(alerterror){%>
+          <div class="alert alert-error max-w-md shadow-lg">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="stroke-current flex-shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>
+                <%= alerterror %>
+              </span>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-<%- include("./partials/footer1",{guild}) %>
+          <% } %>
+
+            <form role="form" action="/dashboard/guild/<%= guild.id %>/" method="POST">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:mt-20 p-4">
+                <div class="card not-prose compact glass2 p-5">
+                  <div class="card-body">
+                    <h2 class="card-title">
+                      <i class="fa-solid fa-wrench" style="color: #ffffff"></i> Quick
+                      Settings
+                    </h2>
+
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg"> Prefix: </span>
+                      <input type="text" name="prefix" placeholder="<%=data.Prefix%>" value="<%=data.Prefix%>"
+                        class="input input-bordered w-full max-w-xs input-ghost" maxlength="15" />
+                    </label>
+                    <br />
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Leveling: </span>
+                      <% if(!data.Levels){ %>
+                        <input type="checkbox" name="levels" class="toggle" />
+                        <% }else{ %>
+                          <input type="checkbox" name="levels" class="toggle" checked />
+                          <%}%>
+                    </label>
+                    <br />
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Anti Spam: </span>
+                      <% if(!data.AntiSpam){ %>
+                        <input type="checkbox" name="antispam" class="toggle" />
+                        <% }else{ %>
+                          <input type="checkbox" name="antispam" class="toggle" checked />
+                          <%}%>
+                    </label>
+                    <br />
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Anti Invite: </span>
+                      <% if(!data.AntiInvite){ %>
+                        <input type="checkbox" name="antiinvite" class="toggle" />
+                        <% }else{ %>
+                          <input type="checkbox" name="antiinvite" class="toggle" checked />
+                          <%}%>
+                    </label>
+                    <br />
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Anti Links: </span>
+                      <% if(!data.AntiLinks){ %>
+                        <input type="checkbox" name="antilinks" class="toggle" />
+                        <% }else{ %>
+                          <input type="checkbox" name="antilinks" class="toggle" checked />
+                          <%}%>
+                    </label>
+                    <div class="flex flex-row p-4 mx-auto">
+                      <button class="btn btn-accent m-2" type="submit">Save</button>
+                      <button class="btn btn-secondary m-2" type="reset">Reset</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="card not-prose compact glass2 p-5">
+                  <div class="card-body">
+                    <h2 class="card-title">
+                      <svg viewBox="0 0 640 512" class="fill-yellow-300 w-7 h-7" title="crown">
+                        <path
+                          d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z" />
+                      </svg>
+                      Premium Settings
+                    </h2>
+
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Is Premium: </span>
+                      <% if(data.isPremium==="true" ){ %>
+                        <input type="checkbox" name="premium" checked="checked" class="checkbox checkbox-success"
+                          disabled />
+                        <% }else{ %>
+                          <input type="checkbox" name="premium" class="checkbox checkbox-error" disabled id="premium" />
+                          <script>
+                            document.getElementById('premium').indeterminate = true;
+                          </script>
+                          <%}%>
+                    </label>
+                    <label class="label cursor-pointer">
+                      <span class="label-text text-lg">Chatbot Swearing: </span>
+                      <% if(data.isPremium==="true" ){ %>
+                        <% if(!data.chatbotFilter){ %>
+                          <input type="checkbox" name="chatbotprofane" class="toggle" checked />
+                          <% }else{ %>
+                            <input type="checkbox" name="chatbotprofane" class="toggle" />
+                            <%}%>
+                              <% }else{ %>
+                                <input type="checkbox" name="chatbotprofane" class="toggle" disabled />
+                                <%}%>
+                    </label>
+                    <div class="flex flex-row p-4 mx-auto">
+                      <button class="btn btn-accent m-2" type="submit">Save</button>
+                      <button class="btn btn-secondary m-2" type="reset">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+  </div>
+  <%- include("./partials/footer1",{guild}) %>
