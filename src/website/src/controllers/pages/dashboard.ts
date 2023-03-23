@@ -38,11 +38,13 @@ export function getDashboardPages(bot: AeonaBot) {
     @View('dashboard.ejs')
     async getIndex(@Context() context: Context, @Req() req: Req) {
       const guilds = await this.getGuilds((req.session as any).user);
-      console.log(req.session);
+
       if (!guilds) {
         (req.session as any).redirect = {
           url: '/dashboard',
         };
+        req.session.save();
+
         context.response.redirect(307, '/dashboard/login');
       } else {
         return {
@@ -61,6 +63,8 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id,
         };
+        req.session.save();
+
         return context.response.redirect(307, '/dashboard/login');
       }
 
@@ -70,6 +74,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard',
         };
+        req.session.save();
         context.response.redirect(307, '/dashboard/noperm');
       } else {
         let schema = await GuildData.findOne({ Guild: id });
@@ -99,6 +104,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id,
         };
+        req.session.save();
         return context.response.redirect(307, '/dashboard/login');
       }
 
@@ -108,6 +114,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard',
         };
+        req.session.save();
         context.response.redirect(307, '/dashboard/noperm');
       } else {
         let schema = await GuildData.findOne({ Guild: id });
@@ -178,6 +185,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id + '/chatbot',
         };
+        req.session.save();
         return context.response.redirect(307, '/dashboard/login');
       }
 
@@ -187,6 +195,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard',
         };
+        req.session.save();
         context.response.redirect(307, '/dashboard/noperm');
       } else {
         let schema = await GuildData.findOne({ Guild: id });
@@ -234,6 +243,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id + '/chatbot',
         };
+        req.session.save();
         return context.response.redirect(307, '/dashboard/login');
       }
 
@@ -243,6 +253,7 @@ export function getDashboardPages(bot: AeonaBot) {
         (req.session as any).redirect = {
           url: '/dashboard',
         };
+        req.session.save();
         context.response.redirect(307, '/dashboard/noperm');
       } else {
         let schema = await GuildData.findOne({ Guild: id });
@@ -337,7 +348,7 @@ export function getDashboardPages(bot: AeonaBot) {
       });
       const u = await oauth.getUser(access.access_token);
       (req.session as any).user = { token: access.access_token, user: u };
-
+      req.session.save();
       if ((req.session as any).redirect)
         context.response.redirect(307, (req.session as any).redirect.url);
       else context.response.redirect(307, '/dashboard');

@@ -57,7 +57,7 @@ export function getServerConfig(bot: AeonaBot) {
           secret: crypto.randomInt(1, 30).toString() + 'adasdasdqwe',
           resave: true,
           saveUninitialized: true,
-          cookie: { secure: true },
+          cookie: { secure: false },
         }),
       );
     }
