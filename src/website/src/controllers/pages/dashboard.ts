@@ -22,7 +22,7 @@ import { AeonaBot } from '../../../../extras/index.js';
 
 export function getDashboardPages(bot: AeonaBot) {
   const oauth = new DiscordOauth2({
-    clientId: bot.user.id + '',
+    clientId: process.env.ID!,
     clientSecret: bot.extras.botConfig.website.CLIENT_SECRET,
     redirectUri:
       bot.extras.botConfig.website.url + '/dashboard/discord/callback',

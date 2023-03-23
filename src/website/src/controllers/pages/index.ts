@@ -7,7 +7,7 @@ export function getWebPages(bot: AeonaBot) {
   let commandCount = 12123;
   setInterval(async () => {
     const fluxQuery =
-      'from(bucket: "Aeona") |> range(start: -24hr) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
+      'from(bucket: "Aeona") |> range(start: -1d) |> filter(fn: (r) => r["_measurement"] == "commandruncount") |> filter(fn: (r) => r["_field"] == "usage") |> filter(fn: (r) => r["action"] == "addition") |> aggregateWindow(every: 48h, fn: sum, createEmpty: false) |> yield(name: "sum")';
 
     const response = await bot.extras.influxQuery
       .response(fluxQuery)
