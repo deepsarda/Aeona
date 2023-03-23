@@ -17,6 +17,9 @@ try {
   console.log(
     execSync('cp -R src/website/views dist/website/').toString('ascii').trim(),
   );
+  console.log(
+    execSync('cp -R src/website/public dist/website/').toString('ascii').trim(),
+  );
 } catch (e) {
   console.log(e.toString('ascii').trim());
 }
