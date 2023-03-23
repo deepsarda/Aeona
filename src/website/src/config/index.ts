@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs';
 import { envs } from './envs/index.js';
 import loggerConfig from './logger/index.js';
 
