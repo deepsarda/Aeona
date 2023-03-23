@@ -1,27 +1,14 @@
-const fs = require('fs');
-require('dotenv').config();
-const { exec, execSync } = require('child_process');
+import { exec, execSync } from 'child_process';
 
-console.log('Building Rest');
+console.log('Building Bot...');
 try {
-  execSync('yarn rest build');
+  console.log(execSync('yarn build').toString('ascii').trim());
 } catch (e) {
   console.log(e.toString('ascii').trim());
 }
-console.log('Building Events');
-try {
-  execSync('yarn events build');
-} catch (e) {
-  console.log(e.toString('ascii').trim());
-}
-console.log('Building Gateway');
-try {
-  execSync('yarn gateway build');
-} catch (e) {
-  console.log(e.toString('ascii').trim());
-}
-function runRest() {
-  const ls = exec('yarn rest dev');
+
+function runBot(id) {
+  const ls = exec('yarn start --id=' + id);
 
   ls.stdout.on('data', (data) => {
     console.log(data.toString('ascii').trim());
@@ -33,44 +20,14 @@ function runRest() {
 
   ls.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
-    runRest();
+    runBot(id);
   });
 }
-runRest();
-function runBot() {
-  const ls = exec('yarn events dev');
+let ids = ['931226824753700934'];
+ids.forEach((id) => {
+  runBot(id);
+});
 
-  ls.stdout.on('data', (data) => {
-    console.log(data.toString('ascii').trim());
-  });
-
-  ls.stderr.on('data', (data) => {
-    console.error(data.toString('ascii').trim());
-  });
-
-  ls.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-    runBot();
-  });
-}
-runBot();
-function runGateWay() {
-  const ls = exec('yarn gateway dev');
-
-  ls.stdout.on('data', (data) => {
-    console.log(data.toString('ascii').trim());
-  });
-
-  ls.stderr.on('data', (data) => {
-    console.error(data.toString('ascii').trim());
-  });
-
-  ls.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-    runGateWay();
-  });
-}
-runGateWay();
 setInterval(() => {
   try {
     exec('git pull');

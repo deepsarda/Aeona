@@ -1,41 +1,32 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "lib": [
-      "ESNext"
-    ],
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+    "target": "es2022",
+    "module": "es2022",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true,
     "importHelpers": true,
-    "newLine": "lf",
-    "noEmitHelpers": true,
-    "preserveConstEnums": true,
-    "pretty": true,
-    "removeComments": true,
-    "strict": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
+    "allowUnusedLabels": false,
+    "noImplicitOverride": true,
     "noUnusedLocals": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "alwaysStrict": true,
+    "noUncheckedIndexedAccess": true,
+    "stripInternal": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "pretty": true,
-    "jsx": "react",
+    "useUnknownInCatchVariables": false,
+    "allowUnreachableCode": false,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "useUnknownInCatchVariables": false
+    "jsx": "react",
+    "moduleResolution": "node"
+  },
+  "include": [
+    "./src/**/*",
+    ".env"
+  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "swc": true
   }
 }

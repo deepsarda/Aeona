@@ -16,6 +16,7 @@ Aeona supports slash-based commands as well as message-based commands.
 - The most recent version of Discordenoas soon as possible.
 
 **Repository is based on [Menhera Bot](https://github.com/MenheraBot/MenheraBot)**
+
 ## Features/Goals
 
 PS: Check back often for new updates to this list.
@@ -53,12 +54,10 @@ Without previous approval from the repository owner, you are not permitted to ha
 
 ## Setting up
 
-See `src/config` folder.
+See `src/config.ts` file.
 Rename `example.env` to `.env` and fill out the forms.
 
-
-
-##  Running
+## Running
 
 1. Clone the repository
 
@@ -66,9 +65,10 @@ Rename `example.env` to `.env` and fill out the forms.
 git clone https://github.com/deepsarda/Aeona
 ```
 
-2. Fill out the env files. 
-> Every package has a .env.example file with every entry needed. Just create a .env file with all the entries.
+2. Fill out the env files.
+   > Every package has a .env.example file with every entry needed. Just create a .env file with all the entries.
 3. Run index.js
+
 ```bash
 yarn install
 node index.js
