@@ -38,7 +38,11 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
   bot.rest.sendRequest = async (r, options): Promise<any> => {
     const result = await rest
       //@ts-ignore
-      .makeRequest(options.method, options.url, options.payload?.body)
+      .makeRequest(
+        options.method,
+        options.url,
+        JSON.parse(JSON.stringify(options.payload?.body)),
+      )
       .catch((e) => {
         if (e instanceof Error) {
           if (e.message.includes('[404]')) return e;
