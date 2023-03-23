@@ -37,7 +37,7 @@ export default {
         {
           title: `Suggestion accepted`,
           desc: `\`\`\`${embedData.description}\`\`\``,
-          color: client.extras.config.colors.succes,
+
           author: {
             name: embedData.author!.name,
             iconURL: embedData.author!.iconUrl,

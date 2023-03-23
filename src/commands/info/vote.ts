@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 import Topgg from '@top-gg/sdk';
 
 import { AeonaBot } from '../../extras/index.js';
@@ -27,7 +31,7 @@ export default {
             {
               title: `Vote`,
               desc: `You have already voted!`,
-              color: client.extras.config.colors.succes,
+
               components: row,
               type: 'reply',
             },

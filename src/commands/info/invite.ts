@@ -1,4 +1,8 @@
-import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import {
+  CommandOptions,
+  Components,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -20,7 +24,7 @@ export default {
     client.extras.embed(
       {
         title: `Invite`,
-        color: client.extras.config.colors.succes,
+
         components: row,
         type: 'reply',
       },

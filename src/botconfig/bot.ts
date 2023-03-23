@@ -3,8 +3,6 @@ import emotes from './emojis.js';
 
 export default {
   colors: {
-    succes: embedconfig.color,
-    success: embedconfig.color,
     error: embedconfig.wrongcolor,
     normal: undefined,
   },

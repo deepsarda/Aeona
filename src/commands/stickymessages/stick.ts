@@ -1,4 +1,8 @@
-import { AmethystEmbed, CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import {
+  AmethystEmbed,
+  CommandOptions,
+  Context,
+} from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/stickymessages.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -28,25 +32,28 @@ export default {
     const channel = await ctx.options.getChannel('channel', true);
     const content = await ctx.options.getLongString('message', true);
 
-    const embed = new AmethystEmbed()
-      .setDescription(`${content}`)
-      .setColor(client.extras.config.colors.normal);
+    const embed = new AmethystEmbed().setDescription(`${content}`);
+    if (client.extras.config.colors.normal)
+      embed.setColor(client.extras.config.colors.normal);
     client.helpers.sendMessage(channel.id, { embeds: [embed] }).then((msg) => {
-      Schema.findOne({ Guild: ctx.guild!.id, Channel: channel.id }, async (err, data) => {
-        if (data) {
-          data.Channel = channel.id;
-          data.Content = content;
-          data.LastMessage = msg.id;
-          data.save();
-        } else {
-          new Schema({
-            Guild: ctx.guild!.id,
-            Channel: channel.id,
-            LastMessage: msg.id,
-            Content: content,
-          }).save();
-        }
-      });
+      Schema.findOne(
+        { Guild: ctx.guild!.id, Channel: channel.id },
+        async (err, data) => {
+          if (data) {
+            data.Channel = channel.id;
+            data.Content = content;
+            data.LastMessage = msg.id;
+            data.save();
+          } else {
+            new Schema({
+              Guild: ctx.guild!.id,
+              Channel: channel.id,
+              LastMessage: msg.id,
+              Content: content,
+            }).save();
+          }
+        },
+      );
 
       client.extras.succNormal(
         {

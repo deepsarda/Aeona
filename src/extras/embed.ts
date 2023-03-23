@@ -389,7 +389,6 @@ export default (client: AeonaBot) => {
   ) {
     embed.setTitle(`${client.extras.emotes.normal.check}・Success!`);
     embed.setDescription(`${text}`);
-    embed.setColor(client.extras.config.colors.succes);
 
     if (fields)
       for (const field of fields)

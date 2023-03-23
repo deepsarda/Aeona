@@ -245,11 +245,12 @@ export default async (client: AeonaBot, interaction: Interaction) => {
         }
       }
       const embed = new AmethystEmbed()
-        .setColor(client.extras.config.colors.normal)
         .setTitle(`${client.extras.capitalizeFirstLetter(c.name)}'s Commands`)
         .setDescription(
           `*${c.description.trim()}* \n Total of ${c.commands.size} commands. `,
         );
+      if (client.extras.config.colors.normal)
+        embed.setColor(client.extras.config.colors.normal);
       for (let i = 0; i < fields.length; i++) {
         embed.addField(fields[i].name, fields[i].value, fields[i].inline);
       }
