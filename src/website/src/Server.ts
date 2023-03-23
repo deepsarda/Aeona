@@ -54,7 +54,7 @@ export function getServerConfig(bot: AeonaBot) {
       this.app.getApp().set('trust proxy', 1); // trust first proxy
       this.app.use(
         session({
-          secret: crypto.randomUUID(),
+          secret: crypto.randomInt(1, 30).toString() + 'adasdasdqwe',
           resave: true,
           saveUninitialized: true,
           cookie: { secure: true },
