@@ -150,7 +150,6 @@ export default (client: AeonaBot) => {
     interaction: Context | Channel | Interaction,
   ) {
     if (interaction.guildId == undefined) interaction.guildId = 0n;
-    const functiondata = await Schema.findOne({ Guild: interaction.guildId });
 
     if (title) embed.setTitle(title);
     if (desc && desc.length >= 2048)
@@ -165,8 +164,6 @@ export default (client: AeonaBot) => {
     if (url) embed.url = url;
     if (footer) embed.setFooter(footer);
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color)
-      embed.setColor(functiondata.Color);
 
     return await sendEmbed(
       {
@@ -214,8 +211,6 @@ export default (client: AeonaBot) => {
     },
     interaction: Context | Channel | Interaction,
   ) {
-    const functiondata = await Schema.findOne({ Guild: interaction.guildId });
-
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
@@ -230,8 +225,6 @@ export default (client: AeonaBot) => {
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color)
-      embed.setColor(functiondata.Color);
 
     return await sendEmbed(
       {
@@ -277,8 +270,6 @@ export default (client: AeonaBot) => {
     },
     ctx: Message,
   ) {
-    const functiondata = await Schema.findOne({ Guild: ctx.guildId });
-
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
@@ -293,8 +284,7 @@ export default (client: AeonaBot) => {
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color)
-      embed.setColor(functiondata.Color);
+
     return await client.helpers
       .sendMessage(ctx.channelId, {
         embeds: [embed],
@@ -339,7 +329,6 @@ export default (client: AeonaBot) => {
     },
     ctx: Message,
   ) {
-    const functiondata = await Schema.findOne({ Guild: ctx.guildId });
     const embed = new AmethystEmbed();
     if (config.colors.normal) embed.setColor(config.colors.normal);
 
@@ -356,8 +345,6 @@ export default (client: AeonaBot) => {
     if (footer) embed.setFooter(footer);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color)
-      embed.setColor(functiondata.Color);
 
     return await client.helpers
       .editMessage(ctx.channelId, `${ctx.id}`, {
@@ -439,8 +426,6 @@ export default (client: AeonaBot) => {
     },
     ctx: Message,
   ) {
-    const functiondata = await Schema.findOne({ Guild: ctx.guildId });
-
     const embed = new AmethystEmbed();
     if (config.colors.normal) embed.setColor(config.colors.normal);
     if (title) embed.setTitle(title);
@@ -455,8 +440,6 @@ export default (client: AeonaBot) => {
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
-    if (functiondata && functiondata.Color && !color)
-      embed.setColor(functiondata.Color);
 
     return await client.helpers
       .sendMessage(ctx.channelId, {
