@@ -195,7 +195,7 @@ setupCategories(bot);
 setupRest(bot, botConfig.TOKEN);
 
 console.log(colors.green('STARTING'));
-bot.emit('ready');
+bot.emit('ready', bot);
 
 async function logDbCache() {
   console.log('Getting Cache Length...'.yellow);
