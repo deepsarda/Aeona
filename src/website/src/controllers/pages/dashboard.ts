@@ -29,7 +29,7 @@ export function getDashboardPages(bot: AeonaBot) {
   });
 
   const rest = createRestManager({
-    token: process.env.DISCORD_TOKEN!,
+    token: bot.extras.botConfig.TOKEN,
   });
 
   @Controller('/dashboard')
