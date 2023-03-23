@@ -22,9 +22,9 @@ export interface AeonaBot extends AmethystBot {
   extras: ReturnType<typeof additionalProps>;
 }
 
-const parts = [];
+const parts = process.env.WEBHOOKURL!.split('/');
 const token = parts.pop() || '';
-const id = parts.pop() || '';
+const id = parts.pop();
 export function additionalProps(botConfig: Config, client: AeonaBot) {
   return {
     ...embeds(client),

@@ -9,7 +9,9 @@ import { AeonaBot } from './index.js';
 /* Exporting a function that takes a client as a parameter. */
 export default (client: AeonaBot) => {
   const templateEmbed = function () {
-    return new AmethystEmbed().setColor(config.colors.normal);
+    const embed = new AmethystEmbed();
+    if (config.colors.normal) embed.setColor(config.colors.normal);
+    return embed;
   };
 
   const errNormal = async function (
