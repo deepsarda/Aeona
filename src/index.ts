@@ -192,10 +192,10 @@ bot.extras = additionalProps(botConfig, bot);
 await loadFiles(bot);
 setupInhibitors(bot);
 setupCategories(bot);
-
 setupRest(bot, botConfig.TOKEN);
 
 console.log(colors.green('STARTING'));
+bot.emit('ready');
 
 async function logDbCache() {
   console.log('Getting Cache Length...'.yellow);
