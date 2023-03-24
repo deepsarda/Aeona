@@ -1,7 +1,7 @@
 import { createRestManager } from '@discordeno/rest';
 import { AeonaBot } from '../extras/index.js';
 import { BASE_URL } from 'discordeno';
-import Discordeno from 'discordeno';
+import createRestManagerOld from './createRest.js';
 
 const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
   const rest = createRestManager({
@@ -25,7 +25,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
 
   //set interval for 10 minutes
   setInterval(async () => {
-    bot.rest = Discordeno.createRestManager({
+    bot.rest = createRestManagerOld({
       token: DISCORD_TOKEN,
       runMethod(r, method, route, body, options): Promise<any> {
         return rest.makeRequest(method, `${BASE_URL}/v${rest.version}${route}`, body, options).catch((e) => {
