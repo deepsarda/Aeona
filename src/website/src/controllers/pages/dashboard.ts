@@ -1,15 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  BodyParams,
-  Context,
-  Controller,
-  Get,
-  PathParams,
-  Post,
-  QueryParams,
-  Req,
-} from '@tsed/common';
+import { BodyParams, Context, Controller, Get, PathParams, Post, QueryParams, Req } from '@tsed/common';
 import { View } from '@tsed/platform-views';
 import DiscordOauth2 from 'discord-oauth2';
 import Permissions from '../../Permissions.js';
@@ -24,8 +15,7 @@ export function getDashboardPages(bot: AeonaBot) {
   const oauth = new DiscordOauth2({
     clientId: process.env.ID!,
     clientSecret: bot.extras.botConfig.website.CLIENT_SECRET,
-    redirectUri:
-      bot.extras.botConfig.website.url + '/dashboard/discord/callback',
+    redirectUri: bot.extras.botConfig.website.url + '/dashboard/discord/callback',
   });
 
   const rest = createRestManager({
@@ -54,11 +44,7 @@ export function getDashboardPages(bot: AeonaBot) {
     }
     @Get('/guild/:id')
     @View('guilddashboard.ejs')
-    async getGuildDashbord(
-      @Context() context: Context,
-      @Req() req: Req,
-      @PathParams('id') id: string,
-    ) {
+    async getGuildDashbord(@Context() context: Context, @Req() req: Req, @PathParams('id') id: string) {
       if (!(req.session as any).user) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id,
@@ -156,8 +142,7 @@ export function getDashboardPages(bot: AeonaBot) {
             schema.chatbotFilter = body.chatbotprofane == 'on';
             updated.push('chatbot filter');
           } else {
-            error =
-              'This is not a premium server and hence I cannot enable chatbot swearing.';
+            error = 'This is not a premium server and hence I cannot enable chatbot swearing.';
           }
         }
 
@@ -165,10 +150,7 @@ export function getDashboardPages(bot: AeonaBot) {
         return {
           guild,
           data: schema,
-          alert:
-            updated.length == 0
-              ? 'There was nothing to update.'
-              : 'Updated ' + updated.join(', '),
+          alert: updated.length == 0 ? 'There was nothing to update.' : 'Updated ' + updated.join(', '),
           alerterror: error,
         };
       }
@@ -176,11 +158,7 @@ export function getDashboardPages(bot: AeonaBot) {
 
     @Get('/guild/:id/chatbot')
     @View('chatbot.ejs')
-    async getChatbotDashboard(
-      @Context() context: Context,
-      @Req() req: Req,
-      @PathParams('id') id: string,
-    ) {
+    async getChatbotDashboard(@Context() context: Context, @Req() req: Req, @PathParams('id') id: string) {
       if (!(req.session as any).user) {
         (req.session as any).redirect = {
           url: '/dashboard/guild/' + id + '/chatbot',
@@ -211,9 +189,7 @@ export function getDashboardPages(bot: AeonaBot) {
         }[] = await ChatbotData.find({ Guild: id });
         const needToAdd = 8 - chatbotSchemas.length;
 
-        if (chatbotSchemas.length < 8)
-          for (let i = 0; i < needToAdd; i++)
-            chatbotSchemas.push({ Guild: id });
+        if (chatbotSchemas.length < 8) for (let i = 0; i < needToAdd; i++) chatbotSchemas.push({ Guild: id });
 
         const channels = await rest.getChannels(id);
         const channelsFiltered = channels
@@ -267,34 +243,24 @@ export function getDashboardPages(bot: AeonaBot) {
         const needToAdd = 8 - chatbotSchemas.length;
 
         if (chatbotSchemas.length < 8)
-          for (let i = 0; i < needToAdd; i++)
-            chatbotSchemas.push(new ChatbotData({ Guild: id }));
+          for (let i = 0; i < needToAdd; i++) chatbotSchemas.push(new ChatbotData({ Guild: id }));
 
         if (schema.isPremium === 'true') {
-          chatbotSchemas[0].Channel =
-            body.chatbot1 == 'none' ? undefined : body.chatbot1;
-          chatbotSchemas[1].Channel =
-            body.chatbot2 == 'none' ? undefined : body.chatbot2;
-          chatbotSchemas[2].Channel =
-            body.chatbot3 == 'none' ? undefined : body.chatbot3;
-          chatbotSchemas[3].Channel =
-            body.chatbot4 == 'none' ? undefined : body.chatbot4;
-          chatbotSchemas[4].Channel =
-            body.chatbot5 == 'none' ? undefined : body.chatbot5;
-          chatbotSchemas[5].Channel =
-            body.chatbot6 == 'none' ? undefined : body.chatbot6;
-          chatbotSchemas[6].Channel =
-            body.chatbot7 == 'none' ? undefined : body.chatbot7;
-          chatbotSchemas[7].Channel =
-            body.chatbot8 == 'none' ? undefined : body.chatbot8;
+          chatbotSchemas[0].Channel = body.chatbot1 == 'none' ? undefined : body.chatbot1;
+          chatbotSchemas[1].Channel = body.chatbot2 == 'none' ? undefined : body.chatbot2;
+          chatbotSchemas[2].Channel = body.chatbot3 == 'none' ? undefined : body.chatbot3;
+          chatbotSchemas[3].Channel = body.chatbot4 == 'none' ? undefined : body.chatbot4;
+          chatbotSchemas[4].Channel = body.chatbot5 == 'none' ? undefined : body.chatbot5;
+          chatbotSchemas[5].Channel = body.chatbot6 == 'none' ? undefined : body.chatbot6;
+          chatbotSchemas[6].Channel = body.chatbot7 == 'none' ? undefined : body.chatbot7;
+          chatbotSchemas[7].Channel = body.chatbot8 == 'none' ? undefined : body.chatbot8;
 
           //save to database
           for (let i = 0; i < 8; i++) {
             chatbotSchemas[i].save();
           }
         } else {
-          chatbotSchemas[0].Channel =
-            body.chatbot1 == 'none' ? undefined : body.chatbot1;
+          chatbotSchemas[0].Channel = body.chatbot1 == 'none' ? undefined : body.chatbot1;
           await chatbotSchemas[0].save();
         }
 
@@ -324,6 +290,10 @@ export function getDashboardPages(bot: AeonaBot) {
     async noperms() {
       return 'You do not have permission to do that.';
     }
+    @Get('/noperm')
+    async noperm() {
+      return 'You do not have permission to do that.';
+    }
     @Get('/login')
     async login(@Context() context: Context) {
       context.response.redirect(
@@ -336,11 +306,7 @@ export function getDashboardPages(bot: AeonaBot) {
     }
 
     @Get('/discord/callback')
-    async callback(
-      @Context() context: Context,
-      @QueryParams('code') code: string,
-      @Req() req: Req,
-    ) {
+    async callback(@Context() context: Context, @QueryParams('code') code: string, @Req() req: Req) {
       const access = await oauth.tokenRequest({
         scope: ['identify', 'guilds'],
         code: code,
@@ -349,8 +315,7 @@ export function getDashboardPages(bot: AeonaBot) {
       const u = await oauth.getUser(access.access_token);
       (req.session as any).user = { token: access.access_token, user: u };
       req.session.save();
-      if ((req.session as any).redirect)
-        context.response.redirect(307, (req.session as any).redirect.url);
+      if ((req.session as any).redirect) context.response.redirect(307, (req.session as any).redirect.url);
       else context.response.redirect(307, '/dashboard');
     }
 
@@ -370,11 +335,7 @@ export function getDashboardPages(bot: AeonaBot) {
       }[] = [];
 
       for (let i = 0; i < g.length; i++) {
-        if (
-          new Permissions(
-            g[i].permissions ? BigInt(g[i].permissions!) : undefined,
-          ).has('MANAGE_GUILD')
-        )
+        if (new Permissions(g[i].permissions ? BigInt(g[i].permissions!) : undefined).has('MANAGE_GUILD'))
           guilds.push(g[i]);
       }
 
@@ -397,8 +358,7 @@ export function getDashboardPages(bot: AeonaBot) {
             permissions_new?: string;
           } = false;
 
-      for (let i = 0; i < guilds.length; i++)
-        if (guilds[i].id == id) guild = guilds[i];
+      for (let i = 0; i < guilds.length; i++) if (guilds[i].id == id) guild = guilds[i];
       try {
         if (guild) return await rest.getGuild(guild.id);
       } catch (e) {
