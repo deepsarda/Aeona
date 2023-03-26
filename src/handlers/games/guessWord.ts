@@ -14,13 +14,9 @@ export default async (client: AeonaBot) => {
     });
 
     if (data) {
-      client.emit('logFeatureUse', client, client, 'guess-the-word');
+      client.emit('logFeatureUse', client, 'guess-the-word');
       if (message.content.toLowerCase() == data.Word.toLowerCase()) {
-        bot.helpers.addReaction(
-          message.channelId,
-          `${message.id}`,
-          client.extras.emotes.normal.check,
-        );
+        bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.check);
         const word = wordList[Math.floor(Math.random() * wordList.length)];
         const shuffled = word
           .split('')
@@ -36,9 +32,7 @@ export default async (client: AeonaBot) => {
             fields: [
               {
                 name: `<:members:1063116392762712116> Guessed by`,
-                value: `<@${
-                  user.id
-                }> (${`${user.username}#${user.discriminator}`})`,
+                value: `<@${user.id}> (${`${user.username}#${user.discriminator}`})`,
                 inline: true,
               },
               {
@@ -68,11 +62,7 @@ export default async (client: AeonaBot) => {
           message,
         );
       }
-      return bot.helpers.addReaction(
-        message.channelId,
-        `${message.id}`,
-        client.extras.emotes.normal.error,
-      );
+      return bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
     }
   });
 };
