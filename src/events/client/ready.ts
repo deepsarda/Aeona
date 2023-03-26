@@ -30,9 +30,7 @@ export default async (
     if (client.extras.botConfig.website.enabled) bootstrap(client);
 
     client.amethystUtils.updateSlashCommands();
-    client.user = await client.helpers.getUser(
-      getBotIdFromToken(client.extras.botConfig.TOKEN),
-    );
+    client.user = await client.helpers.getUser(getBotIdFromToken(client.extras.botConfig.TOKEN));
 
     client.extras.messageCount = 0;
     try {
@@ -40,10 +38,7 @@ export default async (
 
       let index = 0;
       for (const { times } of cpus())
-        point.floatField(
-          `cpu_${index++}`,
-          (times.user + times.nice + times.sys + times.irq) / times.idle,
-        );
+        point.floatField(`cpu_${index++}`, (times.user + times.nice + times.sys + times.irq) / times.idle);
 
       client.extras.influx.writePoint(point);
 
@@ -71,9 +66,7 @@ export default async (
         activities: [
           {
             type: ActivityTypes.Game,
-            name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(
-              client.extras.guildcount,
-            )} servers.`,
+            name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(client.extras.guildcount)} servers.`,
 
             createdAt: new Date().getTime(),
           },
@@ -92,9 +85,7 @@ export default async (
           activities: [
             {
               type: ActivityTypes.Game,
-              name: `${
-                client.extras.botConfig.PREFIX
-              }help on ${formatter.format(client.extras.guildcount)} servers.`,
+              name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(client.extras.guildcount)} servers.`,
 
               createdAt: new Date().getTime(),
             },
@@ -106,10 +97,7 @@ export default async (
 
         let index = 0;
         for (const { times } of cpus()) {
-          point.floatField(
-            `cpu_${index++}`,
-            (times.user + times.nice + times.sys + times.irq) / times.idle,
-          );
+          point.floatField(`cpu_${index++}`, (times.user + times.nice + times.sys + times.irq) / times.idle);
         }
 
         client.extras.influx.writePoint(point);
@@ -159,9 +147,7 @@ export default async (
         );
 
         client.extras.influx.writePoint(
-          new Point('guilds')
-            .tag('action', 'sync')
-            .intField('value', client.extras.guildcount),
+          new Point('guilds').tag('action', 'sync').intField('value', client.extras.guildcount),
         );
       } catch (e) {
         console.error(JSON.stringify(e));
@@ -188,11 +174,7 @@ export default async (
           if (user.id != client.user.id) client.cache.users.delete(user.id);
         }
       }
-      if (client.cache.guilds.memory.size > 300) {
-        for (const [_guildId, guild] of client.cache.guilds.memory) {
-          client.cache.guilds.delete(guild.id);
-        }
-      }
+
       if (client.cache.messages.memory.size > 500) {
         for (const [messageId, _message] of client.cache.messages.memory) {
           client.cache.messages.delete(messageId);
@@ -205,8 +187,7 @@ export default async (
       }
       for (const [messageId, message] of client.cache.messages.memory) {
         if (!message.timestamp) client.cache.messages.delete(messageId);
-        if (Date.now() - message.timestamp > 1000 * 60 * 2)
-          client.cache.messages.delete(messageId);
+        if (Date.now() - message.timestamp > 1000 * 60 * 2) client.cache.messages.delete(messageId);
       }
     }, 1000 * 10);
 
@@ -221,9 +202,7 @@ export default async (
             reminder.LastBump = Date.now();
             reminder.save();
 
-            const channel = await client.cache.channels.get(
-              BigInt(reminder.Channel!),
-            );
+            const channel = await client.cache.channels.get(BigInt(reminder.Channel!));
             if (channel)
               await client.extras.embed(
                 {
@@ -253,13 +232,9 @@ export default async (
       if (results && results.length) {
         for (const result of results) {
           if (Date.now() >= Number(result.Premium!.ExpiresAt)) {
-            const guildPremium = await client.cache.guilds.get(
-              BigInt(result.Guild!),
-            );
+            const guildPremium = await client.cache.guilds.get(BigInt(result.Guild!));
             if (guildPremium) {
-              const user = await client.cache.users.get(
-                BigInt(result.Premium!.RedeemedBy!.id),
-              );
+              const user = await client.cache.users.get(BigInt(result.Premium!.RedeemedBy!.id));
 
               if (user) {
                 const channel = await client.helpers.getDmChannel(user.id);
@@ -303,9 +278,7 @@ export default async (
       });
       c.commands.forEach((command) => {
         commands.push({
-          usage: `+${
-            c.uniqueCommands ? command.name : `${c.name} ${command.name}`
-          } ${command.args
+          usage: `+${c.uniqueCommands ? command.name : `${c.name} ${command.name}`} ${command.args
             .map((arg) => {
               if (arg.required) return `${arg.name}`;
               else return `${arg.name}(Optional)`;

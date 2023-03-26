@@ -41,7 +41,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
         });
       },
     });
-  }, 10 * 60 * 1000);
+  }, 2 * 60 * 1000);
 };
 
 export { setupRest };

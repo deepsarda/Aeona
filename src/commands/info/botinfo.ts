@@ -9,7 +9,7 @@ export default {
   category: 'info',
   args: [],
   async execute(client: AeonaBot, ctx: Context) {
-    const totalGuilds = client.cache.guilds.memory.size;
+    const totalGuilds = client.extras.guildcount;
     const totalMembers = client.cache.members.memory.size;
     const totalChannels = client.cache.channels.memory.size;
 
