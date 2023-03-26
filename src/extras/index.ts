@@ -1,9 +1,4 @@
-import {
-  AmethystBot,
-  AmethystCollection,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
 import { Channel, Role, VoiceState } from 'discordeno';
 import { BigString } from 'discordeno/types';
 
@@ -23,10 +18,7 @@ const INFLUX_ORG = process.env.INFLUX_ORG as string;
 const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
 const INFLUX_URL = process.env.INFLUX_URL as string;
-const influxDB =
-  INFLUX_URL && INFLUX_TOKEN
-    ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN })
-    : undefined;
+const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 
 export interface AeonaBot extends AmethystBot {
   extras: ReturnType<typeof additionalProps>;
@@ -43,11 +35,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     version: 'v0.2.0',
     botConfig: botConfig,
     webhook: async (content: any) => {
-      return await client.helpers.sendWebhookMessage(
-        id as BigString,
-        token,
-        content,
-      );
+      return await client.helpers.sendWebhookMessage(id as BigString, token, content);
     },
     startTime: new Date().getTime(),
     config: config,
@@ -55,6 +43,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     emotes: config.emotes,
     messageCount: 0,
     guildcount: 0,
+    guildIds: [] as bigint[],
     ready: false,
     playerManager: new Map(),
     triviaManager: new Map(),
@@ -89,25 +78,18 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
         });
       return guildDB.isPremium === 'true';
     },
-    async createChannelSetup(
-      Schema: any,
-      channel: Channel,
-      interaction: Context,
-    ) {
-      Schema.findOne(
-        { Guild: interaction.guildId },
-        async (err: any, data: { Channel: bigint; save: () => void }) => {
-          if (data) {
-            data.Channel = channel.id;
-            data.save();
-          } else {
-            new Schema({
-              Guild: interaction.guildId,
-              Channel: `${channel.id}`,
-            }).save();
-          }
-        },
-      );
+    async createChannelSetup(Schema: any, channel: Channel, interaction: Context) {
+      Schema.findOne({ Guild: interaction.guildId }, async (err: any, data: { Channel: bigint; save: () => void }) => {
+        if (data) {
+          data.Channel = channel.id;
+          data.save();
+        } else {
+          new Schema({
+            Guild: interaction.guildId,
+            Channel: `${channel.id}`,
+          }).save();
+        }
+      });
 
       client.extras.embed(
         {
@@ -125,20 +107,17 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
       );
     },
     async createRoleSetup(Schema: any, role: Role, interaction: Context) {
-      Schema.findOne(
-        { Guild: interaction.guildId },
-        async (err: any, data: { Role: bigint; save: () => void }) => {
-          if (data) {
-            data.Role = role.id;
-            data.save();
-          } else {
-            new Schema({
-              Guild: interaction.guildId,
-              Role: `${role.id}`,
-            }).save();
-          }
-        },
-      );
+      Schema.findOne({ Guild: interaction.guildId }, async (err: any, data: { Role: bigint; save: () => void }) => {
+        if (data) {
+          data.Role = role.id;
+          data.save();
+        } else {
+          new Schema({
+            Guild: interaction.guildId,
+            Role: `${role.id}`,
+          }).save();
+        }
+      });
 
       client.extras.embed(
         {
@@ -159,20 +138,12 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
       const current = lb.slice(start, end + 10);
       const result = current.join('\n');
 
-      const embed = client.extras
-        .templateEmbed()
-        .setTitle(`${title}`)
-        .setDescription(`${result.toString()}`);
+      const embed = client.extras.templateEmbed().setTitle(`${title}`).setDescription(`${result.toString()}`);
 
       return embed;
     },
 
-    async createLeaderboard(
-      title: any,
-      lb: any[],
-      interaction: Context,
-      currentIndex?: number,
-    ) {
+    async createLeaderboard(title: any, lb: any[], interaction: Context, currentIndex?: number) {
       if (!currentIndex) currentIndex = 0;
       let btn1 = true;
       let btn2 = true;
@@ -189,14 +160,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
           disabled: btn2,
         });
       const msg = await client.helpers.sendMessage(interaction.channel!.id, {
-        embeds: [
-          await client.extras.generateEmbed(
-            currentIndex,
-            currentIndex,
-            lb,
-            title,
-          ),
-        ],
+        embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
         components: comp,
       });
 
@@ -210,9 +174,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
         .then(async (btn) => {
           if (!currentIndex) return;
 
-          btn.data?.customId === 'back_button'
-            ? (currentIndex -= 10)
-            : (currentIndex += 10);
+          btn.data?.customId === 'back_button' ? (currentIndex -= 10) : (currentIndex += 10);
           client.extras.createLeaderboard(title, lb, interaction, currentIndex);
         })
         .catch((err) => {
@@ -350,13 +312,11 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
           .sort([['xp', -1]])
           .exec();
 
-        userReturn.position =
-          leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
+        userReturn.position = leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
       }
 
       userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
-      userReturn.cleanNextLevelXp =
-        client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
+      userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
       return userReturn;
     },
 

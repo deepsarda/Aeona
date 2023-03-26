@@ -5,6 +5,8 @@ import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, guild: Guild) => {
   if (guild == undefined) return;
+  if (client.extras.guildIds.includes(guild.id)) return;
+
   client.extras.guildcount++;
 
   client.gateway.manager.shards.get(0).send({
