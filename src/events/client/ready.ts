@@ -294,5 +294,18 @@ export default async (
     //Write to json file.
     fs.writeFileSync('./categories.json', JSON.stringify(categories));
     fs.writeFileSync('./commands.json', JSON.stringify(commands));
+
+    setInterval(async () => {
+      if (client.extras.requestMembersGuilds.length > 0) {
+        client.gateway.manager.shards.get(0).send({
+          op: 8,
+          d: {
+            guild_id: client.extras.requestMembersGuilds[0] + '',
+          },
+        });
+
+        client.extras.requestMembersGuilds.shift();
+      }
+    }, 100);
   }
 };

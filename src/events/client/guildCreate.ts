@@ -8,14 +8,9 @@ export default async (client: AeonaBot, guild: Guild) => {
   if (client.extras.guildIds.includes(guild.id)) return;
 
   client.extras.guildcount++;
+  client.extras.guildIds.push(guild.id);
+  client.extras.requestMembersGuilds.push(guild.id);
 
-  /*client.gateway.manager.shards.get(0).send({
-    op: 8,
-    d: {
-      guild_id: guild.id + '',
-    },
-  });
- */
   if (Date.now() > client.extras.startTime + 10 * 60 * 1000) {
     const embed = new AmethystEmbed()
       .setTitle('Added to a new server!')

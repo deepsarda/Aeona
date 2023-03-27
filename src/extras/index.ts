@@ -44,6 +44,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     messageCount: 0,
     guildcount: 0,
     guildIds: [] as bigint[],
+    requestMembersGuilds: [] as bigint[],
     ready: false,
     playerManager: new Map(),
     triviaManager: new Map(),
