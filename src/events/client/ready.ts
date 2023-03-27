@@ -306,6 +306,6 @@ export default async (
 
         client.extras.requestMembersGuilds.shift();
       }
-    }, 100);
+    }, 1000);
   }
 };
