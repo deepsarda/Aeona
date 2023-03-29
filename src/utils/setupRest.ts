@@ -35,23 +35,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
       });
     return result;
   };
-
-  bot.rest.sendRequest = async (
-    r,
-    options: {
-      url: string;
-      method: RequestMethod;
-      bucketId?: string;
-      reject?: Function;
-      respond?: Function;
-      retryRequest?: Function;
-      retryCount?: number;
-      payload?: {
-        headers: Record<string, string>;
-        body: string;
-      };
-    }
-  ): Promise<any> => {
+  bot.rest.sendRequest = async (r, options): Promise<any> => {
     const result = await rest
       .makeRequest(
         options.method,
