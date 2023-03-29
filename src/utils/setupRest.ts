@@ -35,6 +35,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
       });
     return result;
   };
+  /*
   bot.rest.sendRequest = async (r, options): Promise<any> => {
     const result = await rest
       .makeRequest(
@@ -64,6 +65,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
       });
     return result;
   };
+  */
 
   //set interval for 10 minutes
   setInterval(async () => {
@@ -89,6 +91,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
             return e;
           });
       },
+      /*
       sendRequest(r, options): Promise<any> {
         const result = rest
           .makeRequest(
@@ -118,6 +121,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
 
         return result;
       },
+      */
     });
   }, 2 * 60 * 1000);
 };
