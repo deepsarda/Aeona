@@ -83,7 +83,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
           });
       },
       sendRequest(r, options): Promise<any> {
-        const result = await rest
+        const result = rest
           .makeRequest(
             options.method,
             options.url.startsWith(BASE_URL)
@@ -102,6 +102,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
             console.error(JSON.stringify(e));
             return e;
           });
+
         return result;
       },
     });
