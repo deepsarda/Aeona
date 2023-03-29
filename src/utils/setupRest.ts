@@ -42,7 +42,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
         options.url.startsWith(BASE_URL)
           ? options.url
           : `${BASE_URL}/v${rest.version}/${options.url}`,
-        typeof options.payload.body == string
+        typeof options.payload.body == "string"
           ? JSON.parse(options.payload.body)
           : options.payload.body
       )
@@ -54,7 +54,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
         }
         console.log(`${options.url}`);
         console.log(
-          typeof options.payload.body == string
+          typeof options.payload.body == "string"
             ? JSON.parse(options.payload.body)
             : options.payload.body
         );
@@ -96,7 +96,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
             options.url.startsWith(BASE_URL)
               ? options.url
               : `${BASE_URL}/v${rest.version}/${options.url}`,
-            typeof options.payload.body == string
+            typeof options.payload.body == "string"
               ? JSON.parse(options.payload.body)
               : options.payload.body
           )
@@ -108,7 +108,7 @@ const setupRest = async (bot: AeonaBot, DISCORD_TOKEN: string) => {
             }
             console.log(`${options.url}`);
             console.log(
-              typeof options.payload.body == string
+              typeof options.payload.body == "string"
                 ? JSON.parse(options.payload.body)
                 : options.payload.body
             );
