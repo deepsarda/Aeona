@@ -4,7 +4,7 @@ import Banned from '../../database/models/banned.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
-  name: 'banidowner',
+  name: 'botban',
   description: 'Ban a server or user from Aeona.',
   commandType: ['application', 'message'],
   category: 'owner',
@@ -15,13 +15,9 @@ export default {
       required: true,
     },
   ],
+ownerOnly: true,
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    if (
-      ![830231116660604951n, 794921502230577182n, 980280857958965328n].includes(
-        ctx.user.id,
-      )
-    )
       return client.extras.succNormal(
         {
           text: 'Only Aeona Developers can access this command.',
