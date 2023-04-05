@@ -25,7 +25,10 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
       bot.extras.influx?.writePoint(
         new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
       );
-      let s = ['\n discord.gg/W8hssA32C9', '\n Generate beautiful images using /imagine \n '];
+      let s = [
+        '\n discord.gg/W8hssA32C9',
+        '\n To get a chance to win Discord Nitro for 1 month, take part in my competition. To know more see `/info competition` \n ',
+      ];
       let guild = await GuildDB.findOne({
         Guild: message.guildId,
       });
