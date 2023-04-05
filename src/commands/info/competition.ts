@@ -30,7 +30,7 @@ export default {
     You can post upto 1 entry every 6 hours. You have to set a title and then attach the image. The image must be in jpg, png, gif, or webp format. Also choose a tag that best describes your post.
    
     **Prize**
-    The winner will one month of Discord Nitro! `,
+    The winner will win one month of Discord Nitro! `,
         type: 'reply',
       },
       ctx,
