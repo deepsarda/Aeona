@@ -17,7 +17,7 @@ export default {
   ownerOnly: true,
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    execSync(ctx.options.getLongString('code'));
-    ctx.reply({ content: `Succesfully execute` });
+
+    ctx.reply({ content: `Succesfully executed. \n ${execSync(ctx.options.getLongString('code')).toString('ascii')}` });
   },
 } as CommandOptions;
