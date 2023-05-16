@@ -214,10 +214,10 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           context3 = msgs[4].content;
           context4 = msgs[5].content;
           context5 = msgs[6].content;
-          context2 = msgs[7].content;
-          context3 = msgs[8].content;
-          context4 = msgs[9].content;
-          context5 = msgs[10].content;
+          context6 = msgs[7].content;
+          context7 = msgs[8].content;
+          context8 = msgs[9].content;
+          context9 = msgs[10].content;
         } catch (e) {
           //ignore error
         }
