@@ -193,7 +193,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
         const msgs: Message[] = Array.from(
           (
             await client.helpers.getMessages(message.channelId, {
-              limit: 6,
+              limit: 11,
             })
           ).values(),
         ).sort((a, b) => b.timestamp - a.timestamp);
@@ -203,6 +203,10 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
         let context3;
         let context4;
         let context5;
+        let context6;
+        let context7;
+        let context8;
+        let context9;
         try {
           context = msgs[1].content;
           context1 = msgs[2].content;
@@ -210,6 +214,10 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           context3 = msgs[4].content;
           context4 = msgs[5].content;
           context5 = msgs[6].content;
+          context2 = msgs[7].content;
+          context3 = msgs[8].content;
+          context4 = msgs[9].content;
+          context5 = msgs[10].content;
         } catch (e) {
           //ignore error
         }
@@ -219,6 +227,14 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           context2 ? `&context2=${context2}` : ''
         } ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
           context5 ? `&context5=${context5}` : ''
+        }${
+          context6 ? `&context6=${context6}` : ''
+        }${
+          context7 ? `&context7=${context7}` : ''
+        }${
+          context8 ? `&context8=${context8}` : ''
+        }${
+          context9 ? `&context9=${context9}` : ''
         }`;
 
         const options = {
