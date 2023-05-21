@@ -205,10 +205,10 @@ async function logDbCache() {
 
 setInterval(() => {
   logDbCache();
-  console.log(bot.gateway.shards.size);
+  console.log('\n Shards:'.yellow + ' ' + bot.gateway.shards.size);
 }, 60 * 1000 * 4);
 
-bot.start();
+bot.start().then(() => console.log('Gateway Started'.green + '\n Shards:'.yellow + ' ' + bot.gateway.shards.size));
 
 logDbCache();
 
