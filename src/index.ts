@@ -62,9 +62,11 @@ b.gateway.lastShardId = sessionInfo.shards - 1;
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: false,
+    messages: true,
   },
   cacheOutsideMemory: {
     default: true,
+    messages: false,
   },
 
   fetchIfMissing: {
