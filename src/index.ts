@@ -126,6 +126,10 @@ const cachebot = createProxyCache(b, {
   },
 
   removeItem: async (table, id, guildid?) => {
+    if (!id) {
+      console.warn('Attempted to set ' + table + ' without a id.');
+      return;
+    }
     if (table == 'channel') await db.del(`/channel/${id}`);
     if (table == 'guild') await db.del(`/guild/${id}`);
     if (table == 'user') await db.del(`/user/${id}`);
