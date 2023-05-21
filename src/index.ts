@@ -128,6 +128,7 @@ const cachebot = createProxyCache(b, {
           value: Array.from(value.entries()), // or with spread: value: [...value]
         };
       } else {
+        if (typeof value == 'bigint') return value + '';
         return value;
       }
     });
