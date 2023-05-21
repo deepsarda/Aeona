@@ -176,7 +176,6 @@ setupInhibitors(bot);
 setupCategories(bot);
 
 console.log(colors.green('STARTING'));
-bot.emit('ready', bot);
 
 async function logDbCache() {
   console.log('Getting Cache Length...'.yellow);
@@ -206,7 +205,8 @@ async function logDbCache() {
 
 setInterval(() => {
   logDbCache();
-}, 60 * 1000 * 10);
+  console.log(bot.gateway.shards.size);
+}, 60 * 1000 * 4);
 
 bot.start();
 

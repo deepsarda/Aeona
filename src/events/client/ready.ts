@@ -23,6 +23,7 @@ export default async (
   },
   _rawPayload: DiscordReady,
 ) => {
+  console.log('Shard Ready!');
   if (!client.extras.ready) {
     client.extras.ready = true;
 
