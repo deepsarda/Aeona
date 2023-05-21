@@ -147,10 +147,8 @@ const cachebot = createProxyCache(b, {
         return value;
       }
     });
-    if (!item.id) {
-      console.warn('Attempted to set ' + table + ' without a id.');
-      return;
-    }
+    if (!item.id) return;
+
     if (table == 'channel') item = await db.set(`/channel/${item.id}`, t);
     if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
     if (table == 'user') item = await db.set(`/user/${item.id}`, t);
