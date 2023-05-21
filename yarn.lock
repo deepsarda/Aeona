@@ -1169,10 +1169,10 @@
     lodash.merge "^4.6.2"
     postcss-selector-parser "6.0.10"
 
-"@thereallonewolf/amethystframework@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.npmjs.org/@thereallonewolf/amethystframework/-/amethystframework-8.0.2.tgz"
-  integrity sha512-pUxT5yTjs+EXrD7G4kpJHVqhSpRKt3gVOX0MEs8JFkJf1yG2nf4XTeve+vhhkbkE4Y50PH/l/74DdDxITTb+gA==
+"@thereallonewolf/amethystframework@^8.0.12":
+  version "8.0.12"
+  resolved "https://registry.npmjs.org/@thereallonewolf/amethystframework/-/amethystframework-8.0.12.tgz"
+  integrity sha512-tGuLU0SpMLw0qSOI48jbTwvbsIGs9QTroZBUWBK8vHTQlii33oYPT3A5lNAbj5uvG4rGrbBTW+TxWRnjU+qLlg==
   dependencies:
     "@deno/shim-deno" "~0.15.0"
     "@deno/shim-timers" "~0.1.0"

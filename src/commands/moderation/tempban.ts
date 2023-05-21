@@ -1,5 +1,5 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { CommandOptions, Context, calculateBasePermissions } from '@thereallonewolf/amethystframework';
+import { Permissions } from '@discordeno/bot';
 import TempSchema from '../../database/models/tempban.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -33,7 +33,7 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
     const member = await client.helpers.getMember(`${ctx.guild!.id}`, (await ctx.options.getUser('user', true)).id);
-
+    member.permissions = new Permissions(calculateBasePermissions(ctx.guild!, ctx.member!));
     const reason = ctx.options.getLongString('reason') || 'Not given';
 
     if (member.permissions.has('BAN_MEMBERS')) {

@@ -1,5 +1,5 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { CommandOptions, Context, calculateBasePermissions } from '@thereallonewolf/amethystframework';
+import { Permissions } from '@discordeno/bot';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -19,13 +19,8 @@ export default {
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-    const member = await client.helpers.getMember(
-      `${ctx.guild!.id}`,
-      (
-        await ctx.options.getUser('user', true)
-      ).id,
-    );
-
+    const member = await client.helpers.getMember(`${ctx.guild!.id}`, (await ctx.options.getUser('user', true)).id);
+    member.permissions = new Permissions(calculateBasePermissions(ctx.guild!, ctx.member!));
     await client.helpers
       .removeRole(`${ctx.guild!.id}`, `${member.id}`, member.roles[member.roles.length - 1])
       .then(async (_r) => {

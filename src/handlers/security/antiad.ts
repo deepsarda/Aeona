@@ -1,6 +1,6 @@
-import { AmethystEmbed } from '@thereallonewolf/amethystframework';
+import { AmethystEmbed, calculateBasePermissions } from '@thereallonewolf/amethystframework';
 import { Message, avatarUrl } from '@discordeno/bot';
-
+import { Permissions } from '@discordeno/bot';
 import Schema2 from '../../database/models/channelList.js';
 import Schema from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -14,15 +14,15 @@ export default (client: AeonaBot) => {
           const { content } = message;
 
           const code = content.split('discord.gg/')[1];
+
           if (code) {
             Schema2.findOne({ Guild: message.guildId }, async (err: any, data2: { Channels: bigint[] }) => {
               if (data2) {
-                if (
-                  data2.Channels.includes(message.channelId) ||
-                  (await client.helpers.getMember(message.guildId, message.author.id)).permissions.has(
-                    'MANAGE_MESSAGES',
-                  )
-                ) {
+                const member = await client.helpers.getMember(message.guildId, message.author.id);
+                member.permissions = new Permissions(
+                  calculateBasePermissions(await client.cache.guilds.get(message.guildId), member!),
+                );
+                if (data2.Channels.includes(message.channelId) || member.permissions.has('MANAGE_MESSAGES')) {
                   return;
                 }
 
@@ -58,12 +58,11 @@ export default (client: AeonaBot) => {
           if (content.includes('http://') || content.includes('https://') || content.includes('www.')) {
             Schema2.findOne({ Guild: message.guildId }, async (err: any, data2: { Channels: bigint[] }) => {
               if (data2) {
-                if (
-                  data2.Channels.includes(message.channelId) ||
-                  (await client.helpers.getMember(message.guildId, message.author.id)).permissions.has(
-                    'MANAGE_MESSAGES',
-                  )
-                ) {
+                const member = await client.helpers.getMember(message.guildId, message.author.id);
+                member.permissions = new Permissions(
+                  calculateBasePermissions(await client.cache.guilds.get(message.guildId), member),
+                );
+                if (data2.Channels.includes(message.channelId) || member.permissions.has('MANAGE_MESSAGES')) {
                   return;
                 }
 
@@ -116,12 +115,11 @@ export default (client: AeonaBot) => {
             if (code) {
               Schema2.findOne({ Guild: newMessage.guildId }, async (err: any, data2: { Channels: string | any[] }) => {
                 if (data2) {
-                  if (
-                    data2.Channels.includes(`${newMessage.channelId}`) ||
-                    (await client.helpers.getMember(newMessage.guildId, newMessage.author.id)).permissions.has(
-                      'MANAGE_MESSAGES',
-                    )
-                  ) {
+                  const member = await client.helpers.getMember(newMessage.guildId, newMessage.author.id);
+                  member.permissions = new Permissions(
+                    calculateBasePermissions(await client.cache.guilds.get(newMessage.guildId), member),
+                  );
+                  if (data2.Channels.includes(`${newMessage.channelId}`) || member.permissions.has('MANAGE_MESSAGES')) {
                     return;
                   }
 
@@ -169,12 +167,11 @@ export default (client: AeonaBot) => {
             if (content.includes('http://') || content.includes('https://') || content.includes('www.')) {
               Schema2.findOne({ Guild: newMessage.guildId }, async (err: any, data2: { Channels: string | any[] }) => {
                 if (data2) {
-                  if (
-                    data2.Channels.includes(`${newMessage.channelId}`) ||
-                    (await client.helpers.getMember(newMessage.guildId, newMessage.author.id)).permissions.has(
-                      'MANAGE_MESSAGES',
-                    )
-                  ) {
+                  const member = await client.helpers.getMember(newMessage.guildId, newMessage.author.id);
+                  member.permissions = new Permissions(
+                    calculateBasePermissions(await client.cache.guilds.get(newMessage.guildId), member),
+                  );
+                  if (data2.Channels.includes(`${newMessage.channelId}`) || member.permissions.has('MANAGE_MESSAGES')) {
                     return;
                   }
 
