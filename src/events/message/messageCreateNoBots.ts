@@ -113,35 +113,39 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
     });
 
   // Message tracker system
-  if (!client.extras.botConfig.Disabled.includes('messages'))
-    messagesSchema.findOne(
-      { Guild: message.guildId, User: message.author.id },
-      async (err: any, data: { Messages: number; save: () => void }) => {
-        if (data) {
-          data.Messages += 1;
-          data.save();
+  try {
+    if (!client.extras.botConfig.Disabled.includes('messages'))
+      messagesSchema.findOne(
+        { Guild: message.guildId, User: message.author.id },
+        async (err: any, data: { Messages: number; save: () => void }) => {
+          if (data) {
+            data.Messages += 1;
+            data.save();
 
-          messageRewards.findOne(
-            { Guild: message.guildId, Messages: data.Messages },
-            async (err: any, data: { Role: BigString }) => {
-              if (data) {
-                try {
-                  await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
-                } catch {
-                  //prevent lint error
+            messageRewards.findOne(
+              { Guild: message.guildId, Messages: data.Messages },
+              async (err: any, data: { Role: BigString }) => {
+                if (data) {
+                  try {
+                    await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
+                  } catch {
+                    //prevent lint error
+                  }
                 }
-              }
-            },
-          );
-        } else {
-          new messagesSchema({
-            Guild: message.guildId,
-            User: message.author.id,
-            Messages: 1,
-          }).save();
-        }
-      },
-    );
+              },
+            );
+          } else {
+            new messagesSchema({
+              Guild: message.guildId,
+              User: message.author.id,
+              Messages: 1,
+            }).save();
+          }
+        },
+      );
+  } catch (e) {
+    console.log(message);
+  }
 
   // AFK system
   if (!client.extras.botConfig.Disabled.includes('afk'))
