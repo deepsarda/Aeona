@@ -24,6 +24,20 @@ if (!id) {
   console.log(colors.red('[ERROR] Missing ID. Exiting... \n Specify a valid ID using --id=<id>'));
   process.exit(1);
 }
+
+process.on('unhandledRejection', (error: Error) => {
+  console.error(JSON.stringify(error));
+});
+
+process.on('warning', (warn) => {
+  console.warn(warn);
+});
+
+//@ts-ignore
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+
 const botConfig: Config = configs[id];
 process.env.ID = id;
 
@@ -183,9 +197,7 @@ setupInhibitors(bot);
 setupCategories(bot);
 
 console.log(colors.green('STARTING'));
-await bot.start();
-console.log('Gateway Started'.green + '\n Shards:'.yellow + ' ' + bot.gateway.shards.size);
-
+bot.start().then(() => console.log('Gateway Started'.green + '\n Shards:'.yellow + ' ' + bot.gateway.shards.size));
 async function logDbCache() {
   console.log('Getting Cache Length...'.yellow);
   console.table([
@@ -218,16 +230,3 @@ setInterval(() => {
 }, 60 * 1000 * 4);
 
 export { bot };
-
-process.on('unhandledRejection', (error: Error) => {
-  console.error(JSON.stringify(error));
-});
-
-process.on('warning', (warn) => {
-  console.warn(warn);
-});
-
-//@ts-ignore
-BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
