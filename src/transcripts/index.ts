@@ -1,14 +1,9 @@
 import { Blob } from 'buffer';
-import { Channel, ChannelTypes, Collection, Message } from 'discordeno';
+import { Channel, ChannelTypes, Collection, Message } from '@discordeno/bot';
 
 import { AeonaBot } from '../extras/index.js';
 import renderMessages from './generator/index.js';
-import {
-  CreateTranscriptOptions,
-  ExportReturnType,
-  GenerateFromMessagesOptions,
-  ObjectType,
-} from './types.js';
+import { CreateTranscriptOptions, ExportReturnType, GenerateFromMessagesOptions, ObjectType } from './types.js';
 
 /**
  *
@@ -17,17 +12,14 @@ import {
  * @param options  The options to use when generating the transcript
  * @returns        The generated transcript
  */
-export async function generateFromMessages<
-  T extends ExportReturnType = ExportReturnType.Attachment,
->(
+export async function generateFromMessages<T extends ExportReturnType = ExportReturnType.Attachment>(
   bot: AeonaBot,
   messages: Message[] | Collection<string, Message>,
   channel: Channel,
   options: GenerateFromMessagesOptions<T> = {},
 ): Promise<ObjectType<T>> {
   // turn messages into an array
-  const transformedMessages =
-    messages instanceof Collection ? Array.from(messages.values()) : messages;
+  const transformedMessages = messages instanceof Collection ? Array.from(messages.values()) : messages;
 
   // const startTime = process.hrtime();
 
@@ -37,14 +29,12 @@ export async function generateFromMessages<
     channel,
     saveImages: options.saveImages ?? false,
     callbacks: {
-      resolveChannel: async (id: any) =>
-        (await bot.cache.channels.get(id).catch(() => null))!,
+      resolveChannel: async (id: any) => (await bot.cache.channels.get(id).catch(() => null))!,
       resolveUser: async (id: any) => bot.helpers.getUser(id).catch(() => null),
       resolveRole:
         channel.type == ChannelTypes.DM
           ? () => null
-          : async (id: any) =>
-              (await bot.cache.guilds.get(channel.guildId))?.roles.get(id)!,
+          : async (id: any) => (await bot.cache.guilds.get(channel.guildId))?.roles.get(id)!,
 
       ...(options.callbacks ?? {}),
     },
@@ -80,9 +70,7 @@ export async function generateFromMessages<
  * @param options The options to use when creating the transcript
  * @returns       The generated transcript
  */
-export async function createTranscript<
-  T extends ExportReturnType = ExportReturnType.Attachment,
->(
+export async function createTranscript<T extends ExportReturnType = ExportReturnType.Attachment>(
   bot: AeonaBot,
   channel: Channel,
   options: CreateTranscriptOptions<T> = {},
@@ -91,8 +79,7 @@ export async function createTranscript<
   let allMessages: Message[] = [];
   let lastMessageId: bigint | undefined;
   const { limit } = options;
-  const resolvedLimit =
-    typeof limit === 'undefined' || limit === -1 ? Infinity : limit;
+  const resolvedLimit = typeof limit === 'undefined' || limit === -1 ? Infinity : limit;
 
   // until there are no more messages, keep fetching
   // eslint-disable-next-line no-constant-condition
@@ -102,24 +89,20 @@ export async function createTranscript<
     if (!lastMessageId) delete fetchLimitOptions.before;
 
     // fetch messages
-    const messages = await bot.helpers.getMessages(
-      `${channel.id}`,
-      fetchLimitOptions,
-    );
+    const messages = await bot.helpers.getMessages(`${channel.id}`, fetchLimitOptions);
 
     // add the messages to the array
     allMessages.push(...messages.values());
-    lastMessageId = messages.last()!.id;
+    lastMessageId = messages[messages.length - 1]!.id;
 
     // if there are no more messages, break
-    if (messages.size < 100) break;
+    if (messages.length < 100) break;
 
     // if the limit has been reached, break
     if (allMessages.length >= resolvedLimit) break;
   }
 
-  if (resolvedLimit < allMessages.length)
-    allMessages = allMessages.slice(0, limit);
+  if (resolvedLimit < allMessages.length) allMessages = allMessages.slice(0, limit);
 
   // generate the transcript
   return generateFromMessages<T>(bot, allMessages.reverse(), channel, options);

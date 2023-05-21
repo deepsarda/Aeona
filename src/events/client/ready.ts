@@ -1,8 +1,7 @@
 import { Point } from '@influxdata/influxdb-client';
-import { getBotIdFromToken } from 'discordeno';
-import { User } from 'discordeno/transformers';
-import { ActivityTypes, DiscordReady } from 'discordeno/types';
-import fs from 'fs';
+import { getBotIdFromToken } from '@discordeno/bot';
+import { User } from '@discordeno/bot';
+import { DiscordReady } from '@discordeno/types';
 import { cpus } from 'os';
 
 import bumpreminder from '../../database/models/bumpreminder.js';
@@ -29,7 +28,7 @@ export default async (
 
     if (client.extras.botConfig.website.enabled) bootstrap(client);
 
-    client.amethystUtils.updateSlashCommands();
+    client.utils.updateSlashCommands();
     client.user = await client.helpers.getUser(getBotIdFromToken(client.extras.botConfig.TOKEN));
 
     client.extras.messageCount = 0;
@@ -58,41 +57,11 @@ export default async (
           .tag('action', 'sync')
           .intField('value', value),
       );
-
-      const formatter = Intl.NumberFormat('en', {
-        notation: 'compact',
-      });
-      await client.helpers.editBotStatus({
-        activities: [
-          {
-            type: ActivityTypes.Game,
-            name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(client.extras.guildcount)} servers.`,
-
-            createdAt: new Date().getTime(),
-          },
-        ],
-        status: 'idle',
-      });
     } catch (e) {
       console.error(JSON.stringify(e));
     }
     setInterval(async () => {
       try {
-        const formatter = Intl.NumberFormat('en', {
-          notation: 'compact',
-        });
-        client.helpers.editBotStatus({
-          activities: [
-            {
-              type: ActivityTypes.Game,
-              name: `${client.extras.botConfig.PREFIX}help on ${formatter.format(client.extras.guildcount)} servers.`,
-
-              createdAt: new Date().getTime(),
-            },
-          ],
-          status: 'idle',
-        });
-
         const point = new Point('per_core_cpu_load').tag('action', 'sync');
 
         let index = 0;
@@ -114,40 +83,6 @@ export default async (
           new Point('cache') //
             .tag('type', 'guilds')
             .intField('total', client.extras.guildcount),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('cache') //
-            .tag('type', 'channels')
-            .intField('total', client.cache.channels.memory.size),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('cache') //
-            .tag('type', 'users')
-            .intField('total', client.cache.users.memory.size),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('cache') //
-            .tag('type', 'members')
-            .intField('total', client.cache.members.memory.size),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('cache') //
-            .tag('type', 'messages')
-            .intField('total', client.cache.messages.memory.size),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('cache') //
-            .tag('type', 'roles')
-            .intField('total', client.cache.roles.memory.size),
-        );
-
-        client.extras.influx.writePoint(
-          new Point('guilds').tag('action', 'sync').intField('value', client.extras.guildcount),
         );
       } catch (e) {
         console.error(JSON.stringify(e));
@@ -260,47 +195,14 @@ export default async (
       }
     }, 500000);
 
-    const categories: { name: string }[] = [];
-    const commands: {
-      name: string;
-      description: string;
-      usage: string;
-      category: string;
-    }[] = [];
-    client.category.forEach((c) => {
-      categories.push({
-        name: c.name,
-      });
-      c.commands.forEach((command) => {
-        commands.push({
-          usage: `+${c.uniqueCommands ? command.name : `${c.name} ${command.name}`} ${command.args
-            .map((arg) => {
-              if (arg.required) return `${arg.name}`;
-              else return `${arg.name}(Optional)`;
-            })
-            .join(' ')}`,
-          name: command.name,
-          description: command.description,
-          category: command.category,
-        });
-      });
-    });
-
-    //Write to json file.
-    fs.writeFileSync('./categories.json', JSON.stringify(categories));
-    fs.writeFileSync('./commands.json', JSON.stringify(commands));
-
     setInterval(async () => {
       if (client.extras.requestMembersGuilds.length > 0) {
-        client.gateway.manager.shards.get(0).send({
-          op: 8,
-          d: {
-            guild_id: client.extras.requestMembersGuilds[0] + '',
-          },
+        client.helpers.getMembers(client.extras.requestMembersGuilds[0], { limit: 0 }).then((members) => {
+          for (let i = 0; i < members.length; i++) client.cache.members.set(members[i]);
         });
 
         client.extras.requestMembersGuilds.shift();
       }
-    }, 1000);
+    }, 5000);
   }
 };

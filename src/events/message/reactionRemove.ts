@@ -1,5 +1,5 @@
-import { Emoji, User } from 'discordeno/transformers';
-
+import { Emoji, User } from '@discordeno/bot';
+import { avatarUrl } from '@discordeno/bot';
 import StarBoard from '../../database/models/starboardChannels.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -20,36 +20,23 @@ export default async (
       for (let i = 0; i < schemas.length; i++) {
         const data = schemas[i];
 
-        const starboardChannel = await client.cache.channels.get(
-          BigInt(data.Channel!),
-        );
+        const starboardChannel = await client.cache.channels.get(BigInt(data.Channel!));
         if (!starboardChannel) return;
 
-        const fetch = await client.helpers.getMessages(
-          `${starboardChannel.id}`,
-          {
-            limit: 100,
-          },
-        );
+        const fetch = await client.helpers.getMessages(`${starboardChannel.id}`, {
+          limit: 100,
+        });
         const stars = fetch.find((m) => {
-          return m.embeds[0] &&
-            m.embeds[0].footer &&
-            m.embeds[0].footer.text.endsWith(`${reaction.messageId}`)
+          return m.embeds[0] && m.embeds[0].footer && m.embeds[0].footer.text.endsWith(`${reaction.messageId}`)
             ? true
             : false;
         });
 
         if (stars) {
           const foundStar = stars.embeds[0];
-          const message = await client.helpers.getMessage(
-            reaction.channelId,
-            reaction.messageId,
-          );
+          const message = await client.helpers.getMessage(reaction.channelId, reaction.messageId);
 
-          const starMsg = await client.helpers.getMessage(
-            `${starboardChannel.id}`,
-            stars.id,
-          );
+          const starMsg = await client.helpers.getMessage(`${starboardChannel.id}`, stars.id);
           const image = stars.embeds[0].image?.url;
           if (
             !message.reactions?.find((r) => r.emoji.name == '⭐')?.count ||
@@ -57,7 +44,7 @@ export default async (
           ) {
             client.helpers.deleteMessage(`${starboardChannel.id}`, starMsg.id);
           } else {
-            const user = await client.helpers.getUser(message.authorId);
+            const user = await client.helpers.getUser(message.author.id);
             client.extras.editEmbed(
               {
                 desc: foundStar.description,
@@ -65,20 +52,13 @@ export default async (
                 author: {
                   name: `${user.username}#${user.discriminator}`,
                 },
-                thumbnail: client.helpers.getAvatarURL(
-                  user.id,
-                  user.discriminator,
-                  {
-                    avatar: user.avatar,
-                  },
-                ),
+                thumbnail: avatarUrl(user.id, user.discriminator, {
+                  avatar: user.avatar,
+                }),
                 fields: [
                   {
                     name: `:star: Stars`,
-                    value: `${
-                      message.reactions?.find((r) => r.emoji.name == '⭐')
-                        ?.count || 1
-                    }`,
+                    value: `${message.reactions?.find((r) => r.emoji.name == '⭐')?.count || 1}`,
                     inline: true,
                   },
                   {
@@ -88,7 +68,7 @@ export default async (
                   },
                   {
                     name: `<:members:1063116392762712116> Author`,
-                    value: `<@${message.authorId}>`,
+                    value: `<@${message.author.id}>`,
                     inline: true,
                   },
                 ],

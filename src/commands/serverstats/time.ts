@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 import moment from 'moment-timezone';
 
 import Schema from '../../database/models/stats.js';

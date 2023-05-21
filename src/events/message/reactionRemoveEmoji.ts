@@ -1,4 +1,4 @@
-import { Emoji } from 'discordeno/transformers';
+import { Emoji } from '@discordeno/bot';
 
 import StarBoard from '../../database/models/starboardChannels.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -18,27 +18,19 @@ export default async (
       for (let i = 0; i < schemas.length; i++) {
         const data = schemas[i];
 
-        const starboardChannel = await client.cache.channels.get(
-          BigInt(data.Channel!),
-        );
+        const starboardChannel = await client.cache.channels.get(BigInt(data.Channel!));
         if (!starboardChannel) return;
 
-        const fetch = await client.helpers.getMessages(
-          `${starboardChannel.id}`,
-          {
-            limit: 100,
-          },
-        );
+        const fetch = await client.helpers.getMessages(`${starboardChannel.id}`, {
+          limit: 100,
+        });
         const stars = fetch.find((m) => {
-          return m.embeds[0] &&
-            m.embeds[0].footer &&
-            m.embeds[0].footer.text.endsWith(`${reaction.messageId}`)
+          return m.embeds[0] && m.embeds[0].footer && m.embeds[0].footer.text.endsWith(`${reaction.messageId}`)
             ? true
             : false;
         });
 
-        if (stars)
-          client.helpers.deleteMessage(`${starboardChannel.id}`, stars.id);
+        if (stars) client.helpers.deleteMessage(`${starboardChannel.id}`, stars.id);
       }
     }
 };

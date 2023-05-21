@@ -1,4 +1,4 @@
-import { Member } from 'discordeno';
+import { Member } from '@discordeno/bot';
 
 import Schema from '../../database/models/boostChannels.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -28,12 +28,7 @@ export default async (client: AeonaBot, member: Member) => {
       }
 
       if (schema.Channel)
-        client.helpers
-          .sendMessage(
-            schema.Channel,
-            client.extras.generateEmbedFromData(config, message),
-          )
-          .catch();
+        client.helpers.sendMessage(schema.Channel, client.extras.generateEmbedFromData(config, message)).catch();
     }
   } catch {
     //prevent lint errors

@@ -1,5 +1,5 @@
 import { DiscordReply } from '@derockdev/discord-components-react';
-import { ChannelTypes, Errors, Guild, Member, Message, Role } from 'discordeno';
+import { ChannelTypes, avatarUrl, Guild, Member, Message, Role } from '@discordeno/bot';
 import React from 'react';
 
 import { AeonaBot } from '../../../extras/index.js';
@@ -28,7 +28,7 @@ export default async function renderReply(
     referencedMessage.messageReference &&
     referencedMessage.messageReference.guildId !== message.guildId;
   const isCommand = referencedMessage.interaction !== null;
-  const user = await bot.cache.users.get(referencedMessage.authorId);
+  const user = await bot.cache.users.get(referencedMessage.author.id);
   return (
     <DiscordReply
       slot='reply'
@@ -38,8 +38,8 @@ export default async function renderReply(
         referencedMessage.member?.nick ??
         referencedMessage.member?.user?.username
       }
-      avatar={bot.helpers.getAvatarURL(
-        referencedMessage.authorId,
+      avatar={avatarUrl(
+        referencedMessage.author.id,
         user ? user.discriminator : '',
         {
           avatar: `${referencedMessage.member?.avatar}`,
@@ -59,7 +59,7 @@ export default async function renderReply(
       op={
         (await bot.cache.channels.get(message.channelId))!.type ==
           ChannelTypes.DM &&
-        referencedMessage.authorId ===
+        referencedMessage.author.id ===
           (await bot.cache.channels.get(message.channelId))!.ownerId
       }
       server={isCrosspost ?? undefined}
@@ -96,7 +96,7 @@ export async function highestRole(
     typeof guildOrId === 'bigint'
       ? await bot.cache.guilds.get(guildOrId)
       : guildOrId;
-  if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
+  if (!guild) throw new Error("Guild Not Found");
 
   // Get the roles from the member
   const memberRoles = (

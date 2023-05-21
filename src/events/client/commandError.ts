@@ -1,9 +1,5 @@
-import {
-  AmethystError,
-  Context,
-  ErrorEnums,
-} from '@thereallonewolf/amethystframework';
-import { Interaction, Message } from 'discordeno/transformers';
+import { AmethystError, Context, ErrorEnums } from '@thereallonewolf/amethystframework';
+import { Interaction, Message } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -18,20 +14,14 @@ export default async (
 ) => {
   if (!data) return;
   if (data.error.type == ErrorEnums.USER_MISSING_PERMISSIONS) {
-    return await bot.helpers.sendMessage(
-      data.message ? data.message.channelId : data.data?.channelId!,
-      {
-        content: 'Oh no. You seem to be missing some permissions.',
-      },
-    );
+    return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
+      content: 'Oh no. You seem to be missing some permissions.',
+    });
   }
   if (data.error.type == ErrorEnums.MISSING_REQUIRED_ARGUMENTS) {
     if (!data.message) return;
     const message = data.message;
-    const guildPrefix =
-      typeof bot.prefix == 'function'
-        ? await bot.prefix(bot, message)
-        : bot.prefix;
+    const guildPrefix = typeof bot.prefix == 'function' ? await bot.prefix(bot, message) : bot.prefix;
 
     //Else get the string prefix and check if it works.
     let prefix =
@@ -47,16 +37,12 @@ export default async (
     if (typeof prefix == 'string')
       if (bot.prefixCaseSensitive)
         if (!message.content.startsWith(prefix)) prefix = undefined;
-        else if (
-          !message.content.toLowerCase().startsWith(prefix.toLowerCase())
-        )
-          prefix = undefined;
+        else if (!message.content.toLowerCase().startsWith(prefix.toLowerCase())) prefix = undefined;
 
     //If the bot.botMentionAsPrefix is a prefix.
     if (!prefix && bot.botMentionAsPrefix) {
       if (message.content.startsWith(`<@${bot.id}>`)) prefix = `<@${bot.id}>`;
-      else if (message.content.startsWith(`<@!${bot.id}>`))
-        prefix = `<@!${bot.id}>`;
+      else if (message.content.startsWith(`<@!${bot.id}>`)) prefix = `<@!${bot.id}>`;
     }
 
     const args = message.content.split(' ').filter((e) => Boolean(e.length));
@@ -76,25 +62,20 @@ export default async (
     }
 
     if (!command) return;
-    return await bot.helpers.sendMessage(
-      data.message ? data.message.channelId : data.data?.channelId!,
-      {
-        content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
-          category.uniqueCommands
-            ? command.name
-            : `${category.name} ${command.name}`
-        } ${command.args
-          .map((arg) => {
-            if (arg.required) return `[${arg.name}]`;
-            else return `(${arg.name})`;
-          })
-          .join(' ')} \` \n \n  ${command.args
-          .map((arg) => {
-            return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
-          })
-          .join(`\n`)}`,
-      },
-    );
+    return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
+      content: `You need to specify some required arguments. \n [] means required. () means optional.\n \n\`${prefix}${
+        category.uniqueCommands ? command.name : `${category.name} ${command.name}`
+      } ${command.args
+        .map((arg) => {
+          if (arg.required) return `[${arg.name}]`;
+          else return `(${arg.name})`;
+        })
+        .join(' ')} \` \n \n  ${command.args
+        .map((arg) => {
+          return `**${arg.name}:-** \`Type: ${arg.type}\` Description: ${arg.description}`;
+        })
+        .join(`\n`)}`,
+    });
   }
 
   if (data.error.type == ErrorEnums.COOLDOWN)
@@ -127,12 +108,9 @@ export default async (
     //@ts-ignore
     console.error(JSON.stringify(data.error.error));
 
-    return await bot.helpers.sendMessage(
-      data.message ? data.message.channelId : data.data?.channelId!,
-      {
-        //@ts-ignore
-        content: 'Oh no. There seems to be an error. ' + data.error.error,
-      },
-    );
+    return await bot.helpers.sendMessage(data.message ? data.message.channelId : data.data?.channelId!, {
+      //@ts-ignore
+      content: 'Oh no. There seems to be an error. ' + data.error.error,
+    });
   }
 };

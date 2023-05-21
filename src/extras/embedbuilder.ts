@@ -1,10 +1,6 @@
-import {
-  AmethystEmbed,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
-import { Guild, Interaction, Message, User } from 'discordeno/transformers';
-import { InteractionResponseTypes } from 'discordeno/types';
+import { AmethystEmbed, Components, Context } from '@thereallonewolf/amethystframework';
+import { Guild, Interaction, Message, User, avatarUrl, guildIconUrl } from '@discordeno/bot';
+import { InteractionResponseTypes } from '@discordeno/types';
 import { AeonaBot } from './index.js';
 
 import inviteBy from '../database/models/inviteBy.js';
@@ -60,8 +56,7 @@ export default (client: AeonaBot) => {
       User: `${ctx.user!.id}`,
     });
     let inviterData;
-    if (inviter)
-      inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guild!.id);
+    if (inviter) inviterData = await fetchData(BigInt(inviter.inviteUser!), ctx.guild!.id);
     return {
       user: userData.user,
       guild: await client.helpers.getGuild(ctx.guild!.id),
@@ -78,11 +73,7 @@ export default (client: AeonaBot) => {
              |____/ \__,_|___/\___| |_|  |_|\___|\__|_| |_|\___/ \__,_|
 
               */
-  async function createInterface(
-    ctx: Context,
-    defaultContent: string,
-    embedData: Embed,
-  ) {
+  async function createInterface(ctx: Context, defaultContent: string, embedData: Embed) {
     if (!embedData.title && !embedData.description && !embedData.content)
       embedData = {
         content: defaultContent,
@@ -141,11 +132,7 @@ export default (client: AeonaBot) => {
              | |  | |  __/ |_| | | | (_) | (_| \__ \
              |_|  |_|\___|\__|_| |_|\___/ \__,_|___/
              */
-  async function updateEmbed(
-    message: Message,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function updateEmbed(message: Message, embedData: Embed, config: Config) {
     const embed = generateEmbedFromData(config, embedData);
 
     const comp = createComponents();
@@ -154,49 +141,35 @@ export default (client: AeonaBot) => {
       components: comp,
     });
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter(bot, data) {
           return data.user.id === config.user.id;
         },
       })
       .then((interaction) => {
-        client.helpers.sendInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredUpdateMessage,
-          },
-        );
-        if (interaction.data?.customId == 'setauthor')
-          setAuthor(message, interaction, embedData, config);
+        client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+          type: InteractionResponseTypes.DeferredUpdateMessage,
+        });
+        if (interaction.data?.customId == 'setauthor') setAuthor(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setfooter')
-          setFooter(message, interaction, embedData!, config);
+        if (interaction.data?.customId == 'setfooter') setFooter(message, interaction, embedData!, config);
 
-        if (interaction.data?.customId == 'settitle')
-          setTitle(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'settitle') setTitle(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setdescription')
-          setDescription(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setdescription') setDescription(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setcontent')
-          setContent(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setcontent') setContent(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setimage')
-          setImage(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setimage') setImage(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setcolor')
-          setColor(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setcolor') setColor(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'setthumbnail')
-          setThumbnail(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setthumbnail') setThumbnail(message, interaction, embedData, config);
 
-        if (interaction.data?.customId == 'sendembed')
-          if (embedData.callback) embedData.callback({ ...embedData });
+        if (interaction.data?.customId == 'sendembed') if (embedData.callback) embedData.callback({ ...embedData });
 
-        if (interaction.data?.customId == 'setfields')
-          setFields(message, interaction, embedData, config);
+        if (interaction.data?.customId == 'setfields') setFields(message, interaction, embedData, config);
       })
       .catch(() => {
         client.helpers.editMessage(message.channelId, message.id, {
@@ -205,12 +178,7 @@ export default (client: AeonaBot) => {
         });
       });
   }
-  async function setTitle(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setTitle(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     client.helpers.editMessage(message.channelId, message.id, {
       content:
         '**Send the title** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
@@ -218,9 +186,7 @@ export default (client: AeonaBot) => {
       components: [],
     });
 
-    const m = await client.amethystUtils
-      .awaitMessage(interaction.user.id, message.channelId)
-      .catch();
+    const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
     if (!m)
       return client.helpers.editMessage(message.channelId, message.id, {
@@ -234,12 +200,7 @@ export default (client: AeonaBot) => {
 
     updateEmbed(message, embedData, config);
   }
-  async function setDescription(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setDescription(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     client.helpers.editMessage(message.channelId, message.id, {
       content:
         '**Send the description for the embed.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
@@ -247,9 +208,7 @@ export default (client: AeonaBot) => {
       components: [],
     });
 
-    const m = await client.amethystUtils
-      .awaitMessage(interaction.user.id, message.channelId)
-      .catch();
+    const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
     if (!m)
       return client.helpers.editMessage(message.channelId, message.id, {
@@ -258,18 +217,12 @@ export default (client: AeonaBot) => {
         components: [],
       });
     client.helpers.deleteMessage(m.channelId, m.id);
-    if (m.content.trim().toLowerCase() == 'cancel')
-      embedData.description = undefined;
+    if (m.content.trim().toLowerCase() == 'cancel') embedData.description = undefined;
     else embedData.description = m.content;
 
     updateEmbed(message, embedData, config);
   }
-  async function setContent(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setContent(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     client.helpers.editMessage(message.channelId, message.id, {
       content:
         '**Send the content for the embed.** \n <:pInfo:1071022668066865162> To see a list of variables you can use `/embed variables` \n :x: To remove it send `cancel`',
@@ -277,9 +230,7 @@ export default (client: AeonaBot) => {
       components: [],
     });
 
-    const m = await client.amethystUtils
-      .awaitMessage(interaction.user.id, message.channelId)
-      .catch();
+    const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
     if (!m)
       return client.helpers.editMessage(message.channelId, message.id, {
@@ -289,18 +240,12 @@ export default (client: AeonaBot) => {
       });
 
     client.helpers.deleteMessage(m.channelId, m.id);
-    if (m.content.trim().toLowerCase() == 'cancel')
-      embedData.content = undefined;
+    if (m.content.trim().toLowerCase() == 'cancel') embedData.content = undefined;
     else embedData.content = m.content;
 
     updateEmbed(message, embedData, config);
   }
-  async function setThumbnail(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setThumbnail(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     let failed = false;
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -312,9 +257,7 @@ export default (client: AeonaBot) => {
         components: [],
       });
 
-      const m = await client.amethystUtils
-        .awaitMessage(interaction.user.id, message.channelId)
-        .catch();
+      const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
       if (!m)
         return client.helpers.editMessage(message.channelId, message.id, {
@@ -343,12 +286,7 @@ export default (client: AeonaBot) => {
     }
     updateEmbed(message, embedData, config);
   }
-  async function setImage(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setImage(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     let failed = false;
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -360,9 +298,7 @@ export default (client: AeonaBot) => {
         components: [],
       });
 
-      const m = await client.amethystUtils
-        .awaitMessage(interaction.user.id, message.channelId)
-        .catch();
+      const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
       if (!m)
         return client.helpers.editMessage(message.channelId, message.id, {
@@ -391,12 +327,7 @@ export default (client: AeonaBot) => {
     }
     updateEmbed(message, embedData, config);
   }
-  async function setColor(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setColor(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     let failed = false;
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -408,9 +339,7 @@ export default (client: AeonaBot) => {
         components: [],
       });
 
-      const m = await client.amethystUtils
-        .awaitMessage(interaction.user.id, message.channelId)
-        .catch();
+      const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
       if (!m)
         return client.helpers.editMessage(message.channelId, message.id, {
@@ -433,12 +362,7 @@ export default (client: AeonaBot) => {
     updateEmbed(message, embedData, config);
   }
 
-  async function setAuthor(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setAuthor(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     const comp = new Components();
     comp
       .addButton('Set Author To User', 'Primary', 'setauthoruser')
@@ -453,20 +377,16 @@ export default (client: AeonaBot) => {
       components: comp,
     });
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter(bot, data) {
           return data.user.id === interaction.user.id;
         },
       })
       .then(async (interaction) => {
-        client.helpers.sendInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredUpdateMessage,
-          },
-        );
+        client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+          type: InteractionResponseTypes.DeferredUpdateMessage,
+        });
         if (interaction.data?.customId == 'setauthoruser') {
           if (!embedData.author)
             embedData.author = {
@@ -511,9 +431,7 @@ export default (client: AeonaBot) => {
             components: [],
           });
 
-          const m = await client.amethystUtils
-            .awaitMessage(interaction.user.id, message.channelId)
-            .catch();
+          const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
           if (!m)
             return client.helpers.editMessage(message.channelId, message.id, {
@@ -541,9 +459,7 @@ export default (client: AeonaBot) => {
               components: [],
             });
 
-            const m = await client.amethystUtils
-              .awaitMessage(interaction.user.id, message.channelId)
-              .catch();
+            const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
             if (!m)
               return client.helpers.editMessage(message.channelId, message.id, {
@@ -607,11 +523,7 @@ export default (client: AeonaBot) => {
       index = embedData.fields.length - 1;
     }
 
-    embed.addField(
-      embedData.fields![index].name,
-      embedData.fields![index].value,
-      embedData.fields![index].inline,
-    );
+    embed.addField(embedData.fields![index].name, embedData.fields![index].value, embedData.fields![index].inline);
 
     if (!index) index = 0;
     const comp = new Components();
@@ -627,23 +539,18 @@ export default (client: AeonaBot) => {
       components: comp,
     });
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter(bot, data) {
           return data.user.id === interaction.user.id;
         },
       })
       .then(async (interaction) => {
-        client.helpers.sendInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredUpdateMessage,
-          },
-        );
+        client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+          type: InteractionResponseTypes.DeferredUpdateMessage,
+        });
 
-        if (interaction.data?.customId == 'savefield')
-          updateEmbed(message, embedData, config);
+        if (interaction.data?.customId == 'savefield') updateEmbed(message, embedData, config);
         if (interaction.data?.customId == 'removefield') {
           (embedData.fields = embedData.fields!.filter((value, i) => {
             return i != index!;
@@ -659,9 +566,7 @@ export default (client: AeonaBot) => {
             components: [],
           });
 
-          const m = await client.amethystUtils
-            .awaitMessage(interaction.user.id, message.channelId)
-            .catch();
+          const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
           if (!m)
             return client.helpers.editMessage(message.channelId, message.id, {
@@ -681,9 +586,7 @@ export default (client: AeonaBot) => {
             components: [],
           });
 
-          const m = await client.amethystUtils
-            .awaitMessage(interaction.user.id, message.channelId)
-            .catch();
+          const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
           if (!m)
             return client.helpers.editMessage(message.channelId, message.id, {
@@ -697,12 +600,7 @@ export default (client: AeonaBot) => {
         }
       });
   }
-  async function setFields(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setFields(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     const comp = new Components();
     const options = [
       {
@@ -735,32 +633,22 @@ export default (client: AeonaBot) => {
       components: comp,
     });
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter(bot, data) {
           return data.user.id === interaction.user.id;
         },
       })
       .then(async (interaction) => {
-        client.helpers.sendInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredUpdateMessage,
-          },
-        );
+        client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+          type: InteractionResponseTypes.DeferredUpdateMessage,
+        });
         if (interaction.data?.values) {
           if (interaction.data?.values[0] == 'add') {
             setField(message, interaction, embedData, config);
           } else {
             console.log(Number(interaction.data?.values[0]));
-            setField(
-              message,
-              interaction,
-              embedData,
-              config,
-              Number(interaction.data?.values[0]),
-            );
+            setField(message, interaction, embedData, config, Number(interaction.data?.values[0]));
           }
         }
       })
@@ -773,12 +661,7 @@ export default (client: AeonaBot) => {
         });
       });
   }
-  async function setFooter(
-    message: Message,
-    interaction: Interaction,
-    embedData: Embed,
-    config: Config,
-  ) {
+  async function setFooter(message: Message, interaction: Interaction, embedData: Embed, config: Config) {
     const comp = new Components();
     comp
       .addButton('Set Footer To User', 'Primary', 'setfooteruser')
@@ -793,20 +676,16 @@ export default (client: AeonaBot) => {
       components: comp,
     });
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter(bot, data) {
           return data.user.id === interaction.user.id;
         },
       })
       .then(async (interaction) => {
-        client.helpers.sendInteractionResponse(
-          interaction.id,
-          interaction.token,
-          {
-            type: InteractionResponseTypes.DeferredUpdateMessage,
-          },
-        );
+        client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+          type: InteractionResponseTypes.DeferredUpdateMessage,
+        });
         if (interaction.data?.customId == 'setfooteruser') {
           if (!embedData.footer)
             embedData.footer = {
@@ -851,9 +730,7 @@ export default (client: AeonaBot) => {
             components: [],
           });
 
-          const m = await client.amethystUtils
-            .awaitMessage(interaction.user.id, message.channelId)
-            .catch();
+          const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
           if (!m)
             return client.helpers.editMessage(message.channelId, message.id, {
@@ -881,9 +758,7 @@ export default (client: AeonaBot) => {
               components: [],
             });
 
-            const m = await client.amethystUtils
-              .awaitMessage(interaction.user.id, message.channelId)
-              .catch();
+            const m = await client.utils.awaitMessage(interaction.user.id, message.channelId).catch();
 
             if (!m)
               return client.helpers.editMessage(message.channelId, message.id, {
@@ -949,14 +824,9 @@ export default (client: AeonaBot) => {
     };
 
     const embed = new AmethystEmbed();
-    if (embedData.title)
-      embed.setTitle(
-        replace(embedData.title),
-        embedData.url ? replace(embedData.url) : undefined,
-      );
+    if (embedData.title) embed.setTitle(replace(embedData.title), embedData.url ? replace(embedData.url) : undefined);
 
-    if (embedData.description)
-      embed.setDescription(replace(embedData.description));
+    if (embedData.description) embed.setDescription(replace(embedData.description));
 
     if (embedData.fields)
       for (let i = 0; i < embedData.fields.length; i++) {
@@ -977,16 +847,13 @@ export default (client: AeonaBot) => {
       );
 
     if (embedData.image) embed.setImage(replace(embedData.image.url));
-    if (embedData.thumbnail)
-      embed.setThumbnail(replace(embedData.thumbnail.url));
+    if (embedData.thumbnail) embed.setThumbnail(replace(embedData.thumbnail.url));
     if (embedData.color) embed.setColor(embedData.color.toString(16));
-    else if (client.extras.config.colors.normal)
-      embed.setColor(client.extras.config.colors.normal);
+    else if (client.extras.config.colors.normal) embed.setColor(client.extras.config.colors.normal);
 
     return {
       content: embedData.content ? replace(embedData.content) : undefined,
-      embeds:
-        embedData.title || embedData.description || embed.image ? [embed] : [],
+      embeds: embedData.title || embedData.description || embed.image ? [embed] : [],
     };
   }
 
@@ -1015,38 +882,25 @@ export default (client: AeonaBot) => {
       .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:name}/gm, guild.name)
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:icon}/gm,
-        client.helpers.getGuildIconURL(guild.id, guild.icon) ??
-          'https://cdn.discordapp.com/embed/avatars/1.png',
+        guildIconUrl(guild.id, guild.icon) ?? 'https://cdn.discordapp.com/embed/avatars/1.png',
       )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:owner}/gm,
-        `<@${guild.ownerId}>`,
-      )
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:owner}/gm, `<@${guild.ownerId}>`)
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:banner}/gm,
-        client.helpers.getGuildBannerURL(guild.id, { banner: guild.banner }) ??
-          'https://cdn.discordapp.com/embed/avatars/1.png',
+        //@ts-ignore
+        guildIconUrl(guild.id, { banner: guild.banner! }) ?? 'https://cdn.discordapp.com/embed/avatars/1.png',
       )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:tier}/gm,
-        `${guild.premiumTier}`,
-      )
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:tier}/gm, `${guild.premiumTier}`)
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:members}/gm,
         `${guild.approximateMemberCount ?? guild.memberCount ?? 1}`,
       )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:boosts}/gm,
-        `${guild.premiumSubscriptionCount ?? 0}`,
-      )
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:boosts}/gm, `${guild.premiumSubscriptionCount ?? 0}`)
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:rules}/gm,
         guild.rulesChannelId ? `<#${guild.rulesChannelId}>` : '',
       )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:description}/gm,
-        `${guild.description ?? 'No description'}`,
-      );
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){guild:description}/gm, `${guild.description ?? 'No description'}`);
     return s;
   }
   function replaceUserVariables(
@@ -1066,146 +920,67 @@ export default (client: AeonaBot) => {
   ) {
     s = s
       .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:username}/gm, user.username)
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:discriminator}/gm,
-        user.discriminator,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:tag}/gm,
-        `${user.username}#${user.discriminator}`,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:mention}/gm,
-        `<@${user.id}>`,
-      )
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:discriminator}/gm, user.discriminator)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:tag}/gm, `${user.username}#${user.discriminator}`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:mention}/gm, `<@${user.id}>`)
       .replaceAll(
         /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:avatar}/gm,
-        client.helpers.getAvatarURL(user.id, user.discriminator, {
+        avatarUrl(user.id, user.discriminator, {
           avatar: user.avatar,
         }),
       );
 
     if (userInvites)
       s = s
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites}/gm,
-          `${userInvites.invites ?? '0'}`,
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites:left}/gm,
-          `${userInvites.left ?? '0'}`,
-        );
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites}/gm, `${userInvites.invites ?? '0'}`)
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:invites:left}/gm, `${userInvites.left ?? '0'}`);
     s = s
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:level}/gm,
-        `${levels?.level ?? '0'}`,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:xp}/gm,
-        `${levels?.xp ?? '0'}`,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){user:rank}/gm,
-        `${levels?.rank ?? '0'}`,
-      );
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:level}/gm, `${levels?.level ?? '0'}`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:xp}/gm, `${levels?.xp ?? '0'}`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){user:rank}/gm, `${levels?.rank ?? '0'}`);
 
     //Inviter
     if (inviter) {
       if (inviter.user)
         s = s
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
-            inviter.user.username,
-          )
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
-            inviter.user.discriminator,
-          )
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm, inviter.user.username)
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm, inviter.user.discriminator)
           .replaceAll(
             /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
             `${inviter.user.username}#${inviter.user.discriminator}`,
           )
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
-            `<@${inviter.user.id}>`,
-          )
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm, `<@${inviter.user.id}>`)
           .replaceAll(
             /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
-            client.helpers.getAvatarURL(
-              inviter.user.id,
-              inviter.user.discriminator,
-              {
-                avatar: inviter.user.avatar,
-              },
-            ),
+            avatarUrl(inviter.user.id, inviter.user.discriminator, {
+              avatar: inviter.user.avatar,
+            }),
           );
       else
         s = s
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
-            'UnkownUser',
-          )
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
-            '0000',
-          )
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
-            `UnkownUser#0000`,
-          )
-          .replaceAll(
-            /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
-            `UnkownUser`,
-          )
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm, 'UnkownUser')
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm, '0000')
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm, `UnkownUser#0000`)
+          .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm, `UnkownUser`)
           .replaceAll(
             /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
             'https://cdn.discordapp.com/embed/avatars/1.png',
           );
     } else
       s = s
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm,
-          'UnkownUser',
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm,
-          '0000',
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm,
-          `UnkownUser#0000`,
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm,
-          `UnkownUser`,
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm,
-          'https://cdn.discordapp.com/embed/avatars/1.png',
-        );
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:username}/gm, 'UnkownUser')
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:discriminator}/gm, '0000')
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:tag}/gm, `UnkownUser#0000`)
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:mention}/gm, `UnkownUser`)
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:avatar}/gm, 'https://cdn.discordapp.com/embed/avatars/1.png');
     if (userInvites)
       s = s
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites}/gm,
-          `${inviter?.invites ?? '0'}`,
-        )
-        .replaceAll(
-          /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites:left}/gm,
-          `${inviter?.left ?? '0'}`,
-        );
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites}/gm, `${inviter?.invites ?? '0'}`)
+        .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:invites:left}/gm, `${inviter?.left ?? '0'}`);
     s = s
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:level}/gm,
-        `${inviter?.levels?.level ?? '0'}`,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:xp}/gm,
-        `${inviter?.levels?.xp ?? '0'}`,
-      )
-      .replaceAll(
-        /(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:rank}/gm,
-        `${inviter?.levels?.rank ?? '0'}`,
-      );
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:level}/gm, `${inviter?.levels?.level ?? '0'}`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:xp}/gm, `${inviter?.levels?.xp ?? '0'}`)
+      .replaceAll(/(?=[^`]*(?:`[^`]*`[^`]*)*$){inviter:rank}/gm, `${inviter?.levels?.rank ?? '0'}`);
 
     return s;
   }

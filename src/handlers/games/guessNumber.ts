@@ -1,4 +1,4 @@
-import { Message } from 'discordeno';
+import { Message } from '@discordeno/bot';
 
 import Schema from '../../database/models/guessNumber.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -16,13 +16,9 @@ export default async (client: AeonaBot) => {
       if (!userNumber || isNaN(userNumber)) return;
       client.emit('logFeatureUse', client, 'guess-the-number');
       if (userNumber == number) {
-        bot.helpers.addReaction(
-          message.channelId,
-          `${message.id}`,
-          client.extras.emotes.normal.check,
-        );
+        bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.check);
         const number = Math.ceil(Math.random() * 10000);
-        const user = await client.helpers.getUser(message.authorId);
+        const user = await client.helpers.getUser(message.author.id);
         client.extras.sendEmbedMessage(
           {
             title: `Guess the number`,
@@ -30,9 +26,7 @@ export default async (client: AeonaBot) => {
             fields: [
               {
                 name: `<:members:1063116392762712116> Guessed by`,
-                value: `<@${
-                  user.id
-                }> (${`${user.username}#${user.discriminator}`})`,
+                value: `<@${user.id}> (${`${user.username}#${user.discriminator}`})`,
                 inline: true,
               },
               {

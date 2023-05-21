@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Context,
-  requireGuildPermissions,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -28,18 +24,11 @@ export default {
   userGuildPermissions: ['BAN_MEMBERS'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
-    const member = await client.helpers.getMember(
-      `${ctx.guild!.id}`,
-      (
-        await ctx.options.getUser('user', true)
-      ).id,
-    );
+    const member = await client.helpers.getMember(`${ctx.guild!.id}`, (await ctx.options.getUser('user', true)).id);
 
     const reason = ctx.options.getLongString('reason') || 'Not given';
 
-    try {
-      requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
-
+    if (member.permissions.has('BAN_MEMBERS')) {
       return client.extras.errNormal(
         {
           error: "You can't ban a moderator",
@@ -47,7 +36,7 @@ export default {
         },
         ctx,
       );
-    } catch {
+    } else {
       const channel = await client.helpers.getDmChannel(member.id);
       client.extras
         .embed(
@@ -70,9 +59,7 @@ export default {
           channel,
         )
         .then(function () {
-          client.helpers.banMember(ctx.guild!.id!, `${member.id}`, {
-            reason,
-          });
+          client.helpers.banMember(ctx.guild!.id!, `${member.id}`, {}, reason);
 
           client.extras.succNormal(
             {
@@ -95,9 +82,7 @@ export default {
           );
         })
         .catch(function () {
-          client.helpers.banMember(ctx.guild!.id!, `${member.id}`, {
-            reason,
-          });
+          client.helpers.banMember(ctx.guild!.id!, `${member.id}`, {}, reason);
           client.extras.succNormal(
             {
               text: 'The given user has been successfully banned, but has not received a notification!',

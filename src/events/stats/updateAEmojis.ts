@@ -1,4 +1,4 @@
-import { Emoji, Guild } from 'discordeno/transformers';
+import { Emoji, Guild } from '@discordeno/bot';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';

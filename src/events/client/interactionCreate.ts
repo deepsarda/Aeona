@@ -1,9 +1,9 @@
 import Captcha from '@haileybot/captcha-generator';
 import { AmethystEmbed, createContext, createOptionResults } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
-import { Message } from 'discordeno';
-import { Interaction } from 'discordeno/transformers';
-import { InteractionTypes } from 'discordeno/types';
+import { Message } from '@discordeno/bot';
+import { Interaction } from '@discordeno/bot';
+import { InteractionTypes } from '@discordeno/types';
 
 import claim from '../../commands/tickets/claim.js';
 import close from '../../commands/tickets/close.js';
@@ -38,7 +38,7 @@ export default async (client: AeonaBot, interaction: Interaction) => {
 
       // eslint-disable-next-line no-inner-declarations
       function verifyUser(msg: Message) {
-        client.amethystUtils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then(async (response) => {
+        client.utils.awaitMessage(interaction.user.id, interaction.channelId!, {}).then(async (response) => {
           if (response.content.toUpperCase() === captcha.value.toUpperCase()) {
             client.helpers.deleteMessage(interaction.channelId!, response.id);
 
@@ -79,8 +79,9 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       }
       client.helpers
         .sendMessage(interaction.channelId!, {
-          file: [
+          files: [
             {
+              //@ts-ignore
               blob: dataURItoBlob(captcha.dataURL),
               name: 'captcha.jpeg',
             },
@@ -243,7 +244,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, openticket.args, {
@@ -261,7 +261,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, close.args, {
@@ -279,7 +278,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, claim.args, {
@@ -296,7 +294,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, transcript.args, {
@@ -314,7 +311,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, deleteTicket.args, {
@@ -331,7 +327,6 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       {
         interaction: {
           ...interaction,
-          data: interaction.data?.options?.[0],
         },
       },
       createOptionResults(client, notice.args, {

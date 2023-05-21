@@ -7,8 +7,8 @@ import Permissions from '../../Permissions.js';
 import crypto from 'crypto';
 import GuildData from '../../../../database/models/guild.js';
 import ChatbotData from '../../../../database/models/chatbot-channel.js';
-import { createRestManager } from '@discordeno/rest';
-import { ChannelTypes } from '@discordeno/types';
+import { createRestManager, ChannelTypes } from '@discordeno/bot';
+
 import { AeonaBot } from '../../../../extras/index.js';
 
 export function getDashboardPages(bot: AeonaBot) {

@@ -1,4 +1,4 @@
-import { Guild } from 'discordeno/transformers';
+import { Guild } from '@discordeno/bot';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';

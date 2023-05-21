@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { avatarUrl } from '@discordeno/bot';
 import Schema from '../../database/models/suggestionChannels.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -31,13 +31,9 @@ export default {
             desc: `${suggestionQuery}`,
             author: {
               name: `${ctx.user.username}#${ctx.user.discriminator}(${ctx.user.id})`,
-              iconURL: client.helpers.getAvatarURL(
-                `${ctx.user.id}`,
-                ctx.user.discriminator,
-                {
-                  avatar: ctx.user.avatar,
-                },
-              ),
+              iconURL: avatarUrl(`${ctx.user.id}`, ctx.user.discriminator, {
+                avatar: ctx.user.avatar,
+              }),
             },
           },
           channel!,

@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -17,7 +17,7 @@ export default {
     channelName = channelName.replace(`{emoji}`, '👔');
     channelName = channelName.replace(
       `{name}`,
-      `Roles: ${(await client.helpers.getRoles(ctx.guild!.id)).size.toLocaleString()}`,
+      `Roles: ${(await client.helpers.getRoles(ctx.guild!.id)).length.toLocaleString()}`,
     );
 
     client.helpers

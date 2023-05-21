@@ -1,5 +1,5 @@
-import { Guild } from 'discordeno/transformers';
-import { PremiumTiers } from 'discordeno/types';
+import { Guild } from '@discordeno/bot';
+import { PremiumTiers } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';

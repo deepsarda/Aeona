@@ -1,11 +1,11 @@
-import { AuditLogEntry } from 'discordeno/transformers';
-import { AuditLogEvents } from 'discordeno/types';
-
+import { AuditLogEntry } from '@discordeno/bot';
+import { AuditLogEvents } from '@discordeno/types';
+import {avatarUrl} from'@discordeno/bot';
 import logChannels from '../../database/models/logChannels.js';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: bigint) => {
-  const logChannel = (await logChannels.findOne({ Guild: `${guildId  }` }))!;
+  const logChannel = (await logChannels.findOne({ Guild: `${guildId}` }))!;
 
   try {
     if (!logChannel.Guild) return;
@@ -22,7 +22,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
         type: '',
         author: {
           name: `${user.username}#${user.discriminator}`,
-          iconURL: client.helpers.getAvatarURL(user.id, user.discriminator, {
+          iconURL: avatarUrl(user.id, user.discriminator, {
             avatar: user.avatar,
           }),
         },
@@ -38,9 +38,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
           {
             name: `<:members:1063116392762712116> By`,
             value: `${
-              user
-                ? `${user.username}#${user.discriminator}(${user.id})`
-                : 'Unable to find the responsible user.'
+              user ? `${user.username}#${user.discriminator}(${user.id})` : 'Unable to find the responsible user.'
             }`,
           },
         ],
@@ -81,9 +79,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings`,
               value: `${
-                auditLogEntry.options?.type == 1
-                  ? `<@${auditLogEntry.options?.id}>`
-                  : auditLogEntry.options?.roleName
+                auditLogEntry.options?.type == 1 ? `<@${auditLogEntry.options?.id}>` : auditLogEntry.options?.roleName
               }`,
             },
           ],
@@ -102,9 +98,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings`,
               value: `${
-                auditLogEntry.options?.type == 1
-                  ? `<@${auditLogEntry.options.id}>`
-                  : auditLogEntry.options?.roleName
+                auditLogEntry.options?.type == 1 ? `<@${auditLogEntry.options.id}>` : auditLogEntry.options?.roleName
               }`,
             },
           ],
@@ -124,9 +118,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings for`,
               value: `${
-                auditLogEntry.options?.type == 1
-                  ? `<@${auditLogEntry.options?.id}>`
-                  : auditLogEntry.options?.roleName
+                auditLogEntry.options?.type == 1 ? `<@${auditLogEntry.options?.id}>` : auditLogEntry.options?.roleName
               }`,
             },
           ],
@@ -146,10 +138,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings`,
               value: `${auditLogEntry.changes
-                ?.map(
-                  (change) =>
-                    `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
-                )
+                ?.map((change) => `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `)
                 .join('\n\n')}`,
             },
           ],
@@ -165,10 +154,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings`,
               value: `${auditLogEntry.changes
-                ?.map(
-                  (change) =>
-                    `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
-                )
+                ?.map((change) => `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `)
                 .join('\n\n')}`,
             },
           ],
@@ -214,10 +200,7 @@ export default async (client: AeonaBot, auditLogEntry: AuditLogEntry, guildId: b
             {
               name: `⚙️ Modified Settings`,
               value: `${auditLogEntry.changes
-                ?.map(
-                  (change) =>
-                    `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `,
-                )
+                ?.map((change) => `**Changed:** ${change.key}. \n  **Before:** ${change.old}\n **Now:** ${change.new} `)
                 .join('\n\n')}`,
             },
           ],

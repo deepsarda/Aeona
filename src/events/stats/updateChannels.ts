@@ -1,4 +1,4 @@
-import { Channel } from 'discordeno/transformers';
+import { Channel } from '@discordeno/bot';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -11,7 +11,7 @@ export default async (client: AeonaBot, channel: Channel) => {
     let channelName = await client.extras.getTemplate(channel.guildId);
     const channels = await client.helpers.getChannels(channel.guildId);
     channelName = channelName.replace(`{emoji}`, '🔧');
-    channelName = channelName.replace(`{name}`, `Channels: ${channels.size}`);
+    channelName = channelName.replace(`{name}`, `Channels: ${channels.length}`);
 
     client.helpers.editChannel(data.Channels, {
       name: channelName,

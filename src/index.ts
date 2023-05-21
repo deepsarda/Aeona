@@ -1,9 +1,6 @@
-import {
-  createProxyCache,
-  enableAmethystPlugin,
-} from '@thereallonewolf/amethystframework';
+import { createProxyCache, enableAmethystPlugin } from '@thereallonewolf/amethystframework';
 import colors from 'colors';
-import { createBot, Intents, startBot } from 'discordeno';
+import { createBot, Intents } from '@discordeno/bot';
 import { createClient } from 'redis';
 
 import { Config, configs } from './config.js';
@@ -11,7 +8,6 @@ import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
 import { additionalProps, AeonaBot } from './extras/index.js';
-import { setupRest } from './utils/setupRest.js';
 import loadFiles from './utils/loadFiles.js';
 import { setupLogging } from './utils/logger.js';
 import setupCategories from './utils/setupCategories.js';
@@ -25,11 +21,7 @@ process.argv.forEach((val) => {
 });
 
 if (!id) {
-  console.log(
-    colors.red(
-      '[ERROR] Missing ID. Exiting... \n Specify a valid ID using --id=<id>',
-    ),
-  );
+  console.log(colors.red('[ERROR] Missing ID. Exiting... \n Specify a valid ID using --id=<id>'));
   process.exit(1);
 }
 const botConfig: Config = configs[id];
@@ -50,8 +42,8 @@ const b = createBot({
     Intents.Guilds |
     Intents.MessageContent |
     Intents.GuildMembers |
-    Intents.GuildBans |
-    Intents.GuildEmojis |
+    Intents.GuildModeration |
+    Intents.GuildEmojisAndStickers |
     Intents.GuildIntegrations |
     Intents.GuildWebhooks |
     Intents.GuildInvites |
@@ -60,17 +52,15 @@ const b = createBot({
     Intents.GuildMessageReactions |
     Intents.DirectMessageTyping |
     Intents.GuildScheduledEvents,
+  events: {},
 });
 
 const cachebot = createProxyCache(b, {
   cacheInMemory: {
     default: false,
-    messages: true,
-    guilds: false,
   },
   cacheOutsideMemory: {
     default: true,
-    messages: false,
   },
 
   fetchIfMissing: {
@@ -104,8 +94,7 @@ const cachebot = createProxyCache(b, {
             const strBig = item.match(new RegExp(`(?:"${key}":)(.*?)(?:,)`))[1]; // get the original value using regex expression
             return BigInt(strBig); //should be BigInt(strBig) - BigInt function is not working in this snippet
           }
-          if (typeof value === 'object' && value !== null)
-            if (value.dataType === 'Map') return new Map(value.value);
+          if (typeof value === 'object' && value !== null) if (value.dataType === 'Map') return new Map(value.value);
 
           return value;
         });
@@ -143,10 +132,8 @@ const cachebot = createProxyCache(b, {
     if (table == 'guild') item = await db.set(`/guild/${item.id}`, t);
     if (table == 'user') item = await db.set(`/user/${item.id}`, t);
     if (table == 'message') item = await db.set(`/message/${item.id}`, t);
-    if (table == 'member')
-      item = await db.set(`/member/${item.guildId}/${item.id}`, t);
-    if (table == 'role')
-      item = await db.set(`/role/${item.guildId}/${item.id}`, t);
+    if (table == 'member') item = await db.set(`/member/${item.guildId}/${item.id}`, t);
+    if (table == 'role') item = await db.set(`/role/${item.guildId}/${item.id}`, t);
 
     return item;
   },
@@ -174,13 +161,7 @@ const bot: AeonaBot = enableAmethystPlugin(cachebot, {
       guild.save();
     }
     if (message.mentionedUserIds.includes(bot.applicationId)) {
-      return [
-        guild.Prefix,
-        'aeona',
-        `<@!${bot.user?.id}>`,
-        `<@${bot.user?.id}>`,
-        '',
-      ];
+      return [guild.Prefix, 'aeona', `<@!${bot.user?.id}>`, `<@${bot.user?.id}>`, ''];
     }
     return [guild.Prefix, 'aeona', `<@!${bot.user?.id}>`, `<@${bot.user?.id}>`];
   },
@@ -193,7 +174,6 @@ bot.extras = additionalProps(botConfig, bot);
 await loadFiles(bot);
 setupInhibitors(bot);
 setupCategories(bot);
-setupRest(bot, botConfig.TOKEN);
 
 console.log(colors.green('STARTING'));
 bot.emit('ready', bot);
@@ -228,7 +208,7 @@ setInterval(() => {
   logDbCache();
 }, 60 * 1000 * 10);
 
-startBot(bot);
+bot.start();
 
 logDbCache();
 

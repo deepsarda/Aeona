@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { avatarUrl } from '@discordeno/bot';
 import { AeonaBot } from '../../extras/index.js';
 import wrapper from '../../lib/popcat.js';
 
@@ -28,11 +28,11 @@ export default {
     const user2 = (await ctx.options.getUser('user2', false)) ?? ctx.user;
 
     const url = await wrapper.ship(
-      client.helpers.getAvatarURL(user.id, user.discriminator, {
+      avatarUrl(user.id, user.discriminator, {
         avatar: user.avatar,
         format: 'png',
       }),
-      client.helpers.getAvatarURL(user2.id, user2.discriminator, {
+      avatarUrl(user2.id, user2.discriminator, {
         avatar: user.avatar,
         format: 'png',
       }),

@@ -1,4 +1,4 @@
-import { Channel } from 'discordeno';
+import { Channel } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 

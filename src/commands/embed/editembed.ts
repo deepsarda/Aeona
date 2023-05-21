@@ -37,7 +37,7 @@ export default {
         },
         ctx,
       );
-    if (message.authorId != client.user.id)
+    if (message.author.id != client.user.id)
       return client.extras.errNormal(
         {
           error: 'That message was not sent by me.',
@@ -45,19 +45,14 @@ export default {
         },
         ctx,
       );
-    const embed =
-      message.embeds && message.embeds.length > 0 ? message.embeds[0] : {};
+    const embed = message.embeds && message.embeds.length > 0 ? message.embeds[0] : {};
 
     client.extras.createInterface(ctx, '', {
       ...embed,
       content: message.content,
       callback: async (data) => {
         const config = await client.extras.getEmbedConfig(ctx);
-        client.helpers.editMessage(
-          channel.id,
-          message.id,
-          client.extras.generateEmbedFromData(config, data),
-        );
+        client.helpers.editMessage(channel.id, message.id, client.extras.generateEmbedFromData(config, data));
 
         ctx.reply({ content: 'Successfully edited embed.' });
       },

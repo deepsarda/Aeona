@@ -1,5 +1,5 @@
 import { AeonaBot } from '../../extras/index.js';
-import { Guild } from 'discordeno';
+import { Guild } from '@discordeno/bot';
 
 export default async (client: AeonaBot, guild: Guild, bannerURL: string) => {
   const logsChannel = await client.extras.getLogs(guild.id);

@@ -1,4 +1,4 @@
-import { Channel, Guild } from 'discordeno/transformers';
+import { Channel, Guild } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 

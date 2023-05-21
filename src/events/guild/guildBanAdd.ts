@@ -1,7 +1,7 @@
-import { User } from 'discordeno';
+import { User } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
-
+import { avatarUrl } from '@discordeno/bot';
 export default async (client: AeonaBot, ban: User, guildId: bigint) => {
   const logsChannel = await client.extras.getLogs(guildId);
   if (!logsChannel) return;
@@ -11,7 +11,7 @@ export default async (client: AeonaBot, ban: User, guildId: bigint) => {
       {
         title: `🔧 Member banned`,
         desc: `A user has been banned`,
-        thumbnail: client.helpers.getAvatarURL(`${ban.id}`, ban.discriminator, {
+        thumbnail: avatarUrl(`${ban.id}`, ban.discriminator, {
           avatar: ban.avatar,
         }),
         fields: [

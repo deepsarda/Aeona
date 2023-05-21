@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -18,9 +18,8 @@ export default {
     channelName = channelName.replace(
       `{name}`,
       `News Channels: ${
-        (await client.helpers.getChannels(ctx.guild!.id)).filter(
-          (ch) => ch.type == ChannelTypes.GuildAnnouncement,
-        ).size || 0
+        (await client.helpers.getChannels(ctx.guild!.id)).filter((ch) => ch.type == ChannelTypes.GuildAnnouncement)
+          .length || 0
       }`,
     );
 

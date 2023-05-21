@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Context,
-  requireGuildPermissions,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -29,16 +25,9 @@ export default {
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-    const member = await client.helpers.getMember(
-      `${ctx.guild!.id}`,
-      (
-        await ctx.options.getUser('user', true)
-      ).id,
-    );
+    const member = await client.helpers.getMember(`${ctx.guild!.id}`, (await ctx.options.getUser('user', true)).id);
     const reason = ctx.options.getLongString('reason') || 'Not given';
-    try {
-      requireGuildPermissions(client, ctx.guild, member, ['BAN_MEMBERS']);
-
+    if (member.permissions.has('BAN_MEMBERS')) {
       return client.extras.errNormal(
         {
           error: "You can't kick a moderator",
@@ -46,7 +35,7 @@ export default {
         },
         ctx,
       );
-    } catch {
+    } else {
       const channel = await client.helpers.getDmChannel(member.id);
       client.extras
         .embed(

@@ -11,7 +11,7 @@ import {
   DiscordUnderlined,
 } from '@derockdev/discord-components-react';
 import { parse, RuleTypesExtended } from 'discord-markdown-parser';
-import { ChannelTypes } from 'discordeno';
+import { ChannelTypes } from '@discordeno/bot';
 import React, { Fragment, ReactNode } from 'react';
 
 import { parseDiscordEmoji } from '../../utils/utils.js';

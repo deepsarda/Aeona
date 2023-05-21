@@ -1,6 +1,6 @@
-import { Channel } from 'discordeno';
-import { Guild } from 'discordeno/transformers';
-import { ChannelTypes } from 'discordeno/types';
+import { Channel, Guild } from '@discordeno/bot';
+
+import { ChannelTypes } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -16,11 +16,7 @@ export default async (client: AeonaBot, channel: Channel, guild: Guild) => {
       channelName = channelName.replace(`{emoji}`, '🎤');
       channelName = channelName.replace(
         `{name}`,
-        `Stage Channels: ${
-          channels.filter(
-            (channel) => channel.type === ChannelTypes.GuildStageVoice,
-          ).size || 0
-        }`,
+        `Stage Channels: ${channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).length || 0}`,
       );
 
       client.helpers.editChannel(data.StageChannels, {

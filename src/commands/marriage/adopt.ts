@@ -1,9 +1,5 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
-import { Message } from 'discordeno';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { Message } from '@discordeno/bot';
 
 import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -96,7 +92,7 @@ export default {
     );
 
     const filter = (bot, i) => i.user.id === target.id;
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter,
         type: 'Button',

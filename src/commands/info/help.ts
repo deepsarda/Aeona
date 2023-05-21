@@ -1,9 +1,5 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
-import { SelectOption } from 'discordeno';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
+import { SelectOption } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -27,16 +23,8 @@ export default {
       });
       const options2 = options.slice(0, options.length / 2);
       options = options.slice(options.length / 2);
-      comp.addSelectComponent(
-        'Choose which commands to see. (1/2)',
-        'help_select',
-        options2,
-      );
-      comp.addSelectComponent(
-        'Choose which commands to see. (2/2)',
-        'help_select1',
-        options,
-      );
+      comp.addSelectComponent('Choose which commands to see. (1/2)', 'help_select', options2);
+      comp.addSelectComponent('Choose which commands to see. (2/2)', 'help_select1', options);
       client.extras.embed(
         {
           title: `My Help menu!`,

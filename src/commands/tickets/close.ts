@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import ticketChannels from '../../database/models/ticketChannels.js';
 import ticketMessageConfig from '../../database/models/ticketMessage.js';
@@ -38,9 +34,7 @@ export default {
         );
 
       if (data) {
-        const ticketCategory = await client.cache.channels.get(
-          BigInt(data.Category!),
-        );
+        const ticketCategory = await client.cache.channels.get(BigInt(data.Category!));
         const logsChannel = await client.cache.channels.get(BigInt(data.Logs!));
 
         if (ticketCategory == undefined) {
@@ -71,9 +65,7 @@ export default {
           if (ticketMessageData) {
             closeMessageTicket = ticketMessageData.dmMessage!;
           }
-          const channel = await client.helpers.getDmChannel(
-            BigInt(ticketData.creator!),
-          );
+          const channel = await client.helpers.getDmChannel(BigInt(ticketData.creator!));
           client.extras.embed(
             {
               desc: closeMessageTicket,
@@ -100,7 +92,7 @@ export default {
           client.extras.transcript(client, ctx.channel!).catch();
           const file = await createTranscript(client, ctx.channel!);
           client.helpers.sendMessage(channel.id, {
-            file: file,
+            files: [file],
           });
         } catch (err) {
           console.error(err);
@@ -119,9 +111,7 @@ export default {
                 },
                 {
                   name: '<:members:1063116392762712116> Closer',
-                  value: `${`${ctx.user.username}#${ctx.user.discriminator}`} (${
-                    ctx.user.id
-                  })`,
+                  value: `${`${ctx.user.username}#${ctx.user.discriminator}`} (${ctx.user.id})`,
                 },
                 {
                   name: '<:members:1063116392762712116> Creator',

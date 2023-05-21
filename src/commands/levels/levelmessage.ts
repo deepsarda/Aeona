@@ -1,12 +1,8 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/levelChannels.js';
 import { AeonaBot } from '../../extras/index.js';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 
 export default {
   name: 'levelmessage',
@@ -65,40 +61,29 @@ export default {
         ctx,
       );
 
-      client.amethystUtils
+      client.utils
         .awaitComponent(message.id)
         .then(async (interaction) => {
-          if (
-            interaction.data?.customId == 'autocreate' ||
-            interaction.data?.customId == 'createconfig'
-          ) {
+          if (interaction.data?.customId == 'autocreate' || interaction.data?.customId == 'createconfig') {
             const premium = await client.extras.isPremium(ctx.guildId!);
 
             if (!premium && data.length > 0) {
-              await client.helpers.sendInteractionResponse(
-                interaction.id,
-                interaction.token,
-                {
-                  type: 4,
-                  data: {
-                    content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use \`+perks\` to see all the perks of premium. `,
-                    flags: 1 << 6,
-                  },
+              await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                type: 4,
+                data: {
+                  content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use \`+perks\` to see all the perks of premium. `,
+                  flags: 1 << 6,
                 },
-              );
+              });
               return sendMessage();
             } else if (premium && data.length > 8) {
-              await client.helpers.sendInteractionResponse(
-                interaction.id,
-                interaction.token,
-                {
-                  type: 4,
-                  data: {
-                    content: `Hello, despite the fact that this server is premium, you can only have a maximum of 8 systems owing to Discord ratelimits. Please accept my apologies for the inconvenience.`,
-                    flags: 1 << 6,
-                  },
+              await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                type: 4,
+                data: {
+                  content: `Hello, despite the fact that this server is premium, you can only have a maximum of 8 systems owing to Discord ratelimits. Please accept my apologies for the inconvenience.`,
+                  flags: 1 << 6,
                 },
-              );
+              });
               return sendMessage();
             }
           }
@@ -114,17 +99,13 @@ export default {
               Channel: `${channel.id}`,
             }).save();
 
-            await client.helpers.sendInteractionResponse(
-              interaction.id,
-              interaction.token,
-              {
-                type: 4,
-                data: {
-                  content: `I have successfully setup <#${channel.id}> as a level log channel.`,
-                  flags: 1 << 6,
-                },
+            await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+              type: 4,
+              data: {
+                content: `I have successfully setup <#${channel.id}> as a level log channel.`,
+                flags: 1 << 6,
               },
-            );
+            });
 
             return sendMessage();
           } else if (interaction.data?.customId == 'createconfig') {
@@ -133,17 +114,13 @@ export default {
 
             while (!success) {
               if (!invalidResponse) {
-                await client.helpers.sendInteractionResponse(
-                  interaction.id,
-                  interaction.token,
-                  {
-                    type: 4,
-                    data: {
-                      content: `Please mention the channel or send cancel to cancel the setup.`,
-                      flags: 1 << 6,
-                    },
+                await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                  type: 4,
+                  data: {
+                    content: `Please mention the channel or send cancel to cancel the setup.`,
+                    flags: 1 << 6,
                   },
-                );
+                });
               } else {
                 await client.helpers.editOriginalInteractionResponse(
                   interaction.token,
@@ -154,36 +131,25 @@ export default {
                 );
               }
 
-              const message = await client.amethystUtils
-                .awaitMessage(ctx.user!.id, ctx.channel!.id)
-                .catch();
+              const message = await client.utils.awaitMessage(ctx.user!.id, ctx.channel!.id).catch();
 
               if (!message) return;
 
               if (message.content.toLowerCase() == 'cancel') {
-                await client.helpers.sendInteractionResponse(
-                  interaction.id,
-                  interaction.token,
-                  {
-                    type: 4,
-                    data: {
-                      content: `Setup cancelled.`,
-                      flags: 1 << 6,
-                    },
+                await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                  type: 4,
+                  data: {
+                    content: `Setup cancelled.`,
+                    flags: 1 << 6,
                   },
-                );
+                });
                 return;
               }
 
-              if (
-                message.mentionedChannelIds &&
-                message.mentionedChannelIds.length > 0
-              ) {
+              if (message.mentionedChannelIds && message.mentionedChannelIds.length > 0) {
                 success = true;
 
-                client.helpers
-                  .deleteMessage(message.channelId, message.id)
-                  .catch();
+                client.helpers.deleteMessage(message.channelId, message.id).catch();
 
                 new Schema({
                   Guild: `${ctx.guildId}`,
@@ -191,11 +157,8 @@ export default {
                 }).save();
 
                 await client.helpers.sendFollowupMessage(interaction.token, {
-                  type: 4,
-                  data: {
-                    content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a level log channel.`,
-                    flags: 1 << 6,
-                  },
+                  content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a level log channel.`,
+                  flags: 1 << 6,
                 });
               } else {
                 invalidResponse = true;
@@ -210,11 +173,7 @@ export default {
 
             components.addButton('Set Channel', 'Primary', 'setchannel');
             components.addButton('Set Message', 'Primary', 'setmessage');
-            components.addButton(
-              'Delete this Setting',
-              'Danger',
-              'deleteconfig',
-            );
+            components.addButton('Delete this Setting', 'Danger', 'deleteconfig');
             const mes = await client.extras.embed(
               {
                 title: `System ${interaction.data.values![0]}`,
@@ -229,8 +188,7 @@ export default {
             );
             const config = await client.extras.getEmbedConfig(ctx);
             let m = {
-              content:
-                '**GG** {user:mention}, you are now level **{user:level}**!',
+              content: '**GG** {user:mention}, you are now level **{user:level}**!',
             };
 
             if (schema.Message) {
@@ -244,12 +202,9 @@ export default {
             m.content = `**<:chatbot:1049292165282541638> Level Message :small_red_triangle_down:** \n ${m.content}`;
 
             client.helpers
-              .sendMessage(
-                ctx.channel!.id,
-                client.extras.generateEmbedFromData(config, m),
-              )
+              .sendMessage(ctx.channel!.id, client.extras.generateEmbedFromData(config, m))
               .catch((e) => console.error(JSON.stringify(e)));
-            client.amethystUtils
+            client.utils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
                 if (interaction.data?.customId == 'setchannel') {
@@ -258,17 +213,13 @@ export default {
 
                   while (!success) {
                     if (!invalidResponse) {
-                      await client.helpers.sendInteractionResponse(
-                        interaction.id,
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `Please mention the channel or send cancel to cancel the setup.`,
-                            flags: 1 << 6,
-                          },
+                      await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                        type: 4,
+                        data: {
+                          content: `Please mention the channel or send cancel to cancel the setup.`,
+                          flags: 1 << 6,
                         },
-                      );
+                      });
                     } else {
                       await client.helpers.editOriginalInteractionResponse(
                         interaction.token,
@@ -279,49 +230,30 @@ export default {
                       );
                     }
 
-                    const message = await client.amethystUtils
-                      .awaitMessage(ctx.user!.id, ctx.channel!.id)
-                      .catch();
+                    const message = await client.utils.awaitMessage(ctx.user!.id, ctx.channel!.id).catch();
 
                     if (!message) return;
 
                     if (message.content.toLowerCase() == 'cancel') {
-                      await client.helpers.sendFollowupMessage(
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `Setup cancelled.`,
-                            flags: 1 << 6,
-                          },
-                        },
-                      );
+                      await client.helpers.sendFollowupMessage(interaction.token, {
+                        content: `Setup cancelled.`,
+                        flags: 1 << 6,
+                      });
                       return;
                     }
 
-                    if (
-                      message.mentionedChannelIds &&
-                      message.mentionedChannelIds.length > 0
-                    ) {
+                    if (message.mentionedChannelIds && message.mentionedChannelIds.length > 0) {
                       success = true;
 
-                      client.helpers
-                        .deleteMessage(message.channelId, message.id)
-                        .catch();
+                      client.helpers.deleteMessage(message.channelId, message.id).catch();
 
                       schema.Channel = `${message.mentionedChannelIds[0]}`;
                       schema.save();
 
-                      await client.helpers.sendFollowupMessage(
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a level channel.`,
-                            flags: 1 << 6,
-                          },
-                        },
-                      );
+                      await client.helpers.sendFollowupMessage(interaction.token, {
+                        content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a level channel.`,
+                        flags: 1 << 6,
+                      });
                     } else {
                       invalidResponse = true;
                     }
@@ -329,20 +261,15 @@ export default {
 
                   return sendMessage();
                 } else if (interaction.data?.customId == 'setmessage') {
-                  await client.helpers.sendInteractionResponse(
-                    interaction.id,
-                    interaction.token,
-                    {
-                      type: 4,
-                      data: {
-                        content: `I am loading the message editor. To see a list of variables you can use look at \`/embed variables\``,
-                        flags: 1 << 6,
-                      },
+                  await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                    type: 4,
+                    data: {
+                      content: `I am loading the message editor. To see a list of variables you can use look at \`/embed variables\``,
+                      flags: 1 << 6,
                     },
-                  );
+                  });
                   let message = {
-                    content:
-                      '**GG** {user:mention}, you are now level **{user:level}**!',
+                    content: '**GG** {user:mention}, you are now level **{user:level}**!',
                   };
 
                   if (schema.Message) {
@@ -360,33 +287,23 @@ export default {
                       schema.Message = JSON.stringify(data);
 
                       schema.save();
-                      await client.helpers.sendFollowupMessage(
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `I have successfully updated the message for that config.`,
-                            flags: 1 << 6,
-                          },
-                        },
-                      );
+                      await client.helpers.sendFollowupMessage(interaction.token, {
+                        content: `I have successfully updated the message for that config.`,
+                        flags: 1 << 6,
+                      });
 
                       sendMessage();
                     },
                   });
                 } else if (interaction.data?.customId == 'deleteconfig') {
                   schema.delete();
-                  await client.helpers.sendInteractionResponse(
-                    interaction.id,
-                    interaction.token,
-                    {
-                      type: 4,
-                      data: {
-                        content: `I have successfully deleted that config`,
-                        flags: 1 << 6,
-                      },
+                  await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                    type: 4,
+                    data: {
+                      content: `I have successfully deleted that config`,
+                      flags: 1 << 6,
                     },
-                  );
+                  });
 
                   return sendMessage();
                 }

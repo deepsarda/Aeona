@@ -1,4 +1,4 @@
-import { Message } from 'discordeno';
+import { Message } from '@discordeno/bot';
 
 import Schema from '../../database/models/guessWord.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -24,7 +24,7 @@ export default async (client: AeonaBot) => {
             return 0.5 - Math.random();
           })
           .join('');
-        const user = await client.helpers.getUser(message.authorId);
+        const user = await client.helpers.getUser(message.author.id);
         client.extras.sendEmbedMessage(
           {
             title: `Guess the word`,

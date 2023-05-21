@@ -30,12 +30,12 @@ export default {
     const members = await client.helpers.getMembers(ctx.guild.id, {
       limit: 1000,
     });
-    const seconds = Number(members.size) * 1500;
+    const seconds = Number(members.length) * 1500;
 
     const message = await client.extras.embed(
       {
         title: 'Add role to all humans.',
-        desc: `Adding <@&${role.id}> to ${members.size} members. \n I will take ${seconds} seconds to complete this operation`,
+        desc: `Adding <@&${role.id}> to ${members.length} members. \n I will take ${seconds} seconds to complete this operation`,
         type: 'reply',
       },
       ctx,
@@ -50,12 +50,12 @@ export default {
     });
 
     const interval = setInterval(() => {
-      if (success + failed == members.size) clearInterval(interval);
+      if (success + failed == members.length) clearInterval(interval);
 
       client.extras.editEmbed(
         {
           title: 'Add role to all humans.',
-          desc: `Adding <@&${role.id}> to ${members.size} members. \n Successfully added role to ${success} members. \n Failed to add role to ${failed} members.`,
+          desc: `Adding <@&${role.id}> to ${members.length} members. \n Successfully added role to ${success} members. \n Failed to add role to ${failed} members.`,
         },
         message,
       );

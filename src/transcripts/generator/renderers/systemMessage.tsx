@@ -1,5 +1,5 @@
 import { DiscordReaction, DiscordReactions, DiscordSystemMessage } from '@derockdev/discord-components-react';
-import { Errors, Guild, Member, Message, MessageTypes, Role, User } from 'discordeno';
+import {  Guild, Member, Message, MessageTypes, Role, User } from '@discordeno/bot';
 import React from 'react';
 
 import { AeonaBot } from '../../../extras/index.js';
@@ -21,7 +21,7 @@ export default async function renderSystemMessage(
           {await JoinMessage(
             bot,
             message.member,
-            (await bot.cache.users.get(message.authorId))!,
+            (await bot.cache.users.get(message.author.id))!,
           )}
         </DiscordSystemMessage>
       );
@@ -218,7 +218,7 @@ export async function highestRole(
     typeof guildOrId === 'bigint'
       ? await bot.cache.guilds.get(guildOrId)
       : guildOrId;
-  if (!guild) throw new Error(Errors.GUILD_NOT_FOUND);
+  if (!guild) throw new Error("Guild Not Found");
 
   // Get the roles from the member
   const memberRoles = (

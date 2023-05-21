@@ -163,7 +163,7 @@ export default function (bot: AeonaBot) {
     },
   ];
   for (let i = 0; i < categories.length; i++) {
-    bot.amethystUtils.createCategory(categories[i]);
+    bot.utils.createCategory(categories[i]);
   }
   console.log('Finished setting up '.cyan + 'categories'.yellow);
 }

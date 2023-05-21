@@ -40,11 +40,6 @@ export default {
             inline: true,
           },
           {
-            name: 'Made on',
-            value: `<t:${channel.createTimestamp}>`,
-            inline: true,
-          },
-          {
             name: 'Subject',
             value: `${channel.topic ? channel.topic : 'N/A'}`,
             inline: true,

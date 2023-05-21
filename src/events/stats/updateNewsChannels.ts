@@ -1,5 +1,5 @@
-import { Channel, Guild } from 'discordeno/transformers';
-import { ChannelTypes } from 'discordeno/types';
+import { Channel, Guild } from '@discordeno/bot';
+import { ChannelTypes } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -15,11 +15,7 @@ export default async (client: AeonaBot, channel: Channel, guild: Guild) => {
       channelName = channelName.replace(`{emoji}`, '📢');
       channelName = channelName.replace(
         `{name}`,
-        `News Channels: ${
-          channels.filter(
-            (channel) => channel.type === ChannelTypes.GuildAnnouncement,
-          ).size || 0
-        }`,
+        `News Channels: ${channels.filter((channel) => channel.type === ChannelTypes.GuildAnnouncement).length || 0}`,
       );
 
       client.helpers.editChannel(data.NewsChannels, {

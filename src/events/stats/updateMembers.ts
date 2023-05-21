@@ -1,4 +1,4 @@
-import { Guild } from 'discordeno';
+import { Guild } from '@discordeno/bot';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -12,11 +12,7 @@ export default async (client: AeonaBot, guild: Guild) => {
     channelName = channelName.replace(`{emoji}`, '👤');
     channelName = channelName.replace(
       `{name}`,
-      `Members: ${(
-        guild.approximateMemberCount ??
-        guild.memberCount ??
-        1
-      )?.toLocaleString()}`,
+      `Members: ${(guild.approximateMemberCount ?? guild.memberCount ?? 1)?.toLocaleString()}`,
     );
 
     client.helpers.editChannel(data.Members, {

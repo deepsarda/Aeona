@@ -1,4 +1,4 @@
-import { Channel, Message, MessageTypes } from 'discordeno';
+import { Channel, Message, MessageTypes } from '@discordeno/bot';
 
 import count from '../../database/models/count.js';
 import countSchema from '../../database/models/countChannel.js';
@@ -7,8 +7,7 @@ import { AeonaBot } from '../../extras/index.js';
 export default async (client: AeonaBot) => {
   client.on('messageCreateNoBots', async (bot: AeonaBot, message: Message) => {
     if (!message.guildId) return;
-    if (!message.content || message.type == MessageTypes.ChannelPinnedMessage)
-      return;
+    if (!message.content || message.type == MessageTypes.ChannelPinnedMessage) return;
     const data = await countSchema.findOne({
       Guild: message.guildId,
       Channel: message.channelId,
@@ -16,10 +15,9 @@ export default async (client: AeonaBot) => {
     const countData = await count.findOne({ Guild: message.guildId });
 
     if (data && countData) {
-      if (!Number(message.content) || Number.isNaN(Number(message.content)))
-        return;
+      if (!Number(message.content) || Number.isNaN(Number(message.content))) return;
       client.emit('logFeatureUse', client, 'counting');
-      if (`${message.authorId}` == countData.User!) {
+      if (`${message.author.id}` == countData.User!) {
         try {
           client.extras.errNormal(
             {
@@ -29,26 +27,14 @@ export default async (client: AeonaBot) => {
             { id: message.channelId } as Channel,
           );
 
-          return bot.helpers.addReaction(
-            message.channelId,
-            `${message.id}`,
-            client.extras.emotes.normal.error,
-          );
+          return bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
         } catch (error) {
-          bot.helpers.addReaction(
-            message.channelId,
-            `${message.id}`,
-            client.extras.emotes.normal.error,
-          );
+          bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
           throw error;
         }
       } else if (Number(message.content) == countData.Count) {
-        bot.helpers.addReaction(
-          message.channelId,
-          `${message.id}`,
-          client.extras.emotes.normal.check,
-        );
-        countData.User = `${message.authorId}`;
+        bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.check);
+        countData.User = `${message.author.id}`;
         countData.Count += 1;
         countData.save();
       } else {
@@ -61,71 +47,50 @@ export default async (client: AeonaBot) => {
             { id: message.channelId } as Channel,
           );
 
-          return bot.helpers.addReaction(
-            message.channelId,
-            `${message.id}`,
-            client.extras.emotes.normal.error,
-          );
+          return bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
         } catch (error) {
-          bot.helpers.addReaction(
-            message.channelId,
-            `${message.id}`,
-            client.extras.emotes.normal.error,
-          );
+          bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
           throw error;
         }
       }
     } else if (data) {
       if (Number(message.content) == (countData?.Count ?? 0) + 1) {
-        bot.helpers.addReaction(
-          message.channelId,
-          `${message.id}`,
-          client.extras.emotes.normal.check,
-        );
+        bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.check);
         new count({
           Guild: message.guildId,
-          User: message.authorId,
+          User: message.author.id,
           Count: (countData?.Count ?? 0) + 1,
         }).save();
       } else {
-        return bot.helpers.addReaction(
-          message.channelId,
-          `${message.id}`,
-          client.extras.emotes.normal.error,
-        );
+        return bot.helpers.addReaction(message.channelId, `${message.id}`, client.extras.emotes.normal.error);
       }
     }
   });
 
-  client.on(
-    'messageDeleteWithOldMessage',
-    async (bot: AeonaBot, message: Message) => {
-      try {
-        const data = await countSchema.findOne({
-          Guild: message.guildId,
-          Channel: message.channelId,
-        });
-        const countData = await count.findOne({ Guild: message.guildId });
+  client.on('messageDeleteWithOldMessage', async (bot: AeonaBot, message: Message) => {
+    try {
+      const data = await countSchema.findOne({
+        Guild: message.guildId,
+        Channel: message.channelId,
+      });
+      const countData = await count.findOne({ Guild: message.guildId });
 
-        if (data && countData) {
-          const lastCount = countData.Count! - 1;
-          if (Number(message.content) == lastCount) {
-            client.extras.simpleMessageEmbed(
-              {
-                title: ``,
-                desc: `**${`${
-                  (await bot.helpers.getUser(message.authorId))?.username
-                }#${
-                  (await bot.helpers.getUser(message.authorId))?.discriminator
-                }`}**: ${message.content}`,
-              },
-              message,
-            );
-          }
+      if (data && countData) {
+        const lastCount = countData.Count! - 1;
+        if (Number(message.content) == lastCount) {
+          client.extras.simpleMessageEmbed(
+            {
+              title: ``,
+              desc: `**${`${(await bot.helpers.getUser(message.author.id))?.username}#${
+                (await bot.helpers.getUser(message.author.id))?.discriminator
+              }`}**: ${message.content}`,
+            },
+            message,
+          );
         }
-      } catch {
-        //
       }
-    },
-  );
+    } catch {
+      //
+    }
+  });
 };

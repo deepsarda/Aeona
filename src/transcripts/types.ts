@@ -1,4 +1,4 @@
-import { FileContent } from 'discordeno';
+import { FileContent } from '@discordeno/bot';
 import type { RenderMessageContext } from './generator/index.js';
 
 export type AttachmentTypes = 'audio' | 'video' | 'image' | 'file';

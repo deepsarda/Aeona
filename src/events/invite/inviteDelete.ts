@@ -1,4 +1,4 @@
-import { Invite } from 'discordeno';
+import { Invite } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 

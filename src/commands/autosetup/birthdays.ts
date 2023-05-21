@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno';
+import { ChannelTypes } from '@discordeno/bot';
 
 import Birthdays from '../../database/models/birthdaychannels.js';
 import { AeonaBot } from '../../extras/index.js';

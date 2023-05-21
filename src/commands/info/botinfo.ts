@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { avatarUrl } from '@discordeno/bot';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -17,7 +17,7 @@ export default {
       {
         title: `Bot information`,
         desc: `____________________________`,
-        thumbnail: client.helpers.getAvatarURL(`${client.user.id}`, client.user.discriminator, {
+        thumbnail: avatarUrl(`${client.user.id}`, client.user.discriminator, {
           avatar: client.user.avatar,
         }),
         fields: [

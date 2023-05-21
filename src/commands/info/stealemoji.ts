@@ -15,7 +15,7 @@ export default {
       type: 'String',
     },
   ],
-  userGuildPermissions: ['MANAGE_EMOJIS_AND_STICKERS'],
+  userGuildPermissions: ['MANAGE_GUILD'],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
@@ -25,43 +25,37 @@ export default {
     if (parsedEmoji.id) {
       const extension = parsedEmoji.animated ? '.gif' : '.png';
       const url = `https://cdn.discordapp.com/emojis/${parsedEmoji.id + extension}`;
-      client.helpers
-        .createEmoji(`${ctx.guild!.id}`, { name: parsedEmoji.name, image: url })
-        .then((emoji) => {
-          client.extras.succNormal(
-            {
-              text: `Emoji successfully added to the server`,
-              fields: [
-                {
-                  name: 'Emoji',
-                  value: `<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${
-                    parsedEmoji.id
-                  }>`,
-                  inline: true,
-                },
-                {
-                  name: 'Emoji name',
-                  value: `${emoji.name}`,
-                  inline: true,
-                },
-                {
-                  name: 'Emoji id',
-                  value: `${emoji.id}`,
-                  inline: true,
-                },
-                {
-                  name: `Usage`,
-                  value: `\`<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${
-                    parsedEmoji.id
-                  }>\``,
-                  inline: true,
-                },
-              ],
-              type: 'reply',
-            },
-            ctx,
-          );
-        });
+      client.helpers.createEmoji(`${ctx.guild!.id}`, { name: parsedEmoji.name, image: url }).then((emoji) => {
+        client.extras.succNormal(
+          {
+            text: `Emoji successfully added to the server`,
+            fields: [
+              {
+                name: 'Emoji',
+                value: `<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${parsedEmoji.id}>`,
+                inline: true,
+              },
+              {
+                name: 'Emoji name',
+                value: `${emoji.name}`,
+                inline: true,
+              },
+              {
+                name: 'Emoji id',
+                value: `${emoji.id}`,
+                inline: true,
+              },
+              {
+                name: `Usage`,
+                value: `\`<${parsedEmoji.animated ? 'a:' : ':'}${parsedEmoji.name}:${parsedEmoji.id}>\``,
+                inline: true,
+              },
+            ],
+            type: 'reply',
+          },
+          ctx,
+        );
+      });
     } else {
       client.extras.errNormal(
         {

@@ -1,4 +1,4 @@
-import { Channel, Guild, Member, Role, User } from 'discordeno';
+import { Channel, Guild, Member, Role, User } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -16,59 +16,19 @@ export default async (client: AeonaBot) => {
   client.on('channelCreate', async (client: AeonaBot, channel: Channel) => {
     if (!channel.guildId) return;
     client.emit('updateChannels', channel, client, await client.cache.guilds.get(channel.guildId));
-    client.emit(
-      'updateNewsChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateStageChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateTextChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateVoiceChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
+    client.emit('updateNewsChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateStageChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateTextChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateVoiceChannels', client, channel, await client.cache.guilds.get(channel.guildId));
   });
 
   client.on('channelDelete', async (client: AeonaBot, channel: Channel) => {
     if (!channel.guildId) return;
     client.emit('updateChannels', client, channel, await client.cache.guilds.get(channel.guildId));
-    client.emit(
-      'updateNewsChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateStageChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateTextChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
-    client.emit(
-      'updateVoiceChannels',
-      client,
-      channel,
-      await client.cache.guilds.get(channel.guildId),
-    );
+    client.emit('updateNewsChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateStageChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateTextChannels', client, channel, await client.cache.guilds.get(channel.guildId));
+    client.emit('updateVoiceChannels', client, channel, await client.cache.guilds.get(channel.guildId));
   });
 
   client.on('roleCreate', async (client: AeonaBot, role: Role) =>
@@ -93,12 +53,8 @@ export default async (client: AeonaBot) => {
     client.emit('updateBoosts', client, await client.cache.guilds.get(booster.guildId)),
   );
 
-  client.on('guildBoostLevelUp', async (client: AeonaBot, tier: Guild) =>
-    client.emit('updateTier', client, tier),
-  );
-  client.on('guildBoostLevelDown', async (client: AeonaBot, tier: Guild) =>
-    client.emit('updateTier', client, tier),
-  );
+  client.on('guildBoostLevelUp', async (client: AeonaBot, tier: Guild) => client.emit('updateTier', client, tier));
+  client.on('guildBoostLevelDown', async (client: AeonaBot, tier: Guild) => client.emit('updateTier', client, tier));
 
   client.on('emojiCreate', async (client: AeonaBot, emoji) => {
     client.emit('updateEmojis', client, emoji, await client.cache.guilds.get(emoji.guildId));

@@ -1,7 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import Canvacord from 'canvacord';
-
+import { avatarUrl } from '@discordeno/bot';
 import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 
@@ -30,7 +30,7 @@ export default {
 
       const rankCard = new Canvacord.Rank()
         .setAvatar(
-          client.helpers.getAvatarURL(`${target.id}`, target.discriminator, {
+          avatarUrl(`${target.id}`, target.discriminator, {
             avatar: target.avatar,
             format: 'png',
           }),

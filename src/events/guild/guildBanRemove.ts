@@ -1,5 +1,5 @@
-import { User } from 'discordeno/transformers';
-
+import { User } from '@discordeno/bot';
+import { avatarUrl } from '@discordeno/bot';
 import { AeonaBot } from '../../extras/index.js';
 
 export default async (client: AeonaBot, ban: User, guildId: bigint) => {
@@ -11,7 +11,7 @@ export default async (client: AeonaBot, ban: User, guildId: bigint) => {
       {
         title: `🔧 Member unbanned`,
         desc: `A user has been unbanned`,
-        thumbnail: client.helpers.getAvatarURL(`${ban.id}`, ban.discriminator, {
+        thumbnail: avatarUrl(`${ban.id}`, ban.discriminator, {
           avatar: ban.avatar,
         }),
         fields: [

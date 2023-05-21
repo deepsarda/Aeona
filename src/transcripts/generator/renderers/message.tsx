@@ -7,7 +7,7 @@ import {
   DiscordThread,
   DiscordThreadMessage,
 } from '@derockdev/discord-components-react';
-import { Message, MessageTypes } from 'discordeno';
+import { Message, MessageTypes } from '@discordeno/bot';
 import React from 'react';
 
 import { AeonaBot } from '../../../extras/index.js';
@@ -49,7 +49,7 @@ export default async function renderMessage(
       key={`${message.id}`}
       edited={message.editedTimestamp !== null}
       server={isCrosspost ?? undefined}
-      profile={`${message.authorId}`}
+      profile={`${message.author.id}`}
     >
       {/* reply */}
       {await renderReply(bot, message, context)}

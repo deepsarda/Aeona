@@ -1,4 +1,4 @@
-import { User } from 'discordeno/transformers';
+import { User } from '@discordeno/bot';
 
 import invitedBy from '../../database/models/inviteBy.js';
 import invites from '../../database/models/invites.js';
@@ -37,8 +37,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
     const schema = leaveSchema[i];
 
     let message = {
-      content:
-        '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
+      content: '{user:mention} has left {guild:name}. \n We now have {guild:members} users.',
     };
 
     if (schema.Message) {
@@ -50,10 +49,7 @@ export default async (client: AeonaBot, user: User, guildId: bigint) => {
     }
     if (schema.Channel)
       client.helpers
-        .sendMessage(
-          schema.Channel,
-          client.extras.generateEmbedFromData(config, message),
-        )
+        .sendMessage(schema.Channel, client.extras.generateEmbedFromData(config, message))
         .catch((e) => console.error(JSON.stringify(e)));
   }
 };

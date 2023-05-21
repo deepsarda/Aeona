@@ -1,7 +1,7 @@
 import { Point } from '@influxdata/influxdb-client';
 import { Components } from '@thereallonewolf/amethystframework';
 import Filter from 'badwords-filter';
-import { BigString, Message } from 'discordeno';
+import { BigString, Message } from '@discordeno/bot';
 import fetch from 'node-fetch';
 
 import afk from '../../database/models/afk.js';
@@ -59,10 +59,10 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
       if (data) {
         if (data.Levels == true) {
           const randomXP = Math.floor(Math.random() * 9) + 1;
-          const hasLeveledUp = await client.extras.addXP(message.authorId, message.guildId!, randomXP);
+          const hasLeveledUp = await client.extras.addXP(message.author.id, message.guildId!, randomXP);
 
           if (hasLeveledUp) {
-            const user = await client.extras.fetchLevels(message.authorId, message.guildId!);
+            const user = await client.extras.fetchLevels(message.author.id, message.guildId!);
             if (!user) return;
 
             const schemas = await levelSchema.find({
@@ -71,7 +71,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
             if (schemas.length > 0) {
               const config = await client.extras.getEmbedConfig({
                 guild: (await client.cache.guilds.get(message.guildId!))!,
-                user: (await client.cache.users.get(message.authorId))!,
+                user: (await client.cache.users.get(message.author.id))!,
               });
 
               for (let i = 0; i < schemas.length; i++) {
@@ -95,7 +95,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
               }
             } else {
               client.helpers.sendMessage(message.channelId, {
-                content: `**GG** <@!${message.authorId}>, you are now level **${user.level}**!`,
+                content: `**GG** <@!${message.author.id}>, you are now level **${user.level}**!`,
               });
             }
 
@@ -103,7 +103,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
               { Guild: message.guildId, Level: user.level },
               async (err: any, data: { Role: BigString }) => {
                 if (data) {
-                  await client.helpers.addRole(message.guildId!, message.authorId, data.Role);
+                  await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
                 }
               },
             );
@@ -115,7 +115,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
   // Message tracker system
   if (!client.extras.botConfig.Disabled.includes('messages'))
     messagesSchema.findOne(
-      { Guild: message.guildId, User: message.authorId },
+      { Guild: message.guildId, User: message.author.id },
       async (err: any, data: { Messages: number; save: () => void }) => {
         if (data) {
           data.Messages += 1;
@@ -126,7 +126,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
             async (err: any, data: { Role: BigString }) => {
               if (data) {
                 try {
-                  await client.helpers.addRole(message.guildId!, message.authorId, data.Role);
+                  await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
                 } catch {
                   //prevent lint error
                 }
@@ -136,7 +136,7 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
         } else {
           new messagesSchema({
             Guild: message.guildId,
-            User: message.authorId,
+            User: message.author.id,
             Messages: 1,
           }).save();
         }
@@ -145,23 +145,23 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
 
   // AFK system
   if (!client.extras.botConfig.Disabled.includes('afk'))
-    afk.findOne({ Guild: message.guildId, User: message.authorId }, async (err: any, data: any) => {
+    afk.findOne({ Guild: message.guildId, User: message.author.id }, async (err: any, data: any) => {
       if (data) {
         await afk.deleteOne({
           Guild: message.guildId,
-          User: message.authorId,
+          User: message.author.id,
         });
 
         client.extras.simpleMessageEmbed(
           {
-            desc: `<@${message.authorId}> is no longer afk!`,
+            desc: `<@${message.author.id}> is no longer afk!`,
           },
           message,
         );
 
         if (message.member?.nick?.startsWith(`[AFK] `)) {
           const name = message.member?.nick?.replace(`[AFK] `, ``);
-          client.helpers.editMember(message.guildId!, message.authorId, {
+          client.helpers.editMember(message.guildId!, message.author.id, {
             nick: name,
           });
         }
@@ -222,20 +222,14 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
           //ignore error
         }
         const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(message.content)}&userId=${
-          message.authorId
+          message.author.id
         }&key=${process.env.apiKey}${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
           context2 ? `&context2=${context2}` : ''
         } ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
           context5 ? `&context5=${context5}` : ''
-        }${
-          context6 ? `&context6=${context6}` : ''
-        }${
-          context7 ? `&context7=${context7}` : ''
-        }${
+        }${context6 ? `&context6=${context6}` : ''}${context7 ? `&context7=${context7}` : ''}${
           context8 ? `&context8=${context8}` : ''
-        }${
-          context9 ? `&context9=${context9}` : ''
-        }`;
+        }${context9 ? `&context9=${context9}` : ''}`;
 
         const options = {
           method: 'GET',

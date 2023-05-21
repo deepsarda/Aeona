@@ -1,4 +1,4 @@
-import { Message } from 'discordeno/transformers';
+import { Message } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -22,7 +22,7 @@ export default async (client: AeonaBot, messageDeleted: Message) => {
         fields: [
           {
             name: `<:members:1063116392762712116> Author`,
-            value: `<@${messageDeleted.authorId}>`,
+            value: `<@${messageDeleted.author.id}>`,
           },
           {
             name: `🕒 Date`,

@@ -1,7 +1,7 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
 import { Blob } from 'buffer';
 import { Canvas, loadImage } from 'canvas';
-import { BigString } from 'discordeno/types';
+import { BigString } from '@discordeno/types';
 
 import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -68,10 +68,7 @@ export default {
     function translate(reference, location) {
       // translate relative polar coords to absolute x/y
       const rad = (location[ANGLE] * 2 * Math.PI) / 360.0;
-      return [
-        reference[X] + location[DISTANCE] * Math.sin(rad),
-        reference[Y] + location[DISTANCE] * Math.cos(rad),
-      ];
+      return [reference[X] + location[DISTANCE] * Math.sin(rad), reference[Y] + location[DISTANCE] * Math.cos(rad)];
     }
 
     function line(reference, location0, location1) {
@@ -149,10 +146,7 @@ export default {
 
     function draw(origin: [number, number], family_tree: family) {
       // draw a family tree relative to origin
-      const delta = [
-        360.0 / family_tree.width,
-        max([MIN_RADIAL_DISTANCE, family_tree.width * 2.0]),
-      ];
+      const delta = [360.0 / family_tree.width, max([MIN_RADIAL_DISTANCE, family_tree.width * 2.0])];
 
       let i;
       for (i = 1; i <= family_tree.depth; i++) {
@@ -206,9 +200,7 @@ async function getFamily(userId: BigString, client: AeonaBot): Promise<family> {
 
   return {
     name: user.username,
-    spouse: data.Partner
-      ? (await client.helpers.getUser(BigInt(data.Partner as string))).username
-      : undefined,
+    spouse: data.Partner ? (await client.helpers.getUser(BigInt(data.Partner as string))).username : undefined,
     children,
     width: 0,
     depth: 0,

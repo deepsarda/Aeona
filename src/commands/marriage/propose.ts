@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -26,10 +22,7 @@ export default {
     const author = ctx.user;
 
     if (author.id == target.id)
-      return client.extras.errNormal(
-        { error: 'You cannot marry yourself!', type: 'edit' },
-        ctx,
-      );
+      return client.extras.errNormal({ error: 'You cannot marry yourself!', type: 'edit' }, ctx);
 
     Schema.findOne({ Partner: `${author.id}` }, async (err: any, data: any) => {
       if (data) {
@@ -41,78 +34,71 @@ export default {
           ctx,
         );
       } else {
-        Schema.findOne(
-          { Partner: `${target.id}` },
-          async (err: any, data: any) => {
-            if (data) {
-              client.extras.errNormal(
-                {
-                  error: 'Someone in the couple is already married!',
-                  type: 'reply',
-                },
-                ctx,
-              );
-            } else {
-              Schema.findOne(
-                {
-                  User: `${target.id}`,
-                  Parent: `${author.id}`,
-                },
-                async (err: any, data: any) => {
-                  if (data) {
-                    client.extras.errNormal(
-                      {
-                        error: 'You cannot marry a family member!',
-                        type: 'reply',
-                      },
-                      ctx,
-                    );
-                  } else {
-                    Schema.findOne(
-                      {
-                        User: `${author.id}`,
-                        Parent: `${target.id}`,
-                      },
-                      async (err: any, data: any) => {
-                        if (data) {
-                          client.extras.errNormal(
-                            {
-                              error: 'You cannot marry a family member!',
-                              type: 'reply',
-                            },
-                            ctx,
-                          );
-                        } else {
-                          Schema.findOne(
-                            { User: `${author.id}` },
-                            async (err: any, data: { Children: bigint[] }) => {
-                              if (data) {
-                                if (data.Children.includes(target.id)) {
-                                  client.extras.errNormal(
-                                    {
-                                      error:
-                                        'You cannot marry a family member!',
-                                      type: 'reply',
-                                    },
-                                    ctx,
-                                  );
-                                } else {
-                                  propose();
-                                }
-                              } else {
-                                propose();
-                              }
-                            },
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
-              );
-            }
-          },
-        );
+        Schema.findOne({ Partner: `${target.id}` }, async (err: any, data: any) => {
+          if (data) {
+            client.extras.errNormal(
+              {
+                error: 'Someone in the couple is already married!',
+                type: 'reply',
+              },
+              ctx,
+            );
+          } else {
+            Schema.findOne(
+              {
+                User: `${target.id}`,
+                Parent: `${author.id}`,
+              },
+              async (err: any, data: any) => {
+                if (data) {
+                  client.extras.errNormal(
+                    {
+                      error: 'You cannot marry a family member!',
+                      type: 'reply',
+                    },
+                    ctx,
+                  );
+                } else {
+                  Schema.findOne(
+                    {
+                      User: `${author.id}`,
+                      Parent: `${target.id}`,
+                    },
+                    async (err: any, data: any) => {
+                      if (data) {
+                        client.extras.errNormal(
+                          {
+                            error: 'You cannot marry a family member!',
+                            type: 'reply',
+                          },
+                          ctx,
+                        );
+                      } else {
+                        Schema.findOne({ User: `${author.id}` }, async (err: any, data: { Children: bigint[] }) => {
+                          if (data) {
+                            if (data.Children.includes(target.id)) {
+                              client.extras.errNormal(
+                                {
+                                  error: 'You cannot marry a family member!',
+                                  type: 'reply',
+                                },
+                                ctx,
+                              );
+                            } else {
+                              propose();
+                            }
+                          } else {
+                            propose();
+                          }
+                        });
+                      }
+                    },
+                  );
+                }
+              },
+            );
+          }
+        });
       }
     });
 
@@ -136,7 +122,7 @@ export default {
         return i.user.id === target.id;
       };
 
-      client.amethystUtils
+      client.utils
         // @ts-ignore
         .awaitComponent(message.id, {
           filter,

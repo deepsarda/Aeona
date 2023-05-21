@@ -1,6 +1,6 @@
 import { DiscordHeader, DiscordMessages } from '@derockdev/discord-components-react';
 import { Async } from '@thereallonewolf/amethystframework';
-import { Channel, ChannelTypes, Message, Role, User } from 'discordeno';
+import { Channel, ChannelTypes, Message, Role, User,guildIconUrl } from '@discordeno/bot';
 import { readFileSync } from 'fs';
 import path from 'path';
 import React from 'react';
@@ -72,7 +72,7 @@ export default async function renderMessages(
         icon={
           channel.type == ChannelTypes.DM
             ? undefined
-            : bot.helpers.getGuildIconURL(
+            : guildIconUrl(
                 channel.guildId,
                 (await bot.cache.guilds.get(channel.guildId))!.icon,
                 {
@@ -141,7 +141,7 @@ export default async function renderMessages(
             options.favicon === 'guild'
               ? channel.type == ChannelTypes.DM
                 ? undefined
-                : bot.helpers.getGuildIconURL(
+                : guildIconUrl(
                     channel.guildId,
                     (await bot.cache.guilds.get(channel.guildId))!.icon,
                     {

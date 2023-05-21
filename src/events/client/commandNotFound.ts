@@ -1,5 +1,5 @@
 import { Point } from '@influxdata/influxdb-client';
-import { Message } from 'discordeno/transformers';
+import { Message } from '@discordeno/bot';
 import fetch from 'node-fetch';
 
 import chatBotSchema from '../../database/models/chatbot-channel.js';
@@ -12,7 +12,7 @@ export default async (bot: AeonaBot, message: Message, _commandName: string) => 
   const schema = await chatBotSchema.findOne({ Guild: message.guildId });
   if (schema) if (schema.Channel == `${message.channelId}`) return;
   const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(message.content)}&userId=${
-    message.authorId
+    message.author.id
   }&key=${process.env.apiKey}`;
 
   const options = {

@@ -1,12 +1,8 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import GTW from '../../database/models/guessWord.js';
 import { AeonaBot } from '../../extras/index.js';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 
 export default {
   name: 'guess-the-word',
@@ -65,40 +61,29 @@ export default {
         ctx,
       );
 
-      client.amethystUtils
+      client.utils
         .awaitComponent(message.id)
         .then(async (interaction) => {
-          if (
-            interaction.data?.customId == 'autocreate' ||
-            interaction.data?.customId == 'createconfig'
-          ) {
+          if (interaction.data?.customId == 'autocreate' || interaction.data?.customId == 'createconfig') {
             const premium = await client.extras.isPremium(ctx.guildId!);
 
             if (!premium && data.length > 0) {
-              await client.helpers.sendInteractionResponse(
-                interaction.id,
-                interaction.token,
-                {
-                  type: 4,
-                  data: {
-                    content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*`,
-                    flags: 1 << 6,
-                  },
+              await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                type: 4,
+                data: {
+                  content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*`,
+                  flags: 1 << 6,
                 },
-              );
+              });
               return sendMessage();
             } else if (premium && data.length > 8) {
-              await client.helpers.sendInteractionResponse(
-                interaction.id,
-                interaction.token,
-                {
-                  type: 4,
-                  data: {
-                    content: `Hello, despite the fact that this server is premium, you can only have a maximum of 8 systems owing to Discord ratelimits. Please accept my apologies for the inconvenience.`,
-                    flags: 1 << 6,
-                  },
+              await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                type: 4,
+                data: {
+                  content: `Hello, despite the fact that this server is premium, you can only have a maximum of 8 systems owing to Discord ratelimits. Please accept my apologies for the inconvenience.`,
+                  flags: 1 << 6,
                 },
-              );
+              });
               return sendMessage();
             }
           }
@@ -134,17 +119,13 @@ export default {
               },
               channel,
             );
-            await client.helpers.sendInteractionResponse(
-              interaction.id,
-              interaction.token,
-              {
-                type: 4,
-                data: {
-                  content: `I have successfully setup <#${channel.id}> as a guess the word channel.`,
-                  flags: 1 << 6,
-                },
+            await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+              type: 4,
+              data: {
+                content: `I have successfully setup <#${channel.id}> as a guess the word channel.`,
+                flags: 1 << 6,
               },
-            );
+            });
 
             return sendMessage();
           } else if (interaction.data?.customId == 'createconfig') {
@@ -153,17 +134,13 @@ export default {
 
             while (!success) {
               if (!invalidResponse) {
-                await client.helpers.sendInteractionResponse(
-                  interaction.id,
-                  interaction.token,
-                  {
-                    type: 4,
-                    data: {
-                      content: `Please mention the channel or send cancel to cancel the setup.`,
-                      flags: 1 << 6,
-                    },
+                await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                  type: 4,
+                  data: {
+                    content: `Please mention the channel or send cancel to cancel the setup.`,
+                    flags: 1 << 6,
                   },
-                );
+                });
               } else {
                 await client.helpers.editOriginalInteractionResponse(
                   interaction.token,
@@ -174,36 +151,25 @@ export default {
                 );
               }
 
-              const message = await client.amethystUtils
-                .awaitMessage(ctx.user!.id, ctx.channel!.id)
-                .catch();
+              const message = await client.utils.awaitMessage(ctx.user!.id, ctx.channel!.id).catch();
 
               if (!message) return;
 
               if (message.content.toLowerCase() == 'cancel') {
-                await client.helpers.sendInteractionResponse(
-                  interaction.id,
-                  interaction.token,
-                  {
-                    type: 4,
-                    data: {
-                      content: `Setup cancelled.`,
-                      flags: 1 << 6,
-                    },
+                await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                  type: 4,
+                  data: {
+                    content: `Setup cancelled.`,
+                    flags: 1 << 6,
                   },
-                );
+                });
                 return;
               }
 
-              if (
-                message.mentionedChannelIds &&
-                message.mentionedChannelIds.length > 0
-              ) {
+              if (message.mentionedChannelIds && message.mentionedChannelIds.length > 0) {
                 success = true;
 
-                client.helpers
-                  .deleteMessage(message.channelId, message.id)
-                  .catch();
+                client.helpers.deleteMessage(message.channelId, message.id).catch();
 
                 new GTW({
                   Guild: `${ctx.guildId}`,
@@ -228,16 +194,11 @@ export default {
                       },
                     ],
                   },
-                  (await client.cache.channels.get(
-                    message.mentionedChannelIds[0],
-                  ))!,
+                  (await client.cache.channels.get(message.mentionedChannelIds[0]))!,
                 );
                 await client.helpers.sendFollowupMessage(interaction.token, {
-                  type: 4,
-                  data: {
-                    content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
-                    flags: 1 << 6,
-                  },
+                  content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
+                  flags: 1 << 6,
                 });
               } else {
                 invalidResponse = true;
@@ -251,11 +212,7 @@ export default {
             const components = new Components();
 
             components.addButton('Set Channel', 'Primary', 'setchannel');
-            components.addButton(
-              'Delete this Setting',
-              'Danger',
-              'deleteconfig',
-            );
+            components.addButton('Delete this Setting', 'Danger', 'deleteconfig');
             const mes = await client.extras.embed(
               {
                 title: `System ${interaction.data.values![0]}`,
@@ -269,7 +226,7 @@ export default {
               ctx,
             );
 
-            client.amethystUtils
+            client.utils
               .awaitComponent(mes.id)
               .then(async (interaction) => {
                 if (interaction.data?.customId == 'setchannel') {
@@ -278,17 +235,13 @@ export default {
 
                   while (!success) {
                     if (!invalidResponse) {
-                      await client.helpers.sendInteractionResponse(
-                        interaction.id,
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `Please mention the channel or send cancel to cancel the setup.`,
-                            flags: 1 << 6,
-                          },
+                      await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                        type: 4,
+                        data: {
+                          content: `Please mention the channel or send cancel to cancel the setup.`,
+                          flags: 1 << 6,
                         },
-                      );
+                      });
                     } else {
                       await client.helpers.editOriginalInteractionResponse(
                         interaction.token,
@@ -299,35 +252,22 @@ export default {
                       );
                     }
 
-                    const message = await client.amethystUtils
-                      .awaitMessage(ctx.user!.id, ctx.channel!.id)
-                      .catch();
+                    const message = await client.utils.awaitMessage(ctx.user!.id, ctx.channel!.id).catch();
 
                     if (!message) return;
 
                     if (message.content.toLowerCase() == 'cancel') {
-                      await client.helpers.sendFollowupMessage(
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `Setup cancelled.`,
-                            flags: 1 << 6,
-                          },
-                        },
-                      );
+                      await client.helpers.sendFollowupMessage(interaction.token, {
+                        content: `Setup cancelled.`,
+                        flags: 1 << 6,
+                      });
                       return;
                     }
 
-                    if (
-                      message.mentionedChannelIds &&
-                      message.mentionedChannelIds.length > 0
-                    ) {
+                    if (message.mentionedChannelIds && message.mentionedChannelIds.length > 0) {
                       success = true;
 
-                      client.helpers
-                        .deleteMessage(message.channelId, message.id)
-                        .catch();
+                      client.helpers.deleteMessage(message.channelId, message.id).catch();
                       const word = schema.Word;
                       const shuffled = word
                         .split('')
@@ -347,23 +287,15 @@ export default {
                             },
                           ],
                         },
-                        (await client.cache.channels.get(
-                          message.mentionedChannelIds[0],
-                        ))!,
+                        (await client.cache.channels.get(message.mentionedChannelIds[0]))!,
                       );
                       schema.Channel = `${message.mentionedChannelIds[0]}`;
                       schema.save();
 
-                      await client.helpers.sendFollowupMessage(
-                        interaction.token,
-                        {
-                          type: 4,
-                          data: {
-                            content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
-                            flags: 1 << 6,
-                          },
-                        },
-                      );
+                      await client.helpers.sendFollowupMessage(interaction.token, {
+                        content: `I have successfully setup <#${message.mentionedChannelIds[0]}> as a guess the word channel.`,
+                        flags: 1 << 6,
+                      });
                     } else {
                       invalidResponse = true;
                     }
@@ -372,17 +304,13 @@ export default {
                   return sendMessage();
                 } else if (interaction.data?.customId == 'deleteconfig') {
                   schema.delete();
-                  await client.helpers.sendInteractionResponse(
-                    interaction.id,
-                    interaction.token,
-                    {
-                      type: 4,
-                      data: {
-                        content: `I have successfully deleted that config`,
-                        flags: 1 << 6,
-                      },
+                  await client.helpers.sendInteractionResponse(interaction.id, interaction.token, {
+                    type: 4,
+                    data: {
+                      content: `I have successfully deleted that config`,
+                      flags: 1 << 6,
                     },
-                  );
+                  });
 
                   return sendMessage();
                 }

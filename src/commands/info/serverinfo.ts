@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno';
+import { ChannelTypes, guildIconUrl } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -30,10 +30,7 @@ export default {
       {
         title: `Server Information`,
         desc: `Information about the server ${ctx.guild.name}`,
-        thumbnail: client.helpers.getGuildIconURL(
-          `${ctx.guild!.id}`,
-          ctx.guild.icon,
-        ),
+        thumbnail: guildIconUrl(`${ctx.guild!.id}`, ctx.guild.icon),
 
         fields: [
           {
@@ -69,64 +66,38 @@ export default {
 
           {
             name: 'Members:',
-            value: `${
-              ctx.guild.approximateMemberCount ?? ctx.guild.memberCount ?? 1
-            } members!`,
+            value: `${ctx.guild.approximateMemberCount ?? ctx.guild.memberCount ?? 1} members!`,
             inline: true,
           },
 
           {
             name: 'Text Channels: ',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.GuildText,
-              ).size
-            } channels!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildText).length} channels!`,
             inline: true,
           },
           {
             name: 'Voice Channels:',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.GuildVoice,
-              ).size
-            } channels!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildVoice).length} channels!`,
             inline: true,
           },
           {
             name: 'Stage Channels:',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.GuildStageVoice,
-              ).size
-            } channels!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildStageVoice).length} channels!`,
             inline: true,
           },
           {
             name: 'News Channels:',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.GuildAnnouncement,
-              ).size
-            } channels!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.GuildAnnouncement).length} channels!`,
             inline: true,
           },
           {
             name: 'Public Threads:',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.PublicThread,
-              ).size
-            } threads!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.PublicThread).length} threads!`,
             inline: true,
           },
           {
             name: 'Private Threads:',
-            value: `${
-              channels.filter(
-                (channel) => channel.type === ChannelTypes.PrivateThread,
-              ).size
-            } threads!`,
+            value: `${channels.filter((channel) => channel.type === ChannelTypes.PrivateThread).length} threads!`,
             inline: true,
           },
           {
@@ -141,9 +112,7 @@ export default {
           },
           {
             name: 'Sticker count:',
-            value: `${
-              (await client.helpers.getGuildStickers(ctx.guild!.id!)).size
-            } stickers`,
+            value: `${(await client.helpers.getGuildStickers(ctx.guild!.id!)).length} stickers`,
             inline: true,
           },
         ],

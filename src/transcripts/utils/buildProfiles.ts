@@ -1,7 +1,5 @@
 import { AmethystCollection } from '@thereallonewolf/amethystframework';
-import { BigString, Member, Message, User } from 'discordeno';
-import { BotWithCache } from 'discordeno/cache-plugin';
-import { highestRole } from 'discordeno/permissions-plugin';
+import { BigString, Member, Message, User, avatarUrl } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -22,13 +20,10 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
   // loop through messages
   for (const message of messages) {
     // add all users
-    const author = await bot.cache.users.get(message.authorId);
+    const author = await bot.cache.users.get(message.author.id);
     if (!profiles.has(author.id)) {
       // add profile
-      profiles.set(
-        `${author.id}`,
-        await buildProfile(bot, message.member!, author),
-      );
+      profiles.set(`${author.id}`, await buildProfile(bot, message.member!, author));
     }
 
     // add interaction users
@@ -40,18 +35,8 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
 
     // threads
     if (message.thread && message.thread.lastMessageId) {
-      const m = await bot.helpers.getMessage(
-        `${message.thread.id}`,
-        message.thread.lastMessageId,
-      );
-      profiles.set(
-        m.authorId,
-        await buildProfile(
-          bot,
-          m.member!,
-          await bot.helpers.getUser(m.authorId),
-        ),
-      );
+      const m = await bot.helpers.getMessage(`${message.thread.id}`, message.thread.lastMessageId);
+      profiles.set(m.author.id, await buildProfile(bot, m.member!, await bot.helpers.getUser(m.author.id)));
     }
   }
 
@@ -59,31 +44,16 @@ export async function buildProfiles(bot: AeonaBot, messages: Message[]) {
   return JSON.stringify(profiles);
 }
 
-async function buildProfile(
-  bot: AeonaBot,
-  member: Member | null,
-  author: User,
-): Promise<CustomUser> {
+async function buildProfile(bot: AeonaBot, member: Member | null, author: User): Promise<CustomUser> {
   const u: CustomUser = {
     author: member?.nick ?? author.username,
-    avatar: bot.helpers.getAvatarURL(`${author.id}`, author.discriminator, {
+    avatar: avatarUrl(`${author.id}`, author.discriminator, {
       avatar: member ? member.avatar : author.avatar,
       size: 64,
     }),
     bot: author.toggles.bot,
     verified: false,
   };
-
-  if (member) {
-    const role = highestRole(
-      bot as unknown as BotWithCache,
-      member.guildId,
-      author.id,
-    );
-
-    u.roleColor = rgbToHex(role.color);
-    u.roleIcon = `https://cdn.discordapp.com/role-icons/${role.id}/${role.icon}.png`;
-  }
 
   return u;
 }
@@ -96,10 +66,3 @@ type CustomUser = {
   bot: boolean;
   verified: boolean;
 };
-function rgbToHex(rgb: number) {
-  let hex = rgb.toString(16);
-  if (hex.length < 2) {
-    hex = `0${hex}`;
-  }
-  return `#${hex}`;
-}

@@ -1,5 +1,5 @@
 import { AmethystEmbed, Context } from '@thereallonewolf/amethystframework';
-import { ActionRow, Channel, Interaction, Message } from 'discordeno';
+import { ActionRow, Channel, Interaction, Message, avatarUrl } from '@discordeno/bot';
 
 import config from '../botconfig/bot.js';
 import Schema from '../database/models/guild.js';
@@ -152,14 +152,11 @@ export default (client: AeonaBot) => {
     if (interaction.guildId == undefined) interaction.guildId = 0n;
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (footer) embed.setFooter(footer);
@@ -214,14 +211,11 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
@@ -273,14 +267,11 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed().setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
@@ -333,14 +324,11 @@ export default (client: AeonaBot) => {
     if (config.colors.normal) embed.setColor(config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (footer) embed.setFooter(footer);
     if (url) embed.url = url;
@@ -379,9 +367,7 @@ export default (client: AeonaBot) => {
     embed.setTitle(`${client.extras.emotes.normal.check}・Success!`);
     embed.setDescription(`${text}`);
 
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     type = 'reply';
     return client.extras.sendEmbed(
       {
@@ -429,14 +415,11 @@ export default (client: AeonaBot) => {
     const embed = new AmethystEmbed();
     if (config.colors.normal) embed.setColor(config.colors.normal);
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields)
-      for (const field of fields)
-        embed.addField(field.name, field.value, field.inline);
+    if (fields) for (const field of fields) embed.addField(field.name, field.value, field.inline);
     if (author) embed.setAuthor(author.name!, author.iconURL);
     if (url) embed.url = url;
     if (color) embed.setColor(color);
@@ -480,17 +463,11 @@ export default (client: AeonaBot) => {
         try {
           if (embed.footer == undefined)
             embed.setFooter(
-              ctx.user
-                ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks`
-                : '',
+              ctx.user ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks` : '',
 
-              client.helpers.getAvatarURL(
-                ctx.user!.id,
-                ctx.user!.discriminator,
-                {
-                  avatar: ctx.user?.avatar,
-                },
-              ),
+              avatarUrl(ctx.user!.id, ctx.user!.discriminator, {
+                avatar: ctx.user?.avatar,
+              }),
             );
         } catch (e) {
           //
@@ -498,12 +475,7 @@ export default (client: AeonaBot) => {
       }
       // Generate a random number between 1 to 10;
       const randomNumber = Math.floor(Math.random() * 50);
-      content =
-        randomNumber == 0
-          ? (content ?? '') + s[0]
-          : randomNumber == 1
-          ? (content ?? '') + s[1]
-          : content;
+      content = randomNumber == 0 ? (content ?? '') + s[0] : randomNumber == 1 ? (content ?? '') + s[1] : content;
       if (type && type.toLowerCase() == 'reply' && ctx.replied) {
         const c = await ctx
           .reply({

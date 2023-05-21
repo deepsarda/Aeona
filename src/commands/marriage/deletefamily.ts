@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 
 import Schema from '../../database/models/family.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -31,7 +27,7 @@ export default {
 
     const filter = (bot, i: any) => i.user.id === ctx.user?.id;
 
-    client.amethystUtils
+    client.utils
       .awaitComponent(message.id, {
         filter,
         type: 'Button',
@@ -58,19 +54,13 @@ export default {
             partner.save();
           }
 
-          client.extras.succNormal(
-            { text: `Your family has been deleted!`, type: 'edit' },
-            ctx,
-          );
+          client.extras.succNormal({ text: `Your family has been deleted!`, type: 'edit' }, ctx);
         }
         if (!ctx.channel?.id) return;
         client.helpers.deleteMessage(`${ctx.channel?.id}`, `${message.id}`);
       })
       .catch((_err) => {
-        client.extras.errNormal(
-          { error: "Time's up! Cancelled backup loading!", type: 'edit' },
-          ctx,
-        );
+        client.extras.errNormal({ error: "Time's up! Cancelled backup loading!", type: 'edit' }, ctx);
       });
   },
 } as CommandOptions;

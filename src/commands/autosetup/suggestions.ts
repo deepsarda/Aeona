@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno';
+import { ChannelTypes } from '@discordeno/bot';
 
 import Suggestion from '../../database/models/suggestionChannels.js';
 import { AeonaBot } from '../../extras/index.js';

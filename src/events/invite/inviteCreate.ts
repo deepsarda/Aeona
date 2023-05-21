@@ -1,4 +1,4 @@
-import { Invite } from 'discordeno/transformers';
+import { Invite } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -18,9 +18,7 @@ export default async (client: AeonaBot, invite: Invite) => {
           },
           {
             name: `<:members:1063116392762712116> Inviter`,
-            value: `<@${
-              invite.inviter?.id
-            }> (${`${invite.inviter?.username}#${invite.inviter?.discriminator}`})`,
+            value: `<@${invite.inviter?.id}> (${`${invite.inviter?.username}#${invite.inviter?.discriminator}`})`,
           },
         ],
       },

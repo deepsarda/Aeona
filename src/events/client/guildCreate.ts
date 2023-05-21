@@ -1,5 +1,5 @@
 import { AmethystEmbed } from '@thereallonewolf/amethystframework';
-import { Guild } from 'discordeno/transformers';
+import { Guild } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 
@@ -26,7 +26,7 @@ export default async (client: AeonaBot, guild: Guild) => {
     if (guild.publicUpdatesChannelId) {
       const channel = guild.channels.get(guild.publicUpdatesChannelId);
       if (channel) {
-        client.helpers.followAnnouncementChannel('1057248837238009946', `${channel.id}`);
+        client.helpers.followAnnouncement('1057248837238009946', `${channel.id}`);
       }
     }
   }

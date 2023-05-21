@@ -27,15 +27,15 @@ export default {
 
     const role = await ctx.options.getRole('role', true);
     const reason = ctx.options.getLongString('reason') || `Not given`;
-    const members = (
-      await client.helpers.getMembers(ctx.guild.id, { limit: 1000 })
-    ).filter((member) => !member.user?.toggles.bot || true);
-    const seconds = Number(members.size) * 1500;
+    const members = (await client.helpers.getMembers(ctx.guild.id, { limit: 1000 })).filter(
+      (member) => !member.user?.toggles.bot || true,
+    );
+    const seconds = Number(members.length) * 1500;
 
     const message = await client.extras.embed(
       {
         title: 'Removing role from all humans.',
-        desc: `Removing <@&${role.id}> to ${members.size} members. \n I will take ${seconds} seconds to complete this operation`,
+        desc: `Removing <@&${role.id}> to ${members.length} members. \n I will take ${seconds} seconds to complete this operation`,
         type: 'reply',
       },
       ctx,
@@ -50,12 +50,12 @@ export default {
     });
 
     const interval = setInterval(() => {
-      if (success + failed == members.size) clearInterval(interval);
+      if (success + failed == members.length) clearInterval(interval);
 
       client.extras.editEmbed(
         {
           title: 'Removing role from all humans.',
-          desc: `Removing <@&${role.id}> to ${members.size} members. \n Successfully removed role from ${success} members. \n Failed to remove role from ${failed} members.`,
+          desc: `Removing <@&${role.id}> to ${members.length} members. \n Successfully removed role from ${success} members. \n Failed to remove role from ${failed} members.`,
         },
         message,
       );

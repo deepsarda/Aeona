@@ -40,7 +40,7 @@ export default async function (bot: AeonaBot) {
     for (let j = 0; j < dirs1.length; j++) {
       const a = await import(`../commands/${dir}/${dirs1[j]}`);
 
-      bot.amethystUtils.createCommand(a.default);
+      bot.utils.createCommand(a.default);
     }
   }
   console.log('Loaded '.cyan + 'commands'.yellow);

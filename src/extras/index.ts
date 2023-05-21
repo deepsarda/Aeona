@@ -1,6 +1,6 @@
 import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
-import { Channel, Role, VoiceState } from 'discordeno';
-import { BigString } from 'discordeno/types';
+import { Channel, Role, VoiceState } from '@discordeno/bot';
+import { BigString } from '@discordeno/types';
 
 import config from '../botconfig/bot.js';
 import GuildDB from '../database/models/guild.js';
@@ -35,7 +35,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     version: 'v0.2.0',
     botConfig: botConfig,
     webhook: async (content: any) => {
-      return await client.helpers.sendWebhookMessage(id as BigString, token, content);
+      return await client.helpers.executeWebhook(id as BigString, token, content);
     },
     startTime: new Date().getTime(),
     config: config,
@@ -166,7 +166,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
       });
 
       if (lb.length <= 10) return;
-      client.amethystUtils
+      client.utils
 
         .awaitComponent(msg.id, {
           timeout: 60_000,
@@ -227,7 +227,7 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
       const file = await createTranscript(client, channel);
 
       client.helpers.sendMessage(`${channel.id}`, {
-        file: file,
+        files: [file],
       });
     },
     async setXP(userId: bigint, guildId: bigint, xp: number) {

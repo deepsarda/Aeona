@@ -10,7 +10,7 @@ import React from 'react';
 import { calculateInlineIndex } from '../../utils/embeds.js';
 import renderContent, { RenderType } from './content.js';
 
-import type { Embed, Message } from 'discordeno';
+import type { Embed, Message } from '@discordeno/bot';
 
 import type { RenderMessageContext } from '..';
 type RenderEmbedContext = RenderMessageContext & {

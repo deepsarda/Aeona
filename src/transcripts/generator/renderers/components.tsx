@@ -1,5 +1,5 @@
 import { DiscordActionRow, DiscordButton } from '@derockdev/discord-components-react';
-import { ActionRow, ButtonStyles, MessageComponentTypes, TextStyles } from 'discordeno';
+import { ActionRow, ButtonStyles, MessageComponentTypes, TextStyles } from '@discordeno/bot';
 import React from 'react';
 import { parseDiscordEmoji } from '../../utils/utils.js';
 

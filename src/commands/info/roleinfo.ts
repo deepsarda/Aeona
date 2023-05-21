@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-
+import { guildIconUrl } from '@discordeno/bot';
 import { AeonaBot } from '../../extras/index.js';
 
 export default {
@@ -22,7 +22,7 @@ export default {
     client.extras.embed(
       {
         title: `ℹ️ Role information`,
-        thumbnail: client.helpers.getGuildIconURL(`${ctx.guild!.id}`, undefined),
+        thumbnail: guildIconUrl(`${ctx.guild!.id}`, undefined),
         desc: `Information about the role <@&${role.id}>`,
         fields: [
           {

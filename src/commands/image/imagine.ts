@@ -1,8 +1,4 @@
-import {
-  CommandOptions,
-  Components,
-  Context,
-} from '@thereallonewolf/amethystframework';
+import { CommandOptions, Components, Context } from '@thereallonewolf/amethystframework';
 import Filter from 'badwords-filter';
 import fetch from 'node-fetch';
 
@@ -158,7 +154,7 @@ export default {
 				},
 			});
 
-			const c = await client.amethystUtils.awaitComponent(msg.id, {
+			const c = await client.utils.awaitComponent(msg.id, {
 				filter: (bot, data) => data.user.id == ctx.author?.id,
 			});
 			await client.helpers.editMessage(ctx.channel.id, msg.id, {
@@ -286,9 +282,7 @@ export default {
 */
 
 async function query(prompt) {
-  const response = await fetch(
-    `http://localhost:8083/chatbot/image?prompt=${prompt}`,
-  );
+  const response = await fetch(`http://localhost:8083/chatbot/image?prompt=${prompt}`);
 
   return await response.json();
 }
@@ -333,8 +327,7 @@ export default {
       comp.addSelectComponent('Choose your style', 'style', [
         {
           label: 'accurate',
-          description:
-            'Generates the image most accurate to your prompt but will be less amazing.',
+          description: 'Generates the image most accurate to your prompt but will be less amazing.',
           value: 'accurate',
         },
         {
@@ -349,8 +342,7 @@ export default {
         },
         {
           label: 'photo',
-          description:
-            'One of the most accurate and best for real life images. Prefer this over accurate.',
+          description: 'One of the most accurate and best for real life images. Prefer this over accurate.',
           value: 'photo',
         },
         {
@@ -410,8 +402,7 @@ export default {
         },
         {
           label: 'comic',
-          description:
-            'Make your image in a comic strip style does not work all the time!',
+          description: 'Make your image in a comic strip style does not work all the time!',
           value: 'comic',
         },
         {
@@ -434,7 +425,7 @@ export default {
         })
       ).message!;
 
-      const c = await client.amethystUtils.awaitComponent(msg.id, {
+      const c = await client.utils.awaitComponent(msg.id, {
         filter: (bot, data) => data.user.id == ctx.author?.id,
       });
       await client.helpers.editMessage(ctx.channel.id, msg.id, {
@@ -450,8 +441,7 @@ export default {
             ' head and shoulders portrait, 8k resolution concept art portrait by Greg Rutkowski, Artgerm, WLOP, Alphonse Mucha dynamic lighting hyperdetailed intricately detailed Splash art trending on Artstation triadic colors Unreal Engine 5 volumetric lighting';
           break;
         case 'photo':
-          modifiers =
-            ' Professional photography, bokeh, natural lighting, megapixels sharp focus';
+          modifiers = ' Professional photography, bokeh, natural lighting, megapixels sharp focus';
           break;
         case 'fantasy':
           modifiers =
@@ -481,50 +471,44 @@ export default {
           modifiers = ' synthwave neon retro';
           break;
         case '3d':
-          modifiers =
-            ' trending on Artstation Unreal Engine 3D shading shadow depth';
+          modifiers = ' trending on Artstation Unreal Engine 3D shading shadow depth';
           break;
         case 'epic':
           modifiers =
             ' Epic cinematic brilliant stunning intricate meticulously detailed dramatic atmospheric maximalist digital matte painting';
           break;
         case 'comic':
-          modifiers =
-            ' Mark Brooks and Dan Mumford, comic book art, perfect, smooth';
+          modifiers = ' Mark Brooks and Dan Mumford, comic book art, perfect, smooth';
           break;
         case 'charcoal':
           modifiers = ' hyperdetailed charcoal drawing';
           break;
       }
 
-      query(`${prompt} dreamlikeart,${modifiers}`).then(
-        async (response: any) => {
-          client.helpers.deleteMessage(msg.channelId, msg.id);
-          client.helpers.sendMessage('1044575489118978068', {
-            content: `**User:**${ctx.user!.id} ${ctx.user!.username}#${
-              ctx.user!.discriminator
-            } \n **Guild:** ${ctx.guild!.name} ${
-              ctx.guildId
-            } \n**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
-            file: [
-              {
-                blob: response.response[0],
-                name: 'image1.jpg',
-              },
-            ],
-          });
+      query(`${prompt} dreamlikeart,${modifiers}`).then(async (response: any) => {
+        client.helpers.deleteMessage(msg.channelId, msg.id);
+        client.helpers.sendMessage('1044575489118978068', {
+          content: `**User:**${ctx.user!.id} ${ctx.user!.username}#${ctx.user!.discriminator} \n **Guild:** ${
+            ctx.guild!.name
+          } ${ctx.guildId} \n**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
+          files: [
+            {
+              blob: response.response[0],
+              name: 'image1.jpg',
+            },
+          ],
+        });
 
-          client.helpers.sendMessage(ctx.channel?.id!, {
-            content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
-            file: [
-              {
-                blob: response.response[0],
-                name: 'image1.jpg',
-              },
-            ],
-          });
-        },
-      );
+        client.helpers.sendMessage(ctx.channel?.id!, {
+          content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
+          files: [
+            {
+              blob: response.response[0],
+              name: 'image1.jpg',
+            },
+          ],
+        });
+      });
     } catch (e) {
       console.log(`Imagine Error: ${e}`);
     }

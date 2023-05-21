@@ -1,5 +1,5 @@
 import { DiscordAttachment, DiscordAttachments } from '@derockdev/discord-components-react';
-import { Attachment, Message } from 'discordeno';
+import { Attachment, Message } from '@discordeno/bot';
 import React from 'react';
 
 import { downloadImageToDataURL, formatBytes } from '../../utils/utils.js';

@@ -1,4 +1,4 @@
-import { Sticker } from 'discordeno/transformers';
+import { Sticker } from '@discordeno/bot';
 
 import { AeonaBot } from '../../extras/index.js';
 

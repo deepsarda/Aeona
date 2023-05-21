@@ -1,5 +1,5 @@
 import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
-import { ChannelTypes } from 'discordeno/types';
+import { ChannelTypes } from '@discordeno/types';
 
 import Schema from '../../database/models/stats.js';
 import { AeonaBot } from '../../extras/index.js';
@@ -15,10 +15,7 @@ export default {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
     let channelName = await client.extras.getTemplate(ctx.guild!.id);
     channelName = channelName.replace(`{emoji}`, '💎');
-    channelName = channelName.replace(
-      `{name}`,
-      `Boosts: ${ctx.guild.premiumSubscriptionCount || '0'}`,
-    );
+    channelName = channelName.replace(`{name}`, `Boosts: ${ctx.guild.premiumSubscriptionCount || '0'}`);
     client.helpers
       .createChannel(ctx.guild!.id, {
         name: channelName,
