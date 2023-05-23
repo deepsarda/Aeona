@@ -33,7 +33,7 @@ if (!id) {
 }
 
 process.on("unhandledRejection", (error: Error) => {
-  console.error(JSON.stringfy(error));
+  console.error(JSON.stringify(error));
 });
 
 process.on("warning", (warn) => {
