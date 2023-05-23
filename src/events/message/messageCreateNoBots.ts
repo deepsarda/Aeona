@@ -1,27 +1,30 @@
-import { Point } from '@influxdata/influxdb-client';
-import { Components } from '@thereallonewolf/amethystframework';
-import Filter from 'badwords-filter';
-import { BigString, Message } from '@discordeno/bot';
-import fetch from 'node-fetch';
+import { Point } from "@influxdata/influxdb-client";
+import { Components } from "@thereallonewolf/amethystframework";
+import Filter from "badwords-filter";
+import { BigString, Message } from "@discordeno/bot";
+import fetch from "node-fetch";
 
-import afk from '../../database/models/afk.js';
-import chatBotSchema from '../../database/models/chatbot-channel.js';
-import GuildDB from '../../database/models/guild.js';
-import levelSchema from '../../database/models/levelChannels.js';
-import levelRewards from '../../database/models/levelRewards.js';
-import messageRewards from '../../database/models/messageRewards.js';
-import messagesSchema from '../../database/models/messages.js';
-import Schema from '../../database/models/stickymessages.js';
-import { AeonaBot } from '../../extras/index.js';
-import badwords from '../../Collection/badwords.js';
+import afk from "../../database/models/afk.js";
+import chatBotSchema from "../../database/models/chatbot-channel.js";
+import GuildDB from "../../database/models/guild.js";
+import levelSchema from "../../database/models/levelChannels.js";
+import levelRewards from "../../database/models/levelRewards.js";
+import messageRewards from "../../database/models/messageRewards.js";
+import messagesSchema from "../../database/models/messages.js";
+import Schema from "../../database/models/stickymessages.js";
+import { AeonaBot } from "../../extras/index.js";
+import badwords from "../../Collection/badwords.js";
 
 const filter = new Filter({
   list: badwords,
-  cleanWith: '$',
+  cleanWith: "$",
   useRegex: true,
 });
 export default async (client: AeonaBot, message: Message) => {
-  if (message.content == `<@!${client.user?.id}>` || message.content == `<@${client.user?.id}>`) {
+  if (
+    message.content == `<@!${client.user?.id}>` ||
+    message.content == `<@${client.user?.id}>`
+  ) {
     let guild = await GuildDB.findOne({
       Guild: message.guildId,
     });
@@ -50,71 +53,89 @@ Use \`${guild.Prefix}imagine <prompt>\`
 
 Use the  \`${guild.Prefix}help\` to see all my commands.`,
       },
-      message,
+      message
     );
   }
   // Levels
-  if (!client.extras.botConfig.Disabled.includes('levels'))
-    GuildDB.findOne({ Guild: message.guildId }, async (err: any, data: { Levels: boolean }) => {
-      if (data) {
-        if (data.Levels == true) {
-          const randomXP = Math.floor(Math.random() * 9) + 1;
-          const hasLeveledUp = await client.extras.addXP(message.author.id, message.guildId!, randomXP);
+  if (!client.extras.botConfig.Disabled.includes("levels"))
+    GuildDB.findOne(
+      { Guild: message.guildId },
+      async (err: any, data: { Levels: boolean }) => {
+        if (data) {
+          if (data.Levels == true) {
+            const randomXP = Math.floor(Math.random() * 9) + 1;
+            const hasLeveledUp = await client.extras.addXP(
+              message.author.id,
+              message.guildId!,
+              randomXP
+            );
 
-          if (hasLeveledUp) {
-            const user = await client.extras.fetchLevels(message.author.id, message.guildId!);
-            if (!user) return;
+            if (hasLeveledUp) {
+              const user = await client.extras.fetchLevels(
+                message.author.id,
+                message.guildId!
+              );
+              if (!user) return;
 
-            const schemas = await levelSchema.find({
-              Guild: message.guildId,
-            });
-            if (schemas.length > 0) {
-              const config = await client.extras.getEmbedConfig({
-                guild: (await client.cache.guilds.get(message.guildId!))!,
-                user: (await client.cache.users.get(message.author.id))!,
+              const schemas = await levelSchema.find({
+                Guild: message.guildId,
               });
+              if (schemas.length > 0) {
+                const config = await client.extras.getEmbedConfig({
+                  guild: (await client.cache.guilds.get(message.guildId!))!,
+                  user: (await client.cache.users.get(message.author.id))!,
+                });
 
-              for (let i = 0; i < schemas.length; i++) {
-                const schema = schemas[i];
+                for (let i = 0; i < schemas.length; i++) {
+                  const schema = schemas[i];
 
-                let message = {
-                  content: '**GG** {user:mention}, you are now level **{user:level}**!',
-                };
+                  let message = {
+                    content:
+                      "**GG** {user:mention}, you are now level **{user:level}**!",
+                  };
 
-                if (schema.Message) {
-                  try {
-                    message = JSON.parse(schema.Message);
-                  } catch (e) {
-                    //
+                  if (schema.Message) {
+                    try {
+                      message = JSON.parse(schema.Message);
+                    } catch (e) {
+                      //
+                    }
+                  }
+                  if (schema.Channel)
+                    client.helpers
+                      .sendMessage(
+                        schema.Channel,
+                        client.extras.generateEmbedFromData(config, message)
+                      )
+                      .catch();
+                }
+              } else {
+                client.helpers.sendMessage(message.channelId, {
+                  content: `**GG** <@!${message.author.id}>, you are now level **${user.level}**!`,
+                });
+              }
+
+              levelRewards.findOne(
+                { Guild: message.guildId, Level: user.level },
+                async (err: any, data: { Role: BigString }) => {
+                  if (data) {
+                    await client.helpers.addRole(
+                      message.guildId!,
+                      message.author.id,
+                      data.Role
+                    );
                   }
                 }
-                if (schema.Channel)
-                  client.helpers
-                    .sendMessage(schema.Channel, client.extras.generateEmbedFromData(config, message))
-                    .catch();
-              }
-            } else {
-              client.helpers.sendMessage(message.channelId, {
-                content: `**GG** <@!${message.author.id}>, you are now level **${user.level}**!`,
-              });
+              );
             }
-
-            levelRewards.findOne(
-              { Guild: message.guildId, Level: user.level },
-              async (err: any, data: { Role: BigString }) => {
-                if (data) {
-                  await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
-                }
-              },
-            );
           }
         }
       }
-    });
+    );
 
   // Message tracker system
   try {
-    if (!client.extras.botConfig.Disabled.includes('messages'))
+    if (!client.extras.botConfig.Disabled.includes("messages"))
       messagesSchema.findOne(
         { Guild: message.guildId, User: message.author.id },
         async (err: any, data: { Messages: number; save: () => void }) => {
@@ -127,12 +148,16 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
               async (err: any, data: { Role: BigString }) => {
                 if (data) {
                   try {
-                    await client.helpers.addRole(message.guildId!, message.author.id, data.Role);
+                    await client.helpers.addRole(
+                      message.guildId!,
+                      message.author.id,
+                      data.Role
+                    );
                   } catch {
                     //prevent lint error
                   }
                 }
-              },
+              }
             );
           } else {
             new messagesSchema({
@@ -141,169 +166,203 @@ Use the  \`${guild.Prefix}help\` to see all my commands.`,
               Messages: 1,
             }).save();
           }
-        },
+        }
       );
   } catch (e) {
     console.log(message);
   }
 
   // AFK system
-  if (!client.extras.botConfig.Disabled.includes('afk'))
-    afk.findOne({ Guild: message.guildId, User: message.author.id }, async (err: any, data: any) => {
-      if (data) {
-        await afk.deleteOne({
-          Guild: message.guildId,
-          User: message.author.id,
-        });
-
-        client.extras.simpleMessageEmbed(
-          {
-            desc: `<@${message.author.id}> is no longer afk!`,
-          },
-          message,
-        );
-
-        if (message.member?.nick?.startsWith(`[AFK] `)) {
-          const name = message.member?.nick?.replace(`[AFK] `, ``);
-          client.helpers.editMember(message.guildId!, message.author.id, {
-            nick: name,
+  if (!client.extras.botConfig.Disabled.includes("afk"))
+    afk.findOne(
+      { Guild: message.guildId, User: message.author.id },
+      async (err: any, data: any) => {
+        if (data) {
+          await afk.deleteOne({
+            Guild: message.guildId,
+            User: message.author.id,
           });
+
+          client.extras.simpleMessageEmbed(
+            {
+              desc: `<@${message.author.id}> is no longer afk!`,
+            },
+            message
+          );
+
+          if (message.member?.nick?.startsWith(`[AFK] `)) {
+            const name = message.member?.nick?.replace(`[AFK] `, ``);
+            client.helpers.editMember(message.guildId!, message.author.id, {
+              nick: name,
+            });
+          }
         }
       }
-    });
-  if (!client.extras.botConfig.Disabled.includes('afk'))
+    );
+  if (!client.extras.botConfig.Disabled.includes("afk"))
     message.mentionedUserIds.forEach(async (u) => {
-      if (!message.content.includes('@here') && !message.content.includes('@everyone')) {
-        afk.findOne({ Guild: message.guildId, User: u }, async (err: any, data: { Message: any }) => {
-          if (data) {
-            client.extras.simpleMessageEmbed(
-              {
-                desc: `<@${u}> is currently afk! **Reason:** ${data.Message}`,
-              },
-              message,
-            );
+      if (
+        !message.content.includes("@here") &&
+        !message.content.includes("@everyone")
+      ) {
+        afk.findOne(
+          { Guild: message.guildId, User: u },
+          async (err: any, data: { Message: any }) => {
+            if (data) {
+              client.extras.simpleMessageEmbed(
+                {
+                  desc: `<@${u}> is currently afk! **Reason:** ${data.Message}`,
+                },
+                message
+              );
+            }
           }
-        });
+        );
       }
     });
 
   // Chat bot
-  if (!client.extras.botConfig.Disabled.includes('chatbot'))
+  if (!client.extras.botConfig.Disabled.includes("chatbot"))
     if (message.content)
-      chatBotSchema.findOne({ Guild: `${message.guildId}`, Channel: `${message.channelId}` }, async (err, data) => {
-        if (!data) return;
+      chatBotSchema.findOne(
+        { Guild: `${message.guildId}`, Channel: `${message.channelId}` },
+        async (err, data) => {
+          if (!data) return;
 
-        if (message.channelId != data.Channel) return;
-        const msgs: Message[] = Array.from(
-          (
-            await client.helpers.getMessages(message.channelId, {
-              limit: 11,
-            })
-          ).values(),
-        ).sort((a, b) => b.timestamp - a.timestamp);
-        let context;
-        let context1;
-        let context2;
-        let context3;
-        let context4;
-        let context5;
-        let context6;
-        let context7;
-        let context8;
-        let context9;
-        try {
-          context = msgs[1].content;
-          context1 = msgs[2].content;
-          context2 = msgs[3].content;
-          context3 = msgs[4].content;
-          context4 = msgs[5].content;
-          context5 = msgs[6].content;
-          context6 = msgs[7].content;
-          context7 = msgs[8].content;
-          context8 = msgs[9].content;
-          context9 = msgs[10].content;
-        } catch (e) {
-          //ignore error
-        }
-        const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(message.content)}&userId=${
-          message.author.id
-        }&key=${process.env.apiKey}${context ? `&context=${context}` : ''}${context1 ? `&context1=${context1}` : ''} ${
-          context2 ? `&context2=${context2}` : ''
-        } ${context3 ? `&context3=${context3}` : ''} ${context4 ? `&context4=${context4}` : ''} ${
-          context5 ? `&context5=${context5}` : ''
-        }${context6 ? `&context6=${context6}` : ''}${context7 ? `&context7=${context7}` : ''}${
-          context8 ? `&context8=${context8}` : ''
-        }${context9 ? `&context9=${context9}` : ''}`;
+          if (message.channelId != data.Channel) return;
+          const msgs: Message[] = Array.from(
+            (
+              await client.helpers.getMessages(message.channelId, {
+                limit: 11,
+              })
+            ).values()
+          ).sort((a, b) => b.timestamp - a.timestamp);
+          let context;
+          let context1;
+          let context2;
+          let context3;
+          let context4;
+          let context5;
+          let context6;
+          let context7;
+          let context8;
+          let context9;
+          try {
+            context = msgs[1].content;
+            context1 = msgs[2].content;
+            context2 = msgs[3].content;
+            context3 = msgs[4].content;
+            context4 = msgs[5].content;
+            context5 = msgs[6].content;
+            context6 = msgs[7].content;
+            context7 = msgs[8].content;
+            context8 = msgs[9].content;
+            context9 = msgs[10].content;
+          } catch (e) {
+            //ignore error
+          }
+          const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(
+            message.content
+          )}&userId=${message.author.id}&key=${process.env.apiKey}${
+            context ? `&context=${context}` : ""
+          }${context1 ? `&context1=${context1}` : ""} ${
+            context2 ? `&context2=${context2}` : ""
+          } ${context3 ? `&context3=${context3}` : ""} ${
+            context4 ? `&context4=${context4}` : ""
+          } ${context5 ? `&context5=${context5}` : ""}${
+            context6 ? `&context6=${context6}` : ""
+          }${context7 ? `&context7=${context7}` : ""}${
+            context8 ? `&context8=${context8}` : ""
+          }${context9 ? `&context9=${context9}` : ""}`;
 
-        const options = {
-          method: 'GET',
-        };
+          const options = {
+            method: "GET",
+          };
 
-        fetch(url, options)
-          .then((res) => res.text())
-          .then(async (json) => {
-            client.extras.influx?.writePoint(
-              new Point('commands').tag('action', 'addition').tag('command', 'chatbot').intField('value', 1),
-            );
+          fetch(url, options)
+            .then((res) => res.text())
+            .then(async (json) => {
+              client.extras.influx?.writePoint(
+                new Point("commands")
+                  .tag("action", "addition")
+                  .tag("command", "chatbot")
+                  .intField("value", 1)
+              );
 
-            let s = [
-              '\n discord.gg/W8hssA32C9',
-              '\n To get a chance to win Discord Nitro for 1 month, take part in my competition. To know more see `/info competition` \n ',
-            ];
-            let guild = await GuildDB.findOne({
-              Guild: message.guildId,
-            });
-            if (!guild) guild = new GuildDB({ Guild: message.guildId });
-            if (guild.isPremium === 'true') s = ['', ''];
-            console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
-            const randomNumber = Math.floor(Math.random() * 30);
-            json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
-            let component: any[] = [];
-            if (guild.chatbotFilter) {
-              if (filter.isUnclean(json)) {
-                const c = new Components();
-                c.addButton('Why $$$$?', 'Secondary', 'profane');
-                component = c;
-                json = filter.clean(json);
+              let s = [
+                "\n discord.gg/W8hssA32C9",
+                "\n To get a chance to win Discord Nitro for 1 month, take part in my competition. To know more see `/info competition` \n ",
+              ];
+              let guild = await GuildDB.findOne({
+                Guild: message.guildId,
+              });
+              if (!guild) guild = new GuildDB({ Guild: message.guildId });
+              if (guild.isPremium === "true") s = ["", ""];
+              console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
+              const randomNumber = Math.floor(Math.random() * 30);
+              json =
+                randomNumber == 0
+                  ? (json ?? "") + s[0]
+                  : randomNumber == 1
+                  ? (json ?? "") + s[1]
+                  : json;
+              let component: any[] = [];
+              if (guild.chatbotFilter) {
+                if (filter.isUnclean(json)) {
+                  const c = new Components();
+                  c.addButton("Why $$$$?", "Secondary", "profane");
+                  component = c;
+                  json = filter.clean(json);
+                }
               }
-            }
-            client.helpers.sendMessage(message.channelId, {
-              content: json,
-              components: component,
-              messageReference: {
-                channelId: message.channelId,
-                messageId: `${message.id}`,
-                guildId: message.guildId,
-                failIfNotExists: true,
-              },
-              allowedMentions: {
-                parse: [],
-                repliedUser: true,
-              },
-            });
+              client.helpers.sendMessage(message.channelId, {
+                content: json,
+                components: component,
+                messageReference: {
+                  channelId: message.channelId,
+                  messageId: `${message.id}`,
+                  guildId: message.guildId,
+                  failIfNotExists: true,
+                },
+                allowedMentions: {
+                  parse: [],
+                  repliedUser: true,
+                },
+              });
 
-            client.extras.influx?.writePoint(
-              new Point('commandruncount').tag('action', 'addition').intField('usage', 1),
-            );
-          })
-          .catch();
-      });
+              client.extras.influx?.writePoint(
+                new Point("commandruncount")
+                  .tag("action", "addition")
+                  .intField("usage", 1)
+              );
+            });
+        }
+      );
   // Sticky messages
   try {
     Schema.findOne(
       { Guild: message.guildId, Channel: message.channelId },
-      async (err: any, data: { LastMessage: any; Content: any; save: () => void }) => {
+      async (
+        err: any,
+        data: { LastMessage: any; Content: any; save: () => void }
+      ) => {
         if (!data) return;
 
-        const lastStickyMessage = await client.helpers.getMessage(message.channelId, data.LastMessage);
+        const lastStickyMessage = await client.helpers.getMessage(
+          message.channelId,
+          data.LastMessage
+        );
         if (!lastStickyMessage) return;
         client.helpers.deleteMessage(message.channelId, data.LastMessage);
 
-        const newMessage = await client.extras.simpleMessageEmbed({ desc: `${data.Content}` }, message);
+        const newMessage = await client.extras.simpleMessageEmbed(
+          { desc: `${data.Content}` },
+          message
+        );
 
         data.LastMessage = newMessage.id;
         data.save();
-      },
+      }
     );
   } catch {
     //prevent lint error
