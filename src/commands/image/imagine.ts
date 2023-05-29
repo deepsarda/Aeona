@@ -485,8 +485,8 @@ export default {
           break;
       }
 
-      query(`${prompt} dreamlikeart,${modifiers}`).then(async (response: any) => {
-        client.helpers.deleteMessage(msg.channelId, msg.id);
+      query(`${prompt},${modifiers}`).then(async (response: any) => {
+        console.log(response.response[0])
         client.helpers.sendMessage('1044575489118978068', {
           content: `**User:**${ctx.user!.id} ${ctx.user!.username}#${ctx.user!.discriminator} \n **Guild:** ${
             ctx.guild!.name
