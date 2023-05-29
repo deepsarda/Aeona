@@ -516,13 +516,26 @@ export default {
           files: [
             {
               blob: response.response[0],
-              name: 'image1.jpg',
+              name: 'image1.png',
+            },
+             {
+              blob: response.response[1],
+              name: 'image2.png',
+            },
+             {
+              blob: response.response[2],
+              name: 'image3.png',
+            },
+             {
+              blob: response.response[3],
+              name: 'image4.png',
             },
           ],
         });
       });
     } catch (e) {
-      console.log(`Imagine Error: ${e}`);
+      console.log(`Imagine Error:`);
+      console.error(e);
     }
   },
 } as CommandOptions;
