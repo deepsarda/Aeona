@@ -46,14 +46,14 @@ export default {
 
       const data = await rankCard.build({});
       ctx.reply({
-        file: [
+        files: client.extras.findFiles([
           {
             name: 'image.png',
             blob: new Blob([data], {
               type: 'image/png',
             }),
           },
-        ],
+        ]),
       });
     } else {
       client.extras.errNormal(

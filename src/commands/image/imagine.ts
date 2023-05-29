@@ -5,6 +5,7 @@ import fetch from 'node-fetch';
 import GuildDB from '../../database/models/guild.js';
 import { AeonaBot } from '../../extras/index.js';
 import badwords from '../../Collection/badwords.js';
+
 const filter = new Filter({
   list: badwords,
   useRegex: true,
@@ -486,51 +487,51 @@ export default {
       }
 
       query(`${prompt},${modifiers}`).then(async (response: any) => {
-        console.log(response.response[0])
+        console.log(response.response[0]);
         client.helpers.sendMessage('1044575489118978068', {
           content: `**User:**${ctx.user!.id} ${ctx.user!.username}#${ctx.user!.discriminator} \n **Guild:** ${
             ctx.guild!.name
           } ${ctx.guildId} \n**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
-          files: [
+          files: client.extras.findFiles([
             {
               blob: response.response[0],
               name: 'image1.png',
             },
-             {
+            {
               blob: response.response[1],
               name: 'image2.png',
             },
-             {
+            {
               blob: response.response[2],
               name: 'image3.png',
             },
-             {
+            {
               blob: response.response[3],
               name: 'image4.png',
             },
-          ],
+          ]),
         });
 
         client.helpers.sendMessage(ctx.channel?.id!, {
           content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
-          files: [
+          files: client.extras.findFiles([
             {
               blob: response.response[0],
               name: 'image1.png',
             },
-             {
+            {
               blob: response.response[1],
               name: 'image2.png',
             },
-             {
+            {
               blob: response.response[2],
               name: 'image3.png',
             },
-             {
+            {
               blob: response.response[3],
               name: 'image4.png',
             },
-          ],
+          ]),
         });
       });
     } catch (e) {

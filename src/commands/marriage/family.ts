@@ -159,12 +159,12 @@ export default {
     draw([SIZE[0] / 2, SIZE[1] / 2], json);
 
     context.reply({
-      file: [
+      file: client.extras.findFiles([
         {
           blob: dataURItoBlob(canvas.toDataURL()),
           name: 'family.png',
         },
-      ],
+      ]),
     });
   },
 } as CommandOptions;

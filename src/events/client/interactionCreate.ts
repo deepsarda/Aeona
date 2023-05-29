@@ -79,13 +79,13 @@ export default async (client: AeonaBot, interaction: Interaction) => {
       }
       client.helpers
         .sendMessage(interaction.channelId!, {
-          files: [
+          files: client.extras.findFiles([
             {
               //@ts-ignore
               blob: dataURItoBlob(captcha.dataURL),
               name: 'captcha.jpeg',
             },
-          ],
+          ]),
         })
         .then(verifyUser);
     } else {

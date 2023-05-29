@@ -1,5 +1,5 @@
 import { AmethystBot, AmethystCollection, Components, Context } from '@thereallonewolf/amethystframework';
-import { Channel, Role, VoiceState } from '@discordeno/bot';
+import { Channel, Role, VoiceState, FileContent, decode } from '@discordeno/bot';
 import { BigString } from '@discordeno/types';
 
 import config from '../botconfig/bot.js';
@@ -50,6 +50,41 @@ export function additionalProps(botConfig: Config, client: AeonaBot) {
     triviaManager: new Map(),
     queue: new Map(),
     voiceStates: new AmethystCollection<string, VoiceState>(),
+    findFiles(file: unknown): FileContent[] {
+      if (!file) {
+        return [];
+      }
+
+      const files: unknown[] = Array.isArray(file) ? file : [file];
+      return files.filter(client.extras.coerceToFileContent);
+    },
+
+    coerceToFileContent(value: unknown): value is FileContent {
+      if (!value || typeof value !== 'object') {
+        return false;
+      }
+
+      const file = value as Record<string, unknown>;
+      if (typeof file.name !== 'string') {
+        return false;
+      }
+
+      switch (typeof file.blob) {
+        case 'string': {
+          const match = file.blob.match(/^data:(?<mimeType>[a-zA-Z0-9/]*);base64,(?<content>.*)$/);
+          if (match?.groups === undefined) {
+            return false;
+          }
+          const { mimeType, content } = match.groups;
+          file.blob = new Blob([decode(content)], { type: mimeType });
+          return true;
+        }
+        case 'object':
+          return file.blob instanceof Blob;
+        default:
+          return false;
+      }
+    },
     capitalizeFirstLetter: (string: string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
