@@ -507,24 +507,29 @@ export default {
           ]),
         });
 
-        client.helpers.sendMessage(ctx.channel?.id!, {
+        ctx.editReply({
           content: `**Prompt:** ${prompt}\n **Mode:** ${c.data?.values![0]}`,
           files: client.extras.findFiles([
             {
               blob: response.response[0],
               name: 'image1.png',
             },
+          ]),
+        });
+
+        ctx.reply({
+          files: client.extras.findFiles([
             {
               blob: response.response[1],
-              name: 'image2.png',
-            },
-            {
-              blob: response.response[2],
               name: 'image3.png',
             },
+          ]),
+        });
+        ctx.reply({
+          files: client.extras.findFiles([
             {
-              blob: response.response[3],
-              name: 'image4.png',
+              blob: response.response[2],
+              name: 'image2.png',
             },
           ]),
         });
