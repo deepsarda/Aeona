@@ -10,8 +10,10 @@ export default async (client: AeonaBot) => {
 
       if (data) {
         console.log('Clock Data Lenght: ', data.length);
-        data.forEach(async (d) => {
-          if (!d.TimeZone || !d.Time || !d.Guild) return;
+        for(let i =0; i<data.length;i++){
+        {
+          const d = data[i];
+          if (!d.TimeZone || !d.Time || !d.Guild) continue;
           try {
             const timeNow = moment()
               .tz(getTimezone(d.TimeZone))
@@ -25,11 +27,13 @@ export default async (client: AeonaBot) => {
                 .editChannel(d.Time, {
                   name: channelName,
                 })
-                .catch();
+                .catch(e=>{
+                  if(e.message.includes('404')) d.delete();
+                });
             }
           } catch (err) {//
           }
-        });
+        }
       }
     } catch (e) {
       //
