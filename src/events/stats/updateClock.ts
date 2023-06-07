@@ -10,28 +10,28 @@ export default async (client: AeonaBot) => {
 
       if (data) {
         console.log('Clock Data Lenght: ', data.length);
-        for(let i =0; i<data.length;i++){
-        {
-          const d = data[i];
-          if (!d.TimeZone || !d.Time || !d.Guild) continue;
-          try {
-            const timeNow = moment()
-              .tz(getTimezone(d.TimeZone))
-              .format('HH:mm (z)');
-            const guild = await client.cache.guilds.get(BigInt(d.Guild));
-            if (guild) {
-              let channelName = await client.extras.getTemplate(guild?.id!);
-              channelName = channelName.replace(`{emoji}`, '⏰');
-              channelName = channelName.replace(`{name}`, `${timeNow}`);
-              client.helpers
-                .editChannel(d.Time, {
-                  name: channelName,
-                })
-                .catch(e=>{
-                  if(e.message.includes('404')) d.delete();
-                });
+        for (let i = 0; i < data.length; i++) {
+          {
+            const d = data[i];
+            if (!d.TimeZone || !d.Time || !d.Guild) continue;
+            try {
+              const timeNow = moment().tz(getTimezone(d.TimeZone)).format('HH:mm (z)');
+              const guild = await client.cache.guilds.get(BigInt(d.Guild));
+              if (guild) {
+                let channelName = await client.extras.getTemplate(guild?.id!);
+                channelName = channelName.replace(`{emoji}`, '⏰');
+                channelName = channelName.replace(`{name}`, `${timeNow}`);
+                client.helpers
+                  .editChannel(d.Time, {
+                    name: channelName,
+                  })
+                  .catch((e) => {
+                    if (e.message.includes('404')) d.delete();
+                  });
+              }
+            } catch (err) {
+              //
             }
-          } catch (err) {//
           }
         }
       }
@@ -64,13 +64,7 @@ const timezones = [
     offset: -10,
     isdst: false,
     text: '(UTC-10:00) Hawaii',
-    utc: [
-      'Etc/GMT+10',
-      'Pacific/Honolulu',
-      'Pacific/Johnston',
-      'Pacific/Rarotonga',
-      'Pacific/Tahiti',
-    ],
+    utc: ['Etc/GMT+10', 'Pacific/Honolulu', 'Pacific/Johnston', 'Pacific/Rarotonga', 'Pacific/Tahiti'],
   },
   {
     value: 'Alaskan Standard Time',
@@ -78,13 +72,7 @@ const timezones = [
     offset: -8,
     isdst: true,
     text: '(UTC-09:00) Alaska',
-    utc: [
-      'America/Anchorage',
-      'America/Juneau',
-      'America/Nome',
-      'America/Sitka',
-      'America/Yakutat',
-    ],
+    utc: ['America/Anchorage', 'America/Juneau', 'America/Nome', 'America/Sitka', 'America/Yakutat'],
   },
   {
     value: 'Pacific Standard Time (Mexico)',
@@ -108,12 +96,7 @@ const timezones = [
     offset: -8,
     isdst: false,
     text: '(UTC-08:00) Pacific Standard Time (US & Canada)',
-    utc: [
-      'America/Los_Angeles',
-      'America/Tijuana',
-      'America/Vancouver',
-      'PST8PDT',
-    ],
+    utc: ['America/Los_Angeles', 'America/Tijuana', 'America/Vancouver', 'PST8PDT'],
   },
   {
     value: 'US Mountain Standard Time',
@@ -201,13 +184,7 @@ const timezones = [
     offset: -5,
     isdst: true,
     text: '(UTC-06:00) Guadalajara, Mexico City, Monterrey',
-    utc: [
-      'America/Bahia_Banderas',
-      'America/Cancun',
-      'America/Merida',
-      'America/Mexico_City',
-      'America/Monterrey',
-    ],
+    utc: ['America/Bahia_Banderas', 'America/Cancun', 'America/Merida', 'America/Mexico_City', 'America/Monterrey'],
   },
   {
     value: 'Canada Central Standard Time',
@@ -292,11 +269,7 @@ const timezones = [
     offset: -5,
     isdst: false,
     text: '(UTC-05:00) Indiana (East)',
-    utc: [
-      'America/Indiana/Marengo',
-      'America/Indiana/Vevay',
-      'America/Indianapolis',
-    ],
+    utc: ['America/Indiana/Marengo', 'America/Indiana/Vevay', 'America/Indianapolis'],
   },
   {
     value: 'Venezuela Standard Time',
@@ -519,12 +492,7 @@ const timezones = [
     offset: 0,
     isdst: false,
     text: '(UTC) Edinburgh, London',
-    utc: [
-      'Europe/Isle_of_Man',
-      'Europe/Guernsey',
-      'Europe/Jersey',
-      'Europe/London',
-    ],
+    utc: ['Europe/Isle_of_Man', 'Europe/Guernsey', 'Europe/Jersey', 'Europe/London'],
   },
   {
     value: 'British Summer Time',
@@ -532,12 +500,7 @@ const timezones = [
     offset: 1,
     isdst: true,
     text: '(UTC+01:00) Edinburgh, London',
-    utc: [
-      'Europe/Isle_of_Man',
-      'Europe/Guernsey',
-      'Europe/Jersey',
-      'Europe/London',
-    ],
+    utc: ['Europe/Isle_of_Man', 'Europe/Guernsey', 'Europe/Jersey', 'Europe/London'],
   },
   {
     value: 'GMT Standard Time',
@@ -545,13 +508,7 @@ const timezones = [
     offset: 1,
     isdst: true,
     text: '(UTC) Dublin, Lisbon',
-    utc: [
-      'Atlantic/Canary',
-      'Atlantic/Faeroe',
-      'Atlantic/Madeira',
-      'Europe/Dublin',
-      'Europe/Lisbon',
-    ],
+    utc: ['Atlantic/Canary', 'Atlantic/Faeroe', 'Atlantic/Madeira', 'Europe/Dublin', 'Europe/Lisbon'],
   },
   {
     value: 'Greenwich Standard Time',
@@ -625,13 +582,7 @@ const timezones = [
     offset: 2,
     isdst: true,
     text: '(UTC+01:00) Brussels, Copenhagen, Madrid, Paris',
-    utc: [
-      'Africa/Ceuta',
-      'Europe/Brussels',
-      'Europe/Copenhagen',
-      'Europe/Madrid',
-      'Europe/Paris',
-    ],
+    utc: ['Africa/Ceuta', 'Europe/Brussels', 'Europe/Copenhagen', 'Europe/Madrid', 'Europe/Paris'],
   },
   {
     value: 'Central European Standard Time',
@@ -678,12 +629,7 @@ const timezones = [
     offset: 3,
     isdst: true,
     text: '(UTC+02:00) Athens, Bucharest',
-    utc: [
-      'Asia/Nicosia',
-      'Europe/Athens',
-      'Europe/Bucharest',
-      'Europe/Chisinau',
-    ],
+    utc: ['Asia/Nicosia', 'Europe/Athens', 'Europe/Bucharest', 'Europe/Chisinau'],
   },
   {
     value: 'Middle East Standard Time',
@@ -825,13 +771,7 @@ const timezones = [
     offset: 3,
     isdst: false,
     text: '(UTC+03:00) Kuwait, Riyadh',
-    utc: [
-      'Asia/Aden',
-      'Asia/Bahrain',
-      'Asia/Kuwait',
-      'Asia/Qatar',
-      'Asia/Riyadh',
-    ],
+    utc: ['Asia/Aden', 'Asia/Bahrain', 'Asia/Kuwait', 'Asia/Qatar', 'Asia/Riyadh'],
   },
   {
     value: 'E. Africa Standard Time',
@@ -862,13 +802,7 @@ const timezones = [
     offset: 3,
     isdst: false,
     text: '(UTC+03:00) Moscow, St. Petersburg, Volgograd, Minsk',
-    utc: [
-      'Europe/Kirov',
-      'Europe/Moscow',
-      'Europe/Simferopol',
-      'Europe/Volgograd',
-      'Europe/Minsk',
-    ],
+    utc: ['Europe/Kirov', 'Europe/Moscow', 'Europe/Simferopol', 'Europe/Volgograd', 'Europe/Minsk'],
   },
   {
     value: 'Samara Time',
@@ -1123,13 +1057,7 @@ const timezones = [
     offset: 9,
     isdst: false,
     text: '(UTC+09:00) Osaka, Sapporo, Tokyo',
-    utc: [
-      'Asia/Dili',
-      'Asia/Jayapura',
-      'Asia/Tokyo',
-      'Etc/GMT-9',
-      'Pacific/Palau',
-    ],
+    utc: ['Asia/Dili', 'Asia/Jayapura', 'Asia/Tokyo', 'Etc/GMT-9', 'Pacific/Palau'],
   },
   {
     value: 'Korea Standard Time',
@@ -1265,12 +1193,7 @@ const timezones = [
     offset: 12,
     isdst: false,
     text: '(UTC+12:00) Magadan',
-    utc: [
-      'Asia/Anadyr',
-      'Asia/Kamchatka',
-      'Asia/Magadan',
-      'Asia/Srednekolymsk',
-    ],
+    utc: ['Asia/Anadyr', 'Asia/Kamchatka', 'Asia/Magadan', 'Asia/Srednekolymsk'],
   },
   {
     value: 'Kamchatka Standard Time',
@@ -1286,12 +1209,7 @@ const timezones = [
     offset: 13,
     isdst: false,
     text: "(UTC+13:00) Nuku'alofa",
-    utc: [
-      'Etc/GMT-13',
-      'Pacific/Enderbury',
-      'Pacific/Fakaofo',
-      'Pacific/Tongatapu',
-    ],
+    utc: ['Etc/GMT-13', 'Pacific/Enderbury', 'Pacific/Fakaofo', 'Pacific/Tongatapu'],
   },
   {
     value: 'Samoa Standard Time',
