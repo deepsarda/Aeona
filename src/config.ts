@@ -8,7 +8,7 @@ export const configs = {
     Disabled: [],
     website: {
       CLIENT_SECRET: process.env.CLIENT_SECRET,
-      port: 2053,
+      port: 8080,
       url: "https://www.aeonabot.xyz",
       enabled: true,
     },
