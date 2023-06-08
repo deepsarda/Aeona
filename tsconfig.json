@@ -1,32 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "build",
+    "rootDir": "src",
+    "strict": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "allowUnusedLabels": false,
-    "noImplicitOverride": true,
-    "noUnusedLocals": true,
-    "noUncheckedIndexedAccess": true,
-    "stripInternal": true,
-    "noFallthroughCasesInSwitch": true,
-    "useUnknownInCatchVariables": false,
-    "allowUnreachableCode": false,
+
     "skipLibCheck": true,
-    "jsx": "react",
-    "moduleResolution": "node"
+    "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "./src/**/*",
-    ".env"
-  ],
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node",
-    "swc": true
-  }
+  "exclude": ["build", "node_modules"]
 }
