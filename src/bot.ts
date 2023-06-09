@@ -76,6 +76,7 @@ const bot: AeonaBot = new Client({
   },
   shards: getInfo().SHARD_LIST,
   shardCount: getInfo().TOTAL_SHARDS,
+  botId: config.name,
 });
 
 bot.config = config;
