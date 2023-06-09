@@ -5,11 +5,9 @@ import {
   ComponentType,
   EmbedBuilder,
   Guild,
-  HexColorString,
   Interaction,
   Message,
   MessageActionRowComponentBuilder,
-  SelectMenuBuilder,
   StringSelectMenuBuilder,
   User,
 } from "discord.js";

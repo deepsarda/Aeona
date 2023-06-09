@@ -1600,6 +1600,11 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dotenv@^16.1.4:
+  version "16.1.4"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.1.4.tgz"
+  integrity sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==
+
 each@1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/each/-/each-1.2.1.tgz"

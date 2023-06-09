@@ -11,7 +11,7 @@
     "dev": "ts-node-esm src/index.ts",
     "start": "node build/index.js",
     "watch": "nodemon --exec ts-node-esm src/index.ts",
-    "run:lint": "eslint . --fix",
+    "run:lint": "eslint ./src --fix",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "discord-hybrid-sharding": "github:meister03/discord-hybrid-sharding",
     "discord.js": "^14.11.0",
     "discordx": "^11.7.6",
+    "dotenv": "^16.1.4",
     "mongodb-memory-server": "^8.12.2",
     "mongoose": "^7.2.2",
     "recachegoose": "^9.2.0"

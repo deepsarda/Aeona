@@ -1,12 +1,12 @@
-import GuildDB from "../database/models/guild.js";
-import levels from "../database/models/levels.js";
-import Schema from "../database/models/logChannels.js";
-import Stats from "../database/models/stats.js";
-import ticketChannels from "../database/models/ticketChannels.js";
-import ticketSchema from "../database/models/tickets.js";
-import embeds from "./embed.js";
-import { InfluxDB } from "@influxdata/influxdb-client";
-import { AeonaBot } from "./types.js";
+import GuildDB from '../database/models/guild.js';
+import levels from '../database/models/levels.js';
+import Schema from '../database/models/logChannels.js';
+import Stats from '../database/models/stats.js';
+import ticketChannels from '../database/models/ticketChannels.js';
+import ticketSchema from '../database/models/tickets.js';
+import embeds from './embed.js';
+import { InfluxDB } from '@influxdata/influxdb-client';
+import { AeonaBot } from './types.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -17,25 +17,19 @@ import {
   MessageActionRowComponentBuilder,
   Role,
   TextChannel,
-} from "discord.js";
-import { SimpleCommandMessage } from "discordx";
-import { createTranscript } from "discord-html-transcripts";
+} from 'discord.js';
+import { SimpleCommandMessage } from 'discordx';
+import { createTranscript } from 'discord-html-transcripts';
 
 const INFLUX_ORG = process.env.INFLUX_ORG as string;
 const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
 const INFLUX_URL = process.env.INFLUX_URL as string;
-const influxDB =
-  INFLUX_URL && INFLUX_TOKEN
-    ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN })
-    : undefined;
+const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 
-const parts = process.env.WEBHOOKURL!.split("/");
-const token = parts.pop() || "";
-const id = parts.pop();
 export function additionalProps(client: AeonaBot) {
   return {
-    version: "v0.2.0",
+    version: 'v0.2.0',
     ...embeds(client),
     influxQuery: influxDB?.getQueryApi(INFLUX_ORG),
     influx: influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET),
@@ -45,11 +39,11 @@ export function additionalProps(client: AeonaBot) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
     buttonReactions(id: any, reactions: any[]) {
-      let labels: ButtonBuilder[] = [];
+      const labels: ButtonBuilder[] = [];
       let comp: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
 
       reactions.map((emoji) => {
-        let btn = new ButtonBuilder()
+        const btn = new ButtonBuilder()
           .setStyle(ButtonStyle.Secondary)
           .setEmoji(`${emoji}`)
           .setCustomId(`reaction_button-${emoji}`);
@@ -132,19 +126,12 @@ export function additionalProps(client: AeonaBot) {
         guildDB = new GuildDB({
           Guild: `${guildId}`,
         });
-      return guildDB.isPremium === "true";
+      return guildDB.isPremium === 'true';
     },
-    async createChannelSetup(
-      Schema: any,
-      channel: Channel,
-      interaction: CommandInteraction | SimpleCommandMessage
-    ) {
+    async createChannelSetup(Schema: any, channel: Channel, interaction: CommandInteraction | SimpleCommandMessage) {
       Schema.findOne(
         {
-          Guild:
-            interaction instanceof CommandInteraction
-              ? interaction.guildId
-              : interaction.message.guildId,
+          Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
         },
         async (err: any, data: { Channel: string; save: () => void }) => {
           if (data) {
@@ -152,19 +139,16 @@ export function additionalProps(client: AeonaBot) {
             data.save();
           } else {
             new Schema({
-              Guild:
-                interaction instanceof CommandInteraction
-                  ? interaction.guildId
-                  : interaction.message.guildId,
+              Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
               Channel: `${channel.id}`,
             }).save();
           }
-        }
+        },
       );
 
       client.extras.embed(
         {
-          title: "Successful!",
+          title: 'Successful!',
           desc: `Channel has been set up successfully! \n **[To learn how to use me read my documentation](https://docs.aeona.xyz/)**`,
           fields: [
             {
@@ -172,22 +156,15 @@ export function additionalProps(client: AeonaBot) {
               value: `<#${channel.id}> (${channel.id})`,
             },
           ],
-          type: "reply",
+          type: 'reply',
         },
-        interaction
+        interaction,
       );
     },
-    async createRoleSetup(
-      Schema: any,
-      role: Role,
-      interaction: CommandInteraction | SimpleCommandMessage
-    ) {
+    async createRoleSetup(Schema: any, role: Role, interaction: CommandInteraction | SimpleCommandMessage) {
       Schema.findOne(
         {
-          Guild:
-            interaction instanceof CommandInteraction
-              ? interaction.guildId
-              : interaction.message.guildId,
+          Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
         },
         async (err: any, data: { Role: string; save: () => void }) => {
           if (data) {
@@ -195,14 +172,11 @@ export function additionalProps(client: AeonaBot) {
             data.save();
           } else {
             new Schema({
-              Guild:
-                interaction instanceof CommandInteraction
-                  ? interaction.guildId
-                  : interaction.message.guildId,
+              Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
               Role: `${role.id}`,
             }).save();
           }
-        }
+        },
       );
 
       client.extras.embed(
@@ -215,19 +189,16 @@ export function additionalProps(client: AeonaBot) {
               value: `<@&${role.id}> (${role.id})`,
             },
           ],
-          type: "reply",
+          type: 'reply',
         },
-        interaction
+        interaction,
       );
     },
     async generateEmbed(start: any, end: number, lb: any[], title: any) {
       const current = lb.slice(start, end + 10);
-      const result = current.join("\n");
+      const result = current.join('\n');
 
-      const embed = client.extras
-        .templateEmbed()
-        .setTitle(`${title}`)
-        .setDescription(`${result.toString()}`);
+      const embed = client.extras.templateEmbed().setTitle(`${title}`).setDescription(`${result.toString()}`);
 
       return embed;
     },
@@ -236,7 +207,7 @@ export function additionalProps(client: AeonaBot) {
       title: any,
       lb: any[],
       interaction: Interaction | SimpleCommandMessage,
-      currentIndex?: number
+      currentIndex?: number,
     ) {
       if (!currentIndex) currentIndex = 0;
       let btn1 = true;
@@ -247,34 +218,24 @@ export function additionalProps(client: AeonaBot) {
       const comp = new ActionRowBuilder<MessageActionRowComponentBuilder>();
       comp.addComponents(
         new ButtonBuilder()
-          .setLabel("Previous")
+          .setLabel('Previous')
           .setStyle(ButtonStyle.Secondary)
-          .setCustomId("back_button")
-          .setEmoji("1049292169535561819")
+          .setCustomId('back_button')
+          .setEmoji('1049292169535561819')
           .setDisabled(btn1),
         new ButtonBuilder()
-          .setLabel("Next")
+          .setLabel('Next')
           .setStyle(ButtonStyle.Secondary)
-          .setCustomId("forward_button")
-          .setEmoji("1049292172479955024")
-          .setDisabled(btn2)
+          .setCustomId('forward_button')
+          .setEmoji('1049292172479955024')
+          .setDisabled(btn2),
       );
 
-      const channel =
-        interaction instanceof SimpleCommandMessage
-          ? interaction.message.channel
-          : interaction.channel;
+      const channel = interaction instanceof SimpleCommandMessage ? interaction.message.channel : interaction.channel;
       if (!channel) return;
 
       const msg = await channel?.send({
-        embeds: [
-          await client.extras.generateEmbed(
-            currentIndex,
-            currentIndex,
-            lb,
-            title
-          ),
-        ],
+        embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
         components: [comp],
       });
 
@@ -286,9 +247,7 @@ export function additionalProps(client: AeonaBot) {
         .then(async (btn) => {
           if (!currentIndex) return;
 
-          btn.customId === "back_button"
-            ? (currentIndex -= 10)
-            : (currentIndex += 10);
+          btn.customId === 'back_button' ? (currentIndex -= 10) : (currentIndex += 10);
           client.extras.createLeaderboard(title, lb, interaction, currentIndex);
         })
         .catch((err) => {
@@ -307,32 +266,20 @@ export function additionalProps(client: AeonaBot) {
         return `{emoji} {name}`;
       }
     },
-    async getTicketData(
-      interaction: CommandInteraction | SimpleCommandMessage
-    ) {
+    async getTicketData(interaction: CommandInteraction | SimpleCommandMessage) {
       const ticketData = await ticketSchema.findOne({
-        Guild:
-          interaction instanceof CommandInteraction
-            ? interaction.guildId
-            : interaction.message.guildId,
+        Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
       });
       if (!ticketData) return false;
 
       return ticketData;
     },
 
-    async getChannelTicket(
-      interaction: CommandInteraction | SimpleCommandMessage
-    ) {
+    async getChannelTicket(interaction: CommandInteraction | SimpleCommandMessage) {
       const ticketChannelData = await ticketChannels.findOne({
-        Guild:
-          interaction instanceof CommandInteraction
-            ? interaction.guildId
-            : interaction.message.guildId,
+        Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
         channelID: `${
-          interaction instanceof CommandInteraction
-            ? interaction.channelId
-            : interaction.message.channelId
+          interaction instanceof CommandInteraction ? interaction.channelId : interaction.message.channelId
         }`,
       });
       return ticketChannelData;
@@ -340,14 +287,9 @@ export function additionalProps(client: AeonaBot) {
 
     async isTicket(interaction: CommandInteraction | SimpleCommandMessage) {
       const ticketChannelData = await ticketChannels.findOne({
-        Guild:
-          interaction instanceof CommandInteraction
-            ? interaction.guildId
-            : interaction.message.guildId,
+        Guild: interaction instanceof CommandInteraction ? interaction.guildId : interaction.message.guildId,
         channelID: `${
-          interaction instanceof CommandInteraction
-            ? interaction.channelId
-            : interaction.message.channelId
+          interaction instanceof CommandInteraction ? interaction.channelId : interaction.message.channelId
         }`,
       });
 
@@ -359,7 +301,7 @@ export function additionalProps(client: AeonaBot) {
 
     async transcript(client: AeonaBot, channel: TextChannel) {
       const file = await createTranscript(channel, {
-        footerText: "Transcript by Aeona",
+        footerText: 'Transcript by Aeona',
         poweredBy: false,
       });
 
@@ -447,16 +389,14 @@ export function additionalProps(client: AeonaBot) {
           .find({
             guildID: guildId,
           })
-          .sort([["xp", -1]])
+          .sort([['xp', -1]])
           .exec();
 
-        userReturn.position =
-          leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
+        userReturn.position = leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
       }
 
       userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
-      userReturn.cleanNextLevelXp =
-        client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
+      userReturn.cleanNextLevelXp = client.extras.xpFor(user.level + 1) - client.extras.xpFor(user.level);
       return userReturn;
     },
 
