@@ -1,10 +1,11 @@
-import type { ArgsOf, Client } from "discordx";
+import type { ArgsOf } from "discordx";
 import { Discord, On } from "discordx";
+import { AeonaBot } from "../utils/types";
 
 @Discord()
-export class Example {
+export class Common {
   @On()
-  messageDelete([message]: ArgsOf<"messageDelete">, client: Client): void {
+  messageDelete([message]: ArgsOf<"messageDelete">, client: AeonaBot): void {
     console.log("Message Deleted", client.user?.username, message.content);
   }
 }

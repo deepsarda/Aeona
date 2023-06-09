@@ -8,5 +8,6 @@ yarn.lock
 # folders
 build
 node_modules
-configs/
+configs/*
 !configs/example.json
+aeona/*
