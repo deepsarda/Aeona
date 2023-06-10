@@ -2017,6 +2017,13 @@ highlight.js@^11.6.0:
   resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-11.8.0.tgz"
   integrity sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==
 
+hmfull@^2.4.3:
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/hmfull/-/hmfull-2.4.3.tgz"
+  integrity sha512-nHEUKYK5fnLW1e64Tya5+HlK4vzedoPtGf9Ox7eE8NNDkjSs+yljSHMMTrp4AvscnfYnU5ZtqNeLKH2edkSzoA==
+  dependencies:
+    node-fetch "^2.6.1"
+
 https-proxy-agent@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz"
@@ -2419,7 +2426,7 @@ new-find-package-json@^2.0.0:
   dependencies:
     debug "^4.3.4"
 
-node-fetch@^2.6.7:
+node-fetch@^2.6.1, node-fetch@^2.6.7:
   version "2.6.11"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.11.tgz"
   integrity sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==

@@ -26,6 +26,7 @@
     "discord.js": "^14.11.0",
     "discordx": "^11.7.6",
     "dotenv": "^16.1.4",
+    "hmfull": "^2.4.3",
     "mongodb-memory-server": "^8.12.2",
     "mongoose": "^7.2.2",
     "recachegoose": "^9.2.0"
