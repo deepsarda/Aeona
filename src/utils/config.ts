@@ -15,7 +15,9 @@ export function getConfig(nameOrToken: string) {
 }
 
 export function getPluginsBot(pluginname: string) {
-  return configs
+  const botNames = configs
     .filter((config) => !config.disabledPlugins.includes(pluginname.toLowerCase()))
     ?.map((config) => config.name);
+  botNames.push(pluginname.toLowerCase());
+  return botNames;
 }

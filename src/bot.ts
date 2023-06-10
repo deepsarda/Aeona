@@ -1,7 +1,7 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
 import { IntentsBitField } from 'discord.js';
-import { Client } from 'discordx';
+import { Client, MetadataStorage } from 'discordx';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { AeonaBot } from './utils/types.js';
 import { connect } from './database/connect.js';
@@ -91,8 +91,9 @@ bot.on('messageCreate', (message: Message) => {
 
 async function run() {
   await importx(`${dirname(import.meta.url)}/{events,commands}/**/*.{ts,js}`);
-
-  await bot.login(config.token);
+  MetadataStorage.instance.build().then(() => {
+    bot.login(config.token);
+  });
 }
 connect();
 run();
