@@ -90,7 +90,7 @@ bot.on('messageCreate', (message: Message) => {
 });
 
 async function run() {
-  await importx(`${dirname(import.meta.url)}/{events,commands}/**/*.{ts,js}`);
+  await importx(`${dirname(import.meta.url)}/{events,plugins}/**/*.{ts,js}`);
   MetadataStorage.instance.build().then(() => {
     bot.login(config.token);
   });
