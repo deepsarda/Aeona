@@ -16,7 +16,7 @@ dotenv.config();
 const config = getConfig(process.env.DISCORD_TOKEN!)!;
 
 //@ts-expect-error
-const bot: AeonaBot = new Client({
+export const bot: AeonaBot = new Client({
   intents: [
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.MessageContent,

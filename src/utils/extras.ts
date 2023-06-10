@@ -206,7 +206,7 @@ export function additionalProps(client: AeonaBot) {
     async createLeaderboard(
       title: any,
       lb: any[],
-      interaction: Interaction | SimpleCommandMessage,
+      interaction: Interaction | SimpleCommandMessage | CommandInteraction,
       currentIndex?: number,
     ) {
       if (!currentIndex) currentIndex = 0;
@@ -221,13 +221,13 @@ export function additionalProps(client: AeonaBot) {
           .setLabel('Previous')
           .setStyle(ButtonStyle.Secondary)
           .setCustomId('back_button')
-          .setEmoji('1049292169535561819')
+
           .setDisabled(btn1),
         new ButtonBuilder()
           .setLabel('Next')
           .setStyle(ButtonStyle.Secondary)
           .setCustomId('forward_button')
-          .setEmoji('1049292172479955024')
+
           .setDisabled(btn2),
       );
 
