@@ -127,9 +127,12 @@ for (const printFunction in builtins) {
     try {
       const message = [...arguments]
         .reduce((accumulator, current) => `${accumulator}  ${current} `, '')
-        .replace(/\s+$/, '');
-
-      bot.cluster!.send({ log: message });
+        .replace(/\s+$/, '')
+        .toString()
+        .split('\n');
+      for (const line of message) {
+        bot.cluster!.send({ log: line });
+      }
     } catch (e) {
       console.error(e);
     }
