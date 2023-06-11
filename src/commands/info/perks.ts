@@ -1,22 +1,20 @@
-import { CommandOptions, Context } from '@thereallonewolf/amethystframework';
+import { CommandOptions, Context } from "@thereallonewolf/amethystframework";
 
-import { AeonaBot } from '../../extras/index.js';
+import { AeonaBot } from "../../extras/index.js";
 
 export default {
-  name: 'perks',
-  description: 'See all the perks of premium',
-  commandType: ['application', 'message'],
-  category: 'info',
+  name: "perks",
+  description: "See all the perks of premium",
+  commandType: ["application", "message"],
+  category: "info",
   args: [],
   async execute(client: AeonaBot, ctx: Context) {
     if (!ctx.guild || !ctx.user || !ctx.channel) return;
 
-   
-
     client.extras.embed(
       {
         title: `:AeonicDevelopment: Aeona Premium`,
-        desc:`
+        desc: `
 With this you get:
 • Removes all Aeonic Development Branding
 • Access to beta features & news
@@ -36,12 +34,12 @@ With this you get:
 • Ability to setup **guess the number** in up to \`8\` channels.
 • Ability to setup **guess the word** in up to \`8\` channels.
 
-You can get premium for just **$2.99** at [https://patreon.com/aeonicdiscord](https://patreon.com/aeonicdiscord) \n **or** \n *boost our [support server](https://www.aeona.xyz/support)*. \n Use \`+perks\` to see all the perks of premium.
+You can get premium for just **$2.99** at [https://patreon.com/aeonapatreon](https://patreon.com/aeonapatreon) \n **or** \n *boost our [support server](https://www.aeona.xyz/support)*. \n Use \`+perks\` to see all the perks of premium.
 `,
-      
-        type: 'reply',
+
+        type: "reply",
       },
-      ctx,
+      ctx
     );
   },
 } as CommandOptions;
