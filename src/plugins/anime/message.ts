@@ -582,4 +582,290 @@ export class Anime {
       command,
     );
   }
+
+  @SimpleCommand({
+    name: 'blush',
+    description: 'Show your blush! 💗',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async blush(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `Awww you made ${ctx.author.username} blush 💗`,
+        image: (await hmfull.HMtai.sfw.blush()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'cry',
+    description: 'Spread your tears. 😢',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async cry(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is crying 😢`,
+        image: (await hmfull.HMtai.sfw.cry()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'dance',
+    description: 'Show off your dancing! 💃',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async dance(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is dancing 💃`,
+        image: (await hmfull.HMtai.sfw.dance()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'happy',
+    description: 'Show off your happiness! 🥰',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async happy(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is very very happy 🥰`,
+        image: (await hmfull.HMtai.sfw.happy()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'like',
+    description: 'Show your approval! 🤩',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async like(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} lkked that 🤩 `,
+        image: (await hmfull.HMtai.sfw.like()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'nom',
+    description: 'Nom Nom! 🍔',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async nom(command: SimpleCommandMessage) {
+    bot.extras.embed(
+      {
+        title: `Nom Nom 🍔`,
+        image: (await hmfull.HMtai.sfw.nom()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @SimpleCommand({
+    name: 'nosebleed',
+    description: 'Whoa what a nosebleed! 🤬',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async nosebleed(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} has a nosebleed 🤬`,
+        image: (await hmfull.HMtai.sfw.nosebleed()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'sad',
+    description: 'Show your sadness! 😭',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async sad(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is sad. 😭`,
+        image: (await hmfull.HMtai.sfw.cry()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'sleep',
+    description: 'Is is bed time already?? 😴',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async sleep(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is sleepy 😴`,
+        image: (await hmfull.HMtai.sfw.sleep()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'smile',
+    description: 'Show your teeth! 😄',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async smile(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is smiling 😄`,
+        image: (await hmfull.HMtai.sfw.smile()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'smug',
+    description: 'You where right and they know it. 🤪',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async smug(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is quite pleased with themself 🤪`,
+        image: (await hmfull.HMtai.sfw.smug()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'tea',
+    description: 'Take a sip of your tea! 🍵',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async tea(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is drinking 🍵`,
+        image: (await hmfull.HMtai.sfw.tea()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'wave',
+    description: 'Hello! 🌞',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async wave(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is waving 🌞`,
+        image: (await hmfull.HMtai.sfw.wave()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @SimpleCommand({
+    name: 'wink',
+    description: 'wink wink! 🤪',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  async wink(command: SimpleCommandMessage) {
+    let ctx = command.message;
+    bot.extras.embed(
+      {
+        title: `${ctx.author.username} is  winking 🤪`,
+        image: (await hmfull.HMtai.sfw.wink()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
 }

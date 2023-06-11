@@ -10,6 +10,7 @@ import { ApplicationCommandOptionType, CommandInteraction, GuildMember, User } f
 @Bot(...getPluginsBot('anime'))
 @SlashGroup({ description: 'Various Roleplay Commands', name: 'anime' })
 @SlashGroup({ description: 'Roleplay Commands for 2 users', name: 'multiple', root: 'anime' })
+@SlashGroup({ description: 'Roleplay Commands for 1 users', name: 'single', root: 'anime' })
 export class Anime {
   @Slash({
     name: 'bite',
@@ -578,6 +579,293 @@ export class Anime {
         type: 'reply',
       },
       ctx,
+    );
+  }
+
+  @Slash({
+    name: 'blush',
+    description: 'Show your blush! 💗',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async blush(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `Awww you made ${command.user.username} blush 💗`,
+        image: (await hmfull.HMtai.sfw.blush()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'cry',
+    description: 'Spread your tears. 😢',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async cry(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is crying 😢`,
+        image: (await hmfull.HMtai.sfw.cry()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'dance',
+    description: 'Show off your dancing! 💃',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async dance(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is dancing 💃`,
+        image: (await hmfull.HMtai.sfw.dance()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'happy',
+    description: 'Show off your happiness! 🥰',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async happy(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is very very happy 🥰`,
+        image: (await hmfull.HMtai.sfw.happy()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'like',
+    description: 'Show your approval! 🤩',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async like(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} lkked that 🤩 `,
+        image: (await hmfull.HMtai.sfw.like()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'nom',
+    description: 'Nom Nom! 🍔',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async nom(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `Nom Nom 🍔`,
+        image: (await hmfull.HMtai.sfw.nom()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+
+  @Slash({
+    name: 'nosebleed',
+    description: 'Whoa what a nosebleed! 🤬',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async nosebleed(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} has a nosebleed 🤬`,
+        image: (await hmfull.HMtai.sfw.nosebleed()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'sad',
+    description: 'Show your sadness! 😭',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async sad(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is sad. 😭`,
+        image: (await hmfull.HMtai.sfw.cry()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'sleep',
+    description: 'Is is bed time already?? 😴',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async sleep(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is sleepy 😴`,
+        image: (await hmfull.HMtai.sfw.sleep()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'smile',
+    description: 'Show your teeth! 😄',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async smile(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is smiling 😄`,
+        image: (await hmfull.HMtai.sfw.smile()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'smug',
+    description: 'You where right and they know it. 🤪',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async smug(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is quite pleased with themself 🤪`,
+        image: (await hmfull.HMtai.sfw.smug()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'tea',
+    description: 'Take a sip of your tea! 🍵',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async tea(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is drinking 🍵`,
+        image: (await hmfull.HMtai.sfw.tea()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'wave',
+    description: 'Hello! 🌞',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async wave(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is waving 🌞`,
+        image: (await hmfull.HMtai.sfw.wave()).url,
+        type: 'reply',
+      },
+      command,
+    );
+  }
+  @Slash({
+    name: 'wink',
+    description: 'wink wink! 🤪',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+  )
+  @SlashGroup('single', 'anime')
+  async wink(command: CommandInteraction) {
+    bot.extras.embed(
+      {
+        title: `${command.user.username} is  winking 🤪`,
+        image: (await hmfull.HMtai.sfw.wink()).url,
+        type: 'reply',
+      },
+      command,
     );
   }
 }

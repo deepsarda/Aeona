@@ -10,4 +10,4 @@ build
 node_modules
 configs/*
 !configs/example.json
-aeona/*
+src/commands/*
