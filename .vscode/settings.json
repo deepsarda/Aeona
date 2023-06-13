@@ -12,5 +12,6 @@
 		"**/.factorypath": true,
 		"node_modules": false
 	},
+	"prettier.prettierPath": "./node_modules/prettier",
 	"explorerExclude.backup": {}
 }
