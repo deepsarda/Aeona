@@ -8,22 +8,22 @@ import { ApplicationCommandOptionType, CommandInteraction, TextChannel } from 'd
 
 @Discord()
 @Bot(...getPluginsBot('embed'))
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageMessages']),
+)
 @SlashGroup({
   name: 'embed',
   description: 'Commands to edit and create embeds. 📝',
 })
+@SlashGroup('embed')
 export class BumpReminder {
   @Slash({
     name: 'create',
     description: 'Create an embed. 📝',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
-  @SlashGroup('embed')
   async create(
     @SlashOption({
       name: 'channel',
@@ -50,13 +50,6 @@ export class BumpReminder {
     name: 'edit',
     description: 'Edit a message sent by me. 📑',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
-  @SlashGroup('embed')
   async edit(
     @SlashOption({
       name: 'channel',
@@ -104,13 +97,6 @@ export class BumpReminder {
     name: 'variables',
     description: 'Different variables for embeds. 📑',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
-  @SlashGroup('embed')
   async delete(command: CommandInteraction) {
     bot.extras.embed(
       {

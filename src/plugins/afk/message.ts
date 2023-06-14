@@ -9,17 +9,17 @@ import { AeonaBot } from '../../utils/types.js';
 @Discord()
 @Bot(...getPluginsBot('afk'))
 @Category('afk')
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+)
 export class Afk {
   @SimpleCommand({
     name: 'afk',
     aliases: ['afk set'],
     description: 'Set your AFK 😴',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async afk(
     @SimpleCommandOption({
       name: 'reason',

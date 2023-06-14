@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, Slash, SlashGroup, SlashOption } from 'discordx';
 import { Discord } from 'discordx';
 import Schema from '../../database/models/guild.js';
@@ -13,18 +13,18 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
   description: 'Enable or disable various automod configurations for your server',
   name: 'automod',
 })
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageMessages']),
+)
+@SlashGroup('automod')
 export class AutoMod {
   @Slash({
     name: 'antiinvite',
     description: ':stop_sign: Stop users from postings discord invites.',
-    defaultMemberPermissions: ['ManageMessages'],
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('automod')
   async antiinvite(
     @SlashOption({
       name: 'active',
@@ -57,14 +57,7 @@ export class AutoMod {
   @Slash({
     name: 'antilinks',
     description: ':stop_sign: Stop users from postings links 🔗',
-    defaultMemberPermissions: ['ManageMessages'],
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('automod')
   async antilink(
     @SlashOption({
       name: 'active',
@@ -97,14 +90,7 @@ export class AutoMod {
   @Slash({
     name: 'antispam',
     description: ':stop_sign: Stop users from spamming.',
-    defaultMemberPermissions: ['ManageMessages'],
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('automod')
   async antispam(
     @SlashOption({
       name: 'active',

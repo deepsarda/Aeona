@@ -9,17 +9,17 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
 @Discord()
 @Bot(...getPluginsBot('afk'))
 @SlashGroup({ description: 'Various Commands related to AFK', name: 'afk' })
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+)
+@SlashGroup('afk')
 export class Afk {
   @Slash({
     name: 'set',
     description: 'Set your AFK 😴',
   })
-  @SlashGroup('afk')
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async afk(
     @SlashOption({
       name: 'reason',
@@ -78,7 +78,6 @@ export class Afk {
     name: 'list',
     description: 'See all the AFK users 😴',
   })
-  @SlashGroup('afk')
   async list(ctx: CommandInteraction) {
     const rawboard = await Schema.find({ Guild: ctx.guild!.id });
 

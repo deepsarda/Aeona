@@ -14,17 +14,17 @@ const DIFF = 3000;
 @Discord()
 @Bot(...getPluginsBot('automod'))
 @Category('automod')
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageMessages']),
+)
 export class AutoMod {
   @SimpleCommand({
     name: 'antiinvite',
     description: ':stop_sign: Stop users from postings discord invites.',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
   async antiinvite(
     @SimpleCommandOption({
       name: 'active',
@@ -59,12 +59,6 @@ export class AutoMod {
     name: 'antilink',
     description: ':stop_sign: Stop users from postings links 🔗',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
   async antilink(
     @SimpleCommandOption({
       name: 'active',
@@ -99,12 +93,6 @@ export class AutoMod {
     name: 'antispam',
     description: ':stop_sign: Stop users from spamming.',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
   async antispam(
     @SimpleCommandOption({
       name: 'active',

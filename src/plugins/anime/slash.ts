@@ -11,16 +11,16 @@ import { ApplicationCommandOptionType, CommandInteraction, GuildMember, User } f
 @SlashGroup({ description: 'Various Roleplay Commands', name: 'anime' })
 @SlashGroup({ description: 'Roleplay Commands for 2 users', name: 'multiple', root: 'anime' })
 @SlashGroup({ description: 'Roleplay Commands for 1 users', name: 'single', root: 'anime' })
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+)
 export class Anime {
   @Slash({
     name: 'bite',
     description: 'Bite another user! 🫦',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async bite(
     @SlashOption({
@@ -46,11 +46,6 @@ export class Anime {
     name: 'bonk',
     description: 'Bonk another user! 💥🔨💢',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async bonk(
     @SlashOption({
@@ -76,11 +71,6 @@ export class Anime {
     name: 'boop',
     description: 'Boop another user! 👉',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async boop(
     @SlashOption({
@@ -106,11 +96,6 @@ export class Anime {
     name: 'bully',
     description: 'Bully another user! ᕙ(⇀‸↼‶)ᕗ',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async bully(
     @SlashOption({
@@ -136,11 +121,6 @@ export class Anime {
     name: 'cuddle',
     description: 'Cuddle another user! (˶ ˘ ³˘)ˆᵕ ˆ˶)',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async cuddle(
     @SlashOption({
@@ -166,11 +146,6 @@ export class Anime {
     name: 'feed',
     description: 'Feed another user! (⚈₋₍⚈)',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async feed(
     @SlashOption({
@@ -196,11 +171,6 @@ export class Anime {
     name: 'hold',
     description: 'Hold another user! 🫂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async hold(
     @SlashOption({
@@ -226,11 +196,6 @@ export class Anime {
     name: 'hug',
     description: 'Hug another user! 🤗',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async hug(
     @SlashOption({
@@ -256,11 +221,6 @@ export class Anime {
     name: 'kick',
     description: 'Kick another user! 👢',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async kick(
     @SlashOption({
@@ -286,11 +246,6 @@ export class Anime {
     name: 'kill',
     description: 'Kill another user! :knife:',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async kill(
     @SlashOption({
@@ -316,11 +271,6 @@ export class Anime {
     name: 'kiss',
     description: 'Kiss another user! 😘',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async kiss(
     @SlashOption({
@@ -346,11 +296,6 @@ export class Anime {
     name: 'lick',
     description: 'Lick another user! 💄',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async lick(
     @SlashOption({
@@ -376,11 +321,6 @@ export class Anime {
     name: 'pat',
     description: 'Pats another user! ( ´･･)ﾉ(._.`)',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async pat(
     @SlashOption({
@@ -406,11 +346,6 @@ export class Anime {
     name: 'poke',
     description: 'Poke another user! 👉',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async poke(
     @SlashOption({
@@ -436,11 +371,6 @@ export class Anime {
     name: 'punch',
     description: 'Punch another user! 👊',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async punch(
     @SlashOption({
@@ -466,11 +396,6 @@ export class Anime {
     name: 'slap',
     description: 'Slap another user! ',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async slap(
     @SlashOption({
@@ -496,11 +421,6 @@ export class Anime {
     name: 'threaten',
     description: 'Threaten another user! 💢',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async threaten(
     @SlashOption({
@@ -526,11 +446,6 @@ export class Anime {
     name: 'throw',
     description: 'Yeet another user! 🗑🤾‍♀️',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async throw(
     @SlashOption({
@@ -556,11 +471,6 @@ export class Anime {
     name: 'tickle',
     description: 'Tickle another user! 🪶🤣',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('multiple', 'anime')
   async tickle(
     @SlashOption({
@@ -586,11 +496,6 @@ export class Anime {
     name: 'blush',
     description: 'Show your blush! 💗',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async blush(command: CommandInteraction) {
     bot.extras.embed(
@@ -607,11 +512,6 @@ export class Anime {
     name: 'cry',
     description: 'Spread your tears. 😢',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async cry(command: CommandInteraction) {
     bot.extras.embed(
@@ -628,11 +528,6 @@ export class Anime {
     name: 'dance',
     description: 'Show off your dancing! 💃',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async dance(command: CommandInteraction) {
     bot.extras.embed(
@@ -649,11 +544,6 @@ export class Anime {
     name: 'happy',
     description: 'Show off your happiness! 🥰',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async happy(command: CommandInteraction) {
     bot.extras.embed(
@@ -670,11 +560,6 @@ export class Anime {
     name: 'like',
     description: 'Show your approval! 🤩',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async like(command: CommandInteraction) {
     bot.extras.embed(
@@ -691,11 +576,6 @@ export class Anime {
     name: 'nom',
     description: 'Nom Nom! 🍔',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async nom(command: CommandInteraction) {
     bot.extras.embed(
@@ -712,11 +592,6 @@ export class Anime {
     name: 'nosebleed',
     description: 'Whoa what a nosebleed! 🤬',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async nosebleed(command: CommandInteraction) {
     bot.extras.embed(
@@ -732,11 +607,6 @@ export class Anime {
     name: 'sad',
     description: 'Show your sadness! 😭',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async sad(command: CommandInteraction) {
     bot.extras.embed(
@@ -752,11 +622,6 @@ export class Anime {
     name: 'sleep',
     description: 'Is is bed time already?? 😴',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async sleep(command: CommandInteraction) {
     bot.extras.embed(
@@ -772,11 +637,6 @@ export class Anime {
     name: 'smile',
     description: 'Show your teeth! 😄',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async smile(command: CommandInteraction) {
     bot.extras.embed(
@@ -792,11 +652,6 @@ export class Anime {
     name: 'smug',
     description: 'You where right and they know it. 🤪',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async smug(command: CommandInteraction) {
     bot.extras.embed(
@@ -812,11 +667,6 @@ export class Anime {
     name: 'tea',
     description: 'Take a sip of your tea! 🍵',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async tea(command: CommandInteraction) {
     bot.extras.embed(
@@ -832,11 +682,6 @@ export class Anime {
     name: 'wave',
     description: 'Hello! 🌞',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async wave(command: CommandInteraction) {
     bot.extras.embed(
@@ -852,11 +697,6 @@ export class Anime {
     name: 'wink',
     description: 'wink wink! 🤪',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   @SlashGroup('single', 'anime')
   async wink(command: CommandInteraction) {
     bot.extras.embed(

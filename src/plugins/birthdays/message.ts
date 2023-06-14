@@ -11,17 +11,17 @@ let checkingBirthdays = false;
 @Discord()
 @Bot(...getPluginsBot('birthdays'))
 @Category('birthdays')
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+)
 export class Birthdays {
   @SimpleCommand({
     name: 'birthday check',
     aliases: ['bday check', 'birthdays check'],
     description: 'See if I remember your birthday 📅',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async check(command: SimpleCommandMessage) {
     let ctx = command.message;
 
@@ -50,11 +50,6 @@ export class Birthdays {
     aliases: ['bday delete', 'birthdays delete'],
     description: 'Delete your birthday 📅',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async delete(command: SimpleCommandMessage) {
     let ctx = command.message;
 
@@ -87,11 +82,6 @@ export class Birthdays {
     aliases: ['bday list', 'birthdays list', 'birthdays'],
     description: 'See all the birthdays of this servers members 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async list(command: SimpleCommandMessage) {
     let ctx = command.message;
     const rawBirthdayboard = await Schema.find({ Guild: ctx.guild!.id });
@@ -115,11 +105,6 @@ export class Birthdays {
     aliases: ['bday set', 'birthdays set'],
     description: 'Set your birthday 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async set(
     @SimpleCommandOption({
       name: 'day',
@@ -222,15 +207,8 @@ export class Birthdays {
       'bday setup',
       'birthdays setup',
     ],
-    description: 'Set your birthday 🎂',
+    description: 'Set a channel for wishing your birthdays 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
-  @SlashGroup('birthdays')
   async setchannel(command: SimpleCommandMessage) {
     return bot.extras.embed(
       {

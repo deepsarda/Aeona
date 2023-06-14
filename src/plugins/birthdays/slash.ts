@@ -12,17 +12,17 @@ import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
   name: 'birthdays',
   description: 'Various commands related to birthdays. 🎂',
 })
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+)
+@SlashGroup('birthdays')
 export class Birthdays {
   @Slash({
     name: 'check',
     description: 'See if I remember your birthday 📅',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('birthdays')
   async check(command: CommandInteraction) {
     const data = await Schema.findOne({ Guild: command.guildId, User: command.user.id });
     if (data)
@@ -48,12 +48,6 @@ export class Birthdays {
     name: 'delete',
     description: 'Delete your birthday 📅',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('birthdays')
   async delete(command: CommandInteraction) {
     const data = await Schema.findOne({ Guild: command.guildId, User: command.user.id });
     if (!data)
@@ -83,12 +77,6 @@ export class Birthdays {
     name: 'list',
     description: 'See all the birthdays of this servers members 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('birthdays')
   async list(command: CommandInteraction) {
     const rawBirthdayboard = await Schema.find({ Guild: command.guild!.id });
 
@@ -110,12 +98,6 @@ export class Birthdays {
     name: 'set',
     description: 'Set your birthday 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
-  @SlashGroup('birthdays')
   async set(
     @SlashOption({
       name: 'day',
@@ -200,13 +182,8 @@ export class Birthdays {
 
   @Slash({
     name: 'setchannel',
-    description: 'Set your birthday 🎂',
+    description: 'Set a channel for wishing birthdays 🎂',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async setchannel(command: CommandInteraction) {
     return bot.extras.embed(
       {

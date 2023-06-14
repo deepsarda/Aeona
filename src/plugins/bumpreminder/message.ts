@@ -12,18 +12,18 @@ let checkingBumpReminder = false;
 @Discord()
 @Bot(...getPluginsBot('bumpreminder'))
 @Category('bumpreminder')
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageChannels']),
+)
 export class BumpReminder {
   @SimpleCommand({
     name: 'bumpreminder',
     aliases: ['bumpreminder setup'],
     description: 'Setup the bump reminder 🔔',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
   async setup(
     @SimpleCommandOption({
       name: 'channel',
@@ -90,12 +90,6 @@ export class BumpReminder {
     name: 'bumpreminder message',
     description: "Set the reminder's message 📑",
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
   async message(
     @SimpleCommandOption({
       name: 'message',
@@ -140,12 +134,6 @@ export class BumpReminder {
     description: 'Delete the bump reminder 🗑️',
     aliases: ['bumpreminder reset'],
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
   async delete(command: SimpleCommandMessage) {
     let ctx = command.message;
     await Schema.deleteOne({

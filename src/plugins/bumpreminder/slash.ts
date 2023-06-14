@@ -12,18 +12,18 @@ import { ApplicationCommandOptionType, CommandInteraction, Role, TextChannel } f
   name: 'bumpreminder',
   description: 'Some commands to use the bump reminder 🔔',
 })
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageChannels']),
+)
+@SlashGroup('bumpreminder')
 export class BumpReminder {
   @Slash({
     name: 'setup',
     description: 'Setup the bump reminder 🔔',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
-  @SlashGroup('bumpreminder')
   async setup(
     @SlashOption({
       name: 'channel',
@@ -82,13 +82,6 @@ export class BumpReminder {
     name: 'message',
     description: "Set the reminder's message 📑",
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
-  @SlashGroup('bumpreminder')
   async message(
     @SlashOption({
       name: 'message',
@@ -123,13 +116,6 @@ export class BumpReminder {
     name: 'delete',
     description: 'Delete the bump reminder 🗑️',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageChannels']),
-  )
-  @SlashGroup('bumpreminder')
   async delete(command: CommandInteraction) {
     await Schema.deleteOne({
       Guild: command.guild!.id,

@@ -10,18 +10,18 @@ import { channel } from 'diagnostics_channel';
 @Discord()
 @Bot(...getPluginsBot('embed'))
 @Category('embed')
+@Guard(
+  RateLimit(TIME_UNIT.seconds, 30, {
+    rateValue: 3,
+  }),
+  PermissionGuard(['ManageMessages']),
+)
 export class Embed {
   @SimpleCommand({
     name: 'createembed',
     aliases: ['embedcreate'],
     description: 'Create a custom embed. 📝',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
   async create(
     @SimpleCommandOption({
       name: 'channel',
@@ -55,12 +55,6 @@ export class Embed {
     name: 'editembed',
     description: 'Edit a message sent by me. 📝',
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-    PermissionGuard(['ManageMessages']),
-  )
   async editembed(
     @SimpleCommandOption({
       name: 'channel',
@@ -115,11 +109,6 @@ export class Embed {
     description: 'Different variables for you to use. 📝',
     aliases: ['embedvariable', 'variablesembed'],
   })
-  @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
-    }),
-  )
   async variables(command: SimpleCommandMessage) {
     bot.extras.embed(
       {
