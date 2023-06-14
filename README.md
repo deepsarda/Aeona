@@ -4,7 +4,7 @@
 
 ### By Aeonic Developement
 
-<a href="https://v.xyz/support"><img src="https://aeonabot.xyz/logo.png"></a>
+<a href="https://aeonabot.xyz/support"><img src="https://aeonabot.xyz/logo.webp"></a>
 
 For Discord, Aeona wants to be a multifunctional all-in-one chatbot.
 Slash commands will usher in a new era for Discord, but we must not lose sight of our legacy with message commands.
