@@ -4,7 +4,7 @@
 
 ### By Aeonic Developement
 
-<a href="https://aeona.xyz/support"><img src="https://aeona.xyz/logo.png"></a>
+<a href="https://v.xyz/support"><img src="https://aeonabot.xyz/logo.png"></a>
 
 For Discord, Aeona wants to be a multifunctional all-in-one chatbot.
 Slash commands will usher in a new era for Discord, but we must not lose sight of our legacy with message commands.
@@ -15,8 +15,6 @@ Aeona supports slash-based commands as well as message-based commands.
 - Every aspect is customizable.
 - The most recent version of Discordenoas soon as possible.
 
-**Repository is based on [Menhera Bot](https://github.com/MenheraBot/MenheraBot)**
-
 ## Features/Goals
 
 PS: Check back often for new updates to this list.
@@ -25,26 +23,20 @@ PS: Check back often for new updates to this list.
 - Using menus and buttons for selection.
 - AntiNuke, Welcomer, Logging, Boost Logging, Server Stats, and more are all features of the AI chatbot.
 - Strong automated security features, such as anti-nuke, anti-spam, anti-scam, anti-mass-mention, and many others.
-- A lot of fun commands and minigames (more than 100).
+- A lot of fun commands and minigames (more than 200).
 - A levelling and advanced economy system.
 - An easy-to-use dashboard.
 
-[**Invite the Public Version of this Bot**](https://www.aeona.xyz).
+[**Invite the Public Version of this Bot**](https://www.aeonabot.xyz).
 
 ## Important notes and thanks ❤️
 
 First of all, thanks for using this code, it is a lot of work make and maintain it, so do be sure to help out by contributing.
 If you like it please give it a ⭐.
 
-Uses code from @derockdev/discord-html-components, DBot and Green Bot.
-
 ## Tech
 
 Aeona uses a number of libraries to work:
-[Typescript](https://github.com/Microsoft/TypeScript)
-[Discordeno](https://github.com/discordeno/discordeno)
-[AmethystFramework](https://github.com/AmethystFramework/framework)
-
 This whole list can be found in `package.json`.
 
 ## Public Use
@@ -56,6 +48,7 @@ Without previous approval from the repository owner, you are not permitted to ha
 
 See `src/config.ts` file.
 Rename `example.env` to `.env` and fill out the forms.
+Create a new config file in `/config` following `/config/example.json`.
 
 ## Running
 
@@ -67,6 +60,9 @@ git clone https://github.com/deepsarda/Aeona
 
 2. Fill out the env files.
    > Every package has a .env.example file with every entry needed. Just create a .env file with all the entries.
+Rename `example.env` to `.env` and fill out the forms.
+Create a new config file in `/config` following `/config/example.json`.
+
 3. Run index.js
 
 ```bash
@@ -85,6 +81,3 @@ node index.js
 **Q: How can I contribute**
 **A:** Fork this repository, make your changes then submit a pull request.
 
-## Special Mention
-
-Inspired from the [Milrato Bot](https://github.com/Tomato6966/Multipurpose-discord-bot)
