@@ -137,7 +137,7 @@ export class BumpReminder {
 
   @SimpleCommand({
     name: 'bumpreminder delete',
-    description: 'Delete the bump reminder',
+    description: 'Delete the bump reminder 🗑️',
     aliases: ['bumpreminder reset'],
   })
   @Guard(

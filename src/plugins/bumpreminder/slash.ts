@@ -121,7 +121,7 @@ export class BumpReminder {
 
   @Slash({
     name: 'delete',
-    description: 'Delete the bump reminder',
+    description: 'Delete the bump reminder 🗑️',
   })
   @Guard(
     RateLimit(TIME_UNIT.seconds, 30, {
