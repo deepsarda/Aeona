@@ -1061,6 +1061,11 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.12.tgz"
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
 
+"@types/leo-profanity@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@types/leo-profanity/-/leo-profanity-1.5.0.tgz"
+  integrity sha512-/DRIgKYR7j41m+RzVjmMSVwlcsugpjmpe31NDDDI/K7qqz4T6h5tXxPJ3u1Du04XgfHYVLdpf4N4GCBxWl6+6A==
+
 "@types/node@*", "@types/node@^18.16.16":
   version "18.16.16"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.16.16.tgz"
@@ -1901,6 +1906,11 @@ foreground-child@^3.1.0:
     cross-spawn "^7.0.0"
     signal-exit "^4.0.1"
 
+french-badwords-list@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/french-badwords-list/-/french-badwords-list-1.0.7.tgz"
+  integrity sha512-H1ziKs2PJh2+UXZ9oCGJ/rRQpsI9NBykGf2Sc7WaKaj1OnWFuBXfsvANTdRcfVmOghGQaUmRyZ1hJOPbDpy04Q==
+
 fs-constants@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs-constants/-/fs-constants-1.0.0.tgz"
@@ -2192,6 +2202,14 @@ klaw@^1.0.0:
   integrity sha512-TED5xi9gGQjGpNnvRWknrwAB1eL5GciPfVFOt3Vk1OJCVDQbzuSfrF3hkUQKlsgKrG1F+0t5W0m+Fje1jIt8rw==
   optionalDependencies:
     graceful-fs "^4.1.9"
+
+leo-profanity@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/leo-profanity/-/leo-profanity-1.7.0.tgz"
+  integrity sha512-88j1R08jrQzOib9Yxk4nxrzMlrHJi3DzFzAmv0L4APQ+ciGEfJ1rftVEvFjoqL0m+0KGFL3csQGRlxXGnYrA7w==
+  optionalDependencies:
+    french-badwords-list "^1.0.6"
+    russian-bad-words "^0.5.0"
 
 levn@^0.4.1:
   version "0.4.1"
@@ -2759,6 +2777,11 @@ run-parallel@^1.1.9:
   integrity sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==
   dependencies:
     queue-microtask "^1.2.2"
+
+russian-bad-words@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/russian-bad-words/-/russian-bad-words-0.5.0.tgz"
+  integrity sha512-euNvEYki6iYYpkNbeudW+lEMMYGEmN7EBwVF8ezlbv0bZoQpVYB7W10cCeUIGV7Ed50sJynLQ0c559q5iI0ejQ==
 
 safe-buffer@~5.2.0:
   version "5.2.1"
