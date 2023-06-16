@@ -54,22 +54,15 @@ db.on("error", (err) => console.log("Redis Client", err));
 
 db.connect();
 const intents =
-  Intents.DirectMessageReactions |
-  Intents.DirectMessageTyping |
-  Intents.DirectMessages |
   Intents.Guilds |
   Intents.MessageContent |
   Intents.GuildMembers |
   Intents.GuildModeration |
   Intents.GuildEmojisAndStickers |
-  Intents.GuildIntegrations |
   Intents.GuildWebhooks |
   Intents.GuildInvites |
-  Intents.GuildVoiceStates |
   Intents.GuildMessages |
-  Intents.GuildMessageReactions |
-  Intents.DirectMessageTyping |
-  Intents.GuildScheduledEvents;
+  Intents.GuildMessageReactions;
 const b = createBot({
   token: botConfig.TOKEN,
   intents: intents,
