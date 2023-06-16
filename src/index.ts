@@ -3,7 +3,7 @@ import {
   enableAmethystPlugin,
 } from "@thereallonewolf/amethystframework";
 import colors from "colors";
-import { createBot, Intents } from "@discordeno/bot";
+import { createBot, Intents,createRestManager } from "@discordeno/bot";
 import { createClient } from "redis";
 
 import { Config, configs } from "./config.js";
@@ -67,6 +67,8 @@ const b = createBot({
   token: botConfig.TOKEN,
   intents: intents,
   events: {},
+  
+
 });
 const sessionInfo = await b.rest.getSessionInfo();
 console.log(sessionInfo);
@@ -246,6 +248,10 @@ async function logDbCache() {
 
 setInterval(() => {
   logDbCache();
-}, 60 * 1000 * 4);
+
+  bot.rest = createRestManager({
+    token:botConfig.TOKEN,
+  });
+}, 60 * 1000 );
 
 export { bot };
