@@ -1,6 +1,13 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
-import { IntentsBitField } from 'discord.js';
+import {
+  CommandInteraction,
+  IntentsBitField,
+  InteractionResponse,
+  InteractionResponseType,
+  MessagePayload,
+  Routes,
+} from 'discord.js';
 import { Client, MetadataStorage } from 'discordx';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { AeonaBot } from './utils/types.js';
@@ -138,3 +145,29 @@ for (const printFunction in builtins) {
     }
   };
 }
+
+CommandInteraction.prototype.reply = async function (options) {
+  if (this.deferred && !this.replied) return await this.editReply(options);
+  if (this.replied) return await this.followUp(options);
+
+  //@ts-expect-error
+  this.ephemeral = options.ephemeral ?? false;
+
+  let messagePayload;
+  if (options instanceof MessagePayload) messagePayload = options;
+  else messagePayload = MessagePayload.create(this as unknown as Interaction, options);
+
+  const { body: data, files } = await messagePayload.resolveBody().resolveFiles();
+
+  await this.client.rest.post(Routes.interactionCallback(this.id, this.token), {
+    body: {
+      type: InteractionResponseType.ChannelMessageWithSource,
+      data,
+    },
+    files: files ?? undefined,
+    auth: false,
+  });
+  this.replied = true;
+  //@ts-ignore
+  return options.fetchReply ? this.fetchReply() : new InteractionResponse(this);
+};

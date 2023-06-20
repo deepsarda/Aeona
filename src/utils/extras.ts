@@ -13,6 +13,7 @@ import {
   ButtonStyle,
   Channel,
   CommandInteraction,
+  EmbedBuilder,
   Interaction,
   MessageActionRowComponentBuilder,
   Role,
@@ -20,6 +21,7 @@ import {
 } from 'discord.js';
 import { SimpleCommandMessage } from 'discordx';
 import { createTranscript } from 'discord-html-transcripts';
+import { Pagination, PaginationType } from '@discordx/pagination';
 
 const INFLUX_ORG = process.env.INFLUX_ORG as string;
 const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
@@ -194,8 +196,8 @@ export function additionalProps(client: AeonaBot) {
         interaction,
       );
     },
-    async generateEmbed(start: any, end: number, lb: any[], title: any) {
-      const current = lb.slice(start, end + 10);
+    async generateEmbed(start: any, lb: any[], title: any) {
+      const current = lb.slice(start, start + 10);
       const result = current.join('\n');
 
       const embed = client.extras.templateEmbed().setTitle(`${title}`).setDescription(`${result.toString()}`);
@@ -203,56 +205,25 @@ export function additionalProps(client: AeonaBot) {
       return embed;
     },
 
-    async createLeaderboard(
-      title: any,
-      lb: any[],
-      interaction: Interaction | SimpleCommandMessage | CommandInteraction,
-      currentIndex?: number,
-    ) {
-      if (!currentIndex) currentIndex = 0;
-      let btn1 = true;
-      let btn2 = true;
+    async createLeaderboard(title: any, lb: any[], interaction: SimpleCommandMessage | CommandInteraction) {
+      const embeds: EmbedBuilder[] = [];
 
-      if (currentIndex !== 0) btn1 = false;
-      if (currentIndex + 10 < lb.length) btn2 = false;
-      const comp = new ActionRowBuilder<MessageActionRowComponentBuilder>();
-      comp.addComponents(
-        new ButtonBuilder()
-          .setLabel('Previous')
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId('back_button')
+      for (let i = 0; i < lb.length; i += 10) {
+        embeds.push(await this.generateEmbed(i, lb, title));
+      }
 
-          .setDisabled(btn1),
-        new ButtonBuilder()
-          .setLabel('Next')
-          .setStyle(ButtonStyle.Secondary)
-          .setCustomId('forward_button')
-
-          .setDisabled(btn2),
+      const pagination = new Pagination(
+        interaction instanceof CommandInteraction ? interaction : interaction.message,
+        embeds.map((e) => {
+          return { embeds: [e] };
+        }),
+        {
+          type: PaginationType.SelectMenu,
+          showStartEnd: false,
+          idle: 1000 * 60 * 20,
+          pageText: embeds.map((e, index) => `${index * 10 + 1} - ${index * 10 + 10}`),
+        },
       );
-
-      const channel = interaction instanceof SimpleCommandMessage ? interaction.message.channel : interaction.channel;
-      if (!channel) return;
-
-      const msg = await channel?.send({
-        embeds: [await client.extras.generateEmbed(currentIndex, currentIndex, lb, title)],
-        components: [comp],
-      });
-
-      if (lb.length <= 10) return;
-      msg
-        .awaitMessageComponent({
-          time: 60 * 1000 * 10,
-        })
-        .then(async (btn) => {
-          if (!currentIndex) return;
-
-          btn.customId === 'back_button' ? (currentIndex -= 10) : (currentIndex += 10);
-          client.extras.createLeaderboard(title, lb, interaction, currentIndex);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
     },
     getTemplate: async (guild: string) => {
       try {

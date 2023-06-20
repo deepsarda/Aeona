@@ -6,18 +6,17 @@ import {
   Message,
   MessageActionRowComponentBuilder,
   TextChannel,
-} from "discord.js";
-import Schema from "../database/models/guild.js";
-import embedbuilder from "./embedbuilder.js";
-import { AeonaBot } from "./types.js";
-import { SimpleCommandMessage } from "discordx";
+} from 'discord.js';
+import Schema from '../database/models/guild.js';
+import embedbuilder from './embedbuilder.js';
+import { AeonaBot } from './types.js';
+import { SimpleCommandMessage } from 'discordx';
 
 /* Exporting a function that takes a client as a parameter. */
 export default (client: AeonaBot) => {
   const templateEmbed = function () {
     const embed = new EmbedBuilder();
-    if (client.config.colors.normal)
-      embed.setColor(client.config.colors.normal);
+    if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
     return embed;
   };
 
@@ -35,13 +34,13 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`Something went wrong!`);
     embed.addFields([
       {
-        name: "Error comment",
+        name: 'Error comment',
         value: `\`\`\`${error}\`\`\``,
       },
     ]);
@@ -54,7 +53,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
   };
 
@@ -72,13 +71,13 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`You did not provide the correct arguments`);
     embed.addFields([
       {
-        name: "Correct usage",
+        name: 'Correct usage',
         value: `\`\`\`${usage}\`\`\``,
       },
     ]);
@@ -92,7 +91,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
   };
 
@@ -110,13 +109,13 @@ export default (client: AeonaBot) => {
       type?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`You've already done this once`);
     embed.addFields([
       {
-        name: "Try again in",
+        name: 'Try again in',
         value: `<t:${time}:f>`,
       },
     ]);
@@ -130,7 +129,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
   };
 
@@ -171,17 +170,15 @@ export default (client: AeonaBot) => {
       footer?: string;
       embed?: EmbedBuilder;
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
     if (fields) embed.addFields(fields);
-    if (author)
-      embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
     if (url) embed.setURL(url);
     if (footer)
       embed.setFooter({
@@ -196,8 +193,61 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
+  };
+
+  const createEmbed = function ({
+    embed = templateEmbed(),
+    title,
+    desc,
+    color,
+    image,
+    author,
+    url,
+    footer,
+    thumbnail,
+    fields,
+    content,
+    components,
+    type,
+  }: {
+    title?: string;
+    desc?: string;
+    color?: string;
+    image?: string;
+    author?: {
+      name?: string;
+      iconURL?: string;
+    };
+    thumbnail?: string;
+    fields?: {
+      name: string;
+      value: string;
+      inline?: boolean;
+    }[];
+    url?: string;
+    content?: string;
+    components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+    type?: string;
+    footer?: string;
+    embed?: EmbedBuilder;
+  }) {
+    if (title) embed.setTitle(title);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    else if (desc) embed.setDescription(desc);
+    if (image) embed.setImage(image);
+    if (thumbnail) embed.setThumbnail(thumbnail);
+    if (fields) embed.addFields(fields);
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (url) embed.setURL(url);
+    if (footer)
+      embed.setFooter({
+        text: footer,
+      });
+    if (color) embed.setColor(color as unknown as HexColorString);
+
+    return embed;
   };
 
   const simpleEmbed = async function (
@@ -235,19 +285,17 @@ export default (client: AeonaBot) => {
       footer?: string;
       type?: string;
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     const embed = new EmbedBuilder().setColor(client.config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
     if (fields) embed.addFields(fields);
-    if (author)
-      embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
     if (url) embed.setURL(url);
     if (footer)
       embed.setFooter({
@@ -262,7 +310,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
   };
 
@@ -297,19 +345,17 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    ctx: Message
+    ctx: Message,
   ) {
     const embed = new EmbedBuilder().setColor(client.config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
     if (fields) embed.addFields(fields);
-    if (author)
-      embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
     if (url) embed.setURL(url);
 
     if (color) embed.setColor(color as unknown as HexColorString);
@@ -357,21 +403,18 @@ export default (client: AeonaBot) => {
       footer?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    ctx: Message
+    ctx: Message,
   ) {
     const embed = new EmbedBuilder();
-    if (client.config.colors.normal)
-      embed.setColor(client.config.colors.normal);
+    if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
 
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
     if (fields) embed.addFields(fields);
-    if (author)
-      embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
     if (url) embed.setURL(url);
     if (footer)
       embed.setFooter({
@@ -405,13 +448,13 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
       type?: string;
     },
-    interaction: SimpleCommandMessage | CommandInteraction | TextChannel
+    interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
   ) {
     embed.setTitle(`${client.config.emotes.normal.check}・Success!`);
     embed.setDescription(`${text}`);
 
     if (fields) embed.addFields(fields);
-    type = "reply";
+    type = 'reply';
     return sendEmbed(
       {
         embeds: [embed],
@@ -419,7 +462,7 @@ export default (client: AeonaBot) => {
         components,
         type,
       },
-      interaction
+      interaction,
     );
   };
   const sendEmbedMessage = async function (
@@ -453,20 +496,17 @@ export default (client: AeonaBot) => {
       content?: string;
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
-    ctx: Message
+    ctx: Message,
   ) {
     const embed = new EmbedBuilder();
-    if (client.config.colors.normal)
-      embed.setColor(client.config.colors.normal);
+    if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
     if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048)
-      embed.setDescription(`${desc.substr(0, 2044)}...`);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
     if (image) embed.setImage(image);
     if (thumbnail) embed.setThumbnail(thumbnail);
     if (fields) embed.addFields(fields);
-    if (author)
-      embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
     if (url) embed.setURL(url);
     if (color) embed.setColor(color as unknown as HexColorString);
 
@@ -490,19 +530,19 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
       type?: string;
     },
-    ctx: SimpleCommandMessage | CommandInteraction | TextChannel
+    ctx: SimpleCommandMessage | CommandInteraction | TextChannel,
   ): Promise<Message> {
     if (ctx instanceof SimpleCommandMessage) {
       let s = [
-        "\n discord.gg/W8hssA32C9",
-        "\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote",
+        '\n discord.gg/W8hssA32C9',
+        '\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
       ];
       let guildDB = await Schema.findOne({ Guild: `${ctx.message.guildId}` });
       if (!guildDB)
         guildDB = new Schema({
           Guild: `${ctx.message.guildId}`,
         });
-      if (guildDB.isPremium === "true") s = ["", ""];
+      if (guildDB.isPremium === 'true') s = ['', ''];
 
       for (const embed of embeds) {
         try {
@@ -510,7 +550,7 @@ export default (client: AeonaBot) => {
             embed.setFooter({
               text: ctx.message.author
                 ? `Requested by ${ctx.message.author.username}#${ctx.message.author.discriminator} | +perks`
-                : "",
+                : '',
               iconURL: ctx.message.author.avatarURL() ?? undefined,
             });
         } catch (e) {
@@ -519,13 +559,8 @@ export default (client: AeonaBot) => {
       }
       // Generate a random number between 1 to 10;
       const randomNumber = Math.floor(Math.random() * 50);
-      content =
-        randomNumber == 0
-          ? (content ?? "") + s[0]
-          : randomNumber == 1
-          ? (content ?? "") + s[1]
-          : content;
-      if (type && type.toLowerCase() == "reply") {
+      content = randomNumber == 0 ? (content ?? '') + s[0] : randomNumber == 1 ? (content ?? '') + s[1] : content;
+      if (type && type.toLowerCase() == 'reply') {
         const c = await ctx.message
           .reply({
             embeds,
@@ -536,7 +571,7 @@ export default (client: AeonaBot) => {
 
         return c;
       }
-      if (type && type.toLowerCase() == "editreply") {
+      if (type && type.toLowerCase() == 'editreply') {
         const c = await ctx.message
           .edit({
             embeds,
@@ -546,7 +581,7 @@ export default (client: AeonaBot) => {
           .catch();
         return c;
       }
-      if (type && type.toLowerCase() == "ephemeral") {
+      if (type && type.toLowerCase() == 'ephemeral') {
         const c = await ctx.message
           .reply({
             embeds,
@@ -559,7 +594,7 @@ export default (client: AeonaBot) => {
         }, 10 * 1000);
         return c;
       }
-      if (type && type.toLowerCase() == "ephemeraledit") {
+      if (type && type.toLowerCase() == 'ephemeraledit') {
         const c = await ctx.message
           .edit({
             embeds,
@@ -582,23 +617,21 @@ export default (client: AeonaBot) => {
       return c;
     } else if (ctx instanceof CommandInteraction) {
       let s = [
-        "\n discord.gg/W8hssA32C9",
-        "\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote",
+        '\n discord.gg/W8hssA32C9',
+        '\n Upvote me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote',
       ];
       let guildDB = await Schema.findOne({ Guild: `${ctx.guildId}` });
       if (!guildDB)
         guildDB = new Schema({
           Guild: `${ctx.guildId}`,
         });
-      if (guildDB.isPremium === "true") s = ["", ""];
+      if (guildDB.isPremium === 'true') s = ['', ''];
 
       for (const embed of embeds) {
         try {
           if (embed.data.footer == undefined)
             embed.setFooter({
-              text: ctx.user
-                ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks`
-                : "",
+              text: ctx.user ? `Requested by ${ctx.user.username}#${ctx.user.discriminator} | +perks` : '',
               iconURL: ctx.user.avatarURL() ?? undefined,
             });
         } catch (e) {
@@ -607,13 +640,8 @@ export default (client: AeonaBot) => {
       }
       // Generate a random number between 1 to 10;
       const randomNumber = Math.floor(Math.random() * 50);
-      content =
-        randomNumber == 0
-          ? (content ?? "") + s[0]
-          : randomNumber == 1
-          ? (content ?? "") + s[1]
-          : content;
-      if (type && type.toLowerCase() == "reply" && ctx.deferred) {
+      content = randomNumber == 0 ? (content ?? '') + s[0] : randomNumber == 1 ? (content ?? '') + s[1] : content;
+      if (type && type.toLowerCase() == 'reply' && ctx.deferred && !ctx.replied) {
         const c = await ctx
           .editReply({
             embeds,
@@ -624,7 +652,7 @@ export default (client: AeonaBot) => {
 
         return c;
       }
-      if (type && type.toLowerCase() == "reply" && ctx.replied) {
+      if (type && type.toLowerCase() == 'reply' && ctx.replied) {
         const c = await ctx
           .followUp({
             embeds,
@@ -635,7 +663,7 @@ export default (client: AeonaBot) => {
 
         return c;
       }
-      if (type && type.toLowerCase() == "reply") {
+      if (type && type.toLowerCase() == 'reply') {
         const c = await ctx
           .reply({
             embeds,
@@ -645,7 +673,7 @@ export default (client: AeonaBot) => {
           .catch();
         return ctx.fetchReply();
       }
-      if (type && type.toLowerCase() == "editreply") {
+      if (type && type.toLowerCase() == 'editreply') {
         const c = await ctx
           .editReply({
             embeds,
@@ -655,7 +683,7 @@ export default (client: AeonaBot) => {
           .catch();
         return c;
       }
-      if (type && type.toLowerCase() == "ephemeral") {
+      if (type && type.toLowerCase() == 'ephemeral') {
         const c = await ctx
           .reply({
             embeds,
@@ -668,7 +696,7 @@ export default (client: AeonaBot) => {
         return ctx.fetchReply();
       }
 
-      if (type && type.toLowerCase() == "ephemeraledit")
+      if (type && type.toLowerCase() == 'ephemeraledit')
         return await ctx
           .editReply({
             embeds,
@@ -710,6 +738,7 @@ export default (client: AeonaBot) => {
     editEmbed,
     sendEmbedMessage,
     sendEmbed,
+    createEmbed,
     succNormal,
   };
 };
