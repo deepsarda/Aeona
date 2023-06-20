@@ -224,6 +224,8 @@ export function additionalProps(client: AeonaBot) {
           pageText: embeds.map((e, index) => `${index * 10 + 1} - ${index * 10 + 10}`),
         },
       );
+
+      pagination.send();
     },
     getTemplate: async (guild: string) => {
       try {

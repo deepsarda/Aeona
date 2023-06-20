@@ -9,7 +9,7 @@
     "build": "tsc",
     "build:changelog": "npx @discordx/changelog --src src",
     "dev": "ts-node-esm src/index.ts",
-    "start": "node build/index.js",
+    "start": "tsc & node build/index.js",
     "watch": "nodemon --exec ts-node-esm src/index.ts",
     "run:lint": "eslint ./src --fix",
     "typecheck": "tsc --noEmit"
