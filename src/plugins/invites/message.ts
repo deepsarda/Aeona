@@ -298,7 +298,7 @@ export class Invites {
   }
 
   @SimpleCommand({
-    name: 'show',
+    name: 'invites show',
     description: 'show the invites of a user 🥇',
   })
   async show(
