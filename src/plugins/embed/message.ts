@@ -39,7 +39,7 @@ export class Embed {
         command,
       );
 
-    bot.extras.createInterface(command, '_ _', {
+    bot.extras.createInterface(command.message, '_ _', {
       callback: async (data) => {
         const config = await bot.extras.getEmbedConfig({
           guild: command.message.guild!,
@@ -90,7 +90,7 @@ export class Embed {
 
     const embed = message.embeds && message.embeds.length > 0 ? message.embeds[0] : {};
 
-    bot.extras.createInterface(command, '', {
+    bot.extras.createInterface(command.message, '', {
       ...embed,
       content: message.content,
       callback: async (data) => {

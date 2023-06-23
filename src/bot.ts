@@ -88,7 +88,8 @@ bot.once('ready', async () => {
   console.log(colors.green('Bot started'));
 });
 
-bot.on('interactionCreate', (interaction: Interaction) => {
+bot.on('interactionCreate', async (interaction: Interaction) => {
+  if (interaction.isCommand()) await interaction.deferReply();
   bot.executeInteraction(interaction);
 });
 

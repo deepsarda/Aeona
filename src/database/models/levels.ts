@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
-  userID: { type: String },
-  guildID: { type: String },
+  User: { type: String },
+  Guild: { type: String },
   xp: { type: Number, default: 0 },
   level: { type: Number, default: 0 },
   lastUpdated: { type: Date, default: new Date() },

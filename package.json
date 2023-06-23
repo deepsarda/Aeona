@@ -19,6 +19,7 @@
     "@discordx/pagination": "^3.4.1",
     "@discordx/utilities": "^5.2.1",
     "@influxdata/influxdb-client": "^1.33.2",
+    "canvacord": "^5.4.10",
     "chokidar": "^3.5.3",
     "colors": "^1.4.0",
     "discord-html-transcripts": "^3.1.4",

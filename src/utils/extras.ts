@@ -283,8 +283,15 @@ export function additionalProps(client: AeonaBot) {
       });
     },
     async setXP(userId: string, guildId: string, xp: number) {
-      const user = await levels.findOne({ userID: userId, guildID: guildId });
-      if (!user) return false;
+      let user = await levels.findOne({ User: userId, Guild: guildId });
+      if (!user) {
+        user = new levels({
+          User: userId,
+          Guild: guildId,
+          level: 0,
+          xp: 0,
+        });
+      }
 
       user.xp = xp;
       user.level = Math.floor(0.1 * Math.sqrt(user.xp));
@@ -296,8 +303,15 @@ export function additionalProps(client: AeonaBot) {
     },
 
     async setLevel(userId: string, guildId: string, level: number) {
-      const user = await levels.findOne({ userID: userId, guildID: guildId });
-      if (!user) return false;
+      let user = await levels.findOne({ User: userId, Guild: guildId });
+      if (!user) {
+        user = new levels({
+          User: userId,
+          Guild: guildId,
+          level: 0,
+          xp: 0,
+        });
+      }
 
       user.level = level;
       user.xp = level * level * 100;
@@ -308,17 +322,18 @@ export function additionalProps(client: AeonaBot) {
       return user;
     },
     async addXP(userId: string, guildId: string, xp: number) {
-      const user = await levels.findOne({ userID: userId, guildID: guildId });
+      const user = await levels.findOne({ User: userId, Guild: guildId });
 
       if (!user) {
-        new levels({
-          userID: userId,
-          guildID: guildId,
+        let u = new levels({
+          User: userId,
+          Guild: guildId,
           xp,
           level: Math.floor(0.1 * Math.sqrt(xp)),
-        }).save();
+        });
 
-        return Math.floor(0.1 * Math.sqrt(xp)) > 0;
+        u.save();
+        return u;
       }
 
       user.xp += xp;
@@ -327,12 +342,19 @@ export function additionalProps(client: AeonaBot) {
 
       await user.save();
 
-      return Math.floor(0.1 * Math.sqrt((user.xp -= xp))) < user.level;
+      return user;
     },
 
     async addLevel(userId: string, guildId: string, level: string) {
-      const user = await levels.findOne({ userID: userId, guildID: guildId });
-      if (!user) return false;
+      let user = await levels.findOne({ User: userId, Guild: guildId });
+      if (!user) {
+        user = new levels({
+          User: userId,
+          Guild: guildId,
+          level: 0,
+          xp: 0,
+        });
+      }
 
       user.level += parseInt(level, 10);
       user.xp = user.level * user.level * 100;
@@ -344,12 +366,19 @@ export function additionalProps(client: AeonaBot) {
     },
 
     async fetchLevels(userId: string, guildId: string, fetchPosition = true) {
-      const user = await levels.findOne({
-        userID: userId,
-        guildID: guildId,
+      let user = await levels.findOne({
+        User: userId,
+        Guild: guildId,
       });
 
-      if (!user) return false;
+      if (!user) {
+        user = new levels({
+          User: userId,
+          Guild: guildId,
+          level: 0,
+          xp: 0,
+        });
+      }
       const userReturn = {
         // @ts-ignore
         ...user!._doc,
@@ -360,12 +389,12 @@ export function additionalProps(client: AeonaBot) {
       if (fetchPosition === true) {
         const leaderboard = await levels
           .find({
-            guildID: guildId,
+            Guild: guildId,
           })
           .sort([['xp', -1]])
           .exec();
 
-        userReturn.position = leaderboard.findIndex((i) => i.userID === `${userId}`) + 1;
+        userReturn.position = leaderboard.findIndex((i) => i.User === `${userId}`) + 1;
       }
 
       userReturn.cleanXp = user.xp - client.extras.xpFor(user.level);
