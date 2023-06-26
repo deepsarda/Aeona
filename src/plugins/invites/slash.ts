@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, Discord, Slash, SlashOption, SlashGroup } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
@@ -22,6 +22,7 @@ export class Invites {
     name: 'add',
     description: 'add invites to a user ➕',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async add(
     @SlashOption({
       name: 'user',
@@ -79,6 +80,7 @@ export class Invites {
     name: 'remove',
     description: 'remove invites from a user ➖',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async remove(
     @SlashOption({
       name: 'user',
@@ -137,6 +139,7 @@ export class Invites {
     name: 'createreward',
     description: 'Award a role for reaching a certain amount of invites. 🎉',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async createreward(
     @SlashOption({
       name: 'role',
@@ -198,6 +201,7 @@ export class Invites {
     name: 'removereward',
     description: 'remove a reward from my memory ❌',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async removereward(
     @SlashOption({
       name: 'amount',
@@ -345,6 +349,7 @@ export class Invites {
     name: 'reset',
     description: 'reset all the invites and invites rewards for this server :negative_squared_cross_mark:',
   })
+  @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: CommandInteraction) {
     const deletedUsers = await Schema.deleteMany({
       Guild: command.guild!.id,

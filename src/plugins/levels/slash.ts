@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, Discord, Slash, SlashOption, On, ArgsOf, SlashGroup } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
@@ -16,11 +16,12 @@ import {
   User,
 } from 'discord.js';
 import Schema from '../../database/models/levels.js';
-import SchemeMessage from '../../database/models/levelChannels.js';
+import SchemaMessage from '../../database/models/levelChannels.js';
 import SchemaRewards from '../../database/models/levelRewards.js';
 import { AeonaBot } from '../../utils/types.js';
 import Canvacord from 'canvacord';
 import { Components } from '../../utils/components.js';
+import { createSetupWizard } from '../../utils/setupWizard.js';
 
 @Discord()
 @Bot(...getPluginsBot('levels'))
@@ -39,6 +40,7 @@ export class Levels {
     name: 'addlevels',
     description: 'add levels to a user ➕',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async addLevels(
     @SlashOption({
       name: 'user',
@@ -83,6 +85,7 @@ export class Levels {
     name: 'removelevels',
     description: 'remove levels from a user ➖',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async removeLevels(
     @SlashOption({
       name: 'user',
@@ -127,6 +130,7 @@ export class Levels {
     name: 'addxp',
     description: 'add xp to a user ➕',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async addXp(
     @SlashOption({
       name: 'user',
@@ -170,6 +174,7 @@ export class Levels {
     name: 'removexp',
     description: 'remove xp from a user ➖',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async removeXp(
     @SlashOption({
       name: 'user',
@@ -214,6 +219,7 @@ export class Levels {
     name: 'setlevel',
     description: 'set level of a user 🔨',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async setLevel(
     @SlashOption({
       name: 'user',
@@ -256,6 +262,7 @@ export class Levels {
     name: 'setxp',
     description: 'set xp of a user 🔨',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async setXP(
     @SlashOption({
       name: 'user',
@@ -300,6 +307,7 @@ export class Levels {
     name: 'createreward',
     description: 'Award a role for reaching a certain amount of levels. 🎉',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async createreward(
     @SlashOption({
       name: 'role',
@@ -360,6 +368,7 @@ export class Levels {
     name: 'removereward',
     description: 'remove a reward from my memory ❌',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async removereward(
     @SlashOption({
       name: 'amount',
@@ -478,327 +487,30 @@ export class Levels {
     description: 'Configure the level up message for this server 🗣️',
   })
   async levelmessage(command: CommandInteraction) {
-    async function sendMessage() {
-      const data = await SchemeMessage.find({ Guild: `${command.guild!.id}` });
-      const comp = new Components();
-      comp.addButton('Auto Create', 'Primary', 'autocreate');
-      comp.addButton('Create', 'Success', 'createconfig');
-      if (data.length > 0)
-        comp.addSelectComponent(
-          'Edit/Delete a system.',
-          'editoptions',
-          data.map((c, i) => {
-            return {
-              label: `System ${i}`,
-              value: `${i}`,
-              description: `Edit/Delete the settings for System ${i}`,
-            };
-          }),
-
-          'Edit/Delete the settings for your Level Systems',
-        );
-      else
-        comp.addSelectComponent(
-          'Edit/Delete a system.',
-          'editoptions',
-          [
-            {
-              label: 'No Systems',
-              value: '-1',
-            },
-          ],
-
-          'There are no systems to edit.',
-          1,
-          1,
-          true,
-        );
-
-      const message = await bot.extras.embed(
-        {
-          content: '',
-          title: 'Level Setup',
-          desc: `Choose a to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. `,
-          components: comp,
-          type: 'editreply',
-        },
-        command,
-      );
-
-      message
-        .awaitMessageComponent({
-          filter: (i) => i.user.id == command.user.id,
-        })
-        .then(async (interaction) => {
-          if (interaction.customId == 'autocreate' || interaction.customId == 'createconfig') {
-            const premium = await bot.extras.isPremium(command.guildId!);
-
-            if (!premium && data.length > 0) {
-              interaction.reply({
-                content: `Good day there, \nThis server appears to be non-premium, thus you can only have one system. \n\n  You can get premium for just **$2.99** at https://patreon.com/aeonicdiscord \n **or** \n *boost our support server*. \n Use \`+perks\` to see all the perks of premium. `,
-                ephemeral: true,
-              });
-              return sendMessage();
-            } else if (premium && data.length > 8) {
-              interaction.reply({
-                content: `Hello, despite the fact that this server is premium, you can only have a maximum of 8 systems owing to Discord ratelimits. Please accept my apologies for the inconvenience.`,
-                ephemeral: true,
-              });
-              return sendMessage();
-            }
-          }
-
-          if (interaction.customId == 'autocreate') {
-            const channel = await command.guild!.channels.create({
-              name: 'level-log',
-              type: ChannelType.GuildText,
-            });
-
-            new Schema({
-              Guild: `${command.guildId}`,
-              Channel: `${channel.id}`,
-            }).save();
-
-            interaction.reply({
-              content: `I have successfully setup <#${channel.id}> as a level log channel.`,
-              ephemeral: true,
-            });
-
-            return sendMessage();
-          } else if (interaction.customId == 'createconfig') {
-            let success = false;
-            let invalidResponse = false;
-
-            while (!success) {
-              if (!invalidResponse) {
-                interaction.reply({
-                  content: `Please mention the channel or send cancel to cancel the setup.`,
-                  ephemeral: true,
-                });
-              } else {
-                interaction.editReply({
-                  content: `You didnt not mention a channel. Please mention the channel or send cancel to cancel the setup.`,
-                });
-              }
-
-              const message = (
-                await interaction.channel?.awaitMessages({
-                  filter: (m) => m.author.id == command.user.id,
-                  max: 1,
-                  time: 30000,
-                })
-              )?.at(0);
-
-              if (!message) return;
-
-              if (message.content.toLowerCase() == 'cancel') {
-                interaction.reply({
-                  content: `Setup cancelled.`,
-                  ephemeral: true,
-                });
-
-                return;
-              }
-
-              if (message.mentions.channels.size > 0) {
-                success = true;
-
-                message.delete();
-
-                new SchemeMessage({
-                  Guild: `${command.guildId}`,
-                  Channel: `${message.mentions.channels.at(0)!.id}`,
-                }).save();
-
-                await interaction.followUp({
-                  content: `I have successfully setup <#${
-                    message.mentions.channels.at(0)!.id
-                  }> as a level log channel.`,
-                  flags: 1 << 6,
-                });
-              } else {
-                invalidResponse = true;
-              }
-            }
-
-            return sendMessage();
-          } else if (interaction.customId == 'editoptions') {
-            let int = interaction as unknown as StringSelectMenuInteraction<CacheType>;
-            const schema = data[Number(int.values![0])];
-
-            const components = new Components();
-
-            components.addButton('Set Channel', 'Primary', 'setchannel');
-            components.addButton('Set Message', 'Primary', 'setmessage');
-            components.addButton('Delete this Setting', 'Danger', 'deleteconfig');
-            const mes = await bot.extras.embed(
-              {
-                title: `System ${int.values![0]}`,
-                desc: `
-                <:F_Settings:1049292164103938128> **Settings**
-                <:channel:1049292166343688192> Channel: <#${schema.Channel}>
-                `,
-                components: components,
-                type: 'editreply',
-              },
-              command,
-            );
-            const config = await bot.extras.getEmbedConfig({
-              guild: command.guild!,
-              user: command.user,
-            });
-
-            let m = {
-              content: '**GG** {user:mention}, you are now level **{user:level}**!',
-            };
-
-            if (schema.Message) {
-              try {
-                m = JSON.parse(schema.Message);
-              } catch (e) {
-                //
-              }
-            }
-
-            m.content = `**<:chatbot:1049292165282541638> Level Message :small_red_triangle_down:** \n ${m.content}`;
-
-            command.channel?.send(bot.extras.generateEmbedFromData(config, m));
-
-            mes
-              .awaitMessageComponent({
-                filter: (i) => i.user.id == command.user.id,
-              })
-              .then(async (interaction) => {
-                if (interaction.customId == 'setchannel') {
-                  let success = false;
-                  let invalidResponse = false;
-
-                  while (!success) {
-                    if (!invalidResponse) {
-                      await interaction.reply({
-                        content: `Please mention the channel or send cancel to cancel the setup.`,
-                        flags: 1 << 6,
-                      });
-                    } else {
-                      await interaction.editReply({
-                        content: `You didnt not mention a channel. Please mention the channel or send cancel to cancel the setup.`,
-                      });
-                    }
-
-                    const message = (
-                      await interaction.channel?.awaitMessages({
-                        filter: (m) => m.author.id == command.user.id,
-                        max: 1,
-                        time: 30000,
-                      })
-                    )?.at(0);
-
-                    if (!message) return;
-
-                    if (message.content.toLowerCase() == 'cancel') {
-                      await interaction.followUp({
-                        content: `Setup cancelled.`,
-                        flags: 1 << 6,
-                      });
-
-                      return;
-                    }
-
-                    if ((message.mentions.channels.size > 0, length > 0)) {
-                      success = true;
-
-                      message.delete();
-
-                      schema.Channel = `${message.mentions.channels.at(0)!.id}`;
-                      schema.save();
-
-                      await interaction.followUp({
-                        content: `I have successfully setup <#${
-                          message.mentions.channels.at(0)!.id
-                        }> as a level channel.`,
-                        flags: 1 << 6,
-                      });
-                    } else {
-                      invalidResponse = true;
-                    }
-                  }
-
-                  return sendMessage();
-                } else if (interaction.customId == 'setmessage') {
-                  await interaction.reply({
-                    content: `I am loading the message editor. To see a list of variables you can use look at \`/embed variables\``,
-                    flags: 1 << 6,
-                  });
-
-                  let message = {
-                    content: '**GG** {user:mention}, you are now level **{user:level}**!',
-                  };
-
-                  if (schema.Message) {
-                    try {
-                      message = JSON.parse(schema.Message);
-                    } catch (e) {
-                      //
-                    }
-                  }
-
-                  bot.extras.createInterface(command, '', {
-                    ...message,
-
-                    callback: async (data) => {
-                      schema.Message = JSON.stringify(data);
-
-                      schema.save();
-
-                      await interaction.followUp({
-                        content: `I have successfully updated the message for that config.`,
-                        flags: 1 << 6,
-                      });
-
-                      sendMessage();
-                    },
-                  });
-                } else if (interaction.customId == 'deleteconfig') {
-                  schema.deleteOne();
-
-                  await interaction.reply({
-                    content: `I have successfully deleted that config`,
-                    flags: 1 << 6,
-                  });
-
-                  return sendMessage();
-                }
-              })
-              .catch((e) => {
-                console.log(e);
-                mes.edit({
-                  content: 'This command has expired.',
-                  components: [],
-                });
-              });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          message.edit({
-            content: 'This command has expired.',
-            components: [],
-          });
-        });
-    }
-    await bot.extras.embed(
-      {
-        content: 'Loading....',
-      },
+    createSetupWizard(
       command,
+      'Levels',
+      {
+        createCallback() {},
+        options: [
+          {
+            name: 'message',
+            callback() {},
+            default: '**GG** {user:mention}, you are now level **{user:level}**!',
+            id: 'message',
+            schemaParam: 'Message',
+          },
+        ],
+      },
+      SchemaMessage,
     );
-    sendMessage();
   }
 
   @Slash({
     name: 'reset',
     description: 'reset all the levels and levels rewards for this server :negative_squared_cross_mark:',
   })
+  @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: CommandInteraction) {
     const deletedUsers = await Schema.deleteMany({
       Guild: command.guild!.id,

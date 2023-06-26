@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import {
   Bot,
   Guard,
@@ -34,6 +34,7 @@ export class Invites {
     name: 'invites add',
     description: 'add invites to a user ➕',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async add(
     @SimpleCommandOption({
       name: 'user',
@@ -99,6 +100,7 @@ export class Invites {
     name: 'invites remove',
     description: 'remove invites from a user ➖',
   })
+  @Guard(PermissionGuard(['ManageMessages']))
   async remove(
     @SimpleCommandOption({
       name: 'user',
@@ -165,6 +167,7 @@ export class Invites {
     name: 'invites createreward',
     description: 'Award a role for reaching a certain amount of invites. 🎉',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async createreward(
     @SimpleCommandOption({
       name: 'role',
@@ -234,6 +237,7 @@ export class Invites {
     name: 'invites removereward',
     description: 'remove a reward from my memory ❌',
   })
+  @Guard(PermissionGuard(['ManageRoles']))
   async removereward(
     @SimpleCommandOption({
       name: 'amount',
@@ -394,6 +398,7 @@ export class Invites {
     name: 'invites reset',
     description: 'reset all the invites and invites rewards for this server :negative_squared_cross_mark:',
   })
+  @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: SimpleCommandMessage) {
     let ctx = command.message;
 

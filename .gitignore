@@ -11,3 +11,4 @@ node_modules
 configs/*
 !configs/example.json
 src/commands/*
+*.yml
