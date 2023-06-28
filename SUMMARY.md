@@ -1,11 +1,10 @@
 # Table of contents
 
 * [👋 Welcome to Aeona](README.md)
-  * [Website](https://www.aeona.xyz/)
-  * [Invite](https://www.aeona.xyz/invite)
-  * [Support](https://www.aeona.xyz/)
+  * [Website](https://aeonabot.xyz)
+  * [Invite](https://aeonabot.xyz/invite)
+  * [Support](https://aeonabot.xyz/support)
   * [Premium](https://patreon.com/aeonicdiscord)
-  * [Commands](https://www.aeona.xyz/commands)
 
 ## Overview
 
