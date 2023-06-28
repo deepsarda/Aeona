@@ -100,6 +100,20 @@ export class Afk {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot) return;
 
+    message.mentions.users.forEach(async (u) => {
+      if (!message.content.includes('@here') && !message.content.includes('@everyone')) {
+        const data = await Schema.findOne({ Guild: message.guildId, User: u.id });
+        if (data) {
+          client.extras.simpleMessageEmbed(
+            {
+              desc: `<@${u}> is currently afk! **Reason:** ${data.Message}`,
+            },
+            message,
+          );
+        }
+      }
+    });
+
     const data = await Schema.findOne({ Guild: message.guildId, User: message.author.id });
     if (!data) return;
     await Schema.deleteOne({

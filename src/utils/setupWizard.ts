@@ -9,12 +9,13 @@ import {
   MentionableSelectMenuInteraction,
   RoleSelectMenuInteraction,
   StringSelectMenuInteraction,
+  TextChannel,
   UserSelectMenuInteraction,
 } from 'discord.js';
 import { SimpleCommandMessage } from 'discordx';
 import { Model } from 'mongoose';
-import { Components } from './components';
-import { bot } from '../bot';
+import { Components } from './components.js';
+import { bot } from '../bot.js';
 
 export async function createSetupWizard(
   command: CommandInteraction | SimpleCommandMessage,
@@ -128,7 +129,7 @@ export async function createSetupWizard(
         content: `I have successfully setup <#${channel.id}> as a channel for ${name}.`,
         ephemeral: true,
       });
-      setupConfig.createCallback();
+      setupConfig.createCallback(channel);
       return sendMessage();
     } else if (interaction.customId == 'createconfig') {
       await createConfig(interaction);
@@ -194,11 +195,12 @@ export async function createSetupWizard(
           content: `I have successfully setup <#${message.mentions.channels.first()!.id}> as a level log channel.`,
           flags: 1 << 6,
         });
+        setupConfig.createCallback(message.mentions.channels.first() as unknown as TextChannel);
       } else {
         invalidResponse = true;
       }
     }
-    setupConfig.createCallback();
+
     return sendMessage();
   }
 
@@ -333,7 +335,7 @@ export async function createSetupWizard(
           flags: 1 << 6,
         });
 
-        setupConfig.createCallback();
+        setupConfig.createCallback(message.mentions.channels.first() as unknown as TextChannel);
       } else {
         invalidResponse = true;
       }
@@ -418,7 +420,7 @@ export async function createSetupWizard(
 }
 
 type SetupWizardConfig = {
-  createCallback: () => void;
+  createCallback: (channel?: TextChannel) => void;
   options: SetupWizardConfigOptions[];
 };
 
