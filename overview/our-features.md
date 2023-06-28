@@ -49,7 +49,9 @@ Setup a reminder for your users to boost your server.
 
 ## 9. Reaction Roles
 
-Setup menus to give your users some self roles.
+Setup menus to give your users some self roles.\
+\
+This Feature is currently disabled and will be brought back soon!
 
 <figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061907193546407947/image.png" alt=""><figcaption></figcaption></figure>
 
@@ -61,13 +63,31 @@ React to each other using gifs.
 
 ## 11. Logging
 
-Log everything that happened in your server.
+Log everything that happened in your server.\
+\
+This Feature is currently disabled and will be brought back soon!
 
 <figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061908426181070848/image.png" alt=""><figcaption></figcaption></figure>
 
 ## 12. Family
 
 Enjoy and create fake families in your server.
+
+This Feature is currently disabled and will be brought back soon!
+
+
+
+### 13. Verification
+
+Verify users joining your server to make sure they are human.
+
+This Feature is currently disabled and will be brought back soon!
+
+
+
+### 14. Starboard
+
+This Feature is currently disabled and will be brought back soon!
 
 ### Well there are many more features waiting to be discovered so go ahead and invite me by clicking on the link below
 

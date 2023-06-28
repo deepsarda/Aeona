@@ -1,8 +1,13 @@
 ---
 description: Setup the ticket system for your server.
+coverY: 0
 ---
 
 # 🔓 Tickets
+
+{% hint style="danger" %}
+This Feature is currently disabled and will be brought back soon!
+{% endhint %}
 
 ### Steps:
 

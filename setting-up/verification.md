@@ -4,6 +4,10 @@ description: Screen your servers from unknown automated bots.
 
 # 🥸 Verification
 
+{% hint style="danger" %}
+This Feature is currently disabled and will be brought back soon!
+{% endhint %}
+
 ### 1. Enabling
 
 To enable this run `/setup setverify True <channel> <role>` where the channel is the channel you which will be visible to users on joining.\
