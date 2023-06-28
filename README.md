@@ -13,6 +13,10 @@ coverY: 86
 **Before using these docs, be sure to reload the page because there may be new changes that you haven't cached yet.**
 {% endhint %}
 
+{% hint style="danger" %}
+Some Features have been disabled as a part of Aeona's Update. They will be brought back soon!
+{% endhint %}
+
 ## Overview
 
 Here are a couple of things about Aeona.
