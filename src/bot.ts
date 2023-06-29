@@ -104,9 +104,9 @@ bot.once("ready", async () => {
         .fetchClientValues("guilds.cache.size")
         .catch(() => null)) || [0]
     ).then((x: any) => x.reduce((p: any, n: any) => p + n, 0));
-    await fetch(`https://top.gg/api/bots/${bot.user.id}/stats`, {
+    await fetch(`https://top.gg/api/bots/${bot.user!.id}/stats`, {
       method: "POST",
-      headers: { Authorization: process.env.TOPGG_TOKEN },
+      headers: { Authorization: process.env.TOPGG_TOKEN! },
       body: new URLSearchParams({
         server_count: `${guildAmount}`,
         shard_count: `${bot.cluster.info.totalShards}`,
