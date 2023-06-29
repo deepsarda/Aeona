@@ -109,7 +109,7 @@ bot.once("ready", async () => {
       headers: { Authorization: process.env.TOPGG_TOKEN! },
       body: new URLSearchParams({
         server_count: `${guildAmount}`,
-        shard_count: `${bot.cluster.info.totalShards}`,
+        shard_count: `${bot.cluster.info.TOTAL_SHARDS}`,
       }),
     });
   }
