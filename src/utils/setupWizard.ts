@@ -222,13 +222,13 @@ export async function createSetupWizard(
     for (const i of setupConfig.options) {
       components.addButton('Set ' + i.name.charAt(0).toUpperCase() + i.name.slice(1) + '', 'Primary', i.id);
     }
-    components.addButton('Set Message', 'Primary', 'setmessage');
+
     components.addButton('Delete this Setting', 'Danger', 'deleteconfig');
     const mes = await bot.extras.embed(
       {
         title: `System ${int.values![0]}`,
         desc: `
-        <:F_Settings:1049292164103938128> **Settings**
+        ⚙️ **Settings**
         <:channel:1049292166343688192> Channel: <#${schema.Channel}>
         `,
         components: components,
@@ -255,7 +255,7 @@ export async function createSetupWizard(
         }
       }
 
-      m.content = `**<:chatbot:1049292165282541638> ${name} ${i.name} :small_red_triangle_down:** \n ${m.content}`;
+      m.content = `**💬 ${name} ${i.name} :small_red_triangle_down:** \n ${m.content}`;
 
       if (command instanceof CommandInteraction) command.channel?.send(bot.extras.generateEmbedFromData(config, m));
       else command.message.channel?.send(bot.extras.generateEmbedFromData(config, m));
