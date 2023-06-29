@@ -333,7 +333,7 @@ export function additionalProps(client: AeonaBot) {
         });
 
         u.save();
-        return u;
+        return { ...u, leveledUp: false };
       }
 
       user.xp += xp;
@@ -342,7 +342,7 @@ export function additionalProps(client: AeonaBot) {
 
       await user.save();
 
-      return user;
+      return { ...user, leveledUp: Math.floor(0.1 * Math.sqrt((user.xp -= xp))) < user.level };
     },
 
     async addLevel(userId: string, guildId: string, level: string) {

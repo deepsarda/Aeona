@@ -620,7 +620,7 @@ export class Levels {
     const randomXP = Math.floor(Math.random() * 9) + 1;
     const hasLeveledUp = await client.extras.addXP(message.author.id, message.guildId!, randomXP);
 
-    if (hasLeveledUp) {
+    if (hasLeveledUp.leveledUp) {
       const user = await client.extras.fetchLevels(message.author.id, message.guildId!);
       if (!user) return;
 
