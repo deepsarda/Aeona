@@ -261,21 +261,20 @@ export async function createSetupWizard(
       else command.message.channel?.send(bot.extras.generateEmbedFromData(config, m));
     }
 
-    const collector = mes.createMessageComponentCollector({
-      filter: (i) => i.user.id == user.id,
-      idle: 1000 * 60 * 20,
-    });
+    mes
+      .awaitMessageComponent({
+        filter: (i) => i.user.id == user.id,
+      })
+      .then(async (i) => {
+        if (interaction.customId == 'setchannel') {
+          await setChannel(interaction, schema);
+        } else if (interaction.customId == 'deleteconfig') {
+          await deleteConfig(interaction as unknown as StringSelectMenuInteraction, schema);
+        }
 
-    collector.on('collect', async (i) => {
-      if (interaction.customId == 'setchannel') {
-        await setChannel(interaction, schema);
-      } else if (interaction.customId == 'deleteconfig') {
-        await deleteConfig(interaction as unknown as StringSelectMenuInteraction, schema);
-      }
-
-      const option = setupConfig.options.find((i) => i.id == interaction.customId);
-      if (option) setMessage(interaction, schema, option);
-    });
+        const option = setupConfig.options.find((i) => i.id == interaction.customId);
+        if (option) setMessage(interaction, schema, option);
+      });
   }
 
   async function setChannel(
