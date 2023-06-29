@@ -97,24 +97,24 @@ bot.once("ready", async () => {
   await bot.initApplicationCommands();
   console.log(colors.green("Bot started"));
 
-  async function updateTopGGStats(client) {
-    if (client.cluster.id !== 0) return;
+  async function updateTopGGStats() {
+    if (bot.cluster.id !== 0) return;
     const guildAmount = (
-      (await client.cluster
+      (await bot.cluster
         .fetchClientValues("guilds.cache.size")
         .catch(() => null)) || [0]
-    ).then((x) => x.reduce((p, n) => p + n, 0));
-    await fetch(`https://top.gg/api/bots/${client.user.id}/stats`, {
+    ).then((x: any) => x.reduce((p: any, n: any) => p + n, 0));
+    await fetch(`https://top.gg/api/bots/${bot.user.id}/stats`, {
       method: "POST",
-      headers: { Authorization: proccess.env.TOPGG_TOKEN },
+      headers: { Authorization: process.env.TOPGG_TOKEN },
       body: new URLSearchParams({
         server_count: `${guildAmount}`,
-        shard_count: `${client.cluster.info.totalShards}`,
+        shard_count: `${bot.cluster.info.totalShards}`,
       }),
     });
   }
 
-  setInterval(() => updateTopGGStats(client), 60 * 60 * 1000);
+  setInterval(() => updateTopGGStats(), 60 * 60 * 1000);
 });
 
 bot.on("interactionCreate", async (interaction: Interaction) => {
