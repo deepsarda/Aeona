@@ -137,10 +137,7 @@ run();
 
 process.on("unhandledRejection", (reason: Error) => {
   console.log("\n\n\n\n\n=== unhandled Rejection ===".toUpperCase().yellow);
-  console.log(
-    "Reason: ",
-    reason.stack ? String(reason.stack).gray : String(reason).gray
-  );
+  console.log("Reason: ", reason.stack ? String(reason.stack) : String(reason));
   console.log("=== unhandled Rejection ===\n\n\n\n\n".toUpperCase().yellow);
 });
 process.on("uncaughtException", (err) => {
