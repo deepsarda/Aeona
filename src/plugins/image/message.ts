@@ -250,13 +250,13 @@ export class Image {
       await fetch(`http://localhost:8083/chatbot/image?prompt=${prompt}`)
     ).json();
     const files = [
-      new AttachmentBuilder(response.response[0], {
+      new AttachmentBuilder(Buffer.from(response.response[0], "base64"), {
         name: "image0.png",
       }),
-      new AttachmentBuilder(response.response[1], {
+      new AttachmentBuilder(Buffer.from(response.response[1], "base64"), {
         name: "image1.png",
       }),
-      new AttachmentBuilder(response.response[2], {
+      new AttachmentBuilder(Buffer.from(response.response[2], "base64"), {
         name: "image2.png",
       }),
     ];
