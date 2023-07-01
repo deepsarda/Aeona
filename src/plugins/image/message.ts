@@ -303,7 +303,7 @@ export class Image {
       content: `${ctx.author}
       
       **Image: (3/3)**`,
-      files: [files[3]],
+      files: [files[2]],
     });
   }
 

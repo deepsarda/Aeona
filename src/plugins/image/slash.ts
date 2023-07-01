@@ -310,7 +310,7 @@ export class Image {
       content: `${command.user}
       
       **Image: (3/3)**`,
-      files: [files[3]],
+      files: [files[2]],
     });
   }
 
