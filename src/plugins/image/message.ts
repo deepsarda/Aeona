@@ -250,15 +250,24 @@ export class Image {
       await fetch(`http://localhost:8083/chatbot/image?prompt=${prompt}`)
     ).json();
     const files = [
-      new AttachmentBuilder(Buffer.from(response.response[0], "base64"), {
-        name: "image0.png",
-      }),
-      new AttachmentBuilder(Buffer.from(response.response[1], "base64"), {
-        name: "image1.png",
-      }),
-      new AttachmentBuilder(Buffer.from(response.response[2], "base64"), {
-        name: "image2.png",
-      }),
+      new AttachmentBuilder(
+        Buffer.from(response.response[0].split(",")[1], "base64"),
+        {
+          name: "image0.png",
+        }
+      ),
+      new AttachmentBuilder(
+        Buffer.from(response.response[1].split(",")[1], "base64"),
+        {
+          name: "image1.png",
+        }
+      ),
+      new AttachmentBuilder(
+        Buffer.from(response.response[2].split(",")[1], "base64"),
+        {
+          name: "image2.png",
+        }
+      ),
     ];
     (
       (await bot.channels.fetch("1044575489118978068")) as unknown as
