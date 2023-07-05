@@ -23,6 +23,8 @@ import { AeonaBot } from '../../utils/types.js';
 import filter from 'leo-profanity';
 import { Components } from '../../utils/components.js';
 import { bot } from '../../bot.js';
+import Topgg from '@top-gg/sdk';
+const api = new Topgg.Api(process.env.TOPGG_TOKEN!);
 filter.loadDictionary('en');
 
 @Discord()
@@ -40,6 +42,8 @@ filter.loadDictionary('en');
 )
 @SlashGroup('setup')
 export class Chatbot {
+  private readonly userRateLimits: Map<string, number> = new Map();
+
   @SimpleCommand({
     name: 'setup chatbot',
     description: 'Set a channel for talking with me 💬',
@@ -137,6 +141,32 @@ export class Chatbot {
       (a, b) => b.createdTimestamp - a.createdTimestamp,
     );
 
+    const userId = message.author.id;
+    const currentTime = Date.now();
+
+    // Check if the user has reached the rate limit
+    const userLastMessageTime = this.userRateLimits.get(userId) || 0;
+    const timeDifference = currentTime - userLastMessageTime;
+    const rateLimitDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    if (timeDifference < rateLimitDuration) {
+      return message.reply({
+        content:
+          'Hey! Sorry I have had to rate limit you for ' +
+          (rateLimitDuration - timeDifference) / TIME_UNIT.seconds +
+          ' seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
+          client.user!.id +
+          "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
+      });
+    }
+    let guild = await GuildDB.findOne({
+      Guild: message.guildId,
+    });
+    if (!guild) guild = new GuildDB({ Guild: message.guildId });
+
+    // Update the user's last message time
+    if (guild.isPremium !== 'true' && !api.hasVoted(message.author.id)) this.userRateLimits.set(userId, currentTime);
+
     let context;
     let contexts: string[] = [];
     try {
@@ -167,14 +197,11 @@ export class Chatbot {
         ];
 
         console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
-        let guild = await GuildDB.findOne({
-          Guild: message.guildId,
-        });
-        if (!guild) guild = new GuildDB({ Guild: message.guildId });
+
         const randomNumber = Math.floor(Math.random() * 30);
         json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
         let component: any[] = [];
-        if (guild.chatbotFilter) {
+        if (guild!.chatbotFilter) {
           if (filter.check(json)) {
             const c = new Components();
             c.addButton('Why $$$$?', 'Secondary', 'profane');

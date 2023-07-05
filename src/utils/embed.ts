@@ -12,7 +12,7 @@ import embedbuilder from './embedbuilder.js';
 import { AeonaBot } from './types.js';
 import { SimpleCommandMessage } from 'discordx';
 
-/* Exporting a function that takes a client as a parameter. */
+
 export default (client: AeonaBot) => {
   const templateEmbed = function () {
     const embed = new EmbedBuilder();
