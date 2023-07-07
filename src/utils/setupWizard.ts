@@ -44,7 +44,7 @@ export async function createSetupWizard(
             description: `Edit/Delete the settings for System ${i}`,
           };
         }),
-        'Edit/Delete the settings for your Level Systems',
+        'Edit/Delete the settings for your Systems',
       );
     } else {
       comp.addSelectComponent(
@@ -214,6 +214,7 @@ export async function createSetupWizard(
       | ChannelSelectMenuInteraction,
   ) {
     let int = interaction as unknown as StringSelectMenuInteraction<CacheType>;
+    int.deferUpdate();
     const schema = data[Number(int.values![0])];
 
     const components = new Components();
@@ -233,7 +234,7 @@ export async function createSetupWizard(
         <:channel:1049292166343688192> Channel: <#${schema.Channel}>
         `,
         components: components,
-        type: 'editreply',
+        type: 'reply',
       },
       command,
     );

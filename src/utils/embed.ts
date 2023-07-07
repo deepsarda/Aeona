@@ -12,14 +12,46 @@ import embedbuilder from './embedbuilder.js';
 import { AeonaBot } from './types.js';
 import { SimpleCommandMessage } from 'discordx';
 
-
+/**
+ * Initializes utility functions for sending embed messages and error messages.
+ *
+ * @function
+ *
+ * @param {AeonaBot} client - The client object.
+ *
+ * @returns {object} An object containing utility functions.
+ */
 export default (client: AeonaBot) => {
-  const templateEmbed = function () {
+  /**
+   * Utility function to return a basic template embed message setup with default fields and colors as specified in the client
+   * configuration.
+   *
+   * @function
+   *
+   * @returns {EmbedBuilder} A basic embed message setup with default fields and colors.
+   */
+  const templateEmbed = function (): EmbedBuilder {
     const embed = new EmbedBuilder();
     if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
     return embed;
   };
 
+  /**
+   * Utility function to create and send an error message with title; description; an error message field with contents as
+   * provided; with also the color specified for error messages in the client configuration.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {EmbedBuilder} options.embed - An optional embed to be used instead of the default template embed message.
+   * @param {string} options.error - The error message that would be added to the embed.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const errNormal = async function (
     {
       embed = templateEmbed(),
@@ -35,7 +67,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`Something went wrong!`);
     embed.addFields([
@@ -57,6 +89,21 @@ export default (client: AeonaBot) => {
     );
   };
 
+  /**
+   * Utility function to create and send an error message stating that the command was not used correctly, with the correct syntax specified.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {EmbedBuilder} options.embed - An optional embed to be used instead of the default template embed message.
+   * @param {string} options.usage - The correct usage of the command which would be displayed in the message.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const errUsage = async function (
     {
       embed = templateEmbed(),
@@ -72,7 +119,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`You did not provide the correct arguments`);
     embed.addFields([
@@ -95,6 +142,21 @@ export default (client: AeonaBot) => {
     );
   };
 
+  /**
+   * Utility function to create and send an error message stating that the user should wait before sending commands again.
+   *
+   * @function
+   *
+   * @param {object} options An object containing options for the utility functions.
+   * @param {EmbedBuilder} options.embed - An optional embed to be used instead of the default template embed message.
+   * @param {string} options.time - The time in seconds that the user should wait before sending commands again.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const errWait = async function (
     {
       embed = templateEmbed(),
@@ -110,7 +172,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     embed.setTitle(`${client.config.emotes.normal.error} Error!`);
     embed.setDescription(`You've already done this once`);
     embed.addFields([
@@ -133,6 +195,29 @@ export default (client: AeonaBot) => {
     );
   };
 
+  /**
+   * Utility function to create and send an embed message with customizable attributes like title, subtitle, thumbnail, color, etc.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {string} options.title - The title of the embed message to send.
+   * @param {string} options.desc - The subtitle of the embed message to send.
+   * @param {string} options.color - The color of the embed message to send.
+   * @param {string} options.image - The image network url link of the embed message to send.
+   * @param {object} options.author - The author of the embed message containing only the author's name and image url link.
+   * @param {string} options.url - A url link to attach to the title of the embed message.
+   * @param {string} options.footer - Custom text to add to the footer of the embed message.
+   * @param {string} options.thumbnail - Link to the thumbnail to use for the embed message.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {EmbedBuilder} options.embed - An optional embed to be used instead of the default template embed message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const embed = async function (
     {
       embed = templateEmbed(),
@@ -171,7 +256,7 @@ export default (client: AeonaBot) => {
       embed?: EmbedBuilder;
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     if (title) embed.setTitle(title);
     if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
     else if (desc) embed.setDescription(desc);
@@ -197,59 +282,28 @@ export default (client: AeonaBot) => {
     );
   };
 
-  const createEmbed = function ({
-    embed = templateEmbed(),
-    title,
-    desc,
-    color,
-    image,
-    author,
-    url,
-    footer,
-    thumbnail,
-    fields,
-    content,
-    components,
-    type,
-  }: {
-    title?: string;
-    desc?: string;
-    color?: string;
-    image?: string;
-    author?: {
-      name?: string;
-      iconURL?: string;
-    };
-    thumbnail?: string;
-    fields?: {
-      name: string;
-      value: string;
-      inline?: boolean;
-    }[];
-    url?: string;
-    content?: string;
-    components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
-    type?: string;
-    footer?: string;
-    embed?: EmbedBuilder;
-  }) {
-    if (title) embed.setTitle(title);
-    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
-    else if (desc) embed.setDescription(desc);
-    if (image) embed.setImage(image);
-    if (thumbnail) embed.setThumbnail(thumbnail);
-    if (fields) embed.addFields(fields);
-    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
-    if (url) embed.setURL(url);
-    if (footer)
-      embed.setFooter({
-        text: footer,
-      });
-    if (color) embed.setColor(color as unknown as HexColorString);
-
-    return embed;
-  };
-
+  /**
+   * Utility function to create and send a simple message containing an embed with some customizable messages.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {string} options.title - The title of the embed message to send.
+   * @param {string} options.desc - The subtitle of the embed message to send.
+   * @param {string} options.color - The color of the embed message to send.
+   * @param {string} options.image - The image network url link of the embed message to send.
+   * @param {object} options.author - The author of the embed message containing only the author's name and image network url link.
+   * @param {string} options.thumbnail - Link to the thumbnail to use for the embed message.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.url - A url link to attach to the title of the embed message.
+   * @param {string} options.content - The content of the message to send.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {string} options.footer - Custom text to add to the footer of the embed message.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const simpleEmbed = async function (
     {
       title,
@@ -286,7 +340,7 @@ export default (client: AeonaBot) => {
       type?: string;
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     const embed = new EmbedBuilder().setColor(client.config.colors.normal);
 
     if (title) embed.setTitle(title);
@@ -314,6 +368,26 @@ export default (client: AeonaBot) => {
     );
   };
 
+  /**
+   * Utility function to create and send a simple message containing an embed with some customizable messages.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {string} options.title - The title of the embed message to send.
+   * @param {string} options.desc - The subtitle of the embed message to send.
+   * @param {string} options.color - The color of the embed message to send.
+   * @param {string} options.image - The image network url link of the embed message to send.
+   * @param {object} options.author - The author of the embed message containing only the author's name and image network url link.
+   * @param {string} options.thumbnail - Link to the thumbnail to use for the embed message.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.url - A url link to attach to the title of the embed message.
+   * @param {string} options.content - The content of the message to send.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const simpleMessageEmbed = async function (
     {
       title,
@@ -346,7 +420,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     ctx: Message,
-  ) {
+  ): Promise<Message> {
     const embed = new EmbedBuilder().setColor(client.config.colors.normal);
 
     if (title) embed.setTitle(title);
@@ -364,12 +438,32 @@ export default (client: AeonaBot) => {
       .send({
         embeds: [embed],
         content,
-
         components,
       })
       .catch();
   };
 
+  /**
+   * Utility function to edit an embed message with customizable attributes like title, subtitle, thumbnail, color, etc.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {string} options.title - The title of the embed message to edit.
+   * @param {string} options.desc - The subtitle of the embed message to edit.
+   * @param {string} options.color - The color of the embed message to edit.
+   * @param {string} options.image - The image network url link of the embed message to edit.
+   * @param {object} options.author - The author of the embed message containing only the author's name and image url link.
+   * @param {string} options.thumbnail - Link to the thumbnail to use for the embed message.
+   * @param {string} options.footer - Custom text to add to the footer of the embed message.
+   * @param {string} options.url - A url link to attach to the title of the embed message.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.content - An optional string to include in the edit message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the edit message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} ctx - An interaction object which is either a command interaction, a simple command message or a text channel to send the edit message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the edited message.
+   */
   const editEmbed = async function (
     {
       title,
@@ -404,7 +498,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     ctx: Message,
-  ) {
+  ): Promise<Message> {
     const embed = new EmbedBuilder();
     if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
 
@@ -428,6 +522,23 @@ export default (client: AeonaBot) => {
       components,
     });
   };
+
+  /**
+   * Utility function to create and send a success message with customizable attributes like title, fields, etc.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {EmbedBuilder} options.embed - An optional embed to be used instead of the default template embed message.
+   * @param {string} options.text - The success message that would be added to the embed.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const succNormal = async function (
     {
       embed = templateEmbed(),
@@ -449,7 +560,7 @@ export default (client: AeonaBot) => {
       type?: string;
     },
     interaction: SimpleCommandMessage | CommandInteraction | TextChannel,
-  ) {
+  ): Promise<Message> {
     embed.setTitle(`${client.config.emotes.normal.check}・Success!`);
     embed.setDescription(`${text}`);
 
@@ -465,6 +576,27 @@ export default (client: AeonaBot) => {
       interaction,
     );
   };
+
+  /**
+   * Utility function to send an embed message to a text channel.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {string} options.title - The title of the embed message to send.
+   * @param {string} options.desc - The subtitle of the embed message to send.
+   * @param {string} options.color - The color of the embed message to send.
+   * @param {string} options.image - The image network url link of the embed message to send.
+   * @param {object} options.author - The author of the embed message containing only the author's name and image network url link.
+   * @param {string} options.thumbnail - Link to the thumbnail to use for the embed message.
+   * @param {object[]} options.fields - An array of field object that contain name, value, and whether the field is inline or not.
+   * @param {string} options.url - A url link to attach to the title of the embed message.
+   * @param {string} options.content - The content of the message to send.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} interaction - An interaction object which is either a command interaction, a simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const sendEmbedMessage = async function (
     {
       title,
@@ -497,7 +629,7 @@ export default (client: AeonaBot) => {
       components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
     },
     ctx: Message,
-  ) {
+  ): Promise<Message> {
     const embed = new EmbedBuilder();
     if (client.config.colors.normal) embed.setColor(client.config.colors.normal);
     if (title) embed.setTitle(title);
@@ -518,6 +650,21 @@ export default (client: AeonaBot) => {
       })
       .catch();
   };
+
+  /**
+   * Utility function to send an embed message to an interaction or a text channel.
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @param {EmbedBuilder[]} options.embeds - An array of embeds to be sent.
+   * @param {string} options.content - An optional string to include in the message.
+   * @param {ActionRowBuilder[]} options.components - An optional array of message components like buttons or select dropdowns to include in the message.
+   * @param {string} options.type - An optional string to specify the type of interaction to use `reply`, `editreply` or `ephemeral`.
+   * @param {CommandInteraction | SimpleCommandMessage | TextChannel} ctx - An interaction object which is either a command interaction, simple command message or a text channel to send the message to.
+   *
+   * @returns {Promise<Message>} A promise that contains the message sent.
+   */
   const sendEmbed = async function (
     {
       embeds,
@@ -722,6 +869,66 @@ export default (client: AeonaBot) => {
         components,
       })
       .catch();
+  };
+  /**
+   * Utility function to create a embed..
+   *
+   * @function
+   *
+   * @param {object} options - An object containing options for the utility functions.
+   * @returns {EmbedBuilder} The created embed.
+   */
+  const createEmbed = function ({
+    embed = templateEmbed(),
+    title,
+    desc,
+    color,
+    image,
+    author,
+    url,
+    footer,
+    thumbnail,
+    fields,
+    content,
+    components,
+    type,
+  }: {
+    title?: string;
+    desc?: string;
+    color?: string;
+    image?: string;
+    author?: {
+      name?: string;
+      iconURL?: string;
+    };
+    thumbnail?: string;
+    fields?: {
+      name: string;
+      value: string;
+      inline?: boolean;
+    }[];
+    url?: string;
+    content?: string;
+    components?: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+    type?: string;
+    footer?: string;
+    embed?: EmbedBuilder;
+  }) {
+    if (title) embed.setTitle(title);
+    if (desc && desc.length >= 2048) embed.setDescription(`${desc.substr(0, 2044)}...`);
+    else if (desc) embed.setDescription(desc);
+    if (image) embed.setImage(image);
+    if (thumbnail) embed.setThumbnail(thumbnail);
+    if (fields) embed.addFields(fields);
+    if (author) embed.setAuthor({ name: author.name!, iconURL: author.iconURL! });
+    if (url) embed.setURL(url);
+    if (footer)
+      embed.setFooter({
+        text: footer,
+      });
+    if (color) embed.setColor(color as unknown as HexColorString);
+
+    return embed;
   };
 
   // Return all the functions

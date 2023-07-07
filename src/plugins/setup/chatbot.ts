@@ -42,8 +42,10 @@ filter.loadDictionary('en');
 )
 @SlashGroup('setup')
 export class Chatbot {
-  private readonly userRateLimits: Map<string, number> = new Map();
-
+  private readonly usersMap = new Map();
+  private readonly LIMIT = 5;
+  private readonly TIME = 5 * 60 * 1000;
+  private readonly DIFF = 30000;
   @SimpleCommand({
     name: 'setup chatbot',
     description: 'Set a channel for talking with me 💬',
@@ -141,31 +143,49 @@ export class Chatbot {
       (a, b) => b.createdTimestamp - a.createdTimestamp,
     );
 
-    const userId = message.author.id;
-    const currentTime = Date.now();
-
-    // Check if the user has reached the rate limit
-    const userLastMessageTime = this.userRateLimits.get(userId) || 0;
-    const timeDifference = currentTime - userLastMessageTime;
-    const rateLimitDuration = 5 * 60 * 1000; // 5 minutes in milliseconds
-
-    if (timeDifference < rateLimitDuration) {
-      return message.reply({
-        content:
-          'Hey! Sorry I have had to rate limit you for ' +
-          (rateLimitDuration - timeDifference) / TIME_UNIT.seconds +
-          ' seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
-          client.user!.id +
-          "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
-      });
-    }
     let guild = await GuildDB.findOne({
       Guild: message.guildId,
     });
     if (!guild) guild = new GuildDB({ Guild: message.guildId });
 
-    // Update the user's last message time
-    if (guild.isPremium !== 'true' && !api.hasVoted(message.author.id)) this.userRateLimits.set(userId, currentTime);
+    if (this.usersMap.has(message.author.id) && guild.isPremium !== 'true' && !api.hasVoted(message.author.id)) {
+      const userData = this.usersMap.get(message.author.id);
+      const { lastMessage, timer } = userData;
+      const difference = message.createdTimestamp - lastMessage.createdTimestamp;
+      let { msgCount } = userData;
+      if (difference > this.DIFF) {
+        clearTimeout(timer);
+        userData.msgCount = 1;
+        userData.lastMessage = message;
+        userData.timer = setTimeout(() => {
+          this.usersMap.delete(message.author.id);
+        }, this.TIME);
+        this.usersMap.set(message.author.id, userData);
+      } else {
+        ++msgCount;
+        if (parseInt(msgCount) === this.LIMIT) {
+          message.delete();
+          return message.reply({
+            content:
+              'Hey! Sorry I have had to rate limit you for 30 seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
+              client.user!.id +
+              "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
+          });
+        } else {
+          userData.msgCount = msgCount;
+          this.usersMap.set(message.author.id, userData);
+        }
+      }
+    } else {
+      const fn = setTimeout(() => {
+        this.usersMap.delete(message.author.id);
+      }, this.TIME);
+      this.usersMap.set(message.author.id, {
+        msgCount: 1,
+        lastMessage: message,
+        timer: fn,
+      });
+    }
 
     let context;
     let contexts: string[] = [];

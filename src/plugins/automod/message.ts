@@ -11,6 +11,10 @@ const LIMIT = 5;
 const TIME = 10000;
 const DIFF = 3000;
 
+/**
+ * Class representing automod commands
+ * @class
+ */
 @Discord()
 @Bot(...getPluginsBot('automod'))
 @Category('automod')
@@ -21,6 +25,11 @@ const DIFF = 3000;
   PermissionGuard(['ManageMessages']),
 )
 export class AutoMod {
+  /**
+   * Enable/disable antiinvite for your server
+   * @param {boolean} boolean - Whether to enable or disable antiinvite
+   * @param {SimpleCommandMessage} command - The command message instance
+   */
   @SimpleCommand({
     name: 'antiinvite',
     description: ':stop_sign: Stop users from postings discord invites.',
@@ -55,6 +64,11 @@ export class AutoMod {
     );
   }
 
+  /**
+   * Enable/disable antilinks for your server
+   * @param {boolean} boolean - Whether to enable or disable antilinks
+   * @param {SimpleCommandMessage} command - The command message instance
+   */
   @SimpleCommand({
     name: 'antilink',
     description: ':stop_sign: Stop users from postings links 🔗',
@@ -89,6 +103,11 @@ export class AutoMod {
     );
   }
 
+  /**
+   * Enable/disable antispam for your server
+   * @param {boolean} boolean - Whether to enable or disable antispam
+   * @param {SimpleCommandMessage} command - The command message instance
+   */
   @SimpleCommand({
     name: 'antispam',
     description: ':stop_sign: Stop users from spamming.',
@@ -122,6 +141,11 @@ export class AutoMod {
     );
   }
 
+  /**
+   * Automod event listener
+   * @param {Array} args - The arguments for the messageCreate event
+   * @param {AeonaBot} client - The Discordx bot instance
+   */
   @On()
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot) return;
