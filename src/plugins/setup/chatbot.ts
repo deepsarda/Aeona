@@ -148,11 +148,17 @@ export class Chatbot {
     });
     if (!guild) guild = new GuildDB({ Guild: message.guildId });
 
-    if (this.usersMap.has(message.author.id) && guild.isPremium !== 'true' && !api.hasVoted(message.author.id)) {
+    if (
+      this.usersMap.has(message.author.id) &&
+      guild.isPremium !== 'true' &&
+      !(await api.hasVoted(message.author.id))
+    ) {
       const userData = this.usersMap.get(message.author.id);
       const { lastMessage, timer } = userData;
       const difference = message.createdTimestamp - lastMessage.createdTimestamp;
       let { msgCount } = userData;
+      ++msgCount;
+
       if (difference > this.DIFF) {
         clearTimeout(timer);
         userData.msgCount = 1;
@@ -162,12 +168,15 @@ export class Chatbot {
         }, this.TIME);
         this.usersMap.set(message.author.id, userData);
       } else {
-        ++msgCount;
-        if (parseInt(msgCount) === this.LIMIT) {
+        if (msgCount === this.LIMIT) {
           message.delete();
-          return message.reply({
+          userData.msgCount = msgCount;
+          this.usersMap.set(message.author.id, userData);
+          return message.channel.send({
             content:
-              'Hey! Sorry I have had to rate limit you for 30 seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
+              'Hey <@' +
+              message.author.id +
+              '>! Sorry I have had to rate limit you for 30 seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
               client.user!.id +
               "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
           });
@@ -211,15 +220,12 @@ export class Chatbot {
     fetch(url, options)
       .then((res) => res.text())
       .then(async (json) => {
-        let s = [
-          '\n discord.gg/W8hssA32C9',
-          'Help us grow by upvoting me at https://top.gg/bot/' + client.user!.id + '/bot',
-        ];
+        let s = ['\n discord.gg/W8hssA32C9', ,];
 
         console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 
         const randomNumber = Math.floor(Math.random() * 30);
-        json = randomNumber == 0 ? (json ?? '') + s[0] : randomNumber == 1 ? (json ?? '') + s[1] : json;
+        json = randomNumber == 0 ? (json ?? '') + s[0] : json;
         let component: any[] = [];
         if (guild!.chatbotFilter) {
           if (filter.check(json)) {
