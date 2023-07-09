@@ -43,9 +43,9 @@ filter.loadDictionary('en');
 @SlashGroup('setup')
 export class Chatbot {
   private readonly usersMap = new Map();
-  private readonly LIMIT = 5;
+  private readonly LIMIT = 3;
   private readonly TIME = 5 * 60 * 1000;
-  private readonly DIFF = 30000;
+  private readonly DIFF = 60000 * 2;
   @SimpleCommand({
     name: 'setup chatbot',
     description: 'Set a channel for talking with me 💬',
