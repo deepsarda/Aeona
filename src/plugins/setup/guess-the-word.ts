@@ -1,15 +1,26 @@
 import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
-import { ArgsOf, Bot, Guard, On, SimpleCommand, SimpleCommandMessage, Slash, SlashGroup } from 'discordx';
+import {
+  ArgsOf,
+  Bot,
+  ButtonComponent,
+  Guard,
+  On,
+  SimpleCommand,
+  SimpleCommandMessage,
+  Slash,
+  SlashGroup,
+} from 'discordx';
 import { Discord } from 'discordx';
 
 import { getPluginsBot } from '../../utils/config.js';
 
-import { CommandInteraction } from 'discord.js';
+import { ButtonInteraction, CommandInteraction } from 'discord.js';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import schema from '../../database/models/guessWord.js';
 import { AeonaBot } from '../../utils/types.js';
 
 import { bot } from '../../bot.js';
+import { Components } from '../../utils/components.js';
 
 @Discord()
 @Bot(...getPluginsBot('guess-the-word'))
@@ -26,11 +37,14 @@ import { bot } from '../../bot.js';
 )
 @SlashGroup('setup')
 export class GuessTheWord {
+  components = new Components().addButton('skip', 'Secondary', 'skipWord');
+
   @SimpleCommand({
     name: 'setup guess-the-word',
     description: 'Set a channel for guess-the-word 🔢',
   })
   async gtwMessage(command: SimpleCommandMessage) {
+    let components = this.components;
     createSetupWizard(
       command,
       'Guess The Word',
@@ -54,6 +68,7 @@ export class GuessTheWord {
                   value: `${shuffled.toLowerCase()}`,
                 },
               ],
+              components,
             },
             channel!,
           );
@@ -69,6 +84,7 @@ export class GuessTheWord {
     description: 'Set a channel for guess the word minigame',
   })
   async gtwSlash(command: CommandInteraction) {
+    const components = this.components;
     createSetupWizard(
       command,
       'Count',
@@ -92,6 +108,7 @@ export class GuessTheWord {
                   value: `${shuffled.toLowerCase()}`,
                 },
               ],
+              components,
             },
             channel!,
           );
@@ -109,7 +126,7 @@ export class GuessTheWord {
     const data = await schema.findOne({ Guild: message.guildId, Channel: message.channel.id });
     if (!data) return;
 
-    if (message.content.toLowerCase() == data.Word.toLowerCase()) {
+    if (message.content.toLowerCase() == data.word.toLowerCase() || data.word == 'start') {
       message.react(bot.config.emotes.normal.check);
       const word = client.extras.wordlist[Math.floor(Math.random() * client.extras.wordlist.length)];
       const shuffled = word
@@ -130,15 +147,16 @@ export class GuessTheWord {
             },
             {
               name: `💬 Correct word`,
-              value: `${data.Word}`,
+              value: `${data.word}`,
               inline: true,
             },
           ],
+          components: this.components,
         },
         message,
       );
 
-      data.Word = word;
+      data.word = word;
       data.save();
 
       return client.extras.sendEmbedMessage(
@@ -151,10 +169,49 @@ export class GuessTheWord {
               value: `${shuffled.toLowerCase()}`,
             },
           ],
+          components: this.components,
         },
         message,
       );
     }
     message.react(bot.config.emotes.normal.error);
+  }
+
+  @ButtonComponent({
+    id: 'skipWord',
+  })
+  async skipWord(interaction: ButtonInteraction) {
+    interaction.deferUpdate();
+
+    const data = await schema.findOne({ Guild: interaction.guildId, Channel: interaction.channelId });
+    if (!data) return;
+
+    const word = bot.extras.wordlist[Math.floor(Math.random() * bot.extras.wordlist.length)];
+    const shuffled = word
+      .split('')
+      .sort(function () {
+        return 0.5 - Math.random();
+      })
+      .join('');
+
+    interaction.reply({
+      embeds: [
+        bot.extras.createEmbed({
+          title: `Guess the word`,
+          desc: `The word is skipped.`,
+          fields: [
+            {
+              name: `💬 Shuffeled word`,
+              value: `${shuffled}`,
+              inline: true,
+            },
+          ],
+          components: this.components,
+        }),
+      ],
+    });
+
+    data.word = word;
+    data.save();
   }
 }
