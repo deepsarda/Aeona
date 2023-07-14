@@ -151,7 +151,6 @@ export class GuessTheWord {
               inline: true,
             },
           ],
-          components: this.components,
         },
         message,
       );
@@ -194,27 +193,26 @@ export class GuessTheWord {
       })
       .join('');
 
-    interaction.editReply({
-      embeds: [
-        bot.extras.createEmbed({
-          title: `Guess the word`,
-          desc: `The word is skipped.`,
-          fields: [
-            {
-              name: `💬 Correct Word`,
-              value: `${data.word}`,
-              inline: true,
-            },
-            {
-              name: `💬 New word`,
-              value: `${shuffled}`,
-              inline: true,
-            },
-          ],
-          components: this.components,
-        }),
-      ],
-    });
+    bot.extras.sendEmbedMessage(
+      {
+        title: `Guess the word`,
+        desc: `The word is skipped.`,
+        fields: [
+          {
+            name: `💬 Correct Word`,
+            value: `${data.word}`,
+            inline: true,
+          },
+          {
+            name: `💬 New word`,
+            value: `${shuffled}`,
+            inline: true,
+          },
+        ],
+        components: this.components,
+      },
+      interaction.message,
+    );
 
     data.word = word;
     data.save();
