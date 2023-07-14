@@ -194,7 +194,7 @@ export class GuessTheWord {
       })
       .join('');
 
-    interaction.reply({
+    interaction.editReply({
       embeds: [
         bot.extras.createEmbed({
           title: `Guess the word`,
