@@ -37,7 +37,7 @@ import { Components } from '../../utils/components.js';
 )
 @SlashGroup('setup')
 export class GuessTheWord {
-  components = new Components().addButton('skip', 'Secondary', 'skipWord');
+  components = new Components().addButton('Skip', 'Secondary', 'skipWord');
 
   @SimpleCommand({
     name: 'setup guess-the-word',
@@ -126,9 +126,9 @@ export class GuessTheWord {
     const data = await schema.findOne({ Guild: message.guildId, Channel: message.channel.id });
     if (!data) return;
 
-    if (message.content.toLowerCase() == data.word.toLowerCase() || data.word == 'start') {
+    if (message.content.toLowerCase().trim() == data.word.toLowerCase().trim() || data.word == 'start') {
       message.react(bot.config.emotes.normal.check);
-      const word = client.extras.wordlist[Math.floor(Math.random() * client.extras.wordlist.length)];
+      const word = client.extras.wordlist[Math.floor(Math.random() * client.extras.wordlist.length)].trim();
       const shuffled = word
         .split('')
         .sort(function () {
@@ -186,7 +186,7 @@ export class GuessTheWord {
     const data = await schema.findOne({ Guild: interaction.guildId, Channel: interaction.channelId });
     if (!data) return;
 
-    const word = bot.extras.wordlist[Math.floor(Math.random() * bot.extras.wordlist.length)];
+    const word = bot.extras.wordlist[Math.floor(Math.random() * bot.extras.wordlist.length)].trim();
     const shuffled = word
       .split('')
       .sort(function () {
@@ -201,7 +201,12 @@ export class GuessTheWord {
           desc: `The word is skipped.`,
           fields: [
             {
-              name: `💬 Shuffeled word`,
+              name: `💬 Correct Word`,
+              value: `${data.word}`,
+              inline: true,
+            },
+            {
+              name: `💬 New word`,
               value: `${shuffled}`,
               inline: true,
             },
