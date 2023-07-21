@@ -40,15 +40,15 @@ export function additionalProps(client: AeonaBot) {
     capitalizeFirstLetter: (string: string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
-    buttonReactions(id: any, reactions: any[]) {
+    buttonReactions(reactions: string[],ids:string[]) {
       const labels: ButtonBuilder[] = [];
       let comp: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
 
-      reactions.map((emoji) => {
+      reactions.map((emoji:string,i) => {
         const btn = new ButtonBuilder()
           .setStyle(ButtonStyle.Secondary)
           .setEmoji(`${emoji}`)
-          .setCustomId(`reaction_button-${emoji}`);
+          .setCustomId(`reaction_button-${ids[i]}`);
         return labels.push(btn);
       });
 

@@ -175,7 +175,7 @@ export class GuessTheWord {
     }
     message.react(bot.config.emotes.normal.error);
   }
-
+  @Guard(PermissionGuard([]))
   @ButtonComponent({
     id: 'skipWord',
   })
