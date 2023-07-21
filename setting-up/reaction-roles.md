@@ -4,10 +4,6 @@ description: You can give users the option to choose their roles.
 
 # 📌 Reaction Roles
 
-{% hint style="danger" %}
-This Feature is currently disabled and will be brought back soon!
-{% endhint %}
-
 ### Steps
 
 #### 1. Adding the roles.

@@ -49,9 +49,7 @@ Setup a reminder for your users to boost your server.
 
 ## 9. Reaction Roles
 
-Setup menus to give your users some self roles.\
-\
-This Feature is currently disabled and will be brought back soon!
+Setup menus to give your users some self roles.
 
 <figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061907193546407947/image.png" alt=""><figcaption></figcaption></figure>
 
