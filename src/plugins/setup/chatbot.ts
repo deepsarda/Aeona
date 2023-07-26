@@ -43,7 +43,7 @@ filter.loadDictionary('en');
 @SlashGroup('setup')
 export class Chatbot {
   private readonly usersMap = new Map();
-  private readonly LIMIT = 3;
+  private readonly LIMIT = 4;
   private readonly TIME = 5 * 60 * 1000;
   private readonly DIFF = 60000 * 2;
   @SimpleCommand({
@@ -176,7 +176,7 @@ export class Chatbot {
             content:
               'Hey <@' +
               message.author.id +
-              '>! Sorry I have had to rate limit you for 30 seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
+              '>! Sorry I have had to rate limit you for **30** seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
               client.user!.id +
               "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
           });
