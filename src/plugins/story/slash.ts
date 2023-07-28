@@ -94,8 +94,8 @@ export class Story {
 
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
-          .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-          .setImage('attachment://image0.png');
+          .setDescription(response.story + '\n\n\n' + response.options.join('\n'));
+        // .setImage('attachment://image0.png');
 
         command
           .editReply({
