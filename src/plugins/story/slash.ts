@@ -86,11 +86,11 @@ export class Story {
     try {
       while (true) {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
-
+        console.log(response);
         const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
           name: 'image0.png',
         });
-
+        console.log(image);
         const embed = bot.extras.createEmbed({
           title: 'Aeona Story Generation',
           desc: response.story + '\n\n\n' + response.options.join('\n'),
