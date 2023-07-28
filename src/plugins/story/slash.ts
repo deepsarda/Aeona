@@ -89,15 +89,14 @@ export class Story {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
         const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-          name: 'image0.png',
+          name: 'image0.jpeg',
         });
-        console.log(response.story, response.story + '\n\n\n' + response.options.join('\n'));
+
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
           .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-          .setImage('attachment://image0.png');
+          .setImage('attachment://image0.jpeg');
 
-        console.log(embed.toJSON());
         command
           .editReply({
             content: 'Generated!',
