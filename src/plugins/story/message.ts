@@ -130,8 +130,9 @@ export class Story {
       name: 'image0.png',
     });
 
-    const embed = new EmbedBuilder().setDescription(response.story + '\n\n\n' + response.options.join('\n'));
-    //.setImage('attachment://image0.png');
+    const embed = new EmbedBuilder()
+      .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
+      .setImage('attachment://image0.png');
 
     await ctx.editReply({
       embeds: [embed],
