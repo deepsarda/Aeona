@@ -129,8 +129,8 @@ export class Story {
       name: 'image0.png',
     });
 
-    const embed = await bot.extras.createEmbed({
-      desc: response.story + '\n\n\n',
+    const embed = bot.extras.createEmbed({
+      desc: response.story + '\n\n\n' + response.options.join('\n'),
       image: 'attachments://image0.png',
     });
 

@@ -88,7 +88,7 @@ export class Story {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
         const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-          name: 'image0.jpg',
+          name: 'image0.png',
         });
 
         const embed = bot.extras.createEmbed({
