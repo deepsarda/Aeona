@@ -87,17 +87,21 @@ export class Story {
           name: 'image0.png',
         });
 
-        const embed = await bot.extras.createEmbed({
+        const embed = bot.extras.createEmbed({
           title: 'Aeona Story Generation',
-          desc: response.story + '\n\n\n'+response.options.join('\n'),
+          desc: response.story + '\n\n\n' + response.options.join('\n'),
           image: 'attachments://image0.png',
         });
-        ctx.reply({
-          content:'Generated!',
-          embeds: [embed],
-          files: [image],
-          components: comp,
-        });
+        ctx
+          .reply({
+            content: 'Generated!',
+            embeds: [embed],
+            files: [image],
+            components: comp,
+          })
+          .catch((e) => {
+            console.error(e);
+          });
         return;
       }
     } catch (e) {
