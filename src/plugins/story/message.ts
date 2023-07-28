@@ -11,6 +11,7 @@ import {
   AttachmentBuilder,
   ButtonInteraction,
   ComponentType,
+  EmbedBuilder,
   MessageActionRowComponentBuilder,
   StringSelectMenuBuilder,
   TextChannel,
@@ -87,11 +88,10 @@ export class Story {
           name: 'image0.png',
         });
 
-        const embed = bot.extras.createEmbed({
-          title: 'Aeona Story Generation',
-          desc: response.story + '\n\n\n' + response.options.join('\n'),
-          image: 'attachments://image0.png',
-        });
+        const embed = new EmbedBuilder()
+          .setTitle('Aeona Story Generation')
+          .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
+          .setImage('attachment://image0.png');
         ctx
           .reply({
             content: 'Generated!',
@@ -129,10 +129,10 @@ export class Story {
       name: 'image0.png',
     });
 
-    const embed = bot.extras.createEmbed({
-      desc: response.story + '\n\n\n' + response.options.join('\n'),
-      image: 'attachments://image0.png',
-    });
+    const embed = new EmbedBuilder()
+
+      .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
+      .setImage('attachment://image0.png');
 
     await ctx.editReply({
       embeds: [embed],
