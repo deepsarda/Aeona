@@ -80,6 +80,9 @@ export class Story {
     comp.addButton('Choice 2', 'Secondary', 'generate-' + id + '-2');
     comp.addButton('Choice 3', 'Secondary', 'generate-' + id + '-3');
     comp.addButton('Choice 4', 'Secondary', 'generate-' + id + '-4');
+    command.reply({
+      content: 'Generating...',
+    });
     const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
     const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
