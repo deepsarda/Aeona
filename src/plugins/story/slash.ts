@@ -94,7 +94,7 @@ export class Story {
       desc: response.story + '\n\n\n',
       image: 'attachments://image0.png',
     });
-    await command.reply({
+    await command.editReply({
       embeds: [embed],
       files: [image],
       components: comp,
