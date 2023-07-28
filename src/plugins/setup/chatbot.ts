@@ -178,7 +178,7 @@ export class Chatbot {
               message.author.id +
               '>! Sorry I have had to rate limit you for **30** seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
               client.user!.id +
-              "/bot  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
+              "/vote  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
           });
         } else {
           userData.msgCount = msgCount;
@@ -220,7 +220,7 @@ export class Chatbot {
     fetch(url, options)
       .then((res) => res.text())
       .then(async (json) => {
-        let s = ['\n discord.gg/W8hssA32C9', ,];
+        let s = ['\n discord.gg/W8hssA32C9 \n **Check Out: Story Generation** \n `/story generate`', ,];
 
         console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 
