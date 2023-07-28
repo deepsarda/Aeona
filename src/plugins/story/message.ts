@@ -79,23 +79,27 @@ export class Story {
     ctx.reply({
       content: 'Generating...',
     });
+    try {
+      while (true) {
+        const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
-    const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
+        const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+          name: 'image0.png',
+        });
 
-    const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-      name: 'image0.png',
-    });
-
-    const embed = await bot.extras.createEmbed({
-      title: 'Aeona Story Generation',
-      desc: response.story + '\n\n\n',
-      image: 'attachments://image0.png',
-    });
-    await ctx.reply({
-      embeds: [embed],
-      files: [image],
-      components: comp,
-    });
+        const embed = await bot.extras.createEmbed({
+          title: 'Aeona Story Generation',
+          desc: response.story + '\n\n\n',
+          image: 'attachments://image0.png',
+        });
+        ctx.reply({
+          embeds: [embed],
+          files: [image],
+          components: comp,
+        });
+        return;
+      }
+    } catch (e) {}
   }
 
   @ButtonComponent({
@@ -111,6 +115,7 @@ export class Story {
     comp.addButton('Choice 2', 'Secondary', 'generate-' + ids[1] + '-2');
     comp.addButton('Choice 3', 'Secondary', 'generate-' + ids[1] + '-3');
     comp.addButton('Choice 4', 'Secondary', 'generate-' + ids[1] + '-4');
+
     const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${ids[2]}&text=${prompt}`)).json();
 
     const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {

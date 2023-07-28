@@ -83,21 +83,27 @@ export class Story {
     command.reply({
       content: 'Generating...',
     });
-    const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
+    try {
+      while (true) {
+        const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
-    const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-      name: 'image0.png',
-    });
+        const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+          name: 'image0.png',
+        });
 
-    const embed = await bot.extras.createEmbed({
-      title: 'Aeona Story Generation',
-      desc: response.story + '\n\n\n',
-      image: 'attachments://image0.png',
-    });
-    await command.editReply({
-      embeds: [embed],
-      files: [image],
-      components: comp,
-    });
+        const embed = await bot.extras.createEmbed({
+          title: 'Aeona Story Generation',
+          desc: response.story + '\n\n\n',
+          image: 'attachments://image0.png',
+        });
+        command.editReply({
+          embeds: [embed],
+          files: [image],
+          components: comp,
+        });
+
+        return;
+      }
+    } catch (e) {}
   }
 }
