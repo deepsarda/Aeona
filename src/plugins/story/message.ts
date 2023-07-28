@@ -85,13 +85,13 @@ export class Story {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
         const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-          name: 'image0.jpeg',
+          name: 'image0.png',
         });
 
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
           .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-          .setImage('attachment://image0.jpeg');
+          .setImage('attachment://image0.png');
 
         ctx
           .reply({
@@ -124,15 +124,15 @@ export class Story {
     comp.addButton('Choice 3', 'Secondary', 'generate-' + ids[1] + '-3');
     comp.addButton('Choice 4', 'Secondary', 'generate-' + ids[1] + '-4');
 
-    const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${ids[2]}&text=${prompt}`)).json();
+    const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${ids[1]}&text=${ids[2]}`)).json();
 
     const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-      name: 'image0.jpeg',
+      name: 'image0.png',
     });
 
     const embed = new EmbedBuilder()
       .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-      .setImage('attachment://image0.jpeg');
+      .setImage('attachment://image0.png');
 
     await ctx.editReply({
       embeds: [embed],
