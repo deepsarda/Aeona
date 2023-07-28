@@ -93,10 +93,11 @@ export class Story {
 
         const embed = await bot.extras.createEmbed({
           title: 'Aeona Story Generation',
-          desc: response.story + '\n\n\n',
+          desc: response.story + '\n\n\n'+response.options.join('\n'),
           image: 'attachments://image0.png',
         });
         command.editReply({
+          content:'Generated!',
           embeds: [embed],
           files: [image],
           components: comp,
@@ -104,6 +105,6 @@ export class Story {
 
         return;
       }
-    } catch (e) {}
+    } catch (e) {console.error(e);}
   }
 }
