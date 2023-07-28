@@ -91,7 +91,7 @@ export class Story {
         const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
           name: 'image0.png',
         });
-
+        console.log(response.story, response.story + '\n\n\n' + response.options.join('\n'));
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
           .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
