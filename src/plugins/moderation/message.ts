@@ -17,7 +17,7 @@ import { GuildMember, User } from 'discord.js';
 export class Moderation {
     @SimpleCommand({
         name: "kick",
-        description: "Kick a member from the server!"
+        description: "Kick a member out of the server!"
     })
     async kick(
         @SimpleCommandOption({
@@ -25,7 +25,7 @@ export class Moderation {
             description: "The member to be kicked",
             type: SimpleCommandOption.User
         })
-        user: User | GuildMember | undefined,
+        member: User | GuildMember | undefined,
         @SimpleCommandOption({
             name: 'reason',
             description: 'Why you want to kick the member',
@@ -36,12 +36,45 @@ export class Moderation {
     ) {
         const ctx = command.message;
 
-        if (!user) return bot.extras.errUsage({ usage: '+boop @User [reason]' }, command);
+        if (!member) return bot.extras.errUsage({ usage: '+kick @Member [reason]' }, command);
 
         bot.extras.embed(
             {
                 title: `${ctx.author.username} was kicked out of the server!`,
-                description: `User: ${ctx.author}\nAction: Kicked\nReason: ${reason}`,
+                description: `Member: ${ctx.author}\nAction: Kicked\nReason: ${reason}`,
+                type: 'reply',
+            },
+            command
+        );
+    }
+
+    @SimpleCommand({
+        name: "ban",
+        description: "Ban a member from the server!"
+    })
+    async ban(
+        @SimpleCommandOption({
+            name: "member",
+            description: "The member to be banned",
+            type: SimpleCommandOption.User
+        })
+        member: User | GuildMember | undefined,
+        @SimpleCommandOption({
+            name: 'reason',
+            description: 'Why you want to ban the member',
+            type: SimpleCommandOptionType.String,
+          })
+          reason: string = 'No reason given!',
+          command: SimpleCommandMessage,
+    ) {
+        const ctx = command.message;
+
+        if (!member) return bot.extras.errUsage({ usage: '+ban @Member [reason]' }, command);
+
+        bot.extras.embed(
+            {
+                title: `${ctx.author.username} was banned from the server!`,
+                description: `Member: ${ctx.author}\nAction: Banned\nReason: ${reason}`,
                 type: 'reply',
             },
             command
