@@ -202,19 +202,20 @@ export class Chatbot {
       msgs = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
     }
     try {
-      msgs.forEach((msg) =>
-        contexts.push({
-          content: msg.content,
-          name: msg.author.username,
-          type: msg.author.id != bot.user?.id ? 'user' : 'bot',
-        }),
-      );
+      msgs.forEach((msg) => {
+        if (msg.content && msg.content.length > 0 && contexts.length < 20)
+          contexts.push({
+            content: msg.content,
+            name: msg.author.username,
+            type: msg.author.id != bot.user?.id ? 'user' : 'bot',
+          });
+      });
     } catch (e) {
       //ignore error
     }
 
     const url = `http://localhost:8083/chatbot`;
-
+    console.log(JSON.stringify(contexts));
     const options = {
       method: 'POST',
       body: JSON.stringify(contexts),
