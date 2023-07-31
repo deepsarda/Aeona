@@ -87,7 +87,7 @@ export class GuessTheWord {
     const components = this.components;
     createSetupWizard(
       command,
-      'Count',
+      'Guess The Word',
       {
         createCallback(channel) {
           const word = 'start';

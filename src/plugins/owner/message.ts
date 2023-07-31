@@ -42,7 +42,7 @@ export class Owners {
         },
         command,
       );
-
+    code = command.argString;
     if (!code) return;
 
     let embed = ``;

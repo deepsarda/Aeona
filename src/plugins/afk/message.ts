@@ -54,7 +54,7 @@ export class Afk {
   ) {
     const ctx = command.message;
     const data = await Schema.findOne({ Guild: ctx.guildId, User: ctx.author.id });
-
+    reason = command.argString;
     // Check if the user is already AFK
     if (data) {
       return bot.extras.errNormal(

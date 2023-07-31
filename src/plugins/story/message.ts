@@ -43,7 +43,7 @@ export class Story {
     command: SimpleCommandMessage,
   ) {
     let ctx = command.message;
-
+    prompt = command.argString;
     if (!ctx.guild) return;
 
     if (!prompt)
@@ -125,14 +125,11 @@ export class Story {
     comp.addButton('Choice 4', 'Secondary', 'generate-' + ids[1] + '-4');
 
     const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${ids[1]}&text=${ids[2]}`)).json();
-    console.log(response.story);
-    console.log(response.options);
 
     const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
       name: 'image0.png',
     });
 
-    console.log(image);
     const embed = new EmbedBuilder()
       .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
       .setImage('attachment://image0.png');

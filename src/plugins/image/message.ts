@@ -42,7 +42,7 @@ export class Image {
     let ctx = command.message;
 
     if (!ctx.guild) return;
-
+    prompt = command.argString;
     if (!prompt)
       return bot.extras.errUsage(
         {

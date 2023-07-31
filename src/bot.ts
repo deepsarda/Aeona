@@ -1,6 +1,7 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
 import {
+  Collection,
   CommandInteraction,
   IntentsBitField,
   InteractionResponse,
@@ -41,7 +42,7 @@ export const bot: AeonaBot = new Client({
     IntentsBitField.Flags.DirectMessages,
     IntentsBitField.Flags.GuildScheduledEvents,
   ],
-  silent: false,
+  silent: true,
   simpleCommand: {
     prefix: async (message) => {
       if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return 'asd';
@@ -72,7 +73,52 @@ export const bot: AeonaBot = new Client({
       ];
     },
     responses: {
-      notFound(command) {},
+      async notFound(message) {
+        let contexts: { content: string; name: string; type: string }[] = [];
+        let msgs: Collection<string, Message> = new Collection();
+        if (message.channel.messages.cache.size < 10) {
+          msgs = (await message.channel.messages.fetch({ limit: 20 })).sort(
+            (a, b) => b.createdTimestamp - a.createdTimestamp,
+          );
+        } else {
+          msgs = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+        }
+        try {
+          msgs.forEach((msg) =>
+            contexts.push({
+              content: msg.content,
+              name: msg.author.username,
+              type: msg.author.id != bot.user?.id ? 'user' : 'bot',
+            }),
+          );
+        } catch (e) {
+          //ignore error
+        }
+
+        const url = `http://localhost:8083/chatbot`;
+
+        const options = {
+          method: 'GET',
+          body: JSON.stringify(contexts),
+        };
+
+        fetch(url, options)
+          .then((res) => res.text())
+          .then(async (json) => {
+            let s = ['\n discord.gg/W8hssA32C9 \n **Check Out: Story Generation** \n `/story generate`', ,];
+
+            console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
+
+            const randomNumber = Math.floor(Math.random() * 30);
+            json = randomNumber == 0 ? (json ?? '') + s[0] : json;
+            let component: any[] = [];
+
+            message.reply({
+              content: json,
+              components: component,
+            });
+          });
+      },
     },
   },
   shards: getInfo().SHARD_LIST,

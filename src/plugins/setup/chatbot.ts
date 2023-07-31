@@ -15,7 +15,7 @@ import { Discord } from 'discordx';
 import { getPluginsBot } from '../../utils/config.js';
 import ChatbotShema from '../../database/models/chatbot-channel.js';
 import GuildDB from '../../database/models/guild.js';
-import { ButtonInteraction, Channel, CommandInteraction, GuildChannel } from 'discord.js';
+import { ButtonInteraction, Channel, Collection, CommandInteraction, GuildChannel, Message } from 'discord.js';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import chatbotChannel from '../../database/models/chatbot-channel.js';
 import { AeonaBot } from '../../utils/types.js';
@@ -139,10 +139,6 @@ export class Chatbot {
     const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
     if (!data) return;
 
-    const msgs = (await message.channel.messages.fetch({ limit: 11 })).sort(
-      (a, b) => b.createdTimestamp - a.createdTimestamp,
-    );
-
     let guild = await GuildDB.findOne({
       Guild: message.guildId,
     });
@@ -196,25 +192,32 @@ export class Chatbot {
       });
     }
 
-    let context;
-    let contexts: string[] = [];
+    let contexts: { content: string; name: string; type: string }[] = [];
+    let msgs: Collection<string, Message> = new Collection();
+    if (message.channel.messages.cache.size < 10) {
+      msgs = (await message.channel.messages.fetch({ limit: 20 })).sort(
+        (a, b) => b.createdTimestamp - a.createdTimestamp,
+      );
+    } else {
+      msgs = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+    }
     try {
-      for (let i = 1; i <= 10; i++) {
-        contexts.push(msgs.at(i)!.content);
-      }
-      [context, ...contexts] = contexts;
+      msgs.forEach((msg) =>
+        contexts.push({
+          content: msg.content,
+          name: msg.author.username,
+          type: msg.author.id != bot.user?.id ? 'user' : 'bot',
+        }),
+      );
     } catch (e) {
       //ignore error
     }
 
-    const url = `http://localhost:8083/chatbot?text=${encodeURIComponent(message.content)}&userId=${
-      message.author.id
-    }&key=${process.env.apiKey}${context ? `&context=${context}` : ''}${contexts
-      .map((c, i) => (c ? `&context${i + 1}=${c}` : ''))
-      .join('')}`;
+    const url = `http://localhost:8083/chatbot`;
 
     const options = {
       method: 'GET',
+      body: JSON.stringify(contexts),
     };
 
     fetch(url, options)
