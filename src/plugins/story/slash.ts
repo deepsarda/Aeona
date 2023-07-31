@@ -87,12 +87,23 @@ export class Story {
     try {
       while (true) {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
-        console.log(response.story);
-        console.log(response.options);
-        const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-          name: 'image0.png',
-        });
-        console.log(image);
+        let image;
+        try {
+          image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+            name: 'image0.png',
+          });
+        } catch {
+          console.log('error with image');
+          try {
+            console.log(Buffer.from(response.image, 'base64'));
+            image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+              name: 'image0.png',
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
           .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
@@ -102,7 +113,7 @@ export class Story {
           .editReply({
             content: 'Generated!',
             embeds: [embed],
-            files: [image],
+            files: image ? [image] : [],
             components: comp,
           })
           .catch((e) => {

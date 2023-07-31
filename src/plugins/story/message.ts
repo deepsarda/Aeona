@@ -84,9 +84,14 @@ export class Story {
       while (true) {
         const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${id}&text=${prompt}`)).json();
 
-        const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-          name: 'image0.png',
-        });
+        let image;
+        try {
+          image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+            name: 'image0.png',
+          });
+        } catch {
+          console.log('error with image');
+        }
 
         const embed = new EmbedBuilder()
           .setTitle('Aeona Story Generation')
@@ -97,7 +102,7 @@ export class Story {
           .reply({
             content: 'Generated!',
             embeds: [embed],
-            files: [image],
+            files: image ? [image] : [],
             components: comp,
           })
           .catch((e) => {
@@ -126,9 +131,14 @@ export class Story {
 
     const response = await (await fetch(`http://localhost:8083/chatbot/story?id=${ids[1]}&text=${ids[2]}`)).json();
 
-    const image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
-      name: 'image0.png',
-    });
+    let image;
+    try {
+      image = new AttachmentBuilder(Buffer.from(response.image, 'base64'), {
+        name: 'image0.png',
+      });
+    } catch {
+      console.log('error with image');
+    }
 
     const embed = new EmbedBuilder()
       .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
@@ -136,7 +146,7 @@ export class Story {
 
     await ctx.editReply({
       embeds: [embed],
-      files: [image],
+      files: image ? [image] : [],
       components: comp,
     });
     await ctx.followUp({
