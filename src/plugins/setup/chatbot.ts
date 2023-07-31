@@ -218,6 +218,7 @@ export class Chatbot {
 
     const options = {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(contexts),
     };
     message.channel.sendTyping();
