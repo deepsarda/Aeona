@@ -98,7 +98,7 @@ export const bot: AeonaBot = new Client({
         const url = `http://localhost:8083/chatbot`;
 
         const options = {
-          method: 'GET',
+          method: 'POST',
           body: JSON.stringify(contexts),
         };
 

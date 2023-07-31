@@ -218,7 +218,7 @@ export class Anime {
   }
 
   @SimpleCommand({
-    name: 'kick',
+    name: 'anime kick',
     description: 'Kick another user! 👢',
   })
   async kick(

@@ -216,7 +216,7 @@ export class Chatbot {
     const url = `http://localhost:8083/chatbot`;
 
     const options = {
-      method: 'GET',
+      method: 'POST',
       body: JSON.stringify(contexts),
     };
 
