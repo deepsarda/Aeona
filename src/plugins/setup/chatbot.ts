@@ -219,7 +219,7 @@ export class Chatbot {
       method: 'POST',
       body: JSON.stringify(contexts),
     };
-
+    message.channel.sendTyping();
     fetch(url, options)
       .then((res) => res.text())
       .then(async (json) => {
