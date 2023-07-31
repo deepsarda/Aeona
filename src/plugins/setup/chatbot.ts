@@ -215,7 +215,7 @@ export class Chatbot {
     }
 
     const url = `http://localhost:8083/chatbot`;
-    console.log(JSON.stringify(contexts));
+
     const options = {
       method: 'POST',
       body: JSON.stringify(contexts),
