@@ -106,7 +106,7 @@ export class Story {
 
         let messageContent = response.story + '\n\n\n' + response.options.join('\n');
         let paragraphs = messageContent.split('\n\n');
-        let contents: string[] = [];
+        let contents: string[] = [''];
 
         for (let i = 0; i < paragraphs.length; i++) {
           let paragraph = paragraphs[i];
