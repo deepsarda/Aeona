@@ -102,7 +102,7 @@ export class Story {
           let content = contents[contents.length - 1];
 
           let text = content + '\n\n' + paragraph;
-          if (text.length > 2000) contents.push(paragraph);
+          if (text.length > 1500) contents.push(paragraph);
           else contents[contents.length - 1] = text;
         }
 
@@ -176,14 +176,14 @@ export class Story {
       let content = contents[contents.length - 1];
 
       let text = content + '\n\n' + paragraph;
-      if (text.length > 2000) contents.push(paragraph);
+      if (text.length > 1500) contents.push(paragraph);
       else contents[contents.length - 1] = text;
     }
 
     for (let i = 0; i < contents.length; i++) {
       if (i == 0 && i != contents.length - 1) {
         await ctx.editReply({
-          content: response.story + '\n\n\n' + response.options.join('\n'),
+          content: contents[i],
           files: image ? [image] : [],
           components: comp,
         });
