@@ -121,21 +121,26 @@ export class Story {
           if (i == 0 && i != contents.length - 1) {
             await command.editReply({
               content: contents[i],
-              files: image ? [image] : [],
-              components: comp,
             });
           } else if (i == contents.length - 1) {
-            command
-              .channel!.send({
+            if (i != 0)
+              await command
+                .channel!.send({
+                  content: contents[i],
+                  files: image ? [image] : [],
+                  components: comp,
+                })
+                .catch((e) => {
+                  console.error(e);
+                });
+            else
+              await command.editReply({
                 content: contents[i],
                 files: image ? [image] : [],
                 components: comp,
-              })
-              .catch((e) => {
-                console.error(e);
               });
           } else {
-            command
+            await command
               .channel!.send({
                 content: contents[i],
               })

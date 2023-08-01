@@ -108,7 +108,7 @@ export class Story {
 
         for (let i = 0; i < contents.length; i++) {
           if (i == 0 && i != contents.length - 1) {
-            ctx
+            await ctx
               .reply({
                 content: contents[i],
               })
@@ -116,7 +116,7 @@ export class Story {
                 console.error(e);
               });
           } else if (i == contents.length - 1) {
-            ctx.channel
+            await ctx.channel
               .send({
                 content: contents[i],
                 files: image ? [image] : [],
@@ -126,7 +126,7 @@ export class Story {
                 console.error(e);
               });
           } else {
-            ctx.channel
+            await ctx.channel
               .send({
                 content: contents[i],
               })
@@ -184,21 +184,27 @@ export class Story {
       if (i == 0 && i != contents.length - 1) {
         await ctx.editReply({
           content: contents[i],
-          files: image ? [image] : [],
           components: comp,
         });
       } else if (i == contents.length - 1) {
-        ctx
-          .channel!.send({
+        if (i != 0)
+          await ctx
+            .channel!.send({
+              content: contents[i],
+              files: image ? [image] : [],
+              components: comp,
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+        else
+          await ctx.editReply({
             content: contents[i],
             files: image ? [image] : [],
             components: comp,
-          })
-          .catch((e) => {
-            console.error(e);
           });
       } else {
-        ctx
+        await ctx
           .channel!.send({
             content: contents[i],
           })
