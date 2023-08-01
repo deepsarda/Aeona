@@ -184,7 +184,6 @@ export class Story {
       if (i == 0 && i != contents.length - 1) {
         await ctx.editReply({
           content: contents[i],
-          components: comp,
         });
       } else if (i == contents.length - 1) {
         if (i != 0)
