@@ -104,15 +104,46 @@ export class Story {
           }
         }
 
-        command
-          .editReply({
-            content: response.story + '\n\n\n' + response.options.join('\n'),
-            files: image ? [image] : [],
-            components: comp,
-          })
-          .catch((e) => {
-            console.error(e);
-          });
+        let messageContent = response.story + '\n\n\n' + response.options.join('\n');
+        let paragraphs = messageContent.split('\n\n');
+        let contents: string[] = [];
+
+        for (let i = 0; i < paragraphs.length; i++) {
+          let paragraph = paragraphs[i];
+          let content = contents[contents.length - 1];
+
+          let text = content + '\n\n' + paragraph;
+          if (text.length > 2000) contents.push(paragraph);
+          else contents[contents.length - 1] = text;
+        }
+
+        for (let i = 0; i < contents.length; i++) {
+          if (i == 0 && i != contents.length - 1) {
+            await command.editReply({
+              content: response.story + '\n\n\n' + response.options.join('\n'),
+              files: image ? [image] : [],
+              components: comp,
+            });
+          } else if (i == contents.length - 1) {
+            command
+              .channel!.send({
+                content: contents[i],
+                files: image ? [image] : [],
+                components: comp,
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          } else {
+            command
+              .channel!.send({
+                content: contents[i],
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          }
+        }
 
         command.followUp({
           content: `${command.user}, Generated!`,

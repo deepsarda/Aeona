@@ -93,15 +93,49 @@ export class Story {
           console.log('error with image');
         }
 
-        ctx
-          .reply({
-            content: response.story + '\n\n\n' + response.options.join('\n'),
-            files: image ? [image] : [],
-            components: comp,
-          })
-          .catch((e) => {
-            console.error(e);
-          });
+        let messageContent = response.story + '\n\n\n' + response.options.join('\n');
+        let paragraphs = messageContent.split('\n\n');
+        let contents: string[] = [];
+
+        for (let i = 0; i < paragraphs.length; i++) {
+          let paragraph = paragraphs[i];
+          let content = contents[contents.length - 1];
+
+          let text = content + '\n\n' + paragraph;
+          if (text.length > 2000) contents.push(paragraph);
+          else contents[contents.length - 1] = text;
+        }
+
+        for (let i = 0; i < contents.length; i++) {
+          if (i == 0 && i != contents.length - 1) {
+            ctx
+              .reply({
+                content: contents[i],
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          } else if (i == contents.length - 1) {
+            ctx.channel
+              .send({
+                content: contents[i],
+                files: image ? [image] : [],
+                components: comp,
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          } else {
+            ctx.channel
+              .send({
+                content: contents[i],
+              })
+              .catch((e) => {
+                console.error(e);
+              });
+          }
+        }
+
         return;
       }
     } catch (e) {
@@ -133,12 +167,47 @@ export class Story {
     } catch {
       console.log('error with image');
     }
+    let messageContent = response.story + '\n\n\n' + response.options.join('\n');
+    let paragraphs = messageContent.split('\n\n');
+    let contents: string[] = [];
 
-    await ctx.editReply({
-      content: response.story + '\n\n\n' + response.options.join('\n'),
-      files: image ? [image] : [],
-      components: comp,
-    });
+    for (let i = 0; i < paragraphs.length; i++) {
+      let paragraph = paragraphs[i];
+      let content = contents[contents.length - 1];
+
+      let text = content + '\n\n' + paragraph;
+      if (text.length > 2000) contents.push(paragraph);
+      else contents[contents.length - 1] = text;
+    }
+
+    for (let i = 0; i < contents.length; i++) {
+      if (i == 0 && i != contents.length - 1) {
+        await ctx.editReply({
+          content: response.story + '\n\n\n' + response.options.join('\n'),
+          files: image ? [image] : [],
+          components: comp,
+        });
+      } else if (i == contents.length - 1) {
+        ctx
+          .channel!.send({
+            content: contents[i],
+            files: image ? [image] : [],
+            components: comp,
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      } else {
+        ctx
+          .channel!.send({
+            content: contents[i],
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    }
+
     await ctx.followUp({
       content: `<@${ctx.user.id}> Done!`,
     });
