@@ -93,15 +93,9 @@ export class Story {
           console.log('error with image');
         }
 
-        const embed = new EmbedBuilder()
-          .setTitle('Aeona Story Generation')
-          .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-          .setImage('attachment://image0.png');
-
         ctx
           .reply({
-            content: 'Generated!',
-            embeds: [embed],
+            content: response.story + '\n\n\n' + response.options.join('\n'),
             files: image ? [image] : [],
             components: comp,
           })
@@ -140,12 +134,8 @@ export class Story {
       console.log('error with image');
     }
 
-    const embed = new EmbedBuilder()
-      .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-      .setImage('attachment://image0.png');
-
     await ctx.editReply({
-      embeds: [embed],
+      content: response.story + '\n\n\n' + response.options.join('\n'),
       files: image ? [image] : [],
       components: comp,
     });

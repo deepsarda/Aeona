@@ -104,21 +104,19 @@ export class Story {
           }
         }
 
-        const embed = new EmbedBuilder()
-          .setTitle('Aeona Story Generation')
-          .setDescription(response.story + '\n\n\n' + response.options.join('\n'))
-          .setImage('attachment://image0.png');
-
         command
           .editReply({
-            content: 'Generated!',
-            embeds: [embed],
+            content: response.story + '\n\n\n' + response.options.join('\n'),
             files: image ? [image] : [],
             components: comp,
           })
           .catch((e) => {
             console.error(e);
           });
+
+        command.followUp({
+          content: `${command.user}, Generated!`,
+        });
 
         return;
       }

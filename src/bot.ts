@@ -107,7 +107,9 @@ export const bot: AeonaBot = new Client({
         fetch(url, options)
           .then((res) => res.text())
           .then(async (json) => {
-            let s = ['\n discord.gg/W8hssA32C9 \n **Check Out: Story Generation** \n `/story generate`', ,];
+            let s = [
+              '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
+            ];
 
             console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 
