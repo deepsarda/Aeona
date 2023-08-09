@@ -22,6 +22,10 @@ BaseGuildTextChannel.prototype.send = async function (options) {
   }
 
   const { body, files } = await messagePayload.resolveFiles();
+  if (body)
+    //@ts-expect-error
+    body.allowed_mentions.parse = ['users', 'roles'];
+
   //@ts-expect-error
   const d = await this.client.rest.post(Routes.channelMessages(this.id), { body, files });
   //@ts-expect-error
