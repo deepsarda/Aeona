@@ -195,7 +195,7 @@ export class Chatbot {
     let contexts: { content: string; name: string; type: string }[] = [];
     let msgs: Collection<string, Message> = new Collection();
     if (message.channel.messages.cache.size < 10) {
-      msgs = (await message.channel.messages.fetch({ limit: 20 })).sort(
+      msgs = (await message.channel.messages.fetch({ limit: 10 })).sort(
         (a, b) => b.createdTimestamp - a.createdTimestamp,
       );
     } else {
@@ -203,7 +203,7 @@ export class Chatbot {
     }
     try {
       msgs.forEach((msg) => {
-        if (msg.content && msg.content.length > 0 && contexts.length < 20)
+        if (msg.content && msg.content.length > 0 && contexts.length < 10)
           contexts.push({
             content: msg.content,
             name: msg.author.username,
