@@ -203,6 +203,7 @@ export class Chatbot {
     }
     try {
       msgs.forEach((msg) => {
+        msg = replaceMentions(msg); 
         if (msg.content && msg.content.length > 0 && contexts.length < 10)
           contexts.push({
             content: msg.content,
@@ -259,4 +260,20 @@ export class Chatbot {
       flags: 1 << 6,
     });
   }
+}
+
+function replaceMentions(message: Message) {
+  message.mentions.users.forEach((user) => {
+    message.content = message.content
+      .replaceAll(`<@!${user.id}>`, `<@${user.id}>`)
+      .replaceAll(`<@${user.id}>`, `@${user.username}`);
+  });
+  message.mentions.channels.forEach((channel: any) => {
+    message.content = message.content.replaceAll(`<#${channel.id}>`, `@${channel.name}`);
+  });
+  message.mentions.roles.forEach((role: any) => {
+    message.content = message.content.replaceAll(`<@&${role.id}>`, `@${role.name}`);
+  });
+
+  return message;
 }

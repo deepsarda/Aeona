@@ -63,11 +63,11 @@ export const bot: AeonaBot = new Client({
         guild.save();
       }
       if (message.mentions.users.has(bot.botId)) {
-        return [guild.Prefix, bot.user?.username ?? 'aeona', `<@!${bot.botId}>`, `<@${bot.botId}>`, ''];
+        return [guild.Prefix,  `<@!${bot.botId}>`, `<@${bot.botId}>`, ''];
       }
       return [
         guild.Prefix ?? config.prefix,
-        bot.user?.username ?? 'aeona',
+        
         `<@!${bot.user?.id}>`,
         `<@${bot.user?.id}>`,
       ];
