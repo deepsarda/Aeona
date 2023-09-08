@@ -2,9 +2,7 @@
 
 ## 1. Seeing Rank
 
-Run `/levels rank` to see your rank.
-
-<figure><img src="https://media.discordapp.net/attachments/1044575489118978068/1061953359935975434/image.png" alt=""><figcaption></figcaption></figure>
+Run `/invites rank` to see your rank.
 
 ## 2. Seeing the leaderboard
 

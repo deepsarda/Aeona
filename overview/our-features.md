@@ -3,7 +3,7 @@
 ## 1. 250+ Commands
 
 In 30 different categories and with 25+ systems.\
-Aeona removes the need for multiple bots with features like Anti Raid, Welcomer, Logging, Boost Logging, Server Stats and much more.
+Aeona removes the need for multiple bots with features like  Welcomer, Logging, Boost Logging, Server Stats and much more.
 
 <figure><img src="https://cdn.discordapp.com/attachments/1034419695794794562/1061935281164537896/image.png" alt=""><figcaption></figcaption></figure>
 
@@ -57,35 +57,7 @@ Setup menus to give your users some self roles.
 
 React to each other using gifs.
 
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061908824765767802/image.png" alt=""><figcaption></figcaption></figure>
 
-## 11. Logging
-
-Log everything that happened in your server.\
-\
-This Feature is currently disabled and will be brought back soon!
-
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061908426181070848/image.png" alt=""><figcaption></figcaption></figure>
-
-## 12. Family
-
-Enjoy and create fake families in your server.
-
-This Feature is currently disabled and will be brought back soon!
-
-
-
-### 13. Verification
-
-Verify users joining your server to make sure they are human.
-
-This Feature is currently disabled and will be brought back soon!
-
-
-
-### 14. Starboard
-
-This Feature is currently disabled and will be brought back soon!
 
 ### Well there are many more features waiting to be discovered so go ahead and invite me by clicking on the link below
 

@@ -57,8 +57,8 @@ We've put together some helpful guides for you to get setup with Aeona quickly a
 [bump-reminder.md](setting-up/bump-reminder.md)
 {% endcontent-ref %}
 
-{% content-ref url="setting-up/starboard.md" %}
-[starboard.md](setting-up/starboard.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
 {% content-ref url="setting-up/levels/" %}
@@ -69,19 +69,19 @@ We've put together some helpful guides for you to get setup with Aeona quickly a
 [invites](setting-up/invites/)
 {% endcontent-ref %}
 
-{% content-ref url="setting-up/verification.md" %}
-[verification.md](setting-up/verification.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
-{% content-ref url="setting-up/logging/" %}
-[logging](setting-up/logging/)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
-{% content-ref url="setting-up/tickets.md" %}
-[tickets.md](setting-up/tickets.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
-{% content-ref url="setting-up/suggestions.md" %}
-[suggestions.md](setting-up/suggestions.md)
+{% content-ref url="broken-reference" %}
+[Broken link](broken-reference)
 {% endcontent-ref %}
 
