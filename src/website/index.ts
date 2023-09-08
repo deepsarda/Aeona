@@ -10,10 +10,12 @@ export default function website(client: AeonaBot) {
 
   const renderTemplate = (res: any, req: any, template: any, data = {}) => {
     const baseData = {
-      name: 'Aeona',
-      url: '',
-      alert: null,
-      alerterror: null,
+      options: {
+        name: 'Aeona',
+        url: '',
+        alert: null,
+        alerterror: null,
+      },
       guilds: client.guilds.cache.size,
       members: client.guilds.cache.reduce((a: any, b: any) => a + b.memberCount - 1, 0),
     };
