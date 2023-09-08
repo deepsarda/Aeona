@@ -18,7 +18,7 @@
     <meta property="og:title" content="<%=title %>">
     <meta property="og:description" content="<%= options.name %> is a Multipurpose GPT Chatbot for Discord with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket and More. 
 ">
-    <meta property="og:image" content="<%= options.url %>/banner.png">
+    <meta property="og:image" content="<%= options.url %>/banner.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -26,7 +26,7 @@
     <meta property="twitter:title" content="<%=title %>">
     <meta property="twitter:description" content="<%= options.name %> is a Multipurpose GPT Chatbot with AI Image Generator, Counting , Logging, Leveling, Reaction Roles, Boost Tracker, Welcomer, Ticket and More.
 ">
-    <meta property="twitter:image" content="<%= options.url %>/banner.png">
+    <meta property="twitter:image" content="<%= options.url %>/banner.jpg">
     </meta>
     <script>
       window.$discordMessage = { profiles: { "931226824753700934": { "author": "Aeona", "avatar": "/logo.webp", "roleColor": "#9b59b6", "roleName": "Aeona", "bot": true, "verified": true }, "794921502230577182": { "author": "LoneWolf", "avatar": "https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp?size=64", "bot": false, "verified": false } } }
@@ -210,63 +210,63 @@
   <body class="bg-repeat w-screen h-screen" onload="run()">
     <canvas class="background"></canvas>
     <article
-    class="prose max-w-none text-white break-words box-border scroll-smooth h-screen overflow-x-hidden lg:prose-2xl"
-    id="main">
-    <div class="drawer  !min-h-screen !h-auto">
-      <input id="my-drawer" type="checkbox" id="menu" class="drawer-toggle" checked />
-     
-      <div class="drawer-content !min-h-screen !h-auto !overflow-y-hidden">
-        <!--Nav Bar-->
-        <div class="navbar not-prose">
-          <div class="navbar-start">
-            <label for="my-drawer" class="swap swap-rotate">
-              <!-- this hidden checkbox controls the state -->
-              <input type="checkbox" id="checkbox" checked />
+      class="prose max-w-none text-white break-words box-border scroll-smooth h-screen overflow-x-hidden lg:prose-2xl"
+      id="main">
+      <div class="drawer  !min-h-screen !h-auto">
+        <input id="my-drawer" type="checkbox" id="menu" class="drawer-toggle" checked />
 
-              <!-- hamburger icon -->
-              <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                viewBox="0 0 512 512">
-                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-              </svg>
+        <div class="drawer-content !min-h-screen !h-auto !overflow-y-hidden">
+          <!--Nav Bar-->
+          <div class="navbar not-prose">
+            <div class="navbar-start">
+              <label for="my-drawer" class="swap swap-rotate">
+                <!-- this hidden checkbox controls the state -->
+                <input type="checkbox" id="checkbox" checked />
 
-              <!-- close icon -->
-              <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                viewBox="0 0 512 512">
-                <polygon
-                  points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
-              </svg>
-            </label>
+                <!-- hamburger icon -->
+                <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                  viewBox="0 0 512 512">
+                  <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+                </svg>
+
+                <!-- close icon -->
+                <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                  viewBox="0 0 512 512">
+                  <polygon
+                    points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+                </svg>
+              </label>
 
 
-          </div>
-          <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal p-0 !m-0">
-              <li><a href="/premium" class="hover:scale-110"><svg viewBox="0 0 640 512" class="fill-yellow-300 w-7 h-7"
-                    title="crown">
-                    <path
-                      d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z" />
-                  </svg> Premium </a></li>
-              <li><a href="/support" class="hover:scale-110">Support</a></li>
-              
-            </ul>
-          </div>
-          <div class="navbar-end">
-            <div >
-              <a class="btn btn-ghost normal-case text-2xl hover:scale-110" href="/">
-                <%= options.name %>
-              </a>
             </div>
-            <div >
-              <button class="btn btn-square btn-ghost hover:scale-110 !mr-5" onclick="location.replace('/')">
-                <div class="avatar w-full h-full ">
-                  <div class=" rounded-xl">
-                    <img src="<%= options.url %>/logo.webp" class="!m-0 " />
+            <div class="navbar-center hidden lg:flex">
+              <ul class="menu menu-horizontal p-0 !m-0">
+                <li><a href="/premium" class="hover:scale-110"><svg viewBox="0 0 640 512"
+                      class="fill-yellow-300 w-7 h-7" title="crown">
+                      <path
+                        d="M528 448H112c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm64-320c-26.5 0-48 21.5-48 48 0 7.1 1.6 13.7 4.4 19.8L476 239.2c-15.4 9.2-35.3 4-44.2-11.6L350.3 85C361 76.2 368 63 368 48c0-26.5-21.5-48-48-48s-48 21.5-48 48c0 15 7 28.2 17.7 37l-81.5 142.6c-8.9 15.6-28.9 20.8-44.2 11.6l-72.3-43.4c2.7-6 4.4-12.7 4.4-19.8 0-26.5-21.5-48-48-48S0 149.5 0 176s21.5 48 48 48c2.6 0 5.2-.4 7.7-.8L128 416h384l72.3-192.8c2.5.4 5.1.8 7.7.8 26.5 0 48-21.5 48-48s-21.5-48-48-48z" />
+                    </svg> Premium </a></li>
+                <li><a href="/support" class="hover:scale-110">Support</a></li>
+
+              </ul>
+            </div>
+            <div class="navbar-end">
+              <div>
+                <a class="btn btn-ghost normal-case text-2xl hover:scale-110" href="/">
+                  <%= options.name %>
+                </a>
+              </div>
+              <div>
+                <button class="btn btn-square btn-ghost hover:scale-110 !mr-5" onclick="location.replace('/')">
+                  <div class="avatar w-full h-full ">
+                    <div class=" rounded-xl">
+                      <img src="<%= options.url %>/logo.webp" class="!m-0 " />
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
+
             </div>
-            
           </div>
-        </div>
 
           <div class="min-h-screen w-full lg:p-5 p-1">
