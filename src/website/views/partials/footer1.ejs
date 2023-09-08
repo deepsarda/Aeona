@@ -1,0 +1,77 @@
+</div>
+
+<div class="footer  mt-10 p-10  text-neutral-content">
+    <div>
+        <div class="avatar " style="height:50px;width:50%; ">
+            <div class=" rounded-xl">
+                <img src="<%= options.url %>/logo.webp" class="!m-0 " />
+            </div>
+        </div>
+        <p>
+            <%= options.name %><br>Creating an new Age of Discord Bots.
+        </p>
+    </div>
+
+    <div>
+        <span class="footer-title">Main Links</span>
+        <a class="link link-hover" href="/support">Support</a>
+        <a class="link link-hover" href="/invite">Invite</a>
+        <a class="link link-hover" href="/premium">Premium</a>
+    </div>
+
+    <div>
+        <span class="footer-title">Legal</span>
+        <a class="link link-hover" href="/privacy-policy">Terms of use</a>
+        <a class="link link-hover" href="/privacy-policy">Privacy policy</a>
+        <a class="link link-hover" href="/privacy-policy">Cookie policy</a>
+    </div>
+
+</div>
+
+</div>
+<div class="drawer-side w-48 !bg-transparent mt-5 lg:mt-40 !pt-2 h-fit">
+    <label for="my-drawer" class="drawer-overlay !opacity-0 "></label>
+
+    <ul class="menu menu-compact text-center glass2  !p-0 not-prose">
+        <!-- Sidebar content here -->
+        <li>
+            <div class="card not-prose compact ">
+                <figure><img class="mask mask-squircle w-32 " src="<%= iconurl%>" alt="<%=guild.name%>" />
+                </figure>
+                <div class="card-body">
+                    <h4 class="card-title text-base">
+                        <%=guild.name%>
+                    </h4>
+                </div>
+            </div>
+        </li>
+        <hr class="border-[#ffffff20] !mb-2 !mt-2">
+        <li class="menu-title">
+            <span>General</span>
+        </li>
+        <li>
+            <a href="/dashboard/guild/<%=guild.id%>"> <svg viewBox="0 0 576 512" class="h-5 w-5 fill-white" title="home" >
+                    <path
+                        d="M280.37 148.26L96 300.11V464a16 16 0 0 0 16 16l112.06-.29a16 16 0 0 0 15.92-16V368a16 16 0 0 1 16-16h64a16 16 0 0 1 16 16v95.64a16 16 0 0 0 16 16.05L464 480a16 16 0 0 0 16-16V300L295.67 148.26a12.19 12.19 0 0 0-15.3 0zM571.6 251.47L488 182.56V44.05a12 12 0 0 0-12-12h-56a12 12 0 0 0-12 12v72.61L318.47 43a48 48 0 0 0-61 0L4.34 251.47a12 12 0 0 0-1.6 16.9l25.5 31A12 12 0 0 0 45.15 301l235.22-193.74a12.19 12.19 0 0 1 15.3 0L530.9 301a12 12 0 0 0 16.9-1.6l25.5-31a12 12 0 0 0-1.7-16.93z" />
+                </svg>Home</a>
+        </li>
+        <hr class="border-[#ffffff20] !mb-2 !mt-2">
+        <li class="menu-title">
+            <span>Fun and Games</span>
+        </li>
+        <li>
+            <a href="/dashboard/guild/<%=guild.id%>/chatbot"> <i class="fa-solid fa-comments" style="color: #ffffff;"></i> Chatbot</a>
+        </li>
+        <li>
+            <a href="#"> <i class="fa-solid fa-binoculars" style="color: #ffffff;"></i> More Coming Soon</a>
+        </li>
+
+    </ul>
+    
+</div>
+
+</div>
+</article>
+</body>
+
+</html>

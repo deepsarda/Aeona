@@ -1,0 +1,28 @@
+<%- include("./partials/head", { options, title: options.name+" | Best Multipurpose AI Chatbot For Discord" }) %>
+<div class="hero min-h-screen">
+  <div class="hero-content">
+    <div class="">
+      <h1 class="text-5xl font-bold">Configure Your Servers</h1>
+      <p class="py-6">Make sure to invite me before doing anything else!</p>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4" id="grid">
+        <% guilds.forEach(guild=> { if (guild.icon) iconurl="https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon +
+        ".webp?size=512" ; else iconurl="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404-dark.png?v=1602427904949";
+        %>
+
+        <div class="card not-prose compact glass2 p-5">
+          <figure><img class="mask mask-squircle w-48" src="<%= iconurl%>" alt="<%=guild.name%>" /></figure>
+          <div class="card-body">
+            <h2 class="card-title"><%=guild.name%></h2>
+            <p><%=guild.description??"Configure Aeona for this Server"%></p>
+            <div class="card-actions justify-end">
+              <a class="btn btn-accent" href="/dashboard/guild/<%=guild.id%>">Go to settings</a>
+            </div>
+          </div>
+        </div>
+
+        <% });%>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include("./partials/footer") %>

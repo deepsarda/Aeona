@@ -1,0 +1,334 @@
+<%- include("./partials/head", { options, title: options.name+" | Best Multipurpose AI Chatbot For Discord" }) %>
+    <div class="hero min-h-screen">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="avatar ">
+                <div class="mask w-72 mask-squircle shadow-2xl float">
+                    <img src="/logo.webp" class="!m-0 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <h1 class="text-5xl font-bold">Aeona</h1>
+                <h3 class="mb-5">
+                    Aeona is a
+                    <span class="font-bold text-secondary hover:text-accent">Multipurpose AI Chatbot </span>with
+                    over
+                    <span class="font-bold text-secondary hover:text-accent">220 commands.</span>
+                </h3>
+                <p class="mb-5">
+                    Join over
+                    <span class="font-bold text-secondary hover:text-accent">
+                        <%= guilds%> servers
+                    </span>
+                    using me by clicking on the link below.
+                </p>
+                <a class="btn btn-secondary animate__animated animate__pulse animate__infinite animate__slower"
+                    href="/invite">Invite Me!</a>
+                <br>
+                <div class="w-full content-center text-center">
+                    <div class="stats mt-10  block lg:inline-grid border-2 border-slate-700" data-module="countup"
+                        style="background-color: transparent;">
+
+                        <div class="stat !border-0 backdrop-blur-sm shadow-2xl place-items-center">
+                            <div class="stat-figure text-primary">
+                                <svg viewBox="0 0 512 512" fill="none" title="landmark"
+                                    class="inline-block w-8 h-8 stroke-current">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="16"
+                                        d="M501.62 92.11L267.24 2.04a31.958 31.958 0 0 0-22.47 0L10.38 92.11A16.001 16.001 0 0 0 0 107.09V144c0 8.84 7.16 16 16 16h480c8.84 0 16-7.16 16-16v-36.91c0-6.67-4.14-12.64-10.38-14.98zM64 192v160H48c-8.84 0-16 7.16-16 16v48h448v-48c0-8.84-7.16-16-16-16h-16V192h-64v160h-96V192h-64v160h-96V192H64zm432 256H16c-8.84 0-16 7.16-16 16v32c0 8.84 7.16 16 16 16h480c8.84 0 16-7.16 16-16v-32c0-8.84-7.16-16-16-16z" />
+                                </svg>
+                            </div>
+                            <div class="stat-title">Servers</div>
+                            <div class="stat-value" data-countup-number="<%= guildsUnformatted %>"></div>
+                            <div class="stat-desc">Joined</div>
+                        </div>
+
+                        <div class="stat !border-0 backdrop-blur-sm shadow-2xl place-items-center">
+                            <div class="stat-figure text-secondary">
+                                <svg viewBox="0 0 496 512" fill="none" title="basketball-ball"
+                                    class="inline-block w-8 h-8 stroke-current ">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="16"
+                                        d="M212.3 10.3c-43.8 6.3-86.2 24.1-122.2 53.8l77.4 77.4c27.8-35.8 43.3-81.2 44.8-131.2zM248 222L405.9 64.1c-42.4-35-93.6-53.5-145.5-56.1-1.2 63.9-21.5 122.3-58.7 167.7L248 222zM56.1 98.1c-29.7 36-47.5 78.4-53.8 122.2 50-1.5 95.5-17 131.2-44.8L56.1 98.1zm272.2 204.2c45.3-37.1 103.7-57.4 167.7-58.7-2.6-51.9-21.1-103.1-56.1-145.5L282 256l46.3 46.3zM248 290L90.1 447.9c42.4 34.9 93.6 53.5 145.5 56.1 1.3-64 21.6-122.4 58.7-167.7L248 290zm191.9 123.9c29.7-36 47.5-78.4 53.8-122.2-50.1 1.6-95.5 17.1-131.2 44.8l77.4 77.4zM167.7 209.7C122.3 246.9 63.9 267.3 0 268.4c2.6 51.9 21.1 103.1 56.1 145.5L214 256l-46.3-46.3zm116 292c43.8-6.3 86.2-24.1 122.2-53.8l-77.4-77.4c-27.7 35.7-43.2 81.2-44.8 131.2z" />
+                                </svg>
+                            </div>
+                            <div class="stat-title">Member</div>
+                            <div class="stat-value text-secondary" data-countup-number="<%= members %>">4,200</div>
+                            <div class="stat-desc text-secondary">Using Me</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300 lg:max-w-md max-w-sm">
+                <discord-messages no-background>
+                    <discord-message id="m-1080796212606816256" timestamp="2023-03-02T10:18:17.308Z" edited="true"
+                        highlight="false" profile="931226824753700934" class="scroll-show">
+                        <discord-command slot="reply" profile="794921502230577182"
+                            command="/setup welcome"></discord-command>
+                        <discord-embed embed-title="Welcome Setup" slot="embeds" author-image="/logo.webp"
+                            author-name="Aeona" author-url="https://docs.aeona.xyz" color="#dfabd1">
+                            <discord-embed-description slot="description">
+                                Choose a to edit/delete/create a system for down below. <br /> You currently have
+                                <discord-inline-code>1 systems</discord-inline-code>
+                                setup.
+                            </discord-embed-description>
+                            <discord-embed-footer slot="footer"
+                                footer-image="https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp">Requested
+                                by LoneWolf#0022 | +perks</discord-embed-footer>
+                        </discord-embed>
+                        <discord-attachments slot="components">
+                            <discord-action-row>
+                                <discord-button type="primary">Auto Create</discord-button>
+                                <discord-button type="success">Create</discord-button>
+                                <discord-button type="secondary">Test</discord-button>
+                            </discord-action-row>
+                            <discord-action-row></discord-action-row>
+                        </discord-attachments>
+                    </discord-message>
+                </discord-messages>
+            </div>
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">25+ systems for your server.</p>
+                <h3 class="text-3xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    220+ commands
+                </h3>
+                <p class="py-4 text-lg">
+                    Aeona removes the need for multiple bots with features like
+                    <span class="font-bold text-secondary hover:text-accent">AI Image Generator, AI Story Generation,
+                        Counting , Reaction
+                        Roles, Welcomer and More</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--Imagine-->
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row-reverse p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300">
+                <discord-messages no-background>
+                    <discord-message id="m-1080799943360516117" timestamp="2023-03-02T10:33:06.789Z" edited="false"
+                        highlight="false" profile="794921502230577182" class="scroll-show">+imagine Wolf in the
+                        Moonlight</discord-message>
+                    <discord-message id="m-1080800064487817257" timestamp="2023-03-02T10:33:35.668Z" edited="false"
+                        highlight="false" profile="931226824753700934" class="scroll-show">
+                        <discord-bold>Prompt:</discord-bold>
+                        Wolf in the Moonlight<br />
+                        <discord-bold>Mode:</discord-bold>
+                        accurate
+                        <img src="https://media.discordapp.net/attachments/1073654478009544777/1081113795730100234/image.webp?width=300&height=300"
+                            alt="image.webp" height="300" width="320"></img>
+                    </discord-message>
+                </discord-messages>
+            </div>
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">AI Image generator | 17+ styles</p>
+                <h3 class="text-3xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    Generate Images on any matter!
+                </h3>
+                <p class="py-4 text-lg">
+                    Choose from various styles like
+                    <span class="font-bold text-secondary hover:text-accent">dramatic, fantasy, cyberpunk and many other
+                        styles.</span>
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!--Chatbot-->
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300 lg:max-w-md max-w-sm">
+                <discord-messages no-background>
+
+                    <discord-message id="m-1080799657548075048" timestamp="2023-03-02T10:31:58.646Z" edited="false"
+                        highlight="false" profile="794921502230577182" class="scroll-show">hi</discord-message>
+                    <discord-message id="m-1080799662287634563" timestamp="2023-03-02T10:31:59.776Z" edited="false"
+                        server="false" highlight="false" profile="931226824753700934" class="scroll-show">
+                        <discord-reply slot="reply" edited="false" attachment="false" author="LoneWolf ~ Lead Developer"
+                            avatar="https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp?size=32"
+                            role-color="#000000" bot="false" verified="false" op="false" command="false"><span
+                                data-goto="1080799657548075048">hi</span></discord-reply>
+                        Hi how are you?
+                    </discord-message>
+                    <discord-message id="m-1080799727966240819" timestamp="2023-03-02T10:32:15.435Z" edited="false"
+                        server="false" highlight="false" profile="794921502230577182" class="scroll-show">
+                        <discord-reply slot="reply" edited="false" attachment="false" author="( + ) Aeona"
+                            avatar="/logo.webp" role-color="#9b59b6" bot="true" verified="true" op="false"
+                            server="false" command="false"><span data-goto="1080799662287634563">Hi how are
+                                you?</span></discord-reply>
+                        I am doing really well, what about you?
+                    </discord-message>
+                    <discord-message id="m-1080799732873564192" timestamp="2023-03-02T10:32:16.605Z" edited="false"
+                        server="false" highlight="false" profile="931226824753700934" class="scroll-show">
+                        <discord-reply slot="reply" edited="false" attachment="false" author="LoneWolf ~ Lead Developer"
+                            avatar="https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp?size=32"
+                            role-color="#000000" bot="false" verified="false" op="false" server="false"
+                            command="false"><span data-goto="1080799727966240819">I am doing really well, what about
+                                you?</span></discord-reply>
+                        Glad to hear it. What&#x27;s new?
+                    </discord-message>
+                </discord-messages>
+            </div>
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">Interducing</p>
+                <h3 class="text-3xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    AI Chatbot
+                </h3>
+                <p class="py-4 text-lg">
+                    A state of the art AI Chatbot based on
+                    <span class="font-bold text-secondary hover:text-accent">a custom GPT model</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--Embed Builder-->
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row-reverse p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300 lg:max-w-md max-w-sm ">
+                <discord-messages no-background>
+                    <discord-message id="m-1080800287083728996" timestamp="2023-03-02T10:34:28.739Z" edited="true"
+                        highlight="false" profile="931226824753700934" class="scroll-show">
+                        <discord-command slot="reply" profile="794921502230577182"
+                            command="/embed createembed"></discord-command>
+                        <discord-italic> </discord-italic>
+                        <discord-embed embed-title="Aeona Embed Builder" slot="embeds"
+                            author-image="https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp"
+                            author-name="LoneWolf#0022" color="#dfabd1" thumbnail="/logo.webp">
+                            <discord-embed-description slot="description">Aeona has one of the most advance and easy
+                                to use embed
+                                builder, which can be used my anyone.</discord-embed-description>
+                            <discord-embed-footer slot="footer"
+                                footer-image="https://cdn.discordapp.com/icons/1034419694549094441/a_ad2ab5946285dffec80614b196beef83.webp">Aeonic
+                                Development</discord-embed-footer>
+                        </discord-embed>
+                        <discord-attachments slot="components">
+                            <discord-action-row>
+                                <discord-button type="secondary">Edit Title</discord-button>
+                                <discord-button type="secondary">Edit Description</discord-button>
+                                <discord-button type="secondary">Edit Image</discord-button>
+                            </discord-action-row>
+                            <discord-action-row>
+                                <discord-button type="secondary">Edit Author</discord-button>
+                                <discord-button type="secondary">Edit Footer</discord-button>
+                                <discord-button type="secondary">Edit Color</discord-button>
+                            </discord-action-row>
+                            <discord-action-row>
+                                <discord-button type="secondary">Modify Fields</discord-button>
+                                <discord-button type="success">Save</discord-button>
+                            </discord-action-row>
+                        </discord-attachments>
+                    </discord-message>
+                </discord-messages>
+            </div>
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">Simply Amazing</p>
+                <h3 class="text-2xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    Embed Builder
+                </h3>
+                <p class="py-4 text-lg">
+                    Create and Edit Embeds using
+                    <span class="font-bold text-secondary hover:text-accent">our state of the art system.
+                        styles.</span>
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!--Leveling and more!-->
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300 lg:max-w-md max-w-sm">
+                <discord-messages no-background>
+                    <discord-message profile="794921502230577182" class="scroll-show">
+                        +rank
+                    </discord-message>
+                    <discord-message profile="931226824753700934" class="scroll-show">
+                        <img src="https://media.discordapp.net/attachments/1071751023577800805/1081116006203797594/ezgif.com-gif-maker.webp"
+                            height="300" width="320" alt="rank card">
+                    </discord-message>
+                </discord-messages>
+            </div>
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">Dont forget about the</p>
+                <h3 class="text-3xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    Advance Leveling, Messages and Invite systems.
+                </h3>
+                <p class="py-4 text-lg">
+                    Boost your servers activities by giving
+                    <span class="font-bold text-secondary hover:text-accent">your users some rewards.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!--Fun and Games-->
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row-reverse p-0 m-1">
+            <div class="mockup-window opacity-90 lg:mr-4 not-prose border border-base-300">
+                <discord-messages no-background>
+                    <discord-message profile="794921502230577182" class="scroll-show">
+                        +hug <discord-mention>Akio</discord-mention>
+                    </discord-message>
+                    <discord-message profile="931226824753700934" class="scroll-show">
+                        <discord-embed slot="embeds"
+                            author-image="https://cdn.discordapp.com/avatars/794921502230577182/b63c9d26448ec3ca5435b9c4409cbf6d.webp?size=64"
+                            color="#eba1d0" author-name="LoneWolf hugs ×Akio×"
+                            image="https://media.tenor.com/kCZjTqCKiggAAAAd/hug.gif">
+                        </discord-embed>
+                    </discord-message>
+                </discord-messages>
+            </div>
+
+            <div class="lg:max-w-md max-w-sm">
+                <p class="text-lg font-mono uppercase">With plenty of</p>
+                <h3 class="text-3xl flex items-center font-bold text-secondary text-hover hover:text-accent">
+                    Fun and Games
+                </h3>
+                <p class="py-4 text-lg">
+                    With tons of commands to keep your users entertained.
+                    <span class="font-bold text-secondary hover:text-accent">You are sure to never run out of things to
+                        have fun with.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero scroll-show mt-10">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="avatar ">
+                <div class="mask w-72 mask-squircle shadow-2xl float">
+                    <img src="/logo.webp" class="!m-0 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-5xl font-bold">Well then</h3>
+                <h5 class="mb-5">
+                    what are you waiting for?
+
+                </h5>
+                <p class="mb-5">
+                    Join over
+                    <span class="font-bold text-secondary hover:text-accent">
+                        <%= guilds%> servers
+                    </span>
+                    using me by clicking on the link below.
+                </p>
+                <a class="btn btn-secondary animate__animated animate__pulse animate__infinite animate__slower"
+                    href="/invite">Invite Me!</a>
+                <br>
+            </div>
+        </div>
+    </div>
+    </div>
+    <%- include("./partials/footer") %>

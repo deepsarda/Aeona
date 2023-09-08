@@ -1,6 +1,7 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
 import {
+  ActivityType,
   Collection,
   CommandInteraction,
   IntentsBitField,
@@ -20,6 +21,7 @@ import { getConfig } from './utils/config.js';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import { additionalProps } from './utils/extras.js';
+import website from './website/index.js';
 dotenv.config();
 permissions();
 const config = getConfig(process.env.DISCORD_TOKEN!)!;
@@ -45,13 +47,13 @@ export const bot: AeonaBot = new Client({
   silent: true,
   simpleCommand: {
     prefix: async (message) => {
-      if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return 'asd';
-
+      if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return 'asdasdasdassa';
+      if (message.author.bot) return 'asdasdasdassa';
       const schema = await chatBotSchema.findOne({
         Guild: `${message.guildId}`,
         Channel: `${message.channelId}`,
       });
-      if (schema) return 'asda';
+      if (schema) return 'asdasdasdassa';
 
       let guild = await GuildDB.findOne({
         Guild: message.guildId,
@@ -63,14 +65,9 @@ export const bot: AeonaBot = new Client({
         guild.save();
       }
       if (message.mentions.users.has(bot.botId)) {
-        return [guild.Prefix,  `<@!${bot.botId}>`, `<@${bot.botId}>`, ''];
+        return [guild.Prefix, `<@!${bot.botId}>`, `<@${bot.botId}>`, ''];
       }
-      return [
-        guild.Prefix ?? config.prefix,
-        
-        `<@!${bot.user?.id}>`,
-        `<@${bot.user?.id}>`,
-      ];
+      return [guild.Prefix ?? config.prefix, `<@!${bot.user?.id}>`, `<@${bot.user?.id}>`];
     },
     responses: {
       async notFound(message) {
@@ -157,8 +154,42 @@ bot.once('ready', async () => {
   updateTopGGStats();
 
   setInterval(updateTopGGStats, 60 * 1000 * 10);
+
+  if (bot.user!.username == 'Aeona') {
+    website(bot);
+  }
 });
 
+bot.on('shardReady', async (id) => {
+  bot.user?.setPresence({
+    status: 'idle',
+    activities: [
+      {
+        name: `${bot.guilds.cache.size.toLocaleString()} ${
+          bot.guilds.cache.size > 1 ? 'servers' : 'server'
+        }: ⊹ aeonabot.xyz`,
+        type: ActivityType.Watching,
+      },
+    ],
+    afk: true,
+    shardId: id,
+  });
+  setInterval(() => {
+    bot.user?.setPresence({
+      status: 'idle',
+      activities: [
+        {
+          name: `${bot.guilds.cache.size.toLocaleString()} ${
+            bot.guilds.cache.size > 1 ? 'servers' : 'server'
+          }: ⊹ aeonabot.xyz`,
+          type: ActivityType.Watching,
+        },
+      ],
+      afk: true,
+      shardId: id,
+    });
+  }, 60 * 1000 * 10);
+});
 bot.on('interactionCreate', async (interaction: Interaction) => {
   if (interaction.isCommand()) await interaction.deferReply();
   bot.executeInteraction(interaction);
