@@ -165,23 +165,24 @@ bot.on('shardReady', async (id) => {
     status: 'idle',
     activities: [
       {
-        name: `${bot.guilds.cache.size.toLocaleString()} ${
+        name: `${nFormatter(bot.guilds.cache.size, 2)} ${
           bot.guilds.cache.size > 1 ? 'servers' : 'server'
-        }: ⊹ aeonabot.xyz`,
+        }⊹Shard ${id}⊹ aeonabot.xyz`,
         type: ActivityType.Watching,
       },
     ],
     afk: true,
     shardId: id,
   });
+
   setInterval(() => {
     bot.user?.setPresence({
       status: 'idle',
       activities: [
         {
-          name: `${bot.guilds.cache.size.toLocaleString()} ${
+          name: `${nFormatter(bot.guilds.cache.size, 2)} ${
             bot.guilds.cache.size > 1 ? 'servers' : 'server'
-          }: ⊹Shard ${id}: ⊹ aeonabot.xyz`,
+          }⊹Shard ${id}⊹ aeonabot.xyz`,
           type: ActivityType.Watching,
         },
       ],
@@ -247,4 +248,23 @@ for (const printFunction in builtins) {
       console.error(e);
     }
   };
+}
+function nFormatter(num: number, digits: number) {
+  const lookup = [
+    { value: 1, symbol: '' },
+    { value: 1e3, symbol: 'k' },
+    { value: 1e6, symbol: 'M' },
+    { value: 1e9, symbol: 'G' },
+    { value: 1e12, symbol: 'T' },
+    { value: 1e15, symbol: 'P' },
+    { value: 1e18, symbol: 'E' },
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value;
+    });
+  return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0';
 }
