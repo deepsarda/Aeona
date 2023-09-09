@@ -76,7 +76,7 @@ Message.prototype.react = async function (emoji) {
       true,
     ).reaction;
   } catch (e) {
-    throw e;
+    
   }
 };
 export default function () {}

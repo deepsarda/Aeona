@@ -210,6 +210,14 @@ connect();
 run();
 
 process.on('unhandledRejection', (reason: Error) => {
+  if (
+    reason.stack &&
+    (reason.stack.includes('Missing Access') ||
+      reason.stack.includes('Missing Permissions') ||
+      reason.stack.includes('Reaction Blocked') ||
+      reason.stack.includes('Unknown Message'))
+  )
+    return;
   console.log('\n\n\n\n\n=== unhandled Rejection ==='.toUpperCase().yellow);
   console.log('Reason: ', reason.stack ? String(reason.stack) : String(reason));
   console.log('=== unhandled Rejection ===\n\n\n\n\n'.toUpperCase().yellow);
@@ -220,6 +228,15 @@ process.on('uncaughtException', (err) => {
   console.log('=== uncaught Exception ===\n\n\n\n\n'.toUpperCase().yellow);
 });
 process.on('uncaughtExceptionMonitor', (err) => {
+  if (
+    err.stack &&
+    (err.stack.includes('Missing Access') ||
+      err.stack.includes('Missing Permissions') ||
+      err.stack.includes('Reaction Blocked') ||
+      err.stack.includes('Unknown Message'))
+  )
+    return;
+
   console.log('=== uncaught Exception Monitor ==='.toUpperCase().yellow);
   console.log('Exception: ', err.stack ? err.stack : err);
   console.log('=== uncaught Exception Monitor ==='.toUpperCase().yellow);
