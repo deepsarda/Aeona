@@ -48,7 +48,8 @@ export const bot: AeonaBot = new Client({
   simpleCommand: {
     prefix: async (message) => {
       if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return 'asdasdasdassa';
-      if (message.author.bot) return 'asdasdasdassa';
+      if (message.author.bot || message.author.id == bot.user?.id) return 'asdasdasdassa';
+
       const schema = await chatBotSchema.findOne({
         Guild: `${message.guildId}`,
         Channel: `${message.channelId}`,

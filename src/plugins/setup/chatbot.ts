@@ -134,7 +134,7 @@ export class Chatbot {
 
   @On()
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
-    if (message.author.bot) return;
+    if (message.author.bot || message.author.id === client.user!.id) return;
 
     const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
     if (!data) return;
@@ -203,7 +203,7 @@ export class Chatbot {
     }
     try {
       msgs.forEach((msg) => {
-        msg = replaceMentions(msg); 
+        msg = replaceMentions(msg);
         if (msg.content && msg.content.length > 0 && contexts.length < 10)
           contexts.push({
             content: msg.content,
