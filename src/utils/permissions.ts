@@ -6,6 +6,7 @@ import {
   Message,
   MessagePayload,
   Routes,
+  resolvePartialEmoji,
 } from 'discord.js';
 
 BaseGuildTextChannel.prototype.send = async function (options) {
@@ -57,5 +58,25 @@ CommandInteraction.prototype.reply = async function (options) {
   //@ts-ignore
   return options.fetchReply ? this.fetchReply() : new InteractionResponse(this);
 };
+Message.prototype.react = async function (emoji) {
+  try {
+    await this.channel.messages.react(this.id, emoji);
 
+    //@ts-expect-error
+    return this.client.actions.MessageReactionAdd.handle(
+      {
+        //@ts-expect-error
+        [this.client.actions.injectedUser]: this.client.user,
+        //@ts-expect-error
+        [this.client.actions.injectedChannel]: this.channel,
+        //@ts-expect-error
+        [this.client.actions.injectedMessage]: this,
+        emoji: resolvePartialEmoji(emoji),
+      },
+      true,
+    ).reaction;
+  } catch (e) {
+    throw e;
+  }
+};
 export default function () {}
