@@ -95,13 +95,13 @@ export class Counting {
             message.channel as unknown as TextChannel,
           );
 
-          return message.react(bot.config.emotes.normal.error);
+          return message.react(bot.config.emotes.normal.error).catch();
         } catch (error) {
-          message.react(bot.config.emotes.normal.error);
+          message.react(bot.config.emotes.normal.error).catch();
           throw error;
         }
       } else if (Number(message.content) == countData.Count) {
-        message.react(bot.config.emotes.normal.check);
+        message.react(bot.config.emotes.normal.check).catch();
         countData.User = `${message.author.id}`;
         countData.Count += 1;
         countData.save();
@@ -115,22 +115,22 @@ export class Counting {
             message.channel as unknown as TextChannel,
           );
 
-          return message.react(bot.config.emotes.normal.error);
+          return message.react(bot.config.emotes.normal.error).catch();
         } catch (error) {
-          message.react(bot.config.emotes.normal.error);
+          message.react(bot.config.emotes.normal.error).catch();
           throw error;
         }
       }
     } else if (data) {
       if (Number(message.content) == (countData?.Count ?? 0) + 1) {
-        message.react(bot.config.emotes.normal.check);
+        message.react(bot.config.emotes.normal.check).catch();
         new count({
           Guild: message.guildId,
           User: message.author.id,
           Count: (countData?.Count ?? 0) + 1,
         }).save();
       } else {
-        return message.react(bot.config.emotes.normal.error);
+        return message.react(bot.config.emotes.normal.error).catch();
       }
     }
   }

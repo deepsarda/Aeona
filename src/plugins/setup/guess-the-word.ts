@@ -127,7 +127,7 @@ export class GuessTheWord {
     if (!data) return;
 
     if (message.content.toLowerCase().trim() == data.word.toLowerCase().trim() || data.word == 'start') {
-      message.react(bot.config.emotes.normal.check);
+      message.react(bot.config.emotes.normal.check).catch();
       const word = client.extras.wordlist[Math.floor(Math.random() * client.extras.wordlist.length)].trim();
       const shuffled = word
         .split('')
@@ -173,7 +173,7 @@ export class GuessTheWord {
         message,
       );
     }
-    message.react(bot.config.emotes.normal.error);
+    message.react(bot.config.emotes.normal.error).catch();
   }
   @Guard(PermissionGuard([]))
   @ButtonComponent({

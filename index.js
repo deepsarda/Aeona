@@ -34,7 +34,7 @@ async function main() {
     try {
       exec('pm2 restart API');
     } catch (e) {}
-  }, 10 * 60 * 1000);
+  }, 60 * 60 * 1000);
 }
 
 main();

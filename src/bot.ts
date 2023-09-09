@@ -181,7 +181,7 @@ bot.on('shardReady', async (id) => {
         {
           name: `${bot.guilds.cache.size.toLocaleString()} ${
             bot.guilds.cache.size > 1 ? 'servers' : 'server'
-          }: ⊹ aeonabot.xyz`,
+          }: ⊹Shard ${id}: ⊹ aeonabot.xyz`,
           type: ActivityType.Watching,
         },
       ],

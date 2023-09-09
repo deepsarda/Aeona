@@ -86,7 +86,7 @@ export class GuessTheNumber {
     if (!userNumber || isNaN(userNumber)) return;
 
     if (userNumber == number) {
-      message.react(bot.config.emotes.normal.check);
+      message.react(bot.config.emotes.normal.check).catch();
       const number = Math.ceil(Math.random() * 10000);
 
       client.extras.sendEmbedMessage(
