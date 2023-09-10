@@ -40,50 +40,48 @@ export class Games {
 
     Game.startGame();
     Game.on('gameOver', async (result) => {
-      if (result.result == 'win') {
-        let u = await bot.extras.leaderboard.get('2048', result.player.id);
-        if (!u || u.score < result.score) {
-          await bot.extras.leaderboard.record('2048', {
-            id: result.player.id,
-            score: result.score,
-          });
+      let u = await bot.extras.leaderboard.get('2048', result.player.id);
+      if (!u || u.score < result.score) {
+        await bot.extras.leaderboard.record('2048', {
+          id: result.player.id,
+          score: result.score,
+        });
 
-          let position = await bot.extras.leaderboard.position('2048', result.player.id);
+        let position = await bot.extras.leaderboard.position('2048', result.player.id);
 
-          await bot.extras.embed(
-            {
-              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
-              fields: [
-                {
-                  name: `${bot.config.emotes.normal.check} New High Score`,
-                  value: `${result.score}`,
-                },
-              ],
-            },
-            command,
-          );
-        } else {
-          await bot.extras.embed(
-            {
-              desc: `You won! But you did not beat your previous score of **${
-                u.score
-              }** and ranked **${bot.extras.ordinalSuffix(
-                await bot.extras.leaderboard.position('snake', result.player.id),
-              )}** in the leaderboard!`,
-              fields: [
-                {
-                  name: `${bot.config.emotes.normal.check} Score`,
-                  value: `${result.score}`,
-                },
-                {
-                  name: `${bot.config.emotes.normal.check} High Score`,
-                  value: `${u.score}`,
-                },
-              ],
-            },
-            command,
-          );
-        }
+        await bot.extras.embed(
+          {
+            desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+            fields: [
+              {
+                name: `${bot.config.emotes.normal.check} New High Score`,
+                value: `${result.score}`,
+              },
+            ],
+          },
+          command,
+        );
+      } else {
+        await bot.extras.embed(
+          {
+            desc: `You won! But you did not beat your previous score of **${
+              u.score
+            }** and ranked **${bot.extras.ordinalSuffix(
+              await bot.extras.leaderboard.position('snake', result.player.id),
+            )}** in the leaderboard!`,
+            fields: [
+              {
+                name: `${bot.config.emotes.normal.check} Score`,
+                value: `${result.score}`,
+              },
+              {
+                name: `${bot.config.emotes.normal.check} High Score`,
+                value: `${u.score}`,
+              },
+            ],
+          },
+          command,
+        );
       }
     });
   }
@@ -246,7 +244,7 @@ export class Games {
         title: 'Flood',
         color: '#5865F2',
       },
-      difficulty: 17,
+      difficulty: 13,
       timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       emojis: ['🟥', '🟦', '🟧', '🟪', '🟩'],
@@ -550,50 +548,48 @@ export class Games {
     Game.startGame();
 
     Game.on('gameOver', async (result) => {
-      if (result.result == 'win') {
-        let u = await bot.extras.leaderboard.get('snake', result.player.id);
-        if (!u || u.score < result.score) {
-          await bot.extras.leaderboard.record('snake', {
-            id: result.player.id,
-            score: result.score,
-          });
+      let u = await bot.extras.leaderboard.get('snake', result.player.id);
+      if (!u || u.score < result.score) {
+        await bot.extras.leaderboard.record('snake', {
+          id: result.player.id,
+          score: result.score,
+        });
 
-          let position = await bot.extras.leaderboard.position('snake', result.player.id);
+        let position = await bot.extras.leaderboard.position('snake', result.player.id);
 
-          await bot.extras.embed(
-            {
-              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
-              fields: [
-                {
-                  name: `${bot.config.emotes.normal.check} New High Score`,
-                  value: `${result.score}`,
-                },
-              ],
-            },
-            command,
-          );
-        } else {
-          await bot.extras.embed(
-            {
-              desc: `You won! But you did not beat your previous score of **${
-                u.score
-              }** and ranked **${bot.extras.ordinalSuffix(
-                await bot.extras.leaderboard.position('snake', result.player.id),
-              )}** in the leaderboard!`,
-              fields: [
-                {
-                  name: `${bot.config.emotes.normal.check} Score`,
-                  value: `${result.score}`,
-                },
-                {
-                  name: `${bot.config.emotes.normal.check} High Score`,
-                  value: `${u.score}`,
-                },
-              ],
-            },
-            command,
-          );
-        }
+        await bot.extras.embed(
+          {
+            desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+            fields: [
+              {
+                name: `${bot.config.emotes.normal.check} New High Score`,
+                value: `${result.score}`,
+              },
+            ],
+          },
+          command,
+        );
+      } else {
+        await bot.extras.embed(
+          {
+            desc: `You won! But you did not beat your previous score of **${
+              u.score
+            }** and ranked **${bot.extras.ordinalSuffix(
+              await bot.extras.leaderboard.position('snake', result.player.id),
+            )}** in the leaderboard!`,
+            fields: [
+              {
+                name: `${bot.config.emotes.normal.check} Score`,
+                value: `${result.score}`,
+              },
+              {
+                name: `${bot.config.emotes.normal.check} High Score`,
+                value: `${u.score}`,
+              },
+            ],
+          },
+          command,
+        );
       }
     });
   }
