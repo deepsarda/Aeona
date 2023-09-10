@@ -192,7 +192,7 @@ export async function createSetupWizard(
         }).save();
 
         await interaction.followUp({
-          content: `I have successfully setup <#${message.mentions.channels.first()!.id}> as a level log channel.`,
+          content: `I have successfully setup <#${message.mentions.channels.first()!.id}> as a ${name} channel.`,
           flags: 1 << 6,
         });
         setupConfig.createCallback(message.mentions.channels.first() as unknown as TextChannel);
