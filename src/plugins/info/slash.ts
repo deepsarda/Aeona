@@ -311,7 +311,7 @@ With this you get:
 • Ability to setup **guess the number** in up to \`8\` channels.
 • Ability to setup **guess the word** in up to \`8\` channels.
 
-You can get premium for just **$2.99** at [here](https://patreon.com/aeonapatreon) \n **or** \n *boost our [support server](https://www.aeona.xyz/support)*. \n Use \`+perks\` to see all the perks of premium.
+You can get premium for just **$2.99** at [here](https://patreon.com/aeonapatreon) \n **or** \n *boost our [support server](https://www.aeonabot.xyz/support)*. \n Use \`+perks\` to see all the perks of premium.
 `,
         image:
           'https://media.discordapp.net/attachments/1090310002901778542/1118915821356470392/Server_Banner_Aeona_Premium_Aeona-1.jpg',

@@ -15,6 +15,7 @@ import {
   CommandInteraction,
   EmbedBuilder,
   Interaction,
+  Message,
   MessageActionRowComponentBuilder,
   Role,
   TextChannel,
@@ -37,6 +38,21 @@ export function additionalProps(client: AeonaBot) {
     influx: influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET),
     startTime: new Date().getTime(),
     messageCount: 0,
+    replaceMentions: (message: Message) => {
+      message.mentions.users.forEach((user) => {
+        message.content = message.content
+          .replaceAll(`<@!${user.id}>`, `<@${user.id}>`)
+          .replaceAll(`<@${user.id}>`, `@${user.username}`);
+      });
+      message.mentions.channels.forEach((channel: any) => {
+        message.content = message.content.replaceAll(`<#${channel.id}>`, `@${channel.name}`);
+      });
+      message.mentions.roles.forEach((role: any) => {
+        message.content = message.content.replaceAll(`<@&${role.id}>`, `@${role.name}`);
+      });
+
+      return message;
+    },
     capitalizeFirstLetter: (string: string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
     },
@@ -151,7 +167,7 @@ export function additionalProps(client: AeonaBot) {
       client.extras.embed(
         {
           title: 'Successful!',
-          desc: `Channel has been set up successfully! \n **[To learn how to use me read my documentation](https://docs.aeona.xyz/)**`,
+          desc: `Channel has been set up successfully! \n **[To learn how to use me read my documentation](https://docs.aeonabot.xyz/)**`,
           fields: [
             {
               name: `<:channel:1049292166343688192> Channel`,

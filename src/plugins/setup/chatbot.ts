@@ -20,11 +20,12 @@ import { createSetupWizard } from '../../utils/setupWizard.js';
 import chatbotChannel from '../../database/models/chatbot-channel.js';
 import { AeonaBot } from '../../utils/types.js';
 
-import filter from 'leo-profanity';
 import { Components } from '../../utils/components.js';
 import { bot } from '../../bot.js';
 import Topgg from '@top-gg/sdk';
 const api = new Topgg.Api(process.env.TOPGG_TOKEN!);
+
+import filter from 'leo-profanity';
 filter.loadDictionary('en');
 
 @Discord()
@@ -203,7 +204,7 @@ export class Chatbot {
     }
     try {
       msgs.forEach((msg) => {
-        msg = replaceMentions(msg);
+        msg = bot.extras.replaceMentions(msg);
         if (msg.content && msg.content.length > 0 && contexts.length < 10)
           contexts.push({
             content: msg.content,
@@ -245,7 +246,7 @@ export class Chatbot {
         }
 
         message.reply({
-          content: json,
+          content: json.replace('@{{user}}', `${message.author}`),
           components: component,
         });
       });
@@ -260,20 +261,4 @@ export class Chatbot {
       flags: 1 << 6,
     });
   }
-}
-
-function replaceMentions(message: Message) {
-  message.mentions.users.forEach((user) => {
-    message.content = message.content
-      .replaceAll(`<@!${user.id}>`, `<@${user.id}>`)
-      .replaceAll(`<@${user.id}>`, `@${user.username}`);
-  });
-  message.mentions.channels.forEach((channel: any) => {
-    message.content = message.content.replaceAll(`<#${channel.id}>`, `@${channel.name}`);
-  });
-  message.mentions.roles.forEach((role: any) => {
-    message.content = message.content.replaceAll(`<@&${role.id}>`, `@${role.name}`);
-  });
-
-  return message;
 }

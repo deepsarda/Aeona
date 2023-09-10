@@ -14,6 +14,7 @@ import permissions from './utils/permissions.js';
 import { Client, MetadataStorage } from 'discordx';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { AeonaBot } from './utils/types.js';
+import { Components } from './utils/components.js';
 import { connect } from './database/connect.js';
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
@@ -22,6 +23,8 @@ import colors from 'colors';
 import dotenv from 'dotenv';
 import { additionalProps } from './utils/extras.js';
 import website from './website/index.js';
+import filter from 'leo-profanity';
+filter.loadDictionary('en');
 dotenv.config();
 permissions();
 const config = getConfig(process.env.DISCORD_TOKEN!)!;
@@ -83,6 +86,7 @@ export const bot: AeonaBot = new Client({
         }
         try {
           msgs.forEach((msg) => {
+            msg = bot.extras.replaceMentions(msg);
             if (msg.content && msg.content.length > 0 && contexts.length < 10)
               contexts.push({
                 content: msg.content,
@@ -113,10 +117,18 @@ export const bot: AeonaBot = new Client({
 
             const randomNumber = Math.floor(Math.random() * 30);
             json = randomNumber == 0 ? (json ?? '') + s[0] : json;
+
             let component: any[] = [];
 
+            if (filter.check(json)) {
+              const c = new Components();
+              c.addButton('Why $$$$?', 'Secondary', 'profane');
+              component = c;
+              json = filter.clean(json);
+            }
+
             message.reply({
-              content: json,
+              content: json.replace('@{{user}}', `${message.author}`),
               components: component,
             });
           });
