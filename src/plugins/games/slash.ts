@@ -187,6 +187,7 @@ export class Games {
     description: 'Play a game of Hangman! 🤔',
   })
   async hangman(command: CommandInteraction) {
+    let list = bot.extras.wordlist.filter((word) => word.length === 5);
     const Game = new GameCord.Hangman({
       message: command,
       isSlashGame: true,
@@ -195,7 +196,7 @@ export class Games {
         color: '#5865F2',
       },
       hangman: { hat: '🎩', head: '😟', shirt: '👕', pants: '🩳', boots: '👞👞' },
-      customWord: 'Gamecord',
+      customWord: list[Math.floor(Math.random() * list.length)],
       timeoutTime: 60000,
       theme: 'nature',
       winMessage: 'You won! The word was **{word}**.',
@@ -425,6 +426,7 @@ export class Games {
     description: 'Play a game of wordle! 🆎',
   })
   async wordle(command: CommandInteraction) {
+    let list = bot.extras.wordlist.filter((word) => word.length === 5);
     const Game = new GameCord.Wordle({
       message: command,
       isSlashGame: true,
@@ -432,7 +434,7 @@ export class Games {
         title: 'Wordle',
         color: '#5865F2',
       },
-      customWord: null,
+      customWord: list[Math.floor(Math.random() * list.length)],
       timeoutTime: 60000,
       winMessage: 'You won! The word was **{word}**.',
       loseMessage: 'You lost! The word was **{word}**.',
