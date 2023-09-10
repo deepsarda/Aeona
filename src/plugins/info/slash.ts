@@ -284,10 +284,10 @@ export class Fun {
   }
 
   @Slash({
-    name: 'parks',
-    description: 'Get information about the parks of this Aeona Premium 🎉',
+    name: 'perks',
+    description: 'Get information about the perks of this Aeona Premium 🎉',
   })
-  async parks(command: CommandInteraction) {
+  async perks(command: CommandInteraction) {
     bot.extras.embed(
       {
         title: `Aeona Premium`,

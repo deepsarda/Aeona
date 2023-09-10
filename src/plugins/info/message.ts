@@ -283,10 +283,10 @@ export class Fun {
   }
 
   @SimpleCommand({
-    name: 'parks',
-    description: 'Get information about the parks of this Aeona Premium 🎉',
+    name: 'perks',
+    description: 'Get information about the perks of this Aeona Premium 🎉',
   })
-  async parks(command: SimpleCommandMessage) {
+  async perks(command: SimpleCommandMessage) {
     bot.extras.embed(
       {
         title: `Aeona Premium`,
