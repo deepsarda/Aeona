@@ -56,7 +56,7 @@ export class Games {
 
           await bot.extras.embed(
             {
-              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
               fields: [
                 {
                   name: `${bot.config.emotes.normal.check} New High Score`,
@@ -69,7 +69,7 @@ export class Games {
         } else {
           await bot.extras.embed(
             {
-              desc: `You won! But you did not beat your previous score of **${
+              title: `You won! But you did not beat your previous score of **${
                 u.score
               }** and ranked **${bot.extras.ordinalSuffix(
                 await bot.extras.leaderboard.position('snake', result.player.id),
@@ -168,7 +168,7 @@ export class Games {
 
           await bot.extras.embed(
             {
-              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
               fields: [
                 {
                   name: `${bot.config.emotes.normal.check} New High Score`,
@@ -181,7 +181,7 @@ export class Games {
         } else {
           await bot.extras.embed(
             {
-              desc: `You won! But you did not beat your previous score of **${
+              title: `You won! But you did not beat your previous score of **${
                 u.score
               }** and ranked **${bot.extras.ordinalSuffix(
                 await bot.extras.leaderboard.position('snake', result.player.id),
@@ -266,7 +266,7 @@ export class Games {
 
         await bot.extras.embed(
           {
-            desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+            title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
             fields: [
               {
                 name: `${bot.config.emotes.normal.check} New High Score`,
@@ -279,7 +279,7 @@ export class Games {
       } else {
         await bot.extras.embed(
           {
-            desc: `You won! But you did not beat your previous score of **${
+            title: `You won! But you did not beat your previous score of **${
               u.score
             }** and ranked **${bot.extras.ordinalSuffix(
               await bot.extras.leaderboard.position('snake', result.player.id),
@@ -406,7 +406,7 @@ export class Games {
 
           await bot.extras.embed(
             {
-              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
               fields: [
                 {
                   name: `${bot.config.emotes.normal.check} New High Score`,
@@ -419,7 +419,7 @@ export class Games {
         } else {
           await bot.extras.embed(
             {
-              desc: `You won! But you did not beat your previous score of **${
+              title: `You won! But you did not beat your previous score of **${
                 u.score
               }** and ranked **${bot.extras.ordinalSuffix(
                 await bot.extras.leaderboard.position('minesweeper', result.player.id),
@@ -549,7 +549,7 @@ export class Games {
 
         await bot.extras.embed(
           {
-            desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+            title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
             fields: [
               {
                 name: `${bot.config.emotes.normal.check} New High Score`,
@@ -562,7 +562,7 @@ export class Games {
       } else {
         await bot.extras.embed(
           {
-            desc: `You won! But you did not beat your previous score of **${
+            title: `You won! But you did not beat your previous score of **${
               u.score
             }** and ranked **${bot.extras.ordinalSuffix(
               await bot.extras.leaderboard.position('snake', result.player.id),
