@@ -18,6 +18,7 @@
     "@discordx/importer": "^1.2.2",
     "@discordx/pagination": "^3.4.1",
     "@discordx/utilities": "^5.2.1",
+    "@gamestdio/leaderboard": "^0.1.7",
     "@influxdata/influxdb-client": "^1.33.2",
     "@top-gg/sdk": "^3.1.5",
     "canvacord": "^5.4.10",

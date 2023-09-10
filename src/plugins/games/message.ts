@@ -33,12 +33,59 @@ export class Games {
         left: '⬅️',
         right: '➡️',
       },
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       playerOnlyMessage: 'Only {player} can use these buttons.',
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('2048', result.player.id);
+        if (!u || u.score < result.score) {
+          await bot.extras.leaderboard.record('2048', {
+            id: result.player.id,
+            score: result.score,
+          });
+
+          let position = await bot.extras.leaderboard.position('2048', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.score}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @SimpleCommand({
@@ -77,7 +124,7 @@ export class Games {
         player2: '🟡',
       },
       mentionUser: true,
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       turnMessage: '{emoji} | Its turn of player **{player}**.',
       winMessage: '{emoji} | **{player}** won the Connect4 Game.',
@@ -111,6 +158,53 @@ export class Games {
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('fasttype', result.player.id);
+        if (!u || u.score < result.wpm) {
+          await bot.extras.leaderboard.record('fasttype', {
+            id: result.player.id,
+            score: result.wpm,
+          });
+
+          let position = await bot.extras.leaderboard.position('fasttype', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.wpm}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.wpm}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @SimpleCommand({
@@ -127,7 +221,7 @@ export class Games {
         description: 'Remember the emojis from the board below.',
         findDescription: 'Find the {emoji} emoji before the time runs out.',
       },
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       hideEmojiTime: 5000,
       buttonStyle: 'PRIMARY',
       emojis: ['🍉', '🍇', '🍊', '🍋', '🥭', '🍎', '🍏', '🥝'],
@@ -152,8 +246,8 @@ export class Games {
         title: 'Flood',
         color: '#5865F2',
       },
-      difficulty: 13,
-      timeoutTime: 60000*10,
+      difficulty: 17,
+      timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       emojis: ['🟥', '🟦', '🟧', '🟪', '🟩'],
       winMessage: 'You won! You took **{turns}** turns.',
@@ -162,6 +256,53 @@ export class Games {
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('flood', result.player.id);
+        if (!u || u.score < 25 - result.turns) {
+          await bot.extras.leaderboard.record('flood', {
+            id: result.player.id,
+            score: 25 - result.turns,
+          });
+
+          let position = await bot.extras.leaderboard.position('flood', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${25 - result.turns}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${25 - result.turns}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @SimpleCommand({
@@ -176,7 +317,7 @@ export class Games {
         title: "Who's The Pokemon",
         color: '#5865F2',
       },
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       winMessage: 'You guessed it right! It was a {pokemon}.',
       loseMessage: 'Better luck next time! It was a {pokemon}.',
       errMessage: 'Unable to fetch pokemon data! Please try again.',
@@ -201,7 +342,7 @@ export class Games {
       },
       hangman: { hat: '🎩', head: '😟', shirt: '👕', pants: '🩳', boots: '👞👞' },
       customWord: list[Math.floor(Math.random() * list.length)],
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       theme: 'nature',
       winMessage: 'You won! The word was **{word}**.',
       loseMessage: 'You lost! The word was **{word}**.',
@@ -224,7 +365,7 @@ export class Games {
         color: '#5865F2',
         description: '**Click on the buttons to match emojis with their pairs.**',
       },
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       emojis: ['🍉', '🍇', '🍊', '🥭', '🍎', '🍏', '🥝', '🥥', '🍓', '🫐', '🍍', '🥕', '🥔'],
       winMessage: '**You won the Game! You turned a total of `{tilesTurned}` tiles.**',
       loseMessage: '**You lost the Game! You turned a total of `{tilesTurned}` tiles.**',
@@ -248,14 +389,61 @@ export class Games {
         description: 'Click on the buttons to reveal the blocks except mines.',
       },
       emojis: { flag: '🚩', mine: '💣' },
-      mines: 5,
-      timeoutTime: 60000*10,
+      mines: 10,
+      timeoutTime: 60000 * 10,
       winMessage: 'You won the Game! You successfully avoided all the mines.',
       loseMessage: 'You lost the Game! Beaware of the mines next time.',
       playerOnlyMessage: 'Only {player} can use these buttons.',
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('minesweeper', result.player.id);
+        if (!u || u.score < result.blocksTurned) {
+          await bot.extras.leaderboard.record('minesweeper', {
+            id: result.player.id,
+            score: result.blocksTurned,
+          });
+
+          let position = await bot.extras.leaderboard.position('minesweeper', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.blocksTurned}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('minesweeper', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.blocksTurned}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @SimpleCommand({
@@ -300,7 +488,7 @@ export class Games {
         scissors: '✂️',
       },
       mentionUser: true,
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       pickMessage: 'You choose {emoji}.',
       winMessage: '**{player}** won the Game! Congratulations!',
@@ -355,11 +543,59 @@ export class Games {
       snake: { head: '🟢', body: '🟩', tail: '🟢', skull: '💀' },
       foods: ['🍎', '🍇', '🍊', '🫐', '🥕', '🥝', '🌽'],
       stopButton: 'Stop',
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       playerOnlyMessage: 'Only {player} can use these buttons.',
     });
 
     Game.startGame();
+
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('snake', result.player.id);
+        if (!u || u.score < result.score) {
+          await bot.extras.leaderboard.record('snake', {
+            id: result.player.id,
+            score: result.score,
+          });
+
+          let position = await bot.extras.leaderboard.position('snake', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.score}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @SimpleCommand({
@@ -399,7 +635,7 @@ export class Games {
         blankButton: '➖',
       },
       mentionUser: true,
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       xButtonStyle: 'DANGER',
       oButtonStyle: 'PRIMARY',
       turnMessage: '{emoji} | Its turn of player **{player}**.',
@@ -425,7 +661,7 @@ export class Games {
         color: '#5865F2',
         description: 'You have 60 seconds to guess the answer.',
       },
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       trueButtonStyle: 'SUCCESS',
       falseButtonStyle: 'DANGER',
@@ -454,7 +690,7 @@ export class Games {
         color: '#5865F2',
       },
       customWord: list[Math.floor(Math.random() * list.length)],
-      timeoutTime: 60000*10,
+      timeoutTime: 60000 * 10,
       winMessage: 'You won! The word was **{word}**.',
       loseMessage: 'You lost! The word was **{word}**.',
       playerOnlyMessage: 'Only {player} can use these buttons.',

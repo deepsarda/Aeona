@@ -43,6 +43,53 @@ export class Games {
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('2048', result.player.id);
+        if (!u || u.score < result.score) {
+          await bot.extras.leaderboard.record('2048', {
+            id: result.player.id,
+            score: result.score,
+          });
+
+          let position = await bot.extras.leaderboard.position('2048', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.score}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @Slash({
@@ -107,6 +154,54 @@ export class Games {
     });
 
     Game.startGame();
+
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('fasttype', result.player.id);
+        if (!u || u.score < result.wpm) {
+          await bot.extras.leaderboard.record('fasttype', {
+            id: result.player.id,
+            score: result.wpm,
+          });
+
+          let position = await bot.extras.leaderboard.position('fasttype', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.wpm}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.wpm}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @Slash({
@@ -148,7 +243,7 @@ export class Games {
         title: 'Flood',
         color: '#5865F2',
       },
-      difficulty: 13,
+      difficulty: 17,
       timeoutTime: 60000 * 10,
       buttonStyle: 'PRIMARY',
       emojis: ['🟥', '🟦', '🟧', '🟪', '🟩'],
@@ -158,6 +253,54 @@ export class Games {
     });
 
     Game.startGame();
+
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('flood', result.player.id);
+        if (!u || u.score < 25 - result.turns) {
+          await bot.extras.leaderboard.record('flood', {
+            id: result.player.id,
+            score: 25 - result.turns,
+          });
+
+          let position = await bot.extras.leaderboard.position('flood', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${25 - result.turns}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${25 - result.turns}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @Slash({
@@ -244,7 +387,7 @@ export class Games {
         description: 'Click on the buttons to reveal the blocks except mines.',
       },
       emojis: { flag: '🚩', mine: '💣' },
-      mines: 5,
+      mines: 10,
       timeoutTime: 60000 * 10,
       winMessage: 'You won the Game! You successfully avoided all the mines.',
       loseMessage: 'You lost the Game! Beaware of the mines next time.',
@@ -252,6 +395,53 @@ export class Games {
     });
 
     Game.startGame();
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('minesweeper', result.player.id);
+        if (!u || u.score < result.blocksTurned) {
+          await bot.extras.leaderboard.record('minesweeper', {
+            id: result.player.id,
+            score: result.blocksTurned,
+          });
+
+          let position = await bot.extras.leaderboard.position('minesweeper', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.blocksTurned}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('minesweeper', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.blocksTurned}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @Slash({
@@ -348,6 +538,54 @@ export class Games {
     });
 
     Game.startGame();
+
+    Game.on('gameOver', async (result) => {
+      if (result.result == 'win') {
+        let u = await bot.extras.leaderboard.get('snake', result.player.id);
+        if (!u || u.score < result.score) {
+          await bot.extras.leaderboard.record('snake', {
+            id: result.player.id,
+            score: result.score,
+          });
+
+          let position = await bot.extras.leaderboard.position('snake', result.player.id);
+
+          await bot.extras.embed(
+            {
+              desc: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${result.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              desc: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('snake', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${result.score}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
+      }
+    });
   }
 
   @Slash({

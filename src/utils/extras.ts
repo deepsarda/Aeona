@@ -7,6 +7,7 @@ import ticketSchema from '../database/models/tickets.js';
 import embeds from './embed.js';
 import { InfluxDB } from '@influxdata/influxdb-client';
 import { AeonaBot } from './types.js';
+import dotenv from 'dotenv';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -29,12 +30,34 @@ const INFLUX_BUCKET = process.env.INFLUX_BUCKET as string;
 const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
 const INFLUX_URL = process.env.INFLUX_URL as string;
 const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
+dotenv.config();
+import { MongoClient } from 'mongodb';
+import { Leaderboard } from '@gamestdio/leaderboard';
+
+// Setup your MongoDB connection.
+const client = new MongoClient(process.env.MONGO_CONNECTION!);
+const db = client.db('Leaderboard');
 
 export function additionalProps(client: AeonaBot) {
   return {
     version: 'v0.2.0',
     ...embeds(client),
     influxQuery: influxDB?.getQueryApi(INFLUX_ORG),
+    leaderboard: new Leaderboard(db),
+    ordinalSuffix: (i: number) => {
+      let j = i % 10,
+        k = i % 100;
+      if (j == 1 && k != 11) {
+        return i + 'st';
+      }
+      if (j == 2 && k != 12) {
+        return i + 'nd';
+      }
+      if (j == 3 && k != 13) {
+        return i + 'rd';
+      }
+      return i + 'th';
+    },
     influx: influxDB?.getWriteApi(INFLUX_ORG, INFLUX_BUCKET),
     startTime: new Date().getTime(),
     messageCount: 0,
