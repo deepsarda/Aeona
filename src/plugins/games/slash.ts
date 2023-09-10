@@ -72,7 +72,7 @@ export class Games {
               title: `You won! But you did not beat your previous score of **${
                 u.score
               }** and ranked **${bot.extras.ordinalSuffix(
-                await bot.extras.leaderboard.position('snake', result.player.id),
+                await bot.extras.leaderboard.position('2048', result.player.id),
               )}** in the leaderboard!`,
               fields: [
                 {
@@ -184,7 +184,7 @@ export class Games {
               title: `You won! But you did not beat your previous score of **${
                 u.score
               }** and ranked **${bot.extras.ordinalSuffix(
-                await bot.extras.leaderboard.position('snake', result.player.id),
+                await bot.extras.leaderboard.position('fasttype', result.player.id),
               )}** in the leaderboard!`,
               fields: [
                 {
@@ -282,7 +282,7 @@ export class Games {
             title: `You won! But you did not beat your previous score of **${
               u.score
             }** and ranked **${bot.extras.ordinalSuffix(
-              await bot.extras.leaderboard.position('snake', result.player.id),
+              await bot.extras.leaderboard.position('flood', result.player.id),
             )}** in the leaderboard!`,
             fields: [
               {
