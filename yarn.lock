@@ -1793,6 +1793,15 @@ discord-api-types@^0.37.41:
   resolved "https://registry.npmjs.org/discord-api-types/-/discord-api-types-0.37.50.tgz"
   integrity sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==
 
+discord-gamecord@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.npmjs.org/discord-gamecord/-/discord-gamecord-4.4.1.tgz"
+  integrity sha512-0IDI2C7QttWSPJStQNUZn89xFlgqo+qrJUC+/Bu8xPfnZ0G0AsBN6Ut0lwYcJOZkHnX5cNbwHl6Wj//5ws9oTA==
+  dependencies:
+    discord.js "^14.8.0"
+    html-entities "^2.3.3"
+    node-fetch "^2.6.7"
+
 discord-html-transcripts@^3.1.4:
   version "3.1.4"
   resolved "https://registry.npmjs.org/discord-html-transcripts/-/discord-html-transcripts-3.1.4.tgz"
@@ -1820,7 +1829,7 @@ discord-markdown-parser@~1.1.0:
   dependencies:
     simple-markdown "^0.7.3"
 
-discord.js@^14.0.0, discord.js@^14.11.0, "discord.js@>=14 || ^14.0.0-dev":
+discord.js@^14.0.0, discord.js@^14.11.0, discord.js@^14.8.0, "discord.js@>=14 || ^14.0.0-dev":
   version "14.11.0"
   resolved "https://registry.npmjs.org/discord.js/-/discord.js-14.11.0.tgz"
   integrity sha512-CkueWYFQ28U38YPR8HgsBR/QT35oPpMbEsTNM30Fs8loBIhnA4s70AwQEoy6JvLcpWWJO7GY0y2BUzZmuBMepQ==
@@ -2421,6 +2430,11 @@ hmfull@^2.4.3:
   integrity sha512-nHEUKYK5fnLW1e64Tya5+HlK4vzedoPtGf9Ox7eE8NNDkjSs+yljSHMMTrp4AvscnfYnU5ZtqNeLKH2edkSzoA==
   dependencies:
     node-fetch "^2.6.1"
+
+html-entities@^2.3.3:
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/html-entities/-/html-entities-2.4.0.tgz"
+  integrity sha512-igBTJcNNNhvZFRtm8uA6xMY6xYleeDwn3PeBCkDz7tHttv4F2hsDI2aPgNERWzvRcNYHNT3ymRaQzllmXj4YsQ==
 
 http-errors@2.0.0:
   version "2.0.0"
