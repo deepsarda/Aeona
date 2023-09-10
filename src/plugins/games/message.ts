@@ -387,7 +387,7 @@ export class Games {
         description: 'Click on the buttons to reveal the blocks except mines.',
       },
       emojis: { flag: '🚩', mine: '💣' },
-      mines: 10,
+      mines: 5,
       timeoutTime: 60000 * 10,
       winMessage: 'You won the Game! You successfully avoided all the mines.',
       loseMessage: 'You lost the Game! Beaware of the mines next time.',
