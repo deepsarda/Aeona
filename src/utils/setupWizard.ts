@@ -67,7 +67,7 @@ export async function createSetupWizard(
       {
         content: '',
         title: `Setup Wizard For ${name}`,
-        desc: `Choose a to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. `,
+        desc: `Choose a system to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. `,
         components: comp,
         type: 'reply',
       },
