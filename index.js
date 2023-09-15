@@ -29,12 +29,6 @@ async function main() {
       console.log(e);
     }
   }, 60 * 1000);
-
-  setInterval(() => {
-    try {
-      exec('pm2 restart API');
-    } catch (e) {}
-  }, 60 * 60 * 1000);
 }
 
 main();
