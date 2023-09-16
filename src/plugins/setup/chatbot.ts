@@ -1,4 +1,4 @@
-import { Components } from './../../utils/components';
+import { Components } from './../../utils/components.js';
 import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import {
   ArgsOf,
