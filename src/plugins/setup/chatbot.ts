@@ -225,9 +225,11 @@ export class Chatbot {
     });
 
     let message = await interaction.channel!.messages.fetch(messageId);
-    let msgs = (
-      await interaction.channel!.messages.fetch({ limit: 15, before: `${message.createdTimestamp + 10}` })
+    let msgs: Collection<string, Message> = (
+      await interaction.channel!.messages.fetch({ limit: 15, before: `${message.id}` })
     ).sort((a, b) => a.createdTimestamp - b.createdTimestamp);
+
+    msgs.set(messageId, message);
 
     let transcript = await transcripts.generateFromMessages(msgs, interaction.channel as unknown as TextChannel, {
       favicon: 'https://www.aeonabot.xyz/logo.webp',
