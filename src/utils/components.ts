@@ -83,12 +83,14 @@ export class Components extends Array<ActionRowBuilder<MessageActionRowComponent
 
     if (options?.emoji) button.setEmoji(options.emoji);
     if (options?.disabled) button.setDisabled(options.disabled);
-    button.setCustomId(idOrLink);
+
     button.setLabel(label);
 
     if (typeof style === 'string') button.setStyle(ButtonStyle[style]);
     else button.setStyle(style);
 
+    if (button.data.style === ButtonStyle.Link) button.setURL(idOrLink);
+    else button.setCustomId(idOrLink);
     row.addComponents(button);
     return this;
   }
