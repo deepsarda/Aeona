@@ -78,12 +78,28 @@ export const bot: AeonaBot = new Client({
       async notFound(message) {
         if (message.author.bot || message.author.id === bot.user!.id) return;
 
-        if (currentChatbotJobs.has(message.channel.id)) currentChatbotJobs.get(message.channel.id)!.refresh();
-        else {
-          currentChatbotJobs.set(
-            message.channel.id,
-            setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
-          );
+        if (
+          currentChatbotJobs.has(message.channel.id) &&
+          currentChatbotJobs.get(message.channel.id)!.userId === message.author.id
+        ) {
+          currentChatbotJobs.get(message.channel.id)!.timer.refresh();
+        } else if (currentChatbotJobs.has(message.channel.id)) {
+          clearTimeout(currentChatbotJobs.get(message.channel.id)!.timer);
+          currentChatbotJobs.delete(message.channel.id);
+          message.channel.sendTyping();
+          //wait for 3 seconds for old job to finish
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          currentChatbotJobs.set(message.channel.id, {
+            userId: message.author.id,
+            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+          });
+
+          chabotJob(message, bot);
+        } else {
+          currentChatbotJobs.set(message.channel.id, {
+            userId: message.author.id,
+            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+          });
           message.channel.sendTyping();
           chabotJob(message, bot);
         }

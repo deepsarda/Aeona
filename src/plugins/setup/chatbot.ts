@@ -26,7 +26,7 @@ import { bot } from '../../bot.js';
 import filter from 'leo-profanity';
 import { channel } from 'diagnostics_channel';
 filter.loadDictionary('en');
-export const currentChatbotJobs: Collection<string, NodeJS.Timeout> = new Collection();
+export const currentChatbotJobs: Collection<string, { userId: string; timer: NodeJS.Timeout }> = new Collection();
 
 @Discord()
 @Bot(...getPluginsBot('chatbot'))
@@ -151,12 +151,28 @@ export class Chatbot {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot || message.author.id === client.user!.id) return;
 
-    if (currentChatbotJobs.has(message.channel.id)) currentChatbotJobs.get(message.channel.id)!.refresh();
-    else {
-      currentChatbotJobs.set(
-        message.channel.id,
-        setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
-      );
+    if (
+      currentChatbotJobs.has(message.channel.id) &&
+      currentChatbotJobs.get(message.channel.id)!.userId === message.author.id
+    ) {
+      currentChatbotJobs.get(message.channel.id)!.timer.refresh();
+    } else if (currentChatbotJobs.has(message.channel.id)) {
+      clearTimeout(currentChatbotJobs.get(message.channel.id)!.timer);
+      currentChatbotJobs.delete(message.channel.id);
+      message.channel.sendTyping();
+      //wait for 3 seconds for old job to finish
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      currentChatbotJobs.set(message.channel.id, {
+        userId: message.author.id,
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+      });
+
+      chabotJob(message, client);
+    } else {
+      currentChatbotJobs.set(message.channel.id, {
+        userId: message.author.id,
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+      });
       message.channel.sendTyping();
       chabotJob(message, client);
     }
@@ -178,7 +194,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
 
   while (true) {
     if (currentChatbotJobs.has(message.channel.id)) {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } else break;
   }
 
@@ -210,7 +226,13 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       lastMessage.content += `\n${msg.content}`;
       msgs.set(lastMessage.id, lastMessage);
     } else {
-      if (msg && msg.content && msg.content.length > 0) msgs.set(msg.id, msg);
+      if (
+        msg &&
+        msg.content &&
+        msg.content.length > 0 &&
+        (msg.author.id != bot.user?.id ? msg.createdTimestamp < message.createdTimestamp : true)
+      )
+        msgs.set(msg.id, msg);
     }
   }
   try {
