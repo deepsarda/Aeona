@@ -267,5 +267,5 @@ function nFormatter(num: number, digits: number) {
     .find(function (item) {
       return num >= item.value;
     });
-  return item ? (num / item.value).toFixed(digits).replace(rx, '$1') + item.symbol : '0';
+  return item ? (num / item.value).toFixed(digits).replace(rx, '$2.99') + item.symbol : '0';
 }

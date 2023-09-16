@@ -224,4 +224,19 @@ export class Owners {
       });
     }
   }
+
+  @On()
+  async guildDelete([guild]: ArgsOf<'guildDelete'>, client: AeonaBot) {
+    const embed = new EmbedBuilder().setTitle('Removed from a server!').setDescription(
+      `Total servers: ${client.guilds.cache.size} 
+       'Server name ${guild.name} 
+       'Server ID ${guild.id} 
+       'Server members ${guild.memberCount} 
+       'Server owner <@${guild.ownerId}> (${guild.ownerId})`,
+    );
+
+    webhookClient.send({
+      embeds: [embed],
+    });
+  }
 }

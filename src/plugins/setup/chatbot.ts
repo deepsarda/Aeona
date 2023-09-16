@@ -1,3 +1,4 @@
+import { Components } from './../../utils/components';
 import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import {
   ArgsOf,
@@ -15,16 +16,25 @@ import { Discord } from 'discordx';
 import { getPluginsBot } from '../../utils/config.js';
 import ChatbotShema from '../../database/models/chatbot-channel.js';
 import GuildDB from '../../database/models/guild.js';
-import { ButtonInteraction, Channel, Collection, CommandInteraction, GuildChannel, Message } from 'discord.js';
+import {
+  ButtonInteraction,
+  Channel,
+  Collection,
+  CommandInteraction,
+  GuildChannel,
+  Message,
+  TextChannel,
+} from 'discord.js';
+import fs from 'fs';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import chatbotChannel from '../../database/models/chatbot-channel.js';
 import { AeonaBot } from '../../utils/types.js';
 
-import { Components } from '../../utils/components.js';
 import { bot } from '../../bot.js';
 
 import filter from 'leo-profanity';
-import { channel } from 'diagnostics_channel';
+import transcripts, { ExportReturnType } from 'discord-html-transcripts';
+
 filter.loadDictionary('en');
 export const currentChatbotJobs: Collection<string, { userId: string; timer: NodeJS.Timeout }> = new Collection();
 
@@ -101,7 +111,8 @@ export class Chatbot {
     if (!(guild.isPremium === 'true')) {
       bot.extras.errNormal(
         {
-          error: 'This guild is not a premium. \n You can buy it for just $1 [here](https://patreon.com/aeonicdiscord)',
+          error:
+            'This guild is not a premium. \n You can buy it for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
         },
         command,
       );
@@ -182,11 +193,69 @@ export class Chatbot {
   }
 
   @ButtonComponent({
+    id: 'sharechatbot',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+    PermissionGuard(['ManageMessages'], {
+      ephemeral: true,
+    }),
+  )
+  sharechatbot(interaction: ButtonInteraction) {
+    let components = new Components();
+    components.addButton('confirm', 'Secondary', 'confirmsharechatbot-' + interaction.message.id);
+    interaction.reply({
+      content: `Hi there.\n\n By procedding you agree to share the last **15** messages of this channel from that message with me onto a link which is available to **everyone.**`,
+      components: components,
+      flags: 1 << 6,
+    });
+  }
+
+  @ButtonComponent({
+    id: /confirmsharechatbot-/gm,
+  })
+  async confirmsharechatbot(interaction: ButtonInteraction) {
+    let messageId = interaction.customId.split('-')[1];
+    interaction.reply({
+      content: `Please wait... I'm generating the link... ETA: 1 minute`,
+      flags: 1 << 6,
+    });
+
+    let message = await interaction.channel!.messages.fetch(messageId);
+    let msgs = (
+      await interaction.channel!.messages.fetch({ limit: 15, before: `${message.createdTimestamp + 10}` })
+    ).sort((a, b) => a.createdTimestamp - b.createdTimestamp);
+
+    let transcript = await transcripts.generateFromMessages(msgs, interaction.channel as unknown as TextChannel, {
+      favicon: 'https://www.aeonabot.xyz/logo.webp',
+      footerText: 'Aeona',
+      poweredBy: false,
+      returnType: ExportReturnType.String,
+    });
+    let randomId = Math.random().toString(36).substring(2, 20);
+    if (fs.existsSync('./src/website/public/transcripts/' + randomId + '.html')) {
+      randomId = Math.random().toString(36).substring(2, 20);
+    }
+    fs.writeFileSync('./src/website/public/transcripts/' + randomId + '.html', transcript);
+
+    let link = `https://www.aeonabot.xyz/transcripts/${randomId}.html`;
+
+    let components = new Components();
+    components.addButton('Link', 'Link', link);
+    interaction.editReply({
+      content: `Click the button below to share the link with everyone.`,
+      components: components,
+    });
+  }
+
+  @ButtonComponent({
     id: 'profane',
   })
   profaneButton(interaction: ButtonInteraction) {
     interaction.reply({
-      content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $1 [here](https://patreon.com/aeonicdiscord)`,
+      content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)`,
       flags: 1 << 6,
     });
   }
@@ -274,7 +343,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       let component = new Components();
       component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
       component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
-
+      component.addButton('Share', 'Secondary', 'sharechatbot');
       if (guild!.chatbotFilter) {
         if (filter.check(json)) {
           component.addButton('Why **** ?', 'Secondary', 'profane');

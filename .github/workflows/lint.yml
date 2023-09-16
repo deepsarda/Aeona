@@ -36,6 +36,6 @@ jobs:
             ${{ runner.os }}-node-v2-
 
       - name: Install dependencies
-        run: yarn install
+        run: npm i
       - name: Typecheck
         run: yarn typecheck

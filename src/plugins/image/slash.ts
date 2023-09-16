@@ -66,11 +66,12 @@ export class Image {
       if (!(await api.hasVoted(command.user.id)))
         return command.reply({
           content:
-            "Please vote for me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote and then try again. \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots. This is a method to stop some autobots.",
+            'Please vote for me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote and then try again. \n\n Premium servers can bypass this. Premium servers can bypass this.\n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
         });
       if (filter.check(prompt))
         return command.reply({
-          content: 'This prompt is either profane, nfsw or both.',
+          content:
+            'This prompt is either profane, nfsw or both. \n\n Premium servers can bypass this.\n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
         });
     }
 
