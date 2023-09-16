@@ -196,8 +196,9 @@ export class Chatbot {
     id: 'sharechatbot',
   })
   @Guard(
-    RateLimit(TIME_UNIT.seconds, 30, {
-      rateValue: 3,
+    RateLimit(TIME_UNIT.hours, 1, {
+      rateValue: 1,
+      ephemeral: true,
     }),
     PermissionGuard(['ManageMessages'], {
       ephemeral: true,
