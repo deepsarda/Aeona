@@ -22,11 +22,11 @@ import { AeonaBot } from '../../utils/types.js';
 
 import { Components } from '../../utils/components.js';
 import { bot } from '../../bot.js';
-import Topgg from '@top-gg/sdk';
-const api = new Topgg.Api(process.env.TOPGG_TOKEN!);
 
 import filter from 'leo-profanity';
+import { channel } from 'diagnostics_channel';
 filter.loadDictionary('en');
+export const currentChatbotJobs: Collection<string, NodeJS.Timeout> = new Collection();
 
 @Discord()
 @Bot(...getPluginsBot('chatbot'))
@@ -35,18 +35,14 @@ filter.loadDictionary('en');
   name: 'setup',
   description: 'Various commands setup up my various features. 🛠️',
 })
-@Guard(
-  RateLimit(TIME_UNIT.seconds, 30, {
-    rateValue: 3,
-  }),
-  PermissionGuard(['ManageChannels']),
-)
 @SlashGroup('setup')
 export class Chatbot {
-  private readonly usersMap = new Map();
-  private readonly LIMIT = 4;
-  private readonly TIME = 5 * 60 * 1000;
-  private readonly DIFF = 60000 * 2;
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+    PermissionGuard(['ManageChannels']),
+  )
   @SimpleCommand({
     name: 'setup chatbot',
     description: 'Set a channel for talking with me 💬',
@@ -67,6 +63,12 @@ export class Chatbot {
     name: 'chatbot',
     description: 'Set a channel for talking with me 💬',
   })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+    PermissionGuard(['ManageChannels']),
+  )
   async chatbotSlash(command: CommandInteraction) {
     createSetupWizard(
       command,
@@ -83,6 +85,12 @@ export class Chatbot {
     name: 'setup chatbotprofane',
     description: 'Toggle the chatbot ability to use swear words 🔥',
   })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+    PermissionGuard(['ManageChannels']),
+  )
   async chatbotProfane(command: SimpleCommandMessage) {
     let guild = await GuildDB.findOne({ Guild: command.message.guildId });
     if (!guild)
@@ -115,6 +123,12 @@ export class Chatbot {
     name: 'chatbotprofane',
     description: 'Toggle the chatbot ability to use swear words 🔥',
   })
+  @Guard(
+    RateLimit(TIME_UNIT.seconds, 30, {
+      rateValue: 3,
+    }),
+    PermissionGuard(['ManageChannels']),
+  )
   async chatbotProfaneSlash(command: CommandInteraction) {
     let guild = await GuildDB.findOne({ Guild: command.guildId });
     if (!guild)
@@ -137,119 +151,15 @@ export class Chatbot {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot || message.author.id === client.user!.id) return;
 
-    const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
-    if (!data) return;
-
-    let guild = await GuildDB.findOne({
-      Guild: message.guildId,
-    });
-    if (!guild) guild = new GuildDB({ Guild: message.guildId });
-
-    if (
-      this.usersMap.has(message.author.id) &&
-      guild.isPremium !== 'true' &&
-      !(await api.hasVoted(message.author.id))
-    ) {
-      const userData = this.usersMap.get(message.author.id);
-      const { lastMessage, timer } = userData;
-      const difference = message.createdTimestamp - lastMessage.createdTimestamp;
-      let { msgCount } = userData;
-      ++msgCount;
-
-      if (difference > this.DIFF) {
-        clearTimeout(timer);
-        userData.msgCount = 1;
-        userData.lastMessage = message;
-        userData.timer = setTimeout(() => {
-          this.usersMap.delete(message.author.id);
-        }, this.TIME);
-        this.usersMap.set(message.author.id, userData);
-      } else {
-        if (msgCount === this.LIMIT) {
-          message.delete();
-          userData.msgCount = msgCount;
-          this.usersMap.set(message.author.id, userData);
-          return message.channel.send({
-            content:
-              'Hey <@' +
-              message.author.id +
-              '>! Sorry I have had to rate limit you for **30** seconds. \n\n You can bypass this rate limit by either upvoting me at https://top.gg/bot/' +
-              client.user!.id +
-              "/vote  or buying premium for your server! \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots.",
-          });
-        } else {
-          userData.msgCount = msgCount;
-          this.usersMap.set(message.author.id, userData);
-        }
-      }
-    } else {
-      const fn = setTimeout(() => {
-        this.usersMap.delete(message.author.id);
-      }, this.TIME);
-      this.usersMap.set(message.author.id, {
-        msgCount: 1,
-        lastMessage: message,
-        timer: fn,
-      });
-    }
-
-    let contexts: { content: string; name: string; type: string }[] = [];
-    let msgs: Collection<string, Message> = new Collection();
-    if (message.channel.messages.cache.size < 10) {
-      msgs = (await message.channel.messages.fetch({ limit: 10 })).sort(
-        (a, b) => b.createdTimestamp - a.createdTimestamp,
+    if (currentChatbotJobs.has(message.channel.id)) currentChatbotJobs.get(message.channel.id)!.refresh();
+    else {
+      currentChatbotJobs.set(
+        message.channel.id,
+        setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
       );
-    } else {
-      msgs = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+      message.channel.sendTyping();
+      chabotJob(message, client);
     }
-    try {
-      msgs.forEach((msg) => {
-        msg = bot.extras.replaceMentions(msg);
-        if (msg.content && msg.content.length > 0 && contexts.length < 10)
-          contexts.push({
-            content: msg.content,
-            name: msg.author.username,
-            type: msg.author.id != bot.user?.id ? 'user' : 'bot',
-          });
-      });
-    } catch (e) {
-      //ignore error
-    }
-
-    const url = `http://localhost:8083/chatbot`;
-
-    const options = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(contexts),
-    };
-    message.channel.sendTyping();
-    fetch(url, options)
-      .then((res) => res.text())
-      .then(async (json) => {
-        let s = [
-          '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
-        ];
-
-        console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
-
-        const randomNumber = Math.floor(Math.random() * 30);
-        json = randomNumber == 0 ? (json ?? '') + s[0] : json;
-        let component: any[] = [];
-        if (guild!.chatbotFilter) {
-          if (filter.check(json)) {
-            const c = new Components();
-            c.addButton('Why $$$$?', 'Secondary', 'profane');
-            component = c;
-            json = filter.clean(json);
-          }
-        }
-
-        message.reply({
-          content: json.replace('@{{user}}', `${message.author}`),
-          components: component,
-        });
-      });
   }
 
   @ButtonComponent({
@@ -261,4 +171,88 @@ export class Chatbot {
       flags: 1 << 6,
     });
   }
+}
+
+export async function chabotJob(message: Message, client: AeonaBot) {
+  if (message.author.bot || message.author.id === client.user!.id) return;
+
+  while (true) {
+    if (currentChatbotJobs.has(message.channel.id)) {
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } else break;
+  }
+
+  const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
+  if (!data) return;
+
+  let guild = await GuildDB.findOne({
+    Guild: message.guildId,
+  });
+  if (!guild) guild = new GuildDB({ Guild: message.guildId });
+
+  let contexts: { content: string; name: string; type: string }[] = [];
+  let m: Collection<string, Message> = new Collection();
+  let msgs: Collection<string, Message> = new Collection();
+  if (message.channel.messages.cache.size < 10) {
+    m = (await message.channel.messages.fetch({ limit: 30 })).sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+  } else {
+    m = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+  }
+  for (const [id, msg] of m) {
+    let lastMessage = msgs.last();
+
+    if (lastMessage && lastMessage.author.id == msg.author.id) {
+      lastMessage.content += `\n${msg.content}`;
+      msgs.set(lastMessage.id, lastMessage);
+    }
+  }
+  try {
+    msgs.forEach((msg) => {
+      msg = bot.extras.replaceMentions(msg);
+      if (msg.content && msg.content.length > 0 && contexts.length < 10)
+        contexts.push({
+          content: msg.content,
+          name: msg.author.username,
+          type: msg.author.id != bot.user?.id ? 'user' : 'bot',
+        });
+    });
+  } catch (e) {
+    //ignore error
+  }
+
+  const url = `http://localhost:8083/chatbot`;
+
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(contexts),
+  };
+  message.channel.sendTyping();
+  fetch(url, options)
+    .then((res) => res.text())
+    .then(async (json) => {
+      let s = [
+        '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
+      ];
+
+      console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
+
+      const randomNumber = Math.floor(Math.random() * 30);
+      json = randomNumber == 0 ? (json ?? '') + s[0] : json;
+      let component = new Components();
+      component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
+      component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
+
+      if (guild!.chatbotFilter) {
+        if (filter.check(json)) {
+          component.addButton('Why **** ?', 'Secondary', 'profane');
+          json = filter.clean(json);
+        }
+      }
+
+      message.reply({
+        content: json.replace('@{{user}}', `${message.author}`),
+        components: component,
+      });
+    });
 }

@@ -24,6 +24,7 @@ import dotenv from 'dotenv';
 import { additionalProps } from './utils/extras.js';
 import website from './website/index.js';
 import filter from 'leo-profanity';
+import { chabotJob, currentChatbotJobs } from './plugins/setup/chatbot.js';
 filter.loadDictionary('en');
 dotenv.config();
 permissions();
@@ -75,63 +76,17 @@ export const bot: AeonaBot = new Client({
     },
     responses: {
       async notFound(message) {
-        let contexts: { content: string; name: string; type: string }[] = [];
-        let msgs: Collection<string, Message> = new Collection();
-        if (message.channel.messages.cache.size < 10) {
-          msgs = (await message.channel.messages.fetch({ limit: 10 })).sort(
-            (a, b) => b.createdTimestamp - a.createdTimestamp,
+        if (message.author.bot || message.author.id === bot.user!.id) return;
+
+        if (currentChatbotJobs.has(message.channel.id)) currentChatbotJobs.get(message.channel.id)!.refresh();
+        else {
+          currentChatbotJobs.set(
+            message.channel.id,
+            setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
           );
-        } else {
-          msgs = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+          message.channel.sendTyping();
+          chabotJob(message, bot);
         }
-        try {
-          msgs.forEach((msg) => {
-            msg = bot.extras.replaceMentions(msg);
-            if (msg.content && msg.content.length > 0 && contexts.length < 10)
-              contexts.push({
-                content: msg.content,
-                name: msg.author.username,
-                type: msg.author.id != bot.user?.id ? 'user' : 'bot',
-              });
-          });
-        } catch (e) {
-          //ignore error
-        }
-
-        const url = `http://localhost:8083/chatbot`;
-
-        const options = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(contexts),
-        };
-        message.channel.sendTyping();
-        fetch(url, options)
-          .then((res) => res.text())
-          .then(async (json) => {
-            let s = [
-              '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
-            ];
-
-            console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
-
-            const randomNumber = Math.floor(Math.random() * 30);
-            json = randomNumber == 0 ? (json ?? '') + s[0] : json;
-
-            let component: any[] = [];
-
-            if (filter.check(json)) {
-              const c = new Components();
-              c.addButton('Why $$$$?', 'Secondary', 'profane');
-              component = c;
-              json = filter.clean(json);
-            }
-
-            message.reply({
-              content: json.replace('@{{user}}', `${message.author}`),
-              components: component,
-            });
-          });
       },
     },
   },
