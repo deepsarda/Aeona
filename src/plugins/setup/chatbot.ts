@@ -151,6 +151,9 @@ export class Chatbot {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot || message.author.id === client.user!.id) return;
 
+    const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
+    if (!data) return;
+
     if (
       currentChatbotJobs.has(message.channel.id) &&
       currentChatbotJobs.get(message.channel.id)!.userId === message.author.id
@@ -197,9 +200,6 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } else break;
   }
-
-  const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
-  if (!data) return;
 
   let guild = await GuildDB.findOne({
     Guild: message.guildId,
