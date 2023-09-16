@@ -210,9 +210,9 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   let m: Collection<string, Message> = new Collection();
   let msgs: Collection<string, Message> = new Collection();
   if (message.channel.messages.cache.size < 10) {
-    m = (await message.channel.messages.fetch({ limit: 30 })).sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+    m = (await message.channel.messages.fetch({ limit: 30 })).sort((a, b) => a.createdTimestamp - b.createdTimestamp);
   } else {
-    m = message.channel.messages.cache.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+    m = message.channel.messages.cache.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
   }
   for (const [id, msg] of m) {
     let lastMessage = msgs.last();
@@ -235,6 +235,9 @@ export async function chabotJob(message: Message, client: AeonaBot) {
         msgs.set(msg.id, msg);
     }
   }
+
+  msgs = msgs.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
+
   try {
     msgs.forEach((msg) => {
       msg = bot.extras.replaceMentions(msg);
