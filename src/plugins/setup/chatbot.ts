@@ -230,7 +230,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
         msg &&
         msg.content &&
         msg.content.length > 0 &&
-        (msg.author.id != bot.user?.id ? msg.createdTimestamp < message.createdTimestamp : true)
+        (msg.author.id != message.author?.id ? msg.createdTimestamp < message.createdTimestamp : true)
       )
         msgs.set(msg.id, msg);
     }
