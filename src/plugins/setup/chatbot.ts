@@ -201,9 +201,16 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   for (const [id, msg] of m) {
     let lastMessage = msgs.last();
 
-    if (lastMessage && lastMessage.author.id == msg.author.id) {
+    if (
+      lastMessage &&
+      lastMessage.author.id == msg.author.id &&
+      lastMessage.content &&
+      lastMessage.content.length > 0
+    ) {
       lastMessage.content += `\n${msg.content}`;
       msgs.set(lastMessage.id, lastMessage);
+    } else {
+      if (msg && msg.content && msg.content.length > 0) msgs.set(msg.id, msg);
     }
   }
   try {
