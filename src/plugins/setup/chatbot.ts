@@ -196,7 +196,7 @@ export class Chatbot {
     id: 'sharechatbot',
   })
   @Guard(
-    RateLimit(TIME_UNIT.hours, 1, {
+    RateLimit(TIME_UNIT.minutes, 20, {
       rateValue: 1,
       ephemeral: true,
     }),
@@ -217,6 +217,15 @@ export class Chatbot {
   @ButtonComponent({
     id: /confirmsharechatbot-/gm,
   })
+  @Guard(
+    RateLimit(TIME_UNIT.minutes, 20, {
+      rateValue: 1,
+      ephemeral: true,
+    }),
+    PermissionGuard(['ManageMessages'], {
+      ephemeral: true,
+    }),
+  )
   async confirmsharechatbot(interaction: ButtonInteraction) {
     let messageId = interaction.customId.split('-')[1];
     await interaction.reply({
