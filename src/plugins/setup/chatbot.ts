@@ -219,7 +219,7 @@ export class Chatbot {
   })
   async confirmsharechatbot(interaction: ButtonInteraction) {
     let messageId = interaction.customId.split('-')[1];
-    interaction.reply({
+    await interaction.reply({
       content: `Please wait... I'm generating the link... ETA: 1 minute`,
       flags: 1 << 6,
     });
@@ -236,9 +236,11 @@ export class Chatbot {
       returnType: ExportReturnType.String,
     });
     let randomId = Math.random().toString(36).substring(2, 20);
-    if (fs.existsSync('./src/website/public/transcripts/' + randomId + '.html')) {
-      randomId = Math.random().toString(36).substring(2, 20);
-    }
+    try {
+      if (fs.existsSync('./src/website/public/transcripts/' + randomId + '.html')) {
+        randomId = Math.random().toString(36).substring(2, 20);
+      }
+    } catch (e) {}
     fs.writeFileSync('./src/website/public/transcripts/' + randomId + '.html', transcript);
 
     let link = `https://www.aeonabot.xyz/transcripts/${randomId}.html`;
