@@ -255,48 +255,50 @@ export class Games {
     Game.startGame();
 
     Game.on('gameOver', async (result) => {
-      let u = await bot.extras.leaderboard.get('flood', result.player.id);
-      if (!u || u.score < 25 - result.turns) {
-        await bot.extras.leaderboard.record('flood', {
-          id: result.player.id,
-          score: 25 - result.turns,
-        });
+      if (result.result == 'win' && result.turns != 0) {
+        let u = await bot.extras.leaderboard.get('flood', result.player.id);
+        if (!u || u.score < 25 - result.turns) {
+          await bot.extras.leaderboard.record('flood', {
+            id: result.player.id,
+            score: 25 - result.turns,
+          });
 
-        let position = await bot.extras.leaderboard.position('flood', result.player.id);
+          let position = await bot.extras.leaderboard.position('flood', result.player.id);
 
-        await bot.extras.embed(
-          {
-            title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
-            fields: [
-              {
-                name: `${bot.config.emotes.normal.check} New High Score`,
-                value: `${25 - result.turns}`,
-              },
-            ],
-          },
-          command,
-        );
-      } else {
-        await bot.extras.embed(
-          {
-            title: `You won! But you did not beat your previous score of **${
-              u.score
-            }** and ranked **${bot.extras.ordinalSuffix(
-              await bot.extras.leaderboard.position('flood', result.player.id),
-            )}** in the leaderboard!`,
-            fields: [
-              {
-                name: `${bot.config.emotes.normal.check} Score`,
-                value: `${25 - result.turns}`,
-              },
-              {
-                name: `${bot.config.emotes.normal.check} High Score`,
-                value: `${u.score}`,
-              },
-            ],
-          },
-          command,
-        );
+          await bot.extras.embed(
+            {
+              title: `You won! You ranked **${bot.extras.ordinalSuffix(position)}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} New High Score`,
+                  value: `${25 - result.turns}`,
+                },
+              ],
+            },
+            command,
+          );
+        } else {
+          await bot.extras.embed(
+            {
+              title: `You won! But you did not beat your previous score of **${
+                u.score
+              }** and ranked **${bot.extras.ordinalSuffix(
+                await bot.extras.leaderboard.position('flood', result.player.id),
+              )}** in the leaderboard!`,
+              fields: [
+                {
+                  name: `${bot.config.emotes.normal.check} Score`,
+                  value: `${25 - result.turns}`,
+                },
+                {
+                  name: `${bot.config.emotes.normal.check} High Score`,
+                  value: `${u.score}`,
+                },
+              ],
+            },
+            command,
+          );
+        }
       }
     });
   }

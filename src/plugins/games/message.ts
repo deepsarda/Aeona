@@ -255,7 +255,7 @@ export class Games {
 
     Game.startGame();
     Game.on('gameOver', async (result) => {
-      if (result.result == 'win') {
+      if (result.result == 'win' && result.turns != 0) {
         let u = await bot.extras.leaderboard.get('flood', result.player.id);
         if (!u || u.score < 25 - result.turns) {
           await bot.extras.leaderboard.record('flood', {
