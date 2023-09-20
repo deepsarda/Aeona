@@ -178,14 +178,14 @@ export class Chatbot {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       currentChatbotJobs.set(message.channel.id, {
         userId: message.author.id,
-        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 10000),
       });
 
       chabotJob(message, client);
     } else {
       currentChatbotJobs.set(message.channel.id, {
         userId: message.author.id,
-        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 10000),
       });
       message.channel.sendTyping();
       chabotJob(message, client);
@@ -196,7 +196,7 @@ export class Chatbot {
     id: 'sharechatbot',
   })
   @Guard(
-    RateLimit(TIME_UNIT.minutes, 20, {
+    RateLimit(TIME_UNIT.minutes, 1, {
       rateValue: 1,
       ephemeral: true,
     }),
@@ -218,7 +218,7 @@ export class Chatbot {
     id: /confirmsharechatbot-/gm,
   })
   @Guard(
-    RateLimit(TIME_UNIT.minutes, 20, {
+    RateLimit(TIME_UNIT.minutes, 1, {
       rateValue: 1,
       ephemeral: true,
     }),

@@ -91,14 +91,14 @@ export const bot: AeonaBot = new Client({
           await new Promise((resolve) => setTimeout(resolve, 3000));
           currentChatbotJobs.set(message.channel.id, {
             userId: message.author.id,
-            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 10000),
           });
 
           chabotJob(message, bot);
         } else {
           currentChatbotJobs.set(message.channel.id, {
             userId: message.author.id,
-            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 20000),
+            timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 10000),
           });
           message.channel.sendTyping();
           chabotJob(message, bot);
