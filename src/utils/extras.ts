@@ -90,7 +90,7 @@ export function additionalProps(client: AeonaBot) {
     ): Promise<(mongoose.Document<any, {}, T> & T) | undefined> => {
       const channels = await schema.find({ Guild: guildId });
       const isPremium = await client.extras.isPremium(guildId);
-
+      if (!channels || channels.length == 0) return undefined;
       if (isPremium) return channels.find((channel: any) => channel.Channel === channelId);
       //@ts-ignore
       else channels[0].Channel == channelId ? channels[0] : undefined;
