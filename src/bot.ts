@@ -40,7 +40,7 @@ export const bot: AeonaBot = new Client({
     IntentsBitField.Flags.DirectMessages,
     IntentsBitField.Flags.GuildScheduledEvents,
   ],
-  silent: true,
+  silent: false,
   simpleCommand: {
     prefix: async (message) => {
       if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return ['fadfasdfasdfsadfsdfsd'];
@@ -177,7 +177,7 @@ bot.on('messageCreate', (message: Message) => {
 });
 
 async function run() {
-  await importx(`${dirname(import.meta.url)}/{plugins}/**/*.{ts,js}`);
+  await importx(`${dirname(import.meta.url)}/plugins/**/*.{ts,js}`);
   MetadataStorage.instance.build().then(() => {
     bot.login(config.token);
   });
