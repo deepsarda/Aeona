@@ -31,14 +31,13 @@ const INFLUX_TOKEN = process.env.INFLUX_TOKEN as string;
 const INFLUX_URL = process.env.INFLUX_URL as string;
 const influxDB = INFLUX_URL && INFLUX_TOKEN ? new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN }) : undefined;
 dotenv.config();
-import { MongoClient } from 'mongodb';
-import { Leaderboard } from '@gamestdio/leaderboard';
 
-// Setup your MongoDB connection.
-const client = new MongoClient(process.env.MONGO_CONNECTION!);
-const db = client.db('Leaderboard');
+import { Leaderboard } from '@gamestdio/leaderboard';
+import { Model } from 'mongoose';
+import mongoose from 'mongoose';
 
 export function additionalProps(client: AeonaBot) {
+  const db = mongoose.connection.getClient().db('Leaderboard');
   return {
     version: 'v0.2.0',
     ...embeds(client),
@@ -78,6 +77,25 @@ export function additionalProps(client: AeonaBot) {
     },
     capitalizeFirstLetter: (string: string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+    getChannel: async <
+      T = {
+        Guild: string;
+        Channel: string;
+      },
+    >(
+      schema: Model<T>,
+      guildId: string,
+      channelId: string,
+    ): Promise<(mongoose.Document<any, {}, T> & T) | undefined> => {
+      let channels = await schema.find({ Guild: guildId });
+      const isPremium = await client.extras.isPremium(guildId);
+
+      if (isPremium) return channels.find((channel: any) => channel.Channel === channelId);
+      //@ts-ignore
+      else channels[0].Channel == channelId ? channels[0] : undefined;
+
+      return undefined;
     },
     buttonReactions(reactions: string[], ids: string[]) {
       const labels: ButtonBuilder[] = [];

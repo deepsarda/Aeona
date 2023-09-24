@@ -123,7 +123,7 @@ export class GuessTheWord {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot) return;
 
-    const data = await schema.findOne({ Guild: message.guildId, Channel: message.channel.id });
+    const data = await client.extras.getChannel(schema, message.guildId!, message.channel.id);
     if (!data) return;
 
     if (message.content.toLowerCase().trim() == data.word.toLowerCase().trim() || data.word == 'start') {

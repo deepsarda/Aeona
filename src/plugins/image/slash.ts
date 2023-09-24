@@ -18,6 +18,7 @@ import {
 filter.loadDictionary('en');
 
 import Topgg from '@top-gg/sdk';
+import { Components } from '../../utils/components.js';
 const api = new Topgg.Api(process.env.TOPGG_TOKEN!);
 
 @Discord()
@@ -66,12 +67,20 @@ export class Image {
       if (!(await api.hasVoted(command.user.id)))
         return command.reply({
           content:
-            'Please vote for me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote and then try again. \n\n Premium servers can bypass this. Premium servers can bypass this.\n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
+            'Please **(vote)[https://top.gg/bot/931226824753700934/vote]** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
+
+          components: new Components()
+            .addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote')
+            .addButton('Premium', 'Link', 'https://aeonabot.xyz/premium')
+            .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
       if (filter.check(prompt))
         return command.reply({
           content:
-            'This prompt is either profane, nfsw or both. \n\n Premium servers can bypass this.\n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
+            'This prompt is either profane, nfsw or both. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
+          components: new Components()
+            .addButton('Premium', 'Link', 'https://aeonabot.xyz/premium')
+            .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
     }
 

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const Schema = new mongoose.Schema({
-  Guild: String,
+  Guild: { type: String, required: true },
   TicketID: Number,
   channelID: String,
   creator: String,

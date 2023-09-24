@@ -63,11 +63,20 @@ export class Story {
       if (!(await api.hasVoted(ctx.author.id)))
         return ctx.reply({
           content:
-            "Please vote for me to keep me growing and show me some love: https://top.gg/bot/931226824753700934/vote and then try again. \n\n Q: Why this change? \n A: Alas, as we host our AI's ourself, we can't at times handle the demand due to automated bots. This is a method to stop some autobots.",
+            'Please **(vote)[https://top.gg/bot/931226824753700934/vote]** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
+
+          components: new Components()
+            .addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote')
+            .addButton('Premium', 'Link', 'https://aeonabot.xyz/premium')
+            .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
       if (filter.check(prompt))
         return ctx.reply({
-          content: 'This prompt is either profane, nfsw or both.',
+          content:
+            'This prompt is either profane, nfsw or both. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99**',
+          components: new Components()
+            .addButton('Premium', 'Link', 'https://aeonabot.xyz/premium')
+            .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
     }
     let id = ctx.id;

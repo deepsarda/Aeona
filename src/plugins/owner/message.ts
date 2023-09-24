@@ -115,7 +115,7 @@ export class Owners {
         command,
       );
 
-    const expiresAt = Date.now() + 2592000000 * 10000;
+    const expiresAt = Date.now() + 2592000000 * 120;
     const codePremium = voucher_codes.generate({
       pattern: '####-####-####',
     });
@@ -210,6 +210,7 @@ export class Owners {
 
 **Docs:** https://docs.aeonabot.xyz
 **Support:** https://discord.gg/W8hssA32C9
+**Recommended Commands:** https://www.aeonabot.xyz/recommended
 **Patreon:** https://www.patreon.com/Aeonabot`,
       });
     } else if (guild.systemChannel) {
@@ -220,6 +221,7 @@ export class Owners {
 
 **Docs:** https://docs.aeonabot.xyz
 **Support:** https://discord.gg/W8hssA32C9
+**Recommended Commands:** https://www.aeonabot.xyz/recommended
 **Patreon:** https://www.patreon.com/Aeonabot`,
       });
     }

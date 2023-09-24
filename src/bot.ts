@@ -1,21 +1,12 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
-import {
-  ActivityType,
-  Collection,
-  CommandInteraction,
-  IntentsBitField,
-  InteractionResponse,
-  InteractionResponseType,
-  MessagePayload,
-  Routes,
-} from 'discord.js';
+import { ActivityType, IntentsBitField } from 'discord.js';
 import permissions from './utils/permissions.js';
 import { Client, MetadataStorage } from 'discordx';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
-import { AeonaBot } from './utils/types.js';
-import { Components } from './utils/components.js';
 import { connect } from './database/connect.js';
+import { AeonaBot } from './utils/types.js';
+
 import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
 import { getConfig } from './utils/config.js';
@@ -28,6 +19,7 @@ import { chabotJob, currentChatbotJobs } from './plugins/setup/chatbot.js';
 filter.loadDictionary('en');
 dotenv.config();
 permissions();
+connect();
 const config = getConfig(process.env.DISCORD_TOKEN!)!;
 
 //@ts-expect-error
@@ -190,7 +182,7 @@ async function run() {
     bot.login(config.token);
   });
 }
-connect();
+
 run();
 
 process.on('unhandledRejection', (reason: Error) => {

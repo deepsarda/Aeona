@@ -16,15 +16,7 @@ import { Discord } from 'discordx';
 import { getPluginsBot } from '../../utils/config.js';
 import ChatbotShema from '../../database/models/chatbot-channel.js';
 import GuildDB from '../../database/models/guild.js';
-import {
-  ButtonInteraction,
-  Channel,
-  Collection,
-  CommandInteraction,
-  GuildChannel,
-  Message,
-  TextChannel,
-} from 'discord.js';
+import { ButtonInteraction, Channel, Collection, CommandInteraction, Message, TextChannel } from 'discord.js';
 import fs from 'fs';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import chatbotChannel from '../../database/models/chatbot-channel.js';
@@ -162,7 +154,8 @@ export class Chatbot {
   async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot || message.author.id === client.user!.id) return;
 
-    const data = await ChatbotShema.findOne({ Guild: message.guildId, Channel: message.channel.id });
+    const data = await client.extras.getChannel(ChatbotShema, message.guildId!, message.channel.id);
+
     if (!data) return;
 
     if (
@@ -340,7 +333,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(contexts),
+    body: JSON.stringify({ contexts: contexts, username: message.author.username }),
   };
   message.channel.sendTyping();
   fetch(url, options)
@@ -357,11 +350,13 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       let component = new Components();
       component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
       component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
+      component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
+      component.addButton('Recommended Commands', 'Link', 'https://aeonabot.xyz/recommended');
       component.addButton('Share', 'Secondary', 'sharechatbot');
       if (guild!.chatbotFilter) {
         if (filter.check(json)) {
-          component.addButton('Why **** ?', 'Secondary', 'profane');
-          json = filter.clean(json);
+          component.addButton('Why $$$$ ?', 'Secondary', 'profane');
+          json = filter.clean(json, '$');
         }
       }
 
