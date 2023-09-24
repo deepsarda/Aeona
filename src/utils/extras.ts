@@ -41,6 +41,7 @@ export function additionalProps(client: AeonaBot) {
     version: 'v0.2.0',
     ...embeds(client),
     influxQuery: influxDB?.getQueryApi(INFLUX_ORG),
+    //@ts-ignore
     leaderboard: new Leaderboard(db),
     ordinalSuffix: (i: number) => {
       const j = i % 10,

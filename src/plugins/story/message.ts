@@ -6,10 +6,7 @@ import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import filter from 'leo-profanity';
 
-import {
-  AttachmentBuilder,
-  ButtonInteraction,
-} from 'discord.js';
+import { AttachmentBuilder, ButtonInteraction } from 'discord.js';
 filter.loadDictionary('en');
 import Topgg from '@top-gg/sdk';
 import { Components } from '../../utils/components.js';
@@ -57,7 +54,7 @@ export class Story {
       if (!(await api.hasVoted(ctx.author.id)))
         return ctx.reply({
           content:
-            'Please **(vote)[https://top.gg/bot/931226824753700934/vote]** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
+            'Please **[vote](https://top.gg/bot/931226824753700934/vote)** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
 
           components: new Components()
             .addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote')
