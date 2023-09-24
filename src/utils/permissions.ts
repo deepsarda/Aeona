@@ -75,8 +75,9 @@ Message.prototype.react = async function (emoji) {
       },
       true,
     ).reaction;
-  } catch (e) {
-    
-  }
+  } catch (e) {}
 };
-export default function () {}
+
+export default function pemissions() {
+  console.log('Overiden Discord.Js Methods.');
+}

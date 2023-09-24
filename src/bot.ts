@@ -177,7 +177,7 @@ bot.on('messageCreate', (message: Message) => {
 });
 
 async function run() {
-  await importx(`${dirname(import.meta.url)}/{events,plugins}/**/*.{ts,js}`);
+  await importx(`${dirname(import.meta.url)}/{plugins}/**/*.{ts,js}`);
   MetadataStorage.instance.build().then(() => {
     bot.login(config.token);
   });
@@ -253,7 +253,7 @@ function nFormatter(num: number, digits: number) {
     { value: 1e18, symbol: 'E' },
   ];
   const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  var item = lookup
+  const item = lookup
     .slice()
     .reverse()
     .find(function (item) {

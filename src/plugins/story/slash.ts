@@ -1,20 +1,14 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, SlashOption, SlashGroup } from 'discordx';
-import { Discord, Slash, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
+import { Discord, Slash } from 'discordx';
 import GuildDB from '../../database/models/guild.js';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import filter from 'leo-profanity';
 import {
-  ActionRowBuilder,
   ApplicationCommandOptionType,
   AttachmentBuilder,
   CommandInteraction,
-  ComponentType,
-  EmbedBuilder,
-  MessageActionRowComponentBuilder,
-  StringSelectMenuBuilder,
-  TextChannel,
 } from 'discord.js';
 filter.loadDictionary('en');
 
@@ -84,7 +78,7 @@ export class Story {
             .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
     }
-    let id = command.id;
+    const id = command.id;
     const comp = new Components();
     comp.addButton('Choice 1', 'Secondary', 'generate-' + id + '-1');
     comp.addButton('Choice 2', 'Secondary', 'generate-' + id + '-2');
@@ -113,15 +107,15 @@ export class Story {
           }
         }
 
-        let messageContent = response.story + '\n\n\n' + response.options.join('\n');
-        let paragraphs = messageContent.split('\n\n');
-        let contents: string[] = [''];
+        const messageContent = response.story + '\n\n\n' + response.options.join('\n');
+        const paragraphs = messageContent.split('\n\n');
+        const contents: string[] = [''];
 
         for (let i = 0; i < paragraphs.length; i++) {
-          let paragraph = paragraphs[i];
-          let content = contents[contents.length - 1];
+          const paragraph = paragraphs[i];
+          const content = contents[contents.length - 1];
 
-          let text = content + '\n\n' + paragraph;
+          const text = content + '\n\n' + paragraph;
           if (text.length > 1500) contents.push(paragraph);
           else contents[contents.length - 1] = text;
         }

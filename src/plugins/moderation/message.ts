@@ -31,7 +31,7 @@ export class Moderation {
       description: 'Why you want to kick the member',
       type: SimpleCommandOptionType.String,
     })
-    reason: string = 'No reason given!',
+    reason = 'No reason given!',
     command: SimpleCommandMessage,
   ) {
     const ctx = command.message;
@@ -64,7 +64,7 @@ export class Moderation {
       description: 'Why you want to ban the member',
       type: SimpleCommandOptionType.String,
     })
-    reason: string = 'No reason given!',
+    reason = 'No reason given!',
     command: SimpleCommandMessage,
   ) {
     const ctx = command.message;

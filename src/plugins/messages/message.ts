@@ -12,7 +12,7 @@ import {
 } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
-import { Guild, GuildMember, InviteGuild, Role, User } from 'discord.js';
+import { GuildMember, Role, User } from 'discord.js';
 import Schema from '../../database/models/messages.js';
 import SchemaRewards from '../../database/models/messageRewards.js';
 import { AeonaBot } from '../../utils/types.js';
@@ -54,7 +54,7 @@ export class Messages {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await Schema.findOne({
       Guild: ctx.guild!.id,
@@ -117,7 +117,7 @@ export class Messages {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await Schema.findOne({
       Guild: ctx.guild!.id,
@@ -183,7 +183,7 @@ export class Messages {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await SchemaRewards.findOne({
       Guild: ctx.guild!.id,
@@ -246,9 +246,9 @@ export class Messages {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
-    let data = await SchemaRewards.deleteOne({
+    await SchemaRewards.deleteOne({
       Guild: ctx.guild!.id,
       Messages: amount,
     });
@@ -268,7 +268,7 @@ export class Messages {
     description: 'show the leaderboard for messages 🥇',
   })
   async leaderboard(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await Schema.find({
       Guild: ctx.guild!.id,
@@ -306,12 +306,12 @@ export class Messages {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) user = ctx.author;
 
     if (user instanceof GuildMember) user = user.user;
 
-    let data = await Schema.findOne({
+    const data = await Schema.findOne({
       Guild: ctx.guild!.id,
       User: `${user.id}`,
     });
@@ -343,7 +343,7 @@ export class Messages {
     description: 'show the messages rewards setup 🎁',
   })
   async rewards(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await SchemaRewards.find({
       Guild: ctx.guild!.id,
@@ -369,7 +369,7 @@ export class Messages {
   })
   @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const deletedUsers = await Schema.deleteMany({
       Guild: ctx.guild!.id,

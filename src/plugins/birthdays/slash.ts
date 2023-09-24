@@ -1,6 +1,6 @@
 import { RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, SlashGroup, SlashOption } from 'discordx';
-import { Discord, Slash, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
+import { Discord, Slash } from 'discordx';
 import Schema from '../../database/models/birthday.js';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';

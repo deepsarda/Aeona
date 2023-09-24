@@ -11,6 +11,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
+    "allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"noFallthroughCasesInSwitch": true,
+
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },

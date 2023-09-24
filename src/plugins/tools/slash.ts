@@ -1,11 +1,11 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
-import { ArgsOf, Bot, Guard, On, SimpleCommandMessage, Slash, SlashGroup, SlashOption } from 'discordx';
-import { Discord, SimpleCommand, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
+import { RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Bot, Guard, Slash, SlashGroup, SlashOption } from 'discordx';
+import { Discord } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import Premium from '../../database/models/premium.js';
 import GuildDB from '../../database/models/guild.js';
-import { ApplicationCommand, ApplicationCommandOptionType, CommandInteraction, TextChannel } from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction, TextChannel } from 'discord.js';
 import moment from 'moment';
 import uniqui from 'uniqid';
 

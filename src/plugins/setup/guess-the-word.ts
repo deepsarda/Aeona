@@ -44,7 +44,7 @@ export class GuessTheWord {
     description: 'Set a channel for guess-the-word 🔢',
   })
   async gtwMessage(command: SimpleCommandMessage) {
-    let components = this.components;
+    const components = this.components;
     createSetupWizard(
       command,
       'Guess The Word',

@@ -7,14 +7,8 @@ import { getPluginsBot } from '../../utils/config.js';
 import filter from 'leo-profanity';
 
 import {
-  ActionRowBuilder,
   AttachmentBuilder,
   ButtonInteraction,
-  ComponentType,
-  EmbedBuilder,
-  MessageActionRowComponentBuilder,
-  StringSelectMenuBuilder,
-  TextChannel,
 } from 'discord.js';
 filter.loadDictionary('en');
 import Topgg from '@top-gg/sdk';
@@ -42,7 +36,7 @@ export class Story {
     prompt: string | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     prompt = command.argString;
     if (!ctx.guild) return;
 
@@ -79,7 +73,7 @@ export class Story {
             .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
         });
     }
-    let id = ctx.id;
+    const id = ctx.id;
     const comp = new Components();
     comp.addButton('Choice 1', 'Secondary', 'generate-' + id + '-1');
     comp.addButton('Choice 2', 'Secondary', 'generate-' + id + '-2');
@@ -102,15 +96,15 @@ export class Story {
           console.log('error with image');
         }
 
-        let messageContent = response.story + '\n\n\n' + response.options.join('\n');
-        let paragraphs = messageContent.split('\n\n');
-        let contents: string[] = [''];
+        const messageContent = response.story + '\n\n\n' + response.options.join('\n');
+        const paragraphs = messageContent.split('\n\n');
+        const contents: string[] = [''];
 
         for (let i = 0; i < paragraphs.length; i++) {
-          let paragraph = paragraphs[i];
-          let content = contents[contents.length - 1];
+          const paragraph = paragraphs[i];
+          const content = contents[contents.length - 1];
 
-          let text = content + '\n\n' + paragraph;
+          const text = content + '\n\n' + paragraph;
           if (text.length > 1500) contents.push(paragraph);
           else contents[contents.length - 1] = text;
         }
@@ -159,7 +153,7 @@ export class Story {
     ctx.reply({
       content: 'Generating...',
     });
-    let ids = ctx.customId.split('-');
+    const ids = ctx.customId.split('-');
     const comp = new Components();
     comp.addButton('Choice 1', 'Secondary', 'generate-' + ids[1] + '-1');
     comp.addButton('Choice 2', 'Secondary', 'generate-' + ids[1] + '-2');
@@ -176,15 +170,15 @@ export class Story {
     } catch {
       console.log('error with image');
     }
-    let messageContent = response.story + '\n\n\n' + response.options.join('\n');
-    let paragraphs = messageContent.split('\n\n');
-    let contents: string[] = [''];
+    const messageContent = response.story + '\n\n\n' + response.options.join('\n');
+    const paragraphs = messageContent.split('\n\n');
+    const contents: string[] = [''];
 
     for (let i = 0; i < paragraphs.length; i++) {
-      let paragraph = paragraphs[i];
-      let content = contents[contents.length - 1];
+      const paragraph = paragraphs[i];
+      const content = contents[contents.length - 1];
 
-      let text = content + '\n\n' + paragraph;
+      const text = content + '\n\n' + paragraph;
       if (text.length > 1500) contents.push(paragraph);
       else contents[contents.length - 1] = text;
     }

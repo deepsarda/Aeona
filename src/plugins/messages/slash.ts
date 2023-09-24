@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT, PermissionGuard } from '@discordx/utilities';
+import { RateLimit, TIME_UNIT, PermissionGuard } from '@discordx/utilities';
 import { Bot, Guard, Discord, Slash, SlashOption, SlashGroup } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
@@ -207,7 +207,7 @@ export class Messages {
     amount: number,
     command: CommandInteraction,
   ) {
-    let data = await SchemaRewards.deleteOne({
+    await SchemaRewards.deleteOne({
       Guild: command.guild!.id,
       Messages: amount,
     });
@@ -267,7 +267,7 @@ export class Messages {
 
     if (user instanceof GuildMember) user = user.user;
 
-    let data = await Schema.findOne({
+    const data = await Schema.findOne({
       Guild: command.guild!.id,
       User: `${user.id}`,
     });

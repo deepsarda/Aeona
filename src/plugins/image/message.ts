@@ -40,7 +40,7 @@ export class Image {
     prompt: string | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     if (!ctx.guild) return;
     prompt = command.argString;

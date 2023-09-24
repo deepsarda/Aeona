@@ -28,8 +28,6 @@ export class Fun {
     question: string | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
-
     if (!question)
       return bot.extras.errUsage(
         {
@@ -92,8 +90,6 @@ export class Fun {
     text: string | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
-
     if (!text)
       return bot.extras.errUsage(
         {

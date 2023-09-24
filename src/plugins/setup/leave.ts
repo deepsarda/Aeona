@@ -4,11 +4,10 @@ import { Discord } from 'discordx';
 
 import { getPluginsBot } from '../../utils/config.js';
 
-import { CommandInteraction, Message, TextChannel } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import schema from '../../database/models/leave.js';
 import { AeonaBot } from '../../utils/types.js';
-import count from '../../database/models/count.js';
 import { bot } from '../../bot.js';
 
 @Discord()

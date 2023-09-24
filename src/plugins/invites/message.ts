@@ -58,7 +58,7 @@ export class Invites {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await Schema.findOne({
       Guild: ctx.guild!.id,
@@ -124,7 +124,7 @@ export class Invites {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await Schema.findOne({
       Guild: ctx.guild!.id,
@@ -192,7 +192,7 @@ export class Invites {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await SchemaRewards.findOne({
       Guild: ctx.guild!.id,
@@ -255,9 +255,9 @@ export class Invites {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
-    let data = await SchemaRewards.deleteOne({
+    await SchemaRewards.deleteOne({
       Guild: ctx.guild!.id,
       Invites: amount,
     });
@@ -277,7 +277,7 @@ export class Invites {
     description: 'show the leaderboard for invites 🥇',
   })
   async leaderboard(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await Schema.find({
       Guild: ctx.guild!.id,
@@ -314,12 +314,12 @@ export class Invites {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) user = ctx.author;
 
     if (user instanceof GuildMember) user = user.user;
 
-    let data = await Schema.findOne({
+    const data = await Schema.findOne({
       Guild: ctx.guild!.id,
       User: `${user.id}`,
     });
@@ -374,7 +374,7 @@ export class Invites {
     description: 'show the invites rewards setup 🎁',
   })
   async rewards(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await SchemaRewards.find({
       Guild: ctx.guild!.id,
@@ -400,7 +400,7 @@ export class Invites {
   })
   @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const deletedUsers = await Schema.deleteMany({
       Guild: ctx.guild!.id,
@@ -464,7 +464,7 @@ export class Invites {
     try {
       const guilds = client.guilds.cache.map((guild) => guild.id);
       let i = 0;
-      let interval = setInterval(async function () {
+      const interval = setInterval(async function () {
         const guild = await client.guilds.fetch(guilds[i]).catch(() => {});
         if (!guild || !guild.invites) return i++;
 

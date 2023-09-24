@@ -1,6 +1,6 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, SlashOption, SlashGroup } from 'discordx';
-import { Discord, Slash, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
+import { Discord, Slash } from 'discordx';
 import GuildDB from '../../database/models/guild.js';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';

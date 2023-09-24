@@ -1,26 +1,12 @@
-import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
-import { Bot, Guard, Discord, Slash, SlashOption, On, ArgsOf, SlashGroup } from 'discordx';
+import { PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Bot, Guard, Discord, Slash, SlashOption, SlashGroup } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
-import {
-  CommandInteraction,
-  ApplicationCommandOptionType,
-  CacheType,
-  ChannelType,
-  ComponentType,
-  Guild,
-  GuildMember,
-  InviteGuild,
-  Role,
-  StringSelectMenuInteraction,
-  User,
-} from 'discord.js';
+import { CommandInteraction, ApplicationCommandOptionType, GuildMember, Role, User } from 'discord.js';
 import Schema from '../../database/models/levels.js';
 import SchemaMessage from '../../database/models/levelChannels.js';
 import SchemaRewards from '../../database/models/levelRewards.js';
-import { AeonaBot } from '../../utils/types.js';
 import Canvacord from 'canvacord';
-import { Components } from '../../utils/components.js';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 
 @Discord()
@@ -379,7 +365,7 @@ export class Levels {
     amount: number,
     command: CommandInteraction,
   ) {
-    let data = await SchemaRewards.deleteOne({
+    await SchemaRewards.deleteOne({
       Guild: command.guild!.id,
       Level: amount,
     });

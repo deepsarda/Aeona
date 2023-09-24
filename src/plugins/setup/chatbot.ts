@@ -16,7 +16,7 @@ import { Discord } from 'discordx';
 import { getPluginsBot } from '../../utils/config.js';
 import ChatbotShema from '../../database/models/chatbot-channel.js';
 import GuildDB from '../../database/models/guild.js';
-import { ButtonInteraction, Channel, Collection, CommandInteraction, Message, TextChannel } from 'discord.js';
+import { ButtonInteraction, Collection, CommandInteraction, Message, TextChannel } from 'discord.js';
 import fs from 'fs';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 import chatbotChannel from '../../database/models/chatbot-channel.js';
@@ -198,7 +198,7 @@ export class Chatbot {
     }),
   )
   sharechatbot(interaction: ButtonInteraction) {
-    let components = new Components();
+    const components = new Components();
     components.addButton('confirm', 'Secondary', 'confirmsharechatbot-' + interaction.message.id);
     interaction.reply({
       content: `Hi there.\n\n By procedding you agree to share the last **15** messages of this channel from that message with me onto a link which is available to **everyone.**`,
@@ -220,20 +220,20 @@ export class Chatbot {
     }),
   )
   async confirmsharechatbot(interaction: ButtonInteraction) {
-    let messageId = interaction.customId.split('-')[1];
+    const messageId = interaction.customId.split('-')[1];
     await interaction.reply({
       content: `Please wait... I'm generating the link... ETA: 1 minute`,
       flags: 1 << 6,
     });
 
-    let message = await interaction.channel!.messages.fetch(messageId);
-    let msgs: Collection<string, Message> = (
+    const message = await interaction.channel!.messages.fetch(messageId);
+    const msgs: Collection<string, Message> = (
       await interaction.channel!.messages.fetch({ limit: 15, before: `${message.id}` })
     ).sort((a, b) => a.createdTimestamp - b.createdTimestamp);
 
     msgs.set(messageId, message);
 
-    let transcript = await transcripts.generateFromMessages(msgs, interaction.channel as unknown as TextChannel, {
+    const transcript = await transcripts.generateFromMessages(msgs, interaction.channel as unknown as TextChannel, {
       favicon: 'https://www.aeonabot.xyz/logo.webp',
       footerText: 'Aeona',
       poweredBy: false,
@@ -247,9 +247,9 @@ export class Chatbot {
     } catch (e) {}
     fs.writeFileSync('./src/website/public/transcripts/' + randomId + '.html', transcript);
 
-    let link = `https://www.aeonabot.xyz/transcripts/${randomId}.html`;
+    const link = `https://www.aeonabot.xyz/transcripts/${randomId}.html`;
 
-    let components = new Components();
+    const components = new Components();
     components.addButton('Link', 'Link', link);
     interaction.editReply({
       content: `Click the button below to share the link with everyone.`,
@@ -282,7 +282,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   });
   if (!guild) guild = new GuildDB({ Guild: message.guildId });
 
-  let contexts: { content: string; name: string; type: string }[] = [];
+  const contexts: { content: string; name: string; type: string }[] = [];
   let m: Collection<string, Message> = new Collection();
   let msgs: Collection<string, Message> = new Collection();
   if (message.channel.messages.cache.size < 10) {
@@ -290,8 +290,8 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   } else {
     m = message.channel.messages.cache.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
   }
-  for (const [id, msg] of m) {
-    let lastMessage = msgs.last();
+  for (const [_id, msg] of m) {
+    const lastMessage = msgs.last();
 
     if (
       lastMessage &&
@@ -339,7 +339,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   fetch(url, options)
     .then((res) => res.text())
     .then(async (json) => {
-      let s = [
+      const s = [
         '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
       ];
 
@@ -347,7 +347,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
 
       const randomNumber = Math.floor(Math.random() * 30);
       json = randomNumber == 0 ? (json ?? '') + s[0] : json;
-      let component = new Components();
+      const component = new Components();
       component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
       component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
       component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');

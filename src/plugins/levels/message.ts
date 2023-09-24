@@ -12,24 +12,12 @@ import {
 } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
-import {
-  CacheType,
-  ChannelType,
-  ComponentType,
-  Guild,
-  GuildMember,
-  InviteGuild,
-  Role,
-  StringSelectMenuInteraction,
-  TextChannel,
-  User,
-} from 'discord.js';
+import { GuildMember, Role, TextChannel, User } from 'discord.js';
 import Schema from '../../database/models/levels.js';
 import SchemaMessage from '../../database/models/levelChannels.js';
 import SchemaRewards from '../../database/models/levelRewards.js';
 import { AeonaBot } from '../../utils/types.js';
 import Canvacord from 'canvacord';
-import { Components } from '../../utils/components.js';
 import { createSetupWizard } from '../../utils/setupWizard.js';
 
 @Discord()
@@ -69,7 +57,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.addLevel(user.id, ctx.guildId!, amount + '');
 
@@ -122,7 +110,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.addLevel(user.id, ctx.guildId!, '-' + amount);
 
@@ -175,7 +163,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.addXP(user.id, ctx.guildId!, amount);
 
@@ -228,7 +216,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.addXP(user.id, ctx.guildId!, amount * -1);
 
@@ -281,7 +269,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.setXP(user.id, ctx.guildId!, level);
 
@@ -334,7 +322,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await bot.extras.setXP(user.id, ctx.guildId!, xp);
 
@@ -388,7 +376,7 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await SchemaRewards.findOne({
       Guild: ctx.guild!.id,
@@ -451,9 +439,9 @@ export class Levels {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
-    let data = await SchemaRewards.deleteOne({
+    await SchemaRewards.deleteOne({
       Guild: ctx.guild!.id,
       Level: amount,
     });
@@ -473,7 +461,7 @@ export class Levels {
     description: 'show the leaderboard for levels 🥇',
   })
   async leaderboard(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await Schema.find({
       Guild: ctx.guild!.id,
@@ -511,7 +499,7 @@ export class Levels {
     u: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!u) u = ctx.author;
 
     if (u instanceof GuildMember) u = u.user;
@@ -542,7 +530,7 @@ export class Levels {
     description: 'show the levels rewards setup 🎁',
   })
   async rewards(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const rawLeaderboard = await SchemaRewards.find({
       Guild: ctx.guild!.id,
@@ -593,7 +581,7 @@ export class Levels {
   })
   @Guard(PermissionGuard(['ManageGuild']))
   async reset(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const deletedUsers = await Schema.deleteMany({
       Guild: ctx.guild!.id,

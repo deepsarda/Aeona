@@ -28,7 +28,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+bite @User' }, command);
     bot.extras.embed(
       {
@@ -53,7 +53,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+bonk @User' }, command);
     bot.extras.embed(
       {
@@ -78,7 +78,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+boop @User' }, command);
     bot.extras.embed(
       {
@@ -103,7 +103,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+bully @User' }, command);
     bot.extras.embed(
       {
@@ -128,7 +128,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+cuddle @User' }, command);
     bot.extras.embed(
       {
@@ -155,7 +155,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+feed @User' }, command);
     bot.extras.embed(
       {
@@ -180,7 +180,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+hold @User' }, command);
     bot.extras.embed(
       {
@@ -205,7 +205,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+hug @User' }, command);
     bot.extras.embed(
       {
@@ -230,7 +230,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+kick @User' }, command);
     bot.extras.embed(
       {
@@ -255,7 +255,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+kill @User' }, command);
     bot.extras.embed(
       {
@@ -280,7 +280,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+kiss @User' }, command);
     bot.extras.embed(
       {
@@ -305,7 +305,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+lick @User' }, command);
     bot.extras.embed(
       {
@@ -330,7 +330,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+pat @User' }, command);
     bot.extras.embed(
       {
@@ -355,7 +355,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+poke @User' }, command);
     bot.extras.embed(
       {
@@ -380,7 +380,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+punch @User' }, command);
     bot.extras.embed(
       {
@@ -405,7 +405,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+slap @User' }, command);
     bot.extras.embed(
       {
@@ -430,7 +430,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+threaten @User' }, command);
     bot.extras.embed(
       {
@@ -456,7 +456,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+throw @User' }, command);
     bot.extras.embed(
       {
@@ -481,7 +481,7 @@ export class Anime {
     user: User | GuildMember | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!user) return bot.extras.errUsage({ usage: '+tickle @User' }, command);
     bot.extras.embed(
       {
@@ -498,7 +498,7 @@ export class Anime {
     description: 'Show your blush! 💗',
   })
   async blush(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `Awww you made ${ctx.author.username} blush 💗`,
@@ -514,7 +514,7 @@ export class Anime {
     description: 'Spread your tears. 😢',
   })
   async cry(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is crying 😢`,
@@ -530,7 +530,7 @@ export class Anime {
     description: 'Show off your dancing! 💃',
   })
   async dance(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is dancing 💃`,
@@ -546,7 +546,7 @@ export class Anime {
     description: 'Show off your happiness! 🥰',
   })
   async happy(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is very very happy 🥰`,
@@ -562,7 +562,7 @@ export class Anime {
     description: 'Show your approval! 🤩',
   })
   async like(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} lkked that 🤩 `,
@@ -593,7 +593,7 @@ export class Anime {
     description: 'Whoa what a nosebleed! 🤬',
   })
   async nosebleed(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} has a nosebleed 🤬`,
@@ -608,7 +608,7 @@ export class Anime {
     description: 'Show your sadness! 😭',
   })
   async sad(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is sad. 😭`,
@@ -623,7 +623,7 @@ export class Anime {
     description: 'Is is bed time already?? 😴',
   })
   async sleep(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is sleepy 😴`,
@@ -638,7 +638,7 @@ export class Anime {
     description: 'Show your teeth! 😄',
   })
   async smile(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is smiling 😄`,
@@ -653,7 +653,7 @@ export class Anime {
     description: 'You where right and they know it. 🤪',
   })
   async smug(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is quite pleased with themself 🤪`,
@@ -668,7 +668,7 @@ export class Anime {
     description: 'Take a sip of your tea! 🍵',
   })
   async tea(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is drinking 🍵`,
@@ -683,7 +683,7 @@ export class Anime {
     description: 'Hello! 🌞',
   })
   async wave(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is waving 🌞`,
@@ -698,7 +698,7 @@ export class Anime {
     description: 'wink wink! 🤪',
   })
   async wink(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         title: `${ctx.author.username} is  winking 🤪`,

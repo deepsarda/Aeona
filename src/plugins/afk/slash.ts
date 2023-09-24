@@ -11,8 +11,6 @@ import Schema from '../../database/models/afk.js';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import { ApplicationCommandOptionType, CommandInteraction } from 'discord.js';
-import Topgg from '@top-gg/sdk';
-const api = new Topgg.Api(process.env.TOPGG_TOKEN!);
 
 @Discord()
 @Bot(...getPluginsBot('afk'))

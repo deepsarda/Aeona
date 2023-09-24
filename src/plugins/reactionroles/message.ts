@@ -64,8 +64,8 @@ export class ReactionRoles {
         command,
       );
 
-    let ctx = command.message;
-    let emoji = parseEmoji(emojiString);
+    const ctx = command.message;
+    const emoji = parseEmoji(emojiString);
 
     if (!emoji) {
       return bot.extras.errUsage(
@@ -76,7 +76,7 @@ export class ReactionRoles {
       );
     }
 
-    let data = await Schema.findOne({
+    const data = await Schema.findOne({
       Guild: ctx.guild!.id,
       Category: name,
     });
@@ -150,7 +150,7 @@ export class ReactionRoles {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
     await Schema.deleteOne({
       Guild: ctx.guild!.id,
       Category: name,
@@ -186,7 +186,7 @@ export class ReactionRoles {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
 
     let data = await Schema.findOne({ Guild: ctx.guild!.id, Category: name });
     if (!data) {
@@ -306,7 +306,7 @@ export class ReactionRoles {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
     const lower = name.toLowerCase();
     const upper = lower.charAt(0).toUpperCase() + lower.substring(1);
     const data = await Schema.findOne({ Guild: ctx.guild!.id, Category: name });
@@ -403,7 +403,7 @@ export class ReactionRoles {
         command,
       );
 
-    let ctx = command.message;
+    const ctx = command.message;
     const lower = name.toLowerCase();
     const upper = lower.charAt(0).toUpperCase() + lower.substring(1);
     const data = await Schema.findOne({ Guild: ctx.guild!.id, Category: name });
@@ -471,14 +471,14 @@ export class ReactionRoles {
   @On()
   async interactionCreate([interaction]: ArgsOf<'interactionCreate'>, client: AeonaBot) {
     if (interaction.isButton()) {
-      let i = interaction as ButtonInteraction;
+      const i = interaction as ButtonInteraction;
       if (i.customId.startsWith('reaction_button-')) {
         await i.deferReply({
           ephemeral: true,
         });
         const id = i.customId.split('-')[1];
 
-        let mem =
+        const mem =
           interaction.guild?.members.cache.get(interaction.user.id) ??
           (await interaction.guild?.members.fetch(interaction.user.id))!;
 
@@ -493,12 +493,12 @@ export class ReactionRoles {
     }
 
     if (interaction.isStringSelectMenu()) {
-      let i = interaction as SelectMenuInteraction;
+      const i = interaction as SelectMenuInteraction;
       if (i.customId.startsWith('reaction_select')) {
         await i.deferReply({
           ephemeral: true,
         });
-        let mem =
+        const mem =
           interaction.guild?.members.cache.get(i.user.id) ?? (await interaction.guild?.members.fetch(i.user.id))!;
         let roles = '';
         i.values.forEach((id) => {

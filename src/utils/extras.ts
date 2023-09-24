@@ -15,7 +15,6 @@ import {
   Channel,
   CommandInteraction,
   EmbedBuilder,
-  Interaction,
   Message,
   MessageActionRowComponentBuilder,
   Role,
@@ -44,7 +43,7 @@ export function additionalProps(client: AeonaBot) {
     influxQuery: influxDB?.getQueryApi(INFLUX_ORG),
     leaderboard: new Leaderboard(db),
     ordinalSuffix: (i: number) => {
-      let j = i % 10,
+      const j = i % 10,
         k = i % 100;
       if (j == 1 && k != 11) {
         return i + 'st';
@@ -88,7 +87,7 @@ export function additionalProps(client: AeonaBot) {
       guildId: string,
       channelId: string,
     ): Promise<(mongoose.Document<any, {}, T> & T) | undefined> => {
-      let channels = await schema.find({ Guild: guildId });
+      const channels = await schema.find({ Guild: guildId });
       const isPremium = await client.extras.isPremium(guildId);
 
       if (isPremium) return channels.find((channel: any) => channel.Channel === channelId);
@@ -382,7 +381,7 @@ export function additionalProps(client: AeonaBot) {
       const user = await levels.findOne({ User: userId, Guild: guildId });
 
       if (!user) {
-        let u = new levels({
+        const u = new levels({
           User: userId,
           Guild: guildId,
           xp,

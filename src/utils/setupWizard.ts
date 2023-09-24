@@ -4,8 +4,6 @@ import {
   ChannelSelectMenuInteraction,
   ChannelType,
   CommandInteraction,
-  Interaction,
-  MappedInteractionTypes,
   MentionableSelectMenuInteraction,
   RoleSelectMenuInteraction,
   StringSelectMenuInteraction,
@@ -213,7 +211,7 @@ export async function createSetupWizard(
       | MentionableSelectMenuInteraction
       | ChannelSelectMenuInteraction,
   ) {
-    let int = interaction as unknown as StringSelectMenuInteraction<CacheType>;
+    const int = interaction as unknown as StringSelectMenuInteraction<CacheType>;
     int.deferUpdate();
     const schema = data[Number(int.values![0])];
 

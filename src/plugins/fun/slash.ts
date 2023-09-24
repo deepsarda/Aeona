@@ -1,4 +1,4 @@
-import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, SlashGroup } from 'discordx';
 import { Discord, Slash, SlashOption } from 'discordx';
 import figlet from 'figlet';

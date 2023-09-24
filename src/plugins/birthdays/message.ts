@@ -1,5 +1,5 @@
-import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
-import { ArgsOf, Bot, Guard, On, SimpleCommandMessage, SlashGroup } from 'discordx';
+import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
+import { Bot, Guard, SimpleCommandMessage } from 'discordx';
 import { Discord, SimpleCommand, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
 import Schema from '../../database/models/birthday.js';
 import { bot } from '../../bot.js';
@@ -23,7 +23,7 @@ export class Birthdays {
     description: 'See if I remember your birthday 📅',
   })
   async check(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await Schema.findOne({ Guild: ctx.guildId, User: ctx.author.id });
     if (data)
@@ -51,7 +51,7 @@ export class Birthdays {
     description: 'Delete your birthday 📅',
   })
   async delete(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     const data = await Schema.findOne({ Guild: ctx.guildId, User: ctx.author.id });
     if (!data)
@@ -83,7 +83,7 @@ export class Birthdays {
     description: 'See all the birthdays of this servers members 🎂',
   })
   async list(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     const rawBirthdayboard = await Schema.find({ Guild: ctx.guild!.id });
 
     if (rawBirthdayboard.length < 1)
@@ -120,7 +120,7 @@ export class Birthdays {
     month: number | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     if (!day || !month)
       return bot.extras.errUsage(

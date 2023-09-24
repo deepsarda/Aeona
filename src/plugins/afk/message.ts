@@ -49,7 +49,7 @@ export class Afk {
       description: 'Reason for going afk',
       type: SimpleCommandOptionType.String,
     })
-    reason: string = 'No reason given! 🛌',
+    reason = 'No reason given! 🛌',
     command: SimpleCommandMessage,
   ) {
     const ctx = command.message;

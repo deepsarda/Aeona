@@ -3,7 +3,7 @@ import { Discord, Bot, DSimpleCommand, Guard, MetadataStorage, Slash, SlashGroup
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import { ChannelType, Collection, ThreadMemberManager, CommandInteraction, GuildTextBasedChannel } from 'discord.js';
-import { Pagination, PaginationResolver, PaginationType } from '@discordx/pagination';
+import { Pagination, PaginationType } from '@discordx/pagination';
 @Discord()
 @Bot(...getPluginsBot('info'))
 @SlashGroup({
@@ -259,12 +259,12 @@ export class Fun {
   })
   async uptime(command: CommandInteraction) {
     let totalSeconds = bot.uptime! / 1000;
-    let days = Math.floor(totalSeconds / 86400);
+    const days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
-    let hours = Math.floor(totalSeconds / 3600);
+    const hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = Math.floor(totalSeconds % 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
 
     bot.extras.embed(
       {

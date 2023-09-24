@@ -1,5 +1,5 @@
 import { Category, RateLimit, TIME_UNIT } from '@discordx/utilities';
-import { ArgsOf, Bot, Guard, On, Once, SimpleCommandMessage } from 'discordx';
+import { ArgsOf, Bot, Guard, On, SimpleCommandMessage } from 'discordx';
 import { Discord, SimpleCommand, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';

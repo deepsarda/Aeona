@@ -15,7 +15,7 @@ import { Discord } from 'discordx';
 import { getPluginsBot } from '../../utils/config.js';
 import BirthdayChannels from '../../database/models/birthdaychannels.js';
 import { bot } from '../../bot.js';
-import { ApplicationCommandOptionType, Channel, CommandInteraction, GuildChannel } from 'discord.js';
+import { ApplicationCommandOptionType, CommandInteraction, GuildChannel } from 'discord.js';
 
 @Discord()
 @Bot(...getPluginsBot('birthdays'))

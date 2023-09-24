@@ -1,5 +1,5 @@
 import { RateLimit, TIME_UNIT, PermissionGuard } from '@discordx/utilities';
-import { Bot, SlashGroup, Guard, Discord, Slash, SlashOption, On, ArgsOf } from 'discordx';
+import { Bot, SlashGroup, Guard, Discord, Slash, SlashOption } from 'discordx';
 
 import { getPluginsBot } from '../../utils/config.js';
 
@@ -60,7 +60,7 @@ export class ReactionRoles {
         command,
       );
 
-    let emoji = parseEmoji(emojiString);
+    const emoji = parseEmoji(emojiString);
 
     if (!emoji) {
       return bot.extras.errUsage(
@@ -71,7 +71,7 @@ export class ReactionRoles {
       );
     }
 
-    let data = await Schema.findOne({
+    const data = await Schema.findOne({
       Guild: command.guild!.id,
       Category: name,
     });

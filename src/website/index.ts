@@ -47,7 +47,9 @@ export default function website(client: AeonaBot) {
   app.get('/premium', async (req, res) => {
     renderTemplate(res, req, 'premium.ejs');
   });
-
+  app.get('/recommended', async (req, res) => {
+    renderTemplate(res, req, 'recommended.ejs');
+  });
   app.listen(port, () => {
     return console.log(`http://localhost:${port}`);
   });

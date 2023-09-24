@@ -1,5 +1,4 @@
 import {
-  APIMessageActionRowComponent,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
@@ -39,7 +38,7 @@ export class Components extends Array<ActionRowBuilder<MessageActionRowComponent
   ) {
     if (options.length > 25) throw new Error('SelectComponent Cannot have more than 25 options');
     this.addActionRow();
-    let row = this[this.length - 1];
+    const row = this[this.length - 1];
     const component = new SelectMenuBuilder()
       .setCustomId(customId)
       .setPlaceholder(placeholder ?? label)

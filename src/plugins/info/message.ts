@@ -1,10 +1,10 @@
 import { Category, ICategory, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, DSimpleCommand, Guard, MetadataStorage, SimpleCommandMessage } from 'discordx';
-import { Discord, SimpleCommand, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
+import { Discord, SimpleCommand } from 'discordx';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
-import { ChannelType, Collection, GuildCacheMessage, GuildMember, ThreadMemberManager, User } from 'discord.js';
-import { Pagination, PaginationResolver, PaginationType } from '@discordx/pagination';
+import { ChannelType, Collection, GuildCacheMessage, ThreadMemberManager } from 'discord.js';
+import { Pagination, PaginationType } from '@discordx/pagination';
 @Discord()
 @Bot(...getPluginsBot('info'))
 @Category('info')
@@ -19,7 +19,6 @@ export class Fun {
     description: 'Get information about the bot 🤖',
   })
   async botinfo(command: SimpleCommandMessage) {
-    let ctx = command.message;
     bot.extras.embed(
       {
         thumbnail: bot.user?.displayAvatarURL(),
@@ -69,7 +68,7 @@ export class Fun {
     description: 'Get information about a channel 📺',
   })
   async channelinfo(command: SimpleCommandMessage) {
-    let ctx: GuildCacheMessage<'cached'> = command.message as GuildCacheMessage<'cached'>;
+    const ctx: GuildCacheMessage<'cached'> = command.message as GuildCacheMessage<'cached'>;
     bot.extras.embed(
       {
         thumbnail: ctx.guild.iconURL() ?? undefined,
@@ -130,7 +129,7 @@ export class Fun {
     description: 'Get information about a user 👤',
   })
   async userinfo(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     bot.extras.embed(
       {
         thumbnail: ctx.author.displayAvatarURL(),
@@ -168,7 +167,7 @@ export class Fun {
     description: 'Get information about the emojis of this server 🎉',
   })
   async emojis(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     let Emojis = '';
     let EmojisAnimated = '';
     let EmojiCount = 0;
@@ -258,12 +257,12 @@ export class Fun {
   })
   async uptime(command: SimpleCommandMessage) {
     let totalSeconds = bot.uptime! / 1000;
-    let days = Math.floor(totalSeconds / 86400);
+    const days = Math.floor(totalSeconds / 86400);
     totalSeconds %= 86400;
-    let hours = Math.floor(totalSeconds / 3600);
+    const hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
-    let minutes = Math.floor(totalSeconds / 60);
-    let seconds = Math.floor(totalSeconds % 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = Math.floor(totalSeconds % 60);
 
     bot.extras.embed(
       {

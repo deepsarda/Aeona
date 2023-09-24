@@ -39,7 +39,7 @@ export class BumpReminder {
     role: Role | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
 
     if (!channel || !role)
       return bot.extras.errUsage(
@@ -99,7 +99,7 @@ export class BumpReminder {
     message: string | undefined,
     command: SimpleCommandMessage,
   ) {
-    let ctx = command.message;
+    const ctx = command.message;
     if (!message)
       return bot.extras.errUsage(
         {
@@ -135,7 +135,7 @@ export class BumpReminder {
     aliases: ['bumpreminder reset'],
   })
   async delete(command: SimpleCommandMessage) {
-    let ctx = command.message;
+    const ctx = command.message;
     await Schema.deleteOne({
       Guild: ctx.guild!.id,
     });

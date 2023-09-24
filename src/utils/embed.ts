@@ -811,7 +811,7 @@ export default (client: AeonaBot) => {
         return c;
       }
       if (type && type.toLowerCase() == 'reply') {
-        const c = await ctx
+        await ctx
           .reply({
             embeds,
             content,
@@ -831,7 +831,7 @@ export default (client: AeonaBot) => {
         return c;
       }
       if (type && type.toLowerCase() == 'ephemeral') {
-        const c = await ctx
+        await ctx
           .reply({
             embeds,
             content,
@@ -852,7 +852,7 @@ export default (client: AeonaBot) => {
           })
           .catch();
 
-      const c = await ctx
+      await ctx
         .reply({
           embeds,
           content,

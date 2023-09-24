@@ -40,14 +40,14 @@ export class Games {
 
     Game.startGame();
     Game.on('gameOver', async (result) => {
-      let u = await bot.extras.leaderboard.get('2048', result.player.id);
+      const u = await bot.extras.leaderboard.get('2048', result.player.id);
       if (!u || u.score < result.score) {
         await bot.extras.leaderboard.record('2048', {
           id: result.player.id,
           score: result.score,
         });
 
-        let position = await bot.extras.leaderboard.position('2048', result.player.id);
+        const position = await bot.extras.leaderboard.position('2048', result.player.id);
 
         await bot.extras.embed(
           {
@@ -158,14 +158,14 @@ export class Games {
     Game.startGame();
     Game.on('gameOver', async (result) => {
       if (result.result == 'win') {
-        let u = await bot.extras.leaderboard.get('fasttype', result.player.id);
+        const u = await bot.extras.leaderboard.get('fasttype', result.player.id);
         if (!u || u.score < result.wpm) {
           await bot.extras.leaderboard.record('fasttype', {
             id: result.player.id,
             score: result.wpm,
           });
 
-          let position = await bot.extras.leaderboard.position('fasttype', result.player.id);
+          const position = await bot.extras.leaderboard.position('fasttype', result.player.id);
 
           await bot.extras.embed(
             {
@@ -256,14 +256,14 @@ export class Games {
     Game.startGame();
     Game.on('gameOver', async (result) => {
       if (result.result == 'win' && result.turns != 0) {
-        let u = await bot.extras.leaderboard.get('flood', result.player.id);
+        const u = await bot.extras.leaderboard.get('flood', result.player.id);
         if (!u || u.score < 25 - result.turns) {
           await bot.extras.leaderboard.record('flood', {
             id: result.player.id,
             score: 25 - result.turns,
           });
 
-          let position = await bot.extras.leaderboard.position('flood', result.player.id);
+          const position = await bot.extras.leaderboard.position('flood', result.player.id);
 
           await bot.extras.embed(
             {
@@ -330,7 +330,7 @@ export class Games {
     description: 'Play a game of Hangman! 🤔',
   })
   async hangman(command: SimpleCommandMessage) {
-    let list = bot.extras.wordlist.filter((word) => word.length === 5);
+    const list = bot.extras.wordlist.filter((word) => word.length === 5);
     const Game = new GameCord.Hangman({
       message: command.message,
       isSlashGame: false,
@@ -397,14 +397,14 @@ export class Games {
     Game.startGame();
     Game.on('gameOver', async (result) => {
       if (result.result == 'win') {
-        let u = await bot.extras.leaderboard.get('minesweeper', result.player.id);
+        const u = await bot.extras.leaderboard.get('minesweeper', result.player.id);
         if (!u || u.score < result.blocksTurned) {
           await bot.extras.leaderboard.record('minesweeper', {
             id: result.player.id,
             score: result.blocksTurned,
           });
 
-          let position = await bot.extras.leaderboard.position('minesweeper', result.player.id);
+          const position = await bot.extras.leaderboard.position('minesweeper', result.player.id);
 
           await bot.extras.embed(
             {
@@ -548,14 +548,14 @@ export class Games {
     Game.startGame();
 
     Game.on('gameOver', async (result) => {
-      let u = await bot.extras.leaderboard.get('snake', result.player.id);
+      const u = await bot.extras.leaderboard.get('snake', result.player.id);
       if (!u || u.score < result.score) {
         await bot.extras.leaderboard.record('snake', {
           id: result.player.id,
           score: result.score,
         });
 
-        let position = await bot.extras.leaderboard.position('snake', result.player.id);
+        const position = await bot.extras.leaderboard.position('snake', result.player.id);
 
         await bot.extras.embed(
           {
@@ -677,7 +677,7 @@ export class Games {
     description: 'Play a game of wordle! 🆎',
   })
   async wordle(command: SimpleCommandMessage) {
-    let list = bot.extras.wordlist.filter((word) => word.length === 5);
+    const list = bot.extras.wordlist.filter((word) => word.length === 5);
     const Game = new GameCord.Wordle({
       message: command.message,
       isSlashGame: false,
@@ -720,10 +720,10 @@ export class Games {
   }
 }
 
-let nouns = ['bird', 'clock', 'boy', 'plastic', 'duck', 'teacher', 'old lady', 'professor', 'hamster', 'dog'];
-let verbs = ['kicked', 'ran', 'flew', 'dodged', 'sliced', 'rolled', 'died', 'breathed', 'slept', 'killed'];
-let adjectives = ['beautiful', 'lazy', 'professional', 'lovely', 'dumb', 'rough', 'soft', 'hot', 'vibrating', 'slimy'];
-let adverbs = [
+const nouns = ['bird', 'clock', 'boy', 'plastic', 'duck', 'teacher', 'old lady', 'professor', 'hamster', 'dog'];
+const verbs = ['kicked', 'ran', 'flew', 'dodged', 'sliced', 'rolled', 'died', 'breathed', 'slept', 'killed'];
+const adjectives = ['beautiful', 'lazy', 'professional', 'lovely', 'dumb', 'rough', 'soft', 'hot', 'vibrating', 'slimy'];
+const adverbs = [
   'slowly',
   'elegantly',
   'precisely',
@@ -735,17 +735,17 @@ let adverbs = [
   'calmly',
   'passionately',
 ];
-let preposition = ['down', 'into', 'up', 'on', 'upon', 'below', 'above', 'through', 'across', 'towards'];
+const preposition = ['down', 'into', 'up', 'on', 'upon', 'below', 'above', 'through', 'across', 'towards'];
 
 function sentence() {
-  let rand1 = Math.floor(Math.random() * 10);
-  let rand2 = Math.floor(Math.random() * 10);
-  let rand3 = Math.floor(Math.random() * 10);
-  let rand4 = Math.floor(Math.random() * 10);
-  let rand5 = Math.floor(Math.random() * 10);
-  let rand6 = Math.floor(Math.random() * 10);
+  const rand1 = Math.floor(Math.random() * 10);
+  const rand2 = Math.floor(Math.random() * 10);
+  const rand3 = Math.floor(Math.random() * 10);
+  const rand4 = Math.floor(Math.random() * 10);
+  const rand5 = Math.floor(Math.random() * 10);
+  const rand6 = Math.floor(Math.random() * 10);
 
-  let content =
+  const content =
     'The ' +
     adjectives[rand1] +
     ' ' +

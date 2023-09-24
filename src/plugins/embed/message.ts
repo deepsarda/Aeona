@@ -1,11 +1,9 @@
 import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import { Bot, Guard, SimpleCommandMessage } from 'discordx';
 import { Discord, SimpleCommand, SimpleCommandOption, SimpleCommandOptionType } from 'discordx';
-import Schema from '../../database/models/bumpreminder.js';
 import { bot } from '../../bot.js';
 import { getPluginsBot } from '../../utils/config.js';
 import { TextChannel } from 'discord.js';
-import { channel } from 'diagnostics_channel';
 
 @Discord()
 @Bot(...getPluginsBot('embed'))
