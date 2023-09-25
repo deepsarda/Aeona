@@ -46,12 +46,6 @@ export const bot: AeonaBot = new Client({
       if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return ['fadfasdfasdfsadfsdfsd'];
       if (message.author.bot || message.author.id == bot.user?.id) return ['fadfasdfasdfsadfsdfsd'];
 
-      const schema = await chatBotSchema.findOne({
-        Guild: `${message.guildId}`,
-        Channel: `${message.channelId}`,
-      });
-      if (schema) return ['fadfasdfasdfsadfsdfsd'];
-
       let guild = await GuildDB.findOne({
         Guild: message.guildId,
       });
