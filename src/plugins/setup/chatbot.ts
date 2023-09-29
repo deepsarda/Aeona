@@ -26,6 +26,7 @@ import { bot } from '../../bot.js';
 
 import filter from 'leo-profanity';
 import transcripts, { ExportReturnType } from 'discord-html-transcripts';
+import { Schema } from 'mongoose';
 
 filter.loadDictionary('en');
 export const currentChatbotJobs: Collection<string, { userId: string; timer: NodeJS.Timeout }> = new Collection();
@@ -184,6 +185,74 @@ export class Chatbot {
       chabotJob(message, client);
     }
   }
+  @ButtonComponent({
+    id: 'smartmode',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.minutes, 1, {
+      rateValue: 1,
+      ephemeral: true,
+    }),
+    PermissionGuard(['ManageMessages'], {
+      ephemeral: true,
+    }),
+  )
+  async enableSmartMode(interaction: ButtonInteraction) {
+    await interaction.reply({
+      content: `Please wait... I'm checking premission`,
+      ephemeral: true,
+    });
+    const isPremium = await bot.extras.isPremium(interaction.guildId!);
+    if (!isPremium)
+      return interaction.editReply({
+        content:
+          '**This is a PREMIUM only feature.**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)',
+      });
+    else {
+      const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
+      if (!data)
+        return interaction.editReply({
+          content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
+        });
+      data.Smart = true;
+      data.save();
+
+      return interaction.editReply({
+        content: 'Successfully enabled smart mode.',
+      });
+    }
+  }
+
+  @ButtonComponent({
+    id: 'disablesmartmode',
+  })
+  @Guard(
+    RateLimit(TIME_UNIT.minutes, 1, {
+      rateValue: 1,
+      ephemeral: true,
+    }),
+    PermissionGuard(['ManageMessages'], {
+      ephemeral: true,
+    }),
+  )
+  async disableSmartMode(interaction: ButtonInteraction) {
+    await interaction.reply({
+      content: `Please wait... I'm checking premission`,
+      ephemeral: true,
+    });
+
+    const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
+    if (!data)
+      return interaction.editReply({
+        content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
+      });
+    data.Smart = false;
+    data.save();
+
+    return interaction.editReply({
+      content: 'Successfully disabled smart mode.',
+    });
+  }
 
   @ButtonComponent({
     id: 'sharechatbot',
@@ -262,7 +331,7 @@ export class Chatbot {
   })
   profaneButton(interaction: ButtonInteraction) {
     interaction.reply({
-      content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just $2.99 [here](https://www.patreon.com/aeonapatreon)`,
+      content: `Hi there. It seems that I have quite a potty mouth. \n Premium servers can disable this using \`+setup chatbotprofane\`. \n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)`,
       flags: 1 << 6,
     });
   }
@@ -328,12 +397,19 @@ export async function chabotJob(message: Message, client: AeonaBot) {
     //ignore error
   }
 
+  let smartMode = false;
+
+  if (guild.isPremium === 'true') {
+    const data = await bot.extras.getChannel(ChatbotShema, message.guildId!, message.channel!.id);
+    if (data) smartMode = data.Smart ?? false;
+  }
+
   const url = `http://localhost:8083/chatbot`;
 
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contexts: contexts, username: message.author.username }),
+    body: JSON.stringify({ contexts: contexts, username: message.author.username, smart: smartMode }),
   };
   message.channel.sendTyping();
   fetch(url, options)
@@ -353,6 +429,8 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
       component.addButton('Recommended Commands', 'Link', 'https://aeonabot.xyz/recommended');
       component.addButton('Share', 'Secondary', 'sharechatbot');
+      if (!smartMode) component.addButton('Enable Smart Mode', 'Secondary', 'smartmode');
+      else component.addButton('disable Smart Mode', 'Secondary', 'disablesmartmode');
       if (guild!.chatbotFilter) {
         if (filter.check(json)) {
           component.addButton('Why $$$$ ?', 'Secondary', 'profane');

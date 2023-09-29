@@ -61,7 +61,7 @@ export class Image {
       if (!(await api.hasVoted(ctx.author.id)))
         return ctx.reply({
           content:
-            'Please **[vote](https://top.gg/bot/931226824753700934/vote)** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon)',
+            'Please **[vote](https://top.gg/bot/931226824753700934/vote)** for me to access this command and then try again. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)',
 
           components: new Components()
             .addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote')
@@ -71,7 +71,7 @@ export class Image {
       if (filter.check(prompt))
         return ctx.reply({
           content:
-            'This prompt is either profane, nfsw or both. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99**',
+            'This prompt is either profane, nfsw or both. \n\n **Premium servers can bypass this**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)',
           components: new Components()
             .addButton('Premium', 'Link', 'https://aeonabot.xyz/premium')
             .addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9'),
