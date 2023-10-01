@@ -24,6 +24,8 @@
     "canvacord": "^5.4.10",
     "chokidar": "^3.5.3",
     "colors": "^1.4.0",
+    "dbd-soft-ui": "^1.7.15-beta.1",
+    "discord-dashboard": "^2.3.62",
     "discord-gamecord": "^4.4.1",
     "discord-html-transcripts": "^3.2.0",
     "discord-hybrid-sharding": "github:meister03/discord-hybrid-sharding",

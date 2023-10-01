@@ -16,6 +16,7 @@ import { additionalProps } from './utils/extras.js';
 import website from './website/index.js';
 import filter from 'leo-profanity';
 import { chabotJob, currentChatbotJobs } from './plugins/setup/chatbot.js';
+import createDashboard from './dashboard/index.js';
 filter.loadDictionary('en');
 dotenv.config();
 permissions();
@@ -125,8 +126,9 @@ bot.once('ready', async () => {
 
   setInterval(updateTopGGStats, 60 * 1000 * 10);
 
-  if (bot.user!.username == 'Aeona') {
+  if (bot.user!.username.includes('Aeona')) {
     website(bot);
+    createDashboard(bot);
   }
 });
 

@@ -401,7 +401,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
 
   if (guild.isPremium === 'true') {
     const data = await bot.extras.getChannel(ChatbotShema, message.guildId!, message.channel!.id);
-    if (data) smartMode = data.Smart ?? false;
+    if (data) smartMode = data.Smart!;
   }
 
   const url = `http://localhost:8083/chatbot`;
@@ -427,10 +427,10 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
       component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
       component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
-      component.addButton('Recommended Commands', 'Link', 'https://aeonabot.xyz/recommended');
+      component.addButton('Commands', 'Link', 'https://dashboard.aeonabot.xyz/commands');
       component.addButton('Share', 'Secondary', 'sharechatbot');
       if (!smartMode) component.addButton('Enable Smart Mode', 'Secondary', 'smartmode');
-      else component.addButton('disable Smart Mode', 'Secondary', 'disablesmartmode');
+      else component.addButton('Disable Smart Mode', 'Secondary', 'disablesmartmode');
       if (guild!.chatbotFilter) {
         if (filter.check(json)) {
           component.addButton('Why $$$$ ?', 'Secondary', 'profane');
