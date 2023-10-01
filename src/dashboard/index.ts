@@ -15,6 +15,8 @@ export default async function createDashboard(bot: AeonaBot) {
       id: bot.user!.id,
       secret: process.env.CLIENT_SECRET,
     },
+    acceptPrivacyPolicy: true,
+    minimizedConsoleLogs: true,
     redirectUri: `https://dashboard.aeonabot.xyz/callback`,
     domain: 'https://dashboard.aeonabot.xyz',
     ownerIDs: bot.config.owners,
@@ -131,6 +133,9 @@ export default async function createDashboard(bot: AeonaBot) {
         key: process.env.apiKey!,
       },
       commands: MetadataStorage.instance.applicationCommandSlashGroups.map((group) => {
+        let commands = MetadataStorage.instance.applicationCommandSlashesFlat.filter(
+          (command) => command.group === group.name,
+        );
         return {
           category: group.name,
           subTitle: group.payload.description!,
@@ -139,7 +144,7 @@ export default async function createDashboard(bot: AeonaBot) {
           hideDescription: false,
           hideSidebarItem: false,
           hideAlias: true,
-          list: group.payload.options!.map((command) => {
+          list: commands.map((command) => {
             return {
               commandName: command.name,
               commandUsage: '/' + group.name + ' ' + command.name,
