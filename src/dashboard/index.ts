@@ -3,8 +3,78 @@ import ChatbotSchema from '../database/models/chatbot-channel.js';
 import { AeonaBot } from '../utils/types.js';
 import DBD from 'discord-dashboard';
 import SoftUI from 'dbd-soft-ui';
+import { init } from 'dbd-soft-ui/utils/initPages.js';
 import { Model } from 'mongoose';
 import { MetadataStorage } from 'discordx';
+import fs from 'fs';
+init.prototype = async function (config: any, themeConfig: any, app: any, db: any) {
+  let info: any;
+  if (themeConfig?.customThemeOptions?.info) info = await themeConfig.customThemeOptions.info({ config: config });
+
+  const eventFolders = fs.readdirSync(`${__dirname}/../pages`);
+
+  for (const folder of eventFolders) {
+    const eventFiles = fs.readdirSync(`${__dirname}/../pages/${folder}`).filter((file) => file.endsWith('.js'));
+    for (const file of eventFiles) {
+      const e = require(`${__dirname}/../pages/${folder}/${file}`);
+      try {
+        if (folder === 'admin') {
+          await app.get(e.page, async function (req: any, res: any) {
+            if (!req.session) req.session = {};
+            if (!req.session.user) return res.sendStatus(401);
+            if (!config.ownerIDs?.includes(req.session.user.id)) return res.sendStatus(403);
+            e.execute(req, res, app, config, themeConfig, info, db);
+          });
+        } else if (folder === 'post') {
+          await app.post(e.page, function (req: any, res: any) {
+            if (!req.session) req.session = {};
+            e.execute(req, res, app, config, themeConfig, info, db);
+          });
+        } else if (folder === 'get') {
+          await app.use(e.page, async function (req: any, res: any) {
+            if (!req.session) req.session = {};
+            e.execute(req, res, app, config, themeConfig, info, db);
+          });
+        }
+      } catch (error) {}
+    }
+  }
+
+  app.get(themeConfig.landingPage?.enabled ? '/dash' : '/', async (req: any, res: any) => {
+    if (!req.session) req.session = {};
+    let customThemeOptions;
+    if (themeConfig?.customThemeOptions?.index) {
+      customThemeOptions = await themeConfig.customThemeOptions.index({ req: req, res: res, config: config });
+    }
+    res.render('index', {
+      req: req,
+      themeConfig: req.themeConfig,
+      bot: config.bot,
+      customThemeOptions: customThemeOptions || {},
+      config,
+      require,
+      feeds: (await themeConfig.storage.db.get('feeds')) || [],
+    });
+  });
+
+  if (themeConfig.landingPage?.enabled)
+    app.get('/', async (req: any, res: any) => {
+      if (!req.session) req.session = {};
+      res.setHeader('Content-Type', 'text/html');
+      res.send(await themeConfig.landingPage.getLandingPage(req, res));
+    });
+
+  app.use('*', async function (req: any, res: any) {
+    if (!req.session) req.session = {};
+    res.status(404);
+    config.errorPage(req, res, undefined, 404);
+  });
+
+  app.use((err: any, req: any, res: any, next: any) => {
+    res.status(500);
+    config.errorPage(req, res, err, 500);
+  });
+};
 export default async function createDashboard(bot: AeonaBot) {
   await DBD.useLicense(process.env.LICENSE!);
   DBD.Dashboard = DBD.UpdatedClass();
@@ -127,7 +197,10 @@ export default async function createDashboard(bot: AeonaBot) {
           },
         },
       },
-
+      footer: {
+        replaceDefault: true,
+        text: 'Made with ❤️ by Aeona',
+      },
       shardspage: {
         enabled: true,
         key: process.env.apiKey!,

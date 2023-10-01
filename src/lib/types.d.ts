@@ -1,3 +1,5 @@
+declare module 'dbd-soft-ui/utils/initPages.js';
+
 declare module 'hmfull' {
   interface HMfullResults {
     url: string;
