@@ -58,10 +58,43 @@ for (const config of configs) {
         console.log(`[${config.name}]:`.yellow + msg.log);
         fetch('https://dashboard.aeonabot.xyz/stats/logs/update', {
           method: 'post',
-          body: JSON.stringify({title:`[${config.name}]:`, description: msg.log}),
+          body: JSON.stringify({ title: `[${config.name}]:`, description: msg.log }),
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
         }).catch((err) => console.log(err));
-        
+      }
+      if (msg.ready) {
+        async function submitstats() {
+          let guilds = await manager.broadcastEval((c) => c.guilds.cache.size);
+          let users = await manager.broadcastEval((c) => c.guilds.cache.map((guild) => guild.members.cache.size));
+          let channels = await manager.broadcastEval((c) => c.guilds.cache.map((guild) => guild.channels.cache.size));
+          let ping = await manager.broadcastEval((c) => c.ws.ping);
+
+          let list = [];
+
+          for (const shard in guilds) {
+            let guildc = guilds[shard];
+            let userc = users[shard].reduce((p, n) => p + n, 0);
+            let channelc = channels[shard].reduce((p, n) => p + n, 0);
+            let pingc = ping[shard];
+
+            if (pingc === -1) continue;
+
+            list.push({
+              id: shard,
+              ping: pingc,
+              guilds: guildc,
+              channels: channelc,
+              users: userc,
+            });
+          }
+
+          await fetch('http://localhost:8080/stats/shards/update', {
+            method: 'post',
+            body: JSON.stringify(list),
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
+          }).catch((err) => console.log(err));
+        }
+        setInterval(submitstats, 15000);
       }
     });
   });
@@ -71,37 +104,4 @@ for (const config of configs) {
   );
 
   manager.spawn({ timeout: -1 });
-
-  async function submitstats() {
-    let guilds = await manager.broadcastEval((c) => c.guilds.cache.size);
-    let users = await manager.broadcastEval((c) => c.guilds.cache.map((guild) => guild.members.cache.size));
-    let channels = await manager.broadcastEval((c) => c.guilds.cache.map((guild) => guild.channels.cache.size));
-    let ping = await manager.broadcastEval((c) => c.ws.ping);
-
-    let list = [];
-
-    for (const shard in guilds) {
-      let guildc = guilds[shard];
-      let userc = users[shard].reduce((p, n) => p + n, 0);
-      let channelc = channels[shard].reduce((p, n) => p + n, 0);
-      let pingc = ping[shard];
-
-      if (pingc === -1) continue;
-
-      list.push({
-        id: shard,
-        ping: pingc,
-        guilds: guildc,
-        channels: channelc,
-        users: userc,
-      });
-    }
-
-    await fetch('http://localhost:8080/stats/shards/update', {
-      method: 'post',
-      body: JSON.stringify(list),
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
-    }).catch((err) => console.log(err));
-  }
-  setInterval(submitstats, 15000);
 }

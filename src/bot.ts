@@ -105,7 +105,7 @@ bot.extras = additionalProps(bot);
 bot.once('ready', async () => {
   await bot.initApplicationCommands();
   console.log(colors.green('Bot started'));
-
+  bot.cluster!.send({ ready: true });
   async function updateTopGGStats() {
     console.log('Updating top.gg stats...');
     await fetch(`https://top.gg/api/bots/${bot.user!.id}/stats`, {

@@ -85,12 +85,12 @@ export default async function createDashboard(bot: AeonaBot) {
   const Dashboard = new DBD.Dashboard({
     port: 8081,
     client: {
-      id: bot.user!.id,
+      id: "931226824753700934",
       secret: process.env.CLIENT_SECRET,
     },
     acceptPrivacyPolicy: true,
     minimizedConsoleLogs: true,
-    redirectUri: `https://dashboard.aeonabot.xyz/callback`,
+    redirectUri: `https://dashboard.aeonabot.xyz/discord/callback`,
     domain: 'https://dashboard.aeonabot.xyz',
     ownerIDs: bot.config.owners,
     useThemeMaintenance: true,
@@ -149,6 +149,9 @@ export default async function createDashboard(bot: AeonaBot) {
               title: 'Aeona Dashboard',
               description: 'The quickest and easiest way to manage Aeona',
             },
+            feeds: {
+              title: 'Feeds',
+            }
           },
         },
       },
