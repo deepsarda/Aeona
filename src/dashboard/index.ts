@@ -283,10 +283,11 @@ function getSettings(
   };
   premiumCategory.categoryOptionsList = [];
   for (let i = 1; i < 8; i++) {
+    
     premiumCategory.categoryOptionsList.push({
       optionId: `${name}-premium-${i + 1}`,
       optionName: `${name} Premium`,
-      optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT'], false, false, {}),
+      optionType: DBD.formTypes.channelsSelect(false, ['0'], false, false, {}),
       getActualSet: async (data: { guild: { id: string }; user: { id: string; tag: string } }) => {
         const channels = await schema.find({
           Guild: data.guild.id,
@@ -327,7 +328,7 @@ function getSettings(
           optionId: `${name}-channel`,
           optionName: `${name} Config`,
 
-          optionType: DBD.formTypes.channelsSelect(false, ['GUILD_TEXT'], false, false, {}),
+          optionType: DBD.formTypes.channelsSelect(false, ['0'], false, false, {}),
           getActualSet: async (data: { guild: { id: string }; user: { id: string; tag: string } }) => {
             const channels = await schema.find({
               Guild: data.guild.id,
