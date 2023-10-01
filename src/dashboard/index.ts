@@ -130,7 +130,7 @@ export default async function createDashboard(bot: AeonaBot) {
       supporteMail: 'aeonadevelopers@gmail.com',
       icons: {
         favicon: 'https://aeonabot.xyz/logo.webp',
-        noGuildIcon: 'https://pnggrid.com/wp-content/uploads/2021/05/Discord-Logo-Circle-1024x1024.png',
+        noGuildIcon: 'https://www.freepnglogos.com/uploads/discord-logo-png/seven-kingdoms-9.png',
         sidebar: {
           darkUrl: 'https://aeonabot.xyz/logo.webp',
           lightUrl: 'https://aeonabot.xyz/logo.webp',

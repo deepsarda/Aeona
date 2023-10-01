@@ -56,12 +56,12 @@ for (const config of configs) {
     cluster.on('message', async (msg: any) => {
       if (msg.log) {
         console.log(`[${config.name}]:`.yellow + msg.log);
-       /* fetch('https://dashboard.aeonabot.xyz/stats/logs/update', {
+        fetch('https://dashboard.aeonabot.xyz/stats/logs/update', {
           method: 'post',
-          body: `[${config.name}]:`.yellow + msg.log,
+          body: JSON.stringify({title:`[${config.name}]:`, description: msg.log}),
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
         }).catch((err) => console.log(err));
-        */
+        
       }
     });
   });
@@ -97,7 +97,7 @@ for (const config of configs) {
       });
     }
 
-    await fetch('https://dashboard.aeonabot.xyz/stats/shards/update', {
+    await fetch('http://localhost:8080/stats/shards/update', {
       method: 'post',
       body: JSON.stringify(list),
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
