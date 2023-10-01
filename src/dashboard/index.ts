@@ -292,7 +292,7 @@ function getSettings(
           Guild: data.guild.id,
         });
 
-        if (!channels || channels.length == i) return;
+        if (!channels || !channels[i]) return;
 
         return channels[i].Channel;
       },
