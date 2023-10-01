@@ -58,7 +58,7 @@ for (const config of configs) {
         console.log(`[${config.name}]:`.yellow + msg.log);
         fetch('https://dashboard.aeonabot.xyz/stats/logs/update', {
           method: 'post',
-          body: JSON.stringify(`[${config.name}]:`.yellow + msg.log),
+          body: `[${config.name}]:`.yellow + msg.log,
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.apiKey },
         }).catch((err) => console.log(err));
       }
