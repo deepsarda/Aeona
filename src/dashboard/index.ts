@@ -158,7 +158,7 @@ export default async function createDashboard(bot: AeonaBot) {
         ogImage: 'https://aeonabot.xyz/logo.webp',
         ogType: 'Theme',
         ogUrl: 'https://dashboard.aeonabot.xyz',
-        ogSiteName: 'Soft-UI Theme',
+        ogSiteName: 'Aeona Dashboard',
         ogDescription: 'The Dashboard for Aeona Discord Bot.',
         twitterTitle: 'The Dashboard for Aeona Discord Bot.',
         twitterDescription: 'The Dashboard for Aeona Discord Bot.',
