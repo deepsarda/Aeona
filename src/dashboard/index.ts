@@ -109,9 +109,17 @@ export default async function createDashboard(bot: AeonaBot) {
       //@ts-expect-error
       storage: new DBD.Handler(),
       customThemeOptions: {
+        //@ts-expect-error
+        info: async ({ config }) => {
+          return {
+            useUnderMaintenance: true,
+            ownerIDs: [],
+            blacklistIDs: [],
+            premiumCard: true,
+          };
+        },
         index: async ({ req, res, config }) => {
           return {
-            values: [],
             graph: {},
             cards: [],
           };
@@ -129,6 +137,19 @@ export default async function createDashboard(bot: AeonaBot) {
           hideName: true,
           borderRadius: false,
           alignCenter: true,
+        },
+      },
+      locales: {
+        enUS: {
+          name: 'English',
+          index: {
+            card: {
+              image: 'https://aeonabot.xyz/logo.webp',
+              category: 'Aeona-index',
+              title: 'Aeona Dashboard',
+              description: 'The quickest and easiest way to manage Aeona',
+            },
+          },
         },
       },
       index: {
