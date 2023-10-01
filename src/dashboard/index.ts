@@ -272,7 +272,7 @@ function getSettings(
   let premiumCategory = {
     categoryId: `${name}-premium`,
     categoryName: `${name} Premium`,
-
+    refreshOnSave: true,
     categoryDescription: `Setup All The Premium Features of Aeona's ${name}`,
     premium: true,
 
@@ -282,7 +282,7 @@ function getSettings(
     categoryOptionsList: [{}],
   };
   premiumCategory.categoryOptionsList = [];
-  for (let i = 1; i < 89; i++) {
+  for (let i = 1; i < 8; i++) {
     premiumCategory.categoryOptionsList.push({
       optionId: `${name}-premium-${i + 1}`,
       optionName: `${name} Premium`,
