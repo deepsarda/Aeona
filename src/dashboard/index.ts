@@ -255,7 +255,7 @@ export default async function createDashboard(bot: AeonaBot) {
         };
       }),
     }),
-    settings: [getSettings(bot, ChatbotSchema, 'Chatbot')],
+    settings: [...getSettings(bot, ChatbotSchema, 'Chatbot')],
   });
   Dashboard.init();
 }
