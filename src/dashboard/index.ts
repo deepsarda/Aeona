@@ -7,6 +7,7 @@ import { init } from 'dbd-soft-ui/utils/initPages.js';
 import { Model } from 'mongoose';
 import { MetadataStorage } from 'discordx';
 import fs from 'fs';
+
 init.prototype = async function (config: any, themeConfig: any, app: any, db: any) {
   let info: any;
   if (themeConfig?.customThemeOptions?.info) info = await themeConfig.customThemeOptions.info({ config: config });
@@ -71,10 +72,12 @@ init.prototype = async function (config: any, themeConfig: any, app: any, db: an
   });
 
   app.use((err: any, req: any, res: any, next: any) => {
+    if (!req.session) req.session = {};
     res.status(500);
     config.errorPage(req, res, err, 500);
   });
 };
+
 export default async function createDashboard(bot: AeonaBot) {
   await DBD.useLicense(process.env.LICENSE!);
   DBD.Dashboard = DBD.UpdatedClass();
