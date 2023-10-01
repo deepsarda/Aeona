@@ -41,7 +41,7 @@ export const bot: AeonaBot = new Client({
     IntentsBitField.Flags.DirectMessages,
     IntentsBitField.Flags.GuildScheduledEvents,
   ],
-  silent: false,
+  silent: true,
   simpleCommand: {
     prefix: async (message) => {
       if (process.env.DEV === 'true' && message.channelId != '1073654475652333568') return ['fadfasdfasdfsadfsdfsd'];

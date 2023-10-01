@@ -17,6 +17,8 @@ init.prototype = async function (config: any, themeConfig: any, app: any, db: an
   for (const folder of eventFolders) {
     const eventFiles = fs.readdirSync(`${__dirname}/../pages/${folder}`).filter((file) => file.endsWith('.js'));
     for (const file of eventFiles) {
+      if(file.includes('debug')) continue;
+      
       const e = require(`${__dirname}/../pages/${folder}/${file}`);
       try {
         if (folder === 'admin') {
