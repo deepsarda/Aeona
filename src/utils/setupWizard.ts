@@ -30,7 +30,7 @@ export async function createSetupWizard(
     const comp = new Components();
     comp.addButton('Auto Create', 'Primary', 'autocreate');
     comp.addButton('Create', 'Success', 'createconfig');
-
+    comp.addButton('Better UI', 'Link', 'https://dashboard.aeonabot.xyz/manage');
     if (data.length > 0) {
       comp.addSelectComponent(
         'Edit/Delete a system.',
@@ -65,7 +65,7 @@ export async function createSetupWizard(
       {
         content: '',
         title: `Setup Wizard For ${name}`,
-        desc: `Choose a system to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. `,
+        desc: `Choose a system to edit/delete/create a system for down below. \n You currently have \`${data.length} systems\` setup. \n\n # **You can use [this](https://https://dashboard.aeonabot.xyz/manage/) to manage me more easily!**`,
         components: comp,
         type: 'reply',
       },

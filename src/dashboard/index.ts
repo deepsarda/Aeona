@@ -1,5 +1,8 @@
-import { Channel, Guild, User } from 'discord.js';
+import { Channel, Guild, TextChannel, User } from 'discord.js';
 import ChatbotSchema from '../database/models/chatbot-channel.js';
+import GTNSchema from '../database/models/guessNumber.js';
+import GTWSchema from '../database/models/guessWord.js';
+import CountingSchema from '../database/models/countChannel.js';
 import { AeonaBot } from '../utils/types.js';
 import DBD from 'discord-dashboard';
 import SoftUI from 'dbd-soft-ui';
@@ -7,6 +10,7 @@ import { init } from 'dbd-soft-ui/utils/initPages.js';
 import { Model } from 'mongoose';
 import { MetadataStorage } from 'discordx';
 import fs from 'fs';
+import { Components } from '../utils/components.js';
 
 init.prototype = async function (config: any, themeConfig: any, app: any, db: any) {
   let info: any;
@@ -257,7 +261,48 @@ export default async function createDashboard(bot: AeonaBot) {
         };
       }),
     }),
-    settings: [...getSettings(bot, ChatbotSchema, 'Chatbot')],
+    settings: [
+    //Chatbot
+    ...getSettings(bot, ChatbotSchema, 'Chatbot'),
+    //Guess the number
+    ...getSettings(bot, GTNSchema!, 'Guess-The-Number',(channel:Channel)=>{
+      bot.extras.embed(
+        {
+          title: `🔢 Guess the number`,
+          desc: `Guess the number between **1** and **10.000**!`,
+        },
+        channel as unknown as TextChannel,
+      );
+    }),
+    //Guess the word
+    ...getSettings(bot, GTWSchema!, 'Guess-The-Word',(channel:Channel)=>{
+      const word = 'start';
+      const shuffled = word
+        .split('')
+        .sort(function () {
+          return 0.5 - Math.random();
+        })
+        .join('');
+
+      bot.extras.embed(
+        {
+          title: `Guess the word`,
+          desc: `Put the letters in the right position!`,
+          fields: [
+            {
+              name: `💬 Word`,
+              value: `${shuffled.toLowerCase()}`,
+            },
+          ],
+          components:new Components().addButton('Skip', 'Secondary', 'skipWord'),
+        },
+        channel as unknown as TextChannel,
+      );
+    }),
+
+    //Counting
+    ...getSettings(bot, CountingSchema!, 'Counting'),
+  ],
   });
   Dashboard.init();
 }
@@ -267,7 +312,7 @@ function getSettings(
   schema: Model<{
     Guild: string;
     Channel: string;
-  }>,
+  }& any>,
   name: string,
   setChannelCallback?: (channel: Channel) => unknown,
 ) {
@@ -292,6 +337,10 @@ function getSettings(
        //@ts-expect-error
       optionType: DBD.formTypes.channelsSelect(false, [0,5,10,12,11], false, false, {}),
       getActualSet: async (data: { guild: { id: string }; user: { id: string; tag: string } }) => {
+
+        if(!await bot.extras.isPremium(data.guild.id)) return {
+          error:`You need to be a premium user to use this feature. Please get premium for just **$2.99** <a href="https://www.patreon.com/aeonapatreon">here</a>.`
+        }
         const channels = await schema.find({
           Guild: data.guild.id,
         });
