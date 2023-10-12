@@ -129,9 +129,11 @@ export async function createSetupWizard(
       });
       setupConfig.createCallback(channel);
       return sendMessage();
-    } else if (interaction.customId == 'createconfig') {
+    }
+    if (interaction.customId == 'createconfig') {
       await createConfig(interaction);
-    } else if (interaction.customId == 'editoptions') {
+    }
+    if (interaction.customId == 'editoptions') {
       await editConfig(interaction);
     }
   }
@@ -162,7 +164,7 @@ export async function createSetupWizard(
 
       const message = (
         await interaction.channel?.awaitMessages({
-          filter: (m) => m.author.id == user.id,
+          filter: (m) => m.author.id == interaction.user.id,
           max: 1,
           time: 30000,
         })
