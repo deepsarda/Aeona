@@ -12,7 +12,7 @@ Run `/setup welcome` to access the set up menu.
 
 Then click on `Create` to select a channel for the welcome messages, or click on `Auto Create` to have Aeona create a channel automatically.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="danger" %}
 If you're selecting a specific channel, make sure it is a text channel.
@@ -24,7 +24,7 @@ If you're selecting a specific channel, make sure it is a text channel.
 
 Run `/setup welcome` to open the menu and make sure you have atleast 1 system. Now, use the dropdown menu to select a config.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Welcome setup menu</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Welcome setup menu</p></figcaption></figure>
 
 Next, select the system that you wish to add a welcome role to or edit the welcome message for.&#x20;
 

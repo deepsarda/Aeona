@@ -8,6 +8,8 @@ description: >-
 
 To set up counting, simply run `/setup counting` and use the menu that shows up.
 
+<figure><img src="../../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+
 {% hint style="danger" %}
 If you're selecting a specific channel, make sure it is a text channel.
 {% endhint %}
