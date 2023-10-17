@@ -14,11 +14,11 @@
 ## Setting up
 
 * [🤖 Setting up the chatbot](setting-up/setting-up-the-chatbot.md)
-* [🎲 Fun And Games](setting-up/fun-and-games/README.md)
+* [🎲 Fun and Games](setting-up/fun-and-games/README.md)
   * [🔢 Counting](setting-up/fun-and-games/counting.md)
   * [❓ Guess The Number](setting-up/fun-and-games/guess-the-number.md)
   * [⁉ Guess The Word](setting-up/fun-and-games/guess-the-word.md)
-* [🍃 Welcome And Leave](setting-up/welcome-and-leave/README.md)
+* [🍃 Welcome and Leave](setting-up/welcome-and-leave/README.md)
   * [🙏 Welcome](setting-up/welcome-and-leave/welcome.md)
   * [👋 Leave](setting-up/welcome-and-leave/leave.md)
 * [📌 Reaction Roles](setting-up/reaction-roles.md)

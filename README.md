@@ -6,15 +6,15 @@ coverY: 86
 # 👋 Welcome to Aeona
 
 {% hint style="info" %}
-**Aeona tip:** All the commands are there in slash commands and normal message command format.
+**Aeona tip:** All the commands can be used via both slash commands and normal message commands.
 {% endhint %}
 
 {% hint style="warning" %}
-**Before using these docs, be sure to reload the page because there may be new changes that you haven't cached yet.**
+**Before using these docs, make sure to reload the page because there may be new changes that you haven't cached yet.**
 {% endhint %}
 
 {% hint style="danger" %}
-Some Features have been disabled as a part of Aeona's Update. They will be brought back soon!
+Some features have been disabled in Aeona's new update. They will be brought back soon!
 {% endhint %}
 
 ## Overview
@@ -23,19 +23,19 @@ Here are a couple of things about Aeona.
 
 > **Our Purpose!**
 >
-> The goal of Aeona is to innovate the discord bot era and provide something fresh and original that has never been seen before making your Discord experience unique. With Aeona, alter your experience!
+> The purpose of Aeona is to innovate the discord bot era and provide something fresh and original that has never been seen before, making your Discord experience unique. With Aeona, alter your experience!
 
 > **Our Goal!**
 >
-> We only provide premium services to support our efforts to keep Aeona online and available to all of you around the clock, not to make money off of it. Aeona's mission is to discover the uncharted while seeing to it that you have a good time.
+> We only provide premium services to support our efforts to keep Aeona online and available to all around the clock, not to make money off of it. Aeona's mission is to discover the uncharted while ensuring that you have a good time.
 
 > **Boundless Features!**
 >
-> Aeona's features does never just stop, they are constantly updated and worked on and new ones is regularly added. The work we do on the bot and the way we listen to our users help us develop the perfect bot who would fit nearly each server and individual!
+> Aeona's features are constantly updated and worked on, and new ones is regularly added as well! The work we do on the bot and the way we listen to our users helps us to develop the perfect bot for nearly each server and individual!
 
 ## Get Started
 
-We've put together some helpful guides for you to get setup with Aeona quickly and easily.
+We've put together some helpful guides for you to setup Aeona quickly and easily on your server.
 
 {% content-ref url="setting-up/setting-up-the-chatbot.md" %}
 [setting-up-the-chatbot.md](setting-up/setting-up-the-chatbot.md)

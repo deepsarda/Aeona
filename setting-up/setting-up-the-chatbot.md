@@ -1,9 +1,9 @@
 ---
-description: You can chat with Aeona Amazing Chatbot and liven up your server.
+description: Talk to Aeona's amazing chatbot and brighten up your server!
 ---
 
 # 🤖 Setting up the chatbot
 
-To setup the chatbot simple run `/setup chatbot` and use the menu.
+To set up the chatbot, simple run `/setup chatbot` and use the menu that shows up.
 
 <figure><img src="https://media.discordapp.net/attachments/1034710126675898389/1076114183353008208/image.png" alt=""><figcaption></figcaption></figure>

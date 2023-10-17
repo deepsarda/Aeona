@@ -2,63 +2,48 @@
 
 ## 1. 250+ Commands
 
-In 30 different categories and with 25+ systems.\
-Aeona removes the need for multiple bots with features like  Welcomer, Logging, Boost Logging, Server Stats and much more.
+With 250+ commands in 30 different categories and 25+ systems, Aeona removes the need to invite seperate bots for features like welcomer, mod logging, boost logging, server stats and much more on your server.
 
-<figure><img src="https://cdn.discordapp.com/attachments/1034419695794794562/1061935281164537896/image.png" alt=""><figcaption></figcaption></figure>
+## 2. Free high-quality image generation!
 
-## 2. Generate Images on any matter!
-
-Use our AI image generator to make art various styles like dramatic, fantasy, cyberpunk and many more.
+Use our AI image generator to generate images of various art styles such as dramatic, fantasy, cyberpunk and much more!
 
 <figure><img src="https://media.discordapp.net/attachments/962747447547945031/1058993182555263117/image.jpg" alt=""><figcaption><p>Prompt: bookshelf, window nook, evening, night sky, room, aesthetic<br>Style: epic</p></figcaption></figure>
 
-## 3. Chatbot
+## 3. Aeona's Chatbot
 
-Aeona is an advance AI chatbot which hope's to be able to talk with humans as if its an friend.&#x20;
+Aeona is an advanced AI chatbot which aims to talk to you like a friend of yours.
 
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061935654021382214/image.png" alt=""><figcaption></figcaption></figure>
+## 4. Embed Builder
 
-## 4. Embed Builder.
+Aeona has a state of the art embed builder, allowing you to create and edit custom embeds easily.
 
-Aeona has a state of the art embed builder allowing to create and edit embeds easily.
-
-## 5. Leveling
+## 5. Leveling System
 
 Reward your users for being active by using our leveling system.
 
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061935920548413531/image.png" alt=""><figcaption></figcaption></figure>
-
 ## 6. Invites Counter
 
-See and give rewards to users for inviting people to your server.
-
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061936168289185882/image.png" alt=""><figcaption></figcaption></figure>
+See and give rewards to users for inviting people to your server!
 
 ## 7. Fun and Games
 
-With commands like 8ball , wanted, keepdistance, 2048, youtubetogether and more. You are sure to never run out of things to have fun with.
-
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061936542546935878/image.png" alt=""><figcaption></figcaption></figure>
+With commands like `+8ball`, `+wanted`, `+keepdistance`, `+2048`, `+youtubetogether` and much more, you are sure to never run out of things to have fun with!
 
 ## 8. Bump Reminder
 
-Setup a reminder for your users to boost your server.
-
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061907945954234448/image.png" alt=""><figcaption></figcaption></figure>
+Setup reminders for your users to boost your server on listing websites like DISBOARD.
 
 ## 9. Reaction Roles
 
-Setup menus to give your users some self roles.
+Set up reaction menus to allow users to select roles.
 
-<figure><img src="https://media.discordapp.net/attachments/1041673550643339294/1061907193546407947/image.png" alt=""><figcaption></figcaption></figure>
+## 10. Anime and Roleplay commands
 
-## 10. Anime and Role play commands
-
-React to each other using gifs.
+Have fun with friends by communicating with and reacting to them using anime GIFs.
 
 
 
-### Well there are many more features waiting to be discovered so go ahead and invite me by clicking on the link below
+### I have many more exciting features waiting to be discovered! Go ahead and invite me to your server by clicking on the link below.
 
 {% embed url="https://www.aeona.xyz/invite" %}

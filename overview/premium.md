@@ -1,12 +1,12 @@
 # 💡 Premium
 
 {% hint style="info" %}
-**Aeona tip:** Using the bot to its full potential does not require Premium.
+**Aeona tip:** Using the bot to its full potential does not require Premium!
 {% endhint %}
 
 ## Features
 
-Lets us see what all does premium unlock for you for just _$2.99 per month._
+Here's everything that Premium has to offer, for just _$2.99 per month._
 
 • Removes all Aeonic Development Branding&#x20;
 
@@ -40,12 +40,11 @@ Lets us see what all does premium unlock for you for just _$2.99 per month._
 
 • Ability to setup **guess the word** in up to `8` channels.
 
-You can get premium for just **$2.99** at  [_**Patreon**_](https://www.patreon.com/aeonapatreon)\
-**or**  _boost our_ [_support server_](https://www.aeona.xyz/support).&#x20;
+Unlock Premium for just **$2.99** at [_**Patreon**_](https://www.patreon.com/aeonapatreon) **or** by _boosting our_ [_support server_](https://www.aeona.xyz/support).&#x20;
 
-&#x20;Use \`+perks\` to see all the perks of premium.
+Use `+perks` to see all the perks of Premium.
 
-## Use the link below to buy premium.
+## Use the link below to buy Premium.
 
 {% embed url="https://www.aeona.xyz/premium" %}
 

@@ -1,15 +1,13 @@
 ---
-description: Count with your server members upto to infinity as fun group activity.
+description: >-
+  Count numbers up to the top with your server members and have fun! Can you set
+  the record for the largest number ever counted to?
 ---
 
 # 🔢 Counting
 
-To setup the counting simple run `/setup counting` and use the menu.
+To set up counting, simply run `/setup counting` and use the menu that shows up.
 
 {% hint style="danger" %}
-If you are setting the channel make sure it is a text channel.
+If you're selecting a specific channel, make sure it is a text channel.
 {% endhint %}
-
-<figure><img src="https://media.discordapp.net/attachments/1034419695794794561/1061920476462596236/image.png" alt=""><figcaption></figcaption></figure>
-
-<figure><img src="https://media.discordapp.net/attachments/1034419695794794561/1061920622491488357/image.png" alt=""><figcaption><p>Counting Channel</p></figcaption></figure>
