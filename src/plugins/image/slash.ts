@@ -209,7 +209,8 @@ export class Image {
 
     switch (select?.values[0]) {
       case 'accurate':
-        modifiers = '';
+        modifiers =
+          ' detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
         break;
       case 'portrait':
         modifiers =
@@ -260,7 +261,7 @@ export class Image {
         break;
     }
 
-    const response = await (await fetch(`http://localhost:8083/chatbot/image?prompt=${prompt}`)).json();
+    const response = await (await fetch(`http://localhost:8083/chatbot/image?prompt=${prompt + modifiers}`)).json();
     const files = [
       new AttachmentBuilder(Buffer.from(response.response[0].split(',')[1], 'base64'), {
         name: 'image0.png',
