@@ -32,7 +32,7 @@ With commands like `+8ball`, `+wanted`, `+keepdistance`, `+2048`, `+youtubetoget
 
 ## 8. Bump Reminder
 
-Setup reminders for your users to boost your server on listing websites like DISBOARD.
+Set up reminders for your users to bump your server on listing websites like DISBOARD.
 
 ## 9. Reaction Roles
 

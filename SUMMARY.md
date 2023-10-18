@@ -25,7 +25,7 @@
 * [🔔 Bump Reminder](setting-up/bump-reminder.md)
 * [📈 Levels](setting-up/levels/README.md)
   * [👾 Enabling Levels](setting-up/levels/enabling-levels.md)
-  * [🎁 Adding And Removing Level Rewards](setting-up/levels/adding-and-removing-level-rewards.md)
+  * [🎁 Level Rewards](setting-up/levels/level-rewards.md)
   * [🔍 Seeing your rank and the leader board](setting-up/levels/seeing-your-rank-and-the-leader-board.md)
   * [🛠 Setting a user's xp manually](setting-up/levels/setting-a-users-xp-manually.md)
 * [🤠 Invites](setting-up/invites/README.md)

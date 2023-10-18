@@ -31,7 +31,7 @@ Here are a couple of things about Aeona.
 
 > **Boundless Features!**
 >
-> Aeona's features are constantly updated and worked on, and new ones is regularly added as well! The work we do on the bot and the way we listen to our users helps us to develop the perfect bot for nearly each server and individual!
+> Aeona's features are constantly updated and worked on, and new ones are regularly added as well! The work we do on the bot and the way we listen to our users helps us to develop the perfect bot for nearly each server and individual!
 
 ## Get Started
 

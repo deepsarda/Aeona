@@ -1,7 +1,7 @@
 # 💬 Messages
 
-{% content-ref url="../levels/adding-and-removing-level-rewards.md" %}
-[adding-and-removing-level-rewards.md](../levels/adding-and-removing-level-rewards.md)
+{% content-ref url="../levels/level-rewards.md" %}
+[level-rewards.md](../levels/level-rewards.md)
 {% endcontent-ref %}
 
 {% content-ref url="../invites/seeing-your-invites-and-the-leader-board.md" %}

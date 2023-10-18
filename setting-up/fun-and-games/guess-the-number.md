@@ -6,9 +6,11 @@ description: >-
 
 # ❓ Guess The Number
 
+## How do I set it up?
+
 To set up this feature, simply run `/setup guess-the-number` and use the menu that shows up.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 {% hint style="danger" %}
 If you're selecting a specific channel, make sure it is a text channel.

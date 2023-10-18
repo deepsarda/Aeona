@@ -1,27 +1,25 @@
 ---
-description: You can give users the option to choose their roles.
+description: You can set up reactions menus to give users the option to choose their roles.
 ---
 
 # 📌 Reaction Roles
 
-### Steps
+## How do I set it up?
 
-#### 1. Adding the roles.
+### Step 1: Adding the roles
 
-To add roles to Aeona you can run `/reactionroles add <name> <role> <emoji>`
+To add roles to Aeona you can run `/reactionroles add <name> <@role> <emoji>`
 
-**The options explained** \
+**The options explained:**\
 `<name>` -> The name of the type of the roles you are adding. \
-`<role>` -> The mention of the role you want to give. \
+`<@role>` -> The role you want to give. \
 `<emoji>` -> The emoji to give the role.
 
 Example: \
 `/reactionroles add pings @MovieNight 🎥` \
 `/reactionroles add pings @ChatRevive ❤️‍🩹`
 
-<figure><img src="https://media.discordapp.net/attachments/1034419695794794561/1061921929398853652/image.png" alt=""><figcaption></figcaption></figure>
-
-#### 2. Creating the list
+### Step 2: Creating the list
 
 Here you have to choices:-
 
@@ -36,9 +34,7 @@ Example: `/reactionroles button pings #self-roles` \
 `/reactionroles menu <name> channel` \
 Example: `/reactionroles menu pings #self-roles`
 
-<figure><img src="https://cdn.discordapp.com/attachments/1034419695060791340/1061922293342801981/image.png" alt=""><figcaption></figcaption></figure>
-
-#### 3. Modifying the look.
+### Step 3: Modifying the look
 
 To edit the embed run `/embed editembed channel messageid`.
 

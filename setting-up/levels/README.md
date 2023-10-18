@@ -4,8 +4,8 @@
 [enabling-levels.md](enabling-levels.md)
 {% endcontent-ref %}
 
-{% content-ref url="adding-and-removing-level-rewards.md" %}
-[adding-and-removing-level-rewards.md](adding-and-removing-level-rewards.md)
+{% content-ref url="level-rewards.md" %}
+[level-rewards.md](level-rewards.md)
 {% endcontent-ref %}
 
 {% content-ref url="seeing-your-rank-and-the-leader-board.md" %}

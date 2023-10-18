@@ -4,7 +4,9 @@ description: You can send off users from your server using Aeona.
 
 # 👋 Leave
 
-#### 1. Setting up the channel.
+## How do I set it up?
+
+### Step 1: Setting up the channel.
 
 Run `/setup leave` to access the set up menu.
 
