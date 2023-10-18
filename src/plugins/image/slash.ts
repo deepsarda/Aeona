@@ -285,9 +285,9 @@ export class Image {
     ];
     message.edit({
       content: `
-      **User:**${command.user}
-      **Prompt:**${prompt}
-      **Style:**${select.values[0]}
+**User:** ${command.user}
+**Prompt:** ${prompt}
+**Style:** ${select.values[0]}
       `,
       embeds: embeds,
       files: files,

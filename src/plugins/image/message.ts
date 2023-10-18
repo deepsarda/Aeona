@@ -280,9 +280,9 @@ export class Image {
     ];
     message.edit({
       content: `
-      **User:**${ctx.author}
-      **Prompt:**${prompt}
-      **Style:**${select.values[0]}
+**User:** ${ctx.author}
+**Prompt:** ${prompt}
+**Style:** ${select.values[0]}
       `,
       embeds: embeds,
       files: files,
