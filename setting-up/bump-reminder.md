@@ -10,13 +10,18 @@ description: >-
 
 ### Step 1: Setting up the channel and role.
 
-Use the `/bumpreminder setup <#channel> <@role>` command, where `<#channel>` is the channel where you wish the bump reminders to be sent, and `<@role>` is the role that you wish to be pinged during reminders.
+Use the `/bumpreminder setup <#channel> <@role>` command
+
+* `<#channel>` -> the channel where you wish the bump reminders to be sent
+* `<@role>` -> the role that you wish to be pinged during reminders
 
 <figure><img src="../.gitbook/assets/image (1).png" alt="" width="563"><figcaption><p>Bump reminder setup menu</p></figcaption></figure>
 
 ### Step 2: Setting up the message (optional)
 
-If you want a specific message to be sent alongside the bump reminders, you can set a message by using the following command: `/bumpreminder message <message>`, where `<message>` is the message you want the bot to send alongside the reminders.
+If you want a specific message to be sent alongside the bump reminders, you can set a message by using the following command: `/bumpreminder message <message>`
+
+* `<message>` -> the message you want the bot to send alongside the reminders
 
 <figure><img src="../.gitbook/assets/image (2).png" alt="" width="563"><figcaption><p>Bump reminder message setup menu</p></figcaption></figure>
 

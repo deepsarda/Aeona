@@ -10,24 +10,24 @@ description: You can set up reactions menus to give users the option to choose t
 
 To add roles to Aeona you can run `/reactionroles add <name> <@role> <emoji>`
 
-**The options explained:**\
-`<name>` -> The name of the type of the roles you are adding. \
-`<@role>` -> The role you want to give. \
-`<emoji>` -> The emoji to give the role.
+* `<name>` -> The name of the type of the roles you are adding.&#x20;
+* `<@role>` -> The role you want to give.&#x20;
+* `<emoji>` -> The emoji to give the role.
 
-Example: \
+#### Example:
+
 `/reactionroles add pings @MovieNight 🎥` \
 `/reactionroles add pings @ChatRevive ❤️‍🩹`
 
 ### Step 2: Creating the list
 
-Here you have to choices:-
+Here you have two choices:
 
 **You can have your users select their roles by clicking buttons.** \
 `/reactionroles button <name> channel` \
 Example: `/reactionroles button pings #self-roles` \
 \
-**Or**
+**OR**
 
 **The users can choose their desired roles from a drop down menu.**
 
