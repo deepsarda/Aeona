@@ -10,6 +10,7 @@ import {
   ActionRowBuilder,
   AttachmentBuilder,
   ComponentType,
+  EmbedBuilder,
   MessageActionRowComponentBuilder,
   StringSelectMenuBuilder,
   TextChannel,
@@ -202,7 +203,8 @@ export class Image {
 
     switch (select?.values[0]) {
       case 'accurate':
-        modifiers = '';
+        modifiers =
+          'detailed matte painting, deep color, fantastical, intricate detail, splash screen, complementary colors, fantasy concept art, 8k resolution trending on Artstation Unreal Engine 5';
         break;
       case 'portrait':
         modifiers =
@@ -271,31 +273,23 @@ export class Image {
       } \n**Prompt:** ${prompt}\n **Mode:** ${select.values[0]}`,
       files: files,
     });
-
+    let embeds = [
+      new EmbedBuilder().setTitle('Main AI Image').setImage(`attachment://image0.png`),
+      new EmbedBuilder().setTitle('Pixel Art Image').setImage(`attachment://image1.png`),
+      new EmbedBuilder().setTitle('Secondady AI Image').setImage(`attachment://image2.png`),
+    ];
     message.edit({
       content: `
-      **User:**${ctx.author.id}
+      **User:**${ctx.author}
       **Prompt:**${prompt}
       **Style:**${select.values[0]}
-
-      **Image: (1/3)**
       `,
-      embeds: [],
-      files: [files[0]],
+      embeds: embeds,
+      files: files,
     });
 
     message.channel.send({
-      content: `${ctx.author}
-      
-      **Image: (2/3)**`,
-      files: [files[1]],
-    });
-
-    message.channel.send({
-      content: `${ctx.author}
-      
-      **Image: (3/3)**`,
-      files: [files[2]],
+      content: `${ctx.author} Generation Complete!`,
     });
   }
 
