@@ -424,13 +424,16 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       const randomNumber = Math.floor(Math.random() * 30);
       json = randomNumber == 0 ? (json ?? '') + s[0] : json;
       const component = new Components();
-      component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
-      component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
-      component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
-      component.addButton('Commands', 'Link', 'https://dashboard.aeonabot.xyz/commands');
-      component.addButton('Share', 'Secondary', 'sharechatbot');
-      if (!smartMode) component.addButton('Enable Smart Mode', 'Secondary', 'smartmode');
-      else component.addButton('Disable Smart Mode', 'Secondary', 'disablesmartmode');
+      if (Math.random() < 0.1) {
+        component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
+        component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
+        component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
+        component.addButton('Commands', 'Link', 'https://dashboard.aeonabot.xyz/commands');
+        component.addButton('Share', 'Secondary', 'sharechatbot');
+
+        if (!smartMode) component.addButton('Enable Smart Mode', 'Secondary', 'smartmode');
+        else component.addButton('Disable Smart Mode', 'Secondary', 'disablesmartmode');
+      }
       if (guild!.chatbotFilter) {
         if (filter.check(json)) {
           component.addButton('Why $$$$ ?', 'Secondary', 'profane');
