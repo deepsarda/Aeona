@@ -88,11 +88,12 @@ export function additionalProps(client: AeonaBot) {
       guildId: string,
       channelId: string,
     ): Promise<(mongoose.Document<any, {}, T> & T) | undefined> => {
+      if (!channelId) return;
       const channels = await schema.find({ Guild: guildId });
       const isPremium = await client.extras.isPremium(guildId);
       if (channels.length == 0) return undefined;
 
-      if (isPremium) return channels.find((channel: any) => channel.Channel.trim() == channelId.trim());
+      if (isPremium) return channels.find((channel: any) => channel.Channel?.trim() == channelId.trim());
       //@ts-ignore
       else if (channels[0].Channel.trim() == channelId.trim()) return channels[0];
 
