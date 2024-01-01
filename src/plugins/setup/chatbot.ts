@@ -508,7 +508,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
       for (let i = 0; i < words.length; i++) {
         let word = words[i].replace("[", "").replace("]", "");
 
-        let member = message.guild!.cache.find(
+        let member = message.guild!.members.cache.find(
           (member) => member.user?.username === word
         );
 
