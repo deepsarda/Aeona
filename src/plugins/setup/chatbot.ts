@@ -458,9 +458,32 @@ export async function chabotJob(message: Message, client: AeonaBot) {
 
         if (member) text.replaceAll(words[i], `<@${member.id}>`);
       }
+
+      const gifRegex = /(?<=gif\[).*?(?=\])/gm;
+      let m;
+
+      while ((m = gifRegex.exec(text)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.index === gifRegex.lastIndex) {
+          gifRegex.lastIndex++;
+        }
+
+        // The result can be accessed through the `m`-variable.
+        for (const match of m) {
+          text = text.replaceAll(`gif[${match}]`, await searchTenor(match));
+        }
+      }
       message.reply({
         content: text,
         components: component,
       });
     });
+}
+
+async function searchTenor(keywords: string) {
+  const url = `https://g.tenor.com/v1/search?q=${keywords}&key=LIVDSRZULELA&limit=1`;
+  const res = await fetch(url);
+  const json = await res.json();
+  //Return url of first gif
+  return json.results[0].itemurl;
 }
