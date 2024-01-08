@@ -64,7 +64,7 @@ export function additionalProps(client: AeonaBot) {
       message.mentions.users.forEach((user) => {
         message.content = message.content
           .replaceAll(`<@!${user.id}>`, `<@${user.id}>`)
-          .replaceAll(`<@${user.id}>`, `@${user.username}`);
+          .replaceAll(`<@${user.id}>`, `[${user.username}]`);
       });
       message.mentions.channels.forEach((channel: any) => {
         message.content = message.content.replaceAll(`<#${channel.id}>`, `@${channel.name}`);

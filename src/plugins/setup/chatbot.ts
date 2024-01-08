@@ -1,10 +1,5 @@
-import { Components } from "./../../utils/components.js";
-import {
-  Category,
-  PermissionGuard,
-  RateLimit,
-  TIME_UNIT,
-} from "@discordx/utilities";
+import { Components } from './../../utils/components.js';
+import { Category, PermissionGuard, RateLimit, TIME_UNIT } from '@discordx/utilities';
 import {
   ArgsOf,
   Bot,
@@ -15,98 +10,89 @@ import {
   SimpleCommandMessage,
   Slash,
   SlashGroup,
-} from "discordx";
-import { Discord } from "discordx";
+} from 'discordx';
+import { Discord } from 'discordx';
 
-import { getPluginsBot } from "../../utils/config.js";
-import ChatbotShema from "../../database/models/chatbot-channel.js";
-import GuildDB from "../../database/models/guild.js";
-import {
-  ButtonInteraction,
-  Collection,
-  CommandInteraction,
-  Message,
-  TextChannel,
-} from "discord.js";
-import fs from "fs";
-import { createSetupWizard } from "../../utils/setupWizard.js";
-import chatbotChannel from "../../database/models/chatbot-channel.js";
-import { AeonaBot } from "../../utils/types.js";
+import { getPluginsBot } from '../../utils/config.js';
+import ChatbotShema from '../../database/models/chatbot-channel.js';
+import GuildDB from '../../database/models/guild.js';
+import { ButtonInteraction, Collection, CommandInteraction, Message, TextChannel } from 'discord.js';
+import fs from 'fs';
+import { createSetupWizard } from '../../utils/setupWizard.js';
+import chatbotChannel from '../../database/models/chatbot-channel.js';
+import { AeonaBot } from '../../utils/types.js';
 
-import { bot } from "../../bot.js";
+import { bot } from '../../bot.js';
 
-import filter from "leo-profanity";
-import transcripts, { ExportReturnType } from "discord-html-transcripts";
-import { Schema } from "mongoose";
+import filter from 'leo-profanity';
+import transcripts, { ExportReturnType } from 'discord-html-transcripts';
+import { Schema } from 'mongoose';
 
-filter.loadDictionary("en");
-export const currentChatbotJobs: Collection<
-  string,
-  { userId: string; timer: NodeJS.Timeout }
-> = new Collection();
+filter.loadDictionary('en');
+export const currentChatbotJobs: Collection<string, { userId: string; timer: NodeJS.Timeout }> = new Collection();
 
 @Discord()
-@Bot(...getPluginsBot("chatbot"))
-@Category("setup")
+@Bot(...getPluginsBot('chatbot'))
+@Category('setup')
 @SlashGroup({
-  name: "setup",
-  description: "Various commands setup up my various features. 🛠️",
+  name: 'setup',
+  description: 'Various commands setup up my various features. 🛠️',
 })
-@SlashGroup("setup")
+@SlashGroup('setup')
 export class Chatbot {
   @Guard(
     RateLimit(TIME_UNIT.seconds, 30, {
       rateValue: 3,
     }),
-    PermissionGuard(["ManageChannels"])
+    PermissionGuard(['ManageChannels']),
   )
   @SimpleCommand({
-    name: "setup chatbot",
-    description: "Set a channel for talking with me 💬",
+    name: 'setup chatbot',
+    description: 'Set a channel for talking with me 💬',
   })
   async chatbotMessage(command: SimpleCommandMessage) {
     createSetupWizard(
       command,
-      "Chatbot",
+      'Chatbot',
       {
         createCallback() {},
         options: [],
       },
-      chatbotChannel
+      chatbotChannel,
     );
   }
 
   @Slash({
-    name: "chatbot",
-    description: "Set a channel for talking with me 💬",
+    name: 'chatbot',
+    description: 'Set a channel for talking with me 💬',
   })
   @Guard(
     RateLimit(TIME_UNIT.seconds, 30, {
       rateValue: 3,
     }),
-    PermissionGuard(["ManageChannels"])
+    PermissionGuard(['ManageChannels']),
   )
   async chatbotSlash(command: CommandInteraction) {
     createSetupWizard(
       command,
-      "Chatbot",
+      'Chatbot',
       {
         createCallback() {},
         options: [],
       },
-      chatbotChannel
+      chatbotChannel,
     );
   }
 
   @SimpleCommand({
-    name: "setup chatbotprofane",
-    description: "Toggle the chatbot ability to use swear words 🔥",
+    name: 'setup chatbotprofane',
+    description: 'Toggle the chatbot ability to use swear words 🔥',
   })
   @Guard(
     RateLimit(TIME_UNIT.seconds, 30, {
       rateValue: 3,
     }),
-    PermissionGuard(["ManageChannels"])
+    PermissionGuard(['ManageChannels']),
   )
   async chatbotProfane(command: SimpleCommandMessage) {
     let guild = await GuildDB.findOne({ Guild: command.message.guildId });
@@ -115,13 +101,13 @@ export class Chatbot {
         Guild: command.message.guildId,
       });
 
-    if (!(guild.isPremium === "true")) {
+    if (!(guild.isPremium === 'true')) {
       bot.extras.errNormal(
         {
           error:
-            "This guild is not a premium. \n You can buy it for just $2.99 [here](https://www.patreon.com/aeonapatreon)",
+            'This guild is not a premium. \n You can buy it for just $2.99 [here](https://www.patreon.com/aeonapatreon)',
         },
-        command
+        command,
       );
     }
 
@@ -133,19 +119,19 @@ export class Chatbot {
       {
         text: `Succesfully set the chatbot filter to \`${state}\``,
       },
-      command
+      command,
     );
   }
 
   @Slash({
-    name: "chatbotprofane",
-    description: "Toggle the chatbot ability to use swear words 🔥",
+    name: 'chatbotprofane',
+    description: 'Toggle the chatbot ability to use swear words 🔥',
   })
   @Guard(
     RateLimit(TIME_UNIT.seconds, 30, {
       rateValue: 3,
     }),
-    PermissionGuard(["ManageChannels"])
+    PermissionGuard(['ManageChannels']),
   )
   async chatbotProfaneSlash(command: CommandInteraction) {
     let guild = await GuildDB.findOne({ Guild: command.guildId });
@@ -161,19 +147,15 @@ export class Chatbot {
       {
         text: `Succesfully set the chatbot filter to \`${state}\``,
       },
-      command
+      command,
     );
   }
 
   @On()
-  async messageCreate([message]: ArgsOf<"messageCreate">, client: AeonaBot) {
+  async messageCreate([message]: ArgsOf<'messageCreate'>, client: AeonaBot) {
     if (message.author.bot || message.author.id === client.user!.id) return;
 
-    const data = await client.extras.getChannel(
-      ChatbotShema,
-      message.guildId!,
-      message.channel.id
-    );
+    const data = await client.extras.getChannel(ChatbotShema, message.guildId!, message.channel.id);
 
     if (!data) return;
 
@@ -190,36 +172,30 @@ export class Chatbot {
       await new Promise((resolve) => setTimeout(resolve, 3000));
       currentChatbotJobs.set(message.channel.id, {
         userId: message.author.id,
-        timer: setTimeout(
-          () => currentChatbotJobs.delete(message.channel.id),
-          10000
-        ),
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 5000),
       });
 
       chabotJob(message, client);
     } else {
       currentChatbotJobs.set(message.channel.id, {
         userId: message.author.id,
-        timer: setTimeout(
-          () => currentChatbotJobs.delete(message.channel.id),
-          10000
-        ),
+        timer: setTimeout(() => currentChatbotJobs.delete(message.channel.id), 5000),
       });
       message.channel.sendTyping();
       chabotJob(message, client);
     }
   }
   @ButtonComponent({
-    id: "smartmode",
+    id: 'smartmode',
   })
   @Guard(
     RateLimit(TIME_UNIT.minutes, 1, {
       rateValue: 1,
       ephemeral: true,
     }),
-    PermissionGuard(["ManageMessages"], {
+    PermissionGuard(['ManageMessages'], {
       ephemeral: true,
-    })
+    }),
   )
   async enableSmartMode(interaction: ButtonInteraction) {
     await interaction.reply({
@@ -230,39 +206,34 @@ export class Chatbot {
     if (!isPremium)
       return interaction.editReply({
         content:
-          "**This is a PREMIUM only feature.**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)",
+          '**This is a PREMIUM only feature.**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)',
       });
     else {
-      const data = await bot.extras.getChannel(
-        ChatbotShema,
-        interaction.guildId!,
-        interaction.channel!.id
-      );
+      const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
       if (!data)
         return interaction.editReply({
-          content:
-            "This channel is not a Chatbot channel and hence I am unable to enable smart mode.",
+          content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
         });
       data.Smart = true;
       data.save();
 
       return interaction.editReply({
-        content: "Successfully enabled smart mode.",
+        content: 'Successfully enabled smart mode.',
       });
     }
   }
 
   @ButtonComponent({
-    id: "disablesmartmode",
+    id: 'disablesmartmode',
   })
   @Guard(
     RateLimit(TIME_UNIT.minutes, 1, {
       rateValue: 1,
       ephemeral: true,
     }),
-    PermissionGuard(["ManageMessages"], {
+    PermissionGuard(['ManageMessages'], {
       ephemeral: true,
-    })
+    }),
   )
   async disableSmartMode(interaction: ButtonInteraction) {
     await interaction.reply({
@@ -270,43 +241,34 @@ export class Chatbot {
       ephemeral: true,
     });
 
-    const data = await bot.extras.getChannel(
-      ChatbotShema,
-      interaction.guildId!,
-      interaction.channel!.id
-    );
+    const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
     if (!data)
       return interaction.editReply({
-        content:
-          "This channel is not a Chatbot channel and hence I am unable to enable smart mode.",
+        content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
       });
     data.Smart = false;
     data.save();
 
     return interaction.editReply({
-      content: "Successfully disabled smart mode.",
+      content: 'Successfully disabled smart mode.',
     });
   }
 
   @ButtonComponent({
-    id: "sharechatbot",
+    id: 'sharechatbot',
   })
   @Guard(
     RateLimit(TIME_UNIT.minutes, 1, {
       rateValue: 1,
       ephemeral: true,
     }),
-    PermissionGuard(["ManageMessages"], {
+    PermissionGuard(['ManageMessages'], {
       ephemeral: true,
-    })
+    }),
   )
   sharechatbot(interaction: ButtonInteraction) {
     const components = new Components();
-    components.addButton(
-      "confirm",
-      "Secondary",
-      "confirmsharechatbot-" + interaction.message.id
-    );
+    components.addButton('confirm', 'Secondary', 'confirmsharechatbot-' + interaction.message.id);
     interaction.reply({
       content: `Hi there.\n\n By procedding you agree to share the last **15** messages of this channel from that message with me onto a link which is available to **everyone.**`,
       components: components,
@@ -322,12 +284,12 @@ export class Chatbot {
       rateValue: 1,
       ephemeral: true,
     }),
-    PermissionGuard(["ManageMessages"], {
+    PermissionGuard(['ManageMessages'], {
       ephemeral: true,
-    })
+    }),
   )
   async confirmsharechatbot(interaction: ButtonInteraction) {
-    const messageId = interaction.customId.split("-")[1];
+    const messageId = interaction.customId.split('-')[1];
     await interaction.reply({
       content: `Please wait... I'm generating the link... ETA: 1 minute`,
       flags: 1 << 6,
@@ -343,33 +305,24 @@ export class Chatbot {
 
     msgs.set(messageId, message);
 
-    const transcript = await transcripts.generateFromMessages(
-      msgs,
-      interaction.channel as unknown as TextChannel,
-      {
-        favicon: "https://www.aeonabot.xyz/logo.webp",
-        footerText: "Aeona",
-        poweredBy: false,
-        returnType: ExportReturnType.String,
-      }
-    );
+    const transcript = await transcripts.generateFromMessages(msgs, interaction.channel as unknown as TextChannel, {
+      favicon: 'https://www.aeonabot.xyz/logo.webp',
+      footerText: 'Aeona',
+      poweredBy: false,
+      returnType: ExportReturnType.String,
+    });
     let randomId = Math.random().toString(36).substring(2, 20);
     try {
-      if (
-        fs.existsSync("./src/website/public/transcripts/" + randomId + ".html")
-      ) {
+      if (fs.existsSync('./src/website/public/transcripts/' + randomId + '.html')) {
         randomId = Math.random().toString(36).substring(2, 20);
       }
     } catch (e) {}
-    fs.writeFileSync(
-      "./src/website/public/transcripts/" + randomId + ".html",
-      transcript
-    );
+    fs.writeFileSync('./src/website/public/transcripts/' + randomId + '.html', transcript);
 
     const link = `https://www.aeonabot.xyz/transcripts/${randomId}.html`;
 
     const components = new Components();
-    components.addButton("Link", "Link", link);
+    components.addButton('Link', 'Link', link);
     interaction.editReply({
       content: `Click the button below to share the link with everyone.`,
       components: components,
@@ -377,7 +330,7 @@ export class Chatbot {
   }
 
   @ButtonComponent({
-    id: "profane",
+    id: 'profane',
   })
   profaneButton(interaction: ButtonInteraction) {
     interaction.reply({
@@ -401,17 +354,13 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   });
   if (!guild) guild = new GuildDB({ Guild: message.guildId });
 
-  const contexts: { content: string; name: string; type: string }[] = [];
+  const contexts: { content: string; name: string; type: string; image?: string }[] = [];
   let m: Collection<string, Message> = new Collection();
   let msgs: Collection<string, Message> = new Collection();
   if (message.channel.messages.cache.size < 10) {
-    m = (await message.channel.messages.fetch({ limit: 30 })).sort(
-      (a, b) => a.createdTimestamp - b.createdTimestamp
-    );
+    m = (await message.channel.messages.fetch({ limit: 30 })).sort((a, b) => a.createdTimestamp - b.createdTimestamp);
   } else {
-    m = message.channel.messages.cache.sort(
-      (a, b) => a.createdTimestamp - b.createdTimestamp
-    );
+    m = message.channel.messages.cache.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
   }
   for (const [_id, msg] of m) {
     const lastMessage = msgs.last();
@@ -429,9 +378,7 @@ export async function chabotJob(message: Message, client: AeonaBot) {
         msg &&
         msg.content &&
         msg.content.length > 0 &&
-        (msg.author.id != message.author?.id
-          ? msg.createdTimestamp < message.createdTimestamp
-          : true)
+        (msg.author.id != message.author?.id ? msg.createdTimestamp < message.createdTimestamp : true)
       )
         msgs.set(msg.id, msg);
     }
@@ -440,13 +387,20 @@ export async function chabotJob(message: Message, client: AeonaBot) {
   msgs = msgs.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
 
   try {
-    msgs.forEach((msg) => {
+    msgs.forEach((msg: Message) => {
       msg = bot.extras.replaceMentions(msg);
       if (msg.content && msg.content.length > 0 && contexts.length < 10)
         contexts.push({
           content: msg.content,
           name: msg.author.username,
-          type: msg.author.id != bot.user?.id ? "user" : "bot",
+          type: msg.author.id != bot.user?.id ? 'user' : 'bot',
+          image:
+            msg.attachments && msg.attachments.size > 0
+              ? msg.attachments.at(0)!.contentType?.includes('image') &&
+                !msg.attachments.at(0)!.contentType?.includes('gif')
+                ? msg.attachments.at(0)!.proxyURL
+                : undefined
+              : undefined,
         });
     });
   } catch (e) {
@@ -455,15 +409,15 @@ export async function chabotJob(message: Message, client: AeonaBot) {
 
   let premium = false;
 
-  if (guild.isPremium === "true") {
+  if (guild.isPremium === 'true') {
     premium = true;
   }
 
   const url = `http://localhost:8083/chatbot`;
 
   const options = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contexts: contexts,
       username: message.author.username,
@@ -475,44 +429,34 @@ export async function chabotJob(message: Message, client: AeonaBot) {
     .then((res) => res.text())
     .then(async (text) => {
       const s = [
-        "\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||",
+        '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
       ];
 
       console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 
       const randomNumber = Math.floor(Math.random() * 30);
-      text = randomNumber == 0 ? (text ?? "") + s[0] : text;
+      text = randomNumber == 0 ? (text ?? '') + s[0] : text;
       const component = new Components();
       if (Math.random() < 0.5) {
-        component.addButton(
-          "Upvote",
-          "Link",
-          "https://top.gg/bot/931226824753700934/vote"
-        );
-        component.addButton("Support", "Link", "https://discord.gg/W8hssA32C9");
-        component.addButton("Premium", "Link", "https://aeonabot.xyz/premium");
-        component.addButton(
-          "Commands",
-          "Link",
-          "https://dashboard.aeonabot.xyz/commands"
-        );
-        component.addButton("Share", "Secondary", "sharechatbot");
+        component.addButton('Upvote', 'Link', 'https://top.gg/bot/931226824753700934/vote');
+        component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
+        component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
+        component.addButton('Commands', 'Link', 'https://dashboard.aeonabot.xyz/commands');
+        component.addButton('Share', 'Secondary', 'sharechatbot');
       }
       if (guild!.chatbotFilter) {
         if (filter.check(text)) {
-          component.addButton("Why $$$$ ?", "Secondary", "profane");
-          text = filter.clean(text, "$");
+          component.addButton('Why $$$$ ?', 'Secondary', 'profane');
+          text = filter.clean(text, '$');
         }
       }
-      let words = text.split(" ");
+      let words = text.split(' ');
       for (let i = 0; i < words.length; i++) {
-        let word = words[i].replace("[", "").replace("]", "");
+        let word = words[i].replace('[', '').replace(']', '');
 
-        let member = message.guild!.members.cache.find(
-          (member) => member.user?.username === word
-        );
+        let member = message.guild!.members.cache.find((member) => member.user?.username === word);
 
-        if (member) text.replace(words[i], `${member}`);
+        if (member) text.replaceAll(words[i], `<@${member.id}>`);
       }
       message.reply({
         content: text,
