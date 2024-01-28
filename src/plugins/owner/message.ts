@@ -87,7 +87,7 @@ export class Owners {
 
     const code = new Premium({
       code: c,
-      expiresAt: expiresAt,
+      ExpiresAt: expiresAt,
       plan: 'month',
     });
     code.save();
@@ -124,7 +124,7 @@ export class Owners {
 
     const code = new Premium({
       code: c,
-      expiresAt: expiresAt,
+      ExpiresAt: expiresAt,
       plan: 'lifetime',
     });
     code.save();
@@ -179,7 +179,7 @@ export class Owners {
 
                   const code = new Premium({
                     code: c,
-                    expiresAt: expiresAt,
+                    ExpiresAt: expiresAt,
                     plan: 'month',
                   });
                   code.save();
@@ -292,7 +292,7 @@ export class Owners {
 
       const code = new Premium({
         code: c,
-        expiresAt: expiresAt,
+        ExpiresAt: expiresAt,
         plan: 'month',
       });
       code.save();
