@@ -5,7 +5,7 @@ const Schema = new mongoose.Schema({
 
   ExpiresAt: {
     type: mongoose.SchemaTypes.String,
-    default: Date.now() + 2592000000,
+   
   },
 
   Plan: { type: mongoose.SchemaTypes.String, default: null },

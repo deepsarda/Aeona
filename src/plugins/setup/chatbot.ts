@@ -186,7 +186,7 @@ export class Chatbot {
     }
   }
   @ButtonComponent({
-    id: 'smartmode',
+    id: 'resetchatbot',
   })
   @Guard(
     RateLimit(TIME_UNIT.minutes, 1, {
@@ -197,61 +197,14 @@ export class Chatbot {
       ephemeral: true,
     }),
   )
-  async enableSmartMode(interaction: ButtonInteraction) {
-    await interaction.reply({
-      content: `Please wait... I'm checking premission`,
-      ephemeral: true,
-    });
-    const isPremium = await bot.extras.isPremium(interaction.guildId!);
-    if (!isPremium)
-      return interaction.editReply({
-        content:
-          '**This is a PREMIUM only feature.**\n You can get premium for just **$2.99** [here](https://www.patreon.com/aeonapatreon) \n Or \n **Boost** my support [server](https://aeonabot.xyz/support)',
-      });
-    else {
-      const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
-      if (!data)
-        return interaction.editReply({
-          content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
-        });
-      data.Smart = true;
-      data.save();
-
-      return interaction.editReply({
-        content: 'Successfully enabled smart mode.',
-      });
+  async resetChatbot(interaction: ButtonInteraction) {
+    //Delete last 10 messages from bot in that channel
+    const messages = await interaction.channel!.messages.fetch({ limit: 30 });
+    for (const [_, message] of messages) {
+      if (message.author.id === bot.user!.id) {
+        message.delete();
+      }
     }
-  }
-
-  @ButtonComponent({
-    id: 'disablesmartmode',
-  })
-  @Guard(
-    RateLimit(TIME_UNIT.minutes, 1, {
-      rateValue: 1,
-      ephemeral: true,
-    }),
-    PermissionGuard(['ManageMessages'], {
-      ephemeral: true,
-    }),
-  )
-  async disableSmartMode(interaction: ButtonInteraction) {
-    await interaction.reply({
-      content: `Please wait... I'm checking premission`,
-      ephemeral: true,
-    });
-
-    const data = await bot.extras.getChannel(ChatbotShema, interaction.guildId!, interaction.channel!.id);
-    if (!data)
-      return interaction.editReply({
-        content: 'This channel is not a Chatbot channel and hence I am unable to enable smart mode.',
-      });
-    data.Smart = false;
-    data.save();
-
-    return interaction.editReply({
-      content: 'Successfully disabled smart mode.',
-    });
   }
 
   @ButtonComponent({
@@ -429,12 +382,12 @@ export async function chabotJob(message: Message, client: AeonaBot) {
     .then((res) => res.text())
     .then(async (text) => {
       const s = [
-        '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
+        '\n\n\n **Check Out: Story Generation** \n `/story generate prompt:<your story idea>` \n\n **Check Out: AI Art Generation** \n `/image imagine prompt:<your art idea>` \n\n || discord.gg/W8hssA32C9 for more info ||',
       ];
 
       console.log(`BOT`.blue.bold, `>>`.white, `Chatbot Used`.red);
 
-      const randomNumber = Math.floor(Math.random() * 30);
+      const randomNumber = Math.floor(Math.random() * 15);
       text = randomNumber == 0 ? (text ?? '') + s[0] : text;
       const component = new Components();
       if (Math.random() < 0.5) {
@@ -442,11 +395,13 @@ export async function chabotJob(message: Message, client: AeonaBot) {
         component.addButton('Support', 'Link', 'https://discord.gg/W8hssA32C9');
         component.addButton('Premium', 'Link', 'https://aeonabot.xyz/premium');
         component.addButton('Commands', 'Link', 'https://dashboard.aeonabot.xyz/commands');
+        component.addButton('Reset', 'Danger', 'resetchatbot');
         component.addButton('Share', 'Secondary', 'sharechatbot');
       }
       if (guild!.chatbotFilter) {
         if (filter.check(text)) {
           component.addButton('Why $$$$ ?', 'Secondary', 'profane');
+
           text = filter.clean(text, '$');
         }
       }

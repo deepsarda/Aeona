@@ -154,12 +154,44 @@ export class Owners {
               const user = await bot.users.fetch(result.Premium!.RedeemedBy!.id);
 
               if (user) {
+                const channel = (await user.createDM()) as unknown as TextChannel;
                 bot.extras.errNormal(
                   {
-                    error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased. \n\n If your still a premium member you can request a renewal in my server.`,
+                    error: `Hey ${user.username}, Premium in ${guildPremium.name} has Just expired. \n\nThank you for purchasing premium previously! We hope you enjoyed what you purchased. \n\n If your still a premium member I will be giving you a new premium code shortly.`,
                   },
-                  (await user.createDM()) as unknown as TextChannel,
+                  channel,
                 );
+
+                //Get support guild
+                const guild = await bot.guilds.cache.get('1034419694549094441');
+
+                //Get member
+                const member = await guild?.members.fetch(result.Premium!.RedeemedBy!.id);
+
+                //Check if member has role id: 1073654479859220490 or 1042535405553188924
+                if (member?.roles.cache.has('1073654479859220490') || member?.roles.cache.has('1042535405553188924')) {
+                  const expiresAt = Date.now() + 2592000000;
+                  const codePremium = voucher_codes.generate({
+                    pattern: '####-####-####',
+                  });
+
+                  const c = codePremium.toString().toUpperCase();
+
+                  const code = new Premium({
+                    code: c,
+                    expiresAt: expiresAt,
+                    plan: 'month',
+                  });
+                  code.save();
+
+                  const embed = new EmbedBuilder()
+                    .setTitle('Premium code')
+                    .setDescription(
+                      `Hello ${member.user.username} \n\n Thank you for using Aeonabot Premium. \n\n Here is your new premium code: ${c} \n\n To use it, go to your server and type \`+redeem ${c}\``,
+                    );
+
+                  channel.send({ embeds: [embed] }).catch();
+                }
               }
 
               result.isPremium = 'false';
@@ -240,5 +272,38 @@ export class Owners {
     webhookClient.send({
       embeds: [embed],
     });
+  }
+
+  @On()
+  async guildMemberUpdate([oldMember, newMember]: ArgsOf<'guildMemberUpdate'>, client: AeonaBot) {
+    if (newMember.guild.id != '1034419694549094441') return;
+
+    //Find added roles
+    const addedRoles = newMember.roles.cache.filter((r) => !oldMember.roles.cache.has(r.id));
+
+    if (addedRoles.has('1073654479859220490') || addedRoles.has('1042535405553188924')) {
+      //Dm them a premium code
+      const expiresAt = Date.now() + 2592000000;
+      const codePremium = voucher_codes.generate({
+        pattern: '####-####-####',
+      });
+
+      const c = codePremium.toString().toUpperCase();
+
+      const code = new Premium({
+        code: c,
+        expiresAt: expiresAt,
+        plan: 'month',
+      });
+      code.save();
+
+      const embed = new EmbedBuilder()
+        .setTitle('Premium code')
+        .setDescription(
+          `Hello ${newMember.user.username} \n\n Thank you for using Aeonabot Premium. \n\n Here is your premium code: ${c} \n\n To use it, go to your server and type \`+redeem ${c}\``,
+        );
+
+      newMember.send({ embeds: [embed] });
+    }
   }
 }
