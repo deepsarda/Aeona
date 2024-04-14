@@ -1,13 +1,11 @@
 import { dirname, importx } from '@discordx/importer';
 import type { Interaction, Message } from 'discord.js';
-import { ActivityType, IntentsBitField } from 'discord.js';
+import { ActivityType, IntentsBitField,Options } from 'discord.js';
 import permissions from './utils/permissions.js';
 import { Client, MetadataStorage } from 'discordx';
 import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { connect } from './database/connect.js';
 import { AeonaBot } from './utils/types.js';
-
-import chatBotSchema from './database/models/chatbot-channel.js';
 import GuildDB from './database/models/guild.js';
 import { getConfig } from './utils/config.js';
 import colors from 'colors';
@@ -25,20 +23,33 @@ const config = getConfig(process.env.DISCORD_TOKEN!)!;
 
 //@ts-expect-error
 export const bot: AeonaBot = new Client({
+  makeCache: Options.cacheWithLimits({
+		...Options.DefaultMakeCacheSettings,
+		ReactionManager: 0,
+		GuildMemberManager: {
+			maxSize: 200,
+		},
+	}),
+  sweepers: {
+		...Options.DefaultSweeperSettings,
+		messages: {
+			interval: 3_600, // Every hour.
+			lifetime: 1_800, // Remove messages older than 30 minutes.
+		},
+		users: {
+			interval: 3_600, // Every hour.
+			filter: () => user => user.id !== user.client.user.id, // Remove all bots.
+		},
+	},
   intents: [
     IntentsBitField.Flags.Guilds,
     IntentsBitField.Flags.MessageContent,
     IntentsBitField.Flags.GuildMembers,
     IntentsBitField.Flags.GuildModeration,
     IntentsBitField.Flags.GuildEmojisAndStickers,
-    IntentsBitField.Flags.GuildIntegrations,
     IntentsBitField.Flags.GuildWebhooks,
     IntentsBitField.Flags.GuildInvites,
-    IntentsBitField.Flags.GuildVoiceStates,
     IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.GuildMessageReactions,
-    IntentsBitField.Flags.DirectMessageReactions,
-    IntentsBitField.Flags.DirectMessages,
     IntentsBitField.Flags.GuildScheduledEvents,
   ],
   silent: true,
