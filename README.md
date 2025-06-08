@@ -2,10 +2,6 @@
 
 ## Creating a new era of discord bots
 
-### By Aeonic Developement
-
-<a href="https://aeonabot.xyz/support"><img src="https://aeonabot.xyz/logo.webp"></a>
-
 For Discord, Aeona wants to be a multifunctional all-in-one chatbot.
 Slash commands will usher in a new era for Discord, but we must not lose sight of our legacy with message commands.
 Aeona supports slash-based commands as well as message-based commands.
@@ -13,7 +9,7 @@ Aeona supports slash-based commands as well as message-based commands.
 - The ability to support the greatest number of languages.
 - A simple and intuitive codebase.
 - Every aspect is customizable.
-- The most recent version of Discordenoas soon as possible.
+- The most recent version of Discordeno as soon as possible.
 
 ## Features/Goals
 
@@ -27,7 +23,7 @@ PS: Check back often for new updates to this list.
 - A levelling and advanced economy system.
 - An easy-to-use dashboard.
 
-[**Invite the Public Version of this Bot**](https://www.aeonabot.xyz).
+[**Invite the Public Version of this Bot**](https://www.aeonabot.xyz). NOTE: The bot is now down.
 
 ## Important notes and thanks ❤️
 
@@ -69,15 +65,4 @@ Create a new config file in `/config` following `/config/example.json`.
 yarn install
 node index.js
 ```
-
-## Development
-
-**Q: Why should I contribute?**
-**A:** If you do enough contributions, then you can obtain permission to use this project for commercial purposes from the owner of the repository.
-
-**Q: Who all can contribute?**
-**A:** Anyone can.
-
-**Q: How can I contribute**
-**A:** Fork this repository, make your changes then submit a pull request.
 
