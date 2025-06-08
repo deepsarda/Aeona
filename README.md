@@ -35,11 +35,6 @@ If you like it please give it a ⭐.
 Aeona uses a number of libraries to work:
 This whole list can be found in `package.json`.
 
-## Public Use
-
-Without the owner of the repository's prior consent, you are not permitted to use this code commercially.
-Without previous approval from the repository owner, you are not permitted to have a bot on more than 10 servers.
-
 ## Setting up
 
 See `src/config.ts` file.
